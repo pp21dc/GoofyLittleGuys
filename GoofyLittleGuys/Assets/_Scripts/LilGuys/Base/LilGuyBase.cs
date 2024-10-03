@@ -5,8 +5,8 @@ public class LilGuyBase : MonoBehaviour
 {
     //VARIABLES//
     public string guyName;
-    public int heath;
-    public int maxHeath;
+    public int health;
+    public int maxHealth;
     public PrimaryType type;
     public int speed;
     public int stamina;
@@ -47,11 +47,11 @@ public class LilGuyBase : MonoBehaviour
     public virtual void Special() { throw new NotImplementedException(); }
 
     // Lil Guy constructor :3
-    public LilGuyBase(string guyName, int heath, int maxHealth, PrimaryType type, int speed, int stamina, int strength)
+    public LilGuyBase(string guyName, int health, int maxHealth, PrimaryType type, int speed, int stamina, int strength)
     {
         this.guyName = guyName;
-        this.heath = heath;
-        this.maxHeath = maxHealth;
+        this.health = health;
+        this.maxHealth = maxHealth;
         this.type = type;
         this.speed = speed;
         this.stamina = stamina;

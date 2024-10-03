@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class PlayerBody : MonoBehaviour
 {
+	public bool IsJumping { get { return isJumping; } set { isJumping = value; } }
+
 	[SerializeField]
 	private LayerMask groundLayer;
 
@@ -15,7 +17,6 @@ public class PlayerBody : MonoBehaviour
 	[SerializeField, Range(1, 10)]
 	private float jumpSpeed = 4f;
 	private bool isJumping = false;
-	public bool IsJumping { get { return isJumping; }  set { isJumping = value; } }
 
 
 	[SerializeField, Range(1, 10)]
