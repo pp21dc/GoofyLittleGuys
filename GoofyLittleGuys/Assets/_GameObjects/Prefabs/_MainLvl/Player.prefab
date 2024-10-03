@@ -196,6 +196,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerBody: {fileID: 4940924217527038850}
+  lilGuyTeam: []
 --- !u!114 &4940924217527038850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -211,13 +212,11 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
-  lilGuyTeam: []
-  fallMultiplier: 2.5
-  lowJumpMultiplier: 2
-  jumpSpeed: 2
+  fallMultiplier: 4
+  lowJumpMultiplier: 6
+  jumpSpeed: 3
   maxSpeed: 10
   movementDirection: {x: 0, y: 0, z: 0}
-  rbVelocity: {x: 0, y: 0, z: 0}
   isJumping: 0
 --- !u!54 &4261187398909037534
 Rigidbody:
@@ -337,7 +336,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1730397143725057385}
-  m_Material: {fileID: 13400000, guid: 8f48381cb8aa727419e539db63ba8416, type: 2}
+  m_Material: {fileID: 13400000, guid: 29512fcd756fd3846bc2def4df4662c5, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
