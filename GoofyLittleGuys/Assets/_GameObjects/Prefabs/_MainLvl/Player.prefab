@@ -208,10 +208,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1540396f2527fd1459bb02605a166dd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 8
   lilGuyTeam: []
-  fallMultiplier: 20
+  fallMultiplier: 2.5
   lowJumpMultiplier: 2
   jumpSpeed: 2
+  maxSpeed: 10
   movementDirection: {x: 0, y: 0, z: 0}
   rbVelocity: {x: 0, y: 0, z: 0}
   isJumping: 0
@@ -333,7 +337,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1730397143725057385}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 8f48381cb8aa727419e539db63ba8416, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
