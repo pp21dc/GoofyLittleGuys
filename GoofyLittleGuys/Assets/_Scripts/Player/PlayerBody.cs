@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerBody : MonoBehaviour
 {
 	public bool IsJumping { get { return isJumping; } set { isJumping = value; } }
-
+	public Vector3 MovementDirection { get { return movementDirection; } }
 	[SerializeField]
 	private LayerMask groundLayer;
 

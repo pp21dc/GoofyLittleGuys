@@ -30,9 +30,10 @@ public class AoeSpecialMove : SpecialMoveBase
 
 	private Collider[] hitColliders = null;
 	public Collider[] HitColliders { get { return hitColliders; } set { hitColliders = value; } }
-	protected override void OnSpecialUsed()
+	public override void OnSpecialUsed()
 	{
-		if (cooldownTimer > 0) return;
+		if (cooldownTimer > 0 || currentCharges <= 0) return;
+		 lilGuy = GetComponent<LilGuyBase>();
 		switch (aoeType)
 		{
 			case AoEType.Box:
@@ -50,10 +51,11 @@ public class AoeSpecialMove : SpecialMoveBase
 				StartCoroutine("AoeExpansion");
 				break;
 			case AoEType.Custom:
-				aoeShape.GetComponent<AoeHitbox>().InitializeExpansion(aoeMaxSize, aoeExpansionSpeed, GetComponent<LilGuyBase>());
+				aoeShape.GetComponent<AoeHitbox>().InitializeExpansion(aoeMaxSize, aoeExpansionSpeed, lilGuy);
 				DealDamage(hitColliders);
 				break;
 		}
+		currentCharges--;
 	}
 	/// <summary>
 	/// Adds a delay to the damage application of the AoE for the Physics.Overlap[shape].
@@ -71,10 +73,10 @@ public class AoeSpecialMove : SpecialMoveBase
 		if (hitColliders == null) return;
 		foreach (Collider collider in hitColliders)
 		{
-			LilGuyBase lilGuy = collider.GetComponent<LilGuyBase>();
-			if (lilGuy != null && lilGuy != GetComponent<LilGuyBase>())
+			LilGuyBase enemyLilGuy = collider.GetComponent<LilGuyBase>();
+			if (enemyLilGuy != null && enemyLilGuy != lilGuy)
 			{
-				lilGuy.health -= aoeDamage;
+				enemyLilGuy.health -= aoeDamage * lilGuy.strength;
 			}
 		}
 	}
