@@ -9,7 +9,7 @@ public class LilGuyBase : MonoBehaviour
     public int maxHealth;
     public PrimaryType type;
     public int speed;
-    public int stamina;
+    public int defense;
     public int strength;
     private int average;
     public const int MAX_STAT = 100;
@@ -19,9 +19,8 @@ public class LilGuyBase : MonoBehaviour
     public enum PrimaryType
     {
         Strength,
-        Stamina,
-        Speed,
-        AllAround
+        Defense,
+        Speed
     }
 
     private void Awake()
@@ -47,14 +46,14 @@ public class LilGuyBase : MonoBehaviour
     public virtual void Special() { throw new NotImplementedException(); }
 
     // Lil Guy constructor :3
-    public LilGuyBase(string guyName, int health, int maxHealth, PrimaryType type, int speed, int stamina, int strength)
+    public LilGuyBase(string guyName, int health, int maxHealth, PrimaryType type, int speed, int defense, int strength)
     {
         this.guyName = guyName;
         this.health = health;
         this.maxHealth = maxHealth;
         this.type = type;
         this.speed = speed;
-        this.stamina = stamina;
+        this.defense = defense;
         this.strength = strength;
     }
 
