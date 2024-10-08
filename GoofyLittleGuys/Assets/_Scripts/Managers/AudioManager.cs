@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
-//Written By: Bryan Bedard
-//Purpose: To manage playing Audio (both Music and SFX)
+// Written By: Bryan Bedard
+// Edited by: Bryan Bedard, 
+// Purpose: To manage playing Audio (both Music and SFX)
 namespace Managers
 {
     public class AudioManager : SingletonBase<AudioManager>
