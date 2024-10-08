@@ -3,18 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
-public class MixerManager : MonoBehaviour
+
+namespace Managers
 {
-    [SerializeField] private AudioMixer mainMixer;
-    public void SetSfxVolume(float value)
+    public class MixerManager : SingletonBase<MixerManager>
     {
-        mainMixer.SetFloat("sfxVolume", value);
+        [SerializeField] private AudioMixer mainMixer;
+        public void SetSfxVolume(float value)
+        {
+            mainMixer.SetFloat("sfxVolume", value);
 
+        }
+
+        public void SetMusicVolume(float value)
+        {
+            mainMixer.SetFloat("musicVolume", value);
+
+        }
     }
 
-    public void SetMusicVolume(float value)
-    {
-        mainMixer.SetFloat("musicVolume", value);
-
-    }
 }
