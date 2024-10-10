@@ -8,7 +8,7 @@ namespace Managers
 
         [SerializeField] private bool dontDestroyOnLoad = true;
 
-        private void Awake()
+        public virtual void Awake()
         {
             if (Instance != null && Instance != this)
                 Destroy(this.gameObject);

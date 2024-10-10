@@ -7,6 +7,7 @@ public class AoeHitbox : MonoBehaviour
 {
 	private List<Collider> lilGuysInRadius;
 	LilGuyBase hitboxOwner;	// The Lil Guy who used the AoE attack
+
 	/// <summary>
 	/// Begins expanding the AoE blast zone by provided speed value, until it reaches max size.
 	/// </summary>
@@ -35,8 +36,9 @@ public class AoeHitbox : MonoBehaviour
 		}
 
 		transform.localScale = targScale;
-		hitboxOwner.GetComponent<AoeSpecialMove>().HitColliders = lilGuysInRadius.ToArray();	// Give the owner all the lil guys this hitbox hit.
+		hitboxOwner.GetComponent<StrengthType>().HitColliders = lilGuysInRadius.ToArray();	// Give the owner all the lil guys this hitbox hit.
 	}
+
 	private void OnTriggerEnter(Collider other)
 	{
 		LilGuyBase lilGuy = other.GetComponent<LilGuyBase>();
@@ -45,6 +47,7 @@ public class AoeHitbox : MonoBehaviour
 			lilGuysInRadius.Add(other);
         }
     }
+
 	/// <summary>
 	/// Checks if the lil guy who entered the zone was already tagged as hit.
 	/// </summary>

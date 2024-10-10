@@ -6,20 +6,26 @@ namespace Managers
 {
 	public class GameManager : SingletonBase<GameManager>
 	{
-
-		public bool IsPaused { get { return isPaused; } set { isPaused = value; } }
-
 		[SerializeField] private const float phaseOneDuration = 7f;
 		[SerializeField] private float currentGameTime = 0;
 
 		private bool isPaused = false;
 		private bool legendarySpawned = false;
 		private int currentPhase = 0;
-		private int challengeIndex = -1;	// Index within a list of challenges
+		private int challengeIndex = -1;    // Index within a list of challenges
+		public bool IsPaused { get { return isPaused; } set { isPaused = value; } }
+
+		public override void Awake()
+		{
+			base.Awake();
+			challengeIndex = (int)Random.Range(0, 3);
+		}
+
 		public void StartPhaseOne()
 		{
 			currentPhase++;
 		}
+
 		public void StartPhaseTwo()
 		{
 			switch (challengeIndex)
@@ -35,14 +41,12 @@ namespace Managers
 					break;
 			}
 		}
+
 		public void SpawnLegendary()
 		{
 
 		}
-		private void Awake()
-		{
-			challengeIndex = (int)Random.Range(0, 3);
-		}
+
 		private void Update()
 		{
 			if (currentPhase == 1)

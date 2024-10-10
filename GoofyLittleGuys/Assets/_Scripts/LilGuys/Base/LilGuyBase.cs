@@ -14,9 +14,16 @@ public class LilGuyBase : MonoBehaviour
     private int average;
     public const int MAX_STAT = 100;
     private Transform attackPosition;
-    [SerializeField] private GameObject hitboxPrefab;
+	protected float cooldownTimer = 0;
+	protected float cooldownDuration = 1;
+	protected float chargeRefreshRate = 1;
+	protected float chargeTimer = 0;
 
-    public enum PrimaryType
+	[SerializeField] private GameObject hitboxPrefab;
+	[SerializeField] protected int currentCharges = 1;
+	[SerializeField] protected int maxCharges = 1;
+
+	public enum PrimaryType
     {
         Strength,
         Defense,
@@ -28,12 +35,29 @@ public class LilGuyBase : MonoBehaviour
         attackPosition = gameObject.transform;
     }
 
-    /// <summary>
-    /// This is the basic attack across all lil guys\
-    /// it uses a hitbox prefab to detect other ai within it and deal damage from that script
-    /// NOTE: the second value in destroy (line 29) is the duration that the attack lasts
-    /// </summary>
-    public void Attack()
+	private void Update()
+	{
+		if (cooldownTimer > 0)
+		{
+			cooldownTimer -= Time.deltaTime;
+		}
+		if (chargeTimer > 0)
+		{
+			chargeTimer -= Time.deltaTime;
+		}
+		if (currentCharges < maxCharges && chargeTimer <= 0)
+		{
+			currentCharges++;
+			chargeTimer = chargeRefreshRate;
+		}
+	}
+
+	/// <summary>
+	/// This is the basic attack across all lil guys\
+	/// it uses a hitbox prefab to detect other ai within it and deal damage from that script
+	/// NOTE: the second value in destroy (line 29) is the duration that the attack lasts
+	/// </summary>
+	public void Attack()
     {
         GameObject hitbox = Instantiate(hitboxPrefab, attackPosition.position + attackPosition.forward * 0.5f, Quaternion.identity);
         hitbox.transform.SetParent(transform);
