@@ -12,7 +12,7 @@ public class Hurtbox : MonoBehaviour
     {
         if (gameObject.GetComponentInParent<PlayerBody>() != null)
         {
-            health = gameObject.GetComponentInParent<PlayerBody>().;
+            health = gameObject.GetComponentInParent<PlayerBody>().LilGuyTeam[0].health;
             lilGuy = true;
         }
         else

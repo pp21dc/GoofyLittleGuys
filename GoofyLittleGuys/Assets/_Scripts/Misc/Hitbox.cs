@@ -4,7 +4,7 @@ using UnityEngine;
 
 //Auth: Thomas Berner
 // - Hitbox class for any combat based trigger
-// -> can be derrived from for other attacks which provide knockback or other effects
+// -> can be derrived from for other attacks which provide knockback or other effects onHit
 public class Hitbox : MonoBehaviour
 {
     protected int Damage;
@@ -26,5 +26,4 @@ public class Hitbox : MonoBehaviour
         h.TakeDamage(Damage);
         Destroy(this.gameObject);
     }
-
 }
