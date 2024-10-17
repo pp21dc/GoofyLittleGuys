@@ -23,15 +23,14 @@ public class PlayerController : MonoBehaviour
 		Managers.GameManager.Instance.IsPaused = !Managers.GameManager.Instance.IsPaused;
 	}
 
+	public void OnInteract(InputAction.CallbackContext ctx)
+	{
+		playerBody.HasInteracted = ctx.performed ? true : false; // If action performed, then true, otherwise false.
+	}
 	public void OnJump(InputAction.CallbackContext ctx)
 	{
 		if (Managers.GameManager.Instance.IsPaused) return;
-		if (ctx.canceled)
-			playerBody.IsJumping = false;
-		else
-		{
-			playerBody.IsJumping = true;
-		}
+		playerBody.IsJumping = ctx.canceled ? false : true;
 		playerBody.JumpPerformed();
 	}
 

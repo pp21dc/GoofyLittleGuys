@@ -178,6 +178,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 915cf326-f8ba-46b6-8711-19b1f6967d0f
     m_ActionName: World/SecondarySkill[/Keyboard/t]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3641373110718538541}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnInteract
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 5ab0f8d9-8263-4721-8b5e-dbfae6f3eef8
+    m_ActionName: World/Interact[/Keyboard/f]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: World
@@ -196,7 +212,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerBody: {fileID: 4940924217527038850}
-  lilGuyTeam: []
 --- !u!114 &4940924217527038850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,6 +227,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
+  lilGuyTeam: []
   fallMultiplier: 4
   lowJumpMultiplier: 6
   jumpSpeed: 3

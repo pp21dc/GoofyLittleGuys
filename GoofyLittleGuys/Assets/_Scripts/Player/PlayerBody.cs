@@ -13,9 +13,11 @@ public class PlayerBody : MonoBehaviour
 	[SerializeField, Range(1, 25f)] private float maxSpeed = 25f;           // To be replaced with lilGuys[0].speed
 
 	private bool isJumping = false;
+	private bool hasInteracted = false;
 	private Vector3 movementDirection = Vector3.zero;
 	private Rigidbody rb;
 
+	public bool HasInteracted {  get { return hasInteracted; } set { hasInteracted =value; } }
 	public bool IsJumping { get { return isJumping; } set { isJumping = value; } }
 	public Vector3 MovementDirection { get { return movementDirection; } }
 	public List<LilGuyBase> LilGuyTeam { get { return lilGuyTeam; } }

@@ -496,6 +496,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""5ab0f8d9-8263-4721-8b5e-dbfae6f3eef8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -718,6 +727,28 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""SecondarySkill"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bbe9a32c-df70-4f60-9580-7c15c8fc9c06"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""[DEBUG] Keyboard Mouse"",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a9fb9af1-5580-40a3-b6cb-97374040b544"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -767,6 +798,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_World_Jump = m_World.FindAction("Jump", throwIfNotFound: true);
         m_World_PrimarySkill = m_World.FindAction("PrimarySkill", throwIfNotFound: true);
         m_World_SecondarySkill = m_World.FindAction("SecondarySkill", throwIfNotFound: true);
+        m_World_Interact = m_World.FindAction("Interact", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -912,6 +944,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_World_Jump;
     private readonly InputAction m_World_PrimarySkill;
     private readonly InputAction m_World_SecondarySkill;
+    private readonly InputAction m_World_Interact;
     public struct WorldActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -922,6 +955,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_World_Jump;
         public InputAction @PrimarySkill => m_Wrapper.m_World_PrimarySkill;
         public InputAction @SecondarySkill => m_Wrapper.m_World_SecondarySkill;
+        public InputAction @Interact => m_Wrapper.m_World_Interact;
         public InputActionMap Get() { return m_Wrapper.m_World; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -949,6 +983,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @SecondarySkill.started += instance.OnSecondarySkill;
             @SecondarySkill.performed += instance.OnSecondarySkill;
             @SecondarySkill.canceled += instance.OnSecondarySkill;
+            @Interact.started += instance.OnInteract;
+            @Interact.performed += instance.OnInteract;
+            @Interact.canceled += instance.OnInteract;
         }
 
         private void UnregisterCallbacks(IWorldActions instance)
@@ -971,6 +1008,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @SecondarySkill.started -= instance.OnSecondarySkill;
             @SecondarySkill.performed -= instance.OnSecondarySkill;
             @SecondarySkill.canceled -= instance.OnSecondarySkill;
+            @Interact.started -= instance.OnInteract;
+            @Interact.performed -= instance.OnInteract;
+            @Interact.canceled -= instance.OnInteract;
         }
 
         public void RemoveCallbacks(IWorldActions instance)
@@ -1022,5 +1062,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnPrimarySkill(InputAction.CallbackContext context);
         void OnSecondarySkill(InputAction.CallbackContext context);
+        void OnInteract(InputAction.CallbackContext context);
     }
 }
