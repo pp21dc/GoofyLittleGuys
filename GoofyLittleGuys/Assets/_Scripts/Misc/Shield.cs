@@ -5,16 +5,16 @@ using UnityEngine;
 public class Shield : MonoBehaviour
 {
     private float shieldDuration = 1;
+    private float shieldHealth = 1;
     private float shieldTimer = 0;
-    [SerializeField] private int shieldHealth = 1;
     [SerializeField] private float maxSize = 1;
     [SerializeField] private float expansionSpeed = 1;
-    public int ShieldHealth {  get { return shieldHealth; } set { shieldHealth = value; } }
 
         
-    public void Initialize(float duration)
+    public void Initialize(float duration, int health)
     {
         shieldDuration = duration;
+        shieldHealth = health;
         StartCoroutine("ShieldUp");
     }
 
