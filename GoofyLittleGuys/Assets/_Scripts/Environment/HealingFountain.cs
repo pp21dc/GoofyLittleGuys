@@ -7,13 +7,13 @@ public class HealingFountain : InteractableBase
 	List<GameObject> playersInRange;
 	private void OnTriggerStay(Collider other)
 	{
-		if (other.GetComponent<PlayerBody>() == null) return;
+		if (other.GetComponentInParent<PlayerBody>() == null) return;
 		interactableCanvas.SetActive(true);
 		if (!playersInRange.Contains(other.gameObject))
 		{
 			playersInRange.Add(other.gameObject);
 		}
-		if (other.GetComponent<PlayerBody>().HasInteracted) OnInteracted(other.GetComponent<PlayerBody>());
+		if (other.GetComponentInParent<PlayerBody>().HasInteracted) OnInteracted(other.GetComponentInParent<PlayerBody>());
 	}
 	private void OnTriggerExit(Collider other)
 	{
