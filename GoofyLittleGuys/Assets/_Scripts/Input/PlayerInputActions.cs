@@ -505,6 +505,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Leave"",
+                    ""type"": ""Button"",
+                    ""id"": ""79c7e248-ed60-4752-aac3-817db1f0d892"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -749,6 +758,28 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""18f40039-ae85-4ec1-a68d-723173af4aa1"",
+                    ""path"": ""<Keyboard>/backspace"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""[DEBUG] Keyboard Mouse"",
+                    ""action"": ""Leave"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cffe8745-3324-481f-8850-4aafa6117cd6"",
+                    ""path"": ""<Gamepad>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Leave"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -799,6 +830,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_World_PrimarySkill = m_World.FindAction("PrimarySkill", throwIfNotFound: true);
         m_World_SecondarySkill = m_World.FindAction("SecondarySkill", throwIfNotFound: true);
         m_World_Interact = m_World.FindAction("Interact", throwIfNotFound: true);
+        m_World_Leave = m_World.FindAction("Leave", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -945,6 +977,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_World_PrimarySkill;
     private readonly InputAction m_World_SecondarySkill;
     private readonly InputAction m_World_Interact;
+    private readonly InputAction m_World_Leave;
     public struct WorldActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -956,6 +989,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @PrimarySkill => m_Wrapper.m_World_PrimarySkill;
         public InputAction @SecondarySkill => m_Wrapper.m_World_SecondarySkill;
         public InputAction @Interact => m_Wrapper.m_World_Interact;
+        public InputAction @Leave => m_Wrapper.m_World_Leave;
         public InputActionMap Get() { return m_Wrapper.m_World; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -986,6 +1020,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Interact.started += instance.OnInteract;
             @Interact.performed += instance.OnInteract;
             @Interact.canceled += instance.OnInteract;
+            @Leave.started += instance.OnLeave;
+            @Leave.performed += instance.OnLeave;
+            @Leave.canceled += instance.OnLeave;
         }
 
         private void UnregisterCallbacks(IWorldActions instance)
@@ -1011,6 +1048,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Interact.started -= instance.OnInteract;
             @Interact.performed -= instance.OnInteract;
             @Interact.canceled -= instance.OnInteract;
+            @Leave.started -= instance.OnLeave;
+            @Leave.performed -= instance.OnLeave;
+            @Leave.canceled -= instance.OnLeave;
         }
 
         public void RemoveCallbacks(IWorldActions instance)
@@ -1063,5 +1103,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnPrimarySkill(InputAction.CallbackContext context);
         void OnSecondarySkill(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
+        void OnLeave(InputAction.CallbackContext context);
     }
 }

@@ -1,3 +1,4 @@
+using Managers;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -26,6 +27,10 @@ public class PlayerController : MonoBehaviour
 	public void OnInteract(InputAction.CallbackContext ctx)
 	{
 		playerBody.HasInteracted = ctx.performed ? true : false; // If action performed, then true, otherwise false.
+	}
+	public void OnLeave(InputAction.CallbackContext ctx)
+	{
+		MultiplayerManager.Instance.LeavePlayer(GetComponent<PlayerInput>());
 	}
 	public void OnJump(InputAction.CallbackContext ctx)
 	{
