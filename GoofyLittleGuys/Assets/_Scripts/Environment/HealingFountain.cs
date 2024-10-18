@@ -15,6 +15,7 @@ public class HealingFountain : InteractableBase
 		}
 		if (other.GetComponentInParent<PlayerBody>().HasInteracted) OnInteracted(other.GetComponentInParent<PlayerBody>());
 	}
+
 	private void OnTriggerExit(Collider other)
 	{
 		if (playersInRange.Contains(other.gameObject))
@@ -26,6 +27,7 @@ public class HealingFountain : InteractableBase
 			interactableCanvas.SetActive(false);
 		}
 	}
+
 	public override void OnInteracted(PlayerBody body)
 	{
 		base.OnInteracted(body);

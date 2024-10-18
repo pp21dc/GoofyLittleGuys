@@ -9,7 +9,6 @@ public class BerryBush : InteractableBase
 	[SerializeField] private GameObject berriesMesh;
 
 	List<GameObject> playersInRange = new List<GameObject>();
-	private float berryTimer = 0;
 	private bool hasBerries = true;
 
 	private void OnTriggerStay(Collider other)
@@ -24,6 +23,7 @@ public class BerryBush : InteractableBase
 		}
 		if (other.GetComponentInParent<PlayerBody>().HasInteracted) OnInteracted(other.GetComponentInParent<PlayerBody>());
 	}
+
 	private void OnTriggerExit(Collider other)
 	{
 		if (playersInRange.Contains(other.gameObject))
@@ -35,6 +35,7 @@ public class BerryBush : InteractableBase
 			interactableCanvas.SetActive(false);
 		}
 	}
+
 	public override void OnInteracted(PlayerBody body)
 	{
 		base.OnInteracted(body);

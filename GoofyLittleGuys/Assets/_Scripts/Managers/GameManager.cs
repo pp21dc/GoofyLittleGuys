@@ -12,13 +12,11 @@ namespace Managers
 		private bool isPaused = false;
 		private bool legendarySpawned = false;
 		private int currentPhase = 0;
-		private int challengeIndex = -1;    // Index within a list of challenges
 		public bool IsPaused { get { return isPaused; } set { isPaused = value; } }
 
 		public override void Awake()
 		{
 			base.Awake();
-			challengeIndex = (int)Random.Range(0, 3);
 		}
 
 		public void StartPhaseOne()
@@ -28,18 +26,7 @@ namespace Managers
 
 		public void StartPhaseTwo()
 		{
-			switch (challengeIndex)
-			{
-				case 0:
-					// Begin Attack Challenge
-					break;
-				case 1:
-					// Begin Speed Challenge
-					break;
-				case 2:
-					// Begin Defense Challenge
-					break;
-			}
+			// Start grand brawl challenge
 		}
 
 		public void SpawnLegendary()
