@@ -7,6 +7,9 @@ public class PlayerController : MonoBehaviour
 {
 	[SerializeField] private PlayerBody playerBody;
 
+	private bool showTeamUI = true;
+	private bool showMinimap = true;
+
 	public void OnMove(InputAction.CallbackContext ctx)
 	{
 		if (Managers.GameManager.Instance.IsPaused) return;
@@ -22,6 +25,27 @@ public class PlayerController : MonoBehaviour
 	public void OnPause(InputAction.CallbackContext ctx)
 	{
 		Managers.GameManager.Instance.IsPaused = !Managers.GameManager.Instance.IsPaused;
+	}
+
+	public void OnShowHideTeamUI(InputAction.CallbackContext ctx)
+	{
+		if (Managers.GameManager.Instance.IsPaused) return;
+		showTeamUI = !showTeamUI;
+		// Idk, invoke some event perhaps, passing showTeamUI
+		// Event ties to the UI on this player's camera, and either shows or hides the UI based
+		// on what showTeamUI evaluates to
+
+
+	}
+	public void OnShowHideMinimap(InputAction.CallbackContext ctx)
+	{
+		if (Managers.GameManager.Instance.IsPaused) return;
+		showMinimap = !showMinimap;
+		// Idk, invoke some event perhaps, passing showMinimap
+		// Event ties to the UI on this player's camera, and either shows or hides the UI based
+		// on what showMinimap evaluates to
+
+
 	}
 
 	public void OnInteract(InputAction.CallbackContext ctx)

@@ -514,6 +514,24 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ShowTeamUI"",
+                    ""type"": ""Button"",
+                    ""id"": ""d7ccf3eb-bca2-47de-a12b-b9de97e73bb5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ShowMinimap"",
+                    ""type"": ""Button"",
+                    ""id"": ""b9aba0a1-adf9-4477-a60c-53b9f8a187dc"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -824,6 +842,50 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Leave"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3046f86c-6e1d-438b-86b3-5b8b440614aa"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""ShowTeamUI"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""610128ee-2c8a-4f24-9179-40ba2838b1bd"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""[DEBUG] Keyboard Mouse"",
+                    ""action"": ""ShowTeamUI"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e0c037d3-16e2-4ad4-a75e-72a7eb13d6bb"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""ShowMinimap"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bf78a8d2-181f-43cc-a490-53f1fe403616"",
+                    ""path"": ""<Keyboard>/backquote"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""[DEBUG] Keyboard Mouse"",
+                    ""action"": ""ShowMinimap"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -875,6 +937,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_World_SecondarySkill = m_World.FindAction("SecondarySkill", throwIfNotFound: true);
         m_World_Interact = m_World.FindAction("Interact", throwIfNotFound: true);
         m_World_Leave = m_World.FindAction("Leave", throwIfNotFound: true);
+        m_World_ShowTeamUI = m_World.FindAction("ShowTeamUI", throwIfNotFound: true);
+        m_World_ShowMinimap = m_World.FindAction("ShowMinimap", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1022,6 +1086,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_World_SecondarySkill;
     private readonly InputAction m_World_Interact;
     private readonly InputAction m_World_Leave;
+    private readonly InputAction m_World_ShowTeamUI;
+    private readonly InputAction m_World_ShowMinimap;
     public struct WorldActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -1034,6 +1100,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @SecondarySkill => m_Wrapper.m_World_SecondarySkill;
         public InputAction @Interact => m_Wrapper.m_World_Interact;
         public InputAction @Leave => m_Wrapper.m_World_Leave;
+        public InputAction @ShowTeamUI => m_Wrapper.m_World_ShowTeamUI;
+        public InputAction @ShowMinimap => m_Wrapper.m_World_ShowMinimap;
         public InputActionMap Get() { return m_Wrapper.m_World; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1067,6 +1135,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Leave.started += instance.OnLeave;
             @Leave.performed += instance.OnLeave;
             @Leave.canceled += instance.OnLeave;
+            @ShowTeamUI.started += instance.OnShowTeamUI;
+            @ShowTeamUI.performed += instance.OnShowTeamUI;
+            @ShowTeamUI.canceled += instance.OnShowTeamUI;
+            @ShowMinimap.started += instance.OnShowMinimap;
+            @ShowMinimap.performed += instance.OnShowMinimap;
+            @ShowMinimap.canceled += instance.OnShowMinimap;
         }
 
         private void UnregisterCallbacks(IWorldActions instance)
@@ -1095,6 +1169,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Leave.started -= instance.OnLeave;
             @Leave.performed -= instance.OnLeave;
             @Leave.canceled -= instance.OnLeave;
+            @ShowTeamUI.started -= instance.OnShowTeamUI;
+            @ShowTeamUI.performed -= instance.OnShowTeamUI;
+            @ShowTeamUI.canceled -= instance.OnShowTeamUI;
+            @ShowMinimap.started -= instance.OnShowMinimap;
+            @ShowMinimap.performed -= instance.OnShowMinimap;
+            @ShowMinimap.canceled -= instance.OnShowMinimap;
         }
 
         public void RemoveCallbacks(IWorldActions instance)
@@ -1148,5 +1228,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnSecondarySkill(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnLeave(InputAction.CallbackContext context);
+        void OnShowTeamUI(InputAction.CallbackContext context);
+        void OnShowMinimap(InputAction.CallbackContext context);
     }
 }
