@@ -10,7 +10,7 @@ namespace Managers
 {
     public class AudioManager : SingletonBase<AudioManager>
     {
-        public static AudioManager instance;
+        
         [SerializeField] private AudioMixer mainMixer;
 
         public void PlaySfx(AudioSource audioSource, AudioClip audioClip, float volume)

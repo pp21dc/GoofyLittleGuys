@@ -20,6 +20,8 @@ public class SpawnerObj : MonoBehaviour
     public void SpawnLilGuy(GameObject newLilGuy)
     {
         Instantiate(newLilGuy, new Vector3(Random.Range(-spawnRadius, spawnRadius),
- this.transform.position.y, Random.Range(-spawnRadius, spawnRadius)), Quaternion.identity);
+          this.transform.position.y, Random.Range(-spawnRadius, spawnRadius)), Quaternion.identity);
+
+        Managers.SpawnManager.Instance.currNumSpawns++;
     }
 }
