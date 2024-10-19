@@ -16,24 +16,37 @@ namespace Managers
         [SerializeField] public int minSpawnsPerArea;
         [SerializeField] public int currForestSpawns;
         [SerializeField] public int currNumSpawns;
-        
+        [SerializeField] public float spawnDelay;
+
+        private void Start()
+        {
+            StartCoroutine(InitialSpawns());
+        }
+
 
         /// <summary>
-        /// This method should ALWAYS get called when a wild Lil Guy despawns
-        /// (I.E. is defeated/captured etc)
+        /// This method gets called by the different biome despawn methods, and simply deletes the given Lil Guy,
+        /// then it spawns a new one if any of the biomes have less than their minimum spawns.
+        /// Note: May want to have it choose the biome with the least Lil Guys, when it spawns a new one
         /// </summary>
-        public void LilGuyDespawned()
+        public void DespawnLilGuy(GameObject theLilGuy)
         {
-            currNumSpawns--;
-            if (currNumSpawns < maxNumSpawns)
+            if (currNumSpawns > 0)
             {
-                if (currForestSpawns < minSpawnsPerArea)
-                {
-                    SpawnForest();
-                }
+                currNumSpawns--;
+            }
+
+            Destroy(theLilGuy);
+
+            if (currForestSpawns < minSpawnsPerArea)
+            {
+                SpawnForest();
             }
         }
 
+        /// <summary>
+        /// This method/coroutine simply spawns a random Forest Lil Guy at a random forest spawner.
+        /// </summary>
         public void SpawnForest()
         {
             SpawnerObj pointToSpawn;
@@ -41,21 +54,50 @@ namespace Managers
 
             theLilGuy = RandFromList(forestLilGuys);
             pointToSpawn = RandFromList(forestSpawners).GetComponent<SpawnerObj>();
-            pointToSpawn.SpawnLilGuy(theLilGuy);
-            currForestSpawns++;
+            if((currForestSpawns + 1) <= maxSpawnsPerArea && (currNumSpawns + 1) <= maxNumSpawns)
+            {
+                pointToSpawn.SpawnLilGuy(theLilGuy);
+                currForestSpawns++;
+            }
+            
         }
 
         /// <summary>
-        /// This method accepts a list of objects and returns a random one.
+        /// This method should ALWAYS get called when a FOREST Lil Guy gets despawned.
+        /// (I.E. theLilGuy is defeated/tamed etc)
+        /// </summary>
+        public void DespawnForest(GameObject theLilGuy)
+        {
+            currForestSpawns--;
+            DespawnLilGuy(theLilGuy);
+        }
+
+        /// <summary>
+        /// This coroutine handles spawning a random number of Lil Guys in each biome 
+        /// (in the range of how many spawns are allowed for each biome)
+        /// </summary>
+        public IEnumerator InitialSpawns()
+        {
+            int numForestSpawns = Random.Range(minSpawnsPerArea,maxSpawnsPerArea);
+            while (currForestSpawns < numForestSpawns)
+            {
+                yield return new WaitForSeconds(spawnDelay);
+                SpawnForest();
+            }
+
+        }
+
+        /// <summary>
+        /// This method accepts a list of objects and returns a random one from that list.
         /// </summary>
         /// <param name="theList"></param>
         /// <returns> GameObject </returns>
         public GameObject RandFromList(List<GameObject> theList)
         {
-            //int randomIndex = Random.Range(0,(theList.Count-1));
-            return theList[Random.Range(0, (theList.Count - 1))];
+            return theList[Random.Range(0, theList.Count)];
 
         }
+
     }
     
 }

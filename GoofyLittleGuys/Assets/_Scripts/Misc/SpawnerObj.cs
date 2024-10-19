@@ -19,9 +19,18 @@ public class SpawnerObj : MonoBehaviour
     /// <returns></returns>
     public void SpawnLilGuy(GameObject newLilGuy)
     {
-        Instantiate(newLilGuy, new Vector3(Random.Range(-spawnRadius, spawnRadius),
-          this.transform.position.y, Random.Range(-spawnRadius, spawnRadius)), Quaternion.identity);
+        Instantiate(newLilGuy, new Vector3(RandPos(this.transform.position.x), this.transform.position.y, RandPos(this.transform.position.z)), Quaternion.identity);
 
         Managers.SpawnManager.Instance.currNumSpawns++;
+    }
+
+    /// <summary>
+    /// This method gets a random position within spawnRadius, with an added offset
+    /// </summary>
+    ///  /// <param name="offset"></param>
+    /// <returns>float</returns>
+    public float RandPos(float offset)
+    {
+        return (Random.Range(-spawnRadius, spawnRadius)) + offset;
     }
 }
