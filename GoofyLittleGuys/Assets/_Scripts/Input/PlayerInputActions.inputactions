@@ -318,28 +318,6 @@
                 },
                 {
                     "name": "",
-                    "id": "6648b758-6eaa-4896-bd5d-d6044cf36bc8",
-                    "path": "*/{Submit}",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Submit",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "2f9ba02a-7e1f-466a-a3e1-d779987b85a9",
-                    "path": "*/{Cancel}",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Cancel",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "897b1ae2-5317-46fa-998e-a8e420e7879a",
                     "path": "<Mouse>/position",
                     "interactions": "",
@@ -412,6 +390,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Click",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "235c7160-60fd-41ce-9727-de09b18a3cbf",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Cancel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bc96e83b-11ba-4f95-b891-2475111a5eb7",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Submit",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -628,6 +628,39 @@
                     "isPartOfComposite": true
                 },
                 {
+                    "name": "Bumpers",
+                    "id": "da63d928-5374-47d6-a0a9-0d2b0fdbd6a4",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwapCharacter",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "8b324128-06f6-47bb-93e3-f61dc4ca905d",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "SwapCharacter",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "fc006c00-0179-489b-bb25-92ac1b42e344",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "SwapCharacter",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
                     "name": "",
                     "id": "94d52a14-0a27-481e-b25c-56349a5f0f82",
                     "path": "<Keyboard>/tab",
@@ -642,6 +675,17 @@
                     "name": "",
                     "id": "5c4ba33f-d34d-45aa-be32-509b71889e40",
                     "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d88c9bd0-35ec-414c-914b-7ff37f4e0b77",
+                    "path": "<Gamepad>/select",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -684,8 +728,8 @@
                 },
                 {
                     "name": "",
-                    "id": "f7197103-3c6e-4f22-96fd-1b6173d656e2",
-                    "path": "<Gamepad>/rightShoulder",
+                    "id": "ee40c038-fb4f-44ef-a641-024b54b33e85",
+                    "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -706,8 +750,8 @@
                 },
                 {
                     "name": "",
-                    "id": "d6dcc5a5-e09a-4d17-b472-067dc7101344",
-                    "path": "<Gamepad>/rightTrigger",
+                    "id": "57f04238-e2c7-4c5a-8734-27f2af6a8c4e",
+                    "path": "<Gamepad>/buttonWest",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -729,7 +773,7 @@
                 {
                     "name": "",
                     "id": "a9fb9af1-5580-40a3-b6cb-97374040b544",
-                    "path": "<Gamepad>/buttonEast",
+                    "path": "<Gamepad>/buttonNorth",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
