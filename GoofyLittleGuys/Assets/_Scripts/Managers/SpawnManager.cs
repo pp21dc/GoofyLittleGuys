@@ -40,7 +40,7 @@ namespace Managers
 
             if (currForestSpawns < minSpawnsPerArea)
             {
-                SpawnForest();
+                StartCoroutine(respawnWithDelay(0));
             }
         }
 
@@ -76,7 +76,7 @@ namespace Managers
         /// This coroutine handles spawning a random number of Lil Guys in each biome 
         /// (in the range of how many spawns are allowed for each biome)
         /// </summary>
-        public IEnumerator InitialSpawns()
+        private IEnumerator InitialSpawns()
         {
             int numForestSpawns = Random.Range(minSpawnsPerArea,maxSpawnsPerArea);
             while (currForestSpawns < numForestSpawns)
@@ -85,6 +85,26 @@ namespace Managers
                 SpawnForest();
             }
 
+        }
+
+        private IEnumerator respawnWithDelay(int biomeNum)
+        {
+            
+            switch (biomeNum)
+            {
+                case 0:
+                    yield return new WaitForSeconds(spawnDelay);
+                    SpawnForest();
+                    break;
+                case 1:
+                    yield return new WaitForSeconds(spawnDelay);
+                    Debug.Log("Spawning in Mountain");
+                    break;
+                case 2:
+                    yield return new WaitForSeconds(spawnDelay);
+                    Debug.Log("Spawning on Beach");
+                    break;
+            }
         }
 
         /// <summary>
