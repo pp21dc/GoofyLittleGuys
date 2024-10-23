@@ -59,7 +59,6 @@ namespace Managers
                 pointToSpawn.SpawnLilGuy(theLilGuy);
                 currForestSpawns++;
             }
-            
         }
 
         /// <summary>
@@ -84,7 +83,6 @@ namespace Managers
                 yield return new WaitForSeconds(spawnDelay);
                 SpawnForest();
             }
-
         }
 
         private IEnumerator respawnWithDelay(int biomeNum)

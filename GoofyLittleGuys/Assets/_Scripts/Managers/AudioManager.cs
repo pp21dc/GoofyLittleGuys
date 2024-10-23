@@ -12,18 +12,41 @@ namespace Managers
     {
         
         [SerializeField] private AudioMixer mainMixer;
+        [SerializeField] private AudioObject testSfxObject;
+        [SerializeField] private AudioObject testMusicObject;
 
-        public void PlaySfx(AudioSource audioSource, AudioClip audioClip, float volume)
+        private Dictionary<string,AudioObject> SfxObjects = new Dictionary<string,AudioObject>();
+        private Dictionary<string, AudioObject> MusicObjects = new Dictionary<string, AudioObject>();
+
+
+        private void Start()
         {
-            audioSource.volume = volume;
-            audioSource.PlayOneShot(audioClip);
+            addNewSfxObject(testSfxObject);
+            addNewMusicObject(testMusicObject);
+        }
+        public void PlaySfx(string key, AudioSource audioSource, AudioClip audioClip, float volume)
+        {
+            AudioObject objToPlay;
+            if (SfxObjects[key] != null)
+            {
+                objToPlay = SfxObjects[key];
+                audioSource.volume = objToPlay.volume;
+                audioSource.pitch = objToPlay.pitch;
+                audioSource.PlayOneShot(objToPlay.objAudioClip);
+            }
         }
 
-        public void PlayMusic(AudioSource audioSource, AudioClip audioClip, float volume)
+        public void PlayMusic(string key, AudioSource audioSource, AudioClip audioClip, float volume)
         {
-            audioSource.clip = audioClip;
-            audioSource.volume = volume;
-            audioSource.Play();
+            AudioObject objToPlay;
+            if (MusicObjects[key] != null)
+            {
+                objToPlay = MusicObjects[key];
+                audioSource.volume = objToPlay.volume;
+                audioSource.pitch = objToPlay.pitch;
+                audioSource.clip = objToPlay.objAudioClip;
+                audioSource.Play();
+            }
         }
 
         public void SetSfxVolume(float value)
@@ -36,6 +59,15 @@ namespace Managers
         {
             mainMixer.SetFloat("musicVolume", value);
 
+        }
+
+        public void addNewSfxObject(AudioObject newSfxObject)
+        {
+            SfxObjects.Add("TestSfx",newSfxObject);
+        }
+        public void addNewMusicObject(AudioObject newMusicObject)
+        {
+            MusicObjects.Add("TestMusic", newMusicObject);
         }
 
     }

@@ -38,11 +38,11 @@ public class AudioTest : MonoBehaviour
 
     private void PlaySound()
     {
-        Managers.AudioManager.Instance.PlaySfx(sfxSource,sfxClip,1f);
+        Managers.AudioManager.Instance.PlaySfx("TestSfx",sfxSource,sfxClip,1f);
     }
 
     private void PlayMusic()
     {
-        Managers.AudioManager.Instance.PlayMusic(musicSource, musicClip, 1f);
+        Managers.AudioManager.Instance.PlayMusic("TestMusic",musicSource, musicClip, 1f);
     }
 }
