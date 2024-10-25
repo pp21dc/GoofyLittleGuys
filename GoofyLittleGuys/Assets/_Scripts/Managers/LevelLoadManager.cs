@@ -11,12 +11,6 @@ namespace Managers
 		public static LevelLoadManager _Instance;
 		[SerializeField]
 		private GameObject loadingScreen;
-
-		[SerializeField]
-		private string[] levelNames;
-		public string[] LevelNames { get { return levelNames; } }
-
-		private string currLevelName;
 		[SerializeField]
 		private bool isLoadingLevel = false;
 
@@ -26,8 +20,13 @@ namespace Managers
 
 		private void Start()
 		{
-			LoadLevel(levelNames[1]);
-			SceneManager.SetActiveScene(SceneManager.GetSceneByName("-01_PersistentScene"));
+			LoadNewLevel("00_MainMenu");
+			SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(0));
+		}
+
+		public void LoadNewLevel(string levelName)
+		{
+			StartCoroutine(LoadLevel(levelName));
 		}
 
 		private IEnumerator LoadLevel(string levelName)
@@ -52,13 +51,13 @@ namespace Managers
 				// If we have a loading screen, we can update the slider progress, and pass asyncLoad.progress
 				yield return null;
 			}
-			SceneManager.SetActiveScene(SceneManager.GetSceneByName(levelName));
+			//SceneManager.SetActiveScene(SceneManager.GetSceneByName(levelName));
 
 			currentLevelList.Add(levelName);
 			// Initialize player etc.
 			yield return bufferTime;
 
-			loadingScreen.SetActive(false);
+			//loadingScreen.SetActive(false);
 			isLoadingLevel = false;
 
 

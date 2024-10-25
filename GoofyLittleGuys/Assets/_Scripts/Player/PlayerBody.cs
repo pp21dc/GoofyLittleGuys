@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Unity.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerBody : MonoBehaviour
 {
@@ -66,10 +67,16 @@ public class PlayerBody : MonoBehaviour
 	{
 		return Physics.Raycast(transform.position - Vector3.down * 0.05f, Vector3.down, 0.1f, groundLayer);
 	}
+	private void Init()
+	{
+		GetComponent<PlayerInput>().camera.clearFlags = CameraClearFlags.Skybox;
+	}
 
 	private void Start()
 	{
 		rb = GetComponent<Rigidbody>();
+
+		EventManager.Instance.GameStarted += Init;
 	}
 
 	private void FixedUpdate()

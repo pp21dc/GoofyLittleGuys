@@ -1,6 +1,8 @@
+using Managers;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class EventManager
 {
@@ -22,6 +24,12 @@ public class EventManager
 	public delegate void MicrogameFailedDelegate(PlayerBody body);
 	public event MicrogameFailedDelegate NotifyMicrogameFailed;
 
+	public delegate void GameStartedDelegate();
+	public event GameStartedDelegate GameStarted;
+
+	public delegate void LilGuyLockedInDelegated();
+	public event LilGuyLockedInDelegated NotifyLilGuyLockedIn;
+
 	private static EventManager _instance = null;
     public static EventManager Instance
     {
@@ -31,6 +39,22 @@ public class EventManager
 			return _instance;
 		}
     }
+
+	public void CallLilGuyLockedInEvent()
+	{
+		if (PlayerInput.all.Count < 2) return;
+		foreach (PlayerInput input in PlayerInput.all)
+		{
+			if (!input.GetComponentInChildren<CharacterSelectMenu>().LockedIn) return;
+		}
+
+		LevelLoadManager.Instance.LoadNewLevel("02_MainGame");
+		EventManager.Instance.GameStartedEvent();
+	}
+	public void GameStartedEvent()
+	{
+		GameStarted?.Invoke();
+	}
 
 	public void CallLilGuyLastHitEvent(PlayerBody body)
 	{

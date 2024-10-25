@@ -19,6 +19,16 @@ namespace Managers
 			base.Awake();
 		}
 
+		private void Start()
+		{
+			Time.timeScale = 0;
+			EventManager.Instance.GameStarted += GameStarted;
+		}
+
+		private void GameStarted()
+		{
+			Time.timeScale = 1;
+		}
 		public void StartPhaseOne()
 		{
 			currentPhase++;
