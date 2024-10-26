@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using Unity.Collections;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.UI;
 
 public class PlayerBody : MonoBehaviour
 {
@@ -70,6 +72,8 @@ public class PlayerBody : MonoBehaviour
 	private void Init()
 	{
 		GetComponent<PlayerInput>().camera.clearFlags = CameraClearFlags.Skybox;
+		GetComponentInChildren<MultiplayerEventSystem>().firstSelectedGameObject = null;
+		GetComponentInChildren<MultiplayerEventSystem>().gameObject.SetActive(false);
 	}
 
 	private void Start()
@@ -78,7 +82,10 @@ public class PlayerBody : MonoBehaviour
 
 		EventManager.Instance.GameStarted += Init;
 	}
-
+	private void OnDestroy()
+	{
+		EventManager.Instance.GameStarted -= Init;
+	}
 	private void FixedUpdate()
 	{
 		Vector3 targetVelocity = movementDirection.normalized * maxSpeed;

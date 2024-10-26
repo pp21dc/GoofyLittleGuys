@@ -24,7 +24,9 @@ public class PlayerController : MonoBehaviour
 
 	public void OnPause(InputAction.CallbackContext ctx)
 	{
-		Managers.GameManager.Instance.IsPaused = !Managers.GameManager.Instance.IsPaused;
+		GameManager.Instance.IsPaused = true;
+		EventManager.Instance.CallGamePaused(GetComponent<PlayerInput>());
+
 	}
 
 	public void OnShowHideTeamUI(InputAction.CallbackContext ctx)

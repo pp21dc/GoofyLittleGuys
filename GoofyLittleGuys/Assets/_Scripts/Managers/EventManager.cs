@@ -30,6 +30,9 @@ public class EventManager
 	public delegate void LilGuyLockedInDelegated();
 	public event LilGuyLockedInDelegated NotifyLilGuyLockedIn;
 
+	public delegate void GamePausedDelegate(PlayerInput playerWhoPaused);
+	public event GamePausedDelegate NotifyGamePaused;
+
 	private static EventManager _instance = null;
     public static EventManager Instance
     {
@@ -40,6 +43,11 @@ public class EventManager
 		}
     }
 
+	public void CallGamePaused(PlayerInput playerWhoPaused)
+	{
+		NotifyGamePaused?.Invoke(playerWhoPaused);
+	}
+
 	public void CallLilGuyLockedInEvent()
 	{
 		if (PlayerInput.all.Count < 2) return;
@@ -49,7 +57,7 @@ public class EventManager
 		}
 
 		LevelLoadManager.Instance.LoadNewLevel("02_MainGame");
-		EventManager.Instance.GameStartedEvent();
+		GameStartedEvent();
 	}
 	public void GameStartedEvent()
 	{

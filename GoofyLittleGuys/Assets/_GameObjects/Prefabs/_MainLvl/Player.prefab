@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 371057285303826719}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -443,9 +443,9 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: b9aba0a1-adf9-4477-a60c-53b9f8a187dc
     m_ActionName: World/ShowMinimap[/Keyboard/backquote]
-  m_NeverAutoSwitchControlSchemes: 0
+  m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: 
-  m_DefaultActionMap: UI
+  m_DefaultActionMap: World
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 7801862985928928391}
 --- !u!114 &3641373110718538541
@@ -1174,8 +1174,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1535535482218972010}
   - {fileID: 5110564074993932116}
+  - {fileID: 1535535482218972010}
   m_Father: {fileID: 3602798248800691467}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8229483777702169195

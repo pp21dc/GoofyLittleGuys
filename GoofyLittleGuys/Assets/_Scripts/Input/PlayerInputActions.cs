@@ -735,17 +735,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""d88c9bd0-35ec-414c-914b-7ff37f4e0b77"",
-                    ""path"": ""<Gamepad>/select"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Pause"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""d10b4d4f-99a6-4eac-b080-b4afd7f28a3e"",
                     ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",

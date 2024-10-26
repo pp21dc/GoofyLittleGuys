@@ -13,6 +13,10 @@ public class CharacterSelectMenu : MonoBehaviour
 	{
 		EventManager.Instance.GameStarted += GameInit;
 	}
+	private void OnDestroy()
+	{
+		EventManager.Instance.GameStarted -= GameInit;
+	}
 	void GameInit()
 	{
 		gameObject.SetActive(false);
