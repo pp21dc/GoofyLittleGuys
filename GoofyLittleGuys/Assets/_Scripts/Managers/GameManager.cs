@@ -11,6 +11,8 @@ namespace Managers
 
 		private bool isPaused = false;
 		private bool legendarySpawned = false;
+
+		[SerializeField] private bool gameStartTest = true;
 		private int currentPhase = 0;
 		public bool IsPaused { get { return isPaused; } set { isPaused = value; } }
 
@@ -23,7 +25,10 @@ namespace Managers
 		{
 			Time.timeScale = 0;
 			EventManager.Instance.GameStarted += GameStarted;
-		}
+
+			if (gameStartTest) EventManager.Instance.GameStartedEvent();
+
+        }
 
 		private void GameStarted()
 		{

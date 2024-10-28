@@ -62,7 +62,7 @@ public class PlayerBody : MonoBehaviour
 	public void JumpPerformed()
 	{
 		if (!IsGrounded()) return;
-		rb.velocity += Vector3.up * jumpSpeed;
+		rb.AddForce(Vector3.up * jumpSpeed, ForceMode.Impulse);
 	}
 
 	private bool IsGrounded()
@@ -93,7 +93,7 @@ public class PlayerBody : MonoBehaviour
 		rb.velocity += newForceDirection * Time.fixedDeltaTime;
 
 		// Jump behaviours
-		if (rb.velocity.y < 0)
+		if (rb.velocity.y < 2)
 		{
 			rb.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.fixedDeltaTime;
 		}
