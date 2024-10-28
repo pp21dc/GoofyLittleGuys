@@ -10,6 +10,7 @@ namespace Managers
     public class SpawnManager : SingletonBase<SpawnManager>
     {
         [SerializeField] public List<GameObject> forestLilGuys;
+        [SerializeField] public List<GameObject> legendaryLilGuys;
         [SerializeField] public List<GameObject> forestSpawners;
         [SerializeField] public int maxNumSpawns;
         [SerializeField] public int maxSpawnsPerArea;
@@ -45,7 +46,7 @@ namespace Managers
         }
 
         /// <summary>
-        /// This method/coroutine simply spawns a random Forest Lil Guy at a random forest spawner.
+        /// This method simply spawns a random Forest Lil Guy at a random forest spawner.
         /// </summary>
         public void SpawnForest()
         {
@@ -59,6 +60,31 @@ namespace Managers
                 pointToSpawn.SpawnLilGuy(theLilGuy);
                 currForestSpawns++;
             }
+        }
+
+        /// <summary>
+        /// Method that spawns the given Legendary Lil Guy at a random spawner in a random biome.
+        /// </summary>
+        /// <param name="theLegendary"></param>
+        private void SpawnLegendaryGuy(GameObject theLegendary)
+        {
+            int biomeNum = Random.Range(0, 3);
+            SpawnerObj pointToSpawn;
+
+            switch (biomeNum)
+            {
+                case 0:
+                    pointToSpawn = RandFromList(forestSpawners).GetComponent<SpawnerObj>();
+                    pointToSpawn.SpawnLilGuy(theLegendary);
+                    break;
+                case 1:
+                    Debug.Log("Spawning in Mountain");
+                    break;
+                case 2:
+                    Debug.Log("Spawning on Beach");
+                    break;
+            }
+
         }
 
         /// <summary>
@@ -77,14 +103,19 @@ namespace Managers
         /// </summary>
         private IEnumerator InitialSpawns()
         {
-            int numForestSpawns = Random.Range(minSpawnsPerArea,maxSpawnsPerArea);
+            int numForestSpawns = Random.Range(minSpawnsPerArea,maxSpawnsPerArea + 1);
             while (currForestSpawns < numForestSpawns)
             {
                 yield return new WaitForSeconds(spawnDelay);
                 SpawnForest();
             }
         }
-
+        /// <summary>
+        /// Coroutine that spawns a new Lil Guy at the given biome (given by an int between 0 and 2 inclusive)
+        /// It waits for spawnDelay
+        /// </summary>
+        /// <param name="biomeNum"></param>
+        /// <returns></returns>
         private IEnumerator respawnWithDelay(int biomeNum)
         {
             
