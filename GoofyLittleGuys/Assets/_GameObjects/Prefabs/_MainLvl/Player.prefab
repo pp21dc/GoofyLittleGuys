@@ -478,12 +478,13 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   lilGuyTeam: []
+  playerMesh: {fileID: 1987567868551127171}
+  maxSpeed: 15
+  jumpSpeed: 10
+  fallThresholdSpeed: 0
   fallMultiplier: 4
-  lowJumpMultiplier: 5
   coyoteTime: 0.2
   jumpBufferTime: 0.2
-  jumpSpeed: 10
-  maxSpeed: 15
 --- !u!54 &4261187398909037534
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -684,7 +685,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1816819182295901651
 Transform:
   m_ObjectHideFlags: 0

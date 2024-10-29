@@ -10,6 +10,7 @@ public class PlayerBody : MonoBehaviour
 {
 	[SerializeField] private LayerMask groundLayer;
 	[SerializeField] private List<LilGuyBase> lilGuyTeam;
+	[SerializeField] private GameObject playerMesh;
 
 	[SerializeField, Range(1, 25f)] private float maxSpeed = 25f;           // To be replaced with lilGuys[0].speed
 	[Header("Jump Parameters")]
@@ -108,6 +109,7 @@ public class PlayerBody : MonoBehaviour
 		GetComponent<PlayerInput>().camera.clearFlags = CameraClearFlags.Skybox;
 		GetComponentInChildren<MultiplayerEventSystem>().firstSelectedGameObject = null;
 		GetComponentInChildren<MultiplayerEventSystem>().gameObject.SetActive(false);
+		playerMesh.SetActive(true);
 	}
 
 	private void Start()
