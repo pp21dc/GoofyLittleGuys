@@ -10,26 +10,41 @@ public class PlayerBody : MonoBehaviour
 {
 	[SerializeField] private LayerMask groundLayer;
 	[SerializeField] private List<LilGuyBase> lilGuyTeam;
-	[SerializeField] private float fallMultiplier = 4f;      // The default fall speed of the player
-	[SerializeField] private float lowJumpMultiplier = 6f;   // The fall speed for when the player ends their jump early (allows for shorter jumps)
-	[SerializeField, Range(1, 10)] private float jumpSpeed = 4f;
-	[SerializeField, Range(1, 25f)] private float maxSpeed = 25f;           // To be replaced with lilGuys[0].speed
 
+	[SerializeField, Range(1, 25f)] private float maxSpeed = 25f;           // To be replaced with lilGuys[0].speed
+	[Header("Jump Parameters")]
+
+	[SerializeField, Range(1, 25)] private float jumpSpeed = 4f;
+
+	[Tooltip("EDIT THIS IF HIGH JUMP FEELS FLOATY!\nUpward velocity threshold before increased gravity multiplier gets applied.")]
+	[SerializeField] private float fallThresholdSpeed = 0f;
+
+	[Tooltip("Gravity modifier that makes falling faster, and allows for short jumps.")]
+	[SerializeField] private float fallMultiplier = 4f;
+
+	[Tooltip("How long (in seconds) after leaving the ground can a jump input be accepted?")]
+	[SerializeField] private float coyoteTime = 0.2f;   // How long after leaving the ground can a jump input be accepted
+
+	[Tooltip("How long (in seconds) a jump input is 'remembered' for.")]
+	[SerializeField] private float jumpBufferTime = 0.2f;   // How long the jump input is 'remembered' for
+	
+	private float coyoteTimeCounter;
+	private float jumpbufferCounter;
 	private bool isJumping = false;
+
 	private bool hasInteracted = false;
 	private Vector3 movementDirection = Vector3.zero;
 	private Rigidbody rb;
 
-	public bool HasInteracted {  get { return hasInteracted; } set { hasInteracted =value; } }
+	public bool HasInteracted { get { return hasInteracted; } set { hasInteracted = value; } }
 	public bool IsJumping { get { return isJumping; } set { isJumping = value; } }
 	public Vector3 MovementDirection { get { return movementDirection; } }
 	public List<LilGuyBase> LilGuyTeam { get { return lilGuyTeam; } }
+
 	public void UpdateMovementVector(Vector2 dir)
 	{
 		movementDirection = new Vector3(dir.x, 0, dir.y);
 	}
-
-
 
 	/// <summary>
 	/// Swaps the Lil guy based on a queue. If input is right, then the next one in list moves to position 1 and if left, the previous lil guy moves to position 1
@@ -59,16 +74,35 @@ public class PlayerBody : MonoBehaviour
 		}
 	}
 
-	public void JumpPerformed()
+	/// <summary>
+	/// Called to do the actual jump force application.
+	/// </summary>
+	public void PerformJump()
 	{
-		if (!IsGrounded()) return;
-		rb.AddForce(Vector3.up * jumpSpeed, ForceMode.Impulse);
+		if (IsGrounded())
+		{
+			rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+			rb.AddForce(Vector3.up * jumpSpeed, ForceMode.Impulse);
+		}
+	}
+
+	/// <summary>
+	/// Called when the jump button is pressed to start the jump buffer.
+	/// </summary>
+	public void StartJumpBuffer()
+	{
+		isJumping = true;
+		jumpbufferCounter = jumpBufferTime;
 	}
 
 	private bool IsGrounded()
 	{
 		return Physics.Raycast(transform.position - Vector3.down * 0.05f, Vector3.down, 0.1f, groundLayer);
 	}
+
+	/// <summary>
+	/// Called when the GameStarted event is invoked (occurs after character select, and phase one is loaded).
+	/// </summary>
 	private void Init()
 	{
 		GetComponent<PlayerInput>().camera.clearFlags = CameraClearFlags.Skybox;
@@ -79,28 +113,55 @@ public class PlayerBody : MonoBehaviour
 	private void Start()
 	{
 		rb = GetComponent<Rigidbody>();
-
 		EventManager.Instance.GameStarted += Init;
 	}
+
 	private void OnDestroy()
 	{
 		EventManager.Instance.GameStarted -= Init;
 	}
+
 	private void FixedUpdate()
 	{
+		// Movement behaviours
 		Vector3 targetVelocity = movementDirection.normalized * maxSpeed;
 		Vector3 newForceDirection = (targetVelocity - new Vector3(rb.velocity.x, 0, rb.velocity.z));
 		rb.velocity += newForceDirection * Time.fixedDeltaTime;
 
 		// Jump behaviours
-		if (rb.velocity.y < 2)
+		
+
+		// Update coyote time counter
+		if (IsGrounded()) coyoteTimeCounter = coyoteTime;
+		else coyoteTimeCounter -= Time.fixedDeltaTime;
+
+		// Update jump buffer counter if jump button was pressed recently
+		if (isJumping) jumpbufferCounter = jumpBufferTime;
+		else jumpbufferCounter -= Time.fixedDeltaTime;
+
+		// Apply jump if coyote time and jump buffer is valid
+		if (coyoteTimeCounter > 0 && jumpbufferCounter > 0)
+		{
+			PerformJump();
+			jumpbufferCounter = 0;
+		}
+
+		// Applies increased gravity while falling for faster descent and snappier jump feel
+		if (rb.velocity.y < fallThresholdSpeed)
 		{
 			rb.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.fixedDeltaTime;
 		}
-		else if (rb.velocity.y > 0 && !isJumping)
+
+		// Reduces upward velocity when jump button is released early, creating a shorter jump
+		else if (rb.velocity.y > 0 && !IsJumping)
 		{
-			rb.velocity += Vector3.up * Physics.gravity.y * (lowJumpMultiplier - 1) * Time.fixedDeltaTime;
+			rb.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.fixedDeltaTime;
+		}
+
+		// Applies normal gravity when jump button is held, allowing for a higher jump
+		else if (rb.velocity.y > 0 && IsJumping)
+		{
+			rb.velocity += Vector3.up * Physics.gravity.y * Time.fixedDeltaTime;
 		}
 	}
-
 }

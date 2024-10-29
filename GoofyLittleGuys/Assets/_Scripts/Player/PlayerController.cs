@@ -61,8 +61,8 @@ public class PlayerController : MonoBehaviour
 	public void OnJump(InputAction.CallbackContext ctx)
 	{
 		if (Managers.GameManager.Instance.IsPaused) return;
-		playerBody.IsJumping = ctx.canceled ? false : true;
-		playerBody.JumpPerformed();
+		if (ctx.started) playerBody.StartJumpBuffer();
+		if (ctx.canceled) playerBody.IsJumping = false;
 	}
 
 	public void OnPrimarySkill(InputAction.CallbackContext ctx)
