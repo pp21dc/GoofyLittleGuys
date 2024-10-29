@@ -33,6 +33,7 @@ namespace Managers
 		private void GameStarted()
 		{
 			Time.timeScale = 1;
+			StartPhaseOne();
 		}
 		public void StartPhaseOne()
 		{
