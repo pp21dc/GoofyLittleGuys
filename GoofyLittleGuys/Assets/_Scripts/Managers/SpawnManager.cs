@@ -9,19 +9,32 @@ namespace Managers
 {
     public class SpawnManager : SingletonBase<SpawnManager>
     {
+        //Serialized fields
         [SerializeField] public List<GameObject> forestLilGuys;
+        [SerializeField] public List<GameObject> mountainLilGuys;
+        [SerializeField] public List<GameObject> beachLilGuys;
         [SerializeField] public List<GameObject> legendaryLilGuys;
         [SerializeField] public List<GameObject> forestSpawners;
+        [SerializeField] public List<GameObject> mountainSpawners;
+        [SerializeField] public List<GameObject> beachSpawners;
         [SerializeField] public SpawnerObj legendarySpawner;
         [SerializeField] public int maxNumSpawns;
         [SerializeField] public int maxSpawnsPerArea;
         [SerializeField] public int minSpawnsPerArea;
         [SerializeField] public float spawnDelay;
-        [SerializeField] public int currForestSpawns;
-        [SerializeField] public int currNumSpawns;
+
+        //public variables
+        public int currNumSpawns;
+        public int currForestSpawns;
+        public int currMountainSpawns;
+        private int currBeachSpawns;
 
         private void Start()
         {
+            currNumSpawns = 0;
+            currForestSpawns = 0;
+            currMountainSpawns = 0;
+            currBeachSpawns = 0;
             StartCoroutine(InitialSpawns());
         }
 
@@ -44,6 +57,14 @@ namespace Managers
             {
                 StartCoroutine(respawnWithDelay(0));
             }
+            else if (currMountainSpawns < minSpawnsPerArea)
+            {
+                StartCoroutine(respawnWithDelay(1));
+            }
+            else if (currBeachSpawns < minSpawnsPerArea)
+            {
+                StartCoroutine(respawnWithDelay(2));
+            }
         }
 
         /// <summary>
@@ -60,6 +81,40 @@ namespace Managers
             {
                 pointToSpawn.SpawnLilGuy(theLilGuy);
                 currForestSpawns++;
+            }
+        }
+
+        /// <summary>
+        /// This method simply spawns a random Mountain Lil Guy at a random mountain spawner.
+        /// </summary>
+        public void SpawnMountain()
+        {
+            SpawnerObj pointToSpawn;
+            GameObject theLilGuy;
+
+            theLilGuy = RandFromList(mountainLilGuys);
+            pointToSpawn = RandFromList(mountainSpawners).GetComponent<SpawnerObj>();
+            if ((currForestSpawns + 1) <= maxSpawnsPerArea && (currNumSpawns + 1) <= maxNumSpawns)
+            {
+                pointToSpawn.SpawnLilGuy(theLilGuy);
+                currMountainSpawns++;
+            }
+        }
+
+        /// <summary>
+        /// This method simply spawns a random Beach Lil Guy at a random beach spawner.
+        /// </summary>
+        public void SpawnBeach()
+        {
+            SpawnerObj pointToSpawn;
+            GameObject theLilGuy;
+
+            theLilGuy = RandFromList(beachLilGuys);
+            pointToSpawn = RandFromList(beachSpawners).GetComponent<SpawnerObj>();
+            if ((currForestSpawns + 1) <= maxSpawnsPerArea && (currNumSpawns + 1) <= maxNumSpawns)
+            {
+                pointToSpawn.SpawnLilGuy(theLilGuy);
+                currBeachSpawns++;
             }
         }
 
@@ -90,14 +145,31 @@ namespace Managers
         private IEnumerator InitialSpawns()
         {
             int numForestSpawns = Random.Range(minSpawnsPerArea,maxSpawnsPerArea + 1);
-            while (currForestSpawns < numForestSpawns)
+            int numMountainSpawns = Random.Range(minSpawnsPerArea, maxSpawnsPerArea + 1);
+            int numBeachSpawns = Random.Range(minSpawnsPerArea, maxSpawnsPerArea + 1);
+            while (currNumSpawns < maxNumSpawns)
             {
-                yield return new WaitForSeconds(spawnDelay);
-                SpawnForest();
+                int biomeNum = Random.Range(0, 3);
+                if (biomeNum == 0 && currForestSpawns < numForestSpawns)
+                {
+                    yield return new WaitForSeconds(spawnDelay);
+                    SpawnForest();
+                }
+                else if(biomeNum == 1 && currMountainSpawns < numMountainSpawns)
+                {
+                    yield return new WaitForSeconds(spawnDelay);
+                    SpawnMountain();
+                }
+                else if (biomeNum == 2 && currBeachSpawns < numBeachSpawns)
+                {
+                    yield return new WaitForSeconds(spawnDelay);
+                    SpawnBeach();
+                }
             }
+            
         }
         /// <summary>
-        /// Coroutine that spawns a new Lil Guy at the given biome (given by an int between 0 and 2 inclusive)
+        /// Coroutine that spawns a NEW Lil Guy at the given biome (given by an int between 0 and 2 inclusive)
         /// It waits for spawnDelay
         /// </summary>
         /// <param name="biomeNum"></param>
@@ -113,11 +185,11 @@ namespace Managers
                     break;
                 case 1:
                     yield return new WaitForSeconds(spawnDelay);
-                    Debug.Log("Spawning in Mountain");
+                    SpawnMountain();
                     break;
                 case 2:
                     yield return new WaitForSeconds(spawnDelay);
-                    Debug.Log("Spawning on Beach");
+                    SpawnBeach();
                     break;
             }
         }
