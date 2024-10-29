@@ -12,12 +12,13 @@ namespace Managers
         [SerializeField] public List<GameObject> forestLilGuys;
         [SerializeField] public List<GameObject> legendaryLilGuys;
         [SerializeField] public List<GameObject> forestSpawners;
+        [SerializeField] public SpawnerObj legendarySpawner;
         [SerializeField] public int maxNumSpawns;
         [SerializeField] public int maxSpawnsPerArea;
         [SerializeField] public int minSpawnsPerArea;
+        [SerializeField] public float spawnDelay;
         [SerializeField] public int currForestSpawns;
         [SerializeField] public int currNumSpawns;
-        [SerializeField] public float spawnDelay;
 
         private void Start()
         {
@@ -63,27 +64,12 @@ namespace Managers
         }
 
         /// <summary>
-        /// Method that spawns the given Legendary Lil Guy at a random spawner in a random biome.
+        /// Method that spawns a random Legendary at the provided legendarySpawner
         /// </summary>
-        /// <param name="theLegendary"></param>
-        private void SpawnLegendaryGuy(GameObject theLegendary)
+        public void SpawnLegendaryGuy()
         {
-            int biomeNum = Random.Range(0, 3);
-            SpawnerObj pointToSpawn;
-
-            switch (biomeNum)
-            {
-                case 0:
-                    pointToSpawn = RandFromList(forestSpawners).GetComponent<SpawnerObj>();
-                    pointToSpawn.SpawnLilGuy(theLegendary);
-                    break;
-                case 1:
-                    Debug.Log("Spawning in Mountain");
-                    break;
-                case 2:
-                    Debug.Log("Spawning on Beach");
-                    break;
-            }
+            GameObject theLegendary = RandFromList(legendaryLilGuys);
+            legendarySpawner.SpawnLilGuy(theLegendary);
 
         }
 

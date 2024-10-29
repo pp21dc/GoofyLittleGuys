@@ -434,6 +434,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 134336235}
   m_CullTransparentMesh: 1
+--- !u!1 &177144828
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 177144830}
+  - component: {fileID: 177144829}
+  m_Layer: 0
+  m_Name: TestLegendSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &177144829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 177144828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9860e9ee7815874b9489b42ca552bd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnRadius: 2
+--- !u!4 &177144830
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 177144828}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.9, y: 4.83, z: 4.21}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &351455887
 GameObject:
   m_ObjectHideFlags: 0
@@ -2179,17 +2224,21 @@ MonoBehaviour:
   dontDestroyOnLoad: 1
   forestLilGuys:
   - {fileID: 8205884206601766598, guid: 4c701cd97b22434449c7d5f1afc116aa, type: 3}
-  - {fileID: 188690827544448562, guid: b824d0c47ab26e242947619dc0793439, type: 3}
   - {fileID: 3792069238697310637, guid: 24a8bc4e7c646fd4cae896c8b07e9b5b, type: 3}
+  - {fileID: 3792069238697310637, guid: 24a8bc4e7c646fd4cae896c8b07e9b5b, type: 3}
+  legendaryLilGuys:
+  - {fileID: 188690827544448562, guid: b824d0c47ab26e242947619dc0793439, type: 3}
+  - {fileID: 7852440040254083956, guid: 6c8b17eec95fae64aa4c4c09b058f788, type: 3}
   forestSpawners:
   - {fileID: 1248363695}
   - {fileID: 351455887}
+  legendarySpawner: {fileID: 177144829}
   maxNumSpawns: 10
   maxSpawnsPerArea: 8
   minSpawnsPerArea: 6
+  spawnDelay: 2
   currForestSpawns: 0
   currNumSpawns: 0
-  spawnDelay: 2
 --- !u!1 &1443458976
 GameObject:
   m_ObjectHideFlags: 0
@@ -2955,6 +3004,7 @@ SceneRoots:
   - {fileID: 474201759}
   - {fileID: 1248363697}
   - {fileID: 351455889}
+  - {fileID: 177144830}
   - {fileID: 1010834679}
   - {fileID: 121864077}
   - {fileID: 607016870}
