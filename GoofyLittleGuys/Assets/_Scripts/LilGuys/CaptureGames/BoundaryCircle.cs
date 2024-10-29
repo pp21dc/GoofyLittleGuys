@@ -7,12 +7,12 @@ using static UnityEngine.Rendering.HableCurve;
 public class BoundaryCircle : MonoBehaviour
 {
     // -- Variables --
-    private int circleRadius;
+    private int circleRadius = 5;
     private Vector3 circleCenter;
     [SerializeField] private Transform capturingPlayer;
 
     private LineRenderer lineRenderer;
-    private int dashes;
+    private int dashes = 50;
 
     /*
     public static BoundaryCircle CreateBoundary(Transform capturingPlayer, int circleRadius, int dashes)
@@ -40,13 +40,14 @@ public class BoundaryCircle : MonoBehaviour
     private void Start()
     {
         lineRenderer = GetComponent<LineRenderer>();
-        lineRenderer.positionCount = dashes; // +1 to close the circle
-        lineRenderer.loop = true; // Enable looping to connect the last and first point
-        lineRenderer.widthMultiplier = 1f; // Adjust width as desired
+        lineRenderer.positionCount = dashes;
+        lineRenderer.loop = true;
+        lineRenderer.widthMultiplier = 0.05f;
         lineRenderer.sortingOrder = 1;
         lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
         lineRenderer.material.color = Color.red;
-        lineRenderer.SetVertexCount(dashes);
+
+        circleCenter = capturingPlayer.localPosition;
 
         DrawCircle();
     }
@@ -74,7 +75,7 @@ public class BoundaryCircle : MonoBehaviour
         for (int i = 0; i < points.Length; i++)
         {
             float x = Mathf.Cos(i * angle) * circleRadius;
-            float z = Mathf.Sin(i * angle) + circleRadius;
+            float z = Mathf.Sin(i * angle) * circleRadius;
             points[i] = new Vector3(x, 0, z) + circleCenter;
         }
 

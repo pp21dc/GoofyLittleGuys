@@ -1,3 +1,4 @@
+using Managers;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,11 +7,10 @@ public class CaptureBase : MonoBehaviour
 {
     // -- Variables --
     [SerializeField] private GameObject barrier;
-    private int maxTime;
-    private float time;
-    private bool complete;
+    private int maxTime = 10;
+    private float time = 0;
+    private bool complete = false;
 
-    // Start is called before the first frame update
     void Start()
     {
         
@@ -19,6 +19,18 @@ public class CaptureBase : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (complete)
+        {
+
+
+        }
+        else
+        {
+            time += Time.deltaTime;
+            if (time >= maxTime)
+            {
+                // fail
+            }
+        }
     }
 }
