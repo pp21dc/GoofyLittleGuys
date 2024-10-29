@@ -24,6 +24,7 @@ public class Hitbox : MonoBehaviour
     private void OnHit(Hurtbox h)
     {
         h.TakeDamage(Damage);
+        if (h.Health <= 0) { h.lastHit = gameObject; }
         Destroy(this.gameObject);
     }
 }

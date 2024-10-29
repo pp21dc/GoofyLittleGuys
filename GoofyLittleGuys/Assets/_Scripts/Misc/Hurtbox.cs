@@ -6,18 +6,30 @@ using UnityEngine;
 public class Hurtbox : MonoBehaviour
 {
     [SerializeField] private int health;
-    private bool lilGuy;
+    private bool player;
+    private bool Ai;
+
+    public int Health { get { return health; } }
+    public GameObject lastHit;
 
     private void Awake()
     {
         if (gameObject.GetComponentInParent<PlayerBody>() != null)
         {
             health = gameObject.GetComponentInParent<PlayerBody>().LilGuyTeam[0].health;
-            lilGuy = true;
+            player = true;
+            Ai = false;
+        }
+        else if (gameObject.GetComponentInParent<AiController>() != null)
+        {
+            health = gameObject.GetComponentInParent<AiController>().LilGuy.health;
+            Ai = true;
+            player = false;
         }
         else
         {
-            lilGuy = false;
+            player = false;
+            Ai = false;
         }
     }
 
@@ -26,14 +38,19 @@ public class Hurtbox : MonoBehaviour
     /// </summary>
     public void TakeDamage(int dmg)
     {
-        if (lilGuy)
+        if (player)
         {
-            gameObject.GetComponent<LilGuyBase>().health -= dmg;
-            health = gameObject.GetComponent<LilGuyBase>().health;
+            gameObject.GetComponentInParent<PlayerBody>().LilGuyTeam[0].health -= dmg;
+            health = gameObject.GetComponentInParent<PlayerBody>().LilGuyTeam[0].health;
+        }
+        else if (Ai)
+        {
+            gameObject.GetComponent<AiController>().LilGuy.health -= dmg;
+            health = gameObject.GetComponent<AiController>().LilGuy.health;
         }
         else
         {
-            gameObject.GetComponent<Hurtbox>().health -= dmg;
+            health -= dmg;
         }
     }
 

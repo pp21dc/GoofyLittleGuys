@@ -9,9 +9,12 @@ public class AiController : MonoBehaviour
     [SerializeField] private float chaseRange = 10f;
     [SerializeField] private float attackRange = 2f;
 
+    private LilGuyBase lilGuy;
+
     public Transform Player {  get { return player; } }
     public float ChaseRange { get { return chaseRange; } }
     public float AttackRange { get { return attackRange; } }
+    public LilGuyBase LilGuy {  get { return lilGuy; } }
 
     public AiState currentState;
 	public IdleState idleState;
@@ -33,7 +36,8 @@ public class AiController : MonoBehaviour
 
 	public void ShowLastHitPrompt()
 	{
-		// Get the player who hit this lil guy last
+        // Get the player who hit this lil guy last
+        GameObject player = GetComponent<Hurtbox>().lastHit;
 		// Activate last hit prompt for this player's screen
 	}
 
@@ -44,6 +48,8 @@ public class AiController : MonoBehaviour
 		chaseState = new ChaseState(this);
 		attackState = new AttackState(this);
 		deadState = new DeadState(this);
+
+        lilGuy = gameObject.GetComponent<LilGuyBase>();
 
 		TransitionToState(idleState);
 	}
