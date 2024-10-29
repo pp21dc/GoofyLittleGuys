@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
 	{
 		if (Managers.GameManager.Instance.IsPaused) return;
 		playerBody.UpdateMovementVector(ctx.ReadValue<Vector2>());
+		Debug.Log("Test");
 	}
 
 	public void OnSwap(InputAction.CallbackContext ctx)
@@ -69,6 +70,8 @@ public class PlayerController : MonoBehaviour
 	{
 		if (Managers.GameManager.Instance.IsPaused) return;
 		if (playerBody.LilGuyTeam[0].health <= 0) return;
+		
+		// Hold to keep attacking as opposed to mashing.
 		playerBody.LilGuyTeam[0].Attack();
 	}
 

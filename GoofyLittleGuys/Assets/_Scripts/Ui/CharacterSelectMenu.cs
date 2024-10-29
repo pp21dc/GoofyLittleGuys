@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class CharacterSelectMenu : MonoBehaviour
 {
+	public List<LilGuyBase> starters;
+	[SerializeField] private PlayerBody body;
 	bool lockedIn = false;
 	public bool LockedIn { get { return lockedIn; } }
 
@@ -24,6 +26,7 @@ public class CharacterSelectMenu : MonoBehaviour
 	public void OnLockedIn(int choice)
 	{
 		lockedIn = true;
+		body.LilGuyTeam.Add(starters[choice]);
 		EventManager.Instance.CallLilGuyLockedInEvent();
 
 	}	

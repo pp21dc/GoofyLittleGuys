@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class LilGuyBase : MonoBehaviour
+public abstract class LilGuyBase : MonoBehaviour
 {
     //VARIABLES//
     public string guyName;
