@@ -46,6 +46,8 @@ namespace Managers
 
 		public void SpawnLegendary()
 		{
+			Managers.SpawnManager.Instance.SpawnLegendaryGuy();
+			legendarySpawned = true;
 
 		}
 
