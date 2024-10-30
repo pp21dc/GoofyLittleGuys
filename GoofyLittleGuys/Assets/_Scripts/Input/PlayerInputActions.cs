@@ -888,6 +888,304 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""StrengthMinigame"",
+            ""id"": ""e889541c-51a2-4c6d-a7c4-e7ec36ec4a66"",
+            ""actions"": [
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""f7c08226-8920-4e52-b954-e7fcdb4b882d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MashButton"",
+                    ""type"": ""Button"",
+                    ""id"": ""087d2681-2e65-497b-bd10-f499898e12da"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""cb2c13a8-5841-48d2-aec1-c76d4536f566"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""[DEBUG] Keyboard Mouse"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1d11e7d1-9d03-4243-acb4-b8bb6f48f7b4"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2cae4ea2-c936-4460-84f6-7bc7233cb17a"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""MashButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""43a96009-9a4b-4bdf-88cd-a0bc10eb8f29"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""[DEBUG] Keyboard Mouse"",
+                    ""action"": ""MashButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""DefenseMinigame"",
+            ""id"": ""d432e93c-b4cb-48aa-a308-01b95ecef59a"",
+            ""actions"": [
+                {
+                    ""name"": ""Movement"",
+                    ""type"": ""Button"",
+                    ""id"": ""b55b934d-3807-4b4e-8d9f-b282c576e694"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""f89ee790-ace5-4eb1-bf88-b917ecca9d38"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": ""WS"",
+                    ""id"": ""8b07fdfc-2c8f-40ad-9098-96ea07022212"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""783f4d88-f6b5-41c4-a1fb-47edd79b259e"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""[DEBUG] Keyboard Mouse"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""abbf9dd7-575b-46b9-beed-5b48c842c8e8"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""[DEBUG] Keyboard Mouse"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Joystick"",
+                    ""id"": ""bf41706d-1314-4ff9-8fc4-f0680abc7901"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""18f98709-7fdd-46fb-9497-042765f850ec"",
+                    ""path"": ""<Joystick>/stick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""31cc7468-0c56-4d67-9c21-9ef4f1c6c265"",
+                    ""path"": ""<Joystick>/stick/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5b810f5c-8a1b-4c06-8ada-2159ac637582"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""[DEBUG] Keyboard Mouse"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7e004cc0-1944-4379-b1d1-4a1d57cb141a"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""SpeedMinigame"",
+            ""id"": ""fe1df197-78b1-483a-8ced-dc1e64cbe47f"",
+            ""actions"": [
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""113c9a44-16f3-4b08-9768-72b33013b3e1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Movement"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""22bbb308-3cc4-44b6-a358-d3c9e471ffb5"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""0239251c-1323-40ef-8d89-2522bb73b432"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""[DEBUG] Keyboard Mouse"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a4862dec-7db1-4438-b5b8-4177ea2c789f"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""WASD"",
+                    ""id"": ""d5d9136c-cfb9-4edb-9a31-bb61686eeb3b"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""40257eb4-5353-495b-97b3-6ff31955e2b0"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""[DEBUG] Keyboard Mouse"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""2638504c-a1ad-4d4c-a28a-eed764d665ce"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""[DEBUG] Keyboard Mouse"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""a178324e-9199-46a8-8628-e3df87bd5e9e"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""[DEBUG] Keyboard Mouse"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""a24d5e58-f92a-475d-92f7-4f78d27ae2c6"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""[DEBUG] Keyboard Mouse"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d321b73d-5f39-4b51-9f5e-f0370d3c8c3b"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -939,6 +1237,18 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_World_Leave = m_World.FindAction("Leave", throwIfNotFound: true);
         m_World_ShowTeamUI = m_World.FindAction("ShowTeamUI", throwIfNotFound: true);
         m_World_ShowMinimap = m_World.FindAction("ShowMinimap", throwIfNotFound: true);
+        // StrengthMinigame
+        m_StrengthMinigame = asset.FindActionMap("StrengthMinigame", throwIfNotFound: true);
+        m_StrengthMinigame_Pause = m_StrengthMinigame.FindAction("Pause", throwIfNotFound: true);
+        m_StrengthMinigame_MashButton = m_StrengthMinigame.FindAction("MashButton", throwIfNotFound: true);
+        // DefenseMinigame
+        m_DefenseMinigame = asset.FindActionMap("DefenseMinigame", throwIfNotFound: true);
+        m_DefenseMinigame_Movement = m_DefenseMinigame.FindAction("Movement", throwIfNotFound: true);
+        m_DefenseMinigame_Pause = m_DefenseMinigame.FindAction("Pause", throwIfNotFound: true);
+        // SpeedMinigame
+        m_SpeedMinigame = asset.FindActionMap("SpeedMinigame", throwIfNotFound: true);
+        m_SpeedMinigame_Pause = m_SpeedMinigame.FindAction("Pause", throwIfNotFound: true);
+        m_SpeedMinigame_Movement = m_SpeedMinigame.FindAction("Movement", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1192,6 +1502,168 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         }
     }
     public WorldActions @World => new WorldActions(this);
+
+    // StrengthMinigame
+    private readonly InputActionMap m_StrengthMinigame;
+    private List<IStrengthMinigameActions> m_StrengthMinigameActionsCallbackInterfaces = new List<IStrengthMinigameActions>();
+    private readonly InputAction m_StrengthMinigame_Pause;
+    private readonly InputAction m_StrengthMinigame_MashButton;
+    public struct StrengthMinigameActions
+    {
+        private @PlayerInputActions m_Wrapper;
+        public StrengthMinigameActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Pause => m_Wrapper.m_StrengthMinigame_Pause;
+        public InputAction @MashButton => m_Wrapper.m_StrengthMinigame_MashButton;
+        public InputActionMap Get() { return m_Wrapper.m_StrengthMinigame; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(StrengthMinigameActions set) { return set.Get(); }
+        public void AddCallbacks(IStrengthMinigameActions instance)
+        {
+            if (instance == null || m_Wrapper.m_StrengthMinigameActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_StrengthMinigameActionsCallbackInterfaces.Add(instance);
+            @Pause.started += instance.OnPause;
+            @Pause.performed += instance.OnPause;
+            @Pause.canceled += instance.OnPause;
+            @MashButton.started += instance.OnMashButton;
+            @MashButton.performed += instance.OnMashButton;
+            @MashButton.canceled += instance.OnMashButton;
+        }
+
+        private void UnregisterCallbacks(IStrengthMinigameActions instance)
+        {
+            @Pause.started -= instance.OnPause;
+            @Pause.performed -= instance.OnPause;
+            @Pause.canceled -= instance.OnPause;
+            @MashButton.started -= instance.OnMashButton;
+            @MashButton.performed -= instance.OnMashButton;
+            @MashButton.canceled -= instance.OnMashButton;
+        }
+
+        public void RemoveCallbacks(IStrengthMinigameActions instance)
+        {
+            if (m_Wrapper.m_StrengthMinigameActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IStrengthMinigameActions instance)
+        {
+            foreach (var item in m_Wrapper.m_StrengthMinigameActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_StrengthMinigameActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public StrengthMinigameActions @StrengthMinigame => new StrengthMinigameActions(this);
+
+    // DefenseMinigame
+    private readonly InputActionMap m_DefenseMinigame;
+    private List<IDefenseMinigameActions> m_DefenseMinigameActionsCallbackInterfaces = new List<IDefenseMinigameActions>();
+    private readonly InputAction m_DefenseMinigame_Movement;
+    private readonly InputAction m_DefenseMinigame_Pause;
+    public struct DefenseMinigameActions
+    {
+        private @PlayerInputActions m_Wrapper;
+        public DefenseMinigameActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Movement => m_Wrapper.m_DefenseMinigame_Movement;
+        public InputAction @Pause => m_Wrapper.m_DefenseMinigame_Pause;
+        public InputActionMap Get() { return m_Wrapper.m_DefenseMinigame; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(DefenseMinigameActions set) { return set.Get(); }
+        public void AddCallbacks(IDefenseMinigameActions instance)
+        {
+            if (instance == null || m_Wrapper.m_DefenseMinigameActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_DefenseMinigameActionsCallbackInterfaces.Add(instance);
+            @Movement.started += instance.OnMovement;
+            @Movement.performed += instance.OnMovement;
+            @Movement.canceled += instance.OnMovement;
+            @Pause.started += instance.OnPause;
+            @Pause.performed += instance.OnPause;
+            @Pause.canceled += instance.OnPause;
+        }
+
+        private void UnregisterCallbacks(IDefenseMinigameActions instance)
+        {
+            @Movement.started -= instance.OnMovement;
+            @Movement.performed -= instance.OnMovement;
+            @Movement.canceled -= instance.OnMovement;
+            @Pause.started -= instance.OnPause;
+            @Pause.performed -= instance.OnPause;
+            @Pause.canceled -= instance.OnPause;
+        }
+
+        public void RemoveCallbacks(IDefenseMinigameActions instance)
+        {
+            if (m_Wrapper.m_DefenseMinigameActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IDefenseMinigameActions instance)
+        {
+            foreach (var item in m_Wrapper.m_DefenseMinigameActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_DefenseMinigameActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public DefenseMinigameActions @DefenseMinigame => new DefenseMinigameActions(this);
+
+    // SpeedMinigame
+    private readonly InputActionMap m_SpeedMinigame;
+    private List<ISpeedMinigameActions> m_SpeedMinigameActionsCallbackInterfaces = new List<ISpeedMinigameActions>();
+    private readonly InputAction m_SpeedMinigame_Pause;
+    private readonly InputAction m_SpeedMinigame_Movement;
+    public struct SpeedMinigameActions
+    {
+        private @PlayerInputActions m_Wrapper;
+        public SpeedMinigameActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Pause => m_Wrapper.m_SpeedMinigame_Pause;
+        public InputAction @Movement => m_Wrapper.m_SpeedMinigame_Movement;
+        public InputActionMap Get() { return m_Wrapper.m_SpeedMinigame; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(SpeedMinigameActions set) { return set.Get(); }
+        public void AddCallbacks(ISpeedMinigameActions instance)
+        {
+            if (instance == null || m_Wrapper.m_SpeedMinigameActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_SpeedMinigameActionsCallbackInterfaces.Add(instance);
+            @Pause.started += instance.OnPause;
+            @Pause.performed += instance.OnPause;
+            @Pause.canceled += instance.OnPause;
+            @Movement.started += instance.OnMovement;
+            @Movement.performed += instance.OnMovement;
+            @Movement.canceled += instance.OnMovement;
+        }
+
+        private void UnregisterCallbacks(ISpeedMinigameActions instance)
+        {
+            @Pause.started -= instance.OnPause;
+            @Pause.performed -= instance.OnPause;
+            @Pause.canceled -= instance.OnPause;
+            @Movement.started -= instance.OnMovement;
+            @Movement.performed -= instance.OnMovement;
+            @Movement.canceled -= instance.OnMovement;
+        }
+
+        public void RemoveCallbacks(ISpeedMinigameActions instance)
+        {
+            if (m_Wrapper.m_SpeedMinigameActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(ISpeedMinigameActions instance)
+        {
+            foreach (var item in m_Wrapper.m_SpeedMinigameActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_SpeedMinigameActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public SpeedMinigameActions @SpeedMinigame => new SpeedMinigameActions(this);
     private int m_DEBUGKeyboardMouseSchemeIndex = -1;
     public InputControlScheme DEBUGKeyboardMouseScheme
     {
@@ -1230,5 +1702,20 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnLeave(InputAction.CallbackContext context);
         void OnShowTeamUI(InputAction.CallbackContext context);
         void OnShowMinimap(InputAction.CallbackContext context);
+    }
+    public interface IStrengthMinigameActions
+    {
+        void OnPause(InputAction.CallbackContext context);
+        void OnMashButton(InputAction.CallbackContext context);
+    }
+    public interface IDefenseMinigameActions
+    {
+        void OnMovement(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
+    }
+    public interface ISpeedMinigameActions
+    {
+        void OnPause(InputAction.CallbackContext context);
+        void OnMovement(InputAction.CallbackContext context);
     }
 }
