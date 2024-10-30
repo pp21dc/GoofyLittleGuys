@@ -1,18 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.Rendering.HableCurve;
 
 [RequireComponent(typeof(LineRenderer))]
 public class BoundaryCircle : MonoBehaviour
 {
     // -- Variables --
-    private int circleRadius = 5;
+    private readonly int circleRadius = 5;
     private Vector3 circleCenter;
     [SerializeField] private Transform capturingPlayer;
 
     private LineRenderer lineRenderer;
-    private int dashes = 50;
+    private readonly int dashes = 50;
 
     /*
     public static BoundaryCircle CreateBoundary(Transform capturingPlayer, int circleRadius, int dashes)
@@ -44,9 +41,10 @@ public class BoundaryCircle : MonoBehaviour
         lineRenderer.loop = true;
         lineRenderer.widthMultiplier = 0.05f;
         lineRenderer.sortingOrder = 1;
-        lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
-        lineRenderer.material.color = Color.red;
-
+        lineRenderer.material = new Material(Shader.Find("Sprites/Default"))
+        {
+            color = Color.red
+        };
         circleCenter = capturingPlayer.localPosition;
 
         DrawCircle();
