@@ -1094,6 +1094,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Tag"",
+                    ""type"": ""Button"",
+                    ""id"": ""f09608fb-e2a1-42e5-8e8d-c604f86c580a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -1184,6 +1193,28 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4bbfa7e3-bc8a-4a85-82d2-386f716b931d"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""[DEBUG] Keyboard Mouse"",
+                    ""action"": ""Tag"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e00e5587-203d-42a6-a604-fb14b85f0b12"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Tag"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -1249,6 +1280,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_SpeedMinigame = asset.FindActionMap("SpeedMinigame", throwIfNotFound: true);
         m_SpeedMinigame_Pause = m_SpeedMinigame.FindAction("Pause", throwIfNotFound: true);
         m_SpeedMinigame_Movement = m_SpeedMinigame.FindAction("Movement", throwIfNotFound: true);
+        m_SpeedMinigame_Tag = m_SpeedMinigame.FindAction("Tag", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1616,12 +1648,14 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private List<ISpeedMinigameActions> m_SpeedMinigameActionsCallbackInterfaces = new List<ISpeedMinigameActions>();
     private readonly InputAction m_SpeedMinigame_Pause;
     private readonly InputAction m_SpeedMinigame_Movement;
+    private readonly InputAction m_SpeedMinigame_Tag;
     public struct SpeedMinigameActions
     {
         private @PlayerInputActions m_Wrapper;
         public SpeedMinigameActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Pause => m_Wrapper.m_SpeedMinigame_Pause;
         public InputAction @Movement => m_Wrapper.m_SpeedMinigame_Movement;
+        public InputAction @Tag => m_Wrapper.m_SpeedMinigame_Tag;
         public InputActionMap Get() { return m_Wrapper.m_SpeedMinigame; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1637,6 +1671,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Movement.started += instance.OnMovement;
             @Movement.performed += instance.OnMovement;
             @Movement.canceled += instance.OnMovement;
+            @Tag.started += instance.OnTag;
+            @Tag.performed += instance.OnTag;
+            @Tag.canceled += instance.OnTag;
         }
 
         private void UnregisterCallbacks(ISpeedMinigameActions instance)
@@ -1647,6 +1684,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Movement.started -= instance.OnMovement;
             @Movement.performed -= instance.OnMovement;
             @Movement.canceled -= instance.OnMovement;
+            @Tag.started -= instance.OnTag;
+            @Tag.performed -= instance.OnTag;
+            @Tag.canceled -= instance.OnTag;
         }
 
         public void RemoveCallbacks(ISpeedMinigameActions instance)
@@ -1717,5 +1757,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     {
         void OnPause(InputAction.CallbackContext context);
         void OnMovement(InputAction.CallbackContext context);
+        void OnTag(InputAction.CallbackContext context);
     }
 }

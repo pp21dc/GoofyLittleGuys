@@ -1072,6 +1072,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Tag",
+                    "type": "Button",
+                    "id": "f09608fb-e2a1-42e5-8e8d-c604f86c580a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -1160,6 +1169,28 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4bbfa7e3-bc8a-4a85-82d2-386f716b931d",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "[DEBUG] Keyboard Mouse",
+                    "action": "Tag",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e00e5587-203d-42a6-a604-fb14b85f0b12",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Tag",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
