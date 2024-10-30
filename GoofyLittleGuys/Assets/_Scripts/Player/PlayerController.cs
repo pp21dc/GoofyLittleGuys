@@ -14,7 +14,6 @@ public class PlayerController : MonoBehaviour
 	{
 		if (Managers.GameManager.Instance.IsPaused) return;
 		playerBody.UpdateMovementVector(ctx.ReadValue<Vector2>());
-		Debug.Log("Test");
 	}
 
 	public void OnSwap(InputAction.CallbackContext ctx)
