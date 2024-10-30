@@ -34,6 +34,11 @@ namespace Managers
 		{
 			Time.timeScale = 1;
 			StartPhaseOne();
+			if(Managers.SpawnManager.Instance != null)
+            {
+				Managers.SpawnManager.Instance.InitialSpawns();
+			}
+			
 		}
 		public void StartPhaseOne()
 		{
@@ -47,9 +52,10 @@ namespace Managers
 
 		public void SpawnLegendary()
 		{
-			Managers.SpawnManager.Instance.SpawnLegendaryGuy();
-			
-
+			if (Managers.SpawnManager.Instance != null)
+            {
+				Managers.SpawnManager.Instance.SpawnLegendaryGuy();
+			}
 		}
 
 		private void Update()

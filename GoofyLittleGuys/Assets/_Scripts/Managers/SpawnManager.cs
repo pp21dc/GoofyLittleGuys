@@ -35,7 +35,8 @@ namespace Managers
             currForestSpawns = 0;
             currMountainSpawns = 0;
             currBeachSpawns = 0;
-            StartCoroutine(InitialSpawns());
+            //EventManager.Instance.GameStarted.AddListener(InitialSpawns());
+            //StartCoroutine(InitialSpawns());
         }
 
 
@@ -142,7 +143,7 @@ namespace Managers
         /// This coroutine handles spawning a random number of Lil Guys in each biome 
         /// (in the range of how many spawns are allowed for each biome)
         /// </summary>
-        private IEnumerator InitialSpawns()
+        public IEnumerator InitialSpawns()
         {
             int numForestSpawns = Random.Range(minSpawnsPerArea,maxSpawnsPerArea + 1);
             int numMountainSpawns = Random.Range(minSpawnsPerArea, maxSpawnsPerArea + 1);
@@ -174,7 +175,7 @@ namespace Managers
         /// </summary>
         /// <param name="biomeNum"></param>
         /// <returns></returns>
-        private IEnumerator respawnWithDelay(int biomeNum)
+        public IEnumerator respawnWithDelay(int biomeNum)
         {
             
             switch (biomeNum)
