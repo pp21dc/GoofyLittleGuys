@@ -11,6 +11,8 @@ public class PlayerBody : MonoBehaviour
 	[SerializeField] private LayerMask groundLayer;
 	[SerializeField] private List<LilGuyBase> lilGuyTeam;
 	[SerializeField] private GameObject playerMesh;
+	[SerializeField] private PlayerInput playerInput;
+	[SerializeField] private GameObject lastHitPromptUI;
 
 	[SerializeField, Range(1, 25f)] private float maxSpeed = 25f;           // To be replaced with lilGuys[0].speed
 	[Header("Jump Parameters")]
@@ -28,7 +30,7 @@ public class PlayerBody : MonoBehaviour
 
 	[Tooltip("How long (in seconds) a jump input is 'remembered' for.")]
 	[SerializeField] private float jumpBufferTime = 0.2f;   // How long the jump input is 'remembered' for
-	
+
 	private float coyoteTimeCounter;
 	private float jumpbufferCounter;
 	private bool isJumping = false;
@@ -37,6 +39,7 @@ public class PlayerBody : MonoBehaviour
 	private Vector3 movementDirection = Vector3.zero;
 	private Rigidbody rb;
 
+	public float MaxSpeed { get { return maxSpeed; } }
 	public bool HasInteracted { get { return hasInteracted; } set { hasInteracted = value; } }
 	public bool IsJumping { get { return isJumping; } set { isJumping = value; } }
 	public Vector3 MovementDirection { get { return movementDirection; } }
@@ -106,10 +109,30 @@ public class PlayerBody : MonoBehaviour
 	/// </summary>
 	private void Init()
 	{
-		GetComponent<PlayerInput>().camera.clearFlags = CameraClearFlags.Skybox;
+		playerInput.camera.clearFlags = CameraClearFlags.Skybox;
 		GetComponentInChildren<MultiplayerEventSystem>().firstSelectedGameObject = null;
 		GetComponentInChildren<MultiplayerEventSystem>().gameObject.SetActive(false);
 		playerMesh.SetActive(true);
+	}
+
+	public void ShowLastHitPrompt(LilGuyBase lilGuy)
+	{
+		lastHitPromptUI.GetComponent<LastHitMenu>().Initialize(lilGuy);
+		lastHitPromptUI?.SetActive(true); // Activate the UI element if not null
+	}
+
+	// Enable UI control for the player
+	public void EnableUIControl()
+	{
+		playerInput.SwitchCurrentActionMap("UI"); // Switch to UI input map for menu control
+	}
+
+	// Call this when the player exits the UI
+	public void DisableUIControl()
+	{
+		playerInput.SwitchCurrentActionMap("World"); // Switch back to gameplay controls
+		lastHitPromptUI?.SetActive(false); // Deactivate the UI element
+
 	}
 
 	private void Start()
@@ -131,7 +154,7 @@ public class PlayerBody : MonoBehaviour
 		rb.velocity += newForceDirection * Time.fixedDeltaTime;
 
 		// Jump behaviours
-		
+
 
 		// Update coyote time counter
 		if (IsGrounded()) coyoteTimeCounter = coyoteTime;

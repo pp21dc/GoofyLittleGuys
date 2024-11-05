@@ -5,22 +5,22 @@ using UnityEngine.InputSystem;
 
 public class AiController : MonoBehaviour
 {
-    private Transform player;
-    [SerializeField] private float chaseRange = 10f;
-    [SerializeField] private float attackRange = 2f;
+	private Transform player;
+	[SerializeField] private float chaseRange = 10f;
+	[SerializeField] private float attackRange = 2f;
 
-    private LilGuyBase lilGuy;
+	private LilGuyBase lilGuy;
 
-    public Transform Player {  get { return player; } }
-    public float ChaseRange { get { return chaseRange; } }
-    public float AttackRange { get { return attackRange; } }
-    public LilGuyBase LilGuy {  get { return lilGuy; } }
+	public Transform Player { get { return player; } }
+	public float ChaseRange { get { return chaseRange; } }
+	public float AttackRange { get { return attackRange; } }
+	public LilGuyBase LilGuy { get { return lilGuy; } }
 
-    public AiState currentState;
+	public AiState currentState;
 	public IdleState idleState;
-    public ChaseState chaseState;
-    public AttackState attackState;
-    public DeadState deadState;
+	public ChaseState chaseState;
+	public AttackState attackState;
+	public DeadState deadState;
 
 	public float DistanceToPlayer()
 	{
@@ -36,71 +36,80 @@ public class AiController : MonoBehaviour
 
 	public void ShowLastHitPrompt()
 	{
-        // Get the player who hit this lil guy last
-        GameObject player = GetComponent<Hurtbox>().lastHit;
-		// Activate last hit prompt for this player's screen
+		// Get the player who last hit this AI
+		GameObject lastHitPlayerObj = GetComponent<Hurtbox>().lastHit;
+
+		if (lastHitPlayerObj != null)
+		{
+			PlayerBody playerBody = lastHitPlayerObj.GetComponent<PlayerBody>();
+			if (playerBody != null)
+			{
+				playerBody.ShowLastHitPrompt(GetComponent<LilGuyBase>()); // Show the UI prompt on their screen
+				playerBody.EnableUIControl();   // Transfer control to UI
+			}
+		}
 	}
 
 	// Start is called before the first frame update
 	void Start()
-    {
-        idleState = new IdleState(this);
+	{
+		idleState = new IdleState(this);
 		chaseState = new ChaseState(this);
 		attackState = new AttackState(this);
 		deadState = new DeadState(this);
 
-        lilGuy = gameObject.GetComponent<LilGuyBase>();
+		lilGuy = gameObject.GetComponent<LilGuyBase>();
 
 		TransitionToState(idleState);
 	}
 
-    // Update is called once per frame
-    void Update()
-    {
-        player = FindClosestPlayer();
+	// Update is called once per frame
+	void Update()
+	{
+		player = FindClosestPlayer();
 		currentState.UpdateState();
 	}
 
-    private Transform FindClosestPlayer()
-    {
-        Transform currClosest = PlayerInput.all[0].transform;
-        foreach(PlayerInput input in PlayerInput.all)
-        {
-            if (Vector3.Distance(input.transform.position, transform.position) < Vector3.Distance(currClosest.transform.position, transform.position))
-            {
-                currClosest = input.transform;
-            }
-        }
-        return currClosest;
-    }
+	private Transform FindClosestPlayer()
+	{
+		Transform currClosest = PlayerInput.all[0].transform;
+		foreach (PlayerInput input in PlayerInput.all)
+		{
+			if (Vector3.Distance(input.transform.position, transform.position) < Vector3.Distance(currClosest.transform.position, transform.position))
+			{
+				currClosest = input.transform;
+			}
+		}
+		return currClosest;
+	}
 }
 
 public abstract class AiState
 {
-    protected AiController controller;
+	protected AiController controller;
 
-    public AiState(AiController controller)
-    {
-        this.controller = controller;
-    }
+	public AiState(AiController controller)
+	{
+		this.controller = controller;
+	}
 
-    public abstract void EnterState();
+	public abstract void EnterState();
 
-    public abstract void UpdateState();
+	public abstract void UpdateState();
 
-    public abstract void ExitState();
+	public abstract void ExitState();
 }
 
 public class IdleState : AiState
 {
-    public IdleState(AiController controller) : base(controller)
-    {
+	public IdleState(AiController controller) : base(controller)
+	{
 
-    }
+	}
 
 	public override void EnterState()
 	{
-		
+
 	}
 
 	public override void ExitState()
@@ -111,9 +120,9 @@ public class IdleState : AiState
 	public override void UpdateState()
 	{
 		if (controller.DistanceToPlayer() <= controller.ChaseRange)
-        {
-            controller.TransitionToState(controller.chaseState);
-        }
+		{
+			controller.TransitionToState(controller.chaseState);
+		}
 	}
 }
 
@@ -136,32 +145,32 @@ public class ChaseState : AiState
 	public override void UpdateState()
 	{
 		float distanceToPlayer = controller.DistanceToPlayer();
-        if (distanceToPlayer > controller.ChaseRange)
-        {
-            controller.TransitionToState(controller.idleState);
-        }
-        else if (distanceToPlayer <= controller.AttackRange)
-        {
-            controller.TransitionToState(controller.attackState);
-        }
-        else
-        {
-            ChasePlayer();
-        }
+		if (distanceToPlayer > controller.ChaseRange)
+		{
+			controller.TransitionToState(controller.idleState);
+		}
+		else if (distanceToPlayer <= controller.AttackRange)
+		{
+			controller.TransitionToState(controller.attackState);
+		}
+		else
+		{
+			ChasePlayer();
+		}
 	}
 
-    private void ChasePlayer()
-    {
+	private void ChasePlayer()
+	{
 		controller.transform.position = Vector3.MoveTowards(controller.transform.position, controller.Player.position, controller.GetComponent<LilGuyBase>().speed * Time.deltaTime);
 	}
 }
 
 public class AttackState : AiState
 {
-    public AttackState(AiController controller) : base(controller)
-    {
+	public AttackState(AiController controller) : base(controller)
+	{
 
-    }
+	}
 
 	public override void EnterState()
 	{
@@ -175,32 +184,32 @@ public class AttackState : AiState
 
 	public override void UpdateState()
 	{
-        float distanceToPlayer = controller.DistanceToPlayer();
-        if (distanceToPlayer > controller.AttackRange)
-        {
-            controller.TransitionToState(controller.chaseState);
-        }
-        else
-        {
-            AttackPlayer();
-        }
+		float distanceToPlayer = controller.DistanceToPlayer();
+		if (distanceToPlayer > controller.AttackRange)
+		{
+			controller.TransitionToState(controller.chaseState);
+		}
+		else
+		{
+			AttackPlayer();
+		}
 	}
-    public void AttackPlayer()
-    {
-        controller.GetComponent<LilGuyBase>().Attack();
-    }
+	public void AttackPlayer()
+	{
+		controller.GetComponent<LilGuyBase>().Attack();
+	}
 }
 
 public class DeadState : AiState
 {
-    public DeadState(AiController controller) : base(controller)
-    {
+	public DeadState(AiController controller) : base(controller)
+	{
 
-    }
+	}
 
 	public override void EnterState()
 	{
-        controller.ShowLastHitPrompt(); 
+		controller.ShowLastHitPrompt();
 	}
 
 	public override void ExitState()
