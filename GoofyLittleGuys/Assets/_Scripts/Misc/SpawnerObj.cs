@@ -10,6 +10,7 @@ public class SpawnerObj : MonoBehaviour
     [SerializeField]
     private float spawnRadius;
 
+    public LayerMask GroundLayer;
 
     /// <summary>
     /// This method accepts a Lil Guy (or any object) and spawns it
@@ -19,18 +20,49 @@ public class SpawnerObj : MonoBehaviour
     /// <returns></returns>
     public void SpawnLilGuy(GameObject newLilGuy)
     {
-        Instantiate(newLilGuy, new Vector3(RandPos(this.transform.position.x), this.transform.position.y, RandPos(this.transform.position.z)), Quaternion.identity);
+        //int failedAttempts = 0;
+        Vector3 spawningPos = PickValidSpot();
+
+        Instantiate(newLilGuy, spawningPos, Quaternion.identity);
+        
 
         Managers.SpawnManager.Instance.currNumSpawns++;
     }
 
     /// <summary>
-    /// This method gets a random position within spawnRadius, with an added offset
+    /// Simply returns a random value to serve as the position within one axis
+    /// (use multiple times to form a random position vector)
     /// </summary>
-    ///  /// <param name="offset"></param>
+    ///  /// <param name="offset"></param> -> Should be the spawner's position in desired axis
     /// <returns>float</returns>
     public float RandPos(float offset)
     {
         return (Random.Range(-spawnRadius, spawnRadius)) + offset;
     }
+
+    /// <summary>
+    /// This me
+    /// </summary>
+    /// <returns>Vector3</returns>
+    private Vector3 PickValidSpot()
+    {
+        Vector3 spawnPos = new Vector3(RandPos(transform.position.x), transform.position.y, RandPos(transform.position.z));
+        
+        Vector3 checkVector = spawnPos - transform.position;
+        Vector3 checkDir = checkVector.normalized;
+        
+        Ray ray = new Ray(transform.position, checkDir);
+        if(Physics.Raycast(ray, out RaycastHit hit, spawnRadius, GroundLayer))
+        {
+            spawnPos = hit.point;
+            spawnPos.y += 2;
+            return spawnPos;
+        }
+        else
+        {
+            return spawnPos;
+        }
+    }
+
+    
 }
