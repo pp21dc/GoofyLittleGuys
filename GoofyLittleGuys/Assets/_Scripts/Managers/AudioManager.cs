@@ -21,8 +21,8 @@ namespace Managers
 
         private void Start()
         {
-            addNewSfxObject(testSfxObject);
-            addNewMusicObject(testMusicObject);
+            addNewSfxObject("TestSfxObj",testSfxObject);
+            addNewMusicObject("TestMusicObj", testMusicObject);
         }
         public void PlaySfx(string key, AudioSource audioSource, AudioClip audioClip, float volume)
         {
@@ -61,13 +61,26 @@ namespace Managers
 
         }
 
-        public void addNewSfxObject(AudioObject newSfxObject)
+        /// <summary>
+        /// Takes a name/key for the new SFX object to add to the list, as well as the object itself. Then adds that 
+        /// SFX object to the list of SFX objects.
+        /// </summary>
+        /// <param name="key"></param> -> What to call the new object
+        /// <param name="newSfxObject"></param> -> The new object
+        public void addNewSfxObject(string key, AudioObject newSfxObject)
         {
-            SfxObjects.Add("TestSfx",newSfxObject);
+            SfxObjects.Add(key,newSfxObject);
         }
-        public void addNewMusicObject(AudioObject newMusicObject)
+
+        /// <summary>
+        /// Takes a name/key for the new music object to add to the list, as well as the object itself. Then adds that 
+        /// music object to the list of music objects.
+        /// </summary>
+        /// <param name="key"></param> -> What to call the new object
+        /// <param name="newMusicObject"></param> -> The new object
+        public void addNewMusicObject(string key, AudioObject newMusicObject)
         {
-            MusicObjects.Add("TestMusic", newMusicObject);
+            MusicObjects.Add(key, newMusicObject);
         }
 
     }
