@@ -13,7 +13,7 @@ public class BerryBush : InteractableBase
 
 	private void OnTriggerStay(Collider other)
 	{
-		if (other.GetComponentInParent<PlayerBody>() == null) return;
+		if (other.GetComponent<PlayerBody>() == null) return;
 		interactableCanvas.SetActive(hasBerries);
 		if (!hasBerries) return;
 
@@ -21,7 +21,7 @@ public class BerryBush : InteractableBase
 		{
 			playersInRange.Add(other.gameObject);
 		}
-		if (other.GetComponentInParent<PlayerBody>().HasInteracted) OnInteracted(other.GetComponentInParent<PlayerBody>());
+		if (other.GetComponent<PlayerBody>().HasInteracted) OnInteracted(other.GetComponent<PlayerBody>());
 	}
 
 	private void OnTriggerExit(Collider other)

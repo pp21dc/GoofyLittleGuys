@@ -32,7 +32,6 @@ namespace Managers
 		private IEnumerator LoadLevel(string levelName)
 		{
 			isLoadingLevel = true;
-			Time.timeScale = 1;
 			yield return bufferTime;
 
 			// Unload all opened scenes (Not the persistent scene

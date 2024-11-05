@@ -3,7 +3,17 @@ guid: 1b955dd6587db44619dac130e44e9e0d
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BerryTex_Textures_001
+    second: {fileID: 2100000, guid: 0211608472696c041bcad5008b6ff77d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "\u6750\u8D28"
+    second: {fileID: 2100000, guid: 5faea2db361111e45bf2b360d290e6fa, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

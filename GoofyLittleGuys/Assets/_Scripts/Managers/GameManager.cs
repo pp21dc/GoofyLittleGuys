@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Managers
 {
@@ -25,18 +26,22 @@ namespace Managers
 		{
 			Time.timeScale = 0;
 			EventManager.Instance.GameStarted += GameStarted;
-
-			if (gameStartTest) EventManager.Instance.GameStartedEvent();
+			//if (gameStartTest) EventManager.Instance.GameStartedEvent();
 
         }
 
 		private void GameStarted()
 		{
+			foreach(PlayerInput input in PlayerInput.all)
+			{
+				input.gameObject.transform.position += (new Vector3(1, 0, 1) * Random.Range(-1f, 1f)) + Vector3.up;
+			}
 			Time.timeScale = 1;
+			Debug.Log("Yes We started ohhhhh yeahhhhh");
 			StartPhaseOne();
 			if(Managers.SpawnManager.Instance != null)
             {
-				Managers.SpawnManager.Instance.InitialSpawns();
+				Managers.SpawnManager.Instance.StartInitialSpawns();
 			}
 			
 		}
