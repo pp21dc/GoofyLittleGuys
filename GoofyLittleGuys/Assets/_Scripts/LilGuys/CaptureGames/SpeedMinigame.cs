@@ -3,20 +3,53 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class SpeedMinigame : CaptureBase
 {
 	[SerializeField] private TextMeshProUGUI countdownText;    // Countdown text
+	[SerializeField] private GameObject catchFeedback;		   // UI to show the player is in range to tag the creature
 	[SerializeField] private float gameDuration = 10f;         // Game duration
 	[SerializeField] private float creatureSpeed = 5f;         // Creature's movement speed
+	[SerializeField] private float catchDistance = 1.5f;       // Distance to catch creature
 	[SerializeField] private Vector2 areaBounds;               // Area boundaries (x, z)
 
 	private float gameTimer;
+	private float creatureDistance = 0;
 
-	void OnEnable()
+	private void OnEnable()
 	{
+		player.SwitchCurrentActionMap("SpeedMinigame");
+		player.actions["Tag"].performed += OnCatchAttempt;
 		gameTimer = gameDuration;
 		StartCoroutine(StartCountdown());
+	}
+	private void OnDisable()
+	{
+		StopAllCoroutines();
+		player.actions["Tag"].performed -= OnCatchAttempt;
+		player.SwitchCurrentActionMap("World");
+	}
+
+	private void Update()
+	{
+		creatureDistance = Vector3.Distance(player.transform.position, lilGuyBeingCaught.transform.position);
+		catchFeedback.SetActive(creatureDistance <= catchDistance);
+	}
+
+	private void OnCatchAttempt(InputAction.CallbackContext ctx)
+	{
+		if (!gameActive) return;
+
+		// Check the distance between the player and the creature
+		
+
+		if (creatureDistance <= catchDistance)
+		{
+			// Player successfully caught the creature
+			gameActive = false;
+			EndMinigame(true);
+		}
 	}
 
 	private IEnumerator StartCountdown()
@@ -65,7 +98,7 @@ public class SpeedMinigame : CaptureBase
 			// Move the creature to the new position
 			while (Vector3.Distance(lilGuyBeingCaught.transform.position, targetPosition) > 0.1f && gameActive)
 			{
-				lilGuyBeingCaught.transform.position = Vector3.MoveTowards(lilGuyBeingCaught.transform.position, targetPosition, creatureSpeed * Time.deltaTime);
+				lilGuyBeingCaught.transform.position = Vector3.MoveTowards(lilGuyBeingCaught.transform.position, targetPosition, lilGuyBeingCaught.speed * Time.deltaTime);
 				yield return null;
 			}
 
@@ -81,12 +114,4 @@ public class SpeedMinigame : CaptureBase
 		return position;
 	}
 
-	private void OnTriggerEnter(Collider other)
-	{
-		if (gameActive && other.gameObject == lilGuyBeingCaught.gameObject)
-		{
-			gameActive = false;
-			EndMinigame(true);  // Player caught the creature
-		}
-	}
 }
