@@ -814,6 +814,16 @@ PrefabInstance:
       propertyPath: gameTimer
       value: 
       objectReference: {fileID: 1710997233}
+    - target: {fileID: 1970606836446198798, guid: de1849616cf5e6e41990742051e315c8,
+        type: 3}
+      propertyPath: timerCanvas
+      value: 
+      objectReference: {fileID: 2013348179}
+    - target: {fileID: 1970606836446198798, guid: de1849616cf5e6e41990742051e315c8,
+        type: 3}
+      propertyPath: gameStartTest
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3641037799363622999, guid: de1849616cf5e6e41990742051e315c8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1636,7 +1646,12 @@ PrefabInstance:
     - target: {fileID: 382125996291794369, guid: 9ac20241b62f3fb48995be3afe26b9cc,
         type: 3}
       propertyPath: m_Name
-      value: Canvas
+      value: TimerCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 382125996291794369, guid: 9ac20241b62f3fb48995be3afe26b9cc,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2462898153194245824, guid: 9ac20241b62f3fb48995be3afe26b9cc,
         type: 3}
@@ -2061,6 +2076,12 @@ CanvasRenderer:
 --- !u!224 &1851901203 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2462898153194245824, guid: 9ac20241b62f3fb48995be3afe26b9cc,
+    type: 3}
+  m_PrefabInstance: {fileID: 1637289428}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2013348179 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 382125996291794369, guid: 9ac20241b62f3fb48995be3afe26b9cc,
     type: 3}
   m_PrefabInstance: {fileID: 1637289428}
   m_PrefabAsset: {fileID: 0}

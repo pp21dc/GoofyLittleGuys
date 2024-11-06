@@ -26,7 +26,10 @@ public class CharacterSelectMenu : MonoBehaviour
 	public void OnLockedIn(int choice)
 	{
 		lockedIn = true;
-		GameObject starter = Instantiate(starters[choice].gameObject, body.transform.position, Quaternion.identity, body.transform);
+		GameObject starter = Instantiate(starters[choice].gameObject);
+		starter.transform.SetParent(body.LilGuyTeamSlots[0].transform, false);  // false keeps local position/rotation
+		starter.transform.localPosition = Vector3.zero;  // Ensure it’s positioned at the parent
+		starter.GetComponent<Rigidbody>().isKinematic = true;
 		body.LilGuyTeam.Add(starter.GetComponent<LilGuyBase>());
 		EventManager.Instance.CallLilGuyLockedInEvent();
 

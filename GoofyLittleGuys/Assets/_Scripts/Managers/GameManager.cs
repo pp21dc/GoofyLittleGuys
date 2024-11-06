@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
 using System;
+using UnityEngine.SceneManagement;
 
 namespace Managers
 {
@@ -12,6 +13,7 @@ namespace Managers
 		[SerializeField] private const float phaseOneDuration = 420f;
 		[SerializeField] private float currentGameTime = 0;
 		[SerializeField] private Transform fountainSpawnPoint;
+		[SerializeField] private GameObject timerCanvas;
 
 		private TimeSpan gameTime;
 
@@ -47,11 +49,15 @@ namespace Managers
 			Time.timeScale = 1;
 			Debug.Log("Yes We started ohhhhh yeahhhhh");
 			StartPhaseOne();
-			if(Managers.SpawnManager.Instance != null)
+			if(SpawnManager.Instance != null)
             {
-				Managers.SpawnManager.Instance.StartInitialSpawns();
+				SpawnManager.Instance.StartInitialSpawns();
 			}
-			
+
+			if (SceneManager.GetActiveScene().name == "02_MainGame")
+				fountainSpawnPoint = FindFirstObjectByType<HealingFountain>().transform;
+
+			timerCanvas.SetActive(true);
 		}
 		public void StartPhaseOne()
 		{
@@ -65,9 +71,9 @@ namespace Managers
 
 		public void SpawnLegendary()
 		{
-			if (Managers.SpawnManager.Instance != null)
+			if (SpawnManager.Instance != null)
             {
-				Managers.SpawnManager.Instance.SpawnLegendaryGuy();
+				SpawnManager.Instance.SpawnLegendaryGuy();
 			}
 		}
 

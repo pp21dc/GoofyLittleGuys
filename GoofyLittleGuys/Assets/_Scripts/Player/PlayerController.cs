@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
 	public void OnSwap(InputAction.CallbackContext ctx)
 	{
 		if (Managers.GameManager.Instance.IsPaused) return;
-		playerBody.SwapLilGuy(ctx.ReadValue<float>());
+		if (ctx.performed) playerBody.SwapLilGuy(ctx.ReadValue<float>());
 	}
 
 	public void OnPause(InputAction.CallbackContext ctx)

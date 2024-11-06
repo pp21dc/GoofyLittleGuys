@@ -11,6 +11,7 @@ public class PlayerBody : MonoBehaviour
 {
 	[SerializeField] private LayerMask groundLayer;
 	[SerializeField] private List<LilGuyBase> lilGuyTeam;
+	[SerializeField] private List<GameObject> lilGuyTeamSlots;
 	[SerializeField] private GameObject playerMesh;
 	[SerializeField] private PlayerInput playerInput;
 	[SerializeField] private GameObject lastHitPromptUI;
@@ -45,6 +46,7 @@ public class PlayerBody : MonoBehaviour
 	public bool IsJumping { get { return isJumping; } set { isJumping = value; } }
 	public Vector3 MovementDirection { get { return movementDirection; } }
 	public List<LilGuyBase> LilGuyTeam { get { return lilGuyTeam; } }
+	public List<GameObject> LilGuyTeamSlots { get { return lilGuyTeamSlots; } }
 
 	public void UpdateMovementVector(Vector2 dir)
 	{
@@ -59,23 +61,45 @@ public class PlayerBody : MonoBehaviour
 	public void SwapLilGuy(float shiftDirection)
 	{
 		if (lilGuyTeam.Count <= 1) return;
+
 		if (shiftDirection < 0)
 		{
+			// Store the first element to rotate it to the end
 			LilGuyBase currentSelected = lilGuyTeam[0];
+			Transform initialParent;
+
+			// Shift elements left
 			for (int i = 0; i < lilGuyTeam.Count - 1; i++)
 			{
-				lilGuyTeam[i] = lilGuyTeam[i + 1];
+				initialParent = lilGuyTeam[i].transform.parent;			//1th guy parent
+				lilGuyTeam[i + 1].transform.SetParent(initialParent);	// 2st guy parent is now 1th guy parent
+				lilGuyTeam[i] = lilGuyTeam[i + 1];						//1th team pos holds 2st guy
+				lilGuyTeam[i].transform.localPosition = Vector3.zero;	//Reset pos
+
 			}
+			currentSelected.transform.SetParent(lilGuyTeamSlots[lilGuyTeam.Count - 1].transform);
 			lilGuyTeam[lilGuyTeam.Count - 1] = currentSelected;
+			lilGuyTeam[lilGuyTeam.Count - 1].transform.localPosition = Vector3.zero;
 		}
-		else
+		else if (shiftDirection > 0)
 		{
+			// Store the last element to rotate it to the beginning
 			LilGuyBase lastInTeam = lilGuyTeam[lilGuyTeam.Count - 1];
-			for (int i = lilGuyTeam.Count - 1; i > 0; i++)
+			Transform lastParent;
+
+			// Shift elements right
+			for (int i = lilGuyTeam.Count - 1; i >= 0; i--)
 			{
-				lilGuyTeam[i] = lilGuyTeam[i - 1];
+				lastParent = lilGuyTeam[i].transform.parent;        //1nd guy parent
+				lilGuyTeam[i - 1].transform.SetParent(lastParent);	//0st guy parent is now 1nd guy parent
+				lilGuyTeam[i] = lilGuyTeam[i - 1];					//1nd team pos now holds 0st guy
+				lilGuyTeam[i].transform.localPosition = Vector3.zero; //Reset local pos
+
 			}
+
+			lastInTeam.transform.SetParent(lilGuyTeamSlots[0].transform);
 			lilGuyTeam[0] = lastInTeam;
+			lilGuyTeam[0].transform.localPosition = Vector3.zero;
 		}
 	}
 
@@ -170,11 +194,20 @@ public class PlayerBody : MonoBehaviour
 			if (CheckTeamHealth())
 			{
 				LilGuyBase currentSelected = lilGuyTeam[0];
+				Transform initialParent;
+
+				// Shift elements left
 				for (int i = 0; i < lilGuyTeam.Count - 1; i++)
 				{
-					lilGuyTeam[i] = lilGuyTeam[i - 1];
+					initialParent = lilGuyTeam[i].transform.parent;         //1th guy parent
+					lilGuyTeam[i + 1].transform.SetParent(initialParent);   // 2st guy parent is now 1th guy parent
+					lilGuyTeam[i] = lilGuyTeam[i + 1];                      //1th team pos holds 2st guy
+					lilGuyTeam[i].transform.localPosition = Vector3.zero;   //Reset pos
+
 				}
+				currentSelected.transform.SetParent(lilGuyTeamSlots[lilGuyTeam.Count - 1].transform);
 				lilGuyTeam[lilGuyTeam.Count - 1] = currentSelected;
+				lilGuyTeam[lilGuyTeam.Count - 1].transform.localPosition = Vector3.zero;
 			}
 			else
 			{
