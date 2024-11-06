@@ -65,7 +65,7 @@ namespace Managers
 			if (SceneManager.GetActiveScene().name == "02_MainGame")
 				fountainSpawnPoint = FindFirstObjectByType<HealingFountain>().transform;
 
-			timerCanvas.SetActive(true);
+			if (timerCanvas != null) timerCanvas.SetActive(true);
 		}
 		public void StartPhaseOne()
 		{
@@ -93,7 +93,7 @@ namespace Managers
 			{
 				currentGameTime += Time.deltaTime;
 				gameTime = TimeSpan.FromSeconds(currentGameTime);
-				gameTimer.text = gameTime.ToString("mm':'ss");
+				if (gameTimer != null) gameTimer.text = gameTime.ToString("mm':'ss");
 				if (currentGameTime >= phaseOneDuration)
 				{
 					// Starting Phase 2
