@@ -4,24 +4,32 @@ using UnityEngine;
 public abstract class LilGuyBase : MonoBehaviour
 {
     //VARIABLES//
-    public string guyName;
+    [Header("Lil Guy Information")]
+	public string guyName;
+	public PrimaryType type;
+	[SerializeField] private GameObject hitboxPrefab;
+	[SerializeField] private AnimatorOverrideController animatorController;
+
+	[Header("Lil Guy Stats")]
     public int health;
     public int maxHealth;
-    public PrimaryType type;
     public int speed;
     public int defense;
     public int strength;
-    private int average;
-    public const int MAX_STAT = 100;
-    private Transform attackPosition;
-	protected float cooldownTimer = 0;
-	[SerializeField] protected float cooldownDuration = 1;
-	protected float chargeRefreshRate = 1;
-	protected float chargeTimer = 0;
+	public const int MAX_STAT = 100;
+	private int average;
+	private Transform attackPosition;
 
-	[SerializeField] private GameObject hitboxPrefab;
+    [Header("Special Attack Specific")]
 	[SerializeField] protected int currentCharges = 1;
 	[SerializeField] protected int maxCharges = 1;
+	[SerializeField] protected float cooldownDuration = 1;
+	protected float chargeRefreshRate = 1;
+	protected float cooldownTimer = 0;
+	protected float chargeTimer = 0;
+
+    private bool isHurt = false;
+    private bool isDead = false;
 
 	public enum PrimaryType
     {
@@ -37,10 +45,14 @@ public abstract class LilGuyBase : MonoBehaviour
 
 	private void Update()
 	{
+        if (isDead) return;
+        // Special attack cooldown 
 		if (cooldownTimer > 0)
 		{
 			cooldownTimer -= Time.deltaTime;
 		}
+
+        // charges regeneration
 		if (chargeTimer > 0)
 		{
 			chargeTimer -= Time.deltaTime;
@@ -50,6 +62,7 @@ public abstract class LilGuyBase : MonoBehaviour
 			currentCharges++;
 			chargeTimer = chargeRefreshRate;
 		}
+
 	}
 
 	/// <summary>

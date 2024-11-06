@@ -48,19 +48,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   guyName: Armordillo
+  type: 1
+  hitboxPrefab: {fileID: 7763503517924717934, guid: 9df4356fd20c6d740acf3ba2a05fd8ed,
+    type: 3}
+  animatorController: {fileID: 0}
   health: 60
   maxHealth: 100
-  type: 1
   speed: 3
   defense: 5
   strength: 3
-  hitboxPrefab: {fileID: 7763503517924717934, guid: 9df4356fd20c6d740acf3ba2a05fd8ed,
-    type: 3}
-  currentCharges: 0
-  maxCharges: 0
+  currentCharges: 1
+  maxCharges: 1
+  cooldownDuration: 17
   shieldPrefab: {fileID: 0}
-  duration: 0
-  shieldHealth: 0
+  duration: 5
+  damageReduction: 0.85
 --- !u!54 &4146728097653182592
 Rigidbody:
   m_ObjectHideFlags: 0

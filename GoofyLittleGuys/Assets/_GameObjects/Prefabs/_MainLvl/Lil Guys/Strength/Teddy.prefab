@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4824377763857839890}
   - component: {fileID: 3759597427848749218}
+  - component: {fileID: 7633103000053924610}
   m_Layer: 0
   m_Name: Mesh
   m_TagString: Untagged
@@ -84,6 +85,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &7633103000053924610
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2449116246927628233}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 22100000, guid: 1ebc3a72f07e8b043bec370d40fbb67b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6573903925891364681
 GameObject:
   m_ObjectHideFlags: 0
@@ -132,21 +154,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   guyName: Teddy
+  type: 0
+  hitboxPrefab: {fileID: 7763503517924717934, guid: 9df4356fd20c6d740acf3ba2a05fd8ed,
+    type: 3}
+  animatorController: {fileID: 0}
   health: 100
   maxHealth: 100
-  type: 0
   speed: 3
   defense: 3
   strength: 5
-  hitboxPrefab: {fileID: 7763503517924717934, guid: 9df4356fd20c6d740acf3ba2a05fd8ed,
+  currentCharges: 1
+  maxCharges: 1
+  cooldownDuration: 13
+  aoeType: 3
+  aoeShape: {fileID: 7728395827657572563, guid: de718a7f3579f9a47a910f3cb7043906,
     type: 3}
-  currentCharges: 0
-  maxCharges: 0
-  aoeType: 0
-  aoeShape: {fileID: 0}
-  aoeMaxSize: 0
-  aoeExpansionSpeed: 0
-  aoeDamage: 0
+  aoeMaxSize: 2
+  aoeExpansionSpeed: 1
+  aoeDamage: 8
 --- !u!54 &-2568253581838256164
 Rigidbody:
   m_ObjectHideFlags: 0

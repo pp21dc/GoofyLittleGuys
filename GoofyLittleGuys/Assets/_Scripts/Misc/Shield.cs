@@ -5,16 +5,16 @@ using UnityEngine;
 public class Shield : MonoBehaviour
 {
     private float shieldDuration = 1;
-    private float shieldHealth = 1;
     private float shieldTimer = 0;
+    private DefenseType shieldOwner;
     [SerializeField] private float maxSize = 1;
     [SerializeField] private float expansionSpeed = 1;
 
         
-    public void Initialize(float duration, int health)
+    public void Initialize(float duration, DefenseType shieldOwner)
     {
         shieldDuration = duration;
-        shieldHealth = health;
+        this.shieldOwner = shieldOwner;
         StartCoroutine("ShieldUp");
     }
 
@@ -33,11 +33,11 @@ public class Shield : MonoBehaviour
         shieldTimer = shieldDuration;
         while (shieldTimer > 0)
         {
-            if (shieldHealth <= 0) break;
             shieldTimer -= Time.deltaTime;
             yield return null;
         }
         transform.parent.GetComponent<DefenseType>().SpawnedShieldObj = null;
+        shieldOwner.IsShieldActive = false;
         Destroy(gameObject);
     }
     

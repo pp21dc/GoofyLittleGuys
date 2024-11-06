@@ -11,7 +11,7 @@ namespace Managers
 	{
 		[SerializeField] private const float phaseOneDuration = 420f;
 		[SerializeField] private float currentGameTime = 0;
-		[SerializeField] public Vector3 fountainSpawnPoint;
+		[SerializeField] private Transform fountainSpawnPoint;
 
 		private TimeSpan gameTime;
 
@@ -23,6 +23,7 @@ namespace Managers
 		[SerializeField] private bool gameStartTest = true;
 		private int currentPhase = 0;
 		public bool IsPaused { get { return isPaused; } set { isPaused = value; } }
+		public Transform FountainSpawnPoint { get { return fountainSpawnPoint; } }
 
 		public override void Awake()
 		{

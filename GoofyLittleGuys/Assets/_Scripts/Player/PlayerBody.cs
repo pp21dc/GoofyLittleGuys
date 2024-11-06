@@ -147,7 +147,7 @@ public class PlayerBody : MonoBehaviour
 		EventManager.Instance.GameStarted -= Init;
 	}
 
-	bool CheckTeamHealth()
+	private bool CheckTeamHealth()
 	{
 		for (int i = 0; i < lilGuyTeam.Count; i++)
 		{
@@ -155,9 +155,9 @@ public class PlayerBody : MonoBehaviour
 		}
 		return false;
 	}
-	void Respawn()
+	private void Respawn()
 	{
-		transform.position = GameManager.Instance.fountainSpawnPoint + Vector3.forward * 10; // Replace with proper spawn point
+		transform.position = GameManager.Instance.FountainSpawnPoint.position;
 		for (int i = 0; i < lilGuyTeam.Count; i++)
 		{
 			lilGuyTeam[i].health = lilGuyTeam[i].maxHealth;

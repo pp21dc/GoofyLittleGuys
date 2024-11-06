@@ -7,24 +7,32 @@ using UnityEngine;
 // -> can be derrived from for other attacks which provide knockback or other effects onHit
 public class Hitbox : MonoBehaviour
 {
-    protected int Damage;
-    public LayerMask layerMask;
+	protected int Damage;
+	public LayerMask layerMask;
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (layerMask == (layerMask | (1 << other.transform.gameObject.layer)))
-        {
-            Hurtbox h = other.GetComponent<Hurtbox>();
+	private void OnTriggerEnter(Collider other)
+	{
+		if (layerMask == (layerMask | (1 << other.transform.gameObject.layer)))
+		{
+			Hurtbox h = other.GetComponent<Hurtbox>();
 
-            if (h != null)
-                OnHit(h);
-        }
-    }
+			if (h != null)
+				OnHit(h);
+		}
+	}
 
-    private void OnHit(Hurtbox h)
-    {
-        h.TakeDamage(Damage);
-        if (h.Health <= 0) { h.lastHit = gameObject; }
-        Destroy(this.gameObject);
-    }
+	private void OnHit(Hurtbox h)
+	{
+		DefenseType defenseLilGuy = h.gameObject.GetComponent<DefenseType>();
+		if (defenseLilGuy != null && defenseLilGuy.IsShieldActive)
+		{
+			h.TakeDamage(Mathf.FloorToInt(Damage * defenseLilGuy.DamageReduction));
+		}
+		else
+		{
+			h.TakeDamage(Damage);
+		}
+		if (h.Health <= 0) { h.lastHit = gameObject; }
+		Destroy(this.gameObject);
+	}
 }
