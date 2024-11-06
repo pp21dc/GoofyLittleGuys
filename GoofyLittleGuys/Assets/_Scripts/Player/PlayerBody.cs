@@ -84,11 +84,11 @@ public class PlayerBody : MonoBehaviour
 		else if (shiftDirection > 0)
 		{
 			// Store the last element to rotate it to the beginning
-			LilGuyBase lastInTeam = lilGuyTeam[lilGuyTeam.Count - 1];
+			LilGuyBase lastInTeam = lilGuyTeam[lilGuyTeam.Count - 1];	// last team lil guy
 			Transform lastParent;
 
 			// Shift elements right
-			for (int i = lilGuyTeam.Count - 1; i >= 0; i--)
+			for (int i = lilGuyTeam.Count - 1; i > 0; i--)
 			{
 				lastParent = lilGuyTeam[i].transform.parent;        //1nd guy parent
 				lilGuyTeam[i - 1].transform.SetParent(lastParent);	//0st guy parent is now 1nd guy parent
