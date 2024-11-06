@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HealingFountain : InteractableBase
 {
-	List<GameObject> playersInRange;
+	List<GameObject> playersInRange = new List<GameObject>();
 	private void OnTriggerStay(Collider other)
 	{
 		if (other.GetComponent<PlayerBody>() == null) return;
