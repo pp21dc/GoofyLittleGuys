@@ -114,7 +114,7 @@ public class IdleState : AiState
 
 	public override void ExitState()
 	{
-		throw new System.NotImplementedException();
+
 	}
 
 	public override void UpdateState()

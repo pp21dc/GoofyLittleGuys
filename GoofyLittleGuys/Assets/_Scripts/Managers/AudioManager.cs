@@ -12,36 +12,42 @@ namespace Managers
     {
         
         [SerializeField] private AudioMixer mainMixer;
-        [SerializeField] private AudioObject testSfxObject;
-        [SerializeField] private AudioObject testMusicObject;
+        [SerializeField] private AudioObject[] SfxObjects;
+        [SerializeField] private AudioObject[] MusicObjects;
 
-        private Dictionary<string,AudioObject> SfxObjects = new Dictionary<string,AudioObject>();
-        private Dictionary<string, AudioObject> MusicObjects = new Dictionary<string, AudioObject>();
+        private Dictionary<string,AudioObject> SfxDictionary = new Dictionary<string,AudioObject>();
+        private Dictionary<string, AudioObject> MusicDictionary = new Dictionary<string, AudioObject>();
 
 
         private void Start()
         {
-            addNewSfxObject("TestSfxObj",testSfxObject);
-            addNewMusicObject("TestMusicObj", testMusicObject);
+            for(int i = 0; i < SfxObjects.Length; i++)
+            {
+                addNewSfxObject(SfxObjects[i].key, SfxObjects[i]);
+            }
+            for (int i = 0; i < MusicObjects.Length; i++)
+            {
+                addNewMusicObject(MusicObjects[i].key, MusicObjects[i]);
+            }
         }
-        public void PlaySfx(string key, AudioSource audioSource, AudioClip audioClip, float volume)
+        public void PlaySfx(string key, AudioSource audioSource)
         {
             AudioObject objToPlay;
-            if (SfxObjects[key] != null)
+            if (SfxDictionary[key] != null)
             {
-                objToPlay = SfxObjects[key];
+                objToPlay = SfxDictionary[key];
                 audioSource.volume = objToPlay.volume;
                 audioSource.pitch = objToPlay.pitch;
                 audioSource.PlayOneShot(objToPlay.objAudioClip);
             }
         }
 
-        public void PlayMusic(string key, AudioSource audioSource, AudioClip audioClip, float volume)
+        public void PlayMusic(string key, AudioSource audioSource)
         {
             AudioObject objToPlay;
-            if (MusicObjects[key] != null)
+            if (MusicDictionary[key] != null)
             {
-                objToPlay = MusicObjects[key];
+                objToPlay = MusicDictionary[key];
                 audioSource.volume = objToPlay.volume;
                 audioSource.pitch = objToPlay.pitch;
                 audioSource.clip = objToPlay.objAudioClip;
@@ -69,7 +75,7 @@ namespace Managers
         /// <param name="newSfxObject"></param> -> The new object
         public void addNewSfxObject(string key, AudioObject newSfxObject)
         {
-            SfxObjects.Add(key,newSfxObject);
+            SfxDictionary.Add(key,newSfxObject);
         }
 
         /// <summary>
@@ -80,7 +86,7 @@ namespace Managers
         /// <param name="newMusicObject"></param> -> The new object
         public void addNewMusicObject(string key, AudioObject newMusicObject)
         {
-            MusicObjects.Add(key, newMusicObject);
+            MusicDictionary.Add(key, newMusicObject);
         }
 
     }

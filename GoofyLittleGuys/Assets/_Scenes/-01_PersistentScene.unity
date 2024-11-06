@@ -166,6 +166,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 273621188}
     m_Modifications:
+    - target: {fileID: 4476805679437409250, guid: 3fdbd3de7f90953408fca5ccebc1efdf,
+        type: 3}
+      propertyPath: SfxObject.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4476805679437409250, guid: 3fdbd3de7f90953408fca5ccebc1efdf,
+        type: 3}
+      propertyPath: SfxObjects.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4476805679437409250, guid: 3fdbd3de7f90953408fca5ccebc1efdf,
+        type: 3}
+      propertyPath: SfxObjects.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 37f02f06a5cf87d40bce6e349aa056ac,
+        type: 2}
     - target: {fileID: 6031546425642116890, guid: 3fdbd3de7f90953408fca5ccebc1efdf,
         type: 3}
       propertyPath: m_Name

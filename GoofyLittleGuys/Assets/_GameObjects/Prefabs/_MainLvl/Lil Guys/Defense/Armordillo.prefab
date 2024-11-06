@@ -12,7 +12,9 @@ GameObject:
   - component: {fileID: 7462937212347508129}
   - component: {fileID: 4146728097653182592}
   - component: {fileID: 4988145507736226384}
-  m_Layer: 0
+  - component: {fileID: 64493841757031541}
+  - component: {fileID: 1975696606978852400}
+  m_Layer: 8
   m_Name: Armordillo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -113,6 +115,34 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &64493841757031541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6573903925891364681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6c10490257e446bc815758816a8a7e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 0
+  lastHit: {fileID: 0}
+--- !u!114 &1975696606978852400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6573903925891364681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 308ddd121c6fe6f43b327338f6e61128, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chaseRange: 10
+  attackRange: 2
 --- !u!1 &7267988168925381940
 GameObject:
   m_ObjectHideFlags: 0
@@ -123,7 +153,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4406844474913467462}
   - component: {fileID: 2263210829898551102}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
