@@ -46,3 +46,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dontDestroyOnLoad: 1
   currentGameTime: 0
+  fountainSpawnPoint: {fileID: 0}
+  timerCanvas: {fileID: 0}
+  gameTimer: {fileID: 0}
+  gameStartTest: 1
+  phase1LayerMask:
+    serializedVersion: 2
+    m_Bits: 256
+  phase2LayerMask:
+    serializedVersion: 2
+    m_Bits: 384

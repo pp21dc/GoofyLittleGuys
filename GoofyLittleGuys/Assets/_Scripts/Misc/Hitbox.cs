@@ -1,3 +1,4 @@
+using Managers;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,6 +13,8 @@ public class Hitbox : MonoBehaviour
 
 	private void OnTriggerEnter(Collider other)
 	{
+		layerMask = GameManager.Instance.CurrentLayerMask;
+
 		if (layerMask == (layerMask | (1 << other.transform.gameObject.layer)))
 		{
 			Hurtbox h = other.GetComponent<Hurtbox>();
