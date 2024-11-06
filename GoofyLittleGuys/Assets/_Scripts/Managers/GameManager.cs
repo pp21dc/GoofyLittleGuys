@@ -2,13 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
+using System;
 
 namespace Managers
 {
 	public class GameManager : SingletonBase<GameManager>
 	{
-		[SerializeField] private const float phaseOneDuration = 7f;
+		[SerializeField] private const float phaseOneDuration = 420f;
 		[SerializeField] private float currentGameTime = 0;
+		[SerializeField] public Vector3 fountainSpawnPoint;
+
+		private TimeSpan gameTime;
+
+		[SerializeField] private TextMeshProUGUI gameTimer;
 
 		private bool isPaused = false;
 		private bool legendarySpawned = false;
@@ -34,7 +41,7 @@ namespace Managers
 		{
 			foreach(PlayerInput input in PlayerInput.all)
 			{
-				input.gameObject.transform.position += (new Vector3(1, 0, 1) * Random.Range(-1f, 1f)) + Vector3.up;
+				input.gameObject.transform.position += (new Vector3(1, 0, 1) * UnityEngine.Random.Range(-1f, 1f)) + Vector3.up;
 			}
 			Time.timeScale = 1;
 			Debug.Log("Yes We started ohhhhh yeahhhhh");
@@ -68,7 +75,8 @@ namespace Managers
 			if (currentPhase == 1)
 			{
 				currentGameTime += Time.deltaTime;
-
+				gameTime = TimeSpan.FromSeconds(currentGameTime);
+				gameTimer.text = gameTime.ToString("mm':'ss");
 				if (currentGameTime >= phaseOneDuration)
 				{
 					// Starting Phase 2

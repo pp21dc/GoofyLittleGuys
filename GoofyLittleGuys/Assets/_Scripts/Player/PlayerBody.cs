@@ -1,4 +1,5 @@
 
+using Managers;
 using System.Collections.Generic;
 using Unity.Collections;
 using UnityEngine;
@@ -58,12 +59,12 @@ public class PlayerBody : MonoBehaviour
 	public void SwapLilGuy(float shiftDirection)
 	{
 		if (lilGuyTeam.Count <= 1) return;
-		if (shiftDirection > 0)
+		if (shiftDirection < 0)
 		{
 			LilGuyBase currentSelected = lilGuyTeam[0];
-			for (int i = 1; i < lilGuyTeam.Count - 1; i++)
+			for (int i = 0; i < lilGuyTeam.Count - 1; i++)
 			{
-				lilGuyTeam[i] = lilGuyTeam[i + 1];
+				lilGuyTeam[i] = lilGuyTeam[i - 1];
 			}
 			lilGuyTeam[lilGuyTeam.Count - 1] = currentSelected;
 		}
@@ -146,8 +147,40 @@ public class PlayerBody : MonoBehaviour
 		EventManager.Instance.GameStarted -= Init;
 	}
 
+	bool CheckTeamHealth()
+	{
+		for (int i = 0; i < lilGuyTeam.Count; i++)
+		{
+			if (lilGuyTeam[i].health > 0) return true;
+		}
+		return false;
+	}
+	void Respawn()
+	{
+		transform.position = GameManager.Instance.fountainSpawnPoint + Vector3.forward * 10; // Replace with proper spawn point
+		for (int i = 0; i < lilGuyTeam.Count; i++)
+		{
+			lilGuyTeam[i].health = lilGuyTeam[i].maxHealth;
+		}
+	}
 	private void FixedUpdate()
 	{
+		if (lilGuyTeam[0].health <= 0)
+		{
+			if (CheckTeamHealth())
+			{
+				LilGuyBase currentSelected = lilGuyTeam[0];
+				for (int i = 0; i < lilGuyTeam.Count - 1; i++)
+				{
+					lilGuyTeam[i] = lilGuyTeam[i - 1];
+				}
+				lilGuyTeam[lilGuyTeam.Count - 1] = currentSelected;
+			}
+			else
+			{
+				Respawn();
+			}
+		}
 		// Movement behaviours
 		Vector3 targetVelocity = movementDirection.normalized * maxSpeed;
 		Vector3 newForceDirection = (targetVelocity - new Vector3(rb.velocity.x, 0, rb.velocity.z));
