@@ -15,7 +15,7 @@ public abstract class LilGuyBase : MonoBehaviour
     public const int MAX_STAT = 100;
     private Transform attackPosition;
 	protected float cooldownTimer = 0;
-	protected float cooldownDuration = 1;
+	[SerializeField] protected float cooldownDuration = 1;
 	protected float chargeRefreshRate = 1;
 	protected float chargeTimer = 0;
 
