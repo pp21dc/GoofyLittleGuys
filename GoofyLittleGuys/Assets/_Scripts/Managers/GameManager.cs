@@ -24,8 +24,16 @@ namespace Managers
 
 		[SerializeField] private bool gameStartTest = true;
 		private int currentPhase = 0;
-		public bool IsPaused { get { return isPaused; } set { isPaused = value; } }
+
+        [Header("Hitbox LayerMasks")]
+        [SerializeField] private LayerMask phase1LayerMask;
+        [SerializeField] private LayerMask phase2LayerMask;
+		private LayerMask currentLayerMask;
+
+        public bool IsPaused { get { return isPaused; } set { isPaused = value; } }
 		public Transform FountainSpawnPoint { get { return fountainSpawnPoint; } set { fountainSpawnPoint = value; } }
+
+		public LayerMask CurrentLayerMask { get { return currentLayerMask; } }
 
 		public override void Awake()
 		{
@@ -62,10 +70,12 @@ namespace Managers
 		public void StartPhaseOne()
 		{
 			currentPhase++;
+			currentLayerMask = phase1LayerMask;
 		}
 
 		public void StartPhaseTwo()
 		{
+			currentLayerMask = phase2LayerMask;
 			// Start grand brawl challenge
 		}
 
