@@ -36,7 +36,10 @@ public class AoeHitbox : MonoBehaviour
 		}
 
 		transform.localScale = targScale;
-		hitboxOwner.GetComponent<StrengthType>().HitColliders = lilGuysInRadius.ToArray();	// Give the owner all the lil guys this hitbox hit.
+		hitboxOwner.GetComponent<StrengthType>().HitColliders = lilGuysInRadius;	// Give the owner all the lil guys this hitbox hit.
+
+		yield return new WaitForSeconds(1);
+		Destroy(gameObject);
 	}
 
 	private void OnTriggerEnter(Collider other)
