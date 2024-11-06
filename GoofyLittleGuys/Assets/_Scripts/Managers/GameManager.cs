@@ -25,7 +25,7 @@ namespace Managers
 		[SerializeField] private bool gameStartTest = true;
 		private int currentPhase = 0;
 		public bool IsPaused { get { return isPaused; } set { isPaused = value; } }
-		public Transform FountainSpawnPoint { get { return fountainSpawnPoint; } }
+		public Transform FountainSpawnPoint { get { return fountainSpawnPoint; } set { fountainSpawnPoint = value; } }
 
 		public override void Awake()
 		{

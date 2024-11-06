@@ -1,3 +1,4 @@
+using Managers;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,6 +27,10 @@ public class HealingFountain : InteractableBase
 		{
 			interactableCanvas.SetActive(false);
 		}
+	}
+	private void Awake()
+	{
+		GameManager.Instance.FountainSpawnPoint = gameObject.transform;
 	}
 
 	public override void OnInteracted(PlayerBody body)
