@@ -64,7 +64,7 @@ public class PlayerBody : MonoBehaviour
 			LilGuyBase currentSelected = lilGuyTeam[0];
 			for (int i = 0; i < lilGuyTeam.Count - 1; i++)
 			{
-				lilGuyTeam[i] = lilGuyTeam[i - 1];
+				lilGuyTeam[i] = lilGuyTeam[i + 1];
 			}
 			lilGuyTeam[lilGuyTeam.Count - 1] = currentSelected;
 		}

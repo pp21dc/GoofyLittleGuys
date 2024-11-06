@@ -33,7 +33,7 @@ namespace Managers
 		{
 			Time.timeScale = 0;
 			EventManager.Instance.GameStarted += GameStarted;
-			//if (gameStartTest) EventManager.Instance.GameStartedEvent();
+			if (gameStartTest) EventManager.Instance.GameStartedEvent();
 
         }
 
