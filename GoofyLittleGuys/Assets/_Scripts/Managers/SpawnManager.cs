@@ -139,6 +139,26 @@ namespace Managers
             DespawnLilGuy(theLilGuy);
         }
 
+        /// <summary>
+        /// This method should ALWAYS get called when a MOUNTAIN Lil Guy gets despawned.
+        /// (I.E. theLilGuy is defeated/tamed etc)
+        /// </summary>
+        public void DespawnMountain(GameObject theLilGuy)
+        {
+            currMountainSpawns--;
+            DespawnLilGuy(theLilGuy);
+        }
+
+        /// <summary>
+        /// This method should ALWAYS get called when a Beach Lil Guy gets despawned.
+        /// (I.E. theLilGuy is defeated/tamed etc)
+        /// </summary>
+        public void DespawnBeach(GameObject theLilGuy)
+        {
+            currBeachSpawns--;
+            DespawnLilGuy(theLilGuy);
+        }
+
         public void StartInitialSpawns()
         {
             StartCoroutine(InitialSpawns());
