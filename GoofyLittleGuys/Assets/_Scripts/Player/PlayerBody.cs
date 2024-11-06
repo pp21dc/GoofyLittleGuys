@@ -36,6 +36,7 @@ public class PlayerBody : MonoBehaviour
 	private float coyoteTimeCounter;
 	private float jumpbufferCounter;
 	private bool isJumping = false;
+	private bool flip = false;
 
 	private bool hasInteracted = false;
 	private Vector3 movementDirection = Vector3.zero;
@@ -51,6 +52,7 @@ public class PlayerBody : MonoBehaviour
 	public void UpdateMovementVector(Vector2 dir)
 	{
 		movementDirection = new Vector3(dir.x, 0, dir.y);
+		flip = dir.x > 0 ? true : false;
 	}
 
 	/// <summary>
@@ -189,6 +191,8 @@ public class PlayerBody : MonoBehaviour
 	}
 	private void FixedUpdate()
 	{
+		if (flip) playerMesh.transform.rotation = Quaternion.Euler(0, 180, 0);
+		else playerMesh.transform.rotation = Quaternion.Euler(0, 0, 0);
 		if (lilGuyTeam[0].health <= 0)
 		{
 			if (CheckTeamHealth())
