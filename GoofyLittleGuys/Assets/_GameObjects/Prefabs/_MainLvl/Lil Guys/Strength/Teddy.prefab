@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4824377763857839890}
   - component: {fileID: 3759597427848749218}
   - component: {fileID: 7633103000053924610}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -118,7 +118,9 @@ GameObject:
   - component: {fileID: 5619163176932738922}
   - component: {fileID: -2568253581838256164}
   - component: {fileID: -4768661405314685814}
-  m_Layer: 0
+  - component: {fileID: 7145187486415317540}
+  - component: {fileID: 2836014551602687782}
+  m_Layer: 8
   m_Name: Teddy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -166,7 +168,6 @@ MonoBehaviour:
   currentCharges: 1
   maxCharges: 1
   cooldownDuration: 13
-  aoeType: 3
   aoeShape: {fileID: 5216711054752746378, guid: de718a7f3579f9a47a910f3cb7043906,
     type: 3}
   aoeMaxSize: 2
@@ -222,3 +223,31 @@ CapsuleCollider:
   m_Height: 3
   m_Direction: 1
   m_Center: {x: 0, y: 1.5, z: 0}
+--- !u!114 &7145187486415317540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6573903925891364681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6c10490257e446bc815758816a8a7e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 0
+  lastHit: {fileID: 0}
+--- !u!114 &2836014551602687782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6573903925891364681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 308ddd121c6fe6f43b327338f6e61128, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chaseRange: 10
+  attackRange: 2
