@@ -682,8 +682,9 @@ MonoBehaviour:
   playerInput: {fileID: 674771134529610598}
   lastHitPromptUI: {fileID: 767803195980415129}
   maxSpeed: 15
+  movementDeceleration: 0.9
   jumpSpeed: 10
-  fallThresholdSpeed: 0
+  fallThresholdSpeed: 2
   fallMultiplier: 4
   coyoteTime: 0.2
   jumpBufferTime: 0.2

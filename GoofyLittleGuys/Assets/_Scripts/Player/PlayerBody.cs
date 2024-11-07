@@ -17,6 +17,7 @@ public class PlayerBody : MonoBehaviour
 	[SerializeField] private GameObject lastHitPromptUI;
 
 	[SerializeField, Range(1, 25f)] private float maxSpeed = 25f;           // To be replaced with lilGuys[0].speed
+	[SerializeField] private float movementDeceleration = 0.9f;           // To be replaced with lilGuys[0].speed
 	[Header("Jump Parameters")]
 
 	[SerializeField, Range(1, 25)] private float jumpSpeed = 4f;
@@ -220,10 +221,23 @@ public class PlayerBody : MonoBehaviour
 				Respawn();
 			}
 		}
+
 		// Movement behaviours
-		Vector3 targetVelocity = movementDirection.normalized * maxSpeed;
-		Vector3 newForceDirection = (targetVelocity - new Vector3(rb.velocity.x, 0, rb.velocity.z));
-		rb.velocity += newForceDirection * Time.fixedDeltaTime;
+
+
+		// Reduce gliding when there’s no movement input
+		if (movementDirection.magnitude < 0.1f)
+		{
+			// Slow down quicker if no movement direction input
+			rb.velocity = new Vector3(rb.velocity.x * movementDeceleration, rb.velocity.y, rb.velocity.z * movementDeceleration);
+		}
+		else
+		{
+			// Apply motion velocity as the player is moving
+			Vector3 targetVelocity = movementDirection.normalized * maxSpeed;
+			Vector3 newForceDirection = (targetVelocity - new Vector3(rb.velocity.x, 0, rb.velocity.z));
+			rb.velocity += newForceDirection * Time.fixedDeltaTime;
+		}
 
 		// Jump behaviours
 
