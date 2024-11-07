@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public abstract class LilGuyBase : MonoBehaviour
@@ -24,6 +25,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	[SerializeField] protected int currentCharges = 1;
 	[SerializeField] protected int maxCharges = 1;
 	[SerializeField] protected float cooldownDuration = 1;
+    public GameObject playerOwner = null;
 	protected float chargeRefreshRate = 1;
 	protected float cooldownTimer = 0;
 	protected float chargeTimer = 0;
@@ -45,7 +47,12 @@ public abstract class LilGuyBase : MonoBehaviour
 
 	private void Update()
 	{
-        if (isDead) return;
+        if (playerOwner != null && GetComponent<AiController>().enabled)
+        {
+            GetComponent<AiController>().enabled = false;
+            GetComponent<Hurtbox>().enabled = false;
+        }
+		if (isDead) return;
         // Special attack cooldown 
 		if (cooldownTimer > 0)
 		{
@@ -64,7 +71,32 @@ public abstract class LilGuyBase : MonoBehaviour
 		}
 
 	}
+    private IEnumerator FlashRed()
+    {
+		float timeElapsed = 0f;
+		GetComponentInChildren<SpriteRenderer>().color = Color.red;
 
+		while (timeElapsed < 1.5f)
+		{
+			// Calculate progress
+			float progress = timeElapsed / 1.5f;
+
+			// Interpolate the green channel from 1 to 0
+			Color newColor = new Color(1, Mathf.Lerp(0, 1, progress), Mathf.Lerp(0, 1, progress), 1);
+			GetComponentInChildren<SpriteRenderer>().color = newColor;
+
+			// Increase elapsed time and wait until next frame
+			timeElapsed += Time.deltaTime;
+			yield return null;
+		}
+
+		GetComponentInChildren<SpriteRenderer>().color = Color.white;
+	}
+
+    public void Damaged()
+    {
+        StartCoroutine(FlashRed());
+    }
 	/// <summary>
 	/// This is the basic attack across all lil guys\
 	/// it uses a hitbox prefab to detect other ai within it and deal damage from that script
@@ -74,6 +106,8 @@ public abstract class LilGuyBase : MonoBehaviour
     {
         GameObject hitbox = Instantiate(hitboxPrefab, attackPosition.position + attackPosition.forward * 0.5f, Quaternion.identity);
         hitbox.transform.SetParent(transform);
+        hitbox.GetComponent<Hitbox>().layerMask = playerOwner != null ? playerOwner.layer : gameObject.layer;
+        hitbox.GetComponent<Hitbox>().Init(gameObject);
         Destroy(hitbox, 1f);
     }
 

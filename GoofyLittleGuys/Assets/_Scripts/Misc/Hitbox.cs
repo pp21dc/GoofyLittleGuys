@@ -9,7 +9,14 @@ using UnityEngine;
 public class Hitbox : MonoBehaviour
 {
 	protected int Damage;
+	public GameObject hitboxOwner;
 	public LayerMask layerMask;
+
+	public void Init(GameObject hitboxOwner)
+	{
+		this.hitboxOwner = hitboxOwner;
+		Damage = hitboxOwner.GetComponent<LilGuyBase>().strength;
+	}
 
 	private void OnTriggerEnter(Collider other)
 	{

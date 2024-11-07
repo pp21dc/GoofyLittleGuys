@@ -52,7 +52,8 @@ public class PlayerBody : MonoBehaviour
 	public void UpdateMovementVector(Vector2 dir)
 	{
 		movementDirection = new Vector3(dir.x, 0, dir.y);
-		flip = dir.x > 0 ? true : false;
+		if (dir.x > 0) flip = true;
+		if (dir.x < 0) flip = false;
 	}
 
 	/// <summary>

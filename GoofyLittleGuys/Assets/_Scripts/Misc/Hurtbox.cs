@@ -6,47 +6,59 @@ using UnityEngine;
 public class Hurtbox : MonoBehaviour
 {
     [SerializeField] private int health;
+    [SerializeField] private GameObject owner;
     private bool player;
     private bool Ai;
 
     public int Health { get { return health; } }
     public GameObject lastHit;
 
-    private void Awake()
-    {
-        if (gameObject.GetComponentInParent<PlayerBody>() != null)
-        {
-            health = gameObject.GetComponentInParent<PlayerBody>().LilGuyTeam[0].health;
-            player = true;
-            Ai = false;
-        }
-        else if (gameObject.GetComponentInParent<AiController>() != null)
-        {
-            health = gameObject.GetComponentInParent<AiController>().LilGuy.health;
-            Ai = true;
-            player = false;
-        }
-        else
-        {
-            player = false;
-            Ai = false;
-        }
-    }
+	private void Start()
+	{
+        EventManager.Instance.GameStarted += Init;
+	}
+	private void OnDestroy()
+	{
+        EventManager.Instance.GameStarted -= Init;
+	}
 
-    /// <summary>
-    /// Gets the health value of given object. To be called when a lil guy is damaged.
-    /// </summary>
-    public void TakeDamage(int dmg)
+    private void Init()
+    {
+		if (owner.GetComponent<PlayerBody>() != null)
+		{
+			health = owner.GetComponent<PlayerBody>().LilGuyTeam[0].health;
+			player = true;
+			Ai = false;
+		}
+		else if (owner.GetComponent<AiController>() != null)
+		{
+			health = owner.GetComponent<AiController>().LilGuy.health;
+			Ai = true;
+			player = false;
+		}
+		else
+		{
+			player = false;
+			Ai = false;
+		}
+	}
+
+	/// <summary>
+	/// Gets the health value of given object. To be called when a lil guy is damaged.
+	/// </summary>
+	public void TakeDamage(int dmg)
     {
         if (player)
         {
-            gameObject.GetComponentInParent<PlayerBody>().LilGuyTeam[0].health -= dmg;
-            health = gameObject.GetComponentInParent<PlayerBody>().LilGuyTeam[0].health;
+            owner.GetComponent<PlayerBody>().LilGuyTeam[0].health -= dmg;
+            health = owner.GetComponent<PlayerBody>().LilGuyTeam[0].health;
+            owner.GetComponent<PlayerBody>().LilGuyTeam[0].Damaged();
         }
         else if (Ai)
         {
-            gameObject.GetComponent<AiController>().LilGuy.health -= dmg;
-            health = gameObject.GetComponent<AiController>().LilGuy.health;
+			owner.GetComponent<AiController>().LilGuy.health -= dmg;
+            health = owner.GetComponent<AiController>().LilGuy.health;
+            owner.GetComponent<LilGuyBase>().Damaged();
         }
         else
         {
