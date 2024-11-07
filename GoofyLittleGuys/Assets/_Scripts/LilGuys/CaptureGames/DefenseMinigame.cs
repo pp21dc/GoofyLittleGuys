@@ -23,12 +23,12 @@ public class DefenseMinigame : CaptureBase
 	public override void Initialize(LilGuyBase creature)
 	{
 		base.Initialize(creature);
-		throwPoint = lilGuyBeingCaught.transform; 
+		throwPoint = lilGuyBeingCaught.attackPosition; 
 	}
 	private void OnEnable()
 	{
 		player.SwitchCurrentActionMap("DefenseMinigame");
-		moveAction = player.actions["Move"];
+		moveAction = player.actions["Movement"];
 		gameActive = true;
 		missCount = 0;
 		gameStartTime = Time.time;
@@ -72,13 +72,13 @@ public class DefenseMinigame : CaptureBase
 		GameObject thrownObject = Instantiate(throwObjectPrefab, throwPoint.position, Quaternion.identity);
 
 		// Determine throw direction: center, left, or right
-		Vector3 direction = Vector3.forward;
+		Vector3 direction = Vector3.back;
 		int throwType = Random.Range(0, 3); // 0 = center, 1 = left, 2 = right
 
 		if (throwType == 1) // Left
-			direction = Quaternion.Euler(0, -20f, 0) * Vector3.forward;
+			direction = Quaternion.Euler(0, -20f, 0) * Vector3.back;
 		else if (throwType == 2) // Right
-			direction = Quaternion.Euler(0, 20f, 0) * Vector3.forward;
+			direction = Quaternion.Euler(0, 20f, 0) * Vector3.back;
 
 		// Apply velocity to the thrown object
 		Rigidbody rb = thrownObject.GetComponent<Rigidbody>();

@@ -149,6 +149,7 @@ public class PlayerBody : MonoBehaviour
 	{
 		lastHitPromptUI.GetComponent<LastHitMenu>().Initialize(lilGuy);
 		lastHitPromptUI?.SetActive(true); // Activate the UI element if not null
+		EnableUIControl();
 	}
 
 	// Enable UI control for the player

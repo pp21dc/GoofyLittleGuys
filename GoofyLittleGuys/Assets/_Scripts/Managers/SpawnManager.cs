@@ -35,17 +35,19 @@ namespace Managers
             currForestSpawns = 0;
             currMountainSpawns = 0;
             currBeachSpawns = 0;
-            //EventManager.Instance.GameStarted.AddListener(InitialSpawns());
-            //StartCoroutine(InitialSpawns());
+            StartCoroutine(InitialSpawns());
         }
 
+		private void OnDestroy()
+		{
+		}
 
-        /// <summary>
-        /// This method gets called by the different biome despawn methods, and simply deletes the given Lil Guy,
-        /// then it spawns a new one if any of the biomes have less than their minimum spawns.
-        /// Note: May want to have it choose the biome with the least Lil Guys, when it spawns a new one
-        /// </summary>
-        public void DespawnLilGuy(GameObject theLilGuy)
+		/// <summary>
+		/// This method gets called by the different biome despawn methods, and simply deletes the given Lil Guy,
+		/// then it spawns a new one if any of the biomes have less than their minimum spawns.
+		/// Note: May want to have it choose the biome with the least Lil Guys, when it spawns a new one
+		/// </summary>
+		public void DespawnLilGuy(GameObject theLilGuy)
         {
             if (currNumSpawns > 0)
             {
@@ -68,61 +70,65 @@ namespace Managers
             }
         }
 
-        /// <summary>
-        /// This method simply spawns a random Forest Lil Guy at a random forest spawner.
-        /// </summary>
-        public void SpawnForest()
-        {
-            SpawnerObj pointToSpawn;
-            GameObject theLilGuy;
+		/// <summary>
+		/// This method simply spawns a random Forest Lil Guy at a random forest spawner.
+		/// </summary>
+		/// 
+		public void SpawnForest()
+		{
+			SpawnerObj pointToSpawn;
+			GameObject theLilGuy;
 
-            theLilGuy = RandFromList(forestLilGuys);
-            pointToSpawn = RandFromList(forestSpawners).GetComponent<SpawnerObj>();
-            if((currForestSpawns + 1) <= maxSpawnsPerArea && (currNumSpawns + 1) <= maxNumSpawns)
-            {
-                pointToSpawn.SpawnLilGuy(theLilGuy);
-                currForestSpawns++;
-            }
-        }
+			theLilGuy = RandFromList(forestLilGuys);
+			pointToSpawn = RandFromList(forestSpawners).GetComponent<SpawnerObj>();
+			if ((currMountainSpawns + 1) <= maxSpawnsPerArea && (currNumSpawns + 1) <= maxNumSpawns)
+			{
+				pointToSpawn.SpawnLilGuy(theLilGuy);
+				currForestSpawns++;
+				currNumSpawns++;
+			}
+		}
 
-        /// <summary>
-        /// This method simply spawns a random Mountain Lil Guy at a random mountain spawner.
-        /// </summary>
-        public void SpawnMountain()
-        {
-            SpawnerObj pointToSpawn;
-            GameObject theLilGuy;
+		/// <summary>
+		/// This method simply spawns a random Mountain Lil Guy at a random mountain spawner.
+		/// </summary>
+		public void SpawnMountain()
+		{
+			SpawnerObj pointToSpawn;
+			GameObject theLilGuy;
 
-            theLilGuy = RandFromList(mountainLilGuys);
-            pointToSpawn = RandFromList(mountainSpawners).GetComponent<SpawnerObj>();
-            if ((currForestSpawns + 1) <= maxSpawnsPerArea && (currNumSpawns + 1) <= maxNumSpawns)
-            {
-                pointToSpawn.SpawnLilGuy(theLilGuy);
-                currMountainSpawns++;
-            }
-        }
+			theLilGuy = RandFromList(mountainLilGuys);
+			pointToSpawn = RandFromList(mountainSpawners).GetComponent<SpawnerObj>();
+			if ((currMountainSpawns + 1) <= maxSpawnsPerArea && (currNumSpawns + 1) <= maxNumSpawns)
+			{
+				pointToSpawn.SpawnLilGuy(theLilGuy);
+				currMountainSpawns++;
+				currNumSpawns++;
+			}
+		}
 
-        /// <summary>
-        /// This method simply spawns a random Beach Lil Guy at a random beach spawner.
-        /// </summary>
-        public void SpawnBeach()
-        {
-            SpawnerObj pointToSpawn;
-            GameObject theLilGuy;
+		/// <summary>
+		/// This method simply spawns a random Beach Lil Guy at a random beach spawner.
+		/// </summary>
+		public void SpawnBeach()
+		{
+			SpawnerObj pointToSpawn;
+			GameObject theLilGuy;
 
-            theLilGuy = RandFromList(beachLilGuys);
-            pointToSpawn = RandFromList(beachSpawners).GetComponent<SpawnerObj>();
-            if ((currForestSpawns + 1) <= maxSpawnsPerArea && (currNumSpawns + 1) <= maxNumSpawns)
-            {
-                pointToSpawn.SpawnLilGuy(theLilGuy);
-                currBeachSpawns++;
-            }
-        }
+			theLilGuy = RandFromList(beachLilGuys);
+			pointToSpawn = RandFromList(beachSpawners).GetComponent<SpawnerObj>();
+			if ((currBeachSpawns + 1) <= maxSpawnsPerArea && (currNumSpawns + 1) <= maxNumSpawns)
+			{
+				pointToSpawn.SpawnLilGuy(theLilGuy);
+				currBeachSpawns++;
+				currNumSpawns++;
+			}
+		}
 
-        /// <summary>
-        /// Method that spawns a random Legendary at the provided legendarySpawner
-        /// </summary>
-        public void SpawnLegendaryGuy()
+		/// <summary>
+		/// Method that spawns a random Legendary at the provided legendarySpawner
+		/// </summary>
+		public void SpawnLegendaryGuy()
         {
             GameObject theLegendary = RandFromList(legendaryLilGuys);
             legendarySpawner.SpawnLilGuy(theLegendary);
@@ -161,46 +167,59 @@ namespace Managers
 
         public void StartInitialSpawns()
         {
+            Debug.Log("Yes");
             StartCoroutine(InitialSpawns());
         }
 
-        /// <summary>
-        /// This coroutine handles spawning a random number of Lil Guys in each biome 
-        /// (in the range of how many spawns are allowed for each biome)
-        /// </summary>
-        private IEnumerator InitialSpawns()
-        {
-            int numForestSpawns = Random.Range(minSpawnsPerArea,maxSpawnsPerArea + 1);
-            int numMountainSpawns = Random.Range(minSpawnsPerArea, maxSpawnsPerArea + 1);
-            int numBeachSpawns = Random.Range(minSpawnsPerArea, maxSpawnsPerArea + 1);
-            while (currNumSpawns < maxNumSpawns)
-            {
-                int biomeNum = Random.Range(0, 3);
-                if (biomeNum == 0 && currForestSpawns < numForestSpawns)
-                {
-                    yield return new WaitForSeconds(spawnDelay);
-                    SpawnForest();
-                }
-                else if(biomeNum == 1 && currMountainSpawns < numMountainSpawns)
-                {
-                    yield return new WaitForSeconds(spawnDelay);
-                    SpawnMountain();
-                }
-                else if (biomeNum == 2 && currBeachSpawns < numBeachSpawns)
-                {
-                    yield return new WaitForSeconds(spawnDelay);
-                    SpawnBeach();
-                }
-            }
-            
-        }
-        /// <summary>
-        /// Coroutine that spawns a NEW Lil Guy at the given biome (given by an int between 0 and 2 inclusive)
-        /// It waits for spawnDelay
-        /// </summary>
-        /// <param name="biomeNum"></param>
-        /// <returns></returns>
-        private IEnumerator respawnWithDelay(int biomeNum)
+		/// <summary>
+		/// This coroutine handles spawning a random number of Lil Guys in each biome 
+		/// (in the range of how many spawns are allowed for each biome)
+		/// </summary>
+		private IEnumerator InitialSpawns()
+		{
+			int numForestSpawns = Random.Range(minSpawnsPerArea, maxSpawnsPerArea + 1);
+			int numMountainSpawns = Random.Range(minSpawnsPerArea, maxSpawnsPerArea + 1);
+			int numBeachSpawns = Random.Range(minSpawnsPerArea, maxSpawnsPerArea + 1);
+
+			// Track the number of spawn attempts to avoid an infinite loop
+			int spawnAttempts = 0;
+			int maxSpawnAttempts = maxNumSpawns * 2;  // Allow some retries
+
+			while (currNumSpawns < maxNumSpawns && spawnAttempts < maxSpawnAttempts)
+			{
+				int biomeNum = Random.Range(0, 3);
+
+				if (biomeNum == 0 && currForestSpawns < numForestSpawns)
+				{
+					yield return new WaitForSeconds(spawnDelay);
+					SpawnForest();
+				}
+				else if (biomeNum == 1 && currMountainSpawns < numMountainSpawns)
+				{
+					yield return new WaitForSeconds(spawnDelay);
+					SpawnMountain();
+				}
+				else if (biomeNum == 2 && currBeachSpawns < numBeachSpawns)
+				{
+					yield return new WaitForSeconds(spawnDelay);
+					SpawnBeach();
+				}
+
+				spawnAttempts++;
+			}
+
+			if (spawnAttempts >= maxSpawnAttempts)
+			{
+				Debug.LogWarning("Max spawn attempts reached in InitialSpawns.");
+			}
+		}
+		/// <summary>
+		/// Coroutine that spawns a NEW Lil Guy at the given biome (given by an int between 0 and 2 inclusive)
+		/// It waits for spawnDelay
+		/// </summary>
+		/// <param name="biomeNum"></param>
+		/// <returns></returns>
+		private IEnumerator respawnWithDelay(int biomeNum)
         {
             
             switch (biomeNum)

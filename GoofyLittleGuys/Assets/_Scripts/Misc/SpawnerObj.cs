@@ -23,7 +23,8 @@ public class SpawnerObj : MonoBehaviour
         //int failedAttempts = 0;
         Vector3 spawningPos = PickValidSpot();
 
-        Instantiate(newLilGuy, spawningPos, Quaternion.identity);
+        GameObject GO = Instantiate(newLilGuy, spawningPos, Quaternion.identity);
+        GO.layer = LayerMask.NameToLayer("WildLilGuys");
         
 
         Managers.SpawnManager.Instance.currNumSpawns++;
@@ -40,29 +41,41 @@ public class SpawnerObj : MonoBehaviour
         return (Random.Range(-spawnRadius, spawnRadius)) + offset;
     }
 
-    /// <summary>
-    /// This me
-    /// </summary>
-    /// <returns>Vector3</returns>
-    private Vector3 PickValidSpot()
-    {
-        Vector3 spawnPos = new Vector3(RandPos(transform.position.x), transform.position.y, RandPos(transform.position.z));
-        
-        Vector3 checkVector = spawnPos - transform.position;
-        Vector3 checkDir = checkVector.normalized;
-        
-        Ray ray = new Ray(transform.position, checkDir);
-        if(Physics.Raycast(ray, out RaycastHit hit, spawnRadius, GroundLayer))
-        {
-            spawnPos = hit.point;
-            spawnPos.y += 2;
-            return spawnPos;
-        }
-        else
-        {
-            return spawnPos;
-        }
-    }
+	/// <summary>
+	/// This me
+	/// </summary>
+	/// <returns>Vector3</returns>
+	private Vector3 PickValidSpot()
+	{
+		const int maxAttempts = 10;
+		const float startHeight = 1000f;  // Height to cast down from
+		Vector3 origin = transform.position;
 
-    
+		for (int i = 0; i < maxAttempts; i++)
+		{
+			// Randomize a position within the spawn radius around the spawner
+			Vector3 spawnPos = new Vector3(
+				RandPos(origin.x),
+				origin.y + startHeight,
+				RandPos(origin.z)
+			);
+
+			// Raycast down from this high position
+			Ray ray = new Ray(spawnPos, Vector3.down);
+			if (Physics.Raycast(ray, out RaycastHit hit, startHeight * 2, GroundLayer))
+			{
+				// If it hits, adjust spawn position slightly above ground level
+				spawnPos = hit.point;
+				spawnPos.y += 2f;  // Offset to prevent clipping into ground
+				return spawnPos;
+			}
+		}
+
+		// If no valid spawn point found, log a warning and return a default position
+		Debug.LogWarning("Failed to find a valid spawn position after max attempts.");
+		return origin + Vector3.up * 2;  // Default to a position slightly above the spawner
+	}
+
+
+
 }

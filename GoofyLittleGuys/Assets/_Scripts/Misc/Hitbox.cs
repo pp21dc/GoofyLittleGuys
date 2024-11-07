@@ -15,24 +15,21 @@ public class Hitbox : MonoBehaviour
 	public void Init(GameObject hitboxOwner)
 	{
 		this.hitboxOwner = hitboxOwner;
+		gameObject.layer = hitboxOwner.layer;
 		Damage = hitboxOwner.GetComponent<LilGuyBase>().strength;
 	}
 
 	private void OnTriggerEnter(Collider other)
 	{
-		layerMask = GameManager.Instance.CurrentLayerMask;
+		Hurtbox h = other.GetComponent<Hurtbox>();
+		if (h != null)
+			OnHit(h);
 
-		if (layerMask == (layerMask | (1 << other.transform.gameObject.layer)))
-		{
-			Hurtbox h = other.GetComponent<Hurtbox>();
-
-			if (h != null)
-				OnHit(h);
-		}
 	}
 
 	private void OnHit(Hurtbox h)
 	{
+		Debug.Log("HIT");
 		DefenseType defenseLilGuy = h.gameObject.GetComponent<DefenseType>();
 		if (defenseLilGuy != null && defenseLilGuy.IsShieldActive)
 		{
@@ -42,7 +39,7 @@ public class Hitbox : MonoBehaviour
 		{
 			h.TakeDamage(Damage);
 		}
-		if (h.Health <= 0) { h.lastHit = gameObject; }
+		if (h.Health <= 0 && h.gameObject.layer == LayerMask.NameToLayer("WildLilGuys")) { h.lastHit = hitboxOwner.GetComponent<LilGuyBase>().playerOwner; }
 		Destroy(this.gameObject);
 	}
 }

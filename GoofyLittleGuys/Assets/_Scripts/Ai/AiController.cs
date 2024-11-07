@@ -123,6 +123,10 @@ public class IdleState : AiState
 		{
 			controller.TransitionToState(controller.chaseState);
 		}
+		else if (controller.LilGuy.health <= 0)
+		{
+			controller.TransitionToState(controller.deadState);
+		}
 	}
 }
 
@@ -152,6 +156,10 @@ public class ChaseState : AiState
 		else if (distanceToPlayer <= controller.AttackRange)
 		{
 			controller.TransitionToState(controller.attackState);
+		}
+		else if (controller.LilGuy.health <= 0)
+		{
+			controller.TransitionToState(controller.deadState);
 		}
 		else
 		{
@@ -188,6 +196,10 @@ public class AttackState : AiState
 		if (distanceToPlayer > controller.AttackRange)
 		{
 			controller.TransitionToState(controller.chaseState);
+		}
+		else if (controller.LilGuy.health <= 0)
+		{
+			controller.TransitionToState(controller.deadState);
 		}
 		else
 		{

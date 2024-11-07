@@ -48,13 +48,13 @@ public class Hurtbox : MonoBehaviour
 	/// </summary>
 	public void TakeDamage(int dmg)
     {
-        if (player)
+        if (gameObject.layer == LayerMask.NameToLayer("PlayerLilGuys"))
         {
-            owner.GetComponent<PlayerBody>().LilGuyTeam[0].health -= dmg;
-            health = owner.GetComponent<PlayerBody>().LilGuyTeam[0].health;
-            owner.GetComponent<PlayerBody>().LilGuyTeam[0].Damaged();
+            owner.GetComponent<LilGuyBase>().health -= dmg;
+            health = owner.GetComponent<LilGuyBase>().health -= dmg;
+			owner.GetComponent<LilGuyBase>().Damaged();
         }
-        else if (Ai)
+        else if (gameObject.layer == LayerMask.NameToLayer("WildLilGuys"))
         {
 			owner.GetComponent<AiController>().LilGuy.health -= dmg;
             health = owner.GetComponent<AiController>().LilGuy.health;

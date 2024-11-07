@@ -55,13 +55,7 @@ namespace Managers
 				input.gameObject.transform.position += (new Vector3(1, 0, 1) * UnityEngine.Random.Range(-1f, 1f)) + Vector3.up;
 			}
 			Time.timeScale = 1;
-			Debug.Log("Yes We started ohhhhh yeahhhhh");
 			StartPhaseOne();
-			if(SpawnManager.Instance != null)
-            {
-				SpawnManager.Instance.StartInitialSpawns();
-			}
-
 			if (SceneManager.GetActiveScene().name == "02_MainGame")
 				fountainSpawnPoint = FindFirstObjectByType<HealingFountain>().transform;
 

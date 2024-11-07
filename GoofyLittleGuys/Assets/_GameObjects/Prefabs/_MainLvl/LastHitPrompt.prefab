@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7324030457937125050}
   - component: {fileID: 1389271029305594639}
   - component: {fileID: 617545970829201922}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -146,7 +146,7 @@ GameObject:
   - component: {fileID: 3874158174908413200}
   - component: {fileID: 7640649750651074822}
   - component: {fileID: 8207534204168156523}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: StatsButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -224,10 +224,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
+    m_SelectOnUp: {fileID: 4484275810289036470}
+    m_SelectOnDown: {fileID: 4484275810289036470}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
@@ -254,7 +254,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7640649750651074822}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8116619805522438849}
+        m_TargetAssemblyTypeName: LastHitMenu, Assembly-CSharp
+        m_MethodName: OnNoSelected
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &5396676980629985965
 GameObject:
   m_ObjectHideFlags: 0
@@ -266,7 +278,7 @@ GameObject:
   - component: {fileID: 2552196359112922811}
   - component: {fileID: 5998510782108213075}
   - component: {fileID: 2068956098012749205}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -401,7 +413,7 @@ GameObject:
   - component: {fileID: 5006291637012396514}
   - component: {fileID: 3557643779434559907}
   - component: {fileID: 4484275810289036470}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: CatchButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -479,10 +491,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
+    m_SelectOnUp: {fileID: 8207534204168156523}
+    m_SelectOnDown: {fileID: 8207534204168156523}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
@@ -509,7 +521,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3557643779434559907}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8116619805522438849}
+        m_TargetAssemblyTypeName: LastHitMenu, Assembly-CSharp
+        m_MethodName: OnYesSelected
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6721955626107930679
 GameObject:
   m_ObjectHideFlags: 0
@@ -523,7 +547,7 @@ GameObject:
   - component: {fileID: 1520405148309059649}
   - component: {fileID: 4290029570123870852}
   - component: {fileID: 8116619805522438849}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: LastHitPrompt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -561,7 +585,7 @@ Canvas:
   serializedVersion: 3
   m_RenderMode: 1
   m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
+  m_PlaneDistance: 1
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
@@ -620,14 +644,16 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6721955626107930679}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eba3e0ea7ccfa6a45b25a9dd658fd961, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
   firstButton: {fileID: 4484275810289036470}
   playerEventSystem: {fileID: 0}
   minigames:
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
 --- !u!1 &8674704189798602576
@@ -642,7 +668,7 @@ GameObject:
   - component: {fileID: 2137572697281179093}
   - component: {fileID: 7826497076986418505}
   - component: {fileID: 806380363140787723}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: LastHitPromptPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
