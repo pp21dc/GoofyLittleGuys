@@ -17,8 +17,9 @@ public class LastHitMenu : MonoBehaviour
 	private void OnEnable()
 	{
 		// Set the first selected button to "Yes"
+		playerEventSystem.gameObject.SetActive(true);
 		playerEventSystem.firstSelectedGameObject = firstButton.gameObject;
-		EventSystem.current.SetSelectedGameObject(firstButton.gameObject);
+		playerEventSystem.SetSelectedGameObject(firstButton.gameObject);
 	}
 
 	public void Initialize(LilGuyBase lilGuy)
@@ -29,6 +30,7 @@ public class LastHitMenu : MonoBehaviour
 
 	public void OnYesSelected()
 	{
+		playerEventSystem.gameObject.SetActive(false);
 		player.DisableUIControl();
 		// Start the capture minigame for this specific LilGuy's type
 		if (lilGuyToCapture != null)
@@ -41,6 +43,7 @@ public class LastHitMenu : MonoBehaviour
 
 	public void OnNoSelected()
 	{
+		playerEventSystem.gameObject.SetActive(false);
 		player.DisableUIControl();
 		ClosePrompt();
 	}

@@ -8,7 +8,9 @@ public class CaptureBase : MonoBehaviour
 	// -- Variables --
 	[SerializeField] protected PlayerInput player;
 	[SerializeField] protected LilGuyBase lilGuyBeingCaught;
-    [SerializeField] private GameObject barrier;
+    [SerializeField] protected GameObject barrier;
+
+    protected Vector2 areaBounds;
 
 	private int maxTime = 10;
     private float time = 0.0f;
@@ -17,6 +19,8 @@ public class CaptureBase : MonoBehaviour
 	public virtual void Initialize(LilGuyBase creature)
 	{
 		lilGuyBeingCaught = creature;
+		float radius = barrier.transform.localScale.x / 2;
+		areaBounds = new Vector2(radius, radius);
 	}
 	protected virtual void EndMinigame(bool playerWon)
 	{

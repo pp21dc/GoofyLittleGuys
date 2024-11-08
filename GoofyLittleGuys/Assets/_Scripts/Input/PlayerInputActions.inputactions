@@ -318,17 +318,6 @@
                 },
                 {
                     "name": "",
-                    "id": "897b1ae2-5317-46fa-998e-a8e420e7879a",
-                    "path": "<Mouse>/position",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Point",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "9142ca68-27ac-4c32-bb0a-b8c83d2a729f",
                     "path": "<Pen>/position",
                     "interactions": "",
@@ -340,52 +329,8 @@
                 },
                 {
                     "name": "",
-                    "id": "559c7d7e-8cda-42b5-b6b7-de6592514d7e",
-                    "path": "<Touchscreen>/touch*/position",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Point",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "ec83bf70-a3d2-469a-8cc7-42a43c554346",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Click",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "e7a8ad2f-d008-440e-ac7c-cc6fa1d214d0",
-                    "path": "<Pen>/tip",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Click",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "872edc75-b232-4fdf-925d-826effd69fd9",
-                    "path": "<Touchscreen>/touch*/press",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Click",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "8d7c918f-aef9-42e0-8d1c-869c505d569a",
-                    "path": "<XRController>/trigger",
+                    "path": "<Keyboard>/enter",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -400,6 +345,17 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
+                    "action": "Cancel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4d07de7c-29b8-45c9-8664-5fe59b37d96b",
+                    "path": "<Keyboard>/backslash",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "[DEBUG] Keyboard Mouse",
                     "action": "Cancel",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -962,7 +918,7 @@
             ],
             "bindings": [
                 {
-                    "name": "WS",
+                    "name": "AD",
                     "id": "8b07fdfc-2c8f-40ad-9098-96ea07022212",
                     "path": "1DAxis",
                     "interactions": "",
@@ -975,7 +931,7 @@
                 {
                     "name": "negative",
                     "id": "783f4d88-f6b5-41c4-a1fb-47edd79b259e",
-                    "path": "<Keyboard>/s",
+                    "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
                     "groups": "[DEBUG] Keyboard Mouse",
@@ -986,7 +942,7 @@
                 {
                     "name": "positive",
                     "id": "abbf9dd7-575b-46b9-beed-5b48c842c8e8",
-                    "path": "<Keyboard>/w",
+                    "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
                     "groups": "[DEBUG] Keyboard Mouse",
@@ -1008,10 +964,10 @@
                 {
                     "name": "negative",
                     "id": "18f98709-7fdd-46fb-9497-042765f850ec",
-                    "path": "<Joystick>/stick/down",
+                    "path": "<Joystick>/stick/left",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Gamepad",
                     "action": "Movement",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -1019,7 +975,7 @@
                 {
                     "name": "positive",
                     "id": "31cc7468-0c56-4d67-9c21-9ef4f1c6c265",
-                    "path": "<Joystick>/stick/up",
+                    "path": "<Joystick>/stick/right",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -1204,11 +1160,6 @@
             "devices": [
                 {
                     "devicePath": "<Keyboard>",
-                    "isOptional": false,
-                    "isOR": false
-                },
-                {
-                    "devicePath": "<Mouse>",
                     "isOptional": false,
                     "isOR": false
                 }

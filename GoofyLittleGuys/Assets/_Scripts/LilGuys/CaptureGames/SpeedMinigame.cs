@@ -12,7 +12,6 @@ public class SpeedMinigame : CaptureBase
 	[SerializeField] private float gameDuration = 10f;         // Game duration
 	[SerializeField] private float creatureSpeed = 5f;         // Creature's movement speed
 	[SerializeField] private float catchDistance = 1.5f;       // Distance to catch creature
-	[SerializeField] private Vector2 areaBounds;               // Area boundaries (x, z)
 
 	private float gameTimer;
 	private float creatureDistance = 0;

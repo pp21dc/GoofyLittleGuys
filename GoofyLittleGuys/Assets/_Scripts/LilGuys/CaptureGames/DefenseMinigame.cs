@@ -11,6 +11,7 @@ public class DefenseMinigame : CaptureBase
 	[SerializeField] private Transform throwPoint; // Center point from where objects will be thrown
 	[SerializeField] private float throwInterval = 1f; // Interval between throws
 	[SerializeField] private float throwSpeed = 10f; // Speed of the thrown object
+
 	private int missCount = 0;
 	private int maxMisses = 3;
 	private float gameDuration = 10f; // Duration of the minigame in seconds
@@ -49,7 +50,7 @@ public class DefenseMinigame : CaptureBase
 	{
 		Vector2 input = moveAction.ReadValue<Vector2>();
 		Vector3 movement = new Vector3(input.x, 0, 0) * player.GetComponent<PlayerBody>().MaxSpeed * Time.deltaTime;
-		transform.Translate(movement);
+		player.transform.Translate(movement);
 
 		// Clamp the player's x position if needed (adjust values based on desired boundaries)
 		float clampedX = Mathf.Clamp(transform.position.x, -5f, 5f);

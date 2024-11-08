@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class HealingFountain : InteractableBase
 {
+	[SerializeField] private Transform spawnPoint;
 	List<GameObject> playersInRange = new List<GameObject>();
 	private void OnTriggerStay(Collider other)
 	{
@@ -30,7 +31,7 @@ public class HealingFountain : InteractableBase
 	}
 	private void Awake()
 	{
-		GameManager.Instance.FountainSpawnPoint = gameObject.transform;
+		GameManager.Instance.FountainSpawnPoint = spawnPoint;
 	}
 
 	public override void OnInteracted(PlayerBody body)
