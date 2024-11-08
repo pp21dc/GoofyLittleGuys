@@ -26,7 +26,21 @@ public class CaptureBase : MonoBehaviour
 	{
 		if (playerWon)
 		{
+			PlayerBody body = player.GetComponent<PlayerBody>();
 			Debug.Log("Player Won!");
+            if (body.LilGuyTeam.Count < 3)
+            {
+                lilGuyBeingCaught.playerOwner = body.gameObject;
+                body.LilGuyTeam.Add(lilGuyBeingCaught);
+                lilGuyBeingCaught.Init(LayerMask.NameToLayer("PlayerLilGuys"));
+                lilGuyBeingCaught.gameObject.transform.SetParent(body.LilGuyTeamSlots[body.LilGuyTeam.Count - 1].transform, false);
+                lilGuyBeingCaught.gameObject.transform.localPosition = Vector3.zero;
+                lilGuyBeingCaught.gameObject.GetComponent<Rigidbody>().isKinematic = true;
+            }
+            else
+            {
+                //Handle choosing which lil guy on the player's team will be replaced with this lil guy
+            }
 			// Add this lil guy to their team (if there's space)
 			// Probably call some method on the player just to handle team management
 			// In case they need to choose to remove a lil guy or something.
@@ -34,7 +48,8 @@ public class CaptureBase : MonoBehaviour
 		else
 		{
 			Debug.Log("Player lost!");
-			// Lost... idk what happens :3
+            // Lost... idk what happens :3
+            Destroy(lilGuyBeingCaught.gameObject);
 		}
 
 		gameObject.SetActive(false);

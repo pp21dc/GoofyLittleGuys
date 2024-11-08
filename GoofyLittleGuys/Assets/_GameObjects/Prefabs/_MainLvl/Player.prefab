@@ -203,13 +203,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 674771134529610598}
   lilGuyBeingCaught: {fileID: 0}
-  barrier: {fileID: 0}
+  barrier: {fileID: 5876198540106903233, guid: 0317a379f16c12a4a9897dfcba6bcabd, type: 3}
   countdownText: {fileID: 3225509171649733240}
   catchFeedback: {fileID: 5337334715615295766}
   gameDuration: 10
   creatureSpeed: 5
   catchDistance: 1.5
-  areaBounds: {x: 10, y: 10}
 --- !u!1 &634414651209314573
 GameObject:
   m_ObjectHideFlags: 0
@@ -2237,7 +2236,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 674771134529610598}
   lilGuyBeingCaught: {fileID: 0}
-  barrier: {fileID: 0}
+  barrier: {fileID: 5876198540106903233, guid: 0317a379f16c12a4a9897dfcba6bcabd, type: 3}
   strengthMeter: {fileID: 6098786097808274113}
   aiPushStrength: 0.05
   playerMashStrength: 0.02
@@ -2772,7 +2771,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 674771134529610598}
   lilGuyBeingCaught: {fileID: 0}
-  barrier: {fileID: 0}
+  barrier: {fileID: 5876198540106903233, guid: 0317a379f16c12a4a9897dfcba6bcabd, type: 3}
   throwObjectPrefab: {fileID: 8795963301890276714, guid: f7ce84ba5e4778449816f16633474711,
     type: 3}
   throwPoint: {fileID: 0}
