@@ -37,6 +37,7 @@ public class PlayerBody : MonoBehaviour
 	private float coyoteTimeCounter;
 	private float jumpbufferCounter;
 	private bool isJumping = false;
+	private bool isDashing = false;
 	private bool flip = false;
 
 	private bool hasInteracted = false;
@@ -46,6 +47,7 @@ public class PlayerBody : MonoBehaviour
 	public float MaxSpeed { get { return maxSpeed; } }
 	public bool HasInteracted { get { return hasInteracted; } set { hasInteracted = value; } }
 	public bool IsJumping { get { return isJumping; } set { isJumping = value; } }
+	public bool IsDashing { get { return isDashing; } set { isDashing = value; } }
 	public Vector3 MovementDirection { get { return movementDirection; } }
 	public List<LilGuyBase> LilGuyTeam { get { return lilGuyTeam; } }
 	public List<GameObject> LilGuyTeamSlots { get { return lilGuyTeamSlots; } }
@@ -75,10 +77,10 @@ public class PlayerBody : MonoBehaviour
 			// Shift elements left
 			for (int i = 0; i < lilGuyTeam.Count - 1; i++)
 			{
-				initialParent = lilGuyTeam[i].transform.parent;			//1th guy parent
-				lilGuyTeam[i + 1].transform.SetParent(initialParent);	// 2st guy parent is now 1th guy parent
-				lilGuyTeam[i] = lilGuyTeam[i + 1];						//1th team pos holds 2st guy
-				lilGuyTeam[i].transform.localPosition = Vector3.zero;	//Reset pos
+				initialParent = lilGuyTeam[i].transform.parent;         //1th guy parent
+				lilGuyTeam[i + 1].transform.SetParent(initialParent);   // 2st guy parent is now 1th guy parent
+				lilGuyTeam[i] = lilGuyTeam[i + 1];                      //1th team pos holds 2st guy
+				lilGuyTeam[i].transform.localPosition = Vector3.zero;   //Reset pos
 
 			}
 			currentSelected.transform.SetParent(lilGuyTeamSlots[lilGuyTeam.Count - 1].transform);
@@ -88,15 +90,15 @@ public class PlayerBody : MonoBehaviour
 		else if (shiftDirection > 0)
 		{
 			// Store the last element to rotate it to the beginning
-			LilGuyBase lastInTeam = lilGuyTeam[lilGuyTeam.Count - 1];	// last team lil guy
+			LilGuyBase lastInTeam = lilGuyTeam[lilGuyTeam.Count - 1];   // last team lil guy
 			Transform lastParent;
 
 			// Shift elements right
 			for (int i = lilGuyTeam.Count - 1; i > 0; i--)
 			{
 				lastParent = lilGuyTeam[i].transform.parent;        //1nd guy parent
-				lilGuyTeam[i - 1].transform.SetParent(lastParent);	//0st guy parent is now 1nd guy parent
-				lilGuyTeam[i] = lilGuyTeam[i - 1];					//1nd team pos now holds 0st guy
+				lilGuyTeam[i - 1].transform.SetParent(lastParent);  //0st guy parent is now 1nd guy parent
+				lilGuyTeam[i] = lilGuyTeam[i - 1];                  //1nd team pos now holds 0st guy
 				lilGuyTeam[i].transform.localPosition = Vector3.zero; //Reset local pos
 
 			}
@@ -116,7 +118,7 @@ public class PlayerBody : MonoBehaviour
 		{
 			rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
 			rb.AddForce(Vector3.up * jumpSpeed, ForceMode.Impulse);
-			Managers.AudioManager.Instance.PlaySfx("Jump",gameObject.GetComponent<AudioSource>());
+			Managers.AudioManager.Instance.PlaySfx("Jump", gameObject.GetComponent<AudioSource>());
 		}
 	}
 
@@ -225,19 +227,21 @@ public class PlayerBody : MonoBehaviour
 
 		// Movement behaviours
 
-
-		// Reduce gliding when there’s no movement input
-		if (movementDirection.magnitude < 0.1f)
+		if (!isDashing)
 		{
-			// Slow down quicker if no movement direction input
-			rb.velocity = new Vector3(rb.velocity.x * movementDeceleration, rb.velocity.y, rb.velocity.z * movementDeceleration);
-		}
-		else
-		{
-			// Apply motion velocity as the player is moving
-			Vector3 targetVelocity = movementDirection.normalized * maxSpeed;
-			Vector3 newForceDirection = (targetVelocity - new Vector3(rb.velocity.x, 0, rb.velocity.z));
-			rb.velocity += newForceDirection * Time.fixedDeltaTime;
+			// Reduce gliding when there’s no movement input
+			if (movementDirection.magnitude < 0.1f)
+			{
+				// Slow down quicker if no movement direction input
+				rb.velocity = new Vector3(rb.velocity.x * movementDeceleration, rb.velocity.y, rb.velocity.z * movementDeceleration);
+			}
+			else
+			{
+				// Apply motion velocity as the player is moving
+				Vector3 targetVelocity = movementDirection.normalized * maxSpeed;
+				Vector3 newForceDirection = (targetVelocity - new Vector3(rb.velocity.x, 0, rb.velocity.z));
+				rb.velocity += newForceDirection * Time.fixedDeltaTime;
+			}
 		}
 
 		// Jump behaviours

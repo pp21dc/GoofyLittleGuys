@@ -64,8 +64,9 @@ MonoBehaviour:
   currentCharges: 1
   maxCharges: 1
   cooldownDuration: 9
+  chargeRefreshRate: 2
   playerOwner: {fileID: 0}
-  distance: 0
+  distance: 5
 --- !u!136 &3370327291423806742
 CapsuleCollider:
   m_ObjectHideFlags: 0

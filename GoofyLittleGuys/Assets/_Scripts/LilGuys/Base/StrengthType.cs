@@ -18,12 +18,14 @@ public class StrengthType : LilGuyBase
 
 	public override void Special()
 	{
-		if (cooldownTimer > 0 || currentCharges <= 0) return;
+		if (currentCharges <= 0 && cooldownTimer > 0) return;
 
 		GameObject aoe = Instantiate(aoeShape, transform);
 		aoe.GetComponent<AoeHitbox>().InitializeExpansion(aoeMaxSize, aoeExpansionSpeed, this);
 		DealDamage(hitColliders);
 
+		cooldownTimer = cooldownDuration;
+		chargeTimer = chargeRefreshRate;
 		currentCharges--;
 	}
 

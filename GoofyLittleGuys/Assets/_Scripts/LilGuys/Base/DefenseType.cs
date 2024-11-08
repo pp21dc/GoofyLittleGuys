@@ -21,10 +21,15 @@ public class DefenseType : LilGuyBase
     public override void Special()
 	{
 		//TODO: ADD DEFENSE SPECIAL ATTACK
-		if (cooldownTimer > 0 || currentCharges <= 0) return;
+		if (currentCharges <= 0 && cooldownTimer > 0) return;
 		spawnedShieldObj ??= Instantiate(shieldPrefab, transform.position, Quaternion.identity, transform); // If spawnShieldObj is null, assign it this instantiated GO
         spawnedShieldObj.GetComponent<Shield>().Initialize(duration, this);
         isShieldActive = true;
 
-    }
+
+		cooldownTimer = cooldownDuration;
+		chargeTimer = chargeRefreshRate;
+        currentCharges--;
+
+	}
 }

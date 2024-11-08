@@ -25,6 +25,8 @@ namespace Managers
 		[SerializeField] private bool gameStartTest = true;
 		private int currentPhase = 0;
 
+		public int CurrentPhase => currentPhase;
+
         [Header("Hitbox LayerMasks")]
         [SerializeField] private LayerMask phase1LayerMask;
         [SerializeField] private LayerMask phase2LayerMask;

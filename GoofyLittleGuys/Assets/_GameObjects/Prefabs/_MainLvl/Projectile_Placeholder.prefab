@@ -509,9 +509,9 @@ GameObject:
   - component: {fileID: 8167940559176656848}
   - component: {fileID: 5113135050912032885}
   - component: {fileID: 6994501941504318655}
-  - component: {fileID: 3240502101452935499}
   - component: {fileID: 5818952861835590379}
   - component: {fileID: 8255252652216987098}
+  - component: {fileID: -8724922631746738985}
   m_Layer: 0
   m_Name: Projectile_Placeholder
   m_TagString: Untagged
@@ -590,22 +590,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &3240502101452935499
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8795963301890276714}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc1f44b474610634f98c48a303bc5141, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 8
-  alignmentFactor: 0
 --- !u!135 &5818952861835590379
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -621,7 +605,7 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -649,8 +633,21 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-8724922631746738985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8795963301890276714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0e51b668f24f5b468b4d3d319e93d7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  despawnTime: 1

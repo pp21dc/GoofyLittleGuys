@@ -27,8 +27,8 @@ public abstract class LilGuyBase : MonoBehaviour
 	[SerializeField] protected int currentCharges = 1;
 	[SerializeField] protected int maxCharges = 1;
 	[SerializeField] protected float cooldownDuration = 1;
+	[SerializeField] protected float chargeRefreshRate = 1;
 	public GameObject playerOwner = null;
-	protected float chargeRefreshRate = 1;
 	protected float cooldownTimer = 0;
 	protected float chargeTimer = 0;
 
@@ -60,23 +60,25 @@ public abstract class LilGuyBase : MonoBehaviour
 			Destroy(GetComponent<AiController>());
 		}
 		if (isDead) return;
-		// Special attack cooldown 
 		if (cooldownTimer > 0)
 		{
 			cooldownTimer -= Time.deltaTime;
 		}
 
-		// charges regeneration
-		if (chargeTimer > 0)
+		// Regenerate charges over time
+		if (currentCharges < maxCharges)
 		{
-			chargeTimer -= Time.deltaTime;
+			if (chargeTimer > 0)
+			{
+				chargeTimer -= Time.deltaTime;
+			}
+			else
+			{
+				// Add a charge and reset the timer
+				currentCharges++;
+				chargeTimer = chargeRefreshRate;
+			}
 		}
-		if (currentCharges < maxCharges && chargeTimer <= 0)
-		{
-			currentCharges++;
-			chargeTimer = chargeRefreshRate;
-		}
-
 	}
 	private IEnumerator FlashRed()
 	{

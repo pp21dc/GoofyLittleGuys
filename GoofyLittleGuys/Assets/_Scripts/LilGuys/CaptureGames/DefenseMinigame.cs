@@ -20,11 +20,16 @@ public class DefenseMinigame : CaptureBase
 	// Input action for player movement
 	private InputAction moveAction;
 
+	public int MissCount { get { return missCount; } set { missCount = value; } }
 
 	public override void Initialize(LilGuyBase creature)
 	{
 		base.Initialize(creature);
-		throwPoint = lilGuyBeingCaught.attackPosition; 
+		throwPoint = lilGuyBeingCaught.attackPosition;
+
+		player.transform.position = instantiatedBarrier.transform.position - new Vector3(0, 0, areaBounds.y);
+		lilGuyBeingCaught.transform.position = instantiatedBarrier.transform.position + new Vector3(0, 0, areaBounds.y);
+		lilGuyBeingCaught.GetComponent<Rigidbody>().isKinematic = true;
 	}
 	private void OnEnable()
 	{
@@ -33,7 +38,6 @@ public class DefenseMinigame : CaptureBase
 		gameActive = true;
 		missCount = 0;
 		gameStartTime = Time.time;
-
 		StartCoroutine(ThrowObjectsRoutine());
 	}
 
@@ -64,14 +68,13 @@ public class DefenseMinigame : CaptureBase
 			ThrowObject();
 			yield return new WaitForSeconds(throwInterval);
 		}
-		if (gameActive) EndMinigame(true); // If still active, player has successfully defended
 	}
 
 	private void ThrowObject()
 	{
 		// Create a new thrown object at the throw point
-		GameObject thrownObject = Instantiate(throwObjectPrefab, throwPoint.position, Quaternion.identity);
-
+		GameObject thrownObject = Instantiate(throwObjectPrefab, throwPoint.position + Vector3.back, Quaternion.identity);
+		thrownObject.GetComponent<DefenseProjectile>().Init(player.gameObject, this);
 		// Determine throw direction: center, left, or right
 		Vector3 direction = Vector3.back;
 		int throwType = Random.Range(0, 3); // 0 = center, 1 = left, 2 = right
@@ -89,31 +92,10 @@ public class DefenseMinigame : CaptureBase
 		Destroy(thrownObject, 3f); // Adjust lifetime as necessary
 	}
 
-	private void OnTriggerEnter(Collider other)
-	{
-		if (other.CompareTag("ThrownObject"))
-		{
-			// Player successfully intercepts the object
-			Destroy(other.gameObject);
-		}
-	}
-
-	private void OnTriggerExit(Collider other)
-	{
-		if (other.CompareTag("ThrownObject"))
-		{
-			// Object missed the player
-			missCount++;
-			if (missCount >= maxMisses)
-			{
-				EndMinigame(false); // Player failed the minigame
-			}
-		}
-	}
-
 	private void CheckGameEndCondition()
 	{
-		if (Time.time - gameStartTime >= gameDuration)
+		if (missCount >= 3) EndMinigame(false);
+		else if (Time.time - gameStartTime >= gameDuration && missCount < 3)
 		{
 			EndMinigame(true); // Player successfully defended for full duration
 		}
