@@ -6,7 +6,6 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
 	[SerializeField] private PlayerBody playerBody;
-
 	private bool showTeamUI = true;
 	private bool showMinimap = true;
 
@@ -26,7 +25,6 @@ public class PlayerController : MonoBehaviour
 	{
 		GameManager.Instance.IsPaused = true;
 		EventManager.Instance.CallGamePaused(GetComponent<PlayerInput>());
-
 	}
 
 	public void OnShowHideTeamUI(InputAction.CallbackContext ctx)
@@ -36,9 +34,8 @@ public class PlayerController : MonoBehaviour
 		// Idk, invoke some event perhaps, passing showTeamUI
 		// Event ties to the UI on this player's camera, and either shows or hides the UI based
 		// on what showTeamUI evaluates to
-
-
 	}
+
 	public void OnShowHideMinimap(InputAction.CallbackContext ctx)
 	{
 		if (Managers.GameManager.Instance.IsPaused) return;
@@ -46,18 +43,18 @@ public class PlayerController : MonoBehaviour
 		// Idk, invoke some event perhaps, passing showMinimap
 		// Event ties to the UI on this player's camera, and either shows or hides the UI based
 		// on what showMinimap evaluates to
-
-
 	}
 
 	public void OnInteract(InputAction.CallbackContext ctx)
 	{
 		playerBody.HasInteracted = ctx.performed ? true : false; // If action performed, then true, otherwise false.
 	}
+
 	public void OnLeave(InputAction.CallbackContext ctx)
 	{
 		MultiplayerManager.Instance.LeavePlayer(GetComponent<PlayerInput>());
 	}
+
 	public void OnJump(InputAction.CallbackContext ctx)
 	{
 		if (Managers.GameManager.Instance.IsPaused) return;

@@ -9,29 +9,47 @@ namespace Managers
 {
 	public class UiManager : SingletonBase<UiManager>
 	{
-		[SerializeField] private GameObject pauseScreen;
-		[SerializeField] private EventSystem pauseEventSystem;
-		[SerializeField] private GameObject firstSelected;
+		[SerializeField] private GameObject pauseScreen;		// The pause menu.
+		[SerializeField] private EventSystem pauseEventSystem;	// The event system tied specifically to the pause menu.
+		[SerializeField] private GameObject firstSelected;		// The first button in the menu to be selected on default
 
+		private void Start()
+		{
+			EventManager.Instance.NotifyGamePaused += GamePaused;
+		}
+
+		/// <summary>
+		/// Method called when the Resume button on the pause menu is pressed.
+		/// </summary>
 		public void OnResumePressed()
 		{
 			GameManager.Instance.IsPaused = false;
 			pauseScreen.SetActive(GameManager.Instance.IsPaused);
 			EnableAllPlayerInputs();
 		}
+
+		/// <summary>
+		/// Method called when the Quit button in the pause menu is pressed.
+		/// </summary>
 		public void OnQuitToMainMenuPressed()
 		{
 			GameManager.Instance.IsPaused = false;
 			pauseScreen.SetActive(GameManager.Instance.IsPaused);
 			StartCoroutine(Quit());
+
 			foreach (PlayerInput input in PlayerInput.all)
 			{
+				// Delete all player instances.
 				Destroy(input.gameObject);
 			}
 			LevelLoadManager.Instance.LoadNewLevel("00_MainMenu");
 			
 		}
 
+		/// <summary>
+		/// Coroutine that handles quit behaviour
+		/// </summary>
+		/// <returns></returns>
 		private IEnumerator Quit()
 		{
 			for (int i = PlayerInput.all.Count - 1; i >= 0; i--)
@@ -42,10 +60,10 @@ namespace Managers
 			LevelLoadManager.Instance.LoadNewLevel("00_MainMenu");
 			yield break;
 		}
-		private void Start()
-		{
-			EventManager.Instance.NotifyGamePaused += GamePaused;
-		}
+
+		/// <summary>
+		/// Method that disables every player's inputs.
+		/// </summary>
 		private void DisableAllPlayerInputs()
 		{
 			foreach (var playerInput in FindObjectsOfType<PlayerInput>())
@@ -54,6 +72,9 @@ namespace Managers
 			}
 		}
 
+		/// <summary>
+		/// Enables all player inputs and sets their action maps to world.
+		/// </summary>
 		private void EnableAllPlayerInputs()
 		{
 			foreach (var playerInput in FindObjectsOfType<PlayerInput>())
@@ -63,15 +84,19 @@ namespace Managers
 			}
 		}
 
+		/// <summary>
+		/// Method called when the game is paused.
+		/// </summary>
+		/// <param name="player">The player who paused the game</param>
 		private void GamePaused(PlayerInput player)
 		{
 			pauseScreen.SetActive(GameManager.Instance.IsPaused);
-			pauseEventSystem.GetComponent<InputSystemUIInputModule>().actionsAsset = player.actions;
+			pauseEventSystem.GetComponent<InputSystemUIInputModule>().actionsAsset = player.actions;	// Set the UI input module's input to be the player who paused.
+
 			DisableAllPlayerInputs();
 
 			if (GameManager.Instance.IsPaused) player.SwitchCurrentActionMap("UI");
 			else player.SwitchCurrentActionMap("World");
 		}
-
 	}
 }

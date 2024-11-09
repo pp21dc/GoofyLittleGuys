@@ -11,7 +11,7 @@ public class Hurtbox : MonoBehaviour
     private bool Ai;
 
     public int Health { get { return health; } }
-    public GameObject lastHit;
+    public GameObject lastHit;						// Player who last hit this hurtbox.
 
 	private void Start()
 	{
@@ -22,6 +22,9 @@ public class Hurtbox : MonoBehaviour
         EventManager.Instance.GameStarted -= Init;
 	}
 
+	/// <summary>
+	/// Method called when the game is started.
+	/// </summary>
     private void Init()
     {
 		if (owner.GetComponent<PlayerBody>() != null)
@@ -46,28 +49,30 @@ public class Hurtbox : MonoBehaviour
 	/// <summary>
 	/// Gets the health value of given object. To be called when a lil guy is damaged.
 	/// </summary>
+	/// <param name="dmg">The amount of damage dealt.</param>
 	public void TakeDamage(int dmg)
-    {
-        if (gameObject.layer == LayerMask.NameToLayer("PlayerLilGuys"))
-        {
-			if (owner.GetComponent<LilGuyBase>().playerOwner.GetComponent<PlayerBody>().InMinigame)
+	{
+		if (gameObject.layer == LayerMask.NameToLayer("PlayerLilGuys"))
+		{
+			// Player lil guy was hit
+			if (!owner.GetComponent<LilGuyBase>().playerOwner.GetComponent<PlayerBody>().InMinigame)
 			{
+				// If the player lil guy that was hit is currently not in a minigame, apply damage to their health.
 				owner.GetComponent<LilGuyBase>().health -= dmg;
 				health = owner.GetComponent<LilGuyBase>().health -= dmg;
 				owner.GetComponent<LilGuyBase>().Damaged();
 			}
-        }
-        else if (gameObject.layer == LayerMask.NameToLayer("WildLilGuys"))
-        {
+		}
+		else if (gameObject.layer == LayerMask.NameToLayer("WildLilGuys"))
+		{
+			// Wild lil guy was hit
 			owner.GetComponent<AiController>().LilGuy.health -= dmg;
-            health = owner.GetComponent<AiController>().LilGuy.health;
-            owner.GetComponent<LilGuyBase>().Damaged();
-        }
-        else
-        {
-            health -= dmg;
-        }
-    }
-
-    //
+			health = owner.GetComponent<AiController>().LilGuy.health;
+			owner.GetComponent<LilGuyBase>().Damaged();
+		}
+		else
+		{
+			health -= dmg;
+		}
+	}
 }

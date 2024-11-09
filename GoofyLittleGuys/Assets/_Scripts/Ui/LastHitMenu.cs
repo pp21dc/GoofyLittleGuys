@@ -7,13 +7,13 @@ using UnityEngine.UI;
 
 public class LastHitMenu : MonoBehaviour
 {
-	[SerializeField] private PlayerBody player;
-	[SerializeField] private Button firstButton;
-	[SerializeField] private MultiplayerEventSystem playerEventSystem;
-	[SerializeField] private List<GameObject> minigames;
-	private LilGuyBase lilGuyToCapture;
+	[SerializeField] private PlayerBody player;							// Reference to the player owner of this menu.
+	[SerializeField] private Button firstButton;						// The first button to be selected on default.
+	[SerializeField] private MultiplayerEventSystem playerEventSystem;	// Reference to the player's event system.
+	[SerializeField] private List<GameObject> minigames;				// A list of minigames that could occur for the player.
+	private LilGuyBase lilGuyToCapture;									// Thi lil guy we are trying to capture... or not.
 
-	// Called when the UI is enabled
+
 	private void OnEnable()
 	{
 		// Set the first selected button to "Yes"
@@ -28,6 +28,9 @@ public class LastHitMenu : MonoBehaviour
 		lilGuyToCapture = lilGuy;
 	}
 
+	/// <summary>
+	/// Called when we are going to try and catch the lil guy.
+	/// </summary>
 	public void OnYesSelected()
 	{
 		playerEventSystem.gameObject.SetActive(false);
@@ -41,6 +44,9 @@ public class LastHitMenu : MonoBehaviour
 		ClosePrompt();
 	}
 
+	/// <summary>
+	/// Called when we chose to collect stats instead.
+	/// </summary>
 	public void OnNoSelected()
 	{
 		playerEventSystem.gameObject.SetActive(false);
@@ -52,10 +58,11 @@ public class LastHitMenu : MonoBehaviour
 	{
 		// Close the UI prompt and clean up button listeners
 		gameObject.SetActive(false);
-
-		// Reset player input to gameplay (assuming this is managed by PlayerBody)
 	}
 
+	/// <summary>
+	/// Method that starts one of the capture minigames, depending on the type of lil guy that the player is trying to capture.
+	/// </summary>
 	private void StartCaptureMinigame()
 	{
 		// Pseudocode: Start the capture minigame based on LilGuy type

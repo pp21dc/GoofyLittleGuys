@@ -19,12 +19,23 @@ public class AoeHitbox : Hitbox
 		StartCoroutine(Expand(maxSize, expansionSpeed));
 	}
 
+	/// <summary>
+	/// Method called when the hitbox is first spawned in the world
+	/// </summary>
+	/// <param name="hitboxOwner">The lil guy who created this hitbox.</param>
 	public override void Init(GameObject hitboxOwner)
 	{
 		this.hitboxOwner = hitboxOwner;
 		gameObject.layer = hitboxOwner.layer;
 		Damage = hitboxOwner.GetComponent<StrengthType>().aoeDamage + hitboxOwner.GetComponent<LilGuyBase>().strength;
 	}
+
+	/// <summary>
+	/// Coroutine that handles the expansion of the AoE, by expanding it over time.
+	/// </summary>
+	/// <param name="maxSize">The maximum size the AoE will get.</param>
+	/// <param name="expansionSpeed">How fast the AoE reaches the max size in seconds.</param>
+	/// <returns></returns>
 	private IEnumerator Expand(float maxSize, float expansionSpeed)
 	{
 		Vector3 initialScale = Vector3.zero;
