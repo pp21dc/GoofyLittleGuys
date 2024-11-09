@@ -4,7 +4,7 @@ using UnityEngine;
 
 // Written By: Bryan Bedard
 // Edited by: Bryan Bedard, 
-// Purpose: To manage playing Audio (both Music and SFX)
+// Purpose: To manage spawning Lil Guys at the correct Spawners
 namespace Managers
 {
     public class SpawnManager : SingletonBase<SpawnManager>

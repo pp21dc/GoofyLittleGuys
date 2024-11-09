@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 // Written By: Bryan Bedard
 // Edited by: Bryan Bedard, 
-// Purpose: Spawn Lil Guys within a given distance from this object, after a randomized interval (with given min and max value)
+// Purpose: Spawn Lil Guys within a given distance from this object,
+// after a randomized interval (with given min and max value)
 public class SpawnerObj : MonoBehaviour
 {
     

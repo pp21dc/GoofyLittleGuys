@@ -73,6 +73,7 @@ namespace Managers
 		{
 			currentLayerMask = phase2LayerMask;
 			// Start grand brawl challenge
+			LevelLoadManager.Instance.LoadNewLevel("03_PhaseTwo");
 		}
 
 		public void SpawnLegendary()
