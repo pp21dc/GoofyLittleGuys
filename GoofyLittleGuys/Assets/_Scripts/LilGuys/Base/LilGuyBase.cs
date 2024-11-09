@@ -48,10 +48,6 @@ public abstract class LilGuyBase : MonoBehaviour
 	{
 		gameObject.layer = layer;
 	}
-	private void Awake()
-	{
-		attackPosition = gameObject.transform;
-	}
 
 	private void Update()
 	{
@@ -115,7 +111,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	{
 		if (instantiatedHitbox == null)
 		{
-			instantiatedHitbox = Instantiate(hitboxPrefab, attackPosition.position + attackPosition.forward * 0.5f, Quaternion.identity);
+			instantiatedHitbox = Instantiate(hitboxPrefab, attackPosition.position - attackPosition.right * 0.5f, Quaternion.identity);
 			instantiatedHitbox.transform.SetParent(transform);
 			instantiatedHitbox.GetComponent<Hitbox>().layerMask = playerOwner != null ? playerOwner.layer : gameObject.layer;
 			instantiatedHitbox.GetComponent<Hitbox>().Init(gameObject);

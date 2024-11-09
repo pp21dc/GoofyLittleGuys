@@ -12,7 +12,7 @@ public class Hitbox : MonoBehaviour
 	public GameObject hitboxOwner;
 	public LayerMask layerMask;
 
-	public void Init(GameObject hitboxOwner)
+	public virtual void Init(GameObject hitboxOwner)
 	{
 		this.hitboxOwner = hitboxOwner;
 		gameObject.layer = hitboxOwner.layer;
@@ -33,7 +33,7 @@ public class Hitbox : MonoBehaviour
 		DefenseType defenseLilGuy = h.gameObject.GetComponent<DefenseType>();
 		if (defenseLilGuy != null && defenseLilGuy.IsShieldActive)
 		{
-			h.TakeDamage(Mathf.FloorToInt(Damage * defenseLilGuy.DamageReduction));
+			h.TakeDamage(Mathf.CeilToInt(Damage * (1 - defenseLilGuy.DamageReduction)));	// Ceil because we don't want them to be completely immune to damage.
 		}
 		else
 		{

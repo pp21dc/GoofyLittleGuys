@@ -33,6 +33,7 @@ public class CaptureBase : MonoBehaviour
             if (body.LilGuyTeam.Count < 3)
             {
                 lilGuyBeingCaught.playerOwner = body.gameObject;
+                lilGuyBeingCaught.health = lilGuyBeingCaught.maxHealth;
                 body.LilGuyTeam.Add(lilGuyBeingCaught);
                 lilGuyBeingCaught.Init(LayerMask.NameToLayer("PlayerLilGuys"));
                 lilGuyBeingCaught.gameObject.transform.SetParent(body.LilGuyTeamSlots[body.LilGuyTeam.Count - 1].transform, false);

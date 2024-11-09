@@ -760,9 +760,9 @@ MonoBehaviour:
     m_Bits: 8
   lilGuyTeam: []
   lilGuyTeamSlots:
-  - {fileID: 7141438474919956121}
-  - {fileID: 3458392491599443053}
-  - {fileID: 1235229453542371330}
+  - {fileID: 4078281670971485286}
+  - {fileID: 3921438024293013949}
+  - {fileID: 8416668730258656303}
   playerMesh: {fileID: 1987567868551127171}
   playerInput: {fileID: 674771134529610598}
   lastHitPromptUI: {fileID: 767803195980415129}
@@ -1077,6 +1077,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6569762695659411656}
+  - component: {fileID: 8416668730258656303}
   m_Layer: 7
   m_Name: LilGuy3
   m_TagString: Untagged
@@ -1099,6 +1100,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1816819182295901651}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8416668730258656303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1235229453542371330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01a7aaaf992b3774ab5ed31eb2408943, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1524290378219317053
 GameObject:
   m_ObjectHideFlags: 0
@@ -1537,6 +1550,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3646241935843883672}
+  - component: {fileID: 3921438024293013949}
   m_Layer: 7
   m_Name: LilGuy2
   m_TagString: Untagged
@@ -1559,6 +1573,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1816819182295901651}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3921438024293013949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3458392491599443053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01a7aaaf992b3774ab5ed31eb2408943, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3604491685936402092
 GameObject:
   m_ObjectHideFlags: 0
@@ -2651,6 +2677,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6745856491968441251}
+  - component: {fileID: 4078281670971485286}
   m_Layer: 7
   m_Name: LilGuy1
   m_TagString: Untagged
@@ -2673,6 +2700,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1816819182295901651}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4078281670971485286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7141438474919956121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01a7aaaf992b3774ab5ed31eb2408943, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7389520834631725428
 GameObject:
   m_ObjectHideFlags: 0

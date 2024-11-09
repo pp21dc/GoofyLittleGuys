@@ -39,7 +39,12 @@ public class HealingFountain : InteractableBase
 		base.OnInteracted(body);
 		foreach (LilGuyBase lilGuy in body.LilGuyTeam)
 		{
-			if (lilGuy.health < lilGuy.maxHealth) lilGuy.health = lilGuy.maxHealth;
+			if (lilGuy.health < lilGuy.maxHealth)
+			{
+				lilGuy.health = lilGuy.maxHealth;
+				lilGuy.gameObject.SetActive(true);
+				lilGuy.GetComponent<SpriteRenderer>().color = Color.white;
+			}
 		}
 		// Play healing effect?
 	}

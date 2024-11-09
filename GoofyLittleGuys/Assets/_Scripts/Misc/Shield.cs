@@ -21,11 +21,7 @@ public class Shield : MonoBehaviour
 	private void Start()
 	{
         transform.localScale = Vector3.zero;
-        StartCoroutine(ResizeShieldOvertime(Vector3.zero, Vector3.one * maxSize));
-	}
-	private void OnDestroy()
-	{
-        StartCoroutine(ResizeShieldOvertime(Vector3.one * maxSize, Vector3.zero));
+        StartCoroutine(ResizeShieldOvertime(Vector3.zero, Vector3.one * maxSize, false));
 	}
 
 	private IEnumerator ShieldUp()
@@ -38,10 +34,10 @@ public class Shield : MonoBehaviour
         }
         transform.parent.GetComponent<DefenseType>().SpawnedShieldObj = null;
         shieldOwner.IsShieldActive = false;
-        Destroy(gameObject);
-    }
+		StartCoroutine(ResizeShieldOvertime(Vector3.one * maxSize, Vector3.zero, true));
+	}
     
-    private IEnumerator ResizeShieldOvertime(Vector3 initialScale, Vector3 targetScale)
+    private IEnumerator ResizeShieldOvertime(Vector3 initialScale, Vector3 targetScale, bool destroyAfterResize)
     {
 		float elapsedTime = 0;
 		while (elapsedTime < expansionSpeed)
@@ -52,6 +48,7 @@ public class Shield : MonoBehaviour
 
 			yield return null;
 		}
+        if (destroyAfterResize) Destroy(gameObject);
 	}
 
 }

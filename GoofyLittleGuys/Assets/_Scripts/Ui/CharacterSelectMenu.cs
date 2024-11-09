@@ -34,7 +34,7 @@ public class CharacterSelectMenu : MonoBehaviour
 		EventManager.Instance.GameStarted += GameInit;
 	}
 
-	private void OnDestroy()
+	private void OnDisable()
 	{
 		player.actions["Cancel"].performed -= OnCancelled;
 		player.actions["Submit"].performed -= OnSubmitted;

@@ -1,6 +1,7 @@
 
 using Managers;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -11,7 +12,7 @@ public class PlayerBody : MonoBehaviour
 {
 	[SerializeField] private LayerMask groundLayer;
 	[SerializeField] private List<LilGuyBase> lilGuyTeam;
-	[SerializeField] private List<GameObject> lilGuyTeamSlots;
+	[SerializeField] private List<LilGuySlot> lilGuyTeamSlots;
 	[SerializeField] private GameObject playerMesh;
 	[SerializeField] private PlayerInput playerInput;
 	[SerializeField] private GameObject lastHitPromptUI;
@@ -50,7 +51,7 @@ public class PlayerBody : MonoBehaviour
 	public bool IsDashing { get { return isDashing; } set { isDashing = value; } }
 	public Vector3 MovementDirection { get { return movementDirection; } }
 	public List<LilGuyBase> LilGuyTeam { get { return lilGuyTeam; } }
-	public List<GameObject> LilGuyTeamSlots { get { return lilGuyTeamSlots; } }
+	public List<LilGuySlot> LilGuyTeamSlots { get { return lilGuyTeamSlots; } }
 
 	public void UpdateMovementVector(Vector2 dir)
 	{
@@ -68,45 +69,72 @@ public class PlayerBody : MonoBehaviour
 	{
 		if (lilGuyTeam.Count <= 1) return;
 
+		// Filter out the dead team members from the live ones.
+		// We don't want to try swapping to a defeated party member.
+		List<LilGuyBase> aliveTeamMembers = lilGuyTeam.Where(guy => guy.health > 0).ToList();
+		List<LilGuySlot> aliveTeamSlots = lilGuyTeamSlots.Where(slot => !slot.LockState).ToList();
+		if (aliveTeamMembers.Count <= 1) return;
+
 		if (shiftDirection < 0)
 		{
 			// Store the first element to rotate it to the end
 			LilGuyBase currentSelected = lilGuyTeam[0];
-			Transform initialParent;
+			Transform[] initialParents = new Transform[aliveTeamMembers.Count];
+
+			// Store initial parents for all items
+			for (int i = 0; i < aliveTeamMembers.Count; i++)
+			{
+				initialParents[i] = aliveTeamSlots[i].transform;
+			}
 
 			// Shift elements left
-			for (int i = 0; i < lilGuyTeam.Count - 1; i++)
+			for (int i = 0; i < aliveTeamMembers.Count - 1; i++)
 			{
-				initialParent = lilGuyTeam[i].transform.parent;         //1th guy parent
-				lilGuyTeam[i + 1].transform.SetParent(initialParent);   // 2st guy parent is now 1th guy parent
-				lilGuyTeam[i] = lilGuyTeam[i + 1];                      //1th team pos holds 2st guy
-				lilGuyTeam[i].transform.localPosition = Vector3.zero;   //Reset pos
-
+				lilGuyTeam[i] = lilGuyTeam[i + 1];
+				lilGuyTeam[i].transform.SetParent(initialParents[i]);
+				lilGuyTeam[i].transform.localPosition = Vector3.zero;
 			}
-			currentSelected.transform.SetParent(lilGuyTeamSlots[lilGuyTeam.Count - 1].transform);
-			lilGuyTeam[lilGuyTeam.Count - 1] = currentSelected;
-			lilGuyTeam[lilGuyTeam.Count - 1].transform.localPosition = Vector3.zero;
+
+			// Move the first element to the last position
+			lilGuyTeam[aliveTeamMembers.Count - 1] = currentSelected;
+			currentSelected.transform.SetParent(initialParents[aliveTeamMembers.Count - 1]);
+			currentSelected.transform.localPosition = Vector3.zero;
 		}
 		else if (shiftDirection > 0)
 		{
 			// Store the last element to rotate it to the beginning
-			LilGuyBase lastInTeam = lilGuyTeam[lilGuyTeam.Count - 1];   // last team lil guy
-			Transform lastParent;
+			LilGuyBase lastInTeam = lilGuyTeam[aliveTeamMembers.Count - 1];
+			Transform[] initialParents = new Transform[aliveTeamMembers.Count];
 
-			// Shift elements right
-			for (int i = lilGuyTeam.Count - 1; i > 0; i--)
+			// Store initial parents for all items
+			for (int i = 0; i < aliveTeamMembers.Count; i++)
 			{
-				lastParent = lilGuyTeam[i].transform.parent;        //1nd guy parent
-				lilGuyTeam[i - 1].transform.SetParent(lastParent);  //0st guy parent is now 1nd guy parent
-				lilGuyTeam[i] = lilGuyTeam[i - 1];                  //1nd team pos now holds 0st guy
-				lilGuyTeam[i].transform.localPosition = Vector3.zero; //Reset local pos
-
+				initialParents[i] = aliveTeamSlots[i].transform;
 			}
 
-			lastInTeam.transform.SetParent(lilGuyTeamSlots[0].transform);
+			// Shift elements right
+			for (int i = aliveTeamMembers.Count - 1; i > 0; i--)
+			{
+				lilGuyTeam[i] = lilGuyTeam[i - 1];
+				lilGuyTeam[i].transform.SetParent(initialParents[i]);
+				lilGuyTeam[i].transform.localPosition = Vector3.zero;
+			}
+
+			// Move the last element to the first position
 			lilGuyTeam[0] = lastInTeam;
-			lilGuyTeam[0].transform.localPosition = Vector3.zero;
+			lastInTeam.transform.SetParent(initialParents[0]);
+			lastInTeam.transform.localPosition = Vector3.zero;
 		}
+	}
+
+	public void StartDash()
+	{
+		isDashing = true;
+	}
+
+	public void StopDash()
+	{
+		isDashing = false;
 	}
 
 	/// <summary>
@@ -181,11 +209,7 @@ public class PlayerBody : MonoBehaviour
 
 	private bool CheckTeamHealth()
 	{
-		for (int i = 0; i < lilGuyTeam.Count; i++)
-		{
-			if (lilGuyTeam[i].health > 0) return true;
-		}
-		return false;
+		return lilGuyTeam.Any(guy => guy.health > 0);
 	}
 	private void Respawn()
 	{
@@ -193,31 +217,52 @@ public class PlayerBody : MonoBehaviour
 		for (int i = 0; i < lilGuyTeam.Count; i++)
 		{
 			lilGuyTeam[i].health = lilGuyTeam[i].maxHealth;
+			lilGuyTeam[i].gameObject.SetActive(true);
 		}
 	}
 	private void FixedUpdate()
 	{
+		// Flip player if they're moving in a different direction than what they're currently facing.
 		if (flip) playerMesh.transform.rotation = Quaternion.Euler(0, 180, 0);
 		else playerMesh.transform.rotation = Quaternion.Euler(0, 0, 0);
+
+		// If the first lil guy is defeated, move to end of list
 		if (lilGuyTeam[0].health <= 0)
 		{
+			// Hide them from player, as to not confuse them with a living one... maybe find a better way to convey this
+			lilGuyTeam[0].gameObject.SetActive(false);
+			lilGuyTeam[0].GetComponentInChildren<SpriteRenderer>().color = Color.white;
+
+
 			if (CheckTeamHealth())
 			{
+				// Grab the first lil guy, save them.
 				LilGuyBase currentSelected = lilGuyTeam[0];
-				Transform initialParent;
+				Transform[] initialParents = new Transform[lilGuyTeam.Count];
 
-				// Shift elements left
+				// Store initial parents for all items
+				for (int i = 0; i < lilGuyTeam.Count; i++)
+				{
+					initialParents[i] = lilGuyTeamSlots[i].transform;
+				}
+
+				// Send everyone else forward one (lilGuy[1] -> lilGuy[0], lilGuy[2] -> lilGuy[1]);
 				for (int i = 0; i < lilGuyTeam.Count - 1; i++)
 				{
-					initialParent = lilGuyTeam[i].transform.parent;         //1th guy parent
-					lilGuyTeam[i + 1].transform.SetParent(initialParent);   // 2st guy parent is now 1th guy parent
-					lilGuyTeam[i] = lilGuyTeam[i + 1];                      //1th team pos holds 2st guy
-					lilGuyTeam[i].transform.localPosition = Vector3.zero;   //Reset pos
-
+					lilGuyTeam[i] = lilGuyTeam[i + 1];
+					lilGuyTeam[i].transform.SetParent(initialParents[i]);
+					lilGuyTeam[i].transform.localPosition = Vector3.zero;
+					// Call CheckIfLiving on the slots, to update lock state.
+					lilGuyTeamSlots[i].CheckIfLiving();	
 				}
-				currentSelected.transform.SetParent(lilGuyTeamSlots[lilGuyTeam.Count - 1].transform);
+
+				// Move the first element to the last position
 				lilGuyTeam[lilGuyTeam.Count - 1] = currentSelected;
-				lilGuyTeam[lilGuyTeam.Count - 1].transform.localPosition = Vector3.zero;
+				currentSelected.transform.SetParent(initialParents[lilGuyTeam.Count - 1]);
+				currentSelected.transform.localPosition = Vector3.zero;
+
+				// Call CheckIfLiving on the slots, to update lock state.
+				lilGuyTeamSlots[lilGuyTeam.Count - 1].CheckIfLiving();
 			}
 			else
 			{

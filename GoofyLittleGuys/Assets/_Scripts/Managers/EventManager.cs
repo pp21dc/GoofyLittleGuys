@@ -50,12 +50,6 @@ public class EventManager
 
 	public void CallLilGuyLockedInEvent()
 	{
-		if (PlayerInput.all.Count < 2) return;
-		foreach (PlayerInput input in PlayerInput.all)
-		{
-			if (!input.GetComponentInChildren<CharacterSelectMenu>().LockedIn) return;
-		}
-
 		LevelLoadManager.Instance.LoadNewLevel("02_MainGame");
 		GameStartedEvent();
 	}

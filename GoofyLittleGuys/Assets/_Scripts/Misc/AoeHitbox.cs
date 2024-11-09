@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent (typeof(Collider))]
-public class AoeHitbox : MonoBehaviour
+public class AoeHitbox : Hitbox
 {
-	private List<Collider> lilGuysInRadius;
-	LilGuyBase hitboxOwner;	// The Lil Guy who used the AoE attack
+	// private List<Collider> lilGuysInRadius = new List<Collider>();
 
 	/// <summary>
 	/// Begins expanding the AoE blast zone by provided speed value, until it reaches max size.
@@ -16,10 +15,16 @@ public class AoeHitbox : MonoBehaviour
 	/// <param name="owner">The Lil Guy who initiated this AoE attack</param>
 	public void InitializeExpansion(float maxSize, float expansionSpeed, LilGuyBase owner)
 	{
-		hitboxOwner = owner;
+		Init(owner.gameObject);
 		StartCoroutine(Expand(maxSize, expansionSpeed));
 	}
 
+	public override void Init(GameObject hitboxOwner)
+	{
+		this.hitboxOwner = hitboxOwner;
+		gameObject.layer = hitboxOwner.layer;
+		Damage = hitboxOwner.GetComponent<StrengthType>().aoeDamage + hitboxOwner.GetComponent<LilGuyBase>().strength;
+	}
 	private IEnumerator Expand(float maxSize, float expansionSpeed)
 	{
 		Vector3 initialScale = Vector3.zero;
@@ -36,21 +41,13 @@ public class AoeHitbox : MonoBehaviour
 		}
 
 		transform.localScale = targScale;
-		hitboxOwner.GetComponent<StrengthType>().HitColliders = lilGuysInRadius;	// Give the owner all the lil guys this hitbox hit.
 
 		yield return new WaitForSeconds(1);
 		Destroy(gameObject);
 	}
 
-	private void OnTriggerEnter(Collider other)
-	{
-		LilGuyBase lilGuy = other.GetComponent<LilGuyBase>();
-        if (lilGuy != null && lilGuy != hitboxOwner && !AlreadyAdded(other))
-        {
-			lilGuysInRadius.Add(other);
-        }
-    }
 
+	/*
 	/// <summary>
 	/// Checks if the lil guy who entered the zone was already tagged as hit.
 	/// </summary>
@@ -64,5 +61,5 @@ public class AoeHitbox : MonoBehaviour
 			if (c == other) return true;
 		}
 		return false;
-	}
+	}*/
 }
