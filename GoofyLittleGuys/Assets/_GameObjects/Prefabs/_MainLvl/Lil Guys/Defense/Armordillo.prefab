@@ -24,12 +24,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2611163761618927490}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 1.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6748941042090021233}
+  m_Father: {fileID: 4406844474913467462}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6573903925891364681
 GameObject:
@@ -66,7 +66,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4406844474913467462}
-  - {fileID: 6391458775545658944}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7462937212347508129
@@ -83,6 +82,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   guyName: Armordillo
   type: 1
+  mesh: {fileID: 7267988168925381940}
   hitboxPrefab: {fileID: 7763503517924717934, guid: 9df4356fd20c6d740acf3ba2a05fd8ed,
     type: 3}
   animatorController: {fileID: 0}
@@ -180,6 +180,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chaseRange: 10
   attackRange: 2
+  attackBuffer: 2
 --- !u!1 &7267988168925381940
 GameObject:
   m_ObjectHideFlags: 0
@@ -209,7 +210,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 6391458775545658944}
   m_Father: {fileID: 6748941042090021233}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2263210829898551102

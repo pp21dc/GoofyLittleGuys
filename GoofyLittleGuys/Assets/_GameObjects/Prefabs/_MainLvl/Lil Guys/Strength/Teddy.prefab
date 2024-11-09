@@ -29,7 +29,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6748941042090021233}
+  m_Father: {fileID: 4824377763857839890}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2449116246927628233
 GameObject:
@@ -61,7 +61,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 631468313354302470}
   m_Father: {fileID: 6748941042090021233}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3759597427848749218
@@ -171,7 +172,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 631468313354302470}
   - {fileID: 4824377763857839890}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -189,6 +189,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   guyName: Teddy
   type: 0
+  mesh: {fileID: 2449116246927628233}
   hitboxPrefab: {fileID: 7763503517924717934, guid: 9df4356fd20c6d740acf3ba2a05fd8ed,
     type: 3}
   animatorController: {fileID: 0}
@@ -287,3 +288,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chaseRange: 10
   attackRange: 2
+  attackBuffer: 2

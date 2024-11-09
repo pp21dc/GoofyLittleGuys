@@ -40,6 +40,7 @@ public class PlayerBody : MonoBehaviour
 	private bool isJumping = false;
 	private bool isDashing = false;
 	private bool flip = false;
+	private bool inMinigame = false;
 
 	private bool hasInteracted = false;
 	private Vector3 movementDirection = Vector3.zero;
@@ -49,6 +50,7 @@ public class PlayerBody : MonoBehaviour
 	public bool HasInteracted { get { return hasInteracted; } set { hasInteracted = value; } }
 	public bool IsJumping { get { return isJumping; } set { isJumping = value; } }
 	public bool IsDashing { get { return isDashing; } set { isDashing = value; } }
+	public bool InMinigame { get { return inMinigame; } set { inMinigame = value; } }
 	public Vector3 MovementDirection { get { return movementDirection; } }
 	public List<LilGuyBase> LilGuyTeam { get { return lilGuyTeam; } }
 	public List<LilGuySlot> LilGuyTeamSlots { get { return lilGuyTeamSlots; } }
@@ -179,6 +181,7 @@ public class PlayerBody : MonoBehaviour
 	{
 		lastHitPromptUI.GetComponent<LastHitMenu>().Initialize(lilGuy);
 		lastHitPromptUI?.SetActive(true); // Activate the UI element if not null
+		inMinigame = true;
 		EnableUIControl();
 	}
 
@@ -193,7 +196,6 @@ public class PlayerBody : MonoBehaviour
 	{
 		playerInput.SwitchCurrentActionMap("World"); // Switch back to gameplay controls
 		lastHitPromptUI?.SetActive(false); // Deactivate the UI element
-
 	}
 
 	private void Start()

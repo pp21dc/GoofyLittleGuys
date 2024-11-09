@@ -26,9 +26,9 @@ public class CaptureBase : MonoBehaviour
 	}
 	protected virtual void EndMinigame(bool playerWon)
 	{
+		PlayerBody body = player.GetComponent<PlayerBody>();
 		if (playerWon)
 		{
-			PlayerBody body = player.GetComponent<PlayerBody>();
 			Debug.Log("Player Won!");
             if (body.LilGuyTeam.Count < 3)
             {
@@ -55,6 +55,7 @@ public class CaptureBase : MonoBehaviour
             Destroy(lilGuyBeingCaught.gameObject);
 		}
 
+		body.InMinigame = false;
 		gameObject.SetActive(false);
 	}
 	// Update is called once per frame

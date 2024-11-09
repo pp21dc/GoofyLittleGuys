@@ -50,9 +50,12 @@ public class Hurtbox : MonoBehaviour
     {
         if (gameObject.layer == LayerMask.NameToLayer("PlayerLilGuys"))
         {
-            owner.GetComponent<LilGuyBase>().health -= dmg;
-            health = owner.GetComponent<LilGuyBase>().health -= dmg;
-			owner.GetComponent<LilGuyBase>().Damaged();
+			if (owner.GetComponent<LilGuyBase>().playerOwner.GetComponent<PlayerBody>().InMinigame)
+			{
+				owner.GetComponent<LilGuyBase>().health -= dmg;
+				health = owner.GetComponent<LilGuyBase>().health -= dmg;
+				owner.GetComponent<LilGuyBase>().Damaged();
+			}
         }
         else if (gameObject.layer == LayerMask.NameToLayer("WildLilGuys"))
         {

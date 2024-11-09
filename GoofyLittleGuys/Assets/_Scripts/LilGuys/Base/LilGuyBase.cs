@@ -10,6 +10,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	[Header("Lil Guy Information")]
 	public string guyName;
 	public PrimaryType type;
+	public GameObject mesh;
 	[SerializeField] private GameObject hitboxPrefab;
 	[SerializeField] private AnimatorOverrideController animatorController;
 
@@ -53,6 +54,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	{
 		if (playerOwner != null && GetComponent<AiController>() != null)
 		{
+			mesh.transform.localRotation = Quaternion.Euler(Vector3.zero);
 			Destroy(GetComponent<AiController>());
 		}
 		if (isDead) return;

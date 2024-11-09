@@ -8,12 +8,17 @@ public class AiController : MonoBehaviour
 	private Transform player;
 	[SerializeField] private float chaseRange = 10f;
 	[SerializeField] private float attackRange = 2f;
+	[SerializeField] private float attackBuffer = 1f;
+
 
 	private LilGuyBase lilGuy;
+	private Vector3 moveDirection = Vector3.zero;
 
 	public Transform Player { get { return player; } }
 	public float ChaseRange { get { return chaseRange; } }
 	public float AttackRange { get { return attackRange; } }
+	public float AttackBuffer { get { return attackBuffer; } }
+	public Vector3 MoveDirection { get { return moveDirection; } set { moveDirection = value; } }	
 	public LilGuyBase LilGuy { get { return lilGuy; } }
 
 	public AiState currentState;
@@ -66,7 +71,9 @@ public class AiController : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		player = FindClosestPlayer();
+		if (moveDirection.x > 0) lilGuy.mesh.transform.localRotation = Quaternion.Euler(0, 180, 0);
+		else if (moveDirection.x < 0) lilGuy.mesh.transform.localRotation = Quaternion.identity;
+        player = FindClosestPlayer();
 		currentState.UpdateState();
 	}
 
@@ -75,7 +82,7 @@ public class AiController : MonoBehaviour
 		Transform currClosest = PlayerInput.all[0].transform;
 		foreach (PlayerInput input in PlayerInput.all)
 		{
-			if (Vector3.Distance(input.transform.position, transform.position) < Vector3.Distance(currClosest.transform.position, transform.position))
+			if (!input.GetComponent<PlayerBody>().InMinigame && Vector3.Distance(input.transform.position, transform.position) < Vector3.Distance(currClosest.transform.position, transform.position))
 			{
 				currClosest = input.transform;
 			}
@@ -119,7 +126,7 @@ public class IdleState : AiState
 
 	public override void UpdateState()
 	{
-		if (controller.DistanceToPlayer() <= controller.ChaseRange)
+		if (controller.DistanceToPlayer() <= controller.ChaseRange && !controller.Player.GetComponent<PlayerBody>().InMinigame)
 		{
 			controller.TransitionToState(controller.chaseState);
 		}
@@ -149,11 +156,11 @@ public class ChaseState : AiState
 	public override void UpdateState()
 	{
 		float distanceToPlayer = controller.DistanceToPlayer();
-		if (distanceToPlayer > controller.ChaseRange)
+		if (distanceToPlayer > controller.ChaseRange || controller.Player.GetComponent<PlayerBody>().InMinigame)
 		{
 			controller.TransitionToState(controller.idleState);
 		}
-		else if (distanceToPlayer <= controller.AttackRange)
+		else if (distanceToPlayer <= controller.AttackRange && !controller.Player.GetComponent<PlayerBody>().InMinigame)
 		{
 			controller.TransitionToState(controller.attackState);
 		}
@@ -169,12 +176,14 @@ public class ChaseState : AiState
 
 	private void ChasePlayer()
 	{
+		controller.MoveDirection = (controller.Player.position - controller.transform.position).normalized;
 		controller.transform.position = Vector3.MoveTowards(controller.transform.position, controller.Player.position, controller.GetComponent<LilGuyBase>().speed * Time.deltaTime);
 	}
 }
 
 public class AttackState : AiState
 {
+	float attackTimer = 0;
 	public AttackState(AiController controller) : base(controller)
 	{
 
@@ -192,8 +201,9 @@ public class AttackState : AiState
 
 	public override void UpdateState()
 	{
+		if (attackTimer > 0) attackTimer -= Time.deltaTime;
 		float distanceToPlayer = controller.DistanceToPlayer();
-		if (distanceToPlayer > controller.AttackRange)
+		if (distanceToPlayer > controller.AttackRange && !controller.Player.GetComponent<PlayerBody>().InMinigame)
 		{
 			controller.TransitionToState(controller.chaseState);
 		}
@@ -206,9 +216,14 @@ public class AttackState : AiState
 			AttackPlayer();
 		}
 	}
+
 	public void AttackPlayer()
 	{
-		controller.GetComponent<LilGuyBase>().Attack();
+		if (attackTimer <= 0 && !controller.Player.GetComponent<PlayerBody>().InMinigame)
+		{
+			controller.GetComponent<LilGuyBase>().Attack();
+			attackTimer = controller.AttackBuffer;
+		}
 	}
 }
 
