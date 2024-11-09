@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class DefenseType : LilGuyBase
 {
-    private Transform attackPos;
     private GameObject spawnedShieldObj = null;    // The actual instantiated shield object on the lil guy
     private bool isShieldActive = false;
 
@@ -20,13 +19,12 @@ public class DefenseType : LilGuyBase
 
     public override void Special()
 	{
-		//TODO: ADD DEFENSE SPECIAL ATTACK
-		if (currentCharges <= 0 && cooldownTimer > 0) return;
+		if (currentCharges <= 0 && cooldownTimer > 0) return;   // If currently on cooldown and there are no more charges to use.
 		spawnedShieldObj ??= Instantiate(shieldPrefab, transform.position, Quaternion.identity, transform); // If spawnShieldObj is null, assign it this instantiated GO
-        spawnedShieldObj.GetComponent<Shield>().Initialize(duration, this);
+        spawnedShieldObj.GetComponent<Shield>().Initialize(duration, this); 
         isShieldActive = true;
 
-
+		// Decrement charges and reset cooldowns
 		cooldownTimer = cooldownDuration;
 		chargeTimer = chargeRefreshRate;
         currentCharges--;

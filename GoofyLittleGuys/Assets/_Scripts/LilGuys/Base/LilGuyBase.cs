@@ -13,6 +13,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	public GameObject mesh;
 	[SerializeField] private GameObject hitboxPrefab;
 	[SerializeField] private AnimatorOverrideController animatorController;
+	public Transform attackPosition;
 
 	[Header("Lil Guy Stats")]
 	public int health;
@@ -22,7 +23,6 @@ public abstract class LilGuyBase : MonoBehaviour
 	public int strength;
 	public const int MAX_STAT = 100;
 	private int average;
-	public Transform attackPosition;
 
 	[Header("Special Attack Specific")]
 	[SerializeField] protected int currentCharges = 1;
@@ -45,6 +45,10 @@ public abstract class LilGuyBase : MonoBehaviour
 	}
 
 
+	/// <summary>
+	/// Method to be called on lil guy instantiation.
+	/// </summary>
+	/// <param name="layer">The layer that this lil guy should be on.</param>
 	public void Init(LayerMask layer)
 	{
 		gameObject.layer = layer;
@@ -54,10 +58,14 @@ public abstract class LilGuyBase : MonoBehaviour
 	{
 		if (playerOwner != null && GetComponent<AiController>() != null)
 		{
+			// This is a player owned lil guy, so remove their AI behaviours and reset mesh rotations.
 			mesh.transform.localRotation = Quaternion.Euler(Vector3.zero);
 			Destroy(GetComponent<AiController>());
 		}
+
 		if (isDead) return;
+
+		// Replenish cooldown over time.
 		if (cooldownTimer > 0)
 		{
 			cooldownTimer -= Time.deltaTime;
@@ -78,6 +86,11 @@ public abstract class LilGuyBase : MonoBehaviour
 			}
 		}
 	}
+
+	/// <summary>
+	/// Coroutine that flashes the lil guy red when damaged.
+	/// </summary>
+	/// <returns></returns>
 	private IEnumerator FlashRed()
 	{
 		float timeElapsed = 0f;
@@ -100,10 +113,14 @@ public abstract class LilGuyBase : MonoBehaviour
 		GetComponentInChildren<SpriteRenderer>().color = Color.white;
 	}
 
+	/// <summary>
+	/// Helper method called when the lil guy is damaged.
+	/// </summary>
 	public void Damaged()
 	{
 		StartCoroutine(FlashRed());
 	}
+
 	/// <summary>
 	/// This is the basic attack across all lil guys\
 	/// it uses a hitbox prefab to detect other ai within it and deal damage from that script
@@ -115,7 +132,8 @@ public abstract class LilGuyBase : MonoBehaviour
 		{
 			instantiatedHitbox = Instantiate(hitboxPrefab, attackPosition.position - attackPosition.right * 0.5f, Quaternion.identity);
 			instantiatedHitbox.transform.SetParent(transform);
-			instantiatedHitbox.GetComponent<Hitbox>().layerMask = playerOwner != null ? playerOwner.layer : gameObject.layer;
+
+			instantiatedHitbox.GetComponent<Hitbox>().layerMask = playerOwner != null ? playerOwner.layer : gameObject.layer;	// Set hitbox to player layer if player-owned, otherwise, set it to this lil guy's layer.
 			instantiatedHitbox.GetComponent<Hitbox>().Init(gameObject);
 			Destroy(instantiatedHitbox, 1f);
 		}

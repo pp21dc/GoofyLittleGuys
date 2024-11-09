@@ -55,6 +55,8 @@ public class PlayerBody : MonoBehaviour
 	public List<LilGuyBase> LilGuyTeam { get { return lilGuyTeam; } }
 	public List<LilGuySlot> LilGuyTeamSlots { get { return lilGuyTeamSlots; } }
 
+	public bool Flip { get { return flip; } set {  flip = value; } }
+
 	public void UpdateMovementVector(Vector2 dir)
 	{
 		movementDirection = new Vector3(dir.x, 0, dir.y);

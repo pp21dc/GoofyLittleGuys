@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class SpeedType : LilGuyBase
 {
-	private Transform attackPos;
 	[SerializeField] private float distance;
 
 	private bool isDashing = false;
@@ -61,6 +60,11 @@ public class SpeedType : LilGuyBase
 		}
 	}
 
+	/// <summary>
+	/// Smoothly slows the dash action down to regular speed.
+	/// </summary>
+	/// <param name="rb">The rigidbody the dash was acting on.</param>
+	/// <returns></returns>
 	private IEnumerator SmoothLerpVelocity(Rigidbody rb)
 	{
 		Vector3 initialVelocity = rb.velocity;

@@ -7,27 +7,40 @@ using UnityEngine.UI;
 
 public class SpeedMinigame : CaptureBase
 {
-	[SerializeField] private TextMeshProUGUI countdownText;    // Countdown text
-	[SerializeField] private GameObject catchFeedback;		   // UI to show the player is in range to tag the creature
-	[SerializeField] private float gameDuration = 10f;         // Game duration
-	[SerializeField] private float creatureSpeed = 5f;         // Creature's movement speed
-	[SerializeField] private float catchDistance = 1.5f;       // Distance to catch creature
+	[SerializeField] private TextMeshProUGUI countdownText;			// Countdown text
+	[SerializeField] private GameObject catchFeedback;				// UI to show the player is in range to tag the creature
+	[SerializeField] private float gameDuration = 10f;				// Game duration
+	[SerializeField] private float creatureSpeed = 5f;				// Creature's movement speed
+	[SerializeField] private float catchDistance = 1.5f;			// Distance to catch creature
+	[SerializeField] private float timeBetweenNewLocations = 0.5f;	// Distance to catch creature
 
-	private float gameTimer;
-	private float creatureDistance = 0;
+	private float gameTimer;										// The current time in the minigame
+	private float creatureDistance = 0;								// The distance the lil guy is from the player
 
 	private void OnEnable()
 	{
-		player.SwitchCurrentActionMap("SpeedMinigame");
-		player.actions["Tag"].performed += OnCatchAttempt;
+		player.SwitchCurrentActionMap("SpeedMinigame");		// Switch control map to speed minigame mapping
+		player.actions["Tag"].performed += OnCatchAttempt;  // Event to handle tagging input
+		player.DeactivateInput();
+
+		// Initialize the player and lil guy positions to opposite ends of the play space.
+		player.transform.position = instantiatedBarrier.transform.position - new Vector3(0, 0, areaBounds.y);
+		lilGuyBeingCaught.transform.position = instantiatedBarrier.transform.position + new Vector3(0, 0, areaBounds.y);
 		gameTimer = gameDuration;
-		StartCoroutine(StartCountdown());
+
+		// TODO: Port this countdown to the other minigames.
+		// I think having a countdown before the game actually starts is nice
+		// Helps the player prepare for what's about to happen.
+		StartCoroutine(StartCountdown());					// Begin countdown
 	}
+
 	private void OnDisable()
 	{
+		countdownText.gameObject.SetActive(true);
 		StopAllCoroutines();
+
 		player.actions["Tag"].performed -= OnCatchAttempt;
-		player.SwitchCurrentActionMap("World");
+		player.SwitchCurrentActionMap("World");				// Switch back to world action map
 	}
 
 	private void Update()
@@ -36,13 +49,15 @@ public class SpeedMinigame : CaptureBase
 		catchFeedback.SetActive(creatureDistance <= catchDistance);
 	}
 
+	/// <summary>
+	/// Method that is called when the player presses the tag action.
+	/// </summary>
+	/// <param name="ctx"></param>
 	private void OnCatchAttempt(InputAction.CallbackContext ctx)
 	{
 		if (!gameActive) return;
 
 		// Check the distance between the player and the creature
-		
-
 		if (creatureDistance <= catchDistance)
 		{
 			// Player successfully caught the creature
@@ -51,6 +66,10 @@ public class SpeedMinigame : CaptureBase
 		}
 	}
 
+	/// <summary>
+	/// Starts a countdown before the game actually begins.
+	/// </summary>
+	/// <returns></returns>
 	private IEnumerator StartCountdown()
 	{
 		countdownText.text = "3";
@@ -62,13 +81,17 @@ public class SpeedMinigame : CaptureBase
 		countdownText.text = "Go!";
 
 		yield return new WaitForSeconds(1f);
-		countdownText.gameObject.SetActive(false);
 		gameActive = true;
+		player.ActivateInput();
 
 		StartCoroutine(CountdownTimer());
 		StartCoroutine(MoveCreatureRandomly());
 	}
 
+	/// <summary>
+	/// Keeps track of and shows how much time is left in the minigame in the UI.
+	/// </summary>
+	/// <returns></returns>
 	private IEnumerator CountdownTimer()
 	{
 		while (gameTimer > 0 && gameActive)
@@ -81,36 +104,30 @@ public class SpeedMinigame : CaptureBase
 		EndMinigame(false);  // Time ran out
 	}
 
+	/// <summary>
+	/// Coroutine that moves the lil guy to random spots within the play space every now and then.
+	/// </summary>
+	/// <returns></returns>
 	private IEnumerator MoveCreatureRandomly()
 	{
 		while (gameActive)
 		{
-			Vector3 randomDirection = new Vector3(
-				Random.Range(-areaBounds.x, areaBounds.x),
+
+			// Pick a new random location to reach.
+			Vector3 randomLocation = new Vector3(
+				Random.Range(instantiatedBarrier.transform.position.x - areaBounds.x, instantiatedBarrier.transform.position.x + areaBounds.x),
 				lilGuyBeingCaught.transform.position.y,
-				Random.Range(-areaBounds.y, areaBounds.y)
+				Random.Range(instantiatedBarrier.transform.position.z - areaBounds.y, instantiatedBarrier.transform.position.z + areaBounds.y)
 			);
 
-			Vector3 targetPosition = transform.position + randomDirection;
-			targetPosition = ClampPositionToBounds(targetPosition);
-
 			// Move the creature to the new position
-			while (Vector3.Distance(lilGuyBeingCaught.transform.position, targetPosition) > 0.1f && gameActive)
+			while (Vector3.Distance(lilGuyBeingCaught.transform.position, randomLocation) > 0.1f && gameActive)
 			{
-				lilGuyBeingCaught.transform.position = Vector3.MoveTowards(lilGuyBeingCaught.transform.position, targetPosition, lilGuyBeingCaught.speed * Time.deltaTime);
+				lilGuyBeingCaught.transform.position = Vector3.MoveTowards(lilGuyBeingCaught.transform.position, randomLocation, lilGuyBeingCaught.speed * Time.deltaTime);
 				yield return null;
 			}
 
 			yield return new WaitForSeconds(0.5f);  // Brief pause before moving again
 		}
 	}
-
-	private Vector3 ClampPositionToBounds(Vector3 position)
-	{
-		// Ensure the creature stays within the specified area bounds
-		position.x = Mathf.Clamp(position.x, -areaBounds.x, areaBounds.x);
-		position.z = Mathf.Clamp(position.z, -areaBounds.y, areaBounds.y);
-		return position;
-	}
-
 }

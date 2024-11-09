@@ -13,15 +13,17 @@ public class BerryBush : InteractableBase
 
 	private void OnTriggerStay(Collider other)
 	{
-		if (other.GetComponent<PlayerBody>() == null) return;
+		if (other.GetComponent<PlayerBody>() == null) return;	// Ignore non-player colliders
 		interactableCanvas.SetActive(hasBerries);
-		if (!hasBerries) return;
+		if (!hasBerries) return;								// If there's no berries on this bush, don't go to the interact behaviour.
 
 		if (!playersInRange.Contains(other.gameObject))
 		{
+			// Add any players in range of this berry bush to the in range list.
 			playersInRange.Add(other.gameObject);
 		}
-		if (other.GetComponent<PlayerBody>().HasInteracted) OnInteracted(other.GetComponent<PlayerBody>());
+
+		if (other.GetComponent<PlayerBody>().HasInteracted) OnInteracted(other.GetComponent<PlayerBody>());	// Player interacted
 	}
 
 	private void OnTriggerExit(Collider other)
@@ -36,12 +38,19 @@ public class BerryBush : InteractableBase
 		}
 	}
 
+	/// <summary>
+	/// Called when a player interacts with this interactable object.
+	/// </summary>
+	/// <param name="body">PlayerBody: The player that interacted with this object.</param>
 	public override void OnInteracted(PlayerBody body)
 	{
 		base.OnInteracted(body);
-		if (body.LilGuyTeam[0].health <= 0 || body.LilGuyTeam[0].health >= body.LilGuyTeam[0].maxHealth) return;
+		if (body.LilGuyTeam[0].health <= 0 || body.LilGuyTeam[0].health >= body.LilGuyTeam[0].maxHealth) return;	// Don't consume the berries if their first lil guy is already at full health.
+
 		body.LilGuyTeam[0].health = body.LilGuyTeam[0].maxHealth;
 
+		// Remove the berries frm the bush as they are consumed.
+		// Start Berry Regrowth timer.
 		hasBerries = false;
 		UpdateVisuals();
 		StartCoroutine(BerryRegrowth(Random.Range(minBerryTime, maxBerryTime + 1)));
@@ -49,11 +58,19 @@ public class BerryBush : InteractableBase
 		// Play healing effect?
 	}
 
+	/// <summary>
+	/// Helper method that hides the berries mesh.
+	/// </summary>
 	private void UpdateVisuals()
 	{
 		berriesMesh.SetActive(hasBerries);
 	}
 
+	/// <summary>
+	/// Coroutine that handles the regeneration of berries on a berry bush.
+	/// </summary>
+	/// <param name="timeUntilBerries">float: The time in seconds until the berries grow back.</param>
+	/// <returns></returns>
 	private IEnumerator BerryRegrowth(float timeUntilBerries)
 	{
 		yield return new WaitForSeconds(timeUntilBerries);
