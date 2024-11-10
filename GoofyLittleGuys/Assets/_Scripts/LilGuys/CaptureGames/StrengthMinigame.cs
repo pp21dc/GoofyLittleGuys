@@ -36,7 +36,6 @@ public class StrengthMinigame : CaptureBase
 		countdownText.transform.parent.gameObject.SetActive(true);
 
 		mashAction.performed -= OnMashButtonPressed;
-		player.SwitchCurrentActionMap("World");         // Switch back to world action map.
 	}
 
 	// Start is called before the first frame update

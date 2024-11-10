@@ -16,6 +16,7 @@ public class PlayerBody : MonoBehaviour
 	[SerializeField] private GameObject playerMesh;                     // Reference to the player's mesh gameobject
 	[SerializeField] private PlayerInput playerInput;                   // This player's input component.
 	[SerializeField] private GameObject lastHitPromptUI;                // The last hit prompt UI.
+	[SerializeField] private GameObject teamFullMenu;					// The menu shown if the player captured a lil guy but their team is full.
 
 	[SerializeField, Range(1, 25f)] private float maxSpeed = 25f;       // To be replaced with lilGuys[0].speed
 	[SerializeField] private float movementDeceleration = 0.9f;
@@ -55,7 +56,7 @@ public class PlayerBody : MonoBehaviour
 	public Vector3 MovementDirection { get { return movementDirection; } }
 	public List<LilGuyBase> LilGuyTeam { get { return lilGuyTeam; } }
 	public List<LilGuySlot> LilGuyTeamSlots { get { return lilGuyTeamSlots; } }
-
+	public GameObject TeamFullMenu { get { return teamFullMenu; } set { teamFullMenu = value; } }
 	public bool Flip { get { return flip; } set { flip = value; } }
 
 

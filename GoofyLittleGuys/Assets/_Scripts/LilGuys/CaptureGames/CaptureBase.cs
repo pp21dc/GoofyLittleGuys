@@ -41,11 +41,13 @@ public class CaptureBase : MonoBehaviour
 		if (playerWon)
 		{
             // Player won
-			Debug.Log("Player Won!");
             if (body.LilGuyTeam.Count < 3)
 			{
-                // There is room on the player's team for this lil guy.
-                // Set player owner to this player, and reset the lil guy's health to full, before adding to the player's party.
+
+				// There is room on the player's team for this lil guy.
+				// Set player owner to this player, and reset the lil guy's health to full, before adding to the player's party.
+
+				player.SwitchCurrentActionMap("World");             // Switch back to world action map
 				lilGuyBeingCaught.playerOwner = body.gameObject;
                 lilGuyBeingCaught.health = lilGuyBeingCaught.maxHealth;
                 body.LilGuyTeam.Add(lilGuyBeingCaught);
@@ -55,21 +57,35 @@ public class CaptureBase : MonoBehaviour
                 lilGuyBeingCaught.gameObject.transform.SetParent(body.LilGuyTeamSlots[body.LilGuyTeam.Count - 1].transform, false);
                 lilGuyBeingCaught.gameObject.transform.localPosition = Vector3.zero;
                 lilGuyBeingCaught.gameObject.GetComponent<Rigidbody>().isKinematic = true;
-            }
+
+				body.InMinigame = false;
+
+			}
             else
             {
-                //Handle choosing which lil guy on the player's team will be replaced with this lil guy
-            }
+				//Handle choosing which lil guy on the player's team will be replaced with this lil guy
+
+				player.GetComponent<PlayerBody>().TeamFullMenu.SetActive(true);
+				player.GetComponent<PlayerBody>().TeamFullMenu.GetComponent<TeamFullMenu>().Init(lilGuyBeingCaught);
+			}
 		}
 		else
 		{
-			Debug.Log("Player lost!");
-            // Lost... idk what happens :3
+			// Player lost
             Destroy(lilGuyBeingCaught.gameObject);
+			player.SwitchCurrentActionMap("World");             // Switch back to world action map
+			body.InMinigame = false;
 		}
 
-		body.InMinigame = false;
-        Destroy(instantiatedBarrier);
-		gameObject.SetActive(false);
+		LeaveMinigame(body);
 	}    
+
+	/// <summary>
+	/// Method that handles configuration to officially end the minigame.
+	/// </summary>
+	public void LeaveMinigame(PlayerBody body)
+	{
+		gameObject.SetActive(false);
+		Destroy(instantiatedBarrier);
+	}
 }

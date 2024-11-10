@@ -173,7 +173,6 @@ public class DefenseMinigame : CaptureBase
 	private void OnDisable()
 	{
 		countdownText.gameObject.SetActive(true);
-		player.SwitchCurrentActionMap("World");	// Switch back to world control map
 		StopAllCoroutines();					// Stop any ongoing object throws
 	}
 }

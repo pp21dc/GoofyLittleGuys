@@ -40,7 +40,6 @@ public class SpeedMinigame : CaptureBase
 		StopAllCoroutines();
 
 		player.actions["Tag"].performed -= OnCatchAttempt;
-		player.SwitchCurrentActionMap("World");				// Switch back to world action map
 	}
 
 	private void Update()
