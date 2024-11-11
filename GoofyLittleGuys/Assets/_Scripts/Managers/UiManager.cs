@@ -108,7 +108,7 @@ namespace Managers
         /// <param name="newHealthValue">the new value of the lil guy's health</param>
         private void ModifyHealth(int playerNumber, float newHealthValue)
         {
-            playerUis[playerNumber].SetPersistentHealthBarValue(newHealthValue);
+            
         }
 
         /// <summary>

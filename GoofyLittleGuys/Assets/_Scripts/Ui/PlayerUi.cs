@@ -7,12 +7,12 @@ public class PlayerUi : MonoBehaviour
 {
     List<LilGuyPopout> popouts;
 
-    Image persistentHealthBar;
-    Image persistentIcon;
-    Image persistentAbilityIcon;
+    [SerializeField] Image persistentHealthBar;
+    [SerializeField] Image persistentIcon;
+    [SerializeField] Image persistentAbilityIcon;
     
     
-    LilGuyPopout GetLilGuyPopout(int index) //Not 100% when this would be needed - hence it not being implemented yet
+    LilGuyPopout GetLilGuyPopout(int index)                                  //Not 100% when this would be needed - hence it not being implemented yet
     {
         throw new NotImplementedException();
     }
@@ -24,9 +24,10 @@ public class PlayerUi : MonoBehaviour
         popouts[index].SetSpd(spd);
         popouts[index].SetDef(def);
     }
-    public void SetPersistentHealthBarValue(float value)
+    public void SetPersistentHealthBarValue(float value, float maxHealth)
     {
-        value = value * 0.75f;
+        value = value / maxHealth;                                          //sets value to the hp %
+        value = value * 0.75f;                                              //Sets Value to percentage of HP Bar max
 
         persistentHealthBar.fillAmount = value;
     }

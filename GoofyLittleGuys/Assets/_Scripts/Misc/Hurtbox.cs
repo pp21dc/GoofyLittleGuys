@@ -61,7 +61,11 @@ public class Hurtbox : MonoBehaviour
 				owner.GetComponent<LilGuyBase>().health -= dmg;
 				health = owner.GetComponent<LilGuyBase>().health -= dmg;
 				owner.GetComponent<LilGuyBase>().Damaged();
-			}
+
+				//Passes the new health info to the player UI
+				//Definitely needs to be rewritten for efficency
+				owner.GetComponentInParent<Searchlight>().playerUi.SetPersistentHealthBarValue(health, owner.GetComponent<LilGuyBase>().maxHealth);
+            }
 		}
 		else if (gameObject.layer == LayerMask.NameToLayer("WildLilGuys"))
 		{
