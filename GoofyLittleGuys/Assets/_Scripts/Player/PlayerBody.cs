@@ -44,12 +44,17 @@ public class PlayerBody : MonoBehaviour
 	private bool flip = false;
 	private bool inMinigame = false;
 	private bool hasInteracted = false;
+	private bool hasSwappedRecently = false; // If the player is in swap cooldown (feel free to delete cmnt)
+	private bool hasImmunity = false; // If the player is in swap I-frames (feel free to delete cmnt)
+
 
 	private Vector3 movementDirection = Vector3.zero;
 	private Rigidbody rb;
 
 	public float MaxSpeed { get { return maxSpeed; } }
 	public bool HasInteracted { get { return hasInteracted; } set { hasInteracted = value; } }
+	public bool HasSwappedRecently { get { return hasSwappedRecently; } set { hasSwappedRecently = value; } }
+	public bool HasImmunity { get { return hasImmunity; } set { hasImmunity = value; } }
 	public bool IsJumping { get { return isJumping; } set { isJumping = value; } }
 	public bool IsDashing { get { return isDashing; } set { isDashing = value; } }
 	public bool InMinigame { get { return inMinigame; } set { inMinigame = value; } }
