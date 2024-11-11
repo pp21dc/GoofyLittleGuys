@@ -12,7 +12,7 @@ public class PlayerUi : MonoBehaviour
     Image persistentAbilityIcon;
     
     
-    LilGuyPopout GetLilGuyPopout(int index)
+    LilGuyPopout GetLilGuyPopout(int index) //Not 100% when this would be needed - hence it not being implemented yet
     {
         throw new NotImplementedException();
     }
@@ -24,9 +24,11 @@ public class PlayerUi : MonoBehaviour
         popouts[index].SetSpd(spd);
         popouts[index].SetDef(def);
     }
-    public void SetPersistentHealthBarValue(int value)
+    public void SetPersistentHealthBarValue(float value)
     {
-        throw new NotImplementedException();
+        value = value * 0.75f;
+
+        persistentHealthBar.fillAmount = value;
     }
 
     public void SetPersistentIcon(Sprite newIcon)
