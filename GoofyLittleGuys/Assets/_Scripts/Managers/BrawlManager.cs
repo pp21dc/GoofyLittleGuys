@@ -44,7 +44,16 @@ namespace Managers
 
             if (currentGameTime == phaseTwoDuration)
             {
-                BrawlTimeOver();
+                BrawlTimeEnd();
+            }
+
+            if(players.Count > 1)
+            {
+                MonitorPlayerDefeats();
+            }
+            else
+            {
+                BrawlKnockoutEnd();
             }
         }
 
@@ -56,17 +65,26 @@ namespace Managers
         public void PlayerDefeat(GameObject defeatedPlayer)
         {
             rankings.Add(defeatedPlayer);
-
+            players.Remove(defeatedPlayer);
         }
 
         /// <summary>
-        /// At the end of this phase, determine the rankings of any remaining player(s), more Lil Guys left means
-        /// a higher ranking. Then the remaining players will be added to the rankings list, and finally
-        /// the scoreboard/podium will be displayed.
+        /// When the game ends by timer, we want to determine each remaining player's total team health, and 
+        /// add them to Rankings based on that.
         /// </summary>
-        public void BrawlTimeOver()
+        public void BrawlTimeEnd()
         {
             Debug.Log("Brawl Phase has ended, DING DING DING!!!");
+        }
+
+        /// <summary>
+        /// If only one player is left standing, we can simply add them to the rankings list, since they will then be
+        /// at the end, making them ranked the best.
+        /// </summary>
+        public void BrawlKnockoutEnd()
+        {
+            rankings.Add(players[0]);
+            Debug.Log("Brawl Phase has ended by knockout!");
         }
 
         public void StartSwapCooldown(PlayerBody waitingPlayer)
@@ -89,6 +107,37 @@ namespace Managers
             immunePlayer.HasImmunity = true;
             yield return new WaitForSeconds(immuneTime);
             immunePlayer.HasImmunity = false;
+        }
+
+        private bool IsStillKicking(PlayerBody thePlayer)
+        {
+            List<LilGuyBase> playerTeam = thePlayer.LilGuyTeam;
+            for (int i = 0;i < playerTeam.Count; i++)
+            {
+                if(playerTeam[i].health > 0)
+                {
+                    return true;
+                }
+            }
+            return false;
+
+        }
+
+        /// <summary>
+        /// Checks if any players have run out of Lil Guys, then defeats them (calling PlayerDefeat) and
+        /// adds them to the rankings 
+        /// </summary>
+        private void MonitorPlayerDefeats()
+        {
+            for(int i = 0; i < players.Count; i++)
+            {
+                PlayerBody thePlayer = players[i].GetComponent<PlayerBody>();
+                if (!IsStillKicking(thePlayer))
+                {
+                    PlayerDefeat(players[i]);
+
+                }
+            }
         }
 
     }
