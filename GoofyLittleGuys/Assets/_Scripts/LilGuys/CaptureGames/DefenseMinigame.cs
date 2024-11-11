@@ -58,8 +58,8 @@ public class DefenseMinigame : CaptureBase
 		throwPoint = lilGuyBeingCaught.attackPosition;
 
 		// Initialize the player and lil guy positions to opposite ends of the play space.
-		player.transform.position = instantiatedBarrier.transform.position - new Vector3(0, 0, areaBounds.y);
-		lilGuyBeingCaught.transform.position = instantiatedBarrier.transform.position + new Vector3(0, 0, areaBounds.y);
+		player.transform.position = instantiatedBarrier.transform.position - new Vector3(0, 0, spawnRadius);
+		lilGuyBeingCaught.transform.position = instantiatedBarrier.transform.position + new Vector3(0, 0, spawnRadius);
 		lilGuyBeingCaught.GetComponent<Rigidbody>().isKinematic = true;
 	}
 
@@ -73,7 +73,7 @@ public class DefenseMinigame : CaptureBase
 		player.transform.Translate(movement);
 
 		// Clamp the player's x position if needed (adjust values based on desired boundaries)
-		float clampedX = Mathf.Clamp(transform.position.x, -areaBounds.x, areaBounds.x);
+		float clampedX = Mathf.Clamp(transform.position.x, -spawnRadius, spawnRadius);
 		transform.position = new Vector3(clampedX, transform.position.y, transform.position.z);
 	}
 

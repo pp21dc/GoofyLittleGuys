@@ -24,8 +24,8 @@ public class SpeedMinigame : CaptureBase
 		player.DeactivateInput();
 
 		// Initialize the player and lil guy positions to opposite ends of the play space.
-		player.transform.position = instantiatedBarrier.transform.position - new Vector3(0, 0, areaBounds.y);
-		lilGuyBeingCaught.transform.position = instantiatedBarrier.transform.position + new Vector3(0, 0, areaBounds.y);
+		player.transform.position = instantiatedBarrier.transform.position - new Vector3(0, 0, spawnRadius);
+		lilGuyBeingCaught.transform.position = instantiatedBarrier.transform.position + new Vector3(0, 0, spawnRadius);
 		gameTimer = gameDuration;
 
 		// TODO: Port this countdown to the other minigames.
@@ -114,9 +114,9 @@ public class SpeedMinigame : CaptureBase
 
 			// Pick a new random location to reach.
 			Vector3 randomLocation = new Vector3(
-				Random.Range(instantiatedBarrier.transform.position.x - areaBounds.x, instantiatedBarrier.transform.position.x + areaBounds.x),
+				Random.Range(instantiatedBarrier.transform.position.x - spawnRadius, instantiatedBarrier.transform.position.x + spawnRadius),
 				lilGuyBeingCaught.transform.position.y,
-				Random.Range(instantiatedBarrier.transform.position.z - areaBounds.y, instantiatedBarrier.transform.position.z + areaBounds.y)
+				Random.Range(instantiatedBarrier.transform.position.z - spawnRadius, instantiatedBarrier.transform.position.z + spawnRadius)
 			);
 
 			// Move the creature to the new position
