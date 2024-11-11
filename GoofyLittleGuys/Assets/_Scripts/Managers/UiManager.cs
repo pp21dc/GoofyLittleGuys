@@ -11,8 +11,9 @@ namespace Managers
 	{
 		[SerializeField] private GameObject pauseScreen;		// The pause menu.
 		[SerializeField] private EventSystem pauseEventSystem;	// The event system tied specifically to the pause menu.
-		[SerializeField] private GameObject firstSelected;		// The first button in the menu to be selected on default
+		[SerializeField] private GameObject firstSelected;      // The first button in the menu to be selected on default
 
+		[SerializeField] List<PlayerUi> playerUis;				//List of PlayerUi prefab canvases 
 		private void Start()
 		{
 			EventManager.Instance.NotifyGamePaused += GamePaused;
@@ -98,5 +99,15 @@ namespace Managers
 			if (GameManager.Instance.IsPaused) player.SwitchCurrentActionMap("UI");
 			else player.SwitchCurrentActionMap("World");
 		}
+
+		/// <summary>
+		/// Method called when damage is taken to update the UI
+		/// </summary>
+		/// <param name="playerNumber">the player who paused the game</param>
+		/// <param name="newHealthValue">the new value of the lil guy's health</param>
+		private void ModifyHealth(int playerNumber, float newHealthValue)
+        {
+			playerUis[playerNumber].SetPersistentHealthBarValue(newHealthValue);
+        }
 	}
 }
