@@ -1,9 +1,19 @@
 fileFormatVersion: 2
-guid: 049b0dae7a8b349929a2b49ccf75853d
+guid: fdf6f55e90fea4106a9f24d6df0a1097
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "DeadTreeTrunk\u67AF\u6811\u5E72"
+    second: {fileID: 2100000, guid: 89a5d422a17e74045b906e93bb8bba80, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "TreeTrunkMoss\u6811\u5E72\u82D4\u85D3"
+    second: {fileID: 2100000, guid: 3f550d9d871b55141abb90a03a3b05a6, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
