@@ -27,9 +27,6 @@ public class EventManager
 	public delegate void GameStartedDelegate();
 	public event GameStartedDelegate GameStarted;
 
-	public delegate void LilGuyLockedInDelegated();
-	public event LilGuyLockedInDelegated NotifyLilGuyLockedIn;
-
 	public delegate void GamePausedDelegate(PlayerInput playerWhoPaused);
 	public event GamePausedDelegate NotifyGamePaused;
 

@@ -7,7 +7,6 @@ public class SpeedType : LilGuyBase
 {
 	[SerializeField] private float distance;
 
-	private bool isDashing = false;
 	private Coroutine dashCoroutine;
 	private float dashLerpTime = 2f; // Time to smoothly transition back to normal speed
 	private Vector3 dashDirection;

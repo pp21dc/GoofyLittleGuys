@@ -69,10 +69,12 @@ public class Hurtbox : MonoBehaviour
 		}
 		else if (gameObject.layer == LayerMask.NameToLayer("WildLilGuys"))
 		{
-			// Wild lil guy was hit
-			owner.GetComponent<AiController>().LilGuy.health -= dmg;
+			int oldHealth = owner.GetComponent<AiController>().LilGuy.health;			// Wild lil guy was hit
+			
+			owner.GetComponent<AiController>().LilGuy.health = oldHealth - dmg >= 0 ? oldHealth - dmg : 0;	// Set health to health - dmg if it's greater than or equal to 0, otherwise set it to 0 so it's non-negative.
 			health = owner.GetComponent<AiController>().LilGuy.health;
 			owner.GetComponent<LilGuyBase>().Damaged();
+			owner.GetComponentInChildren<AiHealthUi>().SetHealth(health, oldHealth);
 		}
 		else
 		{

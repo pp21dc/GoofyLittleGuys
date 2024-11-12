@@ -61,10 +61,11 @@ public abstract class LilGuyBase : MonoBehaviour
 			// This is a player owned lil guy, so remove their AI behaviours and reset mesh rotations.
 			mesh.transform.localRotation = Quaternion.Euler(Vector3.zero);
 			Destroy(GetComponent<AiController>());
+			GetComponentInChildren<AiHealthUi>().gameObject.SetActive(false);
 		}
 
 		if (isDead) return;
-
+		if (health <= 0) health = 0;
 		// Replenish cooldown over time.
 		if (cooldownTimer > 0)
 		{

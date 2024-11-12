@@ -10,7 +10,6 @@ public class SpeedMinigame : CaptureBase
 	[SerializeField] private TextMeshProUGUI countdownText;			// Countdown text
 	[SerializeField] private GameObject catchFeedback;				// UI to show the player is in range to tag the creature
 	[SerializeField] private float gameDuration = 10f;				// Game duration
-	[SerializeField] private float creatureSpeed = 5f;				// Creature's movement speed
 	[SerializeField] private float catchDistance = 1.5f;			// Distance to catch creature
 	[SerializeField] private float timeBetweenNewLocations = 0.5f;	// Distance to catch creature
 
@@ -126,7 +125,7 @@ public class SpeedMinigame : CaptureBase
 				yield return null;
 			}
 
-			yield return new WaitForSeconds(0.5f);  // Brief pause before moving again
+			yield return new WaitForSeconds(timeBetweenNewLocations);  // Brief pause before moving again
 		}
 	}
 }
