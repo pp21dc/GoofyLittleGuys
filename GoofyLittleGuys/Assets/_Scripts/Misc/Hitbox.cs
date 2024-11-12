@@ -8,7 +8,7 @@ using UnityEngine;
 // -> can be derrived from for other attacks which provide knockback or other effects onHit
 public class Hitbox : MonoBehaviour
 {
-	protected int Damage;
+	protected float Damage;
 	public GameObject hitboxOwner;
 	public LayerMask layerMask;
 
@@ -17,7 +17,6 @@ public class Hitbox : MonoBehaviour
 		Hurtbox h = other.GetComponent<Hurtbox>();
 		if (h != null)
 			OnHit(h);
-
 	}
 
 	/// <summary>

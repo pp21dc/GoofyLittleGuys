@@ -5,12 +5,12 @@ using UnityEngine;
 // - add as a component to detect any damage and keep track of health, keeps all combat collisions on a single layer
 public class Hurtbox : MonoBehaviour
 {
-    [SerializeField] private int health;
+    [SerializeField] private float health;
     [SerializeField] private GameObject owner;
     private bool player;
     private bool Ai;
 
-    public int Health { get { return health; } }
+    public float Health { get { return health; } }
     public GameObject lastHit;						// Player who last hit this hurtbox.
 
 	private void Start()
@@ -50,7 +50,7 @@ public class Hurtbox : MonoBehaviour
 	/// Gets the health value of given object. To be called when a lil guy is damaged.
 	/// </summary>
 	/// <param name="dmg">The amount of damage dealt.</param>
-	public void TakeDamage(int dmg)
+	public void TakeDamage(float dmg)
 	{
 		if (gameObject.layer == LayerMask.NameToLayer("PlayerLilGuys"))
 		{
@@ -69,7 +69,7 @@ public class Hurtbox : MonoBehaviour
 		}
 		else if (gameObject.layer == LayerMask.NameToLayer("WildLilGuys"))
 		{
-			int oldHealth = owner.GetComponent<AiController>().LilGuy.health;			// Wild lil guy was hit
+			float oldHealth = owner.GetComponent<AiController>().LilGuy.health;			// Wild lil guy was hit
 			
 			owner.GetComponent<AiController>().LilGuy.health = oldHealth - dmg >= 0 ? oldHealth - dmg : 0;	// Set health to health - dmg if it's greater than or equal to 0, otherwise set it to 0 so it's non-negative.
 			health = owner.GetComponent<AiController>().LilGuy.health;

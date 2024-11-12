@@ -16,13 +16,15 @@ public abstract class LilGuyBase : MonoBehaviour
 	public Transform attackPosition;
 
 	[Header("Lil Guy Stats")]
-	public int health;
-	public int maxHealth;
-	public int speed;
-	public int defense;
-	public int strength;
+	public float health;
+	public float maxHealth;
+	public float speed;
+	public float defense;
+	public float strength;
 	public const int MAX_STAT = 100;
 	private int average;
+	private float primaryStatModifier = 7.5f;
+	private float secondaryStatModifier = 10.0f;
 
 	[Header("Special Attack Specific")]
 	[SerializeField] protected int currentCharges = 1;
@@ -157,6 +159,37 @@ public abstract class LilGuyBase : MonoBehaviour
 		this.strength = strength;
 	}
 
+	/// <summary>
+	/// Add the stats of a given lil guy to this lil guy
+	/// </summary>
+	public void AddCaptureStats(LilGuyBase defeatedLilGuy)
+	{
+		Debug.Log("Adding capture stats... Before: Str - " + strength + " Def - " + defense + " Spd - " + speed);
+		switch (defeatedLilGuy.type)
+		{
+			case PrimaryType.Strength:
+				strength += defeatedLilGuy.strength/primaryStatModifier;
+				defense += defeatedLilGuy.defense/secondaryStatModifier;
+				speed += defeatedLilGuy.speed/secondaryStatModifier;
+				break;
+			case PrimaryType.Defense:
+				strength += defeatedLilGuy.strength/secondaryStatModifier;
+				defense += defeatedLilGuy.defense/primaryStatModifier;
+				speed += defeatedLilGuy.speed/secondaryStatModifier;
+				break;
+			case PrimaryType.Speed:
+				strength += defeatedLilGuy.strength/secondaryStatModifier;
+				defense += defeatedLilGuy.defense/secondaryStatModifier;
+				speed += defeatedLilGuy.speed/primaryStatModifier;
+				break;
+			default:
+				throw new ArgumentOutOfRangeException();
+		}
+		Debug.Log("After: Str - " + strength + " Def - " + defense + " Spd - " + speed);
+		
+		maxHealth = 100 + (speed + defense + strength) / 10;
+	}
+	
 	public GameObject GetHitboxPrefab()
 	{
 		return hitboxPrefab;
