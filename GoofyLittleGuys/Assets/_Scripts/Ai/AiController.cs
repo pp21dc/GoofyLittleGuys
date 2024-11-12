@@ -7,21 +7,28 @@ public class AiController : MonoBehaviour
 {
 	[SerializeField] private float chaseRange = 10f;    // Range of which this AI will chase a target
 	[SerializeField] private float attackRange = 2f;    // Range where this AI will attack a target
+	[SerializeField] private LayerMask groundLayer;
 
 	[Tooltip("Time between attacks (in seconds).")]
 	[SerializeField] private float attackBuffer = 1f;   // Time between this AI's attacks.
+	[Tooltip("Gravity modifier that makes falling faster, and allows for short jumps.")]
+	[SerializeField] private float fallMultiplier = 4f;
+	[SerializeField] private float jumpSpeed = 10f;
 
 
 	private Transform player;                           // The transform of the closest player to this AI
 	private LilGuyBase lilGuy;                          // Reference to this AI's stats
 	private Vector3 moveDirection = Vector3.zero;
 
-	public Transform Player { get { return player; } }
-	public float ChaseRange { get { return chaseRange; } }
-	public float AttackRange { get { return attackRange; } }
-	public float AttackBuffer { get { return attackBuffer; } }
+	public Transform Player => player;
+	public float ChaseRange => chaseRange;
+	public float AttackRange => attackRange;
+	public float AttackBuffer => attackBuffer;
 	public Vector3 MoveDirection { get { return moveDirection; } set { moveDirection = value; } }
-	public LilGuyBase LilGuy { get { return lilGuy; } }
+	public LilGuyBase LilGuy => lilGuy;
+	public LayerMask GroundLayer => groundLayer;
+	public float FallModifier => fallMultiplier;
+	public float JumpSpeed => jumpSpeed;
 
 	// AI STATES
 	public AiState currentState;
@@ -50,6 +57,11 @@ public class AiController : MonoBehaviour
 		else if (moveDirection.x < 0) lilGuy.mesh.transform.localRotation = Quaternion.identity;
 		player = FindClosestPlayer();
 		currentState.UpdateState();
+	}
+
+	private void FixedUpdate()
+	{
+		currentState.FixedUpdateState();
 	}
 
 	/// <summary>
@@ -121,6 +133,7 @@ public abstract class AiState
 	public abstract void EnterState();
 
 	public abstract void UpdateState();
+	public abstract void FixedUpdateState();
 
 	public abstract void ExitState();
 }
@@ -142,6 +155,10 @@ public class IdleState : AiState
 
 	}
 
+	public override void FixedUpdateState()
+	{
+	}
+
 	public override void UpdateState()
 	{
 		if (controller.DistanceToPlayer() <= controller.ChaseRange && !controller.Player.GetComponent<PlayerBody>().InMinigame)
@@ -161,9 +178,14 @@ public class IdleState : AiState
 
 public class ChaseState : AiState
 {
+	private float jumpCooldown = 1f; // Time (in seconds) before AI can jump again
+	private float jumpTimer = 0f;
+	Rigidbody rb;
+
 	public ChaseState(AiController controller) : base(controller)
 	{
 
+		rb = controller.GetComponent<Rigidbody>();
 	}
 	public override void EnterState()
 	{
@@ -204,12 +226,72 @@ public class ChaseState : AiState
 	}
 
 	/// <summary>
+	/// Returns true if there is some object marked as ground beneath the player's feet.
+	/// </summary>
+	/// <returns>True if there's ground beneath the player's feet, otherwise false.</returns>
+	private bool IsGrounded()
+	{
+		return Physics.Raycast(controller.transform.position - Vector3.down * 0.05f, Vector3.down, 0.1f, controller.GroundLayer);
+	}
+	/// <summary>
 	/// Moves the AI towards the player's direction
 	/// </summary>
 	private void ChasePlayer()
 	{
+
+		// Determine the direction towards the player
 		controller.MoveDirection = (controller.Player.position - controller.transform.position).normalized;
-		controller.transform.position = Vector3.MoveTowards(controller.transform.position, controller.Player.position, controller.GetComponent<LilGuyBase>().speed * Time.deltaTime);
+
+		// Calculate the horizontal distance and height difference
+		float horizontalDistance = Vector3.Distance(new Vector3(controller.transform.position.x, 0, controller.transform.position.z),
+													new Vector3(controller.Player.position.x, 0, controller.Player.position.z));
+		float heightDifference = controller.Player.position.y - controller.transform.position.y;
+
+		// Define a maximum height difference and horizontal range where the AI should consider jumping
+		float maxJumpHeight = 5f;   // Maximum height the AI can jump, adjust as needed	
+
+		if (jumpTimer > 0) jumpTimer -= Time.deltaTime;
+
+		if (heightDifference > 0.5f && heightDifference <= maxJumpHeight && horizontalDistance <= controller.ChaseRange && IsGrounded() && jumpTimer <= 0)
+		{
+			// If player is within jumping range and at a higher elevation, apply a jump
+			JumpToPlayer(rb, heightDifference);
+			jumpTimer = jumpCooldown;
+		}
+		else
+		{
+			// Normal horizontal movement using MoveTowards
+			controller.transform.position = Vector3.MoveTowards(controller.transform.position, controller.Player.position, controller.LilGuy.speed * Time.deltaTime);
+		}
+	}
+
+	/// <summary>
+	/// Applies an upward force to the AI for a jump.
+	/// </summary>
+	/// <param name="rb">The Rigidbody of the AI.</param>
+	/// <param name="heightDifference">The height difference to calculate jump strength.</param>
+	private void JumpToPlayer(Rigidbody rb, float heightDifference)
+	{
+		// Reset any vertical velocity to ensure consistent jumps
+		rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+		rb.AddForce(Vector3.up * controller.JumpSpeed, ForceMode.Impulse);
+	}
+
+	public override void FixedUpdateState()
+	{
+		// Applies increased gravity while falling for faster descent and snappier jump feel
+		if (rb.velocity.y < 0)
+		{
+			rb.velocity += Vector3.up * Physics.gravity.y * (controller.FallModifier - 1) * Time.fixedDeltaTime;
+		}
+		else if (rb.velocity.y > 0 && jumpTimer <= 0)
+		{
+			rb.velocity += Vector3.up * Physics.gravity.y * (controller.FallModifier - 1) * Time.fixedDeltaTime;
+		}
+		else if (rb.velocity.y > 0 && jumpTimer > 0)
+		{
+			rb.velocity += Vector3.up * Physics.gravity.y * Time.fixedDeltaTime;
+		}
 	}
 }
 
@@ -219,6 +301,9 @@ public class AttackState : AiState
 	public AttackState(AiController controller) : base(controller)
 	{
 
+	}
+	public override void FixedUpdateState()
+	{
 	}
 
 	public override void EnterState()
@@ -233,7 +318,7 @@ public class AttackState : AiState
 
 	public override void UpdateState()
 	{
-		if (attackTimer > 0) attackTimer -= Time.deltaTime;	// Update attack cooldown timer if it's up.
+		if (attackTimer > 0) attackTimer -= Time.deltaTime; // Update attack cooldown timer if it's up.
 
 		if (controller.DistanceToPlayer() > controller.AttackRange || controller.Player.GetComponent<PlayerBody>().InMinigame)
 		{
@@ -273,6 +358,9 @@ public class DeadState : AiState
 	public DeadState(AiController controller) : base(controller)
 	{
 
+	}
+	public override void FixedUpdateState()
+	{
 	}
 
 	public override void EnterState()
