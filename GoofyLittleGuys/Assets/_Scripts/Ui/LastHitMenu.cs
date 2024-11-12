@@ -52,7 +52,7 @@ public class LastHitMenu : MonoBehaviour
 		playerEventSystem.gameObject.SetActive(false);
 		player.DisableUIControl();
 		player.LilGuyTeam[0].AddCaptureStats(lilGuyToCapture);
-		Destroy(lilGuyToCapture.gameObject);
+		//Destroy(lilGuyToCapture.gameObject);
 		ClosePrompt();
 	}
 

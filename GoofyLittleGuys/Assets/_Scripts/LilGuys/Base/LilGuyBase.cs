@@ -23,8 +23,6 @@ public abstract class LilGuyBase : MonoBehaviour
 	public float strength;
 	public const int MAX_STAT = 100;
 	private int average;
-	private float primaryStatModifier = 7.5f;
-	private float secondaryStatModifier = 10.0f;
 
 	[Header("Special Attack Specific")]
 	[SerializeField] protected int currentCharges = 1;
@@ -164,23 +162,25 @@ public abstract class LilGuyBase : MonoBehaviour
 	/// </summary>
 	public void AddCaptureStats(LilGuyBase defeatedLilGuy)
 	{
+		float primaryModifier = 1.5f;
+		float secondaryModifier = 3.0f;
 		Debug.Log("Adding capture stats... Before: Str - " + strength + " Def - " + defense + " Spd - " + speed);
 		switch (defeatedLilGuy.type)
 		{
 			case PrimaryType.Strength:
-				strength += defeatedLilGuy.strength/primaryStatModifier;
-				defense += defeatedLilGuy.defense/secondaryStatModifier;
-				speed += defeatedLilGuy.speed/secondaryStatModifier;
+				strength = Mathf.Min(strength + defeatedLilGuy.strength/primaryModifier, MAX_STAT);
+				defense = Mathf.Min(defense + defeatedLilGuy.defense/secondaryModifier, MAX_STAT);
+				speed = Mathf.Min(speed + defeatedLilGuy.speed/secondaryModifier, MAX_STAT);
 				break;
 			case PrimaryType.Defense:
-				strength += defeatedLilGuy.strength/secondaryStatModifier;
-				defense += defeatedLilGuy.defense/primaryStatModifier;
-				speed += defeatedLilGuy.speed/secondaryStatModifier;
+				strength = Mathf.Min(strength + defeatedLilGuy.strength/secondaryModifier, MAX_STAT);
+				defense = Mathf.Min(defense + defeatedLilGuy.defense/primaryModifier, MAX_STAT);
+				speed = Mathf.Min(speed + defeatedLilGuy.speed/secondaryModifier, MAX_STAT);
 				break;
 			case PrimaryType.Speed:
-				strength += defeatedLilGuy.strength/secondaryStatModifier;
-				defense += defeatedLilGuy.defense/secondaryStatModifier;
-				speed += defeatedLilGuy.speed/primaryStatModifier;
+				strength = Mathf.Min(strength + defeatedLilGuy.strength/secondaryModifier, MAX_STAT);
+				defense = Mathf.Min(defense + defeatedLilGuy.defense/secondaryModifier, MAX_STAT);
+				speed = Mathf.Min(speed + defeatedLilGuy.speed/primaryModifier, MAX_STAT);
 				break;
 			default:
 				throw new ArgumentOutOfRangeException();
