@@ -74,6 +74,7 @@ namespace Managers
         /// </summary>
         public void BrawlTimeEnd()
         {
+            
             Debug.Log("Brawl Phase has ended, DING DING DING!!!");
         }
 
@@ -111,7 +112,8 @@ namespace Managers
 
         private bool IsStillKicking(PlayerBody thePlayer)
         {
-            List<LilGuyBase> playerTeam = thePlayer.LilGuyTeam;
+            return thePlayer.CheckTeamHealth();
+            /*List<LilGuyBase> playerTeam = thePlayer.LilGuyTeam;
             for (int i = 0;i < playerTeam.Count; i++)
             {
                 if(playerTeam[i].health > 0)
@@ -119,7 +121,7 @@ namespace Managers
                     return true;
                 }
             }
-            return false;
+            return false;*/
 
         }
 

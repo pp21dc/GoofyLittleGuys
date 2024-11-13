@@ -354,7 +354,7 @@ public class PlayerBody : MonoBehaviour
 	/// Checks if there's any living lil guy on the player's team.
 	/// </summary>
 	/// <returns>True if there's a living guy on the player's team, otherwise false.</returns>
-	private bool CheckTeamHealth()
+	public bool CheckTeamHealth()
 	{
 		return lilGuyTeam.Any(guy => guy.health > 0);
 	}
