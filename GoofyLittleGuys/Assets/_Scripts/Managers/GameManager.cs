@@ -11,6 +11,8 @@ namespace Managers
 	{
 		[SerializeField] private bool gameStartTest = true;             // TEST BOOL FOR DESIGNERS TO PLAY THE GAME WITHOUT GOING INTO PERSISTENT ALL THE TIME
 
+		[SerializeField] private Vector3 spawnPosition;
+
 		[SerializeField] private const float phaseOneDuration = 420f;   // Length of Phase 1 in seconds. (This amounts to 7 minutes)
 		[SerializeField] private float currentGameTime = 0;             // Current game time in seconds.
 		[SerializeField] private Transform fountainSpawnPoint;          // The spawn point that players are respawned to in the main game, set by the HealingFountain.cs
@@ -78,7 +80,7 @@ namespace Managers
 			foreach (PlayerInput input in PlayerInput.all)
 			{
 				// We don't want the players all spawning in the same exact spot, so shift their x and z positions randomly.
-				input.gameObject.transform.position += (new Vector3(1, 0, 1) * Random.Range(-1f, 1f)) + Vector3.up;
+				input.gameObject.transform.position = spawnPosition + (new Vector3(1, 0, 1) * Random.Range(-1f, 1f)) + Vector3.up;
 			}
 
 			// Unpause time, and begin phase one!

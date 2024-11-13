@@ -47,7 +47,7 @@ public class EventManager
 
 	public void CallLilGuyLockedInEvent()
 	{
-		LevelLoadManager.Instance.LoadNewLevel("02_MainGame");
+		LevelLoadManager.Instance.LoadNewLevel("ForestWhitebox");
 		GameStartedEvent();
 	}
 	public void GameStartedEvent()
