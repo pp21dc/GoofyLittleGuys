@@ -21,6 +21,8 @@ public class StrengthMinigame : CaptureBase
 		player.SwitchCurrentActionMap("StrengthMinigame");
 		mashAction = player.actions["MashButton"];
 
+		currentMeterValue = 0.5f;
+		strengthMeter.value = currentMeterValue;
 		// Initialize player and lil guy positions to opposite ends of the play space. Flip the player the other direction since they stand on the left facing right.
 		player.transform.position = instantiatedBarrier.transform.position - new Vector3(spawnRadius * 0.5f, 0, 0);
 		player.GetComponent<PlayerBody>().Flip = true;

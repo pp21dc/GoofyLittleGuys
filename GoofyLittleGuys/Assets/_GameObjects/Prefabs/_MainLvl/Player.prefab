@@ -214,7 +214,6 @@ MonoBehaviour:
   countdownText: {fileID: 3225509171649733240}
   catchFeedback: {fileID: 5337334715615295766}
   gameDuration: 10
-  creatureSpeed: 5
   catchDistance: 1.5
   timeBetweenNewLocations: 0.5
 --- !u!1 &634414651209314573
@@ -3913,7 +3912,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 90
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -5883,6 +5882,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_PlaneDistance
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7640070035068305139, guid: 110c20c757e90874fad83a63fb1d8c6e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -379.06003
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
