@@ -160,7 +160,8 @@ public class CaptureBase : MonoBehaviour
 		}
 
 		LeaveMinigame(body);
-		SpawnManager.Instance.currNumSpawns--;
+		SpawnManager.Instance.DespawnForest(lilGuyBeingCaught.gameObject);
+		//SpawnManager.Instance.currNumSpawns--;
 	}    
 
 	/// <summary>

@@ -54,7 +54,7 @@ namespace Managers
                 currNumSpawns--;
             }
 
-            Destroy(theLilGuy);
+            //Destroy(theLilGuy);
 
             if (currForestSpawns < minSpawnsPerArea)
             {
