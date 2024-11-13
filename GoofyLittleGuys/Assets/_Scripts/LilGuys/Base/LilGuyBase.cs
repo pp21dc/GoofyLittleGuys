@@ -1,6 +1,6 @@
 using System;
 using System.Collections;
-using UnityEditor.SceneManagement;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 using static UnityEngine.Rendering.DebugUI;
 
