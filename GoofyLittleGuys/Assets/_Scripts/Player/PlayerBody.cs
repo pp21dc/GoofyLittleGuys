@@ -2,9 +2,7 @@
 using Managers;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.Collections;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
 
@@ -19,7 +17,9 @@ public class PlayerBody : MonoBehaviour
 	[SerializeField] private GameObject teamFullMenu;					// The menu shown if the player captured a lil guy but their team is full.
 
 	[SerializeField, Range(1, 25f)] private float maxSpeed = 25f;       // To be replaced with lilGuys[0].speed
-	[SerializeField] private float movementDeceleration = 0.9f;
+	[SerializeField] private float accelerationTime = 0.1f;  // Time to reach target speed
+	[SerializeField] private float decelerationTime = 0.2f;  // Time to stop
+	[SerializeField] private float smoothFactor = 0.8f;      // Factor for smooth transitions
 
 	[Header("Jump Parameters")]
 	[SerializeField, Range(1, 25)] private float jumpSpeed = 4f;
@@ -36,9 +36,7 @@ public class PlayerBody : MonoBehaviour
 	[Tooltip("How long (in seconds) a jump input is 'remembered' for.")]
 	[SerializeField] private float jumpBufferTime = 0.2f;   // How long the jump input is 'remembered' for
 
-	private float coyoteTimeCounter;
-	private float jumpbufferCounter;
-	private bool isJumping = false;
+
 
 	private bool isDashing = false;                         // When the dash action is pressed for speed lil guy. Note this is in here because if the player swaps mid dash, they will get stuck in dash UNLESS this bool is here and is adjusted here.
 	private bool flip = false;
@@ -46,6 +44,7 @@ public class PlayerBody : MonoBehaviour
 	private bool hasInteracted = false;
 	private bool hasSwappedRecently = false; // If the player is in swap cooldown (feel free to delete cmnt)
 	private bool hasImmunity = false; // If the player is in swap I-frames (feel free to delete cmnt)
+	private Vector3 currentVelocity; // Internal tracking for velocity smoothing
 
 
 	private Vector3 movementDirection = Vector3.zero;
@@ -55,7 +54,6 @@ public class PlayerBody : MonoBehaviour
 	public bool HasInteracted { get { return hasInteracted; } set { hasInteracted = value; } }
 	public bool HasSwappedRecently { get { return hasSwappedRecently; } set { hasSwappedRecently = value; } }
 	public bool HasImmunity { get { return hasImmunity; } set { hasImmunity = value; } }
-	public bool IsJumping { get { return isJumping; } set { isJumping = value; } }
 	public bool IsDashing { get { return isDashing; } set { isDashing = value; } }
 	public bool InMinigame { get { return inMinigame; } set { inMinigame = value; } }
 	public Vector3 MovementDirection { get { return movementDirection; } }
@@ -135,54 +133,22 @@ public class PlayerBody : MonoBehaviour
 		{
 			// If the player is not dashing, then they will have regular movement mechanics
 
-			// Reduce gliding when there’s no movement input
 			if (movementDirection.magnitude < 0.1f)
 			{
-				// Slow down quicker if no movement direction input
-				rb.velocity = new Vector3(rb.velocity.x * movementDeceleration, rb.velocity.y, rb.velocity.z * movementDeceleration);
+				// Smooth deceleration when no input
+				currentVelocity = Vector3.Lerp(currentVelocity, Vector3.zero, Time.fixedDeltaTime / decelerationTime);
 			}
 			else
 			{
-				// Apply motion velocity as the player is moving
+				// Calculate the target velocity based on input direction
 				Vector3 targetVelocity = movementDirection.normalized * maxSpeed;
-				Vector3 newForceDirection = (targetVelocity - new Vector3(rb.velocity.x, 0, rb.velocity.z));
-				rb.velocity += newForceDirection * Time.fixedDeltaTime;
+
+				// Smoothly accelerate towards the target velocity
+				currentVelocity = Vector3.Lerp(currentVelocity, targetVelocity, Time.fixedDeltaTime / accelerationTime);
 			}
-		}
 
-		// Jump behaviours
-
-		// Update coyote time counter
-		if (IsGrounded()) coyoteTimeCounter = coyoteTime;
-		else coyoteTimeCounter -= Time.fixedDeltaTime;
-
-		// Update jump buffer counter if jump button was pressed recently
-		if (isJumping) jumpbufferCounter = jumpBufferTime;
-		else jumpbufferCounter -= Time.fixedDeltaTime;
-
-		// Apply jump if coyote time and jump buffer is valid
-		if (coyoteTimeCounter > 0 && jumpbufferCounter > 0)
-		{
-			PerformJump();
-			jumpbufferCounter = 0;
-		}
-
-		// Applies increased gravity while falling for faster descent and snappier jump feel
-		if (rb.velocity.y < fallThresholdSpeed)
-		{
-			rb.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.fixedDeltaTime;
-		}
-
-		// Reduces upward velocity when jump button is released early, creating a shorter jump
-		else if (rb.velocity.y > 0 && !IsJumping)
-		{
-			rb.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.fixedDeltaTime;
-		}
-
-		// Applies normal gravity when jump button is held, allowing for a higher jump
-		else if (rb.velocity.y > 0 && IsJumping)
-		{
-			rb.velocity += Vector3.up * Physics.gravity.y * Time.fixedDeltaTime;
+			// Apply the smoothed velocity to the Rigidbody
+			rb.velocity = new Vector3(currentVelocity.x, rb.velocity.y, currentVelocity.z);
 		}
 	}
 
@@ -276,28 +242,6 @@ public class PlayerBody : MonoBehaviour
 	public void StopDash()
 	{
 		isDashing = false;
-	}
-
-	/// <summary>
-	/// Called to do the actual jump force application.
-	/// </summary>
-	public void PerformJump()
-	{
-		if (IsGrounded())
-		{
-			rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
-			rb.AddForce(Vector3.up * jumpSpeed, ForceMode.Impulse);
-			Managers.AudioManager.Instance.PlaySfx("Jump", gameObject.GetComponent<AudioSource>());
-		}
-	}
-
-	/// <summary>
-	/// Called when the jump button is pressed to start the jump buffer.
-	/// </summary>
-	public void StartJumpBuffer()
-	{
-		isJumping = true;
-		jumpbufferCounter = jumpBufferTime;
 	}
 
 	/// <summary>

@@ -372,15 +372,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Jump",
-                    "type": "Button",
-                    "id": "3c2cb1fb-0284-4a2c-8fd6-894ac3ee7c9c",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "Hold(duration=1.401298E-45)",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "PrimarySkill",
                     "type": "Button",
                     "id": "91bc8511-9692-45c0-8a51-210c7ad677f0",
@@ -625,28 +616,6 @@
                 },
                 {
                     "name": "",
-                    "id": "d10b4d4f-99a6-4eac-b080-b4afd7f28a3e",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "[DEBUG] Keyboard Mouse",
-                    "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "ef62a2a5-4201-4764-ac06-45baab6af1fd",
-                    "path": "<Gamepad>/buttonSouth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "66100275-b600-42a9-9c25-f64c674b9d63",
                     "path": "<Keyboard>/r",
                     "interactions": "",
@@ -863,15 +832,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Jump",
-                    "type": "Button",
-                    "id": "b54d18cb-3fed-4627-8f5f-02709feb822f",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "Hold(duration=1.401298E-45)",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Pause",
                     "type": "Button",
                     "id": "f89ee790-ace5-4eb1-bf88-b917ecca9d38",
@@ -969,28 +929,6 @@
                     "action": "Movement",
                     "isComposite": false,
                     "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "16a333d3-0857-4e08-85ef-a75a6f349466",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "[DEBUG] Keyboard Mouse",
-                    "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "0848d137-1abe-4234-a109-2cc302b83ebf",
-                    "path": "<Gamepad>/buttonSouth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
                 }
             ]
         },
@@ -1023,15 +961,6 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Jump",
-                    "type": "Button",
-                    "id": "53a84931-a380-4c04-b583-936f8fdcd051",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "Hold(duration=1.401298E-45)",
                     "initialStateCheck": false
                 }
             ],
@@ -1143,28 +1072,6 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "Tag",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "241f0c3b-d097-40ee-ad4d-2d70e24bd030",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "[DEBUG] Keyboard Mouse",
-                    "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "defc98cb-d0ae-464c-af02-097102c124f8",
-                    "path": "<Gamepad>/buttonSouth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

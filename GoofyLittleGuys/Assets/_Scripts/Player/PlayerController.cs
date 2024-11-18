@@ -55,13 +55,6 @@ public class PlayerController : MonoBehaviour
 		MultiplayerManager.Instance.LeavePlayer(GetComponent<PlayerInput>());
 	}
 
-	public void OnJump(InputAction.CallbackContext ctx)
-	{
-		if (Managers.GameManager.Instance.IsPaused) return;
-		if (ctx.started) playerBody.StartJumpBuffer();
-		if (ctx.canceled) playerBody.IsJumping = false;
-	}
-
 	public void OnPrimarySkill(InputAction.CallbackContext ctx)
 	{
 		if (Managers.GameManager.Instance.IsPaused) return;

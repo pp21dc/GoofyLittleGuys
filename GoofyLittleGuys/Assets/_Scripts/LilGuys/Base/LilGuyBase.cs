@@ -1,8 +1,6 @@
 using System;
 using System.Collections;
-using UnityEngine.SceneManagement;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
 
 public abstract class LilGuyBase : MonoBehaviour
 {
@@ -36,6 +34,14 @@ public abstract class LilGuyBase : MonoBehaviour
 	private bool isHurt = false;
 	private bool isDead = false;
 	private GameObject instantiatedHitbox;
+
+	// Variables for attack speed and cooldown
+	[SerializeField] private float attackCooldown = 1f; // Cooldown duration in seconds
+	[SerializeField] private float attackRange = 2f;   // Max attack range
+	[SerializeField] private GameObject attackEffect;  // Optional VFX prefab for hit feedback
+
+	private float lastAttackTime = -999f; // Tracks the last time an attack occurred
+
 
 	public enum PrimaryType
 	{
@@ -129,14 +135,31 @@ public abstract class LilGuyBase : MonoBehaviour
 	/// </summary>
 	public void Attack()
 	{
+		// Check if the target is in range
+
+		// Ensure attack respects cooldown
+		if (Time.time - lastAttackTime < attackCooldown)
+		{
+			Debug.Log("Attack on cooldown.");
+			return;
+		}
+
+		// Update attack time
+		lastAttackTime = Time.time;
+
+		// Create the hitbox (snappy, instant feedback)
 		if (instantiatedHitbox == null)
 		{
-			instantiatedHitbox = Instantiate(hitboxPrefab, attackPosition.position - attackPosition.right * 0.5f, Quaternion.identity);
-			instantiatedHitbox.transform.SetParent(transform);
+			instantiatedHitbox = Instantiate(hitboxPrefab, attackPosition.position, Quaternion.identity);
+			instantiatedHitbox.transform.SetParent(null); // Detach for independent lifetime
 
-			instantiatedHitbox.GetComponent<Hitbox>().layerMask = playerOwner != null ? playerOwner.layer : gameObject.layer;	// Set hitbox to player layer if player-owned, otherwise, set it to this lil guy's layer.
-			instantiatedHitbox.GetComponent<Hitbox>().Init(gameObject);
-			Destroy(instantiatedHitbox, 1f);
+			// Configure the hitbox
+			Hitbox hitbox = instantiatedHitbox.GetComponent<Hitbox>();
+			hitbox.layerMask = playerOwner != null ? playerOwner.layer : gameObject.layer;
+			hitbox.Init(gameObject); // Pass the target directly to enhance accuracy
+
+			// Destroy the hitbox after its effect time
+			Destroy(instantiatedHitbox, 0.2f); // Shorter lifespan for faster feedback
 		}
 	}
 

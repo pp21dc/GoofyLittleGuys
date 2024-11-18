@@ -226,14 +226,6 @@ public class ChaseState : AiState
 	}
 
 	/// <summary>
-	/// Returns true if there is some object marked as ground beneath the player's feet.
-	/// </summary>
-	/// <returns>True if there's ground beneath the player's feet, otherwise false.</returns>
-	private bool IsGrounded()
-	{
-		return Physics.Raycast(controller.transform.position - Vector3.down * 0.05f, Vector3.down, 0.1f, controller.GroundLayer);
-	}
-	/// <summary>
 	/// Moves the AI towards the player's direction
 	/// </summary>
 	private void ChasePlayer()
@@ -243,55 +235,16 @@ public class ChaseState : AiState
 		controller.MoveDirection = (controller.Player.position - controller.transform.position).normalized;
 
 		// Calculate the horizontal distance and height difference
-		float horizontalDistance = Vector3.Distance(new Vector3(controller.transform.position.x, 0, controller.transform.position.z),
-													new Vector3(controller.Player.position.x, 0, controller.Player.position.z));
-		float heightDifference = controller.Player.position.y - controller.transform.position.y;
+		float horizontalDistance = Vector3.Distance(new Vector3(controller.transform.position.x, 0, controller.transform.position.z), new Vector3(controller.Player.position.x, 0, controller.Player.position.z));
 
-		// Define a maximum height difference and horizontal range where the AI should consider jumping
-		float maxJumpHeight = 5f;   // Maximum height the AI can jump, adjust as needed	
+		// Normal horizontal movement using MoveTowards
+		controller.transform.position = Vector3.MoveTowards(controller.transform.position, controller.Player.position, controller.LilGuy.speed * Time.deltaTime);
 
-		if (jumpTimer > 0) jumpTimer -= Time.deltaTime;
-
-		if (heightDifference > 0.5f && heightDifference <= maxJumpHeight && horizontalDistance <= controller.ChaseRange && IsGrounded() && jumpTimer <= 0)
-		{
-			// If player is within jumping range and at a higher elevation, apply a jump
-			JumpToPlayer(rb, heightDifference);
-			jumpTimer = jumpCooldown;
-		}
-		else
-		{
-			// Normal horizontal movement using MoveTowards
-			controller.transform.position = Vector3.MoveTowards(controller.transform.position, controller.Player.position, controller.LilGuy.speed * Time.deltaTime);
-		}
-	}
-
-	/// <summary>
-	/// Applies an upward force to the AI for a jump.
-	/// </summary>
-	/// <param name="rb">The Rigidbody of the AI.</param>
-	/// <param name="heightDifference">The height difference to calculate jump strength.</param>
-	private void JumpToPlayer(Rigidbody rb, float heightDifference)
-	{
-		// Reset any vertical velocity to ensure consistent jumps
-		rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
-		rb.AddForce(Vector3.up * controller.JumpSpeed, ForceMode.Impulse);
 	}
 
 	public override void FixedUpdateState()
 	{
-		// Applies increased gravity while falling for faster descent and snappier jump feel
-		if (rb.velocity.y < 0)
-		{
-			rb.velocity += Vector3.up * Physics.gravity.y * (controller.FallModifier - 1) * Time.fixedDeltaTime;
-		}
-		else if (rb.velocity.y > 0 && jumpTimer <= 0)
-		{
-			rb.velocity += Vector3.up * Physics.gravity.y * (controller.FallModifier - 1) * Time.fixedDeltaTime;
-		}
-		else if (rb.velocity.y > 0 && jumpTimer > 0)
-		{
-			rb.velocity += Vector3.up * Physics.gravity.y * Time.fixedDeltaTime;
-		}
+		
 	}
 }
 

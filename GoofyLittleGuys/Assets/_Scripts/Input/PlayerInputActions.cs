@@ -394,15 +394,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Jump"",
-                    ""type"": ""Button"",
-                    ""id"": ""3c2cb1fb-0284-4a2c-8fd6-894ac3ee7c9c"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": ""Hold(duration=1.401298E-45)"",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""PrimarySkill"",
                     ""type"": ""Button"",
                     ""id"": ""91bc8511-9692-45c0-8a51-210c7ad677f0"",
@@ -647,28 +638,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""d10b4d4f-99a6-4eac-b080-b4afd7f28a3e"",
-                    ""path"": ""<Keyboard>/space"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""[DEBUG] Keyboard Mouse"",
-                    ""action"": ""Jump"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""ef62a2a5-4201-4764-ac06-45baab6af1fd"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Jump"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""66100275-b600-42a9-9c25-f64c674b9d63"",
                     ""path"": ""<Keyboard>/r"",
                     ""interactions"": """",
@@ -885,15 +854,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Jump"",
-                    ""type"": ""Button"",
-                    ""id"": ""b54d18cb-3fed-4627-8f5f-02709feb822f"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": ""Hold(duration=1.401298E-45)"",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Pause"",
                     ""type"": ""Button"",
                     ""id"": ""f89ee790-ace5-4eb1-bf88-b917ecca9d38"",
@@ -991,28 +951,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""16a333d3-0857-4e08-85ef-a75a6f349466"",
-                    ""path"": ""<Keyboard>/space"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""[DEBUG] Keyboard Mouse"",
-                    ""action"": ""Jump"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""0848d137-1abe-4234-a109-2cc302b83ebf"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Jump"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -1045,15 +983,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Jump"",
-                    ""type"": ""Button"",
-                    ""id"": ""53a84931-a380-4c04-b583-936f8fdcd051"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": ""Hold(duration=1.401298E-45)"",
                     ""initialStateCheck"": false
                 }
             ],
@@ -1167,28 +1096,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Tag"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""241f0c3b-d097-40ee-ad4d-2d70e24bd030"",
-                    ""path"": ""<Keyboard>/space"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""[DEBUG] Keyboard Mouse"",
-                    ""action"": ""Jump"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""defc98cb-d0ae-464c-af02-097102c124f8"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Jump"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -1230,7 +1137,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_World_Movement = m_World.FindAction("Movement", throwIfNotFound: true);
         m_World_SwapCharacter = m_World.FindAction("SwapCharacter", throwIfNotFound: true);
         m_World_Pause = m_World.FindAction("Pause", throwIfNotFound: true);
-        m_World_Jump = m_World.FindAction("Jump", throwIfNotFound: true);
         m_World_PrimarySkill = m_World.FindAction("PrimarySkill", throwIfNotFound: true);
         m_World_SecondarySkill = m_World.FindAction("SecondarySkill", throwIfNotFound: true);
         m_World_Interact = m_World.FindAction("Interact", throwIfNotFound: true);
@@ -1244,14 +1150,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         // DefenseMinigame
         m_DefenseMinigame = asset.FindActionMap("DefenseMinigame", throwIfNotFound: true);
         m_DefenseMinigame_Movement = m_DefenseMinigame.FindAction("Movement", throwIfNotFound: true);
-        m_DefenseMinigame_Jump = m_DefenseMinigame.FindAction("Jump", throwIfNotFound: true);
         m_DefenseMinigame_Pause = m_DefenseMinigame.FindAction("Pause", throwIfNotFound: true);
         // SpeedMinigame
         m_SpeedMinigame = asset.FindActionMap("SpeedMinigame", throwIfNotFound: true);
         m_SpeedMinigame_Pause = m_SpeedMinigame.FindAction("Pause", throwIfNotFound: true);
         m_SpeedMinigame_Movement = m_SpeedMinigame.FindAction("Movement", throwIfNotFound: true);
         m_SpeedMinigame_Tag = m_SpeedMinigame.FindAction("Tag", throwIfNotFound: true);
-        m_SpeedMinigame_Jump = m_SpeedMinigame.FindAction("Jump", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1394,7 +1298,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_World_Movement;
     private readonly InputAction m_World_SwapCharacter;
     private readonly InputAction m_World_Pause;
-    private readonly InputAction m_World_Jump;
     private readonly InputAction m_World_PrimarySkill;
     private readonly InputAction m_World_SecondarySkill;
     private readonly InputAction m_World_Interact;
@@ -1408,7 +1311,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @Movement => m_Wrapper.m_World_Movement;
         public InputAction @SwapCharacter => m_Wrapper.m_World_SwapCharacter;
         public InputAction @Pause => m_Wrapper.m_World_Pause;
-        public InputAction @Jump => m_Wrapper.m_World_Jump;
         public InputAction @PrimarySkill => m_Wrapper.m_World_PrimarySkill;
         public InputAction @SecondarySkill => m_Wrapper.m_World_SecondarySkill;
         public InputAction @Interact => m_Wrapper.m_World_Interact;
@@ -1433,9 +1335,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Pause.started += instance.OnPause;
             @Pause.performed += instance.OnPause;
             @Pause.canceled += instance.OnPause;
-            @Jump.started += instance.OnJump;
-            @Jump.performed += instance.OnJump;
-            @Jump.canceled += instance.OnJump;
             @PrimarySkill.started += instance.OnPrimarySkill;
             @PrimarySkill.performed += instance.OnPrimarySkill;
             @PrimarySkill.canceled += instance.OnPrimarySkill;
@@ -1467,9 +1366,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Pause.started -= instance.OnPause;
             @Pause.performed -= instance.OnPause;
             @Pause.canceled -= instance.OnPause;
-            @Jump.started -= instance.OnJump;
-            @Jump.performed -= instance.OnJump;
-            @Jump.canceled -= instance.OnJump;
             @PrimarySkill.started -= instance.OnPrimarySkill;
             @PrimarySkill.performed -= instance.OnPrimarySkill;
             @PrimarySkill.canceled -= instance.OnPrimarySkill;
@@ -1564,14 +1460,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_DefenseMinigame;
     private List<IDefenseMinigameActions> m_DefenseMinigameActionsCallbackInterfaces = new List<IDefenseMinigameActions>();
     private readonly InputAction m_DefenseMinigame_Movement;
-    private readonly InputAction m_DefenseMinigame_Jump;
     private readonly InputAction m_DefenseMinigame_Pause;
     public struct DefenseMinigameActions
     {
         private @PlayerInputActions m_Wrapper;
         public DefenseMinigameActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_DefenseMinigame_Movement;
-        public InputAction @Jump => m_Wrapper.m_DefenseMinigame_Jump;
         public InputAction @Pause => m_Wrapper.m_DefenseMinigame_Pause;
         public InputActionMap Get() { return m_Wrapper.m_DefenseMinigame; }
         public void Enable() { Get().Enable(); }
@@ -1585,9 +1479,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Movement.started += instance.OnMovement;
             @Movement.performed += instance.OnMovement;
             @Movement.canceled += instance.OnMovement;
-            @Jump.started += instance.OnJump;
-            @Jump.performed += instance.OnJump;
-            @Jump.canceled += instance.OnJump;
             @Pause.started += instance.OnPause;
             @Pause.performed += instance.OnPause;
             @Pause.canceled += instance.OnPause;
@@ -1598,9 +1489,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Movement.started -= instance.OnMovement;
             @Movement.performed -= instance.OnMovement;
             @Movement.canceled -= instance.OnMovement;
-            @Jump.started -= instance.OnJump;
-            @Jump.performed -= instance.OnJump;
-            @Jump.canceled -= instance.OnJump;
             @Pause.started -= instance.OnPause;
             @Pause.performed -= instance.OnPause;
             @Pause.canceled -= instance.OnPause;
@@ -1628,7 +1516,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_SpeedMinigame_Pause;
     private readonly InputAction m_SpeedMinigame_Movement;
     private readonly InputAction m_SpeedMinigame_Tag;
-    private readonly InputAction m_SpeedMinigame_Jump;
     public struct SpeedMinigameActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -1636,7 +1523,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @Pause => m_Wrapper.m_SpeedMinigame_Pause;
         public InputAction @Movement => m_Wrapper.m_SpeedMinigame_Movement;
         public InputAction @Tag => m_Wrapper.m_SpeedMinigame_Tag;
-        public InputAction @Jump => m_Wrapper.m_SpeedMinigame_Jump;
         public InputActionMap Get() { return m_Wrapper.m_SpeedMinigame; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1655,9 +1541,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Tag.started += instance.OnTag;
             @Tag.performed += instance.OnTag;
             @Tag.canceled += instance.OnTag;
-            @Jump.started += instance.OnJump;
-            @Jump.performed += instance.OnJump;
-            @Jump.canceled += instance.OnJump;
         }
 
         private void UnregisterCallbacks(ISpeedMinigameActions instance)
@@ -1671,9 +1554,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Tag.started -= instance.OnTag;
             @Tag.performed -= instance.OnTag;
             @Tag.canceled -= instance.OnTag;
-            @Jump.started -= instance.OnJump;
-            @Jump.performed -= instance.OnJump;
-            @Jump.canceled -= instance.OnJump;
         }
 
         public void RemoveCallbacks(ISpeedMinigameActions instance)
@@ -1722,7 +1602,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnMovement(InputAction.CallbackContext context);
         void OnSwapCharacter(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
-        void OnJump(InputAction.CallbackContext context);
         void OnPrimarySkill(InputAction.CallbackContext context);
         void OnSecondarySkill(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
@@ -1738,7 +1617,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     public interface IDefenseMinigameActions
     {
         void OnMovement(InputAction.CallbackContext context);
-        void OnJump(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
     }
     public interface ISpeedMinigameActions
@@ -1746,6 +1624,5 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnPause(InputAction.CallbackContext context);
         void OnMovement(InputAction.CallbackContext context);
         void OnTag(InputAction.CallbackContext context);
-        void OnJump(InputAction.CallbackContext context);
     }
 }
