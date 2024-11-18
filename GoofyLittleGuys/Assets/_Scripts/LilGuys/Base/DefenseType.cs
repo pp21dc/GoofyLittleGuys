@@ -20,6 +20,7 @@ public class DefenseType : LilGuyBase
     public override void Special()
 	{
 		if (currentCharges <= 0 && cooldownTimer > 0) return;   // If currently on cooldown and there are no more charges to use.
+		base.Special();
 		spawnedShieldObj ??= Instantiate(shieldPrefab, transform.position, Quaternion.identity, transform); // If spawnShieldObj is null, assign it this instantiated GO
         spawnedShieldObj.GetComponent<Shield>().Initialize(duration, this); 
         isShieldActive = true;

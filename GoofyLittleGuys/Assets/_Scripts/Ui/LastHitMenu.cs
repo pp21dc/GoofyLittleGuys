@@ -38,6 +38,7 @@ public class LastHitMenu : MonoBehaviour
 		// Start the capture minigame for this specific LilGuy's type
 		if (lilGuyToCapture != null)
 		{
+			lilGuyToCapture.LeaveDeathAnim();
 			StartCaptureMinigame();
 		}
 

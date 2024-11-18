@@ -125,7 +125,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2449116246927628233}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 22100000, guid: 1ebc3a72f07e8b043bec370d40fbb67b, type: 2}
   m_CullingMode: 0
@@ -193,7 +193,7 @@ MonoBehaviour:
   mesh: {fileID: 2449116246927628233}
   hitboxPrefab: {fileID: 7763503517924717934, guid: 9df4356fd20c6d740acf3ba2a05fd8ed,
     type: 3}
-  animatorController: {fileID: 0}
+  anim: {fileID: 7633103000053924610}
   attackPosition: {fileID: 631468313354302470}
   health: 100
   maxHealth: 100
@@ -205,6 +205,9 @@ MonoBehaviour:
   cooldownDuration: 13
   chargeRefreshRate: 2
   playerOwner: {fileID: 0}
+  attackCooldown: 0
+  attackRange: 0
+  attackEffect: {fileID: 0}
   aoeShape: {fileID: 5216711054752746378, guid: de718a7f3579f9a47a910f3cb7043906,
     type: 3}
   aoeMaxSize: 4
@@ -293,6 +296,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   attackBuffer: 2
+  fallMultiplier: 4
+  jumpSpeed: 10
 --- !u!1001 &2463514474561850118
 PrefabInstance:
   m_ObjectHideFlags: 0

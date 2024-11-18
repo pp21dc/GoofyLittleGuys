@@ -9,8 +9,9 @@ public abstract class LilGuyBase : MonoBehaviour
 	public string guyName;
 	public PrimaryType type;
 	public GameObject mesh;
+	[SerializeField] private LayerMask groundLayer;
 	[SerializeField] private GameObject hitboxPrefab;
-	[SerializeField] private AnimatorOverrideController animatorController;
+	[SerializeField] private Animator anim;
 	public Transform attackPosition;
 
 	[Header("Lil Guy Stats")]
@@ -31,6 +32,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	protected float cooldownTimer = 0;
 	protected float chargeTimer = 0;
 
+	private bool isMoving = false;
 	private bool isHurt = false;
 	private bool isDead = false;
 	private GameObject instantiatedHitbox;
@@ -42,6 +44,7 @@ public abstract class LilGuyBase : MonoBehaviour
 
 	private float lastAttackTime = -999f; // Tracks the last time an attack occurred
 
+	public bool IsMoving { get { return isMoving; } set { isMoving = value; } }
 
 	public enum PrimaryType
 	{
@@ -69,9 +72,14 @@ public abstract class LilGuyBase : MonoBehaviour
 			Destroy(GetComponent<AiController>());
 			GetComponentInChildren<AiHealthUi>().gameObject.SetActive(false);
 		}
+		if (health <= 0)
+		{
+			health = 0;
+			isDead = true;
+		}
+		else isDead = false;
 
 		if (isDead) return;
-		if (health <= 0) health = 0;
 		// Replenish cooldown over time.
 		if (cooldownTimer > 0)
 		{
@@ -91,6 +99,18 @@ public abstract class LilGuyBase : MonoBehaviour
 				currentCharges++;
 				chargeTimer = chargeRefreshRate;
 			}
+		}
+
+		if (anim != null) UpdateAnimations();
+
+	}
+
+	private void UpdateAnimations()
+	{
+		if (!isDead)
+		{
+			anim.SetBool("IsMoving", isMoving);
+			anim.SetBool("IsGrounded", IsGrounded());
 		}
 	}
 
@@ -126,6 +146,12 @@ public abstract class LilGuyBase : MonoBehaviour
 	public void Damaged()
 	{
 		StartCoroutine(FlashRed());
+		if (anim != null) anim.Play("Hurt");
+	}
+
+	public void OnDeath()
+	{
+		if (anim != null) anim.Play("Death");
 	}
 
 	/// <summary>
@@ -136,7 +162,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	public void Attack()
 	{
 		// Check if the target is in range
-
+		anim.SetTrigger("BasicAttack");
 		// Ensure attack respects cooldown
 		if (Time.time - lastAttackTime < attackCooldown)
 		{
@@ -166,7 +192,10 @@ public abstract class LilGuyBase : MonoBehaviour
 	/// <summary>
 	/// override this function in all derivitives of this class with its unique special attack
 	/// </summary>
-	public virtual void Special() { throw new NotImplementedException(); }
+	public virtual void Special()
+	{
+		anim.SetTrigger("SpecialAttack");
+	}
 
 	// Lil Guy constructor :3
 	public LilGuyBase(string guyName, int health, int maxHealth, PrimaryType type, int speed, int defense, int strength)
@@ -191,28 +220,41 @@ public abstract class LilGuyBase : MonoBehaviour
 		switch (defeatedLilGuy.type)
 		{
 			case PrimaryType.Strength:
-				strength = Mathf.Min(strength + defeatedLilGuy.strength/primaryModifier, MAX_STAT);
-				defense = Mathf.Min(defense + defeatedLilGuy.defense/secondaryModifier, MAX_STAT);
-				speed = Mathf.Min(speed + defeatedLilGuy.speed/secondaryModifier, MAX_STAT);
+				strength = Mathf.Min(strength + defeatedLilGuy.strength / primaryModifier, MAX_STAT);
+				defense = Mathf.Min(defense + defeatedLilGuy.defense / secondaryModifier, MAX_STAT);
+				speed = Mathf.Min(speed + defeatedLilGuy.speed / secondaryModifier, MAX_STAT);
 				break;
 			case PrimaryType.Defense:
-				strength = Mathf.Min(strength + defeatedLilGuy.strength/secondaryModifier, MAX_STAT);
-				defense = Mathf.Min(defense + defeatedLilGuy.defense/primaryModifier, MAX_STAT);
-				speed = Mathf.Min(speed + defeatedLilGuy.speed/secondaryModifier, MAX_STAT);
+				strength = Mathf.Min(strength + defeatedLilGuy.strength / secondaryModifier, MAX_STAT);
+				defense = Mathf.Min(defense + defeatedLilGuy.defense / primaryModifier, MAX_STAT);
+				speed = Mathf.Min(speed + defeatedLilGuy.speed / secondaryModifier, MAX_STAT);
 				break;
 			case PrimaryType.Speed:
-				strength = Mathf.Min(strength + defeatedLilGuy.strength/secondaryModifier, MAX_STAT);
-				defense = Mathf.Min(defense + defeatedLilGuy.defense/secondaryModifier, MAX_STAT);
-				speed = Mathf.Min(speed + defeatedLilGuy.speed/primaryModifier, MAX_STAT);
+				strength = Mathf.Min(strength + defeatedLilGuy.strength / secondaryModifier, MAX_STAT);
+				defense = Mathf.Min(defense + defeatedLilGuy.defense / secondaryModifier, MAX_STAT);
+				speed = Mathf.Min(speed + defeatedLilGuy.speed / primaryModifier, MAX_STAT);
 				break;
 			default:
 				throw new ArgumentOutOfRangeException();
 		}
 		Debug.Log("After: Str - " + strength + " Def - " + defense + " Spd - " + speed);
-		
+
 		maxHealth = 100 + (speed + defense + strength) / 10;
 	}
-	
+
+	/// <summary>
+	/// Returns true if there is some object marked as ground beneath the player's feet.
+	/// </summary>
+	/// <returns>True if there's ground beneath the player's feet, otherwise false.</returns>
+	private bool IsGrounded()
+	{
+		return Physics.Raycast(transform.position - Vector3.down * 0.05f, Vector3.down, 0.1f, groundLayer);
+	}
+
+	public void LeaveDeathAnim()
+	{
+		if (anim != null) anim.SetTrigger("Revive");
+	}
 	public GameObject GetHitboxPrefab()
 	{
 		return hitboxPrefab;

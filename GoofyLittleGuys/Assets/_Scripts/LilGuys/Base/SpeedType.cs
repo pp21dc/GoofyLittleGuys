@@ -19,6 +19,7 @@ public class SpeedType : LilGuyBase
 	{
 		// Ensure we have charges available or the cooldown is active
 		if (currentCharges <= 0 && cooldownTimer > 0) return;
+		base.Special();
 
 		// Determine the Rigidbody based on the current game phase
 		Rigidbody rb = GameManager.Instance.CurrentPhase < 2 ? playerOwner.GetComponent<Rigidbody>() : GetComponent<Rigidbody>();

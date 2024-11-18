@@ -84,9 +84,12 @@ MonoBehaviour:
   guyName: Armordillo
   type: 1
   mesh: {fileID: 7267988168925381940}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
   hitboxPrefab: {fileID: 7763503517924717934, guid: 9df4356fd20c6d740acf3ba2a05fd8ed,
     type: 3}
-  animatorController: {fileID: 0}
+  anim: {fileID: 0}
   attackPosition: {fileID: 6391458775545658944}
   health: 60
   maxHealth: 100
@@ -98,6 +101,9 @@ MonoBehaviour:
   cooldownDuration: 17
   chargeRefreshRate: 2
   playerOwner: {fileID: 0}
+  attackCooldown: 0
+  attackRange: 0
+  attackEffect: {fileID: 0}
   shieldPrefab: {fileID: 2008765747768666474, guid: 0b6f276f11794084db7a6f88d2820118,
     type: 3}
   duration: 5
@@ -185,6 +191,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   attackBuffer: 2
+  fallMultiplier: 4
+  jumpSpeed: 10
 --- !u!1 &7267988168925381940
 GameObject:
   m_ObjectHideFlags: 0
@@ -195,6 +203,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4406844474913467462}
   - component: {fileID: 2263210829898551102}
+  - component: {fileID: 3493322147057554206}
   m_Layer: 8
   m_Name: Mesh
   m_TagString: Untagged
@@ -270,6 +279,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &3493322147057554206
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7267988168925381940}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &2742248503524709872
 PrefabInstance:
   m_ObjectHideFlags: 0

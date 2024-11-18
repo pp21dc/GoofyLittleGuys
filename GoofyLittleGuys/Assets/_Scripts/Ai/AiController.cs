@@ -147,7 +147,7 @@ public class IdleState : AiState
 
 	public override void EnterState()
 	{
-
+		controller.LilGuy.IsMoving = false;
 	}
 
 	public override void ExitState()
@@ -189,7 +189,7 @@ public class ChaseState : AiState
 	}
 	public override void EnterState()
 	{
-
+		controller.LilGuy.IsMoving = true;
 	}
 
 	public override void ExitState()
@@ -318,6 +318,8 @@ public class DeadState : AiState
 
 	public override void EnterState()
 	{
+		controller.LilGuy.IsMoving = false;
+		controller.LilGuy.OnDeath();
 		controller.ShowLastHitPrompt();
 	}
 
