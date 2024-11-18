@@ -89,13 +89,14 @@ MonoBehaviour:
     m_Bits: 0
   hitboxPrefab: {fileID: 7763503517924717934, guid: 9df4356fd20c6d740acf3ba2a05fd8ed,
     type: 3}
-  anim: {fileID: 0}
+  anim: {fileID: 8064512338605312392}
   attackPosition: {fileID: 6391458775545658944}
   health: 60
   maxHealth: 100
   speed: 3
   defense: 5
   strength: 3
+  specialDuration: 2
   currentCharges: 1
   maxCharges: 1
   cooldownDuration: 17
@@ -203,7 +204,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4406844474913467462}
   - component: {fileID: 2263210829898551102}
-  - component: {fileID: 3493322147057554206}
+  - component: {fileID: 8064512338605312392}
   m_Layer: 8
   m_Name: Mesh
   m_TagString: Untagged
@@ -279,7 +280,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!95 &3493322147057554206
+--- !u!95 &8064512338605312392
 Animator:
   serializedVersion: 5
   m_ObjectHideFlags: 0
@@ -289,7 +290,7 @@ Animator:
   m_GameObject: {fileID: 7267988168925381940}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 652b326682751234ea10e7379b683121, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

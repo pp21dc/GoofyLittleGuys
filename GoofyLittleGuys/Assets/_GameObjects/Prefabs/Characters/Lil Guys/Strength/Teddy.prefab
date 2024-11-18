@@ -127,7 +127,7 @@ Animator:
   m_GameObject: {fileID: 2449116246927628233}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 22100000, guid: 1ebc3a72f07e8b043bec370d40fbb67b, type: 2}
+  m_Controller: {fileID: 9100000, guid: 2285051f9c7576746afbccb511584aa6, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -191,6 +191,9 @@ MonoBehaviour:
   guyName: Teddy
   type: 0
   mesh: {fileID: 2449116246927628233}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
   hitboxPrefab: {fileID: 7763503517924717934, guid: 9df4356fd20c6d740acf3ba2a05fd8ed,
     type: 3}
   anim: {fileID: 7633103000053924610}
@@ -204,6 +207,7 @@ MonoBehaviour:
   maxCharges: 1
   cooldownDuration: 13
   chargeRefreshRate: 2
+  specialDuration: -1
   playerOwner: {fileID: 0}
   attackCooldown: 0
   attackRange: 0

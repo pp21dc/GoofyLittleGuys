@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 public abstract class LilGuyBase : MonoBehaviour
@@ -24,10 +25,13 @@ public abstract class LilGuyBase : MonoBehaviour
 	private int average;
 
 	[Header("Special Attack Specific")]
+	[Tooltip("The length (in seconds) that the special attack should last for.\n(A value of -1 defaults the length to be the same as the special attack animation).")]
+	[SerializeField] protected float specialDuration = -1;
 	[SerializeField] protected int currentCharges = 1;
 	[SerializeField] protected int maxCharges = 1;
 	[SerializeField] protected float cooldownDuration = 1;
 	[SerializeField] protected float chargeRefreshRate = 1;
+
 	public GameObject playerOwner = null;
 	protected float cooldownTimer = 0;
 	protected float chargeTimer = 0;
@@ -195,6 +199,20 @@ public abstract class LilGuyBase : MonoBehaviour
 	public virtual void Special()
 	{
 		anim.SetTrigger("SpecialAttack");
+		StartCoroutine(EndSpecial());
+	}
+
+	private IEnumerator EndSpecial()
+	{
+		if (specialDuration >= 0)
+			yield return new WaitForSeconds(specialDuration);
+		else if (specialDuration == -1)
+		{
+			AnimationClip clip = anim.runtimeAnimatorController.animationClips.First(clip => clip.name == "Special");
+			if (clip != null)
+				yield return new WaitForSeconds(clip.length);
+		}
+		anim.SetTrigger("SpecialAttackEnded");
 	}
 
 	// Lil Guy constructor :3
