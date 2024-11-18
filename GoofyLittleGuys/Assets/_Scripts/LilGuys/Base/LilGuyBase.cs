@@ -114,7 +114,6 @@ public abstract class LilGuyBase : MonoBehaviour
 		if (!isDead)
 		{
 			anim.SetBool("IsMoving", isMoving);
-			anim.SetBool("IsGrounded", IsGrounded());
 		}
 	}
 
@@ -258,15 +257,6 @@ public abstract class LilGuyBase : MonoBehaviour
 		Debug.Log("After: Str - " + strength + " Def - " + defense + " Spd - " + speed);
 
 		maxHealth = 100 + (speed + defense + strength) / 10;
-	}
-
-	/// <summary>
-	/// Returns true if there is some object marked as ground beneath the player's feet.
-	/// </summary>
-	/// <returns>True if there's ground beneath the player's feet, otherwise false.</returns>
-	private bool IsGrounded()
-	{
-		return Physics.Raycast(transform.position - Vector3.down * 0.05f, Vector3.down, 0.1f, groundLayer);
 	}
 
 	public void LeaveDeathAnim()

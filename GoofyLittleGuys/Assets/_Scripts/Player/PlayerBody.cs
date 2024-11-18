@@ -8,7 +8,6 @@ using UnityEngine.InputSystem.UI;
 
 public class PlayerBody : MonoBehaviour
 {
-	[SerializeField] private LayerMask groundLayer;                     // What is considered the ground layer?
 	[SerializeField] private List<LilGuyBase> lilGuyTeam;               // The lil guys in the player's team.
 	[SerializeField] private List<LilGuySlot> lilGuyTeamSlots;          // The physical positions on the player prefab that the lil guys are children of.
 	[SerializeField] private GameObject playerMesh;                     // Reference to the player's mesh gameobject
@@ -20,23 +19,6 @@ public class PlayerBody : MonoBehaviour
 	[SerializeField] private float accelerationTime = 0.1f;  // Time to reach target speed
 	[SerializeField] private float decelerationTime = 0.2f;  // Time to stop
 	[SerializeField] private float smoothFactor = 0.8f;      // Factor for smooth transitions
-
-	[Header("Jump Parameters")]
-	[SerializeField, Range(1, 25)] private float jumpSpeed = 4f;
-
-	[Tooltip("EDIT THIS IF HIGH JUMP FEELS FLOATY!\nUpward velocity threshold before increased gravity multiplier gets applied.")]
-	[SerializeField] private float fallThresholdSpeed = 0f;
-
-	[Tooltip("Gravity modifier that makes falling faster, and allows for short jumps.")]
-	[SerializeField] private float fallMultiplier = 4f;
-
-	[Tooltip("How long (in seconds) after leaving the ground can a jump input be accepted?")]
-	[SerializeField] private float coyoteTime = 0.2f;   // How long after leaving the ground can a jump input be accepted
-
-	[Tooltip("How long (in seconds) a jump input is 'remembered' for.")]
-	[SerializeField] private float jumpBufferTime = 0.2f;   // How long the jump input is 'remembered' for
-
-
 
 	private bool isDashing = false;                         // When the dash action is pressed for speed lil guy. Note this is in here because if the player swaps mid dash, they will get stuck in dash UNLESS this bool is here and is adjusted here.
 	private bool flip = false;
@@ -242,15 +224,6 @@ public class PlayerBody : MonoBehaviour
 	public void StopDash()
 	{
 		isDashing = false;
-	}
-
-	/// <summary>
-	/// Returns true if there is some object marked as ground beneath the player's feet.
-	/// </summary>
-	/// <returns>True if there's ground beneath the player's feet, otherwise false.</returns>
-	private bool IsGrounded()
-	{
-		return Physics.Raycast(transform.position - Vector3.down * 0.05f, Vector3.down, 0.1f, groundLayer);
 	}
 
 	/// <summary>
