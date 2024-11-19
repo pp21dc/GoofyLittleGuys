@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d1cc19066fc6b3c47abc857112600f6a
+guid: d93dbf01f1ba3304ca9c6b65f830d153
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -34,7 +34,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -132,228 +132,215 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: iPhone
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Tribox_AtkAnim_001_0
+      name: Tribox_AtkAnim_002_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 1539
+        y: 512
         width: 512
         height: 512
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2ab88150cabbbff419411e6df3b1d6ee
-      internalID: -1452617860
+      spriteID: 84ec804587d944f4abcf1ce2b4a8e520
+      internalID: 804660585
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tribox_AtkAnim_001_1
+      name: Tribox_AtkAnim_002_1
       rect:
         serializedVersion: 2
         x: 512
-        y: 1539
+        y: 512
         width: 512
         height: 512
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6d0cb9a1968b2ed429bdd2cb11569a15
-      internalID: 391330324
+      spriteID: 6e9df38b3797d3346bc79c4874262550
+      internalID: 1312574212
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tribox_AtkAnim_001_2
+      name: Tribox_AtkAnim_002_2
       rect:
         serializedVersion: 2
         x: 1024
-        y: 1539
+        y: 512
         width: 512
         height: 512
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: efa1bad0043248745a84afeb298c225f
-      internalID: -669868195
+      spriteID: 478cc27dacea75a47bec00ed9130556a
+      internalID: 176380404
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tribox_AtkAnim_001_3
+      name: Tribox_AtkAnim_002_3
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 512
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 74f883ed9d3dd6d49bfd455ed56a78cb
+      internalID: 702126298
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tribox_AtkAnim_002_4
+      rect:
+        serializedVersion: 2
+        x: 2048
+        y: 512
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a8a540bd7deb8024eb33f633d8abf662
+      internalID: -753734866
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tribox_AtkAnim_002_5
       rect:
         serializedVersion: 2
         x: 0
-        y: 1027
+        y: 0
         width: 512
         height: 512
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 52bb035850404b145974fe94db304871
-      internalID: 523512752
+      spriteID: 9852be28fef7c3e4d94031ea236f23db
+      internalID: -1519359823
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tribox_AtkAnim_001_4
+      name: Tribox_AtkAnim_002_6
       rect:
         serializedVersion: 2
         x: 512
-        y: 1027
+        y: 0
         width: 512
         height: 512
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4f8e6a12149fa8142a30cfe09f14063f
-      internalID: 1798827166
+      spriteID: 26104cf9004a33848a4821e491420f61
+      internalID: -1459574965
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tribox_AtkAnim_001_5
+      name: Tribox_AtkAnim_002_7
       rect:
         serializedVersion: 2
         x: 1024
-        y: 1027
+        y: 0
         width: 512
         height: 512
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ee29ee3ec357ff34985044d5e46aa6d8
-      internalID: 1681806689
+      spriteID: 8757cd25aeac53b418370847a72cdfa7
+      internalID: 1168385973
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tribox_AtkAnim_001_6
+      name: Tribox_AtkAnim_002_8
       rect:
         serializedVersion: 2
-        x: 0
-        y: 515
+        x: 1536
+        y: 0
         width: 512
         height: 512
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3ad1026668759994a84c5c545f587dec
-      internalID: -689338898
+      spriteID: fc208fecf1e42d648b65dc41b1f4ca79
+      internalID: -1180211745
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tribox_AtkAnim_001_7
+      name: Tribox_AtkAnim_002_9
       rect:
         serializedVersion: 2
-        x: 512
-        y: 515
+        x: 2048
+        y: 0
         width: 512
         height: 512
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cc9c6833e79782b489bc1cad8f4ed2eb
-      internalID: 70810434
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Tribox_AtkAnim_001_8
-      rect:
-        serializedVersion: 2
-        x: 1024
-        y: 515
-        width: 512
-        height: 512
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 2d228b0b13002c544a14b1aa1a2fb582
-      internalID: 2103561630
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Tribox_AtkAnim_001_9
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 3
-        width: 512
-        height: 512
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0945b25cdf267cc46a361fec0f1f4c08
-      internalID: 651695443
+      spriteID: 6334dbcfd934f014eb2a109653422984
+      internalID: 494863120
       vertices: []
       indices: 
       edges: []
@@ -361,7 +348,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: f77585aebdee72745965a7f1f0d01b0d
     internalID: 0
     vertices: []
     indices: 
@@ -369,16 +356,16 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Tribox_AtkAnim_001_0: -1452617860
-      Tribox_AtkAnim_001_1: 391330324
-      Tribox_AtkAnim_001_2: -669868195
-      Tribox_AtkAnim_001_3: 523512752
-      Tribox_AtkAnim_001_4: 1798827166
-      Tribox_AtkAnim_001_5: 1681806689
-      Tribox_AtkAnim_001_6: -689338898
-      Tribox_AtkAnim_001_7: 70810434
-      Tribox_AtkAnim_001_8: 2103561630
-      Tribox_AtkAnim_001_9: 651695443
+      Tribox_AtkAnim_002_0: 804660585
+      Tribox_AtkAnim_002_1: 1312574212
+      Tribox_AtkAnim_002_2: 176380404
+      Tribox_AtkAnim_002_3: 702126298
+      Tribox_AtkAnim_002_4: -753734866
+      Tribox_AtkAnim_002_5: -1519359823
+      Tribox_AtkAnim_002_6: -1459574965
+      Tribox_AtkAnim_002_7: 1168385973
+      Tribox_AtkAnim_002_8: -1180211745
+      Tribox_AtkAnim_002_9: 494863120
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
