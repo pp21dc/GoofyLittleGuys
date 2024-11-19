@@ -49,27 +49,12 @@ MonoBehaviour:
   - {fileID: 6573903925891364681, guid: b435832a316c2424d9a7c25833f9a27b, type: 3}
   - {fileID: 6573903925891364681, guid: 6737b0716e801e44886d5738d6ff455b, type: 3}
   - {fileID: 6573903925891364681, guid: 2c1bf7c1eb40c134c82954cef849512d, type: 3}
-  mountainLilGuys:
-  - {fileID: 6573903925891364681, guid: b435832a316c2424d9a7c25833f9a27b, type: 3}
-  - {fileID: 6573903925891364681, guid: 6737b0716e801e44886d5738d6ff455b, type: 3}
-  - {fileID: 6573903925891364681, guid: 2c1bf7c1eb40c134c82954cef849512d, type: 3}
-  beachLilGuys:
-  - {fileID: 6573903925891364681, guid: b435832a316c2424d9a7c25833f9a27b, type: 3}
-  - {fileID: 6573903925891364681, guid: 6737b0716e801e44886d5738d6ff455b, type: 3}
-  - {fileID: 6573903925891364681, guid: 2c1bf7c1eb40c134c82954cef849512d, type: 3}
   legendaryLilGuys:
   - {fileID: 6573903925891364681, guid: b435832a316c2424d9a7c25833f9a27b, type: 3}
   forestSpawners:
   - {fileID: 0}
-  mountainSpawners:
-  - {fileID: 0}
-  beachSpawners:
-  - {fileID: 0}
   legendarySpawner: {fileID: 0}
-  maxNumSpawns: 50
-  maxSpawnsPerArea: 10
-  minSpawnsPerArea: 1
+  maxNumSpawns: 30
+  minNumSpawns: 3
   spawnDelay: 0.5
   currNumSpawns: 0
-  currForestSpawns: 0
-  currMountainSpawns: 0

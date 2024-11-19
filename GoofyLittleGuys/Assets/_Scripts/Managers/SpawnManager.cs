@@ -11,30 +11,21 @@ namespace Managers
     {
         //Serialized fields
         [SerializeField] public List<GameObject> forestLilGuys;
-        [SerializeField] public List<GameObject> mountainLilGuys;
-        [SerializeField] public List<GameObject> beachLilGuys;
         [SerializeField] public List<GameObject> legendaryLilGuys;
         [SerializeField] public List<GameObject> forestSpawners;
-        [SerializeField] public List<GameObject> mountainSpawners;
-        [SerializeField] public List<GameObject> beachSpawners;
         [SerializeField] public SpawnerObj legendarySpawner;
         [SerializeField] public int maxNumSpawns;
-        [SerializeField] public int maxSpawnsPerArea;
-        [SerializeField] public int minSpawnsPerArea;
+        [SerializeField] public int minNumSpawns;
         [SerializeField] public float spawnDelay;
 
         //public variables
         public int currNumSpawns;
-        public int currForestSpawns;
-        public int currMountainSpawns;
-        private int currBeachSpawns;
+        
+        
 
         private void Start()
         {
             currNumSpawns = 0;
-            currForestSpawns = 0;
-            currMountainSpawns = 0;
-            currBeachSpawns = 0;
             StartCoroutine(InitialSpawns());
         }
 
@@ -54,20 +45,11 @@ namespace Managers
                 currNumSpawns--;
             }
 
-            //Destroy(theLilGuy);
-
-            if (currForestSpawns < minSpawnsPerArea)
+            if (currNumSpawns < minNumSpawns)
             {
-                StartCoroutine(respawnWithDelay(0));
+                StartCoroutine(respawnWithDelay());
             }
-            else if (currMountainSpawns < minSpawnsPerArea)
-            {
-                StartCoroutine(respawnWithDelay(1));
-            }
-            else if (currBeachSpawns < minSpawnsPerArea)
-            {
-                StartCoroutine(respawnWithDelay(2));
-            }
+            
         }
 
 		/// <summary>
@@ -81,49 +63,16 @@ namespace Managers
 
 			theLilGuy = RandFromList(forestLilGuys);
 			pointToSpawn = RandFromList(forestSpawners).GetComponent<SpawnerObj>();
-			if ((currMountainSpawns + 1) <= maxSpawnsPerArea && (currNumSpawns + 1) <= maxNumSpawns)
+			if ((currNumSpawns + 1) <= maxNumSpawns)
 			{
 				pointToSpawn.SpawnLilGuy(theLilGuy);
-				currForestSpawns++;
 				currNumSpawns++;
 			}
 		}
 
-		/// <summary>
-		/// This method simply spawns a random Mountain Lil Guy at a random mountain spawner.
-		/// </summary>
-		public void SpawnMountain()
-		{
-			SpawnerObj pointToSpawn;
-			GameObject theLilGuy;
+		
 
-			theLilGuy = RandFromList(mountainLilGuys);
-			pointToSpawn = RandFromList(mountainSpawners).GetComponent<SpawnerObj>();
-			if ((currMountainSpawns + 1) <= maxSpawnsPerArea && (currNumSpawns + 1) <= maxNumSpawns)
-			{
-				pointToSpawn.SpawnLilGuy(theLilGuy);
-				currMountainSpawns++;
-				currNumSpawns++;
-			}
-		}
-
-		/// <summary>
-		/// This method simply spawns a random Beach Lil Guy at a random beach spawner.
-		/// </summary>
-		public void SpawnBeach()
-		{
-			SpawnerObj pointToSpawn;
-			GameObject theLilGuy;
-
-			theLilGuy = RandFromList(beachLilGuys);
-			pointToSpawn = RandFromList(beachSpawners).GetComponent<SpawnerObj>();
-			if ((currBeachSpawns + 1) <= maxSpawnsPerArea && (currNumSpawns + 1) <= maxNumSpawns)
-			{
-				pointToSpawn.SpawnLilGuy(theLilGuy);
-				currBeachSpawns++;
-				currNumSpawns++;
-			}
-		}
+		
 
 		/// <summary>
 		/// Method that spawns a random Legendary at the provided legendarySpawner
@@ -141,27 +90,6 @@ namespace Managers
         /// </summary>
         public void DespawnForest(GameObject theLilGuy)
         {
-            currForestSpawns--;
-            DespawnLilGuy(theLilGuy);
-        }
-
-        /// <summary>
-        /// This method should ALWAYS get called when a MOUNTAIN Lil Guy gets despawned.
-        /// (I.E. theLilGuy is defeated/tamed etc)
-        /// </summary>
-        public void DespawnMountain(GameObject theLilGuy)
-        {
-            currMountainSpawns--;
-            DespawnLilGuy(theLilGuy);
-        }
-
-        /// <summary>
-        /// This method should ALWAYS get called when a Beach Lil Guy gets despawned.
-        /// (I.E. theLilGuy is defeated/tamed etc)
-        /// </summary>
-        public void DespawnBeach(GameObject theLilGuy)
-        {
-            currBeachSpawns--;
             DespawnLilGuy(theLilGuy);
         }
 
@@ -177,9 +105,7 @@ namespace Managers
 		/// </summary>
 		private IEnumerator InitialSpawns()
 		{
-			int numForestSpawns = Random.Range(minSpawnsPerArea, maxSpawnsPerArea + 1);
-			int numMountainSpawns = Random.Range(minSpawnsPerArea, maxSpawnsPerArea + 1);
-			int numBeachSpawns = Random.Range(minSpawnsPerArea, maxSpawnsPerArea + 1);
+			int numForestSpawns = Random.Range(minNumSpawns, maxNumSpawns + 1);
 
 			// Track the number of spawn attempts to avoid an infinite loop
 			int spawnAttempts = 0;
@@ -187,23 +113,13 @@ namespace Managers
 
 			while (currNumSpawns < maxNumSpawns && spawnAttempts < maxSpawnAttempts)
 			{
-				int biomeNum = Random.Range(0, 3);
 
-				if (biomeNum == 0 && currForestSpawns < numForestSpawns)
+				if (currNumSpawns < numForestSpawns)
 				{
 					yield return new WaitForSeconds(spawnDelay);
 					SpawnForest();
 				}
-				else if (biomeNum == 1 && currMountainSpawns < numMountainSpawns)
-				{
-					yield return new WaitForSeconds(spawnDelay);
-					SpawnMountain();
-				}
-				else if (biomeNum == 2 && currBeachSpawns < numBeachSpawns)
-				{
-					yield return new WaitForSeconds(spawnDelay);
-					SpawnBeach();
-				}
+				
 
 				spawnAttempts++;
 			}
@@ -219,24 +135,12 @@ namespace Managers
 		/// </summary>
 		/// <param name="biomeNum"></param>
 		/// <returns></returns>
-		private IEnumerator respawnWithDelay(int biomeNum)
+		private IEnumerator respawnWithDelay()
         {
+
+            yield return new WaitForSeconds(spawnDelay);
+            SpawnForest();
             
-            switch (biomeNum)
-            {
-                case 0:
-                    yield return new WaitForSeconds(spawnDelay);
-                    SpawnForest();
-                    break;
-                case 1:
-                    yield return new WaitForSeconds(spawnDelay);
-                    SpawnMountain();
-                    break;
-                case 2:
-                    yield return new WaitForSeconds(spawnDelay);
-                    SpawnBeach();
-                    break;
-            }
         }
 
         /// <summary>
