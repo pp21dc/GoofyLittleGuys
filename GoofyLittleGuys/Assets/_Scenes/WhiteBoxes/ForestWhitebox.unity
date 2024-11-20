@@ -27913,6 +27913,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 663184855566833055, guid: 283ff1d72649857449a8b6e438e81b6d,
         type: 3}
+      propertyPath: forestLilGuys.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 663184855566833055, guid: 283ff1d72649857449a8b6e438e81b6d,
+        type: 3}
       propertyPath: forestSpawners.Array.size
       value: 3
       objectReference: {fileID: 0}
@@ -27931,6 +27936,12 @@ PrefabInstance:
       propertyPath: beachSpawners.Array.data[2]
       value: 
       objectReference: {fileID: 2137524440}
+    - target: {fileID: 663184855566833055, guid: 283ff1d72649857449a8b6e438e81b6d,
+        type: 3}
+      propertyPath: forestLilGuys.Array.data[3]
+      value: 
+      objectReference: {fileID: 6573903925891364681, guid: 6b4f9b850a96a7f408dd29d2ab50e2ab,
+        type: 3}
     - target: {fileID: 663184855566833055, guid: 283ff1d72649857449a8b6e438e81b6d,
         type: 3}
       propertyPath: mountainSpawners.Array.size

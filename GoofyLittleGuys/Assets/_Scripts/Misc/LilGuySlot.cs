@@ -15,9 +15,9 @@ public class LilGuySlot : MonoBehaviour
 	/// Method that sees if the lil guy contained within this slot is dead or not.
 	/// Sets the lock state to true if the lil guy is dead, otherwise, lockstate is false.
 	/// </summary>
-	public void CheckIfLiving()
+	public void CheckIfLiving(LilGuyBase lilGuy)
 	{
-		LilGuyBase lilGuyInSlot = GetComponentInChildren<LilGuyBase>();
+		LilGuyBase lilGuyInSlot = lilGuy;
 		if (lilGuyInSlot == null) return;
 		lockState = lilGuyInSlot.health <= 0 ? true : false;
 	}

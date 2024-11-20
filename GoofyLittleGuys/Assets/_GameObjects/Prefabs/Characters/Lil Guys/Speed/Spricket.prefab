@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 4160209478385978340}
   - component: {fileID: 5496292320864988503}
   - component: {fileID: 8019565656019957017}
+  - component: {fileID: 3658422248159458916}
+  - component: {fileID: -7936797645494185066}
   m_Layer: 8
   m_Name: Spricket
   m_TagString: Untagged
@@ -65,6 +67,7 @@ MonoBehaviour:
   speed: 5
   defense: 3
   strength: 3
+  specialDuration: 0
   currentCharges: 1
   maxCharges: 1
   cooldownDuration: 9
@@ -151,14 +154,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 308ddd121c6fe6f43b327338f6e61128, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chaseRange: 10
-  attackRange: 2
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
+--- !u!114 &3658422248159458916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6573903925891364681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0aeba23e1ef2eb4780e2a4591b66136, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  teleportRange: 30
+  accelerationTime: 0.1
+  decelerationTime: 0.2
+--- !u!114 &-7936797645494185066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6573903925891364681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3adbf3419812e4649bb2db09d02d00fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chaseRange: 10
+  attackRange: 1
   attackBuffer: 2
-  fallMultiplier: 4
-  jumpSpeed: 10
+  accelerationTime: 0.1
+  decelerationTime: 0.2
 --- !u!1 &7048286981774368068
 GameObject:
   m_ObjectHideFlags: 0

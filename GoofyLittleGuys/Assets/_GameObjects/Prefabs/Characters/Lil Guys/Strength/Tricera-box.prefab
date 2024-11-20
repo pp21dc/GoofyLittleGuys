@@ -106,12 +106,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1452617860, guid: d1cc19066fc6b3c47abc857112600f6a, type: 3}
+  m_Sprite: {fileID: 351287331, guid: 4ffddbe7b0c01b949a0fcd7595772264, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 5.1212506, y: 5.12}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -147,11 +147,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6748941042090021233}
+  - component: {fileID: 459557506846872373}
   - component: {fileID: -2568253581838256164}
   - component: {fileID: -4768661405314685814}
   - component: {fileID: 7145187486415317540}
   - component: {fileID: 2836014551602687782}
-  - component: {fileID: 459557506846872373}
+  - component: {fileID: 6391193271044697286}
+  - component: {fileID: 8901250931437216870}
   m_Layer: 8
   m_Name: Tricera-box
   m_TagString: Untagged
@@ -176,6 +178,47 @@ Transform:
   - {fileID: 4913275446959928290}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &459557506846872373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6573903925891364681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1be22aa157992d748b5cea9d67f2ff5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  guyName: Tricera-box
+  type: 0
+  mesh: {fileID: 2449116246927628233}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  hitboxPrefab: {fileID: 7763503517924717934, guid: 9df4356fd20c6d740acf3ba2a05fd8ed,
+    type: 3}
+  anim: {fileID: 7633103000053924610}
+  attackPosition: {fileID: 631468313354302470}
+  health: 100
+  maxHealth: 100
+  speed: 3
+  defense: 3
+  strength: 5
+  specialDuration: -1
+  currentCharges: 1
+  maxCharges: 1
+  cooldownDuration: 1
+  chargeRefreshRate: 1
+  playerOwner: {fileID: 0}
+  attackCooldown: 1
+  attackRange: 5
+  attackEffect: {fileID: 0}
+  aoeShape: {fileID: 5216711054752746378, guid: de718a7f3579f9a47a910f3cb7043906,
+    type: 3}
+  aoeMaxSize: 4
+  aoeExpansionSpeed: 0.25
+  aoeDamage: 7
 --- !u!54 &-2568253581838256164
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -253,15 +296,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 308ddd121c6fe6f43b327338f6e61128, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chaseRange: 10
-  attackRange: 2
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
-  attackBuffer: 2
-  fallMultiplier: 4
-  jumpSpeed: 10
---- !u!114 &459557506846872373
+--- !u!114 &6391193271044697286
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -270,38 +308,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 6573903925891364681}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1be22aa157992d748b5cea9d67f2ff5c, type: 3}
+  m_Script: {fileID: 11500000, guid: e0aeba23e1ef2eb4780e2a4591b66136, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  guyName: Tricera-box
-  type: 0
-  mesh: {fileID: 2449116246927628233}
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 8
-  hitboxPrefab: {fileID: 7763503517924717934, guid: 9df4356fd20c6d740acf3ba2a05fd8ed,
-    type: 3}
-  anim: {fileID: 7633103000053924610}
-  attackPosition: {fileID: 631468313354302470}
-  health: 100
-  maxHealth: 100
-  speed: 3
-  defense: 3
-  strength: 5
-  specialDuration: -1
-  currentCharges: 1
-  maxCharges: 1
-  cooldownDuration: 1
-  chargeRefreshRate: 1
-  playerOwner: {fileID: 0}
-  attackCooldown: 1
-  attackRange: 5
-  attackEffect: {fileID: 0}
-  aoeShape: {fileID: 5216711054752746378, guid: de718a7f3579f9a47a910f3cb7043906,
-    type: 3}
-  aoeMaxSize: 4
-  aoeExpansionSpeed: 0.25
-  aoeDamage: 7
+  teleportRange: 30
+  accelerationTime: 0.1
+--- !u!114 &8901250931437216870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6573903925891364681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3adbf3419812e4649bb2db09d02d00fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chaseRange: 10
+  attackRange: 1
+  attackBuffer: 2
+  accelerationTime: 0.1
+  decelerationTime: 0.2
 --- !u!1001 &2463514474561850118
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -310,6 +338,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6748941042090021233}
     m_Modifications:
+    - target: {fileID: 338731693121088716, guid: 533e318f743a87f479f4cdd8b25b7ac4,
+        type: 3}
+      propertyPath: lilGuy
+      value: 
+      objectReference: {fileID: 459557506846872373}
     - target: {fileID: 5729104096301020213, guid: 533e318f743a87f479f4cdd8b25b7ac4,
         type: 3}
       propertyPath: m_AnchorMax.x

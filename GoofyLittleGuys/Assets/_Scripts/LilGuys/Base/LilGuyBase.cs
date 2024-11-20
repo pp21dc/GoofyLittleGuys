@@ -35,6 +35,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	public GameObject playerOwner = null;
 	protected float cooldownTimer = 0;
 	protected float chargeTimer = 0;
+	private Transform goalPosition;
 
 	private bool isMoving = false;
 	private bool isHurt = false;
@@ -47,8 +48,13 @@ public abstract class LilGuyBase : MonoBehaviour
 	[SerializeField] private GameObject attackEffect;  // Optional VFX prefab for hit feedback
 
 	private float lastAttackTime = -999f; // Tracks the last time an attack occurred
+	private bool flip = false;
 
+	public bool Flip { get { return flip; } set { flip = value; } }
 	public bool IsMoving { get { return isMoving; } set { isMoving = value; } }
+	public float CooldownTimer => cooldownTimer;
+	public int CurrentCharges => currentCharges;
+	public Transform GoalPosition => goalPosition;
 
 	public enum PrimaryType
 	{
@@ -57,6 +63,10 @@ public abstract class LilGuyBase : MonoBehaviour
 		Speed
 	}
 
+	public void SetFollowGoal(Transform goalPosition)
+	{
+		this.goalPosition = goalPosition;
+	}
 
 	/// <summary>
 	/// Method to be called on lil guy instantiation.
@@ -65,17 +75,15 @@ public abstract class LilGuyBase : MonoBehaviour
 	public void Init(LayerMask layer)
 	{
 		gameObject.layer = layer;
+		GetComponentInChildren<AiHealthUi>().gameObject.SetActive(false);
+		GetComponent<AiController>().SetState(AiController.AIState.Tamed);
 	}
-
 	private void Update()
 	{
-		if (playerOwner != null && GetComponent<AiController>() != null)
-		{
-			// This is a player owned lil guy, so remove their AI behaviours and reset mesh rotations.
-			mesh.transform.localRotation = Quaternion.Euler(Vector3.zero);
-			Destroy(GetComponent<AiController>());
-			GetComponentInChildren<AiHealthUi>().gameObject.SetActive(false);
-		}
+		// Flip character
+		if (flip) mesh.transform.localRotation = Quaternion.Euler(0, 180, 0);
+		else mesh.transform.localRotation = Quaternion.identity;
+
 		if (health <= 0)
 		{
 			health = 0;
@@ -165,7 +173,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	public void Attack()
 	{
 		// Check if the target is in range
-		anim.SetTrigger("BasicAttack");
+		if (anim != null) anim.SetTrigger("BasicAttack");
 		// Ensure attack respects cooldown
 		if (Time.time - lastAttackTime < attackCooldown)
 		{
@@ -197,7 +205,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	/// </summary>
 	public virtual void Special()
 	{
-		anim.SetTrigger("SpecialAttack");
+		if (anim != null) anim.SetTrigger("SpecialAttack");
 		StartCoroutine(EndSpecial());
 	}
 
@@ -211,7 +219,7 @@ public abstract class LilGuyBase : MonoBehaviour
 			if (clip != null)
 				yield return new WaitForSeconds(clip.length);
 		}
-		anim.SetTrigger("SpecialAttackEnded");
+		if (anim != null) anim.SetTrigger("SpecialAttackEnded");
 	}
 
 	// Lil Guy constructor :3

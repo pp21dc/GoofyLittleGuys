@@ -8,18 +8,20 @@ using UnityEngine.InputSystem.UI;
 
 public class PlayerBody : MonoBehaviour
 {
+	[SerializeField] private LilGuyBase activeLilGuy;
 	[SerializeField] private List<LilGuyBase> lilGuyTeam;               // The lil guys in the player's team.
 	[SerializeField] private List<LilGuySlot> lilGuyTeamSlots;          // The physical positions on the player prefab that the lil guys are children of.
 	[SerializeField] private GameObject playerMesh;                     // Reference to the player's mesh gameobject
 	[SerializeField] private PlayerInput playerInput;                   // This player's input component.
 	[SerializeField] private GameObject lastHitPromptUI;                // The last hit prompt UI.
-	[SerializeField] private GameObject teamFullMenu;					// The menu shown if the player captured a lil guy but their team is full.
+	[SerializeField] private GameObject teamFullMenu;                   // The menu shown if the player captured a lil guy but their team is full.
 
 	[SerializeField, Range(1, 25f)] private float maxSpeed = 25f;       // To be replaced with lilGuys[0].speed
 	[SerializeField] private float accelerationTime = 0.1f;  // Time to reach target speed
 	[SerializeField] private float decelerationTime = 0.2f;  // Time to stop
 	[SerializeField] private float smoothFactor = 0.8f;      // Factor for smooth transitions
 
+	[SerializeField] private float fallMultiplier = 4f;
 	private bool isDashing = false;                         // When the dash action is pressed for speed lil guy. Note this is in here because if the player swaps mid dash, they will get stuck in dash UNLESS this bool is here and is adjusted here.
 	private bool flip = false;
 	private bool inMinigame = false;
@@ -39,6 +41,7 @@ public class PlayerBody : MonoBehaviour
 	public bool IsDashing { get { return isDashing; } set { isDashing = value; } }
 	public bool InMinigame { get { return inMinigame; } set { inMinigame = value; } }
 	public Vector3 MovementDirection { get { return movementDirection; } }
+	public LilGuyBase ActiveLilGuy { get { return  activeLilGuy; } set {  activeLilGuy = value; } }
 	public List<LilGuyBase> LilGuyTeam { get { return lilGuyTeam; } }
 	public List<LilGuySlot> LilGuyTeamSlots { get { return lilGuyTeamSlots; } }
 	public GameObject TeamFullMenu { get { return teamFullMenu; } set { teamFullMenu = value; } }
@@ -73,35 +76,34 @@ public class PlayerBody : MonoBehaviour
 			if (CheckTeamHealth())
 			{
 				// If this returns true, then there's at least one living lil guy on this player's team, so swap until they're at the front.
+				foreach (var lilGuy in lilGuyTeam)
+				{
+					lilGuy.GetComponent<Rigidbody>().isKinematic = false;
+				}
 
 				// Grab the first lil guy, save them.
-				LilGuyBase currentSelected = lilGuyTeam[0];
-				Transform[] initialParents = new Transform[lilGuyTeam.Count];
+				LilGuyBase firstInTeam = lilGuyTeam[0];
+				Transform firstParent = lilGuyTeamSlots[0].transform;
 
-				for (int i = 0; i < lilGuyTeam.Count; i++)
-				{
-					// Store initial parents for all items
-					initialParents[i] = lilGuyTeamSlots[i].transform;
-				}
-
+				// Shift each element up the list
 				for (int i = 0; i < lilGuyTeam.Count - 1; i++)
 				{
-					// Send everyone else to the left one (lilGuy[1] -> lilGuy[0], lilGuy[2] -> lilGuy[1]);
 					lilGuyTeam[i] = lilGuyTeam[i + 1];
-					lilGuyTeam[i].transform.SetParent(initialParents[i]);
-					lilGuyTeam[i].transform.localPosition = Vector3.zero;
-
-					// Call CheckIfLiving on the slots, to update lock state.
-					lilGuyTeamSlots[i].CheckIfLiving();
+					lilGuyTeam[i].SetFollowGoal(lilGuyTeamSlots[i].transform); // Update follow goal
 				}
 
-				// Move the first element to the last position
-				lilGuyTeam[lilGuyTeam.Count - 1] = currentSelected;
-				currentSelected.transform.SetParent(initialParents[lilGuyTeam.Count - 1]);
-				currentSelected.transform.localPosition = Vector3.zero;
+				// Move the first lil guy to the end of the list
+				lilGuyTeam[lilGuyTeam.Count - 1] = firstInTeam;
+				lilGuyTeam[lilGuyTeam.Count - 1].SetFollowGoal(lilGuyTeamSlots[lilGuyTeam.Count - 1].transform); // Update follow goal
 
 				// Call CheckIfLiving on the slots, to update lock state.
-				lilGuyTeamSlots[lilGuyTeam.Count - 1].CheckIfLiving();
+				lilGuyTeamSlots[lilGuyTeam.Count - 1].CheckIfLiving(lilGuyTeam[lilGuyTeam.Count - 1]);
+
+
+				lilGuyTeam[0].SetFollowGoal(lilGuyTeamSlots[0].transform); // Update follow goal
+				lilGuyTeam[0].GetComponent<Rigidbody>().isKinematic = true;
+				lilGuyTeam[0].transform.localPosition = Vector3.zero;
+				activeLilGuy = lilGuyTeam[0];
 			}
 			else
 			{
@@ -132,6 +134,11 @@ public class PlayerBody : MonoBehaviour
 			// Apply the smoothed velocity to the Rigidbody
 			rb.velocity = new Vector3(currentVelocity.x, rb.velocity.y, currentVelocity.z);
 		}
+
+		if (rb.velocity.y < 0)
+		{
+			rb.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.fixedDeltaTime;
+		}
 	}
 
 	/// <summary>
@@ -143,6 +150,9 @@ public class PlayerBody : MonoBehaviour
 		movementDirection = new Vector3(dir.x, 0, dir.y);
 		if (dir.x > 0) flip = true;
 		if (dir.x < 0) flip = false;
+
+		lilGuyTeam[0].IsMoving = Mathf.Abs(movementDirection.magnitude) > 0;
+		lilGuyTeam[0].Flip = flip;
 	}
 
 	/// <summary>
@@ -155,6 +165,11 @@ public class PlayerBody : MonoBehaviour
 		// Only one lil guy, so you can't swap.
 		if (lilGuyTeam.Count <= 1) return;
 
+		foreach (var lilGuy in lilGuyTeam)
+		{
+			lilGuy.GetComponent<Rigidbody>().isKinematic = false;
+		}
+
 		List<LilGuyBase> aliveTeamMembers = lilGuyTeam.Where(guy => guy.health > 0).ToList();       // Filter out the dead team members from the live ones.
 		List<LilGuySlot> aliveTeamSlots = lilGuyTeamSlots.Where(slot => !slot.LockState).ToList();  // We only care about the lil guy slots of the lil guys that are still alive.
 
@@ -163,57 +178,41 @@ public class PlayerBody : MonoBehaviour
 
 		if (shiftDirection < 0)
 		{
-			// Store the first lil guy and we'll swap them to the end of the living member list.
-			LilGuyBase currentSelected = lilGuyTeam[0];
-			Transform[] initialParents = new Transform[aliveTeamMembers.Count];	
+			LilGuyBase firstInTeam = lilGuyTeam[0];
+			Transform firstParent = aliveTeamSlots[0].transform;
 
-			
-			for (int i = 0; i < aliveTeamMembers.Count; i++)
-			{
-				// Store initial parents for all items
-				initialParents[i] = aliveTeamSlots[i].transform;
-			}
-
+			// Shift each element up the list
 			for (int i = 0; i < aliveTeamMembers.Count - 1; i++)
 			{
-				// Shift all living lil guys to the left
-				// Also swap parents with the parent on their left.
 				lilGuyTeam[i] = lilGuyTeam[i + 1];
-				lilGuyTeam[i].transform.SetParent(initialParents[i]);
-				lilGuyTeam[i].transform.localPosition = Vector3.zero;
+				lilGuyTeam[i].SetFollowGoal(aliveTeamSlots[i].transform); // Update follow goal
 			}
 
-			// Move the first element to the last position
-			lilGuyTeam[aliveTeamMembers.Count - 1] = currentSelected;
-			currentSelected.transform.SetParent(initialParents[aliveTeamMembers.Count - 1]);
-			currentSelected.transform.localPosition = Vector3.zero;
+			// Move the first lil guy to the end of the list
+			lilGuyTeam[aliveTeamMembers.Count - 1] = firstInTeam;
+			lilGuyTeam[aliveTeamMembers.Count - 1].SetFollowGoal(aliveTeamSlots[aliveTeamMembers.Count - 1].transform); // Update follow goal
 		}
 		else if (shiftDirection > 0)
 		{
 			// Store the last element to rotate it to the beginning of the living member list.
 			LilGuyBase lastInTeam = lilGuyTeam[aliveTeamMembers.Count - 1];
-			Transform[] initialParents = new Transform[aliveTeamMembers.Count];
+			Transform lastParent = aliveTeamSlots[aliveTeamMembers.Count - 1].transform;
 
-			for (int i = 0; i < aliveTeamMembers.Count; i++)
-			{
-				// Store initial parents for all items
-				initialParents[i] = aliveTeamSlots[i].transform;
-			}
-
+			// Shift each element down the list
 			for (int i = aliveTeamMembers.Count - 1; i > 0; i--)
 			{
-				// Shift all living lil guys to the right
-				// Also swap parents with the parent on their right.
 				lilGuyTeam[i] = lilGuyTeam[i - 1];
-				lilGuyTeam[i].transform.SetParent(initialParents[i]);
-				lilGuyTeam[i].transform.localPosition = Vector3.zero;
+				lilGuyTeam[i].SetFollowGoal(aliveTeamSlots[i].transform); // Update follow goal
 			}
 
-			// Move the last element to the first position
+			// Move the last lil guy to the front of the list
 			lilGuyTeam[0] = lastInTeam;
-			lastInTeam.transform.SetParent(initialParents[0]);
-			lastInTeam.transform.localPosition = Vector3.zero;
+			lilGuyTeam[0].SetFollowGoal(aliveTeamSlots[0].transform); // Update follow goal
 		}
+
+		lilGuyTeam[0].GetComponent<Rigidbody>().isKinematic = true;
+		lilGuyTeam[0].transform.localPosition = Vector3.zero;
+		activeLilGuy = lilGuyTeam[0];
 	}
 
 	public void StartDash()
@@ -263,8 +262,8 @@ public class PlayerBody : MonoBehaviour
 	/// </summary>
 	public void DisableUIControl()
 	{
-		playerInput.SwitchCurrentActionMap("World");	// Switch back to gameplay controls
-		lastHitPromptUI?.SetActive(false);				// Deactivate the UI element
+		playerInput.SwitchCurrentActionMap("World");    // Switch back to gameplay controls
+		lastHitPromptUI?.SetActive(false);              // Deactivate the UI element
 	}
 
 	/// <summary>

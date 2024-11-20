@@ -152,6 +152,8 @@ GameObject:
   - component: {fileID: -4768661405314685814}
   - component: {fileID: 7145187486415317540}
   - component: {fileID: 2836014551602687782}
+  - component: {fileID: 2897470920246076368}
+  - component: {fileID: 9121363788417893756}
   m_Layer: 8
   m_Name: Teddy
   m_TagString: Untagged
@@ -203,11 +205,11 @@ MonoBehaviour:
   speed: 3
   defense: 3
   strength: 5
+  specialDuration: -1
   currentCharges: 1
   maxCharges: 1
   cooldownDuration: 13
   chargeRefreshRate: 2
-  specialDuration: -1
   playerOwner: {fileID: 0}
   attackCooldown: 0
   attackRange: 0
@@ -294,14 +296,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 308ddd121c6fe6f43b327338f6e61128, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chaseRange: 10
-  attackRange: 2
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
+--- !u!114 &2897470920246076368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6573903925891364681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0aeba23e1ef2eb4780e2a4591b66136, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  teleportRange: 30
+  accelerationTime: 0.1
+  decelerationTime: 0.2
+--- !u!114 &9121363788417893756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6573903925891364681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3adbf3419812e4649bb2db09d02d00fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chaseRange: 10
+  attackRange: 1
   attackBuffer: 2
-  fallMultiplier: 4
-  jumpSpeed: 10
+  accelerationTime: 0.1
+  decelerationTime: 0.2
 --- !u!1001 &2463514474561850118
 PrefabInstance:
   m_ObjectHideFlags: 0

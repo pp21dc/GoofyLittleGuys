@@ -135,10 +135,13 @@ public class CaptureBase : MonoBehaviour
                 body.LilGuyTeam.Add(lilGuyBeingCaught);
 
                 // Setting layer to Player Lil Guys, and putting the lil guy into the first empty slot available.
-                lilGuyBeingCaught.Init(LayerMask.NameToLayer("PlayerLilGuys"));
-                lilGuyBeingCaught.gameObject.transform.SetParent(body.LilGuyTeamSlots[body.LilGuyTeam.Count - 1].transform, false);
-                lilGuyBeingCaught.gameObject.transform.localPosition = Vector3.zero;
-                lilGuyBeingCaught.gameObject.GetComponent<Rigidbody>().isKinematic = true;
+                lilGuyBeingCaught.Init(LayerMask.NameToLayer("PlayerLilGuys")); 
+				lilGuyBeingCaught.transform.SetParent(body.transform, false);
+				lilGuyBeingCaught.GetComponent<AiController>().SetState(AiController.AIState.Tamed);
+				lilGuyBeingCaught.SetFollowGoal(body.LilGuyTeamSlots[body.LilGuyTeam.Count - 1].transform);
+				lilGuyBeingCaught.GetComponent<Rigidbody>().isKinematic = false;
+				lilGuyBeingCaught.transform.localPosition = Vector3.zero;
+				lilGuyBeingCaught.transform.localRotation = Quaternion.identity;
 
 				body.InMinigame = false;
 

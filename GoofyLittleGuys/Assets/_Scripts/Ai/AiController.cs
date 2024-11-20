@@ -5,87 +5,52 @@ using UnityEngine.InputSystem;
 
 public class AiController : MonoBehaviour
 {
-	[SerializeField] private float chaseRange = 10f;    // Range of which this AI will chase a target
-	[SerializeField] private float attackRange = 2f;    // Range where this AI will attack a target
+	public enum AIState { Wild, Tamed }
+	private AIState state = AIState.Wild;				// The current state of the AI (either wild or one caught by a player)
 	[SerializeField] private LayerMask groundLayer;
 
-	[Tooltip("Time between attacks (in seconds).")]
-	[SerializeField] private float attackBuffer = 1f;   // Time between this AI's attacks.
-	[Tooltip("Gravity modifier that makes falling faster, and allows for short jumps.")]
-	[SerializeField] private float fallMultiplier = 4f;
-	[SerializeField] private float jumpSpeed = 10f;
+	private WildBehaviour wildBehaviour;				// Defines Wild AI behaviour (Idle, Chase, Attack, Death)
+	private TamedBehaviour tamedBehaviour;				// Defines Tamed AI behaviour (Follow Player)
+	private Rigidbody rb;
 
 
+	private Vector3 originalSpawnPosition = Vector3.zero;
 	private Transform player;                           // The transform of the closest player to this AI
 	private LilGuyBase lilGuy;                          // Reference to this AI's stats
-	private Vector3 moveDirection = Vector3.zero;
-
 	public Transform Player => player;
-	public float ChaseRange => chaseRange;
-	public float AttackRange => attackRange;
-	public float AttackBuffer => attackBuffer;
-	public Vector3 MoveDirection { get { return moveDirection; } set { moveDirection = value; } }
 	public LilGuyBase LilGuy => lilGuy;
-	public LayerMask GroundLayer => groundLayer;
-	public float FallModifier => fallMultiplier;
-	public float JumpSpeed => jumpSpeed;
+	public Rigidbody RB => rb;
+	public Vector3 OriginalSpawnPosition => originalSpawnPosition;
 
-	// AI STATES
-	public AiState currentState;
-	public IdleState idleState;
-	public ChaseState chaseState;
-	public AttackState attackState;
-	public DeadState deadState;
-
-	// Start is called before the first frame update
-	void Start()
+	private void Awake()
 	{
-		idleState = new IdleState(this);
-		chaseState = new ChaseState(this);
-		attackState = new AttackState(this);
-		deadState = new DeadState(this);
-
-		lilGuy = gameObject.GetComponent<LilGuyBase>();
-
-		TransitionToState(idleState);
+		wildBehaviour = GetComponent<WildBehaviour>();
+		tamedBehaviour = GetComponent<TamedBehaviour>();
+		rb = GetComponent<Rigidbody>();
 	}
 
-	// Update is called once per frame
-	void Update()
+	private void Start()
 	{
-		if (moveDirection.x > 0) lilGuy.mesh.transform.localRotation = Quaternion.Euler(0, 180, 0);
-		else if (moveDirection.x < 0) lilGuy.mesh.transform.localRotation = Quaternion.identity;
-		player = FindClosestPlayer();
-		currentState.UpdateState();
+		lilGuy = GetComponent<LilGuyBase>();
+
+		SetSpawnPosition(transform.position);
+		UpdateState();
 	}
 
-	private void FixedUpdate()
+	private void Update()
 	{
-		currentState.FixedUpdateState();
+		if (state == AIState.Wild)
+		{
+			player = FindClosestPlayer();
+		}
+		else
+		{
+			player = lilGuy.GoalPosition;
+		}
 	}
 
 	/// <summary>
-	/// Calculates distance to closest player.
-	/// </summary>
-	/// <returns>float: The distance between the AI and the closest player.</returns>
-	public float DistanceToPlayer()
-	{
-		return Vector3.Distance(transform.position, player.position);
-	}
-
-	/// <summary>
-	/// Method that transitions from the AI's current state to the state provided.
-	/// </summary>
-	/// <param name="newState"> AiState: The new state the AI should transition to.</param>
-	public void TransitionToState(AiState newState)
-	{
-		currentState?.ExitState();  // If current state isn't null, exit the current state
-		currentState = newState;
-		currentState.EnterState();
-	}
-
-	/// <summary>
-	/// Method that is called on death to show the Last Prompt for the player who hit this AI last.
+	/// Method that shows the last hit prompt on a lil guy (to be removed with minigames)
 	/// </summary>
 	public void ShowLastHitPrompt()
 	{
@@ -104,9 +69,51 @@ public class AiController : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Finds the closest player to this AI.
+	/// Method that changes the state of this AI behaviour to the provided state.
 	/// </summary>
-	/// <returns>Transform: the transform component of the closest player.</returns>
+	/// <param name="state">The state this AI should be put into.</param>
+	public void SetState(AIState state)
+	{
+		this.state = state;
+		UpdateState();
+	}
+
+	/// <summary>
+	/// Helper method that returns the distance this AI is from the player.
+	/// </summary>
+	/// <returns>The distance this AI is to the player.</returns>
+	public float DistanceToPlayer()
+	{
+		return Vector3.Distance(transform.position, player.position);
+	}
+
+	/// <summary>
+	/// Method that sets the spawn point of this AI to the given position, grounded to the closest ground layer.
+	/// </summary>
+	/// <param name="spawnPos">The original spawn position of the lil guy.</param>
+	private void SetSpawnPosition(Vector3 spawnPos)
+	{
+		Ray ray = new Ray(spawnPos, Vector3.down);
+		if (Physics.Raycast(ray, out RaycastHit hit, 2000, groundLayer))
+		{
+			// If it hits, adjust spawn position slightly above ground level
+			originalSpawnPosition = hit.point + Vector3.up;
+		}
+	}
+
+	/// <summary>
+	/// Method that updates the behaviours based on the current state of the AI.
+	/// </summary>
+	private void UpdateState()
+	{
+		wildBehaviour.enabled = (state == AIState.Wild);
+		tamedBehaviour.enabled = (state == AIState.Tamed);
+	}
+
+	/// <summary>
+	/// Method that find the closest player.
+	/// </summary>
+	/// <returns></returns>
 	private Transform FindClosestPlayer()
 	{
 		Transform currClosest = PlayerInput.all[0].transform;
@@ -118,218 +125,5 @@ public class AiController : MonoBehaviour
 			}
 		}
 		return currClosest;
-	}
-}
-
-public abstract class AiState
-{
-	protected AiController controller;
-
-	public AiState(AiController controller)
-	{
-		this.controller = controller;
-	}
-
-	public abstract void EnterState();
-
-	public abstract void UpdateState();
-	public abstract void FixedUpdateState();
-
-	public abstract void ExitState();
-}
-
-public class IdleState : AiState
-{
-	public IdleState(AiController controller) : base(controller)
-	{
-
-	}
-
-	public override void EnterState()
-	{
-		controller.LilGuy.IsMoving = false;
-	}
-
-	public override void ExitState()
-	{
-
-	}
-
-	public override void FixedUpdateState()
-	{
-	}
-
-	public override void UpdateState()
-	{
-		if (controller.DistanceToPlayer() <= controller.ChaseRange && !controller.Player.GetComponent<PlayerBody>().InMinigame)
-		{
-			// Closest player is in chase range and currently not in a minigame.
-			// Transition to CHASE.
-			controller.TransitionToState(controller.chaseState);
-		}
-		else if (controller.LilGuy.health <= 0)
-		{
-			// The lil guy is dead.
-			// Transition to DEAD
-			controller.TransitionToState(controller.deadState);
-		}
-	}
-}
-
-public class ChaseState : AiState
-{
-	private float jumpCooldown = 1f; // Time (in seconds) before AI can jump again
-	private float jumpTimer = 0f;
-	Rigidbody rb;
-
-	public ChaseState(AiController controller) : base(controller)
-	{
-
-		rb = controller.GetComponent<Rigidbody>();
-	}
-	public override void EnterState()
-	{
-		controller.LilGuy.IsMoving = true;
-	}
-
-	public override void ExitState()
-	{
-
-	}
-
-	public override void UpdateState()
-	{
-
-		if (controller.DistanceToPlayer() > controller.ChaseRange || controller.Player.GetComponent<PlayerBody>().InMinigame)
-		{
-			// Player is outside of chase range or they are currently in a minigame.
-			// Transition to IDLE
-			controller.TransitionToState(controller.idleState);
-		}
-		else if (controller.DistanceToPlayer() <= controller.AttackRange && !controller.Player.GetComponent<PlayerBody>().InMinigame)
-		{
-			// The lil guy is in attack range of the player and the player is not currently in a minigame.
-			// Transition to ATTACK
-			controller.TransitionToState(controller.attackState);
-		}
-		else if (controller.LilGuy.health <= 0)
-		{
-			// The lil guy is dead.
-			// Transition to DEAD
-			controller.TransitionToState(controller.deadState);
-		}
-		else
-		{
-			// Handle chasing player.
-			ChasePlayer();
-		}
-	}
-
-	/// <summary>
-	/// Moves the AI towards the player's direction
-	/// </summary>
-	private void ChasePlayer()
-	{
-
-		// Determine the direction towards the player
-		controller.MoveDirection = (controller.Player.position - controller.transform.position).normalized;
-
-		// Calculate the horizontal distance and height difference
-		float horizontalDistance = Vector3.Distance(new Vector3(controller.transform.position.x, 0, controller.transform.position.z), new Vector3(controller.Player.position.x, 0, controller.Player.position.z));
-
-		// Normal horizontal movement using MoveTowards
-		controller.transform.position = Vector3.MoveTowards(controller.transform.position, controller.Player.position, controller.LilGuy.speed * Time.deltaTime);
-
-	}
-
-	public override void FixedUpdateState()
-	{
-		
-	}
-}
-
-public class AttackState : AiState
-{
-	float attackTimer = 0;
-	public AttackState(AiController controller) : base(controller)
-	{
-
-	}
-	public override void FixedUpdateState()
-	{
-	}
-
-	public override void EnterState()
-	{
-
-	}
-
-	public override void ExitState()
-	{
-
-	}
-
-	public override void UpdateState()
-	{
-		if (attackTimer > 0) attackTimer -= Time.deltaTime; // Update attack cooldown timer if it's up.
-
-		if (controller.DistanceToPlayer() > controller.AttackRange || controller.Player.GetComponent<PlayerBody>().InMinigame)
-		{
-			// The lil guy is outside of attack range or the player is currently in a minigame.
-			// Transition to CHASE
-			controller.TransitionToState(controller.chaseState);
-		}
-		else if (controller.LilGuy.health <= 0)
-		{
-			// The lil guy is dead.
-			// Transition to DEAD
-			controller.TransitionToState(controller.deadState);
-		}
-		else
-		{
-			// Handle attacking the player.
-			AttackPlayer();
-		}
-	}
-
-	/// <summary>
-	/// Handles AI attack behaviour.
-	/// </summary>
-	public void AttackPlayer()
-	{
-		if (attackTimer <= 0 && !controller.Player.GetComponent<PlayerBody>().InMinigame)
-		{
-			// Currently not on an attack cooldown, and the player is currently not in a minigame, so attack them!
-			controller.GetComponent<LilGuyBase>().Attack();
-			attackTimer = controller.AttackBuffer;
-		}
-	}
-}
-
-public class DeadState : AiState
-{
-	public DeadState(AiController controller) : base(controller)
-	{
-
-	}
-	public override void FixedUpdateState()
-	{
-	}
-
-	public override void EnterState()
-	{
-		controller.LilGuy.IsMoving = false;
-		controller.LilGuy.OnDeath();
-		controller.ShowLastHitPrompt();
-	}
-
-	public override void ExitState()
-	{
-
-	}
-
-	public override void UpdateState()
-	{
-
 	}
 }

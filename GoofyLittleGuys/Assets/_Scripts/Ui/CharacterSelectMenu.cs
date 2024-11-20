@@ -138,10 +138,12 @@ public class CharacterSelectMenu : MonoBehaviour
 
 		// Create a new starter lil guy
 		GameObject starter = Instantiate(starters[choice].gameObject);
+		starter.GetComponent<LilGuyBase>().SetFollowGoal(body.LilGuyTeamSlots[0].transform);
 		starter.GetComponent<LilGuyBase>().Init(LayerMask.NameToLayer("PlayerLilGuys"));
-		starter.transform.SetParent(body.LilGuyTeamSlots[0].transform, false);  // false keeps local position/rotation
-		starter.transform.localPosition = Vector3.zero;							// Ensure it’s positioned at the parent
+		starter.transform.SetParent(body.transform, true);
 		starter.GetComponent<Rigidbody>().isKinematic = true;
+		starter.transform.localPosition = Vector3.zero;
+		body.ActiveLilGuy = starter.GetComponent<LilGuyBase>();
 
 		// Add the lil guy to the player's party.
 		body.LilGuyTeam.Add(starter.GetComponent<LilGuyBase>());
