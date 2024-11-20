@@ -1,5 +1,6 @@
 
 using Managers;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -28,6 +29,7 @@ public class PlayerBody : MonoBehaviour
 	private bool hasInteracted = false;
 	private bool hasSwappedRecently = false; // If the player is in swap cooldown (feel free to delete cmnt)
 	private bool hasImmunity = false; // If the player is in swap I-frames (feel free to delete cmnt)
+	private bool canMove = true; // Whether or not the player can move, set it to false when you want to halt movement
 	private Vector3 currentVelocity; // Internal tracking for velocity smoothing
 
 
@@ -108,12 +110,13 @@ public class PlayerBody : MonoBehaviour
 			else
 			{
 				// No living lil guys, time for a respawn.
-				Respawn();
+				StartCoroutine(DelayedRespawn());
+				//Respawn();
 			}
 		}
 
 		// Movement behaviours
-		if (!isDashing)
+		if (!isDashing && canMove)
 		{
 			// If the player is not dashing, then they will have regular movement mechanics
 
@@ -286,5 +289,19 @@ public class PlayerBody : MonoBehaviour
 			lilGuyTeam[i].health = lilGuyTeam[i].maxHealth;
 			lilGuyTeam[i].gameObject.SetActive(true);
 		}
+		canMove = true;
+	}
+
+	/// <summary>
+	/// This coroutine simply waits respawnTimer, then respawns the given player
+	/// NOTE: always give this the PlayerBody component of the player in question
+	/// </summary>
+	/// <param name="thePlayer"></param>
+	/// <returns></returns>
+	private IEnumerator DelayedRespawn()
+	{
+		canMove = false;
+		yield return new WaitForSeconds(Managers.GameManager.Instance.RespawnTimer);
+		Respawn();
 	}
 }

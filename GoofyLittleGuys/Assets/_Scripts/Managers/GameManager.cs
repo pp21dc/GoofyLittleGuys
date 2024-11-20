@@ -24,7 +24,9 @@ namespace Managers
 		private bool legendarySpawned = false;
 
 		private int currentPhase = 0;
-		public int CurrentPhase => currentPhase;                        // Getter for current phase
+		private float respawnTimer = 5.0f;
+		public int CurrentPhase => currentPhase; // Getter for current phase
+		public float RespawnTimer => respawnTimer; // Getter for respawn timer
 
 		[Header("Hitbox LayerMasks")]
 		[SerializeField] private LayerMask phase1LayerMask;
@@ -106,7 +108,7 @@ namespace Managers
 			currentLayerMask = phase2LayerMask;
 
 			// Start grand brawl challenge
-			LevelLoadManager.Instance.LoadNewLevel("03_PhaseTwo");
+			
 		}
 
 		/// <summary>
@@ -119,5 +121,9 @@ namespace Managers
 				SpawnManager.Instance.SpawnLegendaryGuy();
 			}
 		}
+
+		
+
+
 	}
 }
