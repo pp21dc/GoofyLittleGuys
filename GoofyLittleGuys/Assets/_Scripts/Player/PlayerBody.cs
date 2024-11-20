@@ -23,6 +23,8 @@ public class PlayerBody : MonoBehaviour
 	[SerializeField] private float smoothFactor = 0.8f;      // Factor for smooth transitions
 
 	[SerializeField] private float fallMultiplier = 4f;
+
+	private int berryCount = 0;
 	private bool isDashing = false;                         // When the dash action is pressed for speed lil guy. Note this is in here because if the player swaps mid dash, they will get stuck in dash UNLESS this bool is here and is adjusted here.
 	private bool flip = false;
 	private bool inMinigame = false;
@@ -48,6 +50,7 @@ public class PlayerBody : MonoBehaviour
 	public List<LilGuySlot> LilGuyTeamSlots { get { return lilGuyTeamSlots; } }
 	public GameObject TeamFullMenu { get { return teamFullMenu; } set { teamFullMenu = value; } }
 	public bool Flip { get { return flip; } set { flip = value; } }
+	public int BerryCount { get { return berryCount; } set {  berryCount = value; } }
 
 
 	private void Start()

@@ -424,6 +424,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "UseBerry",
+                    "type": "Button",
+                    "id": "fe37d735-7fdf-46b4-8875-74b397259d4d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -743,6 +752,28 @@
                     "processors": "",
                     "groups": "[DEBUG] Keyboard Mouse",
                     "action": "ShowMinimap",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e9934e58-152f-4ad6-881e-12d5cef008cf",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "UseBerry",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e590cc6f-f061-42fb-88bd-558c71957f67",
+                    "path": "<Keyboard>/b",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "[DEBUG] Keyboard Mouse",
+                    "action": "UseBerry",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

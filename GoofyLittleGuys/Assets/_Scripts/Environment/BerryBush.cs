@@ -6,6 +6,7 @@ public class BerryBush : InteractableBase
 {
 	[SerializeField] private int minBerryTime = 3;
 	[SerializeField] private int maxBerryTime = 5;
+	[SerializeField] private int numOfBerries = 1;
 	[SerializeField] private GameObject berriesMesh;
 
 	List<GameObject> playersInRange = new List<GameObject>();
@@ -45,9 +46,7 @@ public class BerryBush : InteractableBase
 	public override void OnInteracted(PlayerBody body)
 	{
 		base.OnInteracted(body);
-		if (body.LilGuyTeam[0].health <= 0 || body.LilGuyTeam[0].health >= body.LilGuyTeam[0].maxHealth) return;	// Don't consume the berries if their first lil guy is already at full health.
-
-		body.LilGuyTeam[0].health = body.LilGuyTeam[0].maxHealth;
+		body.BerryCount += numOfBerries;
 
 		// Remove the berries frm the bush as they are consumed.
 		// Start Berry Regrowth timer.

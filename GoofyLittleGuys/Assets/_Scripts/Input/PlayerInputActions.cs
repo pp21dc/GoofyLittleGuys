@@ -446,6 +446,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""UseBerry"",
+                    ""type"": ""Button"",
+                    ""id"": ""fe37d735-7fdf-46b4-8875-74b397259d4d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -765,6 +774,28 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""[DEBUG] Keyboard Mouse"",
                     ""action"": ""ShowMinimap"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e9934e58-152f-4ad6-881e-12d5cef008cf"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""UseBerry"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e590cc6f-f061-42fb-88bd-558c71957f67"",
+                    ""path"": ""<Keyboard>/b"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""[DEBUG] Keyboard Mouse"",
+                    ""action"": ""UseBerry"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1143,6 +1174,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_World_Leave = m_World.FindAction("Leave", throwIfNotFound: true);
         m_World_ShowTeamUI = m_World.FindAction("ShowTeamUI", throwIfNotFound: true);
         m_World_ShowMinimap = m_World.FindAction("ShowMinimap", throwIfNotFound: true);
+        m_World_UseBerry = m_World.FindAction("UseBerry", throwIfNotFound: true);
         // StrengthMinigame
         m_StrengthMinigame = asset.FindActionMap("StrengthMinigame", throwIfNotFound: true);
         m_StrengthMinigame_Pause = m_StrengthMinigame.FindAction("Pause", throwIfNotFound: true);
@@ -1304,6 +1336,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_World_Leave;
     private readonly InputAction m_World_ShowTeamUI;
     private readonly InputAction m_World_ShowMinimap;
+    private readonly InputAction m_World_UseBerry;
     public struct WorldActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -1317,6 +1350,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @Leave => m_Wrapper.m_World_Leave;
         public InputAction @ShowTeamUI => m_Wrapper.m_World_ShowTeamUI;
         public InputAction @ShowMinimap => m_Wrapper.m_World_ShowMinimap;
+        public InputAction @UseBerry => m_Wrapper.m_World_UseBerry;
         public InputActionMap Get() { return m_Wrapper.m_World; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1353,6 +1387,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @ShowMinimap.started += instance.OnShowMinimap;
             @ShowMinimap.performed += instance.OnShowMinimap;
             @ShowMinimap.canceled += instance.OnShowMinimap;
+            @UseBerry.started += instance.OnUseBerry;
+            @UseBerry.performed += instance.OnUseBerry;
+            @UseBerry.canceled += instance.OnUseBerry;
         }
 
         private void UnregisterCallbacks(IWorldActions instance)
@@ -1384,6 +1421,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @ShowMinimap.started -= instance.OnShowMinimap;
             @ShowMinimap.performed -= instance.OnShowMinimap;
             @ShowMinimap.canceled -= instance.OnShowMinimap;
+            @UseBerry.started -= instance.OnUseBerry;
+            @UseBerry.performed -= instance.OnUseBerry;
+            @UseBerry.canceled -= instance.OnUseBerry;
         }
 
         public void RemoveCallbacks(IWorldActions instance)
@@ -1608,6 +1648,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnLeave(InputAction.CallbackContext context);
         void OnShowTeamUI(InputAction.CallbackContext context);
         void OnShowMinimap(InputAction.CallbackContext context);
+        void OnUseBerry(InputAction.CallbackContext context);
     }
     public interface IStrengthMinigameActions
     {
