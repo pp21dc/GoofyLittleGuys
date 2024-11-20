@@ -49,6 +49,12 @@ public class WildBehaviour : MonoBehaviour
 			actionCoroutine ??= StartCoroutine(Idle());
 		}
 	}
+
+
+	/// <summary>
+	/// State that handles when the AI is idle.
+	/// </summary>
+	/// <returns></returns>
 	private IEnumerator Idle()
 	{
 		while (controller.DistanceToPlayer() > chaseRange && controller.LilGuy.health > 0)
@@ -57,6 +63,12 @@ public class WildBehaviour : MonoBehaviour
 		}
 		actionCoroutine = null;
 	}
+
+
+	/// <summary>
+	/// State that handles when the AI dies.
+	/// </summary>
+	/// <returns></returns>
 	private IEnumerator Dead()
 	{
 		controller.LilGuy.IsMoving = false;
@@ -70,6 +82,10 @@ public class WildBehaviour : MonoBehaviour
 		actionCoroutine = null;
 	}
 
+	/// <summary>
+	/// State that handles attacking the player.
+	/// </summary>
+	/// <returns></returns>
 	private IEnumerator AttackPlayer()
 	{
 		while (controller.DistanceToPlayer() <= attackRange && controller.LilGuy.health > 0)
@@ -88,6 +104,11 @@ public class WildBehaviour : MonoBehaviour
 		}
 		actionCoroutine = null;
 	}
+
+	/// <summary>
+	/// State that handles chasing the player.
+	/// </summary>
+	/// <returns></returns>
 	private IEnumerator ChasePlayer()
 	{
 		controller.LilGuy.IsMoving = true;

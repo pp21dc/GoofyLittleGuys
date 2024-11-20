@@ -63,6 +63,10 @@ public abstract class LilGuyBase : MonoBehaviour
 		Speed
 	}
 
+	/// <summary>
+	/// Method that sets the goal position that this Lil Guy will try and follow to (if owned by a player)
+	/// </summary>
+	/// <param name="goalPosition">The goal position the Lil Guy wants to get to.</param>
 	public void SetFollowGoal(Transform goalPosition)
 	{
 		this.goalPosition = goalPosition;
@@ -78,6 +82,7 @@ public abstract class LilGuyBase : MonoBehaviour
 		GetComponentInChildren<AiHealthUi>().gameObject.SetActive(false);
 		GetComponent<AiController>().SetState(AiController.AIState.Tamed);
 	}
+
 	private void Update()
 	{
 		// Flip character

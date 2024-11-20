@@ -1,14 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(AiController))]
 public class TamedBehaviour : MonoBehaviour
 {
 	[SerializeField] private float teleportRange = 30f; // Range to teleport if too far
-	private float followRange = 2f;
 	[SerializeField] private float accelerationTime = 0.1f;  // Time to reach target speed
+	private float followRange = 2f;
 	private float decelerationTime = 0.2f;  // Time to stop
 	private Vector3 currentVelocity = Vector3.zero;
 	private Vector3 movementDirection = Vector3.zero;
@@ -35,15 +34,16 @@ public class TamedBehaviour : MonoBehaviour
 
 	private void FixedUpdate()
 	{
-		if (controller.LilGuy == controller.Player.GetComponentInParent<PlayerBody>().ActiveLilGuy)
-		{
-			return;
-		}
+		if (controller.LilGuy == controller.Player.GetComponentInParent<PlayerBody>().ActiveLilGuy) return;
+
 		if (controller.Player != null) FollowPlayer();
 		if (controller.RB.velocity.magnitude <= 0.1f)
 			controller.LilGuy.IsMoving = false;
 	}
 
+	/// <summary>
+	/// Method that allows the tamed AI to move towards it's goal position
+	/// </summary>
 	private void FollowPlayer()
 	{
 		if (controller.DistanceToPlayer() > teleportRange)
@@ -51,9 +51,9 @@ public class TamedBehaviour : MonoBehaviour
 			// Teleport lil guy to the player
 			transform.position = controller.Player.position;
 		}
+
 		else if (controller.DistanceToPlayer() > followRange)
 		{
-
 			// Calculate the target velocity based on input direction
 			Vector3 targetVelocity = movementDirection * controller.LilGuy.playerOwner.GetComponent<PlayerBody>().MaxSpeed;
 
