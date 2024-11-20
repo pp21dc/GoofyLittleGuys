@@ -25,7 +25,7 @@ public class StrengthMinigame : CaptureBase
 		strengthMeter.value = currentMeterValue;
 		// Initialize player and lil guy positions to opposite ends of the play space. Flip the player the other direction since they stand on the left facing right.
 		player.transform.position = instantiatedBarrier.transform.position - new Vector3(spawnRadius * 0.5f, 0, 0);
-		player.GetComponent<PlayerBody>().Flip = true;
+		player.GetComponent<PlayerController>().Body.Flip = true;
 		lilGuyBeingCaught.transform.position = instantiatedBarrier.transform.position + new Vector3(spawnRadius * 0.5f, 0, 0);
 
 		player.DeactivateInput();

@@ -23,7 +23,7 @@ public class SpeedMinigame : CaptureBase
 		player.DeactivateInput();
 
 		// Initialize the player and lil guy positions to opposite ends of the play space.
-		player.transform.position = instantiatedBarrier.transform.position - new Vector3(0, 0, spawnRadius);
+		player.GetComponent<PlayerController>().Body.transform.position = instantiatedBarrier.transform.position - new Vector3(0, 0, spawnRadius);
 		lilGuyBeingCaught.transform.position = instantiatedBarrier.transform.position + new Vector3(0, 0, spawnRadius);
 		gameTimer = gameDuration;
 
@@ -43,7 +43,7 @@ public class SpeedMinigame : CaptureBase
 
 	private void Update()
 	{
-		creatureDistance = Vector3.Distance(player.transform.position, lilGuyBeingCaught.transform.position);
+		creatureDistance = Vector3.Distance(player.GetComponent<PlayerController>().Body.transform.position, lilGuyBeingCaught.transform.position);
 		catchFeedback.SetActive(creatureDistance <= catchDistance);
 	}
 

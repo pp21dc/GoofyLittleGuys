@@ -108,7 +108,7 @@ public class CaptureBase : MonoBehaviour
 	public virtual void Initialize(LilGuyBase creature)
 	{
 		lilGuyBeingCaught = creature;
-		Vector3 validBarrierSpawnPos = GetValidSpawnPosition(player.transform.position);
+		Vector3 validBarrierSpawnPos = GetValidSpawnPosition(player.GetComponent<PlayerController>().Body.transform.position);
         instantiatedBarrier = Instantiate(barrier, validBarrierSpawnPos, Quaternion.identity);
 	}
 
@@ -118,7 +118,7 @@ public class CaptureBase : MonoBehaviour
     /// <param name="playerWon">Did the player win or lose the minigame?</param>
 	protected virtual void EndMinigame(bool playerWon)
 	{
-		PlayerBody body = player.GetComponent<PlayerBody>();
+		PlayerBody body = player.GetComponent<PlayerController>().Body;
 
 		if (playerWon)
 		{
@@ -150,8 +150,8 @@ public class CaptureBase : MonoBehaviour
             {
 				//Handle choosing which lil guy on the player's team will be replaced with this lil guy
 
-				player.GetComponent<PlayerBody>().TeamFullMenu.SetActive(true);
-				player.GetComponent<PlayerBody>().TeamFullMenu.GetComponent<TeamFullMenu>().Init(lilGuyBeingCaught);
+				body.TeamFullMenu.SetActive(true);
+				body.TeamFullMenu.GetComponent<TeamFullMenu>().Init(lilGuyBeingCaught);
 			}
 		}
 		else

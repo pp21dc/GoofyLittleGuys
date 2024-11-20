@@ -16,6 +16,7 @@ public class PlayerBody : MonoBehaviour
 	[SerializeField] private PlayerInput playerInput;                   // This player's input component.
 	[SerializeField] private GameObject lastHitPromptUI;                // The last hit prompt UI.
 	[SerializeField] private GameObject teamFullMenu;                   // The menu shown if the player captured a lil guy but their team is full.
+	[SerializeField] private PlayerController controller;
 
 	[SerializeField, Range(1, 25f)] private float maxSpeed = 25f;       // To be replaced with lilGuys[0].speed
 	[SerializeField] private float accelerationTime = 0.1f;  // Time to reach target speed
@@ -239,8 +240,8 @@ public class PlayerBody : MonoBehaviour
 	private void Init()
 	{
 		playerInput.camera.clearFlags = CameraClearFlags.Skybox;
-		GetComponentInChildren<MultiplayerEventSystem>().firstSelectedGameObject = null;
-		GetComponentInChildren<MultiplayerEventSystem>().gameObject.SetActive(false);
+		controller.PlayerEventSystem.firstSelectedGameObject = null;
+		controller.PlayerEventSystem.gameObject.SetActive(false);
 		playerMesh.SetActive(true);
 	}
 

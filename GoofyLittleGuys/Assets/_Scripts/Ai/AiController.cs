@@ -116,10 +116,10 @@ public class AiController : MonoBehaviour
 	/// <returns></returns>
 	private Transform FindClosestPlayer()
 	{
-		Transform currClosest = PlayerInput.all[0].transform;
+		Transform currClosest = PlayerInput.all[0].GetComponent<PlayerController>().Body.transform;
 		foreach (PlayerInput input in PlayerInput.all)
 		{
-			if (!input.GetComponent<PlayerBody>().InMinigame && Vector3.Distance(input.transform.position, transform.position) < Vector3.Distance(currClosest.transform.position, transform.position))
+			if (!input.GetComponentInChildren<PlayerBody>().InMinigame && Vector3.Distance(input.transform.position, transform.position) < Vector3.Distance(currClosest.transform.position, transform.position))
 			{
 				currClosest = input.transform;
 			}

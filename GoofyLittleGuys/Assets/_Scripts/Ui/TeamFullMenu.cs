@@ -24,12 +24,12 @@ public class TeamFullMenu : MonoBehaviour
 		playerEventSystem.firstSelectedGameObject = buttons[0].gameObject;
 		playerEventSystem.SetSelectedGameObject(buttons[0].gameObject);
 
-		body = player.GetComponent<PlayerBody>();
+		body = player.GetComponent<PlayerController>().Body;
 
 		for (int i = 0; i < buttons.Count; i++)
 		{
 			TextMeshProUGUI label = buttons[i].GetComponentInChildren<TextMeshProUGUI>();
-			if (label != null )
+			if (label != null)
 			{
 				label.text = body.LilGuyTeam[i].guyName;
 			}
@@ -63,11 +63,13 @@ public class TeamFullMenu : MonoBehaviour
 		lilGuyBeingCaught.playerOwner = body.gameObject;
 		lilGuyBeingCaught.health = lilGuyBeingCaught.maxHealth;
 
-		// Setting layer to Player Lil Guys, and putting the lil guy into the first empty slot available.
+
 		lilGuyBeingCaught.Init(LayerMask.NameToLayer("PlayerLilGuys"));
-		lilGuyBeingCaught.gameObject.transform.SetParent(body.LilGuyTeamSlots[choice].transform, false);
+		// Setting layer to Player Lil Guys, and putting the lil guy into the first empty slot available.
+		lilGuyBeingCaught.gameObject.transform.SetParent(body.transform, true);
+		lilGuyBeingCaught.gameObject.GetComponent<Rigidbody>().isKinematic = (choice == 0);
 		lilGuyBeingCaught.gameObject.transform.localPosition = Vector3.zero;
-		lilGuyBeingCaught.gameObject.GetComponent<Rigidbody>().isKinematic = true;
+		lilGuyBeingCaught.SetFollowGoal(body.LilGuyTeamSlots[choice].transform);
 
 		// Remove the lil guy being released.
 		Destroy(lilGuyBeingReleased.gameObject);

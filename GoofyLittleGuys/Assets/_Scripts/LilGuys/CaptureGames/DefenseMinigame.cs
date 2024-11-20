@@ -58,7 +58,7 @@ public class DefenseMinigame : CaptureBase
 		throwPoint = lilGuyBeingCaught.attackPosition;
 
 		// Initialize the player and lil guy positions to opposite ends of the play space.
-		player.transform.position = instantiatedBarrier.transform.position - new Vector3(0, 0, spawnRadius);
+		player.GetComponent<PlayerController>().Body.transform.position = instantiatedBarrier.transform.position - new Vector3(0, 0, spawnRadius);
 		lilGuyBeingCaught.transform.position = instantiatedBarrier.transform.position + new Vector3(0, 0, spawnRadius);
 		lilGuyBeingCaught.GetComponent<Rigidbody>().isKinematic = true;
 	}
@@ -69,8 +69,8 @@ public class DefenseMinigame : CaptureBase
 	private void HandlePlayerMovement()
 	{
 		Vector2 input = moveAction.ReadValue<Vector2>();
-		Vector3 movement = new Vector3(input.x, 0, 0) * player.GetComponent<PlayerBody>().MaxSpeed * Time.deltaTime;
-		player.transform.Translate(movement);
+		Vector3 movement = new Vector3(input.x, 0, 0) * player.GetComponent<PlayerController>().Body.MaxSpeed * Time.deltaTime;
+		player.GetComponent<PlayerController>().Body.transform.Translate(movement);
 
 		// Clamp the player's x position if needed (adjust values based on desired boundaries)
 		float clampedX = Mathf.Clamp(transform.position.x, -spawnRadius, spawnRadius);
@@ -133,7 +133,7 @@ public class DefenseMinigame : CaptureBase
 	{
 		// Create a new thrown object at the throw point
 		GameObject thrownObject = Instantiate(throwObjectPrefab, throwPoint.position + Vector3.back, Quaternion.identity);
-		thrownObject.GetComponent<DefenseProjectile>().Init(player.gameObject, this);
+		thrownObject.GetComponent<DefenseProjectile>().Init(player.GetComponent<PlayerController>().Body.gameObject, this);
 
 		// Determine throw direction: center, left, or right
 		Vector3 direction = Vector3.back;

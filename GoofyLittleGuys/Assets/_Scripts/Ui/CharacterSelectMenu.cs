@@ -18,7 +18,7 @@ public class CharacterSelectMenu : MonoBehaviour
 	}
 
 	[SerializeField] private PlayerInput player;                        // The input of the player in control of this menu.
-	[SerializeField] private PlayerBody body;							// Reference to the player body of the player in control of this menu instance.
+	[SerializeField] private PlayerController controller;				// Reference to the player body of the player in control of this menu instance.
 	[SerializeField] private MultiplayerEventSystem playerEventSystem;	// Reference to this player's multiplayer event system.
 	[SerializeField] private List<Button> buttons;						// The buttons on this menu.
 
@@ -88,8 +88,8 @@ public class CharacterSelectMenu : MonoBehaviour
 				lockedIn = false;
 
 				// Grab the lil guy this player had, and delete them.
-				GameObject lilGuyToRemove = body.LilGuyTeam[0].gameObject;
-				body.LilGuyTeam.RemoveAt(0);
+				GameObject lilGuyToRemove = controller.Body.LilGuyTeam[0].gameObject;
+				controller.Body.LilGuyTeam.RemoveAt(0);
 				Destroy(lilGuyToRemove);
 
 				// Unlock the player's button options again.
@@ -138,16 +138,16 @@ public class CharacterSelectMenu : MonoBehaviour
 
 		// Create a new starter lil guy
 		GameObject starter = Instantiate(starters[choice].gameObject);
-		starter.GetComponent<LilGuyBase>().SetFollowGoal(body.LilGuyTeamSlots[0].transform);
+		starter.GetComponent<LilGuyBase>().SetFollowGoal(controller.Body.LilGuyTeamSlots[0].transform);
 		starter.GetComponent<LilGuyBase>().Init(LayerMask.NameToLayer("PlayerLilGuys"));
-		starter.transform.SetParent(body.transform, true);
+		starter.transform.SetParent(controller.Body.transform, true);
 		starter.GetComponent<Rigidbody>().isKinematic = true;
 		starter.transform.localPosition = Vector3.zero;
-		body.ActiveLilGuy = starter.GetComponent<LilGuyBase>();
+		controller.Body.ActiveLilGuy = starter.GetComponent<LilGuyBase>();
 
 		// Add the lil guy to the player's party.
-		body.LilGuyTeam.Add(starter.GetComponent<LilGuyBase>());
-		body.LilGuyTeam[0].playerOwner = body.gameObject;
+		controller.Body.LilGuyTeam.Add(starter.GetComponent<LilGuyBase>());
+		controller.Body.LilGuyTeam[0].playerOwner = controller.Body.gameObject;
 
 	}
 }

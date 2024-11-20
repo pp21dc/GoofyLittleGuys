@@ -2,13 +2,18 @@ using Managers;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.UI;
 
 public class PlayerController : MonoBehaviour
 {
 	[SerializeField] private PlayerBody playerBody;
+	[SerializeField] private MultiplayerEventSystem playerEventSystem;
+
 	private bool showTeamUI = true;
 	private bool showMinimap = true;
 
+	public PlayerBody Body => playerBody;
+	public MultiplayerEventSystem PlayerEventSystem => playerEventSystem;
 	public void OnMove(InputAction.CallbackContext ctx)
 	{
 		if (Managers.GameManager.Instance.IsPaused) return;
