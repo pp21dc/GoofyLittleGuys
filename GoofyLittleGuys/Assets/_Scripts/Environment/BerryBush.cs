@@ -7,6 +7,7 @@ public class BerryBush : InteractableBase
 	[SerializeField] private int minBerryTime = 3;
 	[SerializeField] private int maxBerryTime = 5;
 	[SerializeField] private int numOfBerries = 1;
+	private int berryAmountOnBush = 1;
 	[SerializeField] private GameObject berriesMesh;
 
 	List<GameObject> playersInRange = new List<GameObject>();
@@ -46,11 +47,16 @@ public class BerryBush : InteractableBase
 	public override void OnInteracted(PlayerBody body)
 	{
 		base.OnInteracted(body);
-		body.BerryCount += numOfBerries;
+		if (berryAmountOnBush > 0 && body.BerryCount <= body.MaxBerryCount)
+		{
+			body.BerryCount++;
+			berryAmountOnBush--;
+		}
 
 		// Remove the berries frm the bush as they are consumed.
 		// Start Berry Regrowth timer.
-		hasBerries = false;
+		if (berryAmountOnBush <= 0) hasBerries = false;
+		else hasBerries = true;
 		UpdateVisuals();
 		StartCoroutine(BerryRegrowth(Random.Range(minBerryTime, maxBerryTime + 1)));
 
@@ -73,6 +79,7 @@ public class BerryBush : InteractableBase
 	private IEnumerator BerryRegrowth(float timeUntilBerries)
 	{
 		yield return new WaitForSeconds(timeUntilBerries);
+		berryAmountOnBush++;
 		hasBerries = true;
 		UpdateVisuals();
 	}

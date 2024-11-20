@@ -21,6 +21,7 @@ public class PlayerBody : MonoBehaviour
 	[SerializeField] private float accelerationTime = 0.1f;  // Time to reach target speed
 	[SerializeField] private float decelerationTime = 0.2f;  // Time to stop
 	[SerializeField] private float smoothFactor = 0.8f;      // Factor for smooth transitions
+	[SerializeField] private int maxBerryCount = 3;
 
 	[SerializeField] private float fallMultiplier = 4f;
 
@@ -51,6 +52,7 @@ public class PlayerBody : MonoBehaviour
 	public GameObject TeamFullMenu { get { return teamFullMenu; } set { teamFullMenu = value; } }
 	public bool Flip { get { return flip; } set { flip = value; } }
 	public int BerryCount { get { return berryCount; } set {  berryCount = value; } }
+	public int MaxBerryCount => maxBerryCount;
 
 
 	private void Start()

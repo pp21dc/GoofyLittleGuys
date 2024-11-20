@@ -90,10 +90,12 @@ public class WildBehaviour : MonoBehaviour
 	{
 		while (controller.DistanceToPlayer() <= attackRange && controller.LilGuy.health > 0)
 		{
-			if (controller.LilGuy.CurrentCharges > 0 && controller.LilGuy.CooldownTimer <= 0)
+			if (controller.LilGuy.CurrentCharges > 0 && controller.LilGuy.CooldownTimer <= 0 && attackTime <= 0)
 			{
 				if (controller.LilGuy is StrengthType strengthLilGuy) strengthLilGuy.Special();
 				else if (controller.LilGuy is DefenseType defenseLilGuy && controller.LilGuy.health * 2 <= controller.LilGuy.maxHealth) defenseLilGuy.Special();
+
+				attackTime = attackBuffer;
 			}
 			else if (attackTime <= 0)
 			{

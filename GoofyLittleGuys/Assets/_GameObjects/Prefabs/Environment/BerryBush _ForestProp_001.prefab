@@ -2418,8 +2418,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactableCanvas: {fileID: 6887777751460472139}
-  minBerryTime: 30
-  maxBerryTime: 30
+  minBerryTime: 60
+  maxBerryTime: 60
+  numOfBerries: 3
   berriesMesh: {fileID: 8638006691747570844}
 --- !u!135 &2183427764979797309
 SphereCollider:
