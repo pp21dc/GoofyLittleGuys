@@ -294,6 +294,7 @@ public class PlayerBody : MonoBehaviour
 	/// </summary>
 	private void Init()
 	{
+		DisableUIControl();
 		playerInput.camera.clearFlags = CameraClearFlags.Skybox;
 		controller.PlayerEventSystem.firstSelectedGameObject = null;
 		controller.PlayerEventSystem.gameObject.SetActive(false);

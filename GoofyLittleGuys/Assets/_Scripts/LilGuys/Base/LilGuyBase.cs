@@ -55,6 +55,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	public float CooldownTimer => cooldownTimer;
 	public int CurrentCharges => currentCharges;
 	public Transform GoalPosition => goalPosition;
+	public int MaxStat => MAX_STAT;
 
 	public enum PrimaryType
 	{

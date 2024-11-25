@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
+using TMPro;
 
 public class CharacterSelectMenu : MonoBehaviour
 {
@@ -20,9 +21,19 @@ public class CharacterSelectMenu : MonoBehaviour
 	[SerializeField] private PlayerInput player;                        // The input of the player in control of this menu.
 	[SerializeField] private PlayerController controller;				// Reference to the player body of the player in control of this menu instance.
 	[SerializeField] private MultiplayerEventSystem playerEventSystem;	// Reference to this player's multiplayer event system.
-	[SerializeField] private List<Button> buttons;						// The buttons on this menu.
+	[SerializeField] private Button characterSelectUnit;                        // The buttons on this menu.
+
+	[SerializeField] private Animator lilGuyPreview;
+	[SerializeField] private TMP_Text lilGuyName;
+	[SerializeField] private Slider strengthSlider;
+	[SerializeField] private Slider defenseSlider;
+	[SerializeField] private Slider speedSlider;
+	[SerializeField] private GameObject lockedInPanel;
+	[SerializeField] private AnimationClip[] starterIdleAnims;
+
 
 	public List<LilGuyBase> starters;                                   // List containing the starters the player can choose from.
+	private int currStarterIndex = 0;
 	private CharacterSelectState currentState;
 	private bool lockedIn = false;
 
@@ -31,14 +42,19 @@ public class CharacterSelectMenu : MonoBehaviour
 
 	private void Start()
 	{
+		player.SwitchCurrentActionMap("UI");
 		player.actions["Cancel"].performed += OnCancelled;
+		player.actions["Navigate"].performed += OnNavigated;
 		player.actions["Submit"].performed += OnSubmitted;
 		EventManager.Instance.GameStarted += GameInit;
+
+		ResetUI();
 	}
 
 	private void OnDisable()
 	{
 		player.actions["Cancel"].performed -= OnCancelled;
+		player.actions["Navigate"].performed -= OnNavigated;
 		player.actions["Submit"].performed -= OnSubmitted;
 		EventManager.Instance.GameStarted -= GameInit;
 	}
@@ -49,6 +65,25 @@ public class CharacterSelectMenu : MonoBehaviour
 	void GameInit()
 	{
 		gameObject.SetActive(false);
+	}
+
+	private void OnNavigated(InputAction.CallbackContext ctx)
+	{
+		if (lockedIn) return;
+		Vector2 input = ctx.ReadValue<Vector2>();
+		if (input.x < 0)
+		{
+			// Move left
+			if (currStarterIndex - 1 < 0) currStarterIndex = starters.Count - 1;
+			else currStarterIndex--;
+		}
+		else if (input.x > 0)
+		{
+			// Move right
+			if (currStarterIndex + 1 > starters.Count - 1) currStarterIndex = 0;
+			else currStarterIndex++;
+		}
+		ResetUI();
 	}
 
 	/// <summary>
@@ -62,6 +97,20 @@ public class CharacterSelectMenu : MonoBehaviour
 			// If we are in the locked in state and every other player is locked in, we can start the game!
 			EventManager.Instance.CallLilGuyLockedInEvent();
 		}
+	}
+
+	void ResetUI()
+	{
+		lilGuyName.text = starters[currStarterIndex].name;
+		lilGuyPreview.SetInteger("StarterIndex", currStarterIndex);
+
+		strengthSlider.maxValue = starters[currStarterIndex].MaxStat;
+		defenseSlider.maxValue = starters[currStarterIndex].MaxStat;
+		speedSlider.maxValue = starters[currStarterIndex].MaxStat;
+
+		strengthSlider.value = starters[currStarterIndex].strength;
+		defenseSlider.value = starters[currStarterIndex].defense;
+		speedSlider.value = starters[currStarterIndex].speed;
 	}
 	
 	/// <summary>
@@ -94,7 +143,7 @@ public class CharacterSelectMenu : MonoBehaviour
 
 				// Unlock the player's button options again.
 				SetButtonLockState(false);
-				playerEventSystem.SetSelectedGameObject(buttons[0].gameObject);
+				playerEventSystem.SetSelectedGameObject(characterSelectUnit.gameObject);
 				break;
 
 		}
@@ -120,24 +169,22 @@ public class CharacterSelectMenu : MonoBehaviour
 	/// <param name="lockState">Are the buttons to be enabled or disabled.</param>
 	private void SetButtonLockState(bool lockState)
 	{
-		foreach (Button button in buttons)
-		{
-			button.interactable = !lockState;
-		}
+		characterSelectUnit.interactable = (lockState == true) ? false : true;
+		lockedInPanel.SetActive(lockState);
 	}
 
 	/// <summary>
 	/// Method called when the player picks a lil guy from the list of lil guys in the menu.
 	/// </summary>
 	/// <param name="choice"></param>
-	public void OnLockedIn(int choice)
+	public void OnLockedIn()
 	{
 		lockedIn = true;
 		currentState = CharacterSelectState.LockedIn;
 		SetButtonLockState(true);
 
 		// Create a new starter lil guy
-		GameObject starter = Instantiate(starters[choice].gameObject);
+		GameObject starter = Instantiate(starters[currStarterIndex].gameObject);
 		starter.GetComponent<LilGuyBase>().SetFollowGoal(controller.Body.LilGuyTeamSlots[0].transform);
 		starter.GetComponent<LilGuyBase>().Init(LayerMask.NameToLayer("PlayerLilGuys"));
 		starter.transform.SetParent(controller.Body.transform, true);
