@@ -23,10 +23,16 @@ public class PlayerBody : MonoBehaviour
 	[SerializeField] private float decelerationTime = 0.2f;  // Time to stop
 	[SerializeField] private float smoothFactor = 0.8f;      // Factor for smooth transitions
 	[SerializeField] private int maxBerryCount = 3;
+	[SerializeField] private float berryUsageCooldown = 3f;
+	[SerializeField, Range(0f, 1f)] private float berryHealPercentage = 0.25f;
+
+	private LilGuyBase closestWildLilGuy = null;
+	public LilGuyBase ClosestWildLilGuy { get { return closestWildLilGuy; } set { closestWildLilGuy = value; } }
 
 	[SerializeField] private float fallMultiplier = 4f;
 
 	private int berryCount = 0;
+	private bool canUseBerry = true;
 	private bool isDashing = false;                         // When the dash action is pressed for speed lil guy. Note this is in here because if the player swaps mid dash, they will get stuck in dash UNLESS this bool is here and is adjusted here.
 	private bool flip = false;
 	private bool inMinigame = false;
@@ -164,6 +170,48 @@ public class PlayerBody : MonoBehaviour
 		lilGuyTeam[0].Flip = flip;
 	}
 
+	public void UseBerry()
+	{
+		if (berryCount <= 0 || !canUseBerry) return;
+		if (closestWildLilGuy != null)
+		{
+			berryCount--;
+			closestWildLilGuy.Init(LayerMask.NameToLayer("PlayerLilGuys"));
+			closestWildLilGuy.GetComponent<AiController>().SetState(AiController.AIState.Tamed);
+			closestWildLilGuy.LeaveDeathAnim();
+			if (LilGuyTeam.Count < 3)
+			{
+
+				// There is room on the player's team for this lil guy.
+				// Set player owner to this player, and reset the lil guy's health to full, before adding to the player's party.
+				closestWildLilGuy.playerOwner = gameObject;
+				closestWildLilGuy.health = closestWildLilGuy.maxHealth;
+				LilGuyTeam.Add(closestWildLilGuy);
+
+				// Setting layer to Player Lil Guys, and putting the lil guy into the first empty slot available.
+				closestWildLilGuy.transform.SetParent(transform, false);
+				closestWildLilGuy.SetFollowGoal(LilGuyTeamSlots[LilGuyTeam.Count - 1].transform);
+				closestWildLilGuy.GetComponent<Rigidbody>().isKinematic = false;
+				closestWildLilGuy.transform.localPosition = Vector3.zero;
+				closestWildLilGuy.transform.localRotation = Quaternion.identity;
+			}
+			else
+			{
+				//Handle choosing which lil guy on the player's team will be replaced with this lil guy
+				TeamFullMenu.SetActive(true);
+				TeamFullMenu.GetComponent<TeamFullMenu>().Init(closestWildLilGuy);
+			}
+		}
+
+		if (lilGuyTeam[0].health >= lilGuyTeam[0].maxHealth) return;
+		int healthRestored = Mathf.CeilToInt(lilGuyTeam[0].maxHealth * berryHealPercentage);
+
+		lilGuyTeam[0].health += healthRestored;
+		berryCount--;
+		canUseBerry = false;
+		StartCoroutine(BerryCooldown());
+	}
+	
 	/// <summary>
 	/// Swaps the Lil guy based on a queue. If input is right, then the next one in list moves to position 1 and if left, the previous lil guy moves to position 1
 	/// and the rest cascade accordingly.
@@ -234,6 +282,12 @@ public class PlayerBody : MonoBehaviour
 		isDashing = false;
 	}
 
+	private IEnumerator BerryCooldown()
+	{
+		yield return new WaitForSeconds(berryUsageCooldown);
+		canUseBerry = true;
+	}
+
 	/// <summary>
 	/// Called when the GameStarted event is invoked (occurs after character select, and phase one is loaded).
 	/// </summary>
@@ -243,19 +297,6 @@ public class PlayerBody : MonoBehaviour
 		controller.PlayerEventSystem.firstSelectedGameObject = null;
 		controller.PlayerEventSystem.gameObject.SetActive(false);
 		playerMesh.SetActive(true);
-	}
-
-	/// <summary>
-	/// Shows the last hit prompt to the player, as they defeated a lil guy!
-	/// </summary>
-	/// <param name="lilGuy">The lil guy they defeated, and have a chance to capture.</param>
-	public void ShowLastHitPrompt(LilGuyBase lilGuy)
-	{
-		lastHitPromptUI.GetComponent<LastHitMenu>().Initialize(lilGuy);
-		lastHitPromptUI?.SetActive(true); // Activate the UI element if not null
-		inMinigame = true;
-
-		EnableUIControl();
 	}
 
 	/// <summary>

@@ -8,10 +8,12 @@ public class AiController : MonoBehaviour
 	public enum AIState { Wild, Tamed }
 	private AIState state = AIState.Wild;				// The current state of the AI (either wild or one caught by a player)
 	[SerializeField] private LayerMask groundLayer;
+	[SerializeField] private GameObject interactCanvas;
 
 	private WildBehaviour wildBehaviour;				// Defines Wild AI behaviour (Idle, Chase, Attack, Death)
 	private TamedBehaviour tamedBehaviour;				// Defines Tamed AI behaviour (Follow Player)
 	private Rigidbody rb;
+
 
 
 	private Vector3 originalSpawnPosition = Vector3.zero;
@@ -52,20 +54,10 @@ public class AiController : MonoBehaviour
 	/// <summary>
 	/// Method that shows the last hit prompt on a lil guy (to be removed with minigames)
 	/// </summary>
-	public void ShowLastHitPrompt()
+	public void ToggleInteractCanvas(bool visible)
 	{
-		// Get the player who last hit this AI
-		GameObject lastHitPlayerObj = GetComponent<Hurtbox>().lastHit;
-
-		if (lastHitPlayerObj != null)
-		{
-			PlayerBody playerBody = lastHitPlayerObj.GetComponent<PlayerBody>();
-			if (playerBody != null)
-			{
-				playerBody.ShowLastHitPrompt(GetComponent<LilGuyBase>());   // Show the UI prompt on their screen
-				playerBody.EnableUIControl();                               // Transfer control to UI
-			}
-		}
+		interactCanvas.SetActive(visible);
+		player.GetComponent<PlayerBody>().ClosestWildLilGuy = lilGuy;
 	}
 
 	/// <summary>

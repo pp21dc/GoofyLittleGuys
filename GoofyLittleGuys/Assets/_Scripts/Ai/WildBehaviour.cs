@@ -11,6 +11,9 @@ public class WildBehaviour : MonoBehaviour
 	[SerializeField] private float accelerationTime = 0.1f;  // Time to reach target speed
 	[SerializeField] private float decelerationTime = 0.2f;  // Time to stop
 
+	[SerializeField] private float timeBeforeDestroyed = 5f;  // Time until the gameobject is destroyed
+	[SerializeField] private float interactDistance = 2f;  // Time until the gameobject is destroyed
+
 
 	private AiController controller;
 	private Coroutine actionCoroutine = null;
@@ -73,12 +76,16 @@ public class WildBehaviour : MonoBehaviour
 	{
 		controller.LilGuy.IsMoving = false;
 		controller.LilGuy.OnDeath();
-		controller.ShowLastHitPrompt();
 
-		while (controller.LilGuy.health <= 0)
+		float currTime = 0;
+		while (currTime < timeBeforeDestroyed)
 		{
+			currTime += Time.deltaTime;
+			if (controller.DistanceToPlayer() <= interactDistance) controller.ToggleInteractCanvas(true);
+			else controller.ToggleInteractCanvas(false);
 			yield return null;
 		}
+		Destroy(gameObject);
 		actionCoroutine = null;
 	}
 

@@ -491,6 +491,74 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 16906348}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &25723462
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4637135193058812758, guid: e1c738aada2ee3e45815cd2c0494a661,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -65.13
+      objectReference: {fileID: 0}
+    - target: {fileID: 4637135193058812758, guid: e1c738aada2ee3e45815cd2c0494a661,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 4637135193058812758, guid: e1c738aada2ee3e45815cd2c0494a661,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -159.06
+      objectReference: {fileID: 0}
+    - target: {fileID: 4637135193058812758, guid: e1c738aada2ee3e45815cd2c0494a661,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4637135193058812758, guid: e1c738aada2ee3e45815cd2c0494a661,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4637135193058812758, guid: e1c738aada2ee3e45815cd2c0494a661,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4637135193058812758, guid: e1c738aada2ee3e45815cd2c0494a661,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4637135193058812758, guid: e1c738aada2ee3e45815cd2c0494a661,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4637135193058812758, guid: e1c738aada2ee3e45815cd2c0494a661,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4637135193058812758, guid: e1c738aada2ee3e45815cd2c0494a661,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5409308377191545324, guid: e1c738aada2ee3e45815cd2c0494a661,
+        type: 3}
+      propertyPath: m_Name
+      value: BerryBush _ForestProp_001
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e1c738aada2ee3e45815cd2c0494a661, type: 3}
 --- !u!1001 &27571967
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29508,3 +29576,4 @@ SceneRoots:
   - {fileID: 2083606520}
   - {fileID: 1181469102}
   - {fileID: 1514440812}
+  - {fileID: 25723462}

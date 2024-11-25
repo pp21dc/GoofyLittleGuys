@@ -14,15 +14,23 @@ public class PlayerController : MonoBehaviour
 
 	public PlayerBody Body => playerBody;
 	public MultiplayerEventSystem PlayerEventSystem => playerEventSystem;
+
+	public void OnBerryUsed(InputAction.CallbackContext ctx)
+	{
+		if (GameManager.Instance.IsPaused) return;
+
+		// If the player is not near a downed wild lil guy
+		if (ctx.performed) playerBody.UseBerry();
+	}
 	public void OnMove(InputAction.CallbackContext ctx)
 	{
-		if (Managers.GameManager.Instance.IsPaused) return;
+		if (GameManager.Instance.IsPaused) return;
 		playerBody.UpdateMovementVector(ctx.ReadValue<Vector2>());
 	}
 
 	public void OnSwap(InputAction.CallbackContext ctx)
 	{
-		if (Managers.GameManager.Instance.IsPaused) return;
+		if (GameManager.Instance.IsPaused) return;
 		if (ctx.performed) playerBody.SwapLilGuy(ctx.ReadValue<float>());
 	}
 
@@ -34,7 +42,7 @@ public class PlayerController : MonoBehaviour
 
 	public void OnShowHideTeamUI(InputAction.CallbackContext ctx)
 	{
-		if (Managers.GameManager.Instance.IsPaused) return;
+		if (GameManager.Instance.IsPaused) return;
 		showTeamUI = !showTeamUI;
 		// Idk, invoke some event perhaps, passing showTeamUI
 		// Event ties to the UI on this player's camera, and either shows or hides the UI based
@@ -43,7 +51,7 @@ public class PlayerController : MonoBehaviour
 
 	public void OnShowHideMinimap(InputAction.CallbackContext ctx)
 	{
-		if (Managers.GameManager.Instance.IsPaused) return;
+		if (GameManager.Instance.IsPaused) return;
 		showMinimap = !showMinimap;
 		// Idk, invoke some event perhaps, passing showMinimap
 		// Event ties to the UI on this player's camera, and either shows or hides the UI based
@@ -62,7 +70,7 @@ public class PlayerController : MonoBehaviour
 
 	public void OnPrimarySkill(InputAction.CallbackContext ctx)
 	{
-		if (Managers.GameManager.Instance.IsPaused) return;
+		if (GameManager.Instance.IsPaused) return;
 		if (playerBody.LilGuyTeam[0].health <= 0) return;
 
 		// Hold to keep attacking as opposed to mashing.
@@ -71,7 +79,7 @@ public class PlayerController : MonoBehaviour
 
 	public void OnSecondarySkill(InputAction.CallbackContext ctx)
 	{
-		if (Managers.GameManager.Instance.IsPaused) return;
+		if (GameManager.Instance.IsPaused) return;
 		if (playerBody.LilGuyTeam[0].health <= 0) return;
 		if (ctx.performed) playerBody.LilGuyTeam[0].Special();
 	}
