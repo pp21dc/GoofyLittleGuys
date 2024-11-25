@@ -74,8 +74,7 @@ public class TeamFullMenu : MonoBehaviour
 		// Remove the lil guy being released.
 		Destroy(lilGuyBeingReleased.gameObject);
 
-		// Officially leave the minigame and leave the menu.
-		body.InMinigame = false;
+		// Leave the menu.
 		gameObject.SetActive(false);
 	}
 }

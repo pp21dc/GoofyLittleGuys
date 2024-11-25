@@ -6,12 +6,12 @@ using UnityEngine.InputSystem;
 public class AiController : MonoBehaviour
 {
 	public enum AIState { Wild, Tamed }
-	private AIState state = AIState.Wild;				// The current state of the AI (either wild or one caught by a player)
+	private AIState state = AIState.Wild;               // The current state of the AI (either wild or one caught by a player)
 	[SerializeField] private LayerMask groundLayer;
 	[SerializeField] private GameObject interactCanvas;
 
-	private WildBehaviour wildBehaviour;				// Defines Wild AI behaviour (Idle, Chase, Attack, Death)
-	private TamedBehaviour tamedBehaviour;				// Defines Tamed AI behaviour (Follow Player)
+	private WildBehaviour wildBehaviour;                // Defines Wild AI behaviour (Idle, Chase, Attack, Death)
+	private TamedBehaviour tamedBehaviour;              // Defines Tamed AI behaviour (Follow Player)
 	private Rigidbody rb;
 
 
@@ -52,12 +52,13 @@ public class AiController : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Method that shows the last hit prompt on a lil guy (to be removed with minigames)
+	/// Method that toggles the interact canvas when a player is nearby.
 	/// </summary>
 	public void ToggleInteractCanvas(bool visible)
 	{
 		interactCanvas.SetActive(visible);
-		player.GetComponent<PlayerBody>().ClosestWildLilGuy = lilGuy;
+		if (visible) player.GetComponent<PlayerBody>().ClosestWildLilGuy = lilGuy;
+		else player.GetComponent<PlayerBody>().ClosestWildLilGuy = null; 
 	}
 
 	/// <summary>
@@ -111,7 +112,7 @@ public class AiController : MonoBehaviour
 		Transform currClosest = PlayerInput.all[0].GetComponent<PlayerController>().Body.transform;
 		foreach (PlayerInput input in PlayerInput.all)
 		{
-			if (!input.GetComponentInChildren<PlayerBody>().InMinigame && Vector3.Distance(input.transform.position, transform.position) < Vector3.Distance(currClosest.transform.position, transform.position))
+			if (Vector3.Distance(input.transform.position, transform.position) < Vector3.Distance(currClosest.transform.position, transform.position))
 			{
 				currClosest = input.transform;
 			}

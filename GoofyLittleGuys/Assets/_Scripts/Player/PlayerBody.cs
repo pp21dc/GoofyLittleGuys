@@ -5,23 +5,26 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.UI;
 
 public class PlayerBody : MonoBehaviour
 {
+	[Header("References")]
 	[SerializeField] private LilGuyBase activeLilGuy;
 	[SerializeField] private List<LilGuyBase> lilGuyTeam;               // The lil guys in the player's team.
 	[SerializeField] private List<LilGuySlot> lilGuyTeamSlots;          // The physical positions on the player prefab that the lil guys are children of.
 	[SerializeField] private GameObject playerMesh;                     // Reference to the player's mesh gameobject
 	[SerializeField] private PlayerInput playerInput;                   // This player's input component.
-	[SerializeField] private GameObject lastHitPromptUI;                // The last hit prompt UI.
 	[SerializeField] private GameObject teamFullMenu;                   // The menu shown if the player captured a lil guy but their team is full.
 	[SerializeField] private PlayerController controller;
 
+	[Header("Movement Parameters")]
 	[SerializeField, Range(1, 25f)] private float maxSpeed = 25f;       // To be replaced with lilGuys[0].speed
 	[SerializeField] private float accelerationTime = 0.1f;  // Time to reach target speed
 	[SerializeField] private float decelerationTime = 0.2f;  // Time to stop
 	[SerializeField] private float smoothFactor = 0.8f;      // Factor for smooth transitions
+	[SerializeField] private float fallMultiplier = 4f;
+
+	[Header("Berry Inventory Parameters")]
 	[SerializeField] private int maxBerryCount = 3;
 	[SerializeField] private float berryUsageCooldown = 3f;
 	[SerializeField, Range(0f, 1f)] private float berryHealPercentage = 0.25f;
@@ -29,13 +32,11 @@ public class PlayerBody : MonoBehaviour
 	private LilGuyBase closestWildLilGuy = null;
 	public LilGuyBase ClosestWildLilGuy { get { return closestWildLilGuy; } set { closestWildLilGuy = value; } }
 
-	[SerializeField] private float fallMultiplier = 4f;
 
 	private int berryCount = 0;
 	private bool canUseBerry = true;
 	private bool isDashing = false;                         // When the dash action is pressed for speed lil guy. Note this is in here because if the player swaps mid dash, they will get stuck in dash UNLESS this bool is here and is adjusted here.
 	private bool flip = false;
-	private bool inMinigame = false;
 	private bool hasInteracted = false;
 	private bool hasSwappedRecently = false; // If the player is in swap cooldown (feel free to delete cmnt)
 	private bool hasImmunity = false; // If the player is in swap I-frames (feel free to delete cmnt)
@@ -46,20 +47,20 @@ public class PlayerBody : MonoBehaviour
 	private Vector3 movementDirection = Vector3.zero;
 	private Rigidbody rb;
 
-	public float MaxSpeed { get { return maxSpeed; } }
 	public bool HasInteracted { get { return hasInteracted; } set { hasInteracted = value; } }
 	public bool HasSwappedRecently { get { return hasSwappedRecently; } set { hasSwappedRecently = value; } }
 	public bool HasImmunity { get { return hasImmunity; } set { hasImmunity = value; } }
 	public bool IsDashing { get { return isDashing; } set { isDashing = value; } }
-	public bool InMinigame { get { return inMinigame; } set { inMinigame = value; } }
-	public Vector3 MovementDirection { get { return movementDirection; } }
 	public LilGuyBase ActiveLilGuy { get { return  activeLilGuy; } set {  activeLilGuy = value; } }
-	public List<LilGuyBase> LilGuyTeam { get { return lilGuyTeam; } }
-	public List<LilGuySlot> LilGuyTeamSlots { get { return lilGuyTeamSlots; } }
 	public GameObject TeamFullMenu { get { return teamFullMenu; } set { teamFullMenu = value; } }
 	public bool Flip { get { return flip; } set { flip = value; } }
 	public int BerryCount { get { return berryCount; } set {  berryCount = value; } }
+
+	public List<LilGuyBase> LilGuyTeam => lilGuyTeam;
+	public List<LilGuySlot> LilGuyTeamSlots => lilGuyTeamSlots;
+	public Vector3 MovementDirection => movementDirection;
 	public int MaxBerryCount => maxBerryCount;
+	public float MaxSpeed => maxSpeed;
 
 
 	private void Start()
@@ -313,7 +314,6 @@ public class PlayerBody : MonoBehaviour
 	public void DisableUIControl()
 	{
 		playerInput.SwitchCurrentActionMap("World");    // Switch back to gameplay controls
-		lastHitPromptUI?.SetActive(false);              // Deactivate the UI element
 	}
 
 	/// <summary>
