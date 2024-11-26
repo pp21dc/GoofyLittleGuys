@@ -19,8 +19,8 @@ public class CharacterSelectMenu : MonoBehaviour
 	}
 
 	[SerializeField] private PlayerInput player;                        // The input of the player in control of this menu.
-	[SerializeField] private PlayerController controller;				// Reference to the player body of the player in control of this menu instance.
-	[SerializeField] private MultiplayerEventSystem playerEventSystem;	// Reference to this player's multiplayer event system.
+	[SerializeField] private PlayerController controller;               // Reference to the player body of the player in control of this menu instance.
+	[SerializeField] private MultiplayerEventSystem playerEventSystem;  // Reference to this player's multiplayer event system.
 	[SerializeField] private Button characterSelectUnit;                        // The buttons on this menu.
 
 	[SerializeField] private Animator lilGuyPreview;
@@ -37,6 +37,8 @@ public class CharacterSelectMenu : MonoBehaviour
 	private CharacterSelectState currentState;
 	private bool lockedIn = false;
 
+	public PlayerInput Player => player;
+
 	public bool LockedIn { get { return lockedIn; } }
 
 
@@ -51,8 +53,9 @@ public class CharacterSelectMenu : MonoBehaviour
 		ResetUI();
 	}
 
-	private void OnDisable()
+	private void OnDestroy()
 	{
+		if (player == null) return;
 		player.actions["Cancel"].performed -= OnCancelled;
 		player.actions["Navigate"].performed -= OnNavigated;
 		player.actions["Submit"].performed -= OnSubmitted;
@@ -64,7 +67,18 @@ public class CharacterSelectMenu : MonoBehaviour
 	/// </summary>
 	void GameInit()
 	{
+		controller.PlayerCam.gameObject.SetActive(true);
+		MultiplayerManager.Instance.AdjustCameraRects();
 		gameObject.SetActive(false);
+	}
+
+	public void SetPlayer(PlayerInput player)
+	{
+		this.player = player;
+		controller = player.GetComponent<PlayerController>();
+		playerEventSystem = controller.PlayerEventSystem;
+		playerEventSystem.firstSelectedGameObject = characterSelectUnit.gameObject;
+
 	}
 
 	private void OnNavigated(InputAction.CallbackContext ctx)
@@ -112,7 +126,7 @@ public class CharacterSelectMenu : MonoBehaviour
 		defenseSlider.value = starters[currStarterIndex].defense;
 		speedSlider.value = starters[currStarterIndex].speed;
 	}
-	
+
 	/// <summary>
 	/// Called when the cancel action is pressed.
 	/// </summary>
@@ -122,13 +136,10 @@ public class CharacterSelectMenu : MonoBehaviour
 		switch (currentState)
 		{
 			case CharacterSelectState.CharacterSelect:
-				// If we're in character select, we're going back to the main menu
-				foreach (PlayerInput input in PlayerInput.all)
-				{
-					// Destroy all player instances.
-					Destroy(input.gameObject);
-				}
-				LevelLoadManager.Instance.LoadNewLevel("00_MainMenu");
+				if (PlayerInput.all.Count < 2)
+					MultiplayerManager.Instance.CharacterSelectScreen.LeaveAllPlayers();
+				else MultiplayerManager.Instance.LeavePlayer(player);
+				Debug.Log($"Player Count: {PlayerInput.all.Count}");
 				break;
 
 			case CharacterSelectState.LockedIn:
@@ -156,10 +167,7 @@ public class CharacterSelectMenu : MonoBehaviour
 	private bool CheckIfValidGameStart()
 	{
 		if (PlayerInput.all.Count < 2) return false;
-		foreach (PlayerInput input in PlayerInput.all)
-		{
-			if (!input.GetComponentInChildren<CharacterSelectMenu>().LockedIn) return false;
-		}
+		if (!MultiplayerManager.Instance.CharacterSelectScreen.AllPlayersLockedIn()) return false;
 		return true;
 	}
 

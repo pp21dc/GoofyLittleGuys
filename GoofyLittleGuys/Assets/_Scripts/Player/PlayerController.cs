@@ -8,10 +8,12 @@ public class PlayerController : MonoBehaviour
 {
 	[SerializeField] private PlayerBody playerBody;
 	[SerializeField] private MultiplayerEventSystem playerEventSystem;
+	[SerializeField] private Camera playerCam;
 
 	private bool showTeamUI = true;
 	private bool showMinimap = true;
 
+	public Camera PlayerCam => playerCam;
 	public PlayerBody Body => playerBody;
 	public MultiplayerEventSystem PlayerEventSystem => playerEventSystem;
 
