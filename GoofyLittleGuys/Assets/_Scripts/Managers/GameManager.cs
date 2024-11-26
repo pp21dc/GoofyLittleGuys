@@ -95,6 +95,13 @@ namespace Managers
 			}
 		}
 
+		public void QuitGame()
+		{
+			currentPhase = 0;
+			currentGameTime = 0;
+			timerCanvas.SetActive(false);
+		}
+
 		/// <summary>
 		/// Method that is called when the game transitions from Character Select to Main Game.
 		/// </summary>

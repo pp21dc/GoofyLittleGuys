@@ -26,7 +26,8 @@ namespace Managers
         public void OnResumePressed()
         {
             GameManager.Instance.IsPaused = false;
-            pauseScreen.SetActive(GameManager.Instance.IsPaused);
+			Time.timeScale = 1;
+			pauseScreen.SetActive(GameManager.Instance.IsPaused);
             EnableAllPlayerInputs();
         }
 
@@ -37,16 +38,15 @@ namespace Managers
         {
             GameManager.Instance.IsPaused = false;
             pauseScreen.SetActive(GameManager.Instance.IsPaused);
-            StartCoroutine(Quit());
-
-            foreach (PlayerInput input in PlayerInput.all)
+			GameManager.Instance.QuitGame();
+            for (int i = PlayerInput.all.Count - 1; i >= 0; i--)
             {
                 // Delete all player instances.
-                Destroy(input.gameObject);
+                Destroy(PlayerInput.all[i].gameObject);
             }
-            LevelLoadManager.Instance.LoadNewLevel("00_MainMenu");
+			LevelLoadManager.Instance.LoadNewLevel("00_MainMenu");
 
-        }
+		}
 
         /// <summary>
         /// Coroutine that handles quit behaviour
@@ -54,12 +54,6 @@ namespace Managers
         /// <returns></returns>
         private IEnumerator Quit()
         {
-            for (int i = PlayerInput.all.Count - 1; i >= 0; i--)
-            {
-                Destroy(PlayerInput.all[i].gameObject);
-                yield return null;
-            }
-            LevelLoadManager.Instance.LoadNewLevel("00_MainMenu");
             yield break;
         }
 
@@ -93,7 +87,10 @@ namespace Managers
         private void GamePaused(PlayerInput player)
         {
             pauseScreen.SetActive(GameManager.Instance.IsPaused);
-            pauseEventSystem.GetComponent<InputSystemUIInputModule>().actionsAsset = player.actions;    // Set the UI input module's input to be the player who paused.
+			if (GameManager.Instance.IsPaused)
+				Time.timeScale = 0;
+			else Time.timeScale = 1;
+			pauseEventSystem.GetComponent<InputSystemUIInputModule>().actionsAsset = player.actions;    // Set the UI input module's input to be the player who paused.
 
             DisableAllPlayerInputs();
 

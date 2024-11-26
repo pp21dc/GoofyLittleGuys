@@ -24,7 +24,7 @@ public class SpawnerObj : MonoBehaviour
         //int failedAttempts = 0;
         Vector3 spawningPos = PickValidSpot();
 
-        GameObject GO = Instantiate(newLilGuy, spawningPos, Quaternion.identity);
+        GameObject GO = Instantiate(newLilGuy, spawningPos, Quaternion.identity, Managers.SpawnManager.Instance.transform);
         GO.layer = LayerMask.NameToLayer("WildLilGuys");
         
 

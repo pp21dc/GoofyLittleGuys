@@ -43,11 +43,13 @@ public class AiController : MonoBehaviour
 	{
 		if (state == AIState.Wild)
 		{
-			player = FindClosestPlayer();
+			if (PlayerInput.all.Count > 0)
+				player = FindClosestPlayer();
 		}
 		else
 		{
-			player = lilGuy.GoalPosition;
+			if (PlayerInput.all.Count > 0)
+				player = lilGuy.GoalPosition;
 		}
 	}
 
@@ -58,7 +60,7 @@ public class AiController : MonoBehaviour
 	{
 		interactCanvas.SetActive(visible);
 		if (visible) player.GetComponent<PlayerBody>().ClosestWildLilGuy = lilGuy;
-		else player.GetComponent<PlayerBody>().ClosestWildLilGuy = null; 
+		else player.GetComponent<PlayerBody>().ClosestWildLilGuy = null;
 	}
 
 	/// <summary>
@@ -77,7 +79,9 @@ public class AiController : MonoBehaviour
 	/// <returns>The distance this AI is to the player.</returns>
 	public float DistanceToPlayer()
 	{
-		return Vector3.Distance(transform.position, player.position);
+		if (PlayerInput.all.Count > 0)
+			return Vector3.Distance(transform.position, player.position);
+		else return 0;
 	}
 
 	/// <summary>
@@ -109,6 +113,7 @@ public class AiController : MonoBehaviour
 	/// <returns></returns>
 	private Transform FindClosestPlayer()
 	{
+		if (PlayerInput.all.Count <= 0) return null;
 		Transform currClosest = PlayerInput.all[0].GetComponent<PlayerController>().Body.transform;
 		foreach (PlayerInput input in PlayerInput.all)
 		{
