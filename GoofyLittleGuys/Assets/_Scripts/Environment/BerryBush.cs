@@ -51,6 +51,7 @@ public class BerryBush : InteractableBase
 		if (berryAmountOnBush > 0 && body.BerryCount < body.MaxBerryCount)
 		{
 			body.BerryCount++;
+			body.PlayerUI.SetBerryCount(body.BerryCount);
 			berryAmountOnBush--;
 		}
 

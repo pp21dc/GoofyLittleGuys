@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+
 public class PlayerUi : MonoBehaviour
 {
     List<LilGuyPopout> popouts;
@@ -10,11 +12,16 @@ public class PlayerUi : MonoBehaviour
     [SerializeField] Image persistentHealthBar;
     [SerializeField] Image persistentIcon;
     [SerializeField] Image persistentAbilityIcon;
-    
+    [SerializeField] TMP_Text berryCountText;
     
     LilGuyPopout GetLilGuyPopout(int index)                                  //Not 100% when this would be needed - hence it not being implemented yet
     {
         throw new NotImplementedException();
+    }
+
+    public void SetBerryCount(int count)
+    {
+        berryCountText.text = $"{count}/3";
     }
 
     //setters

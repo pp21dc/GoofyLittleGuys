@@ -6,9 +6,8 @@ using UnityEngine;
 public class TamedBehaviour : MonoBehaviour
 {
 	[SerializeField] private float teleportRange = 30f; // Range to teleport if too far
-	[SerializeField] private float accelerationTime = 0.1f;  // Time to reach target speed
-	private float followRange = 2f;
-	private float decelerationTime = 0.2f;  // Time to stop
+	[SerializeField] private float accelerationTime = 0.02f;  // Time to reach target speed
+	[SerializeField] private float followRange = 2f;
 	private Vector3 currentVelocity = Vector3.zero;
 	private Vector3 movementDirection = Vector3.zero;
 
@@ -17,6 +16,31 @@ public class TamedBehaviour : MonoBehaviour
 
 
 	private AiController controller;
+	[SerializeField] private float stateChangeCooldown = 0.1f; // 100ms buffer
+	private float timeSinceLastStateChange = 0f;
+	private bool previousIsMovingState = false;
+
+	private void UpdateAnimation()
+	{
+		// Check the magnitude of velocity
+		float speed = controller.RB.velocity.magnitude;
+
+		// Define a small threshold to consider the Lil Guy stationary
+		float movementThreshold = 0.1f;
+
+		if (speed > movementThreshold)
+		{
+			// Trigger running animation
+			controller.LilGuy.IsMoving = true;
+		}
+		else
+		{
+			// Trigger idle animation
+			controller.LilGuy.IsMoving = false;
+		}
+	}
+
+
 	void Start()
 	{
 		controller = GetComponent<AiController>();
@@ -25,7 +49,7 @@ public class TamedBehaviour : MonoBehaviour
 	void Update()
 	{
 		// Flip character
-		movementDirection = (controller.Player.position - controller.transform.position).normalized;
+		movementDirection = (controller.Player.position - transform.position).normalized;
 
 		if (controller.RB.velocity.x > 0) controller.LilGuy.Flip = true;
 		else if (controller.RB.velocity.x < 0) controller.LilGuy.Flip = false;
@@ -37,8 +61,7 @@ public class TamedBehaviour : MonoBehaviour
 		if (controller.LilGuy == controller.Player.GetComponentInParent<PlayerBody>().ActiveLilGuy) return;
 
 		if (controller.Player != null) FollowPlayer();
-		if (controller.RB.velocity.magnitude <= 0.1f)
-			controller.LilGuy.IsMoving = false;
+		UpdateAnimation();
 	}
 
 	/// <summary>
@@ -46,42 +69,53 @@ public class TamedBehaviour : MonoBehaviour
 	/// </summary>
 	private void FollowPlayer()
 	{
-		if (controller.DistanceToPlayer() > teleportRange)
+		float distanceToPlayer = controller.DistanceToPlayer();
+
+		if (distanceToPlayer > teleportRange)
 		{
 			// Teleport lil guy to the player
 			transform.position = controller.Player.position;
+			currentVelocity = Vector3.zero; // Reset velocity
 		}
-
-		else if (controller.DistanceToPlayer() > followRange)
+		else if (distanceToPlayer > followRange)
 		{
-			// Calculate the target velocity based on input direction
-			Vector3 targetVelocity = movementDirection * controller.LilGuy.playerOwner.GetComponent<PlayerBody>().MaxSpeed;
+			// Calculate movement direction
+			movementDirection = (controller.Player.position - transform.position).normalized;
 
-			// Predict stopping distance
-			float stoppingDistance = (currentVelocity.magnitude * currentVelocity.magnitude) / (2f * (1f / decelerationTime));
-			float distanceToPlayer = controller.DistanceToPlayer();
+			// Calculate the target velocity
+			float lilGuySpeed = Mathf.Max(
+				controller.LilGuy.playerOwner.GetComponent<PlayerBody>().MaxSpeed,
+				controller.LilGuy.speed
+			);
+			Vector3 targetVelocity = movementDirection * lilGuySpeed;
 
-			if (distanceToPlayer <= stoppingDistance + followRange)
-			{
-				// Start decelerating earlier
-				currentVelocity = Vector3.Lerp(
-					currentVelocity,
-					Vector3.zero,
-					Time.fixedDeltaTime / decelerationTime
-				);
-			}
-			else
-			{
-				controller.LilGuy.IsMoving = true;
-				// Smoothly accelerate towards the target velocity
-				currentVelocity = Vector3.Lerp(
-					currentVelocity,
-					targetVelocity,
-					Time.fixedDeltaTime / accelerationTime
-				);
-			}
+			// Smoothly adjust current velocity
+			currentVelocity = Vector3.Lerp(
+				currentVelocity,
+				targetVelocity,
+				Time.fixedDeltaTime / accelerationTime
+			);
 
 			controller.RB.velocity = new Vector3(currentVelocity.x, controller.RB.velocity.y, currentVelocity.z);
 		}
+		else if (distanceToPlayer > 0.1f) // Add a stopping threshold
+		{
+			// Smoothly decelerate when close to follow range
+			currentVelocity = Vector3.Lerp(
+				currentVelocity,
+				Vector3.zero,
+				Time.fixedDeltaTime / accelerationTime
+			);
+
+			controller.RB.velocity = new Vector3(currentVelocity.x, controller.RB.velocity.y, currentVelocity.z);
+		}
+		else
+		{
+			// Fully stop if very close to the player
+			currentVelocity = Vector3.zero;
+			controller.RB.velocity = Vector3.zero;
+		}
 	}
+
+
 }

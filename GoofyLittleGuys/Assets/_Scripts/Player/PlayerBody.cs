@@ -14,6 +14,7 @@ public class PlayerBody : MonoBehaviour
 	[SerializeField] private List<LilGuySlot> lilGuyTeamSlots;          // The physical positions on the player prefab that the lil guys are children of.
 	[SerializeField] private GameObject playerMesh;                     // Reference to the player's mesh gameobject
 	[SerializeField] private PlayerInput playerInput;                   // This player's input component.
+	[SerializeField] private PlayerUi playerUi;							// This player's input component.
 	[SerializeField] private GameObject teamFullMenu;                   // The menu shown if the player captured a lil guy but their team is full.
 	[SerializeField] private PlayerController controller;
 
@@ -65,7 +66,7 @@ public class PlayerBody : MonoBehaviour
 	public Vector3 MovementDirection => movementDirection;
 	public int MaxBerryCount => maxBerryCount;
 	public float MaxSpeed => maxSpeed;
-
+	public PlayerUi PlayerUI => playerUi;
 
 	private void Start()
 	{
@@ -181,6 +182,9 @@ public class PlayerBody : MonoBehaviour
 		if (closestWildLilGuy != null)
 		{
 			berryCount--;
+
+			playerUi.SetBerryCount(berryCount);
+
 			closestWildLilGuy.Init(LayerMask.NameToLayer("PlayerLilGuys"));
 			closestWildLilGuy.GetComponent<AiController>().SetState(AiController.AIState.Tamed);
 			closestWildLilGuy.LeaveDeathAnim();

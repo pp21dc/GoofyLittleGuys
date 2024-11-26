@@ -163,7 +163,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	public void Damaged()
 	{
 		StartCoroutine(FlashRed());
-		if (anim != null) anim.Play("Hurt");
+		if (anim != null && !isDead) anim.Play("Hurt");
 	}
 
 	public void OnDeath()
