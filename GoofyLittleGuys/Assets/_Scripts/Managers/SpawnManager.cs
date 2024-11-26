@@ -34,8 +34,8 @@ namespace Managers
 		}
 
 		/// <summary>
-		/// This method gets called by the different biome despawn methods, and simply deletes the given Lil Guy,
-		/// then it spawns a new one if any of the biomes have less than their minimum spawns.
+		/// This method gets called by the forest despawn method, and simply deletes the given Lil Guy,
+		/// then it spawns a new one at a random spawner in the world.
 		/// Note: May want to have it choose the biome with the least Lil Guys, when it spawns a new one
 		/// </summary>
 		public void DespawnLilGuy(GameObject theLilGuy)
@@ -58,16 +58,20 @@ namespace Managers
 		/// 
 		public void SpawnForest()
 		{
-			SpawnerObj pointToSpawn;
-			GameObject theLilGuy;
+            if(GameManager.Instance.CurrentPhase == 1)
+            {
+                SpawnerObj pointToSpawn;
+                GameObject theLilGuy;
 
-			theLilGuy = RandFromList(forestLilGuys);
-			pointToSpawn = RandFromList(forestSpawners).GetComponent<SpawnerObj>();
-			if ((currNumSpawns + 1) <= maxNumSpawns)
-			{
-				pointToSpawn.SpawnLilGuy(theLilGuy);
-				currNumSpawns++;
-			}
+                theLilGuy = RandFromList(forestLilGuys);
+                pointToSpawn = RandFromList(forestSpawners).GetComponent<SpawnerObj>();
+                if ((currNumSpawns + 1) <= maxNumSpawns)
+                {
+                    pointToSpawn.SpawnLilGuy(theLilGuy);
+                    currNumSpawns++;
+                }
+            }
+			
 		}
 
 		
@@ -130,7 +134,7 @@ namespace Managers
 			}
 		}
 		/// <summary>
-		/// Coroutine that spawns a NEW Lil Guy at the given biome (given by an int between 0 and 2 inclusive)
+		/// Coroutine that spawns a NEW Lil Guy into the forest.
 		/// It waits for spawnDelay
 		/// </summary>
 		/// <param name="biomeNum"></param>

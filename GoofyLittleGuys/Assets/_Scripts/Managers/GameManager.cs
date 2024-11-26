@@ -26,6 +26,9 @@ namespace Managers
 
 		private int currentPhase = 0;
 		private float respawnTimer = 5.0f;
+
+		private List<GameObject> players; // for the list of REMAINING players in phase 2
+		private List<GameObject> rankings; // the phase 2 rankings list, ordered from last place -> first place
 		public int CurrentPhase => currentPhase; // Getter for current phase
 		public float RespawnTimer => respawnTimer; // Getter for respawn timer
 
@@ -37,8 +40,7 @@ namespace Managers
 		public bool IsPaused { get { return isPaused; } set { isPaused = value; } }
 		public Transform FountainSpawnPoint { get { return fountainSpawnPoint; } set { fountainSpawnPoint = value; } }
 		public LayerMask CurrentLayerMask { get { return currentLayerMask; } }
-		public List<GameObject> players; // for the list of REMAINING players in phase 2
-		public List<GameObject> rankings; // the rankings list ordered from last place -> first place (I.E. 4th, 3rd, 2nd, 1st)
+		
 
 		public override void Awake()
 		{
@@ -77,7 +79,7 @@ namespace Managers
 			}
 			else if (currentPhase == 2)
             {
-				if (currentGameTime == phaseTwoDuration)
+				if (currentGameTime >= (phaseOneDuration + phaseTwoDuration))
 				{
 					BrawlTimeEnd();
 				}
@@ -127,7 +129,16 @@ namespace Managers
 			currentLayerMask = phase2LayerMask;
 
 			// Start grand brawl challenge
-			
+			foreach (PlayerInput input in PlayerInput.all)
+			{
+				PlayerBody thisPlayer = input.gameObject.GetComponent<PlayerBody>();
+				if(thisPlayer != null)
+                {
+					thisPlayer.CanRespawn = false;
+                }
+				players.Add(input.gameObject);
+			}
+
 		}
 
 		/// <summary>
@@ -164,8 +175,8 @@ namespace Managers
 		}
 
 		/// <summary>
-		/// Checks if any players have run out of Lil Guys, then defeats them (calling PlayerDefeat) and
-		/// adds them to the rankings 
+		/// Checks if any players have run out of Lil Guys, 
+		/// then defeats them (calling PlayerDefeat) and adds them to the rankings 
 		/// </summary>
 		private void MonitorPlayerDefeats()
 		{
