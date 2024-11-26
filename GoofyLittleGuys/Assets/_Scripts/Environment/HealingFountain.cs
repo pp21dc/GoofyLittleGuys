@@ -42,11 +42,11 @@ public class HealingFountain : InteractableBase
 		base.OnInteracted(body);
 		foreach (LilGuyBase lilGuy in body.LilGuyTeam)
 		{
-			if (lilGuy.health < lilGuy.maxHealth)
+			if (lilGuy.Health < lilGuy.MaxHealth)
 			{
 				// Heal up every lil guy in the player's team to full.
 				// Reset their visuals.
-				lilGuy.health = lilGuy.maxHealth;
+				lilGuy.Health = lilGuy.MaxHealth;
 				lilGuy.gameObject.SetActive(true);
 				lilGuy.GetComponent<SpriteRenderer>().color = Color.white;
 			}

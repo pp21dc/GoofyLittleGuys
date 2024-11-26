@@ -22,10 +22,10 @@ public class AiHealthUi : MonoBehaviour
 		// Initializing all slider min, max and current values to lil guy's health stats.
 		redBar.minValue = 0;
 		yellowBar.maxValue = 0;
-		redBar.maxValue = lilGuy.maxHealth;
-		yellowBar.maxValue = lilGuy.maxHealth;
-		redBar.value = lilGuy.health;
-		yellowBar.value = lilGuy.health;
+		redBar.maxValue = lilGuy.MaxHealth;
+		yellowBar.maxValue = lilGuy.MaxHealth;
+		redBar.value = lilGuy.Health;
+		yellowBar.value = lilGuy.Health;
 		UpdateUI();
 	}
 
@@ -36,7 +36,7 @@ public class AiHealthUi : MonoBehaviour
 	public void SetHealth(float newHealth, float oldHealth)
 	{
 		// Clamp health between 0 and maxHealth
-		newHealth = Mathf.Clamp(newHealth, 0, lilGuy.maxHealth);
+		newHealth = Mathf.Clamp(newHealth, 0, lilGuy.MaxHealth);
 
 		// If health decreased, update red bar immediately and yellow bar with delay
 		if (newHealth < oldHealth)
@@ -103,7 +103,7 @@ public class AiHealthUi : MonoBehaviour
 	/// </summary>
 	private void UpdateUI()
 	{
-		healthText.text = $"{lilGuy.health}/{lilGuy.maxHealth}";
+		healthText.text = $"{lilGuy.Health}/{lilGuy.MaxHealth}";
 	}
 
 }

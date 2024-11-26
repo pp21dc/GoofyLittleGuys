@@ -7,22 +7,22 @@ public abstract class LilGuyBase : MonoBehaviour
 {
 	//VARIABLES//
 	[Header("Lil Guy Information")]
-	public string guyName;
-	public PrimaryType type;
-	public GameObject mesh;
-	[SerializeField] private LayerMask groundLayer;
-	[SerializeField] private GameObject hitboxPrefab;
-	[SerializeField] private Animator anim;
-	public Transform attackPosition;
+	[SerializeField] protected string guyName;
+	[SerializeField] protected PrimaryType type;
+	[SerializeField] protected GameObject mesh;
+	[SerializeField] protected GameObject hitboxPrefab;
+	[SerializeField] protected Animator anim;
+	[SerializeField] protected Transform attackPosition;
 
-	[Header("Lil Guy Stats")]
-	public float health;
-	public float maxHealth;
-	public float speed;
-	public float defense;
-	public float strength;
-	public const int MAX_STAT = 100;
-	private int average;
+	[Header("Lil Guy Stats")] 
+	[SerializeField] protected int level;
+	[SerializeField] protected float health;
+	[SerializeField] protected float maxHealth;
+	[SerializeField] protected float speed;
+	[SerializeField] protected float defense;
+	[SerializeField] protected float strength;
+	protected const int MAX_STAT = 100;
+	protected int average;
 
 	[Header("Special Attack Specific")]
 	[Tooltip("The length (in seconds) that the special attack should last for.\n(A value of -1 defaults the length to be the same as the special attack animation).")]
@@ -32,10 +32,10 @@ public abstract class LilGuyBase : MonoBehaviour
 	[SerializeField] protected float cooldownDuration = 1;
 	[SerializeField] protected float chargeRefreshRate = 1;
 
-	public GameObject playerOwner = null;
+	protected GameObject playerOwner = null;
 	protected float cooldownTimer = 0;
 	protected float chargeTimer = 0;
-	private Transform goalPosition;
+	protected Transform goalPosition;
 
 	private bool isMoving = false;
 	private bool isHurt = false;
@@ -49,13 +49,24 @@ public abstract class LilGuyBase : MonoBehaviour
 
 	private float lastAttackTime = -999f; // Tracks the last time an attack occurred
 	private bool flip = false;
-
+	
+	#region Getters and Setters
+	public int Level { get => level; set => level = value; }
+	public float Health { get => health; set => health = value; }
+	public float MaxHealth { get => maxHealth; set => maxHealth = value; }
+	public float Speed { get => speed; set => speed = value; }
+	public float Defense { get => defense; set => defense = value; }
+	public float Strength { get => strength; set => strength = value; }
+	public string GuyName { get => guyName; set => guyName = value; }
+	public GameObject PlayerOwner { get => playerOwner; set => playerOwner = value; }
+	public PrimaryType Type { get => type; set => type = value; }
 	public bool Flip { get { return flip; } set { flip = value; } }
 	public bool IsMoving { get { return isMoving; } set { isMoving = value; } }
 	public float CooldownTimer => cooldownTimer;
 	public int CurrentCharges => currentCharges;
 	public Transform GoalPosition => goalPosition;
 	public int MaxStat => MAX_STAT;
+	#endregion
 
 	public enum PrimaryType
 	{

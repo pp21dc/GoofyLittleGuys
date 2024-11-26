@@ -19,6 +19,6 @@ public class LilGuySlot : MonoBehaviour
 	{
 		LilGuyBase lilGuyInSlot = lilGuy;
 		if (lilGuyInSlot == null) return;
-		lockState = lilGuyInSlot.health <= 0 ? true : false;
+		lockState = lilGuyInSlot.Health <= 0 ? true : false;
 	}
 }

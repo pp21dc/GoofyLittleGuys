@@ -35,7 +35,7 @@ public class WildBehaviour : MonoBehaviour
 		if (attackTime > 0) attackTime -= Time.deltaTime;
 
 		// AI behaviours
-		if (controller.LilGuy.health <= 0)
+		if (controller.LilGuy.Health <= 0)
 		{
 			actionCoroutine ??= StartCoroutine(Dead());
 		}
@@ -60,7 +60,7 @@ public class WildBehaviour : MonoBehaviour
 	/// <returns></returns>
 	private IEnumerator Idle()
 	{
-		while (controller.DistanceToPlayer() > chaseRange && controller.LilGuy.health > 0)
+		while (controller.DistanceToPlayer() > chaseRange && controller.LilGuy.Health > 0)
 		{
 			yield return null;
 		}
@@ -96,12 +96,12 @@ public class WildBehaviour : MonoBehaviour
 	/// <returns></returns>
 	private IEnumerator AttackPlayer()
 	{
-		while (controller.DistanceToPlayer() <= attackRange && controller.LilGuy.health > 0)
+		while (controller.DistanceToPlayer() <= attackRange && controller.LilGuy.Health > 0)
 		{
 			if (controller.LilGuy.CurrentCharges > 0 && controller.LilGuy.CooldownTimer <= 0 && attackTime <= 0)
 			{
 				if (controller.LilGuy is StrengthType strengthLilGuy) strengthLilGuy.Special();
-				else if (controller.LilGuy is DefenseType defenseLilGuy && controller.LilGuy.health * 2 <= controller.LilGuy.maxHealth) defenseLilGuy.Special();
+				else if (controller.LilGuy is DefenseType defenseLilGuy && controller.LilGuy.Health * 2 <= controller.LilGuy.MaxHealth) defenseLilGuy.Special();
 
 				attackTime = attackBuffer;
 			}
@@ -122,7 +122,7 @@ public class WildBehaviour : MonoBehaviour
 	private IEnumerator ChasePlayer()
 	{
 		controller.LilGuy.IsMoving = true;
-		while (controller.DistanceToPlayer() > attackRange && controller.LilGuy.health > 0)
+		while (controller.DistanceToPlayer() > attackRange && controller.LilGuy.Health > 0)
 		{
 			Vector3 directionToPlayer = (controller.Player.position - controller.transform.position).normalized;
 
@@ -140,7 +140,7 @@ public class WildBehaviour : MonoBehaviour
 			);
 
 			// Move the creature towards the player with smoothing
-			controller.transform.position += moveDirection * controller.LilGuy.speed * Time.deltaTime;
+			controller.transform.position += moveDirection * controller.LilGuy.Speed * Time.deltaTime;
 
 
 			yield return null;

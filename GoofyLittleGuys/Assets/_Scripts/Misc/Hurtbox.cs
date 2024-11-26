@@ -29,13 +29,13 @@ public class Hurtbox : MonoBehaviour
 	{
 		if (owner.GetComponent<PlayerBody>() != null)
 		{
-			health = owner.GetComponent<PlayerBody>().LilGuyTeam[0].health;
+			health = owner.GetComponent<PlayerBody>().LilGuyTeam[0].Health;
 			player = true;
 			Ai = false;
 		}
 		else if (owner.GetComponent<AiController>() != null)
 		{
-			health = owner.GetComponent<AiController>().LilGuy.health;
+			health = owner.GetComponent<AiController>().LilGuy.Health;
 			Ai = true;
 			player = false;
 		}
@@ -56,20 +56,20 @@ public class Hurtbox : MonoBehaviour
 		{
 			// Player lil guy was hit
 			LilGuyBase playerLilGuy = owner.GetComponent<LilGuyBase>();
-			playerLilGuy.health -= dmg;
-			health = playerLilGuy.health;
+			playerLilGuy.Health -= dmg;
+			health = playerLilGuy.Health;
 			playerLilGuy.Damaged();
 
 			//Passes the new health info to the player UI
 			//Definitely needs to be rewritten for efficency
-			owner.GetComponentInParent<Searchlight>().playerUi.SetPersistentHealthBarValue(health, playerLilGuy.maxHealth);
+			owner.GetComponentInParent<Searchlight>().playerUi.SetPersistentHealthBarValue(health, playerLilGuy.MaxHealth);
 		}
 		else if (gameObject.layer == LayerMask.NameToLayer("WildLilGuys"))
 		{
 			AiController controller = owner.GetComponent<AiController>();
-			float oldHealth = controller.LilGuy.health;         // Wild lil guy was hit
-			controller.LilGuy.health = oldHealth - dmg >= 0 ? oldHealth - dmg : 0;  // Set health to health - dmg if it's greater than or equal to 0, otherwise set it to 0 so it's non-negative.
-			health = controller.LilGuy.health;
+			float oldHealth = controller.LilGuy.Health;         // Wild lil guy was hit
+			controller.LilGuy.Health = oldHealth - dmg >= 0 ? oldHealth - dmg : 0;  // Set health to health - dmg if it's greater than or equal to 0, otherwise set it to 0 so it's non-negative.
+			health = controller.LilGuy.Health;
 			controller.LilGuy.Damaged();
 			owner.GetComponentInChildren<AiHealthUi>().SetHealth(health, oldHealth);
 		}

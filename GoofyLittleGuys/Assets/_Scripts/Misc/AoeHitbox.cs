@@ -27,7 +27,7 @@ public class AoeHitbox : Hitbox
 	{
 		this.hitboxOwner = hitboxOwner;
 		gameObject.layer = hitboxOwner.layer;
-		Damage = hitboxOwner.GetComponent<StrengthType>().aoeDamage + hitboxOwner.GetComponent<LilGuyBase>().strength;
+		Damage = hitboxOwner.GetComponent<StrengthType>().aoeDamage + hitboxOwner.GetComponent<LilGuyBase>().Strength;
 	}
 
 	/// <summary>

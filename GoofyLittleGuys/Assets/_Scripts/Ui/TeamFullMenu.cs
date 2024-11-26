@@ -31,7 +31,7 @@ public class TeamFullMenu : MonoBehaviour
 			TextMeshProUGUI label = buttons[i].GetComponentInChildren<TextMeshProUGUI>();
 			if (label != null)
 			{
-				label.text = body.LilGuyTeam[i].guyName;
+				label.text = body.LilGuyTeam[i].GuyName;
 			}
 		}
 	}
@@ -60,8 +60,8 @@ public class TeamFullMenu : MonoBehaviour
 
 		body.LilGuyTeam[choice] = lilGuyBeingCaught;
 
-		lilGuyBeingCaught.playerOwner = body.gameObject;
-		lilGuyBeingCaught.health = lilGuyBeingCaught.maxHealth;
+		lilGuyBeingCaught.PlayerOwner = body.gameObject;
+		lilGuyBeingCaught.Health = lilGuyBeingCaught.MaxHealth;
 
 
 		lilGuyBeingCaught.Init(LayerMask.NameToLayer("PlayerLilGuys"));

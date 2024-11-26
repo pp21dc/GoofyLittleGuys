@@ -84,8 +84,8 @@ public class TamedBehaviour : MonoBehaviour
 
 			// Calculate the target velocity
 			float lilGuySpeed = Mathf.Max(
-				controller.LilGuy.playerOwner.GetComponent<PlayerBody>().MaxSpeed,
-				controller.LilGuy.speed
+				controller.LilGuy.PlayerOwner.GetComponent<PlayerBody>().MaxSpeed,
+				controller.LilGuy.Speed
 			);
 			Vector3 targetVelocity = movementDirection * lilGuySpeed;
 

@@ -86,7 +86,7 @@ public class PlayerBody : MonoBehaviour
 		else playerMesh.transform.rotation = Quaternion.Euler(0, 0, 0);
 
 		// If the first lil guy is defeated, move to end of list automatically
-		if (lilGuyTeam[0].health <= 0)
+		if (lilGuyTeam[0].Health <= 0)
 		{
 			// Hide them from player, as to not confuse them with a living one... maybe find a better way to convey this
 			lilGuyTeam[0].gameObject.SetActive(false);
@@ -193,8 +193,8 @@ public class PlayerBody : MonoBehaviour
 
 				// There is room on the player's team for this lil guy.
 				// Set player owner to this player, and reset the lil guy's health to full, before adding to the player's party.
-				closestWildLilGuy.playerOwner = gameObject;
-				closestWildLilGuy.health = closestWildLilGuy.maxHealth;
+				closestWildLilGuy.PlayerOwner = gameObject;
+				closestWildLilGuy.Health = closestWildLilGuy.MaxHealth;
 				LilGuyTeam.Add(closestWildLilGuy);
 
 				// Setting layer to Player Lil Guys, and putting the lil guy into the first empty slot available.
@@ -212,10 +212,10 @@ public class PlayerBody : MonoBehaviour
 			}
 		}
 
-		if (lilGuyTeam[0].health >= lilGuyTeam[0].maxHealth) return;
-		int healthRestored = Mathf.CeilToInt(lilGuyTeam[0].maxHealth * berryHealPercentage);
+		if (lilGuyTeam[0].Health >= lilGuyTeam[0].MaxHealth) return;
+		int healthRestored = Mathf.CeilToInt(lilGuyTeam[0].MaxHealth * berryHealPercentage);
 
-		lilGuyTeam[0].health += healthRestored;
+		lilGuyTeam[0].Health += healthRestored;
 		berryCount--;
 		canUseBerry = false;
 		StartCoroutine(BerryCooldown());
@@ -236,7 +236,7 @@ public class PlayerBody : MonoBehaviour
 			lilGuy.GetComponent<Rigidbody>().isKinematic = false;
 		}
 
-		List<LilGuyBase> aliveTeamMembers = lilGuyTeam.Where(guy => guy.health > 0).ToList();       // Filter out the dead team members from the live ones.
+		List<LilGuyBase> aliveTeamMembers = lilGuyTeam.Where(guy => guy.Health > 0).ToList();       // Filter out the dead team members from the live ones.
 		List<LilGuySlot> aliveTeamSlots = lilGuyTeamSlots.Where(slot => !slot.LockState).ToList();  // We only care about the lil guy slots of the lil guys that are still alive.
 
 		// Only one lil guy alive, so swapping makes no sense here.
@@ -331,7 +331,7 @@ public class PlayerBody : MonoBehaviour
 	/// <returns>True if there's a living guy on the player's team, otherwise false.</returns>
 	public bool CheckTeamHealth()
 	{
-		return lilGuyTeam.Any(guy => guy.health > 0);
+		return lilGuyTeam.Any(guy => guy.Health > 0);
 	}
 
 	/// <summary>
@@ -342,7 +342,7 @@ public class PlayerBody : MonoBehaviour
 		transform.position = GameManager.Instance.FountainSpawnPoint.position;
 		for (int i = 0; i < lilGuyTeam.Count; i++)
 		{
-			lilGuyTeam[i].health = lilGuyTeam[i].maxHealth;
+			lilGuyTeam[i].Health = lilGuyTeam[i].MaxHealth;
 			lilGuyTeam[i].gameObject.SetActive(true);
 		}
 		canMove = true;

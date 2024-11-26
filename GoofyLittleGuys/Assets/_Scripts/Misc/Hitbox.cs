@@ -27,7 +27,7 @@ public class Hitbox : MonoBehaviour
 	{
 		this.hitboxOwner = hitboxOwner;
 		gameObject.layer = hitboxOwner.layer;
-		Damage = hitboxOwner.GetComponent<LilGuyBase>().strength;
+		Damage = hitboxOwner.GetComponent<LilGuyBase>().Strength;
 	}
 
 	/// <summary>
@@ -52,7 +52,7 @@ public class Hitbox : MonoBehaviour
 		if (h.Health <= 0 && h.gameObject.layer == LayerMask.NameToLayer("WildLilGuys")) 
 		{
 			// If this was a wild lil guy that was hit and they were defeated, log the player who last hit them.
-			h.lastHit = hitboxOwner.GetComponent<LilGuyBase>().playerOwner; 
+			h.lastHit = hitboxOwner.GetComponent<LilGuyBase>().PlayerOwner; 
 		}
 		Destroy(this.gameObject);
 	}
