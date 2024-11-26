@@ -122,9 +122,9 @@ public class CharacterSelectMenu : MonoBehaviour
 		defenseSlider.maxValue = starters[currStarterIndex].MaxStat;
 		speedSlider.maxValue = starters[currStarterIndex].MaxStat;
 
-		strengthSlider.value = starters[currStarterIndex].strength;
-		defenseSlider.value = starters[currStarterIndex].defense;
-		speedSlider.value = starters[currStarterIndex].speed;
+		strengthSlider.value = starters[currStarterIndex].Strength;
+		defenseSlider.value = starters[currStarterIndex].Defense;
+		speedSlider.value = starters[currStarterIndex].Speed;
 	}
 
 	/// <summary>
@@ -202,7 +202,7 @@ public class CharacterSelectMenu : MonoBehaviour
 
 		// Add the lil guy to the player's party.
 		controller.Body.LilGuyTeam.Add(starter.GetComponent<LilGuyBase>());
-		controller.Body.LilGuyTeam[0].playerOwner = controller.Body.gameObject;
+		controller.Body.LilGuyTeam[0].PlayerOwner = controller.Body.gameObject;
 
 	}
 }

@@ -73,7 +73,7 @@ public class PlayerController : MonoBehaviour
 	public void OnPrimarySkill(InputAction.CallbackContext ctx)
 	{
 		if (GameManager.Instance.IsPaused) return;
-		if (playerBody.LilGuyTeam[0].health <= 0) return;
+		if (playerBody.LilGuyTeam[0].Health <= 0) return;
 
 		// Hold to keep attacking as opposed to mashing.
 		if (ctx.performed) playerBody.LilGuyTeam[0].Attack();
@@ -82,7 +82,7 @@ public class PlayerController : MonoBehaviour
 	public void OnSecondarySkill(InputAction.CallbackContext ctx)
 	{
 		if (GameManager.Instance.IsPaused) return;
-		if (playerBody.LilGuyTeam[0].health <= 0) return;
+		if (playerBody.LilGuyTeam[0].Health <= 0) return;
 		if (ctx.performed) playerBody.LilGuyTeam[0].Special();
 	}
 }
