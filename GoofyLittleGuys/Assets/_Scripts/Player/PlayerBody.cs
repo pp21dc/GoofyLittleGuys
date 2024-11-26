@@ -36,6 +36,7 @@ public class PlayerBody : MonoBehaviour
 	private int berryCount = 0;
 	private bool canUseBerry = true;
 	private bool canRespawn = true;
+	private bool inStorm = false; // used by storm objects to determine if the player is already accounted for, and in the storm.
 	private bool isDashing = false;                         // When the dash action is pressed for speed lil guy. Note this is in here because if the player swaps mid dash, they will get stuck in dash UNLESS this bool is here and is adjusted here.
 	private bool flip = false;
 	private bool hasInteracted = false;
@@ -52,6 +53,7 @@ public class PlayerBody : MonoBehaviour
 	public bool HasSwappedRecently { get { return hasSwappedRecently; } set { hasSwappedRecently = value; } }
 	public bool HasImmunity { get { return hasImmunity; } set { hasImmunity = value; } }
 	public bool CanRespawn { get { return canRespawn; } set { canRespawn = value; } }
+	public bool InStorm { get { return inStorm; } set { inStorm = value; } }
 	public bool IsDashing { get { return isDashing; } set { isDashing = value; } }
 	public LilGuyBase ActiveLilGuy { get { return  activeLilGuy; } set {  activeLilGuy = value; } }
 	public GameObject TeamFullMenu { get { return teamFullMenu; } set { teamFullMenu = value; } }
