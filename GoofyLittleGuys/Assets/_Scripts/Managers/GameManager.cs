@@ -14,6 +14,7 @@ namespace Managers
 		[SerializeField] private Vector3 spawnPosition;
 
 		[SerializeField] private const float phaseOneDuration = 420f;   // Length of Phase 1 in seconds. (This amounts to 7 minutes)
+		[SerializeField] private const float phaseTwoDuration = 180f;   // Length of Phase 2 in seconds. (This amounts to 3 minutes)
 		[SerializeField] private float currentGameTime = 0;             // Current game time in seconds.
 		[SerializeField] private Transform fountainSpawnPoint;          // The spawn point that players are respawned to in the main game, set by the HealingFountain.cs
 		[SerializeField] private GameObject timerCanvas;                // The Timer UI displayed in between all the split screeens
@@ -36,6 +37,8 @@ namespace Managers
 		public bool IsPaused { get { return isPaused; } set { isPaused = value; } }
 		public Transform FountainSpawnPoint { get { return fountainSpawnPoint; } set { fountainSpawnPoint = value; } }
 		public LayerMask CurrentLayerMask { get { return currentLayerMask; } }
+		public List<GameObject> players; // for the list of REMAINING players in phase 2
+		public List<GameObject> rankings; // the rankings list ordered from last place -> first place (I.E. 4th, 3rd, 2nd, 1st)
 
 		public override void Awake()
 		{
@@ -71,6 +74,22 @@ namespace Managers
 					SpawnLegendary();
 				}
 
+			}
+			else if (currentPhase == 2)
+            {
+				if (currentGameTime == phaseTwoDuration)
+				{
+					BrawlTimeEnd();
+				}
+
+				if (players.Count > 1)
+				{
+					MonitorPlayerDefeats();
+				}
+				else
+				{
+					BrawlKnockoutEnd();
+				}
 			}
 		}
 
@@ -122,8 +141,65 @@ namespace Managers
 			}
 		}
 
-		
 
+		/// <summary>
+		/// Takes a player that got defeated, and adds them to the end of the
+		/// rankings list, meaning rankings is ordered from worst to best.
+		/// </summary>
+		/// <param name="defeatedPlayer"></param>
+		public void PlayerDefeat(GameObject defeatedPlayer)
+		{
+			rankings.Add(defeatedPlayer);
+			players.Remove(defeatedPlayer);
+		}
+
+		/// <summary>
+		/// When the game ends by timer, we want to determine each remaining player's total team health, and 
+		/// add them to Rankings based on that.
+		/// </summary>
+		public void BrawlTimeEnd()
+		{
+
+			Debug.Log("Brawl Phase has ended, DING DING DING!!!");
+		}
+
+		/// <summary>
+		/// Checks if any players have run out of Lil Guys, then defeats them (calling PlayerDefeat) and
+		/// adds them to the rankings 
+		/// </summary>
+		private void MonitorPlayerDefeats()
+		{
+			for (int i = 0; i < players.Count; i++)
+			{
+				PlayerBody thePlayer = players[i].GetComponent<PlayerBody>();
+				if (!IsStillKicking(thePlayer))
+				{
+					PlayerDefeat(players[i]);
+
+				}
+			}
+		}
+
+		/// <summary>
+		/// Just checks if the given player has any Lil Guys left
+		/// </summary>
+		/// <param name="thePlayer"></param>
+		/// <returns></returns>
+		private bool IsStillKicking(PlayerBody thePlayer)
+		{
+			return thePlayer.CheckTeamHealth();
+
+		}
+
+		/// <summary>
+		/// If only one player is left standing, we can simply add them to the rankings list, since they will then be
+		/// at the end, making them ranked the best.
+		/// </summary>
+		public void BrawlKnockoutEnd()
+		{
+			rankings.Add(players[0]);
+			Debug.Log("Brawl Phase has ended by knockout!");
+		}
 
 	}
 }
