@@ -391,9 +391,9 @@ MonoBehaviour:
   attackPosition: {fileID: 631468313354302470}
   health: 100
   maxHealth: 100
-  speed: 3
-  defense: 3
-  strength: 5
+  speed: 10
+  defense: 13
+  strength: 17
   specialDuration: -1
   currentCharges: 1
   maxCharges: 1
@@ -415,7 +415,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6573903925891364681}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 2
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
