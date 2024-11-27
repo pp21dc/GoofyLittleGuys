@@ -34,7 +34,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	[SerializeField] protected float cooldownDuration = 1;
 	[SerializeField] protected float chargeRefreshRate = 1;
 
-	protected GameObject playerOwner = null;
+	protected PlayerBody playerOwner = null;
 	protected float cooldownTimer = 0;
 	protected float chargeTimer = 0;
 	protected Transform goalPosition;
@@ -60,7 +60,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	public float Defense { get => defense; set => defense = value; }
 	public float Strength { get => strength; set => strength = value; }
 	public string GuyName { get => guyName; set => guyName = value; }
-	public GameObject PlayerOwner { get => playerOwner; set => playerOwner = value; }
+	public PlayerBody PlayerOwner { get => playerOwner; set => playerOwner = value; }
 	public PrimaryType Type { get => type; set => type = value; }
 	public bool Flip { get { return flip; } set { flip = value; } }
 	public bool IsMoving { get { return isMoving; } set { isMoving = value; } }
@@ -189,6 +189,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	public void OnDeath()
 	{
 		if (anim != null) anim.Play("Death");
+		GetComponent<Hurtbox>().lastHit.GetComponent<PlayerBody>().LilGuyTeam[0].AddXP(Level * 2);
 	}
 
 	/// <summary>
@@ -224,7 +225,7 @@ public abstract class LilGuyBase : MonoBehaviour
 
 			// Configure the hitbox
 			Hitbox hitbox = instantiatedHitbox.GetComponent<Hitbox>();
-			hitbox.layerMask = playerOwner != null ? playerOwner.layer : gameObject.layer;
+			hitbox.layerMask = PlayerOwner.gameObject != null ? PlayerOwner.gameObject.layer : gameObject.layer;
 			hitbox.Init(gameObject); // Pass the target directly to enhance accuracy
 		}
 	}

@@ -183,7 +183,7 @@ public class PlayerBody : MonoBehaviour
 
 			playerUi.SetBerryCount(berryCount);
 
-			closestWildLilGuy.PlayerOwner = gameObject;
+			closestWildLilGuy.PlayerOwner = gameObject.GetComponent<PlayerBody>();
 			closestWildLilGuy.Init(LayerMask.NameToLayer("PlayerLilGuys"));
 			closestWildLilGuy.Health = closestWildLilGuy.MaxHealth;
 			closestWildLilGuy.GetComponent<AiController>().SetState(AiController.AIState.Tamed);

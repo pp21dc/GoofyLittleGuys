@@ -87,8 +87,7 @@ public class WildBehaviour : MonoBehaviour
 		controller.LilGuy.IsMoving = false;
 		controller.LilGuy.OnDeath();
 		controller.RB.isKinematic = true;
-		GetComponent<Hurtbox>().lastHit.GetComponent<PlayerBody>().LilGuyTeam[0].AddXP(controller.LilGuy.Xp);
-
+		
 		instantiatedPlayerRangeIndicator = Instantiate(capturingPlayerRange, transform.position, Quaternion.identity, Managers.SpawnManager.Instance.transform);
 		instantiatedPlayerRangeIndicator.GetComponent<CaptureZone>().Init(controller.LilGuy);
 		float currTime = 0;

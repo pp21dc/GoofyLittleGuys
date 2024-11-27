@@ -202,7 +202,7 @@ public class CharacterSelectMenu : MonoBehaviour
 
 		// Add the lil guy to the player's party.
 		controller.Body.LilGuyTeam.Add(starter.GetComponent<LilGuyBase>());
-		controller.Body.LilGuyTeam[0].PlayerOwner = controller.Body.gameObject;
+		controller.Body.LilGuyTeam[0].PlayerOwner = controller.Body;
 
 	}
 }

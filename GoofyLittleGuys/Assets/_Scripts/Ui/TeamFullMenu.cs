@@ -60,7 +60,7 @@ public class TeamFullMenu : MonoBehaviour
 
 		body.LilGuyTeam[choice] = lilGuyBeingCaught;
 
-		lilGuyBeingCaught.PlayerOwner = body.gameObject;
+		lilGuyBeingCaught.PlayerOwner = body;
 		lilGuyBeingCaught.Health = lilGuyBeingCaught.MaxHealth;
 
 		// Setting layer to Player Lil Guys, and putting the lil guy into the first empty slot available.
