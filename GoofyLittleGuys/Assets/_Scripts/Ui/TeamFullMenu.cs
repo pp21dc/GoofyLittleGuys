@@ -63,8 +63,6 @@ public class TeamFullMenu : MonoBehaviour
 		lilGuyBeingCaught.PlayerOwner = body.gameObject;
 		lilGuyBeingCaught.Health = lilGuyBeingCaught.MaxHealth;
 
-
-		lilGuyBeingCaught.Init(LayerMask.NameToLayer("PlayerLilGuys"));
 		// Setting layer to Player Lil Guys, and putting the lil guy into the first empty slot available.
 		lilGuyBeingCaught.gameObject.transform.SetParent(body.transform, true);
 		lilGuyBeingCaught.gameObject.GetComponent<Rigidbody>().isKinematic = (choice == 0);

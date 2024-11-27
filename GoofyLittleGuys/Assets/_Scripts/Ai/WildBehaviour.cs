@@ -5,6 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(AiController))]
 public class WildBehaviour : MonoBehaviour
 {
+
+	[SerializeField] private GameObject capturingPlayerRange;
 	[SerializeField] private float chaseRange = 10f;
 	[SerializeField] private float attackRange = 1f;
 	[SerializeField] private float attackBuffer = 2f;
@@ -14,7 +16,7 @@ public class WildBehaviour : MonoBehaviour
 	[SerializeField] private float timeBeforeDestroyed = 5f;  // Time until the gameobject is destroyed
 	[SerializeField] private float interactDistance = 2f;  // Time until the gameobject is destroyed
 
-
+	private GameObject instantiatedPlayerRangeIndicator;
 	private AiController controller;
 	private Coroutine actionCoroutine = null;
 	private Vector3 moveDirection = Vector3.zero;
@@ -53,6 +55,14 @@ public class WildBehaviour : MonoBehaviour
 		}
 	}
 
+	public void OnDisable()
+	{
+		if (instantiatedPlayerRangeIndicator != null) Destroy(instantiatedPlayerRangeIndicator);
+		StopAllCoroutines();
+		controller.ToggleInteractCanvas(false);
+		controller.RB.isKinematic = false;
+	}
+
 
 	/// <summary>
 	/// State that handles when the AI is idle.
@@ -76,14 +86,15 @@ public class WildBehaviour : MonoBehaviour
 	{
 		controller.LilGuy.IsMoving = false;
 		controller.LilGuy.OnDeath();
-		controller.Player.GetComponent<PlayerBody>().LilGuyTeam[0].AddXP(controller.LilGuy.Xp);
+		controller.RB.isKinematic = true;
+		GetComponent<Hurtbox>().lastHit.GetComponent<PlayerBody>().LilGuyTeam[0].AddXP(controller.LilGuy.Xp);
 
+		instantiatedPlayerRangeIndicator = Instantiate(capturingPlayerRange, transform.position, Quaternion.identity, Managers.SpawnManager.Instance.transform);
+		instantiatedPlayerRangeIndicator.GetComponent<CaptureZone>().Init(controller.LilGuy);
 		float currTime = 0;
 		while (currTime < timeBeforeDestroyed)
 		{
 			currTime += Time.deltaTime;
-			if (controller.DistanceToPlayer() <= interactDistance) controller.ToggleInteractCanvas(true);
-			else controller.ToggleInteractCanvas(false);
 			yield return null;
 		}
 		Destroy(gameObject);
@@ -146,5 +157,10 @@ public class WildBehaviour : MonoBehaviour
 			yield return null;
 		}
 		actionCoroutine = null;
+	}
+
+	private void OnDestroy()
+	{
+		if (instantiatedPlayerRangeIndicator != null) Destroy(instantiatedPlayerRangeIndicator);	
 	}
 }

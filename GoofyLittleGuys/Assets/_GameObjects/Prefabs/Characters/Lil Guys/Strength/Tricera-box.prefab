@@ -389,7 +389,6 @@ MonoBehaviour:
     type: 3}
   anim: {fileID: 7633103000053924610}
   attackPosition: {fileID: 631468313354302470}
-  level: 0
   health: 100
   maxHealth: 100
   speed: 3
@@ -517,6 +516,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3adbf3419812e4649bb2db09d02d00fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  capturingPlayerRange: {fileID: 1077468314875122021, guid: 081d1ff4c291f5d43b44c86f1d39e953,
+    type: 3}
   chaseRange: 10
   attackRange: 1
   attackBuffer: 2

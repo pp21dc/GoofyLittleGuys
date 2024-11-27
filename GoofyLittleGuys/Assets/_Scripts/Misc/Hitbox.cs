@@ -54,5 +54,6 @@ public class Hitbox : MonoBehaviour
 			// If this was a wild lil guy that was hit and they were defeated, log the player who last hit them.
 			h.lastHit = hitboxOwner.GetComponent<LilGuyBase>().PlayerOwner; 
 		}
+		Destroy(gameObject);
 	}
 }

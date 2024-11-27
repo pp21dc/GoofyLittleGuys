@@ -49,7 +49,7 @@ public class TamedBehaviour : MonoBehaviour
 	void Update()
 	{
 		// Flip character
-		movementDirection = (controller.Player.position - transform.position).normalized;
+		if (controller.Player != null) movementDirection = (controller.Player.position - transform.position).normalized;
 
 		if (controller.RB.velocity.x > 0) controller.LilGuy.Flip = true;
 		else if (controller.RB.velocity.x < 0) controller.LilGuy.Flip = false;
@@ -58,9 +58,10 @@ public class TamedBehaviour : MonoBehaviour
 
 	private void FixedUpdate()
 	{
+		if (controller.Player == null) return;
 		if (controller.LilGuy == controller.Player.GetComponentInParent<PlayerBody>().ActiveLilGuy) return;
 
-		if (controller.Player != null) FollowPlayer();
+		FollowPlayer();
 		UpdateAnimation();
 	}
 

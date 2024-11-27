@@ -30,9 +30,6 @@ public class PlayerBody : MonoBehaviour
 	[SerializeField] private float berryUsageCooldown = 3f;
 	[SerializeField, Range(0f, 1f)] private float berryHealPercentage = 0.25f;
 
-	private LilGuyBase closestWildLilGuy = null;
-	public LilGuyBase ClosestWildLilGuy { get { return closestWildLilGuy; } set { closestWildLilGuy = value; } }
-
 
 	private int berryCount = 0;
 	private bool canUseBerry = true;
@@ -49,6 +46,8 @@ public class PlayerBody : MonoBehaviour
 
 	private Vector3 movementDirection = Vector3.zero;
 	private Rigidbody rb;
+	private LilGuyBase closestWildLilGuy = null;
+	public LilGuyBase ClosestWildLilGuy { get { return closestWildLilGuy; } set { closestWildLilGuy = value; } }
 
 	public bool HasInteracted { get { return hasInteracted; } set { hasInteracted = value; } }
 	public bool HasSwappedRecently { get { return hasSwappedRecently; } set { hasSwappedRecently = value; } }
@@ -184,7 +183,9 @@ public class PlayerBody : MonoBehaviour
 
 			playerUi.SetBerryCount(berryCount);
 
+			closestWildLilGuy.PlayerOwner = gameObject;
 			closestWildLilGuy.Init(LayerMask.NameToLayer("PlayerLilGuys"));
+			closestWildLilGuy.Health = closestWildLilGuy.MaxHealth;
 			closestWildLilGuy.GetComponent<AiController>().SetState(AiController.AIState.Tamed);
 			closestWildLilGuy.LeaveDeathAnim();
 			if (LilGuyTeam.Count < 3)
@@ -192,8 +193,6 @@ public class PlayerBody : MonoBehaviour
 
 				// There is room on the player's team for this lil guy.
 				// Set player owner to this player, and reset the lil guy's health to full, before adding to the player's party.
-				closestWildLilGuy.PlayerOwner = gameObject;
-				closestWildLilGuy.Health = closestWildLilGuy.MaxHealth;
 				LilGuyTeam.Add(closestWildLilGuy);
 
 				// Setting layer to Player Lil Guys, and putting the lil guy into the first empty slot available.

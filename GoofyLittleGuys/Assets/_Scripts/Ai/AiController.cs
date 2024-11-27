@@ -59,7 +59,6 @@ public class AiController : MonoBehaviour
 	public void ToggleInteractCanvas(bool visible)
 	{
 		interactCanvas.SetActive(visible);
-		if (visible) player.GetComponent<PlayerBody>().ClosestWildLilGuy = lilGuy;
 	}
 
 	/// <summary>
