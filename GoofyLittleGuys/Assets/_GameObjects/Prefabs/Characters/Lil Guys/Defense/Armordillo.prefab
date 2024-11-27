@@ -162,13 +162,11 @@ MonoBehaviour:
   guyName: Armordillo
   type: 1
   mesh: {fileID: 7267988168925381940}
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 0
   hitboxPrefab: {fileID: 7763503517924717934, guid: 9df4356fd20c6d740acf3ba2a05fd8ed,
     type: 3}
   anim: {fileID: 8064512338605312392}
   attackPosition: {fileID: 6391458775545658944}
+  level: 0
   health: 60
   maxHealth: 100
   speed: 3
@@ -179,7 +177,6 @@ MonoBehaviour:
   maxCharges: 1
   cooldownDuration: 17
   chargeRefreshRate: 2
-  playerOwner: {fileID: 0}
   attackCooldown: 0
   attackRange: 0
   attackEffect: {fileID: 0}
@@ -282,6 +279,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   teleportRange: 30
   accelerationTime: 0.1
+  followRange: 2
+  stateChangeCooldown: 0.1
 --- !u!114 &-3799891229910610430
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -312,6 +311,7 @@ GameObject:
   - component: {fileID: 4406844474913467462}
   - component: {fileID: 2263210829898551102}
   - component: {fileID: 8064512338605312392}
+  - component: {fileID: 2302619965106653368}
   m_Layer: 8
   m_Name: Mesh
   m_TagString: Untagged
@@ -408,6 +408,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &2302619965106653368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7267988168925381940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fe46a02762c44c4cb64a13ea7c155ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lilGuy: {fileID: 7462937212347508129}
 --- !u!1 &7277436127819246053
 GameObject:
   m_ObjectHideFlags: 0

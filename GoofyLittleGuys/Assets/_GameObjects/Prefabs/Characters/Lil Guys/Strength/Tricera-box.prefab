@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 4824377763857839890}
   - component: {fileID: 3759597427848749218}
   - component: {fileID: 7633103000053924610}
+  - component: {fileID: 2783744123770051793}
   m_Layer: 8
   m_Name: Mesh
   m_TagString: Untagged
@@ -138,6 +139,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &2783744123770051793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2449116246927628233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fe46a02762c44c4cb64a13ea7c155ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lilGuy: {fileID: 459557506846872373}
 --- !u!1 &4133910660599932247
 GameObject:
   m_ObjectHideFlags: 0
@@ -371,13 +385,11 @@ MonoBehaviour:
   guyName: Tricera-box
   type: 0
   mesh: {fileID: 2449116246927628233}
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 8
   hitboxPrefab: {fileID: 7763503517924717934, guid: 9df4356fd20c6d740acf3ba2a05fd8ed,
     type: 3}
   anim: {fileID: 7633103000053924610}
   attackPosition: {fileID: 631468313354302470}
+  level: 0
   health: 100
   maxHealth: 100
   speed: 3
@@ -388,7 +400,6 @@ MonoBehaviour:
   maxCharges: 1
   cooldownDuration: 1
   chargeRefreshRate: 1
-  playerOwner: {fileID: 0}
   attackCooldown: 1
   attackRange: 5
   attackEffect: {fileID: 0}
@@ -492,6 +503,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   teleportRange: 30
   accelerationTime: 0.1
+  followRange: 2
+  stateChangeCooldown: 0.1
 --- !u!114 &8901250931437216870
 MonoBehaviour:
   m_ObjectHideFlags: 0
