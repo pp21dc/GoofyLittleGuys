@@ -47,7 +47,7 @@ namespace Managers
 		/// <param name="player">The player that pressed leave</param>
 		public void LeavePlayer(PlayerInput player)
 		{
-			
+			if (!canJoinLeave) return;
 			if (PlayerInput.all.Contains(player))
 			{
 				characterSelectScreen.OnPlayerLeft(player);
@@ -107,7 +107,7 @@ namespace Managers
 		/// <returns>True if the current scene is or comes before the character select screen, otherwise false.</returns>
 		private bool CheckSceneIndex(int currentSceneIndex)
 		{
-			return currentSceneIndex <= characterSelectSceneIndex;
+			return currentSceneIndex == characterSelectSceneIndex;
 		}
 	}
 }

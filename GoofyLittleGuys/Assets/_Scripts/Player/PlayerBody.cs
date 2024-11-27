@@ -146,8 +146,7 @@ public class PlayerBody : MonoBehaviour
 			else
 			{
 				// Calculate the target velocity based on input direction
-				Vector3 targetVelocity = movementDirection.normalized * maxSpeed;
-
+				Vector3 targetVelocity = movementDirection.normalized * lilGuyTeam[0].Speed;
 				// Smoothly accelerate towards the target velocity
 				currentVelocity = Vector3.Lerp(currentVelocity, targetVelocity, Time.fixedDeltaTime / accelerationTime);
 			}

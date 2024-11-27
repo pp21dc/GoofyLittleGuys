@@ -11,7 +11,7 @@ namespace Managers
 	{
 		[SerializeField] private bool gameStartTest = true;             // TEST BOOL FOR DESIGNERS TO PLAY THE GAME WITHOUT GOING INTO PERSISTENT ALL THE TIME
 
-		[SerializeField] private Vector3 spawnPosition;
+		[SerializeField] private List<PlayerSpawnPoint> spawnPoints;
 
 		[SerializeField] private const float phaseOneDuration = 420f;   // Length of Phase 1 in seconds. (This amounts to 7 minutes)
 		[SerializeField] private const float phaseTwoDuration = 180f;   // Length of Phase 2 in seconds. (This amounts to 3 minutes)
@@ -40,7 +40,7 @@ namespace Managers
 		public bool IsPaused { get { return isPaused; } set { isPaused = value; } }
 		public Transform FountainSpawnPoint { get { return fountainSpawnPoint; } set { fountainSpawnPoint = value; } }
 		public LayerMask CurrentLayerMask { get { return currentLayerMask; } }
-		
+
 
 		public override void Awake()
 		{
@@ -78,7 +78,7 @@ namespace Managers
 
 			}
 			else if (currentPhase == 2)
-            {
+			{
 				if (currentGameTime >= (phaseOneDuration + phaseTwoDuration))
 				{
 					BrawlTimeEnd();
@@ -88,7 +88,7 @@ namespace Managers
 				{
 					MonitorPlayerDefeats();
 				}
-				else if(rankings.Count == players.Count - 1)
+				else if (rankings.Count == players.Count - 1)
 				{
 					BrawlKnockoutEnd();
 				}
@@ -100,6 +100,10 @@ namespace Managers
 			currentPhase = 0;
 			currentGameTime = 0;
 			timerCanvas.SetActive(false);
+			foreach (PlayerSpawnPoint point in spawnPoints)
+			{
+				point.PlayerSpawnedHere = false;
+			}
 		}
 
 		/// <summary>
@@ -110,14 +114,24 @@ namespace Managers
 			foreach (PlayerInput input in PlayerInput.all)
 			{
 				// We don't want the players all spawning in the same exact spot, so shift their x and z positions randomly.
-				input.gameObject.transform.position = spawnPosition + (new Vector3(1, 0, 1) * Random.Range(-1f, 1f)) + Vector3.up;
+				int randomPos = Random.Range(0, spawnPoints.Count);
+				while (spawnPoints[randomPos].PlayerSpawnedHere)
+				{
+					randomPos = Random.Range(0, spawnPoints.Count);
+				}
+				if (!spawnPoints[randomPos].PlayerSpawnedHere)
+				{
+					Debug.Log(spawnPoints[randomPos].transform.position);
+					input.gameObject.transform.position = spawnPoints[randomPos].transform.position + (new Vector3(1, 0, 1) * Random.Range(-1f, 1f)) + Vector3.up;
+					spawnPoints[randomPos].PlayerSpawnedHere = true;
+				}
 				players.Add(input.gameObject.GetComponentInChildren<PlayerBody>());
 			}
 
 			// Unpause time, and begin phase one!
 			Time.timeScale = 1;
 			StartPhaseOne();
-			if (timerCanvas != null) timerCanvas.SetActive(true);	// Show the timer canvas if one exists.
+			if (timerCanvas != null) timerCanvas.SetActive(true);   // Show the timer canvas if one exists.
 		}
 
 		/// <summary>
@@ -137,10 +151,10 @@ namespace Managers
 			currentLayerMask = phase2LayerMask;
 
 			// Start grand brawl challenge
-			
 
-			for(int i = 0;i < players.Count; i++)
-            {
+
+			for (int i = 0; i < players.Count; i++)
+			{
 				PlayerBody thisPlayer = players[i];
 				if (thisPlayer != null)
 				{

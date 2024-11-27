@@ -46,7 +46,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dontDestroyOnLoad: 1
   gameStartTest: 0
-  spawnPosition: {x: -62, y: 13, z: -155}
+  spawnPoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   currentGameTime: 0
   fountainSpawnPoint: {fileID: 0}
   timerCanvas: {fileID: 0}
