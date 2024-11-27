@@ -3,7 +3,37 @@ guid: e7a892f20908c324b9aa5e79d86fca38
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Bottom
+    second: {fileID: 2100000, guid: a6352580026761c45afdbd5426fc873c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "Cabin\u8239\u8231"
+    second: {fileID: 2100000, guid: fecdf427921abbe46a21f2543d7fcfd7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "Enclosure\u8239\u56F4"
+    second: {fileID: 2100000, guid: 1445b97c1b4ab0c4188ea760535ada41, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "Hull\u8239\u8EAB"
+    second: {fileID: 2100000, guid: 1a8769d6aef1a1c41b54dc5fdf03b3a8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "Shield\u76FE\u724C"
+    second: {fileID: 2100000, guid: f7ab68948691c1c43b99063e83d6667e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "sail\u5E06"
+    second: {fileID: 2100000, guid: 86371a84be13ea94480503c7beaf29b5, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
