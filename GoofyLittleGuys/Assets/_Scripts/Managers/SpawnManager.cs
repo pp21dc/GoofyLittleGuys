@@ -10,13 +10,13 @@ namespace Managers
     public class SpawnManager : SingletonBase<SpawnManager>
     {
         //Serialized fields
-        [SerializeField] public List<GameObject> forestLilGuys;
-        [SerializeField] public List<GameObject> legendaryLilGuys;
-        [SerializeField] public List<GameObject> forestSpawners;
-        [SerializeField] public SpawnerObj legendarySpawner;
-        [SerializeField] public int maxNumSpawns;
-        [SerializeField] public int minNumSpawns;
-        [SerializeField] public float spawnDelay;
+        [SerializeField] private List<GameObject> forestLilGuys;
+        [SerializeField] private List<GameObject> legendaryLilGuys;
+        [SerializeField] private List<GameObject> forestSpawners;
+        [SerializeField] private SpawnerObj legendarySpawner;
+        [SerializeField] private int maxNumSpawns;
+        [SerializeField] private int minNumSpawns;
+        [SerializeField] private float spawnDelay;
 
         //public variables
         public int currNumSpawns;

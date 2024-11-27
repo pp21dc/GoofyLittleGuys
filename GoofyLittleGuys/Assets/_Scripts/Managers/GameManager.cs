@@ -27,8 +27,8 @@ namespace Managers
 		private int currentPhase = 0;
 		private float respawnTimer = 5.0f;
 
-		private List<GameObject> players; // for the list of REMAINING players in phase 2
-		private List<GameObject> rankings; // the phase 2 rankings list, ordered from last place -> first place
+		private List<PlayerBody> players = new List<PlayerBody>(); // for the list of REMAINING players in phase 2
+		private List<PlayerBody> rankings = new List<PlayerBody>(); // the phase 2 rankings list, ordered from last place -> first place
 		public int CurrentPhase => currentPhase; // Getter for current phase
 		public float RespawnTimer => respawnTimer; // Getter for respawn timer
 
@@ -84,11 +84,11 @@ namespace Managers
 					BrawlTimeEnd();
 				}
 
-				if (players.Count > 1)
+				if (players != null)
 				{
 					MonitorPlayerDefeats();
 				}
-				else
+				else if(rankings.Count == players.Count - 1)
 				{
 					BrawlKnockoutEnd();
 				}
@@ -111,6 +111,7 @@ namespace Managers
 			{
 				// We don't want the players all spawning in the same exact spot, so shift their x and z positions randomly.
 				input.gameObject.transform.position = spawnPosition + (new Vector3(1, 0, 1) * Random.Range(-1f, 1f)) + Vector3.up;
+				players.Add(input.gameObject.GetComponentInChildren<PlayerBody>());
 			}
 
 			// Unpause time, and begin phase one!
@@ -136,14 +137,15 @@ namespace Managers
 			currentLayerMask = phase2LayerMask;
 
 			// Start grand brawl challenge
-			foreach (PlayerInput input in PlayerInput.all)
-			{
-				PlayerBody thisPlayer = input.gameObject.GetComponent<PlayerBody>();
-				if(thisPlayer != null)
-                {
+			
+
+			for(int i = 0;i < players.Count; i++)
+            {
+				PlayerBody thisPlayer = players[i];
+				if (thisPlayer != null)
+				{
 					thisPlayer.CanRespawn = false;
-                }
-				players.Add(input.gameObject);
+				}
 			}
 
 		}
@@ -165,10 +167,10 @@ namespace Managers
 		/// rankings list, meaning rankings is ordered from worst to best.
 		/// </summary>
 		/// <param name="defeatedPlayer"></param>
-		public void PlayerDefeat(GameObject defeatedPlayer)
+		public void PlayerDefeat(PlayerBody defeatedPlayer)
 		{
 			rankings.Add(defeatedPlayer);
-			players.Remove(defeatedPlayer);
+			//players.Remove(defeatedPlayer);
 		}
 
 		/// <summary>
@@ -189,8 +191,8 @@ namespace Managers
 		{
 			for (int i = 0; i < players.Count; i++)
 			{
-				PlayerBody thePlayer = players[i].GetComponent<PlayerBody>();
-				if (!IsStillKicking(thePlayer))
+				PlayerBody thePlaye = players[i];
+				if (IsStillKicking(thePlaye))
 				{
 					PlayerDefeat(players[i]);
 
