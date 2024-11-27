@@ -199,31 +199,41 @@ public abstract class LilGuyBase : MonoBehaviour
 	public void Attack()
 	{
 		// Check if the target is in range
-		if (anim != null) anim.SetTrigger("BasicAttack");
 		// Ensure attack respects cooldown
 		if (Time.time - lastAttackTime < attackCooldown)
 		{
 			Debug.Log("Attack on cooldown.");
 			return;
 		}
+		if (anim != null)
+		{
+			anim.SetTrigger("BasicAttack");
+		}
+		
 
 		// Update attack time
 		lastAttackTime = Time.time;
+	}
 
+	public void SpawnHitbox()
+	{
 		// Create the hitbox (snappy, instant feedback)
 		if (instantiatedHitbox == null)
 		{
-			instantiatedHitbox = Instantiate(hitboxPrefab, attackPosition.position, Quaternion.identity);
-			instantiatedHitbox.transform.SetParent(null); // Detach for independent lifetime
+			instantiatedHitbox = Instantiate(hitboxPrefab, attackPosition.position, Quaternion.identity, attackPosition);
 
 			// Configure the hitbox
 			Hitbox hitbox = instantiatedHitbox.GetComponent<Hitbox>();
 			hitbox.layerMask = playerOwner != null ? playerOwner.layer : gameObject.layer;
 			hitbox.Init(gameObject); // Pass the target directly to enhance accuracy
-
-			// Destroy the hitbox after its effect time
-			Destroy(instantiatedHitbox, 0.2f); // Shorter lifespan for faster feedback
 		}
+	}
+
+	public void DestroyHitbox()
+	{
+
+		// Destroy the hitbox after its effect time
+		Destroy(instantiatedHitbox); // Shorter lifespan for faster feedback
 	}
 
 	/// <summary>
@@ -231,7 +241,11 @@ public abstract class LilGuyBase : MonoBehaviour
 	/// </summary>
 	public virtual void Special()
 	{
-		if (anim != null) anim.SetTrigger("SpecialAttack");
+		if (anim != null)
+		{
+			anim.ResetTrigger("SpecialAttackEnded");
+			anim.SetTrigger("SpecialAttack");
+		}
 		StartCoroutine(EndSpecial());
 	}
 
