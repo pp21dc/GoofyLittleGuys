@@ -76,7 +76,7 @@ public class WildBehaviour : MonoBehaviour
 	{
 		controller.LilGuy.IsMoving = false;
 		controller.LilGuy.OnDeath();
-		controller.Player.GetComponent<PlayerBody>().LilGuyTeam[0].AddCaptureStats(controller.LilGuy);
+		controller.Player.GetComponent<PlayerBody>().LilGuyTeam[0].AddXP(controller.LilGuy.Xp);
 
 		float currTime = 0;
 		while (currTime < timeBeforeDestroyed)

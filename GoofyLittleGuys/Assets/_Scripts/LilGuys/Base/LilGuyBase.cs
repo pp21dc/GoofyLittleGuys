@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public abstract class LilGuyBase : MonoBehaviour
 {
@@ -15,14 +16,15 @@ public abstract class LilGuyBase : MonoBehaviour
 	[SerializeField] protected Transform attackPosition;
 
 	[Header("Lil Guy Stats")] 
-	[SerializeField] protected int level;
+	protected int level = 1;
+	protected int xp = 0;
+	protected int max_xp = 5;
 	[SerializeField] protected float health;
 	[SerializeField] protected float maxHealth;
 	[SerializeField] protected float speed;
 	[SerializeField] protected float defense;
 	[SerializeField] protected float strength;
-	protected const int MAX_STAT = 100;
-	protected int average;
+	protected const int max_stat = 100;
 
 	[Header("Special Attack Specific")]
 	[Tooltip("The length (in seconds) that the special attack should last for.\n(A value of -1 defaults the length to be the same as the special attack animation).")]
@@ -65,7 +67,8 @@ public abstract class LilGuyBase : MonoBehaviour
 	public float CooldownTimer => cooldownTimer;
 	public int CurrentCharges => currentCharges;
 	public Transform GoalPosition => goalPosition;
-	public int MaxStat => MAX_STAT;
+	public int MaxStat => max_stat;
+	public int Xp { get => xp; set => xp = value; }
 	#endregion
 
 	public enum PrimaryType
@@ -128,6 +131,12 @@ public abstract class LilGuyBase : MonoBehaviour
 				currentCharges++;
 				chargeTimer = chargeRefreshRate;
 			}
+		}
+
+		if (Xp >= max_xp)
+		{
+			Xp -= max_xp;
+			LevelUp();
 		}
 
 		if (anim != null) UpdateAnimations();
@@ -254,40 +263,71 @@ public abstract class LilGuyBase : MonoBehaviour
 	/// <summary>
 	/// Add the stats of a given lil guy to this lil guy
 	/// </summary>
-	public void AddCaptureStats(LilGuyBase defeatedLilGuy)
+	
+	private void LevelUp()
 	{
-		float primaryModifier = 1.5f;
-		float secondaryModifier = 3.0f;
-		Debug.Log("Adding capture stats... Before: Str - " + strength + " Def - " + defense + " Spd - " + speed);
-		switch (defeatedLilGuy.type)
+		if (level % 5 == 0)
 		{
-			case PrimaryType.Strength:
-				strength = Mathf.Min(strength + defeatedLilGuy.strength / primaryModifier, MAX_STAT);
-				defense = Mathf.Min(defense + defeatedLilGuy.defense / secondaryModifier, MAX_STAT);
-				speed = Mathf.Min(speed + defeatedLilGuy.speed / secondaryModifier, MAX_STAT);
-				break;
-			case PrimaryType.Defense:
-				strength = Mathf.Min(strength + defeatedLilGuy.strength / secondaryModifier, MAX_STAT);
-				defense = Mathf.Min(defense + defeatedLilGuy.defense / primaryModifier, MAX_STAT);
-				speed = Mathf.Min(speed + defeatedLilGuy.speed / secondaryModifier, MAX_STAT);
-				break;
-			case PrimaryType.Speed:
-				strength = Mathf.Min(strength + defeatedLilGuy.strength / secondaryModifier, MAX_STAT);
-				defense = Mathf.Min(defense + defeatedLilGuy.defense / secondaryModifier, MAX_STAT);
-				speed = Mathf.Min(speed + defeatedLilGuy.speed / primaryModifier, MAX_STAT);
-				break;
-			default:
-				throw new ArgumentOutOfRangeException();
+			switch (type)
+			{
+				case PrimaryType.Strength:
+					Strength += Random.Range(5, 8);
+					Speed += Random.Range(3, 5);
+					Defense += Random.Range(3, 5);
+					break;
+				case PrimaryType.Defense:
+					Strength += Random.Range(3, 5);
+					Speed += Random.Range(3, 5);
+					Defense += Random.Range(5, 8);
+					break;
+				case PrimaryType.Speed:
+					Strength += Random.Range(3, 5);
+					Speed += Random.Range(5, 8);
+					Defense += Random.Range(3, 5);
+					break;
+				default: // somehow we got here
+					throw new ArgumentOutOfRangeException();
+			}
+			MaxHealth += Random.Range(8, 11);
 		}
-		Debug.Log("After: Str - " + strength + " Def - " + defense + " Spd - " + speed);
+		else
+		{
+			switch (type)
+			{
+				case PrimaryType.Strength:
+					Strength += Random.Range(3, 5);
+					Speed += Random.Range(1, 3);
+					Defense += Random.Range(1, 3);
+					break;
+				case PrimaryType.Defense:
+					Strength += Random.Range(1, 3);
+					Speed += Random.Range(1, 3);
+					Defense += Random.Range(3, 5);
+					break;
+				case PrimaryType.Speed:
+					Strength += Random.Range(1, 3);
+					Speed += Random.Range(3, 5);
+					Defense += Random.Range(1, 3);
+					break;
+				default: // somehow we got here
+					throw new ArgumentOutOfRangeException();
+			}
+			MaxHealth += Random.Range(5, 7);
+		}
+		Level++;
+		max_xp = (Level) * 5;
+	}
 
-		maxHealth = 100 + (speed + defense + strength) / 10;
+	public void AddXP(int xpToAdd)
+	{
+		Xp += xpToAdd;
 	}
 
 	public void LeaveDeathAnim()
 	{
 		if (anim != null) anim.SetTrigger("Revive");
 	}
+	
 	public GameObject GetHitboxPrefab()
 	{
 		return hitboxPrefab;
