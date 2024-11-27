@@ -116,9 +116,10 @@ public class AiController : MonoBehaviour
 		Transform currClosest = PlayerInput.all[0].GetComponent<PlayerController>().Body.transform;
 		foreach (PlayerInput input in PlayerInput.all)
 		{
-			if (Vector3.Distance(input.transform.position, transform.position) < Vector3.Distance(currClosest.transform.position, transform.position))
+			PlayerBody body = input.GetComponent<PlayerController>().Body;
+			if (Vector3.Distance(body.transform.position, transform.position) < Vector3.Distance(currClosest.transform.position, transform.position))
 			{
-				currClosest = input.transform;
+				currClosest = body.transform;
 			}
 		}
 		return currClosest;
