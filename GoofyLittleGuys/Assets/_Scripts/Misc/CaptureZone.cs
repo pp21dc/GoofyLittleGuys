@@ -40,8 +40,15 @@ public class CaptureZone : MonoBehaviour
         
     }
 
-    // Update is called once per frame
-    void Update()
+	private void OnDestroy()
+	{
+		foreach(PlayerBody body in playersInRange)
+		{
+			if (body.ClosestWildLilGuy == lilGuyToCapture) body.ClosestWildLilGuy = null;
+		}
+	}
+	// Update is called once per frame
+	void Update()
     {
         controller.ToggleInteractCanvas(playersInRange.Count > 0);
     }

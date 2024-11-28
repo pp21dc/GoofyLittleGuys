@@ -17,15 +17,17 @@ public class StrengthType : LilGuyBase
 	public override void Special()
 	{
 		if (currentCharges <= 0 && cooldownTimer > 0) return;   // Cooldown is up and there are no more charges available for usage.
-		base.Special();
+		if (!IsInSpecialAttack && !IsInBasicAttack)
+		{
+			base.Special();
+			GameObject aoe = Instantiate(aoeShape, attackPosition);
+			aoe.GetComponent<AoeHitbox>().InitializeExpansion(aoeMaxSize, aoeExpansionSpeed, this);
 
-		GameObject aoe = Instantiate(aoeShape, attackPosition);
-		aoe.GetComponent<AoeHitbox>().InitializeExpansion(aoeMaxSize, aoeExpansionSpeed, this);
 
-
-		// Decrement charges and reset cooldowns
-		cooldownTimer = cooldownDuration;
-		chargeTimer = chargeRefreshRate;
-		currentCharges--;
+			// Decrement charges and reset cooldowns
+			cooldownTimer = cooldownDuration;
+			chargeTimer = chargeRefreshRate;
+			currentCharges--;
+		}
 	}
 }

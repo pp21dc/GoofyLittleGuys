@@ -10,16 +10,16 @@ public class PlayerBody : MonoBehaviour
 {
 	[Header("References")]
 	[SerializeField] private LilGuyBase activeLilGuy;
-	[SerializeField] private List<LilGuyBase> lilGuyTeam;               // The lil guys in the player's team.
+	[SerializeField] private List<LilGuyBase> lilGuyTeam = new List<LilGuyBase>();               // The lil guys in the player's team.
 	[SerializeField] private List<LilGuySlot> lilGuyTeamSlots;          // The physical positions on the player prefab that the lil guys are children of.
 	[SerializeField] private GameObject playerMesh;                     // Reference to the player's mesh gameobject
 	[SerializeField] private PlayerInput playerInput;                   // This player's input component.
-	[SerializeField] private PlayerUi playerUi;							// This player's input component.
+	[SerializeField] private PlayerUi playerUi;                         // This player's input component.
 	[SerializeField] private GameObject teamFullMenu;                   // The menu shown if the player captured a lil guy but their team is full.
 	[SerializeField] private PlayerController controller;
 
 	[Header("Movement Parameters")]
-	[SerializeField] private float maxSpeed = 25f;			 // This turns into the speed of the active lil guy's. Used for the AI follow behaviours so they all keep the same speed in following the player.
+	[SerializeField] private float maxSpeed = 25f;           // This turns into the speed of the active lil guy's. Used for the AI follow behaviours so they all keep the same speed in following the player.
 	[SerializeField] private float accelerationTime = 0.1f;  // Time to reach target speed
 	[SerializeField] private float decelerationTime = 0.2f;  // Time to stop
 	[SerializeField] private float smoothFactor = 0.8f;      // Factor for smooth transitions
@@ -27,10 +27,18 @@ public class PlayerBody : MonoBehaviour
 
 	[Header("Berry Inventory Parameters")]
 	[SerializeField] private int maxBerryCount = 3;
-	[SerializeField] private float berryUsageCooldown = 3f;
 	[SerializeField, Range(0f, 1f)] private float berryHealPercentage = 0.25f;
 
+	[Header("Cooldown Parameters")]
+	[SerializeField] private float berryUsageCooldown = 3f;
+	[SerializeField] private float interactCooldown = 0.2f;
+	[SerializeField] private float swapCooldown = 3f;
 
+	private float nextBerryUseTime = -Mathf.Infinity;
+	private float nextInteractTime = -Mathf.Infinity;
+	private float nextSwapTime = -Mathf.Infinity;
+
+	private InteractableBase closestnteractable = null;
 	private int berryCount = 0;
 	private bool canUseBerry = true;
 	private bool canRespawn = true;
@@ -55,10 +63,12 @@ public class PlayerBody : MonoBehaviour
 	public bool CanRespawn { get { return canRespawn; } set { canRespawn = value; } }
 	public bool InStorm { get { return inStorm; } set { inStorm = value; } }
 	public bool IsDashing { get { return isDashing; } set { isDashing = value; } }
-	public LilGuyBase ActiveLilGuy { get { return  activeLilGuy; } set {  activeLilGuy = value; } }
+	public LilGuyBase ActiveLilGuy { get { return activeLilGuy; } set { activeLilGuy = value; } }
 	public GameObject TeamFullMenu { get { return teamFullMenu; } set { teamFullMenu = value; } }
 	public bool Flip { get { return flip; } set { flip = value; } }
-	public int BerryCount { get { return berryCount; } set {  berryCount = value; } }
+	public int BerryCount { get { return berryCount; } set { berryCount = value; } }
+
+	public InteractableBase ClosestInteractable { get { return closestnteractable; } set { closestnteractable = value; } }
 
 	public List<LilGuyBase> LilGuyTeam => lilGuyTeam;
 	public List<LilGuySlot> LilGuyTeamSlots => lilGuyTeamSlots;
@@ -72,12 +82,15 @@ public class PlayerBody : MonoBehaviour
 	{
 		rb = GetComponent<Rigidbody>();
 		EventManager.Instance.GameStarted += Init;
-		if (lilGuyTeam[0] != null) maxSpeed = lilGuyTeam[0].Speed;
 	}
 
 	private void OnDestroy()
 	{
 		EventManager.Instance.GameStarted -= Init;
+	}
+	private void Update()
+	{
+		hasInteracted = false;
 	}
 	private void FixedUpdate()
 	{
@@ -177,9 +190,19 @@ public class PlayerBody : MonoBehaviour
 		lilGuyTeam[0].Flip = flip;
 	}
 
+	public void Interact()
+	{
+		if (Time.time <= nextInteractTime) return;
+		if (closestnteractable != null)
+		{
+			closestnteractable.OnInteracted(this);
+		}
+		nextInteractTime = Time.time + interactCooldown;
+	}
+
 	public void UseBerry()
 	{
-		if (berryCount <= 0 || !canUseBerry) return;
+		if (berryCount <= 0 || Time.time <= nextBerryUseTime) return;
 		if (closestWildLilGuy != null)
 		{
 			berryCount--;
@@ -212,16 +235,17 @@ public class PlayerBody : MonoBehaviour
 				TeamFullMenu.GetComponent<TeamFullMenu>().Init(closestWildLilGuy);
 			}
 		}
+		else if (lilGuyTeam[0].Health < lilGuyTeam[0].MaxHealth)
+		{
+			int healthRestored = Mathf.CeilToInt(lilGuyTeam[0].MaxHealth * berryHealPercentage);
+			if (lilGuyTeam[0].Health + healthRestored > lilGuyTeam[0].MaxHealth) lilGuyTeam[0].Health = lilGuyTeam[0].MaxHealth;
+			else lilGuyTeam[0].Health += healthRestored;
 
-		if (lilGuyTeam[0].Health >= lilGuyTeam[0].MaxHealth) return;
-		int healthRestored = Mathf.CeilToInt(lilGuyTeam[0].MaxHealth * berryHealPercentage);
-
-		lilGuyTeam[0].Health += healthRestored;
-		berryCount--;
-		canUseBerry = false;
-		StartCoroutine(BerryCooldown());
+			berryCount--;
+			nextBerryUseTime = Time.time + berryUsageCooldown;
+		}
 	}
-	
+
 	/// <summary>
 	/// Swaps the Lil guy based on a queue. If input is right, then the next one in list moves to position 1 and if left, the previous lil guy moves to position 1
 	/// and the rest cascade accordingly.
@@ -230,7 +254,7 @@ public class PlayerBody : MonoBehaviour
 	public void SwapLilGuy(float shiftDirection)
 	{
 		// Only one lil guy, so you can't swap.
-		if (lilGuyTeam.Count <= 1) return;
+		if (lilGuyTeam.Count <= 1 || Time.time <= nextSwapTime) return;
 
 		foreach (var lilGuy in lilGuyTeam)
 		{
@@ -280,6 +304,7 @@ public class PlayerBody : MonoBehaviour
 		lilGuyTeam[0].GetComponent<Rigidbody>().isKinematic = true;
 		lilGuyTeam[0].transform.localPosition = Vector3.zero;
 		activeLilGuy = lilGuyTeam[0];
+		nextSwapTime = Time.time + swapCooldown;
 	}
 
 	public void StartDash()
@@ -290,12 +315,6 @@ public class PlayerBody : MonoBehaviour
 	public void StopDash()
 	{
 		isDashing = false;
-	}
-
-	private IEnumerator BerryCooldown()
-	{
-		yield return new WaitForSeconds(berryUsageCooldown);
-		canUseBerry = true;
 	}
 
 	/// <summary>
@@ -361,10 +380,10 @@ public class PlayerBody : MonoBehaviour
 	{
 		canMove = false;
 		yield return new WaitForSeconds(Managers.GameManager.Instance.RespawnTimer);
-        if (canRespawn)
-        {
+		if (canRespawn)
+		{
 			Respawn();
 		}
-		
+
 	}
 }

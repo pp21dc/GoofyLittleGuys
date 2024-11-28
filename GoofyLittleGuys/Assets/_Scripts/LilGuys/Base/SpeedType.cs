@@ -19,27 +19,30 @@ public class SpeedType : LilGuyBase
 	{
 		// Ensure we have charges available or the cooldown is active
 		if (currentCharges <= 0 && cooldownTimer > 0) return;
-		base.Special();
+		if (!IsInSpecialAttack && !IsInBasicAttack)
+		{
+			base.Special();
 
-		// Determine the Rigidbody based on the current game phase
-		Rigidbody rb = GameManager.Instance.CurrentPhase < 2 ? playerOwner.GetComponent<Rigidbody>() : GetComponent<Rigidbody>();
-		dashDirection = playerOwner.MovementDirection.normalized;
+			// Determine the Rigidbody based on the current game phase
+			Rigidbody rb = GameManager.Instance.CurrentPhase < 2 ? playerOwner.GetComponent<Rigidbody>() : GetComponent<Rigidbody>();
+			dashDirection = playerOwner.MovementDirection.normalized;
 
-		// Ensure there’s movement input
-		if (dashDirection == Vector3.zero) return;
+			// Ensure there’s movement input
+			if (dashDirection == Vector3.zero) return;
 
-		// Start dash in PlayerBody
-		dashStartPosition = rb.position;
-		playerOwner.StartDash();
+			// Start dash in PlayerBody
+			dashStartPosition = rb.position;
+			playerOwner.StartDash();
 
-		// Apply initial force to start the dash
-		float dashSpeed = speed * rb.velocity.magnitude; // Tunable dash speed
-		rb.velocity = dashDirection * dashSpeed;
+			// Apply initial force to start the dash
+			float dashSpeed = speed * rb.velocity.magnitude; // Tunable dash speed
+			rb.velocity = dashDirection * dashSpeed;
 
-		// Decrement charges and reset cooldowns
-		cooldownTimer = cooldownDuration;
-		chargeTimer = chargeRefreshRate;
-		currentCharges--;
+			// Decrement charges and reset cooldowns
+			cooldownTimer = cooldownDuration;
+			chargeTimer = chargeRefreshRate;
+			currentCharges--;
+		}
 	}
 
 	private void FixedUpdate()

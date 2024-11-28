@@ -18,11 +18,14 @@ public class HealingFountain : InteractableBase
 			// Add any players in range to the in range list.
 			playersInRange.Add(other.gameObject);
 		}
-		if (playerInRange.HasInteracted) OnInteracted(playerInRange);
+
+		playerInRange.ClosestInteractable = this;
 	}
 
 	private void OnTriggerExit(Collider other)
 	{
+		PlayerBody playerInRange = other.GetComponent<PlayerBody>();
+		if (playerInRange == null) return;
 		// Removing players from in range list if they go outside of the fountain's range/
 		if (playersInRange.Contains(other.gameObject))
 		{
@@ -32,6 +35,8 @@ public class HealingFountain : InteractableBase
 		{
 			interactableCanvas.SetActive(false);
 		}
+
+		playerInRange.ClosestInteractable = null;
 	}
 	private void Awake()
 	{

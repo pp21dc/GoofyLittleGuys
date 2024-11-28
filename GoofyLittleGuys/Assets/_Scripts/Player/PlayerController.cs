@@ -62,7 +62,7 @@ public class PlayerController : MonoBehaviour
 
 	public void OnInteract(InputAction.CallbackContext ctx)
 	{
-		playerBody.HasInteracted = ctx.performed ? true : false; // If action performed, then true, otherwise false.
+		if (ctx.performed) playerBody.Interact();
 	}
 
 	public void OnLeave(InputAction.CallbackContext ctx)
@@ -76,7 +76,7 @@ public class PlayerController : MonoBehaviour
 		if (playerBody.LilGuyTeam[0].Health <= 0) return;
 
 		// Hold to keep attacking as opposed to mashing.
-		if (ctx.performed) playerBody.LilGuyTeam[0].Attack();
+		playerBody.LilGuyTeam[0].IsAttacking = ctx.performed;
 	}
 
 	public void OnSecondarySkill(InputAction.CallbackContext ctx)

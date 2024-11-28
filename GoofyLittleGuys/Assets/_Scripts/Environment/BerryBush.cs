@@ -27,11 +27,13 @@ public class BerryBush : InteractableBase
 			playersInRange.Add(other.gameObject);
 		}
 
-		if (playerInRange.HasInteracted) OnInteracted(playerInRange); // Player interacted
+		playerInRange.ClosestInteractable = this;
 	}
 
 	private void OnTriggerExit(Collider other)
 	{
+		PlayerBody playerInRange = other.GetComponent<PlayerBody>();
+		if (playerInRange == null) return;
 		if (playersInRange.Contains(other.gameObject))
 		{
 			playersInRange.Remove(other.gameObject);
@@ -40,6 +42,8 @@ public class BerryBush : InteractableBase
 		{
 			interactableCanvas.SetActive(false);
 		}
+
+		playerInRange.ClosestInteractable = null;
 	}
 
 	/// <summary>

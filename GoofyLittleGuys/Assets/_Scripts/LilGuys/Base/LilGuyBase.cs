@@ -15,7 +15,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	[SerializeField] protected Animator anim;
 	[SerializeField] protected Transform attackPosition;
 
-	[Header("Lil Guy Stats")] 
+	[Header("Lil Guy Stats")]
 	protected int level = 1;
 	protected int xp = 0;
 	protected int max_xp = 5;
@@ -42,6 +42,13 @@ public abstract class LilGuyBase : MonoBehaviour
 	private bool isMoving = false;
 	private bool isHurt = false;
 	private bool isDead = false;
+
+	private bool isAttacking = false;
+
+	// ANIMATION RELATED
+	private bool isInBasicAttack = false;
+	private bool isInSpecialAttack = false;
+
 	private GameObject instantiatedHitbox;
 
 	// Variables for attack speed and cooldown
@@ -51,7 +58,7 @@ public abstract class LilGuyBase : MonoBehaviour
 
 	private float lastAttackTime = -999f; // Tracks the last time an attack occurred
 	private bool flip = false;
-	
+
 	#region Getters and Setters
 	public int Level { get => level; set => level = value; }
 	public float Health { get => health; set => health = value; }
@@ -64,6 +71,9 @@ public abstract class LilGuyBase : MonoBehaviour
 	public PrimaryType Type { get => type; set => type = value; }
 	public bool Flip { get { return flip; } set { flip = value; } }
 	public bool IsMoving { get { return isMoving; } set { isMoving = value; } }
+	public bool IsAttacking { get { return isAttacking; } set { isAttacking = value; } }
+	public bool IsInBasicAttack { get { return isInBasicAttack; } set { isInBasicAttack = value; } }
+	public bool IsInSpecialAttack { get { return isInSpecialAttack; } set { isInSpecialAttack = value; } }
 	public float CooldownTimer => cooldownTimer;
 	public int CurrentCharges => currentCharges;
 	public Transform GoalPosition => goalPosition;
@@ -140,7 +150,7 @@ public abstract class LilGuyBase : MonoBehaviour
 		}
 
 		if (anim != null) UpdateAnimations();
-
+		if (isAttacking) Attack();
 	}
 
 	private void UpdateAnimations()
@@ -194,9 +204,8 @@ public abstract class LilGuyBase : MonoBehaviour
 	}
 
 	/// <summary>
-	/// This is the basic attack across all lil guys\
+	/// This is the basic attack across all lil guys
 	/// it uses a hitbox prefab to detect other ai within it and deal damage from that script
-	/// NOTE: the second value in destroy (line 29) is the duration that the attack lasts
 	/// </summary>
 	public void Attack()
 	{
@@ -209,9 +218,16 @@ public abstract class LilGuyBase : MonoBehaviour
 		}
 		if (anim != null)
 		{
-			anim.SetTrigger("BasicAttack");
+			if (!isInBasicAttack && !isInSpecialAttack)
+			{
+				anim.SetTrigger("BasicAttack");
+			}
 		}
-		
+		else
+		{
+			SpawnHitbox();
+		}
+
 
 		// Update attack time
 		lastAttackTime = Time.time;
@@ -228,6 +244,11 @@ public abstract class LilGuyBase : MonoBehaviour
 			Hitbox hitbox = instantiatedHitbox.GetComponent<Hitbox>();
 			hitbox.layerMask = PlayerOwner.gameObject != null ? PlayerOwner.gameObject.layer : gameObject.layer;
 			hitbox.Init(gameObject); // Pass the target directly to enhance accuracy
+		}
+
+		if (anim == null)
+		{
+			Destroy(instantiatedHitbox, 0.2f);
 		}
 	}
 
@@ -246,22 +267,26 @@ public abstract class LilGuyBase : MonoBehaviour
 		if (anim != null)
 		{
 			anim.ResetTrigger("SpecialAttackEnded");
-			anim.SetTrigger("SpecialAttack");
+			if (!isInBasicAttack && !isInSpecialAttack)
+			{
+				anim.SetTrigger("SpecialAttack");
+			}
 		}
 		StartCoroutine(EndSpecial());
 	}
 
 	private IEnumerator EndSpecial()
 	{
-		if (specialDuration >= 0)
-			yield return new WaitForSeconds(specialDuration);
+		if (specialDuration >= 0) yield return new WaitForSeconds(specialDuration);
 		else if (specialDuration == -1)
 		{
 			AnimationClip clip = anim.runtimeAnimatorController.animationClips.First(clip => clip.name == "Special");
-			if (clip != null)
-				yield return new WaitForSeconds(clip.length);
+			if (clip != null) yield return new WaitForSeconds(clip.length);
 		}
-		if (anim != null) anim.SetTrigger("SpecialAttackEnded");
+		if (anim != null)
+		{
+			anim.SetTrigger("SpecialAttackEnded");
+		}
 	}
 
 	// Lil Guy constructor :3
@@ -279,7 +304,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	/// <summary>
 	/// Add the stats of a given lil guy to this lil guy
 	/// </summary>
-	
+
 	private void LevelUp()
 	{
 		if (level % 5 == 0)
@@ -343,7 +368,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	{
 		if (anim != null) anim.SetTrigger("Revive");
 	}
-	
+
 	public GameObject GetHitboxPrefab()
 	{
 		return hitboxPrefab;

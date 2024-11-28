@@ -49,15 +49,6 @@ namespace Managers
 		}
 
         /// <summary>
-        /// Coroutine that handles quit behaviour
-        /// </summary>
-        /// <returns></returns>
-        private IEnumerator Quit()
-        {
-            yield break;
-        }
-
-        /// <summary>
         /// Method that disables every player's inputs.
         /// </summary>
         private void DisableAllPlayerInputs()
