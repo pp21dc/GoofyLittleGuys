@@ -77,7 +77,6 @@ public class PlayerBody : MonoBehaviour
 	{
 		EventManager.Instance.GameStarted -= Init;
 	}
-
 	private void FixedUpdate()
 	{
 		// Flip player if they're moving in a different direction than what they're currently facing.
@@ -301,6 +300,8 @@ public class PlayerBody : MonoBehaviour
 	private void Init()
 	{
 		DisableUIControl();
+		rb.isKinematic = false;
+		controller.PlayerCam.gameObject.SetActive(true);
 		playerInput.camera.clearFlags = CameraClearFlags.Skybox;
 		controller.PlayerEventSystem.firstSelectedGameObject = null;
 		controller.PlayerEventSystem.gameObject.SetActive(false);

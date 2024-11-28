@@ -50,7 +50,6 @@ namespace Managers
 		private void Start()
 		{
 			Time.timeScale = 0;
-			EventManager.Instance.GameStarted += GameStarted;
 			if (gameStartTest) EventManager.Instance.GameStartedEvent();
 		}
 
@@ -109,7 +108,7 @@ namespace Managers
 		/// <summary>
 		/// Method that is called when the game transitions from Character Select to Main Game.
 		/// </summary>
-		private void GameStarted()
+		public bool GameStarted()
 		{
 			foreach (PlayerInput input in PlayerInput.all)
 			{
@@ -122,16 +121,18 @@ namespace Managers
 				if (!spawnPoints[randomPos].PlayerSpawnedHere)
 				{
 					Debug.Log(spawnPoints[randomPos].transform.position);
-					input.gameObject.transform.position = spawnPoints[randomPos].transform.position + (new Vector3(1, 0, 1) * Random.Range(-1f, 1f)) + Vector3.up;
+					input.GetComponentInChildren<Rigidbody>().MovePosition(spawnPoints[randomPos].transform.position + (new Vector3(1, 0, 1) * Random.Range(-1f, 1f)) + Vector3.up);
 					spawnPoints[randomPos].PlayerSpawnedHere = true;
 				}
-				players.Add(input.gameObject.GetComponentInChildren<PlayerBody>());
+				//players.Add(input.gameObject.GetComponentInChildren<PlayerBody>());
 			}
 
 			// Unpause time, and begin phase one!
 			Time.timeScale = 1;
 			StartPhaseOne();
 			if (timerCanvas != null) timerCanvas.SetActive(true);   // Show the timer canvas if one exists.
+
+			return true;
 		}
 
 		/// <summary>

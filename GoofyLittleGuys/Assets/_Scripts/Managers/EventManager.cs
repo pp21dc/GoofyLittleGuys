@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class EventManager
 {
@@ -31,23 +32,30 @@ public class EventManager
 	public event GamePausedDelegate NotifyGamePaused;
 
 	private static EventManager _instance = null;
-    public static EventManager Instance
-    {
-        get
-        {
+	public static EventManager Instance
+	{
+		get
+		{
 			if (_instance == null) _instance = new EventManager();
 			return _instance;
 		}
-    }
+	}
 
 	public void CallGamePaused(PlayerInput playerWhoPaused)
 	{
 		NotifyGamePaused?.Invoke(playerWhoPaused);
 	}
-
 	public void CallLilGuyLockedInEvent()
 	{
 		LevelLoadManager.Instance.LoadNewLevel("ForestWhitebox");
+		MultiplayerManager.Instance.AdjustCameraRects();
+		LevelLoadManager.Instance.StartCoroutine(WaitForLevelToLoad());
+	}
+	private IEnumerator WaitForLevelToLoad()
+	{
+		yield return new WaitUntil(() => SceneManager.GetSceneByName("ForestWhitebox").isLoaded);
+		yield return new WaitUntil(() => GameManager.Instance.GameStarted());
+		// Once loading is complete, invoke the GameStarted event
 		GameStartedEvent();
 	}
 	public void GameStartedEvent()
