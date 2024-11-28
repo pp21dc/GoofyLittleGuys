@@ -3,74 +3,55 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent (typeof(Collider))]
-public class AoeHitbox : Hitbox
+public class AoeHitbox : MonoBehaviour
 {
-	// private List<Collider> lilGuysInRadius = new List<Collider>();
+	protected float damage;
+	protected float aoeDamage;
+	public float AoeDamage { get { return aoeDamage; } set { aoeDamage = value; } }
+	public GameObject hitboxOwner;
+	public LayerMask layerMask;
 
-	/// <summary>
-	/// Begins expanding the AoE blast zone by provided speed value, until it reaches max size.
-	/// </summary>
-	/// <param name="maxSize">The maximum size this blast zone reaches</param>
-	/// <param name="expansionSpeed">The speed of which the blast zone expands</param>
-	/// <param name="owner">The Lil Guy who initiated this AoE attack</param>
-	public void InitializeExpansion(float maxSize, float expansionSpeed, LilGuyBase owner)
+	private void OnTriggerEnter(Collider other)
 	{
-		Init(owner.gameObject);
-		StartCoroutine(Expand(maxSize, expansionSpeed));
+		Hurtbox h = other.GetComponent<Hurtbox>();
+		if (h != null)
+			OnHit(h);
 	}
 
 	/// <summary>
-	/// Method called when the hitbox is first spawned in the world
+	/// Method called when this hitbox is instantiated.
 	/// </summary>
-	/// <param name="hitboxOwner">The lil guy who created this hitbox.</param>
-	public override void Init(GameObject hitboxOwner)
+	/// <param name="hitboxOwner">The owner of the hitbox.</param>
+	public virtual void Init(GameObject hitboxOwner)
 	{
 		this.hitboxOwner = hitboxOwner;
 		gameObject.layer = hitboxOwner.layer;
-		Damage = hitboxOwner.GetComponent<StrengthType>().aoeDamage + hitboxOwner.GetComponent<LilGuyBase>().Strength;
+		damage = aoeDamage + hitboxOwner.GetComponent<LilGuyBase>().Strength;
 	}
 
 	/// <summary>
-	/// Coroutine that handles the expansion of the AoE, by expanding it over time.
+	/// Method called when this hitbox hits a hurtbox.
 	/// </summary>
-	/// <param name="maxSize">The maximum size the AoE will get.</param>
-	/// <param name="expansionSpeed">How fast the AoE reaches the max size in seconds.</param>
-	/// <returns></returns>
-	private IEnumerator Expand(float maxSize, float expansionSpeed)
+	/// <param name="h"></param>
+	private void OnHit(Hurtbox h)
 	{
-		Vector3 initialScale = Vector3.zero;
-		Vector3 targScale = new Vector3(maxSize, maxSize, maxSize);
-
-		float elapsedTime = 0;
-		while (elapsedTime < expansionSpeed)
+		Debug.Log("HIT");
+		DefenseType defenseLilGuy = h.gameObject.GetComponent<DefenseType>();
+		if (defenseLilGuy != null && defenseLilGuy.IsShieldActive)
 		{
-			// Expanding the hitbox zone
-			transform.localScale = Vector3.Lerp(initialScale, targScale, elapsedTime / expansionSpeed);
-			elapsedTime += Time.deltaTime;
-
-			yield return null;
+			// Specifically if we hit a lil guy whose shield is up, we have to apply damage reduction
+			h.TakeDamage(Mathf.CeilToInt(damage * (1 - defenseLilGuy.DamageReduction)));    // Ceil because we don't want them to be completely immune to damage.
+		}
+		else
+		{
+			// Regular damage taken.
+			h.TakeDamage(damage);
 		}
 
-		transform.localScale = targScale;
-
-		yield return new WaitForSeconds(1);
-		Destroy(gameObject);
+		if (h.Health <= 0 && h.gameObject.layer == LayerMask.NameToLayer("WildLilGuys"))
+		{
+			// If this was a wild lil guy that was hit and they were defeated, log the player who last hit them.
+			h.lastHit = hitboxOwner.GetComponent<LilGuyBase>().PlayerOwner.gameObject;
+		}
 	}
-
-
-	/*
-	/// <summary>
-	/// Checks if the lil guy who entered the zone was already tagged as hit.
-	/// </summary>
-	/// <param name="other">The collider to check</param>
-	/// <returns>True if the Lil Guy was already tagged as hit, otherwise false.</returns>
-	private bool AlreadyAdded(Collider other)
-	{
-		if (lilGuysInRadius.Count <= 0) return false;
-		foreach(Collider c in lilGuysInRadius)
-		{
-			if (c == other) return true;
-		}
-		return false;
-	}*/
 }

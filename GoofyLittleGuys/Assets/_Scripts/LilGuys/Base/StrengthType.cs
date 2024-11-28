@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class StrengthType : LilGuyBase
 {
-	[SerializeField] private GameObject aoeShape;  // Only visible in editor and only used when aoeType is set to "Custom". 
+	[SerializeField] protected GameObject aoeShape;  // Only visible in editor and only used when aoeType is set to "Custom". 
 	[SerializeField] private float aoeMaxSize = 1;
 	[SerializeField] private float aoeExpansionSpeed = 1;
 	[SerializeField] public int aoeDamage = 1;
@@ -20,8 +20,7 @@ public class StrengthType : LilGuyBase
 		if (!IsInSpecialAttack && !IsInBasicAttack)
 		{
 			base.Special();
-			GameObject aoe = Instantiate(aoeShape, attackPosition);
-			aoe.GetComponent<AoeHitbox>().InitializeExpansion(aoeMaxSize, aoeExpansionSpeed, this);
+			
 
 
 			// Decrement charges and reset cooldowns
