@@ -59,6 +59,8 @@ public class WildBehaviour : MonoBehaviour
 	{
 		if (instantiatedPlayerRangeIndicator != null) Destroy(instantiatedPlayerRangeIndicator);
 		StopAllCoroutines();
+
+		if (controller == null) return;
 		controller.ToggleInteractCanvas(false);
 		controller.RB.isKinematic = false;
 	}
@@ -87,6 +89,7 @@ public class WildBehaviour : MonoBehaviour
 		controller.LilGuy.IsMoving = false;
 		controller.LilGuy.OnDeath();
 		controller.RB.isKinematic = true;
+		controller.RB.velocity = Vector3.zero;
 		
 		instantiatedPlayerRangeIndicator = Instantiate(capturingPlayerRange, transform.position, Quaternion.identity, Managers.SpawnManager.Instance.transform);
 		instantiatedPlayerRangeIndicator.GetComponent<CaptureZone>().Init(controller.LilGuy);
@@ -134,12 +137,12 @@ public class WildBehaviour : MonoBehaviour
 		controller.LilGuy.IsMoving = true;
 		while (controller.DistanceToPlayer() > attackRange && controller.LilGuy.Health > 0)
 		{
-			Vector3 directionToPlayer = (controller.Player.position - controller.transform.position).normalized;
+			Vector3 directionToPlayer = (controller.FollowPosition.position - controller.transform.position).normalized;
 
 			// Calculate the horizontal distance to the player
 			float horizontalDistance = Vector3.Distance(
 				new Vector3(controller.transform.position.x, 0, controller.transform.position.z),
-				new Vector3(controller.Player.position.x, 0, controller.Player.position.z)
+				new Vector3(controller.FollowPosition.position.x, 0, controller.FollowPosition.position.z)
 			);
 
 			// Smooth acceleration towards the player

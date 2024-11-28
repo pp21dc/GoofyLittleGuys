@@ -27,15 +27,17 @@ public class Hurtbox : MonoBehaviour
 	/// </summary>
 	private void Init()
 	{
-		if (owner.GetComponent<PlayerBody>() != null)
+		PlayerBody body = owner.GetComponent<PlayerBody>();
+		AiController controller = owner.GetComponent<AiController>();
+		if (body != null)
 		{
-			health = owner.GetComponent<PlayerBody>().LilGuyTeam[0].Health;
+			health = body.LilGuyTeam[0].Health;
 			player = true;
 			Ai = false;
 		}
-		else if (owner.GetComponent<AiController>() != null)
+		else if (controller != null)
 		{
-			health = owner.GetComponent<AiController>().LilGuy.Health;
+			health = controller.LilGuy.Health;
 			Ai = true;
 			player = false;
 		}

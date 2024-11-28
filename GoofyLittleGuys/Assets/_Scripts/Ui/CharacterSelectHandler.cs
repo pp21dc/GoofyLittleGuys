@@ -35,6 +35,7 @@ public class CharacterSelectHandler : MonoBehaviour
 				GameObject menuToRemove = charSelectUnits[i];
 				charSelectUnits.RemoveAt(i);
 				Destroy(menuToRemove);
+				GameManager.Instance.Players.RemoveAt(i);
 				Destroy(input.gameObject);
 				break;
 			}
@@ -44,10 +45,10 @@ public class CharacterSelectHandler : MonoBehaviour
 
 	public void LeaveAllPlayers()
 	{
-		for(int i = PlayerInput.all.Count - 1; i >= 0; i--)
+		for(int i = GameManager.Instance.Players.Count - 1; i >= 0; i--)
 		{
 			Destroy(charSelectUnits[i].gameObject);
-			Destroy(PlayerInput.all[i].gameObject);
+			Destroy(GameManager.Instance.Players[i].Controller.gameObject);
 		}
 		LevelLoadManager.Instance.LoadNewLevel("00_MainMenu");
 	}

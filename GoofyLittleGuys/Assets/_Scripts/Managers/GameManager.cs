@@ -40,6 +40,7 @@ namespace Managers
 		public bool IsPaused { get { return isPaused; } set { isPaused = value; } }
 		public Transform FountainSpawnPoint { get { return fountainSpawnPoint; } set { fountainSpawnPoint = value; } }
 		public LayerMask CurrentLayerMask { get { return currentLayerMask; } }
+		public List<PlayerBody> Players { get { return players; } set { players = value; } }
 
 
 		public override void Awake()
@@ -110,7 +111,7 @@ namespace Managers
 		/// </summary>
 		public bool GameStarted()
 		{
-			foreach (PlayerInput input in PlayerInput.all)
+			foreach (PlayerBody body in players)
 			{
 				// We don't want the players all spawning in the same exact spot, so shift their x and z positions randomly.
 				int randomPos = Random.Range(0, spawnPoints.Count);
@@ -121,10 +122,9 @@ namespace Managers
 				if (!spawnPoints[randomPos].PlayerSpawnedHere)
 				{
 					Debug.Log(spawnPoints[randomPos].transform.position);
-					input.GetComponentInChildren<Rigidbody>().MovePosition(spawnPoints[randomPos].transform.position + (new Vector3(1, 0, 1) * Random.Range(-1f, 1f)) + Vector3.up);
+					body.GetComponent<Rigidbody>().MovePosition(spawnPoints[randomPos].transform.position + (new Vector3(1, 0, 1) * Random.Range(-1f, 1f)) + Vector3.up);
 					spawnPoints[randomPos].PlayerSpawnedHere = true;
 				}
-				//players.Add(input.gameObject.GetComponentInChildren<PlayerBody>());
 			}
 
 			// Unpause time, and begin phase one!

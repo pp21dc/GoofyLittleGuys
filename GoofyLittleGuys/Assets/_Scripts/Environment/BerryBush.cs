@@ -16,7 +16,8 @@ public class BerryBush : InteractableBase
 
 	private void OnTriggerStay(Collider other)
 	{
-		if (other.GetComponent<PlayerBody>() == null) return;   // Ignore non-player colliders
+		PlayerBody playerInRange = other.GetComponent<PlayerBody>();
+		if (playerInRange == null) return;   // Ignore non-player colliders
 		interactableCanvas.SetActive(hasBerries);
 		if (!hasBerries) return;                                // If there's no berries on this bush, don't go to the interact behaviour.
 
@@ -26,7 +27,7 @@ public class BerryBush : InteractableBase
 			playersInRange.Add(other.gameObject);
 		}
 
-		if (other.GetComponent<PlayerBody>().HasInteracted) OnInteracted(other.GetComponent<PlayerBody>()); // Player interacted
+		if (playerInRange.HasInteracted) OnInteracted(playerInRange); // Player interacted
 	}
 
 	private void OnTriggerExit(Collider other)

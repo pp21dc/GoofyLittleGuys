@@ -1,3 +1,4 @@
+using Managers;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,11 +18,12 @@ public class AiController : MonoBehaviour
 
 
 	private Vector3 originalSpawnPosition = Vector3.zero;
-	private Transform player;                           // The transform of the closest player to this AI
+	private Transform followPosition;                           // The transform of the closest player to this AI
 	private LilGuyBase lilGuy;                          // Reference to this AI's stats
-	public Transform Player => player;
+	public Transform FollowPosition => followPosition;
 	public LilGuyBase LilGuy => lilGuy;
 	public Rigidbody RB => rb;
+	private Transform currClosestPlayer;
 	public Vector3 OriginalSpawnPosition => originalSpawnPosition;
 
 	private void Awake()
@@ -43,13 +45,13 @@ public class AiController : MonoBehaviour
 	{
 		if (state == AIState.Wild)
 		{
-			if (PlayerInput.all.Count > 0)
-				player = FindClosestPlayer();
+			if (GameManager.Instance.Players.Count > 0)
+				followPosition = FindClosestPlayer();
 		}
 		else
 		{
-			if (PlayerInput.all.Count > 0)
-				player = lilGuy.GoalPosition;
+			if (GameManager.Instance.Players.Count > 0)
+				followPosition = lilGuy.GoalPosition;
 		}
 	}
 
@@ -77,8 +79,8 @@ public class AiController : MonoBehaviour
 	/// <returns>The distance this AI is to the player.</returns>
 	public float DistanceToPlayer()
 	{
-		if (PlayerInput.all.Count > 0)
-			return Vector3.Distance(transform.position, player.position);
+		if (GameManager.Instance.Players.Count > 0)
+			return Vector3.Distance(transform.position, followPosition.position);
 		else return 0;
 	}
 
@@ -111,16 +113,15 @@ public class AiController : MonoBehaviour
 	/// <returns></returns>
 	private Transform FindClosestPlayer()
 	{
-		if (PlayerInput.all.Count <= 0) return null;
-		Transform currClosest = PlayerInput.all[0].GetComponent<PlayerController>().Body.transform;
-		foreach (PlayerInput input in PlayerInput.all)
+		if (GameManager.Instance.Players.Count <= 0) return null;
+		currClosestPlayer = GameManager.Instance.Players[0].transform;
+		foreach (PlayerBody body in GameManager.Instance.Players)
 		{
-			PlayerBody body = input.GetComponent<PlayerController>().Body;
-			if (Vector3.Distance(body.transform.position, transform.position) < Vector3.Distance(currClosest.transform.position, transform.position))
+			if (Vector3.Distance(body.transform.position, transform.position) < Vector3.Distance(currClosestPlayer.transform.position, transform.position))
 			{
-				currClosest = body.transform;
+				currClosestPlayer = body.transform;
 			}
 		}
-		return currClosest;
+		return currClosestPlayer;
 	}
 }

@@ -39,10 +39,10 @@ namespace Managers
             GameManager.Instance.IsPaused = false;
             pauseScreen.SetActive(GameManager.Instance.IsPaused);
 			GameManager.Instance.QuitGame();
-            for (int i = PlayerInput.all.Count - 1; i >= 0; i--)
+            for (int i = GameManager.Instance.Players.Count - 1; i >= 0; i--)
             {
                 // Delete all player instances.
-                Destroy(PlayerInput.all[i].gameObject);
+                Destroy(GameManager.Instance.Players[i].Controller.gameObject);
             }
 			LevelLoadManager.Instance.LoadNewLevel("00_MainMenu");
 

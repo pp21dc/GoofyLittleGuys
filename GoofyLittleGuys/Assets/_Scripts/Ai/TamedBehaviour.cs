@@ -17,8 +17,6 @@ public class TamedBehaviour : MonoBehaviour
 
 	private AiController controller;
 	[SerializeField] private float stateChangeCooldown = 0.1f; // 100ms buffer
-	private float timeSinceLastStateChange = 0f;
-	private bool previousIsMovingState = false;
 
 	private void UpdateAnimation()
 	{
@@ -49,7 +47,7 @@ public class TamedBehaviour : MonoBehaviour
 	void Update()
 	{
 		// Flip character
-		if (controller.Player != null) movementDirection = (controller.Player.position - transform.position).normalized;
+		if (controller.FollowPosition != null) movementDirection = (controller.FollowPosition.position - transform.position).normalized;
 
 		if (controller.RB.velocity.x > 0) controller.LilGuy.Flip = true;
 		else if (controller.RB.velocity.x < 0) controller.LilGuy.Flip = false;
@@ -58,8 +56,8 @@ public class TamedBehaviour : MonoBehaviour
 
 	private void FixedUpdate()
 	{
-		if (controller.Player == null) return;
-		if (controller.LilGuy == controller.Player.GetComponentInParent<PlayerBody>().ActiveLilGuy) return;
+		if (controller.FollowPosition == null) return;
+		if (controller.LilGuy == controller.LilGuy.PlayerOwner.ActiveLilGuy) return;
 
 		FollowPlayer();
 		UpdateAnimation();
@@ -75,19 +73,16 @@ public class TamedBehaviour : MonoBehaviour
 		if (distanceToPlayer > teleportRange)
 		{
 			// Teleport lil guy to the player
-			transform.position = controller.Player.position;
+			transform.position = controller.FollowPosition.position;
 			currentVelocity = Vector3.zero; // Reset velocity
 		}
 		else if (distanceToPlayer > followRange)
 		{
 			// Calculate movement direction
-			movementDirection = (controller.Player.position - transform.position).normalized;
+			movementDirection = (controller.FollowPosition.position - transform.position).normalized;
 
 			// Calculate the target velocity
-			float lilGuySpeed = Mathf.Max(
-				controller.LilGuy.PlayerOwner.GetComponent<PlayerBody>().MaxSpeed,
-				controller.LilGuy.Speed
-			);
+			float lilGuySpeed = controller.LilGuy.PlayerOwner.MaxSpeed;
 			Vector3 targetVelocity = movementDirection * lilGuySpeed;
 
 			// Smoothly adjust current velocity

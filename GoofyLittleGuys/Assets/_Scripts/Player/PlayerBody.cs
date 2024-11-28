@@ -19,7 +19,7 @@ public class PlayerBody : MonoBehaviour
 	[SerializeField] private PlayerController controller;
 
 	[Header("Movement Parameters")]
-	[SerializeField, Range(1, 25f)] private float maxSpeed = 25f;       // To be replaced with lilGuys[0].speed
+	[SerializeField] private float maxSpeed = 25f;			 // This turns into the speed of the active lil guy's. Used for the AI follow behaviours so they all keep the same speed in following the player.
 	[SerializeField] private float accelerationTime = 0.1f;  // Time to reach target speed
 	[SerializeField] private float decelerationTime = 0.2f;  // Time to stop
 	[SerializeField] private float smoothFactor = 0.8f;      // Factor for smooth transitions
@@ -66,11 +66,13 @@ public class PlayerBody : MonoBehaviour
 	public int MaxBerryCount => maxBerryCount;
 	public float MaxSpeed => maxSpeed;
 	public PlayerUi PlayerUI => playerUi;
+	public PlayerController Controller => controller;
 
 	private void Start()
 	{
 		rb = GetComponent<Rigidbody>();
 		EventManager.Instance.GameStarted += Init;
+		if (lilGuyTeam[0] != null) maxSpeed = lilGuyTeam[0].Speed;
 	}
 
 	private void OnDestroy()
@@ -82,6 +84,8 @@ public class PlayerBody : MonoBehaviour
 		// Flip player if they're moving in a different direction than what they're currently facing.
 		if (flip) playerMesh.transform.rotation = Quaternion.Euler(0, 180, 0);
 		else playerMesh.transform.rotation = Quaternion.Euler(0, 0, 0);
+
+		if (lilGuyTeam[0] != null) maxSpeed = lilGuyTeam[0].Speed;
 
 		// If the first lil guy is defeated, move to end of list automatically
 		if (lilGuyTeam[0].Health <= 0)
@@ -182,7 +186,7 @@ public class PlayerBody : MonoBehaviour
 
 			playerUi.SetBerryCount(berryCount);
 
-			closestWildLilGuy.PlayerOwner = gameObject.GetComponent<PlayerBody>();
+			closestWildLilGuy.PlayerOwner = this;
 			closestWildLilGuy.Init(LayerMask.NameToLayer("PlayerLilGuys"));
 			closestWildLilGuy.Health = closestWildLilGuy.MaxHealth;
 			closestWildLilGuy.GetComponent<AiController>().SetState(AiController.AIState.Tamed);

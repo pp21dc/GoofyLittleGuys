@@ -23,14 +23,14 @@ public class SpeedType : LilGuyBase
 
 		// Determine the Rigidbody based on the current game phase
 		Rigidbody rb = GameManager.Instance.CurrentPhase < 2 ? playerOwner.GetComponent<Rigidbody>() : GetComponent<Rigidbody>();
-		dashDirection = playerOwner.GetComponent<PlayerBody>().MovementDirection.normalized;
+		dashDirection = playerOwner.MovementDirection.normalized;
 
 		// Ensure there’s movement input
 		if (dashDirection == Vector3.zero) return;
 
 		// Start dash in PlayerBody
 		dashStartPosition = rb.position;
-		playerOwner.GetComponent<PlayerBody>().StartDash();
+		playerOwner.StartDash();
 
 		// Apply initial force to start the dash
 		float dashSpeed = speed * rb.velocity.magnitude; // Tunable dash speed
@@ -67,7 +67,7 @@ public class SpeedType : LilGuyBase
 	private IEnumerator SmoothLerpVelocity(Rigidbody rb)
 	{
 		Vector3 initialVelocity = rb.velocity;
-		Vector3 targetVelocity = playerOwner.GetComponent<PlayerBody>().MovementDirection.normalized * playerOwner.GetComponent<PlayerBody>().MaxSpeed;
+		Vector3 targetVelocity = playerOwner.MovementDirection.normalized * playerOwner.MaxSpeed;
 		float elapsedTime = 0f;
 
 		while (elapsedTime < dashLerpTime)
@@ -79,6 +79,6 @@ public class SpeedType : LilGuyBase
 
 		// Finalize dash stop in PlayerBody
 		rb.velocity = targetVelocity;
-		playerOwner.GetComponent<PlayerBody>().StopDash();
+		playerOwner.StopDash();
 	}
 }

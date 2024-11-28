@@ -158,7 +158,8 @@ public abstract class LilGuyBase : MonoBehaviour
 	private IEnumerator FlashRed()
 	{
 		float timeElapsed = 0f;
-		GetComponentInChildren<SpriteRenderer>().color = Color.red;
+		SpriteRenderer renderer = GetComponentInChildren<SpriteRenderer>();
+		renderer.color = Color.red;
 
 		while (timeElapsed < 1.5f)
 		{
@@ -167,14 +168,14 @@ public abstract class LilGuyBase : MonoBehaviour
 
 			// Interpolate the green channel from 1 to 0
 			Color newColor = new Color(1, Mathf.Lerp(0, 1, progress), Mathf.Lerp(0, 1, progress), 1);
-			GetComponentInChildren<SpriteRenderer>().color = newColor;
+			renderer.color = newColor;
 
 			// Increase elapsed time and wait until next frame
 			timeElapsed += Time.deltaTime;
 			yield return null;
 		}
 
-		GetComponentInChildren<SpriteRenderer>().color = Color.white;
+		renderer.color = Color.white;
 	}
 
 	/// <summary>

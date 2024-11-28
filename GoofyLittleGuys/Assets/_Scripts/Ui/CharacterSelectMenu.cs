@@ -136,10 +136,8 @@ public class CharacterSelectMenu : MonoBehaviour
 		switch (currentState)
 		{
 			case CharacterSelectState.CharacterSelect:
-				if (PlayerInput.all.Count < 2)
-					MultiplayerManager.Instance.CharacterSelectScreen.LeaveAllPlayers();
+				if (GameManager.Instance.Players.Count < 2) MultiplayerManager.Instance.CharacterSelectScreen.LeaveAllPlayers();
 				else MultiplayerManager.Instance.LeavePlayer(player);
-				Debug.Log($"Player Count: {PlayerInput.all.Count}");
 				break;
 
 			case CharacterSelectState.LockedIn:
@@ -166,7 +164,7 @@ public class CharacterSelectMenu : MonoBehaviour
 	/// <returns>True if all players are locked in, false if there's less than 2 players in the game, or at least one player isn't locked in.</returns>
 	private bool CheckIfValidGameStart()
 	{
-		if (PlayerInput.all.Count < 2) return false;
+		if (GameManager.Instance.Players.Count < 2) return false;
 		if (!MultiplayerManager.Instance.CharacterSelectScreen.AllPlayersLockedIn()) return false;
 		return true;
 	}
@@ -192,16 +190,18 @@ public class CharacterSelectMenu : MonoBehaviour
 		SetButtonLockState(true);
 
 		// Create a new starter lil guy
-		GameObject starter = Instantiate(starters[currStarterIndex].gameObject);
-		starter.GetComponent<LilGuyBase>().SetFollowGoal(controller.Body.LilGuyTeamSlots[0].transform);
-		starter.GetComponent<LilGuyBase>().Init(LayerMask.NameToLayer("PlayerLilGuys"));
-		starter.transform.SetParent(controller.Body.transform, true);
-		starter.GetComponent<Rigidbody>().isKinematic = true;
-		starter.transform.localPosition = Vector3.zero;
-		controller.Body.ActiveLilGuy = starter.GetComponent<LilGuyBase>();
+		GameObject starterGO = Instantiate(starters[currStarterIndex].gameObject);
+		LilGuyBase starter = starterGO.GetComponent<LilGuyBase>();
+
+		starter.SetFollowGoal(controller.Body.LilGuyTeamSlots[0].transform);
+		starter.Init(LayerMask.NameToLayer("PlayerLilGuys"));
+		starterGO.transform.SetParent(controller.Body.transform, true);
+		starterGO.GetComponent<Rigidbody>().isKinematic = true;
+		starterGO.transform.localPosition = Vector3.zero;
+		controller.Body.ActiveLilGuy = starter;
 
 		// Add the lil guy to the player's party.
-		controller.Body.LilGuyTeam.Add(starter.GetComponent<LilGuyBase>());
+		controller.Body.LilGuyTeam.Add(starter);
 		controller.Body.LilGuyTeam[0].PlayerOwner = controller.Body;
 
 	}

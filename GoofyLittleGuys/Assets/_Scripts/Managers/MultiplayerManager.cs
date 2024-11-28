@@ -33,11 +33,8 @@ namespace Managers
 
 		public void OnPlayerJoined(PlayerInput input)
 		{
-			if (!canJoinLeave) return; 
-			if (PlayerInputManager.instance.playerCount == 3)
-			{
-				PlayerInput.all[2].GetComponent<PlayerController>().PlayerCam.rect = new Rect(0.25f, 0, 0.5f, 0.5f);
-			}
+			if (!canJoinLeave) return;
+			GameManager.Instance.Players.Add(input.GetComponentInChildren<PlayerBody>());
 			characterSelectScreen.OnPlayerJoin(input);
 		}
 
@@ -62,27 +59,27 @@ namespace Managers
 		/// </summary>
 		public void AdjustCameraRects()
 		{
-			int playerCount = PlayerInput.all.Count;
+			int playerCount = GameManager.Instance.Players.Count;
 
 			if (playerCount == 3)
 			{
 				// Centering the 3rd player to the bottom of the screen, which is why it's not in a for loop
-				PlayerInput.all[2].GetComponent<PlayerController>().PlayerCam.rect = new Rect(0f, 0f, 0.5f, 0.5f);
-				PlayerInput.all[1].GetComponent<PlayerController>().PlayerCam.rect = new Rect(0.5f, 0.5f, 0.5f, 0.5f);
-				PlayerInput.all[0].GetComponent<PlayerController>().PlayerCam.rect = new Rect(0f, 0.5f, 0.5f, 0.5f);
+				GameManager.Instance.Players[2].Controller.PlayerCam.rect = new Rect(0f, 0f, 0.5f, 0.5f);
+				GameManager.Instance.Players[1].Controller.PlayerCam.rect = new Rect(0.5f, 0.5f, 0.5f, 0.5f);
+				GameManager.Instance.Players[0].Controller.PlayerCam.rect = new Rect(0f, 0.5f, 0.5f, 0.5f);
 			}
 			else if (playerCount == 2)
 			{
 				// Half and half
-				for (int i = 0; i < PlayerInput.all.Count; i++)
+				for (int i = 0; i < GameManager.Instance.Players.Count; i++)
 				{
-					PlayerInput.all[i].GetComponent<PlayerController>().PlayerCam.rect = new Rect(i * 0.5f, 0, 0.5f, 1f);
+					GameManager.Instance.Players[i].Controller.PlayerCam.rect = new Rect(i * 0.5f, 0, 0.5f, 1f);
 				}
 			}
 			else if (playerCount == 1)
 			{
 				// Full screen view
-				PlayerInput.all[0].GetComponent<PlayerController>().PlayerCam.rect = new Rect(0, 0, 1f, 1f);
+				GameManager.Instance.Players[0].Controller.PlayerCam.rect = new Rect(0, 0, 1f, 1f);
 			}
 		}
 
