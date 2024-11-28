@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Collections;
 using UnityEngine;
 // Written By: Bryan Bedard
 // Edited by: Bryan Bedard, 
@@ -8,18 +9,23 @@ using UnityEngine;
 public class SpawnerObj : MonoBehaviour
 {
     
-    [SerializeField]
+    [ReadOnly]
     private float spawnRadius;
 
     public LayerMask GroundLayer;
 
-    /// <summary>
-    /// This method accepts a Lil Guy (or any object) and spawns it
-    /// at a random point within this spawner's radius.
-    /// </summary>
-    /// <param name="newLilGuy"></param>
-    /// <returns></returns>
-    public void SpawnLilGuy(GameObject newLilGuy)
+	private void Start()
+	{
+		spawnRadius = GetComponent<SphereCollider>().radius;
+	}
+
+	/// <summary>
+	/// This method accepts a Lil Guy (or any object) and spawns it
+	/// at a random point within this spawner's radius.
+	/// </summary>
+	/// <param name="newLilGuy"></param>
+	/// <returns></returns>
+	public void SpawnLilGuy(GameObject newLilGuy)
     {
         //int failedAttempts = 0;
         Vector3 spawningPos = PickValidSpot();

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1681694873290375361}
   - component: {fileID: 2953788843266795102}
+  - component: {fileID: 3945141084385202937}
   m_Layer: 0
   m_Name: TestSpawner
   m_TagString: Untagged
@@ -44,7 +45,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9860e9ee7815874b9489b42ca552bd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnRadius: 2
   GroundLayer:
     serializedVersion: 2
     m_Bits: 8
+--- !u!135 &3945141084385202937
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8422712079357703224}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 10
+  m_Center: {x: 0, y: 0, z: 0}

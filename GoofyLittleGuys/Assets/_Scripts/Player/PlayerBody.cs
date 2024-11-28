@@ -209,6 +209,7 @@ public class PlayerBody : MonoBehaviour
 
 			playerUi.SetBerryCount(berryCount);
 
+			SpawnManager.Instance.RemoveLilGuyFromSpawns();
 			closestWildLilGuy.PlayerOwner = this;
 			closestWildLilGuy.Init(LayerMask.NameToLayer("PlayerLilGuys"));
 			closestWildLilGuy.Health = closestWildLilGuy.MaxHealth;

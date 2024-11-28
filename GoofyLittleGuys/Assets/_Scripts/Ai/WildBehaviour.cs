@@ -1,3 +1,4 @@
+using Managers;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -99,6 +100,7 @@ public class WildBehaviour : MonoBehaviour
 			currTime += Time.deltaTime;
 			yield return null;
 		}
+		SpawnManager.Instance.RemoveLilGuyFromSpawns();
 		Destroy(gameObject);
 		actionCoroutine = null;
 	}
