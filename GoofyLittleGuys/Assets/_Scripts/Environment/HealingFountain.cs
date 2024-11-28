@@ -54,7 +54,7 @@ public class HealingFountain : InteractableBase
 				// Reset their visuals.
 				lilGuy.Health = lilGuy.MaxHealth;
 				lilGuy.gameObject.SetActive(true);
-				lilGuy.GetComponent<SpriteRenderer>().color = Color.white;
+				lilGuy.GetComponentInChildren<SpriteRenderer>().color = Color.white;
 			}
 		}
 		// Play healing effect?
