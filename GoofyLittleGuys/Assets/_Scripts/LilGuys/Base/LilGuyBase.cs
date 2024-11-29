@@ -205,6 +205,8 @@ public abstract class LilGuyBase : MonoBehaviour
 	public void OnDeath()
 	{
 		if (anim != null) anim.Play("Death");
+		isInBasicAttack = false;
+		isInSpecialAttack = false;
 		GetComponent<Hurtbox>().lastHit.GetComponent<PlayerBody>().LilGuyTeam[0].AddXP(Level * 2);
 	}
 

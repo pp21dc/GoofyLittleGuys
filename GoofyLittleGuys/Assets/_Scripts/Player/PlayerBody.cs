@@ -366,7 +366,7 @@ public class PlayerBody : MonoBehaviour
 	/// </summary>
 	private void Respawn()
 	{
-		transform.position = GameManager.Instance.FountainSpawnPoint.position;
+		rb.MovePosition(GameManager.Instance.FountainSpawnPoint.position);
 		for (int i = 0; i < lilGuyTeam.Count; i++)
 		{
 			lilGuyTeam[i].Health = lilGuyTeam[i].MaxHealth;
