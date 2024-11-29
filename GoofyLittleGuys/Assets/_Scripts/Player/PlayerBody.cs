@@ -104,7 +104,7 @@ public class PlayerBody : MonoBehaviour
 		if (lilGuyTeam[0].Health <= 0)
 		{
 			// Hide them from player, as to not confuse them with a living one... maybe find a better way to convey this
-			lilGuyTeam[0].gameObject.SetActive(false);
+			lilGuyTeam[0].PlayDeathAnim();
 			lilGuyTeam[0].SetLayer(LayerMask.NameToLayer("Player"));
 			lilGuyTeam[0].GetComponentInChildren<SpriteRenderer>().color = Color.white;
 
@@ -371,6 +371,7 @@ public class PlayerBody : MonoBehaviour
 		{
 			lilGuyTeam[i].Health = lilGuyTeam[i].MaxHealth;
 			lilGuyTeam[i].gameObject.SetActive(true);
+			lilGuyTeamSlots[i].CheckIfLiving(lilGuyTeam[i]);
 		}
 		canMove = true;
 		lilGuyTeam[0].SetLayer(LayerMask.NameToLayer("PlayerLilGuys"));

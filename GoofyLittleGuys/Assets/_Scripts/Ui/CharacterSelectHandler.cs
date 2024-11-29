@@ -33,10 +33,10 @@ public class CharacterSelectHandler : MonoBehaviour
 			if (charSelectUnits[i].GetComponent<CharacterSelectMenu>().Player == input)
 			{
 				GameObject menuToRemove = charSelectUnits[i];
-				charSelectUnits.RemoveAt(i);
-				Destroy(menuToRemove);
 				GameManager.Instance.Players.RemoveAt(i);
+				charSelectUnits.RemoveAt(i);
 				Destroy(input.gameObject);
+				Destroy(menuToRemove);
 				break;
 			}
 		}
@@ -47,10 +47,10 @@ public class CharacterSelectHandler : MonoBehaviour
 	{
 		for(int i = GameManager.Instance.Players.Count - 1; i >= 0; i--)
 		{
-			Destroy(charSelectUnits[i].gameObject);
-			Destroy(GameManager.Instance.Players[i].Controller.gameObject);
+			//Destroy(charSelectUnits[i].gameObject);
+			//Destroy(GameManager.Instance.Players[i].Controller.gameObject);
 		}
-		LevelLoadManager.Instance.LoadNewLevel("00_MainMenu");
+		//LevelLoadManager.Instance.LoadNewLevel("00_MainMenu");
 	}
 
 	public bool AllPlayersLockedIn()

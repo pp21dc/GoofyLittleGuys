@@ -158,6 +158,13 @@ public abstract class LilGuyBase : MonoBehaviour
 		if (isAttacking) Attack();
 	}
 
+	private void FixedUpdate()
+	{
+		if (GetComponent<Rigidbody>().velocity.y < 0)
+		{
+			GetComponent<Rigidbody>().velocity += Vector3.up * Physics.gravity.y * (4 - 1) * Time.fixedDeltaTime;
+		}
+	}
 	private void UpdateAnimations()
 	{
 		if (!isDead)
@@ -200,6 +207,24 @@ public abstract class LilGuyBase : MonoBehaviour
 	{
 		StartCoroutine(FlashRed());
 		if (anim != null && !isDead) anim.Play("Hurt");
+		isInBasicAttack = false;
+		isInSpecialAttack = false;
+		isAttacking = false;
+	}
+
+	public void PlayDeathAnim()
+	{
+		if (anim != null) anim.Play("Death");
+		isInBasicAttack = false;
+		isAttacking = false;
+		isInSpecialAttack = false;
+		StartCoroutine(Disappear());
+	}
+
+	private IEnumerator Disappear()
+	{
+		yield return new WaitUntil(() => anim.GetCurrentAnimatorStateInfo(0).IsName("Death") && anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f);
+		gameObject.SetActive(false);
 	}
 
 	public void OnDeath()

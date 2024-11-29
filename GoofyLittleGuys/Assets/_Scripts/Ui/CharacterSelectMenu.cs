@@ -136,8 +136,8 @@ public class CharacterSelectMenu : MonoBehaviour
 		switch (currentState)
 		{
 			case CharacterSelectState.CharacterSelect:
-				if (GameManager.Instance.Players.Count < 2) MultiplayerManager.Instance.CharacterSelectScreen.LeaveAllPlayers();
-				else MultiplayerManager.Instance.LeavePlayer(player);
+				MultiplayerManager.Instance.LeavePlayer(player);
+				if (GameManager.Instance.Players.Count <= 0) LevelLoadManager.Instance.LoadNewLevel("00_MainMenu");
 				break;
 
 			case CharacterSelectState.LockedIn:

@@ -9,8 +9,11 @@ public class SpeedType : LilGuyBase
 	private Coroutine dashCoroutine;
 	private float dashLerpTime = 2f; // Time to smoothly transition back to normal speed
 	private Vector3 dashDirection;
+	public Vector3 DashDirection { get { return dashDirection; } set { dashDirection = value; } }
 	private Vector3 dashStartPosition;
-
+	private Rigidbody rb;
+	private bool isDashing = false;
+	float traveledDistance = 0;
 	public SpeedType(string guyName, int heath, int maxHealth, PrimaryType type, int speed, int stamina, int strength) : base(guyName, heath, maxHealth, type, speed, stamina, strength)
 	{
 	}
@@ -24,15 +27,27 @@ public class SpeedType : LilGuyBase
 			base.Special();
 
 			// Determine the Rigidbody based on the current game phase
-			Rigidbody rb = GameManager.Instance.CurrentPhase < 2 ? playerOwner.GetComponent<Rigidbody>() : GetComponent<Rigidbody>();
-			dashDirection = playerOwner.MovementDirection.normalized;
+			if (playerOwner != null)
+			{
+				rb = playerOwner.GetComponent<Rigidbody>();
+				dashDirection = playerOwner.MovementDirection.normalized;
 
+				if (dashDirection == Vector3.zero) return;
+				dashStartPosition = rb.position;
+				playerOwner.StartDash();
+			}
+			else
+			{
+				rb = GetComponent<Rigidbody>();
+				dashStartPosition = rb.position;
+				isDashing = true;
+
+			}
+			Debug.Log(rb);
 			// Ensure there’s movement input
 			if (dashDirection == Vector3.zero) return;
 
 			// Start dash in PlayerBody
-			dashStartPosition = rb.position;
-			playerOwner.StartDash();
 
 			// Apply initial force to start the dash
 			float dashSpeed = speed * rb.velocity.magnitude; // Tunable dash speed
@@ -47,18 +62,30 @@ public class SpeedType : LilGuyBase
 
 	private void FixedUpdate()
 	{
-		if (playerOwner == null) return;
-
-		// Get Rigidbody based on current game phase
-		Rigidbody rb = GameManager.Instance.CurrentPhase < 2 ? playerOwner.GetComponent<Rigidbody>() : GetComponent<Rigidbody>();
-		if (!playerOwner.GetComponent<PlayerBody>().IsDashing) return;
-
-		// Check if the dash has reached its max distance
-		float traveledDistance = Vector3.Distance(dashStartPosition, rb.position);
-		if (traveledDistance >= distance)
+		if (playerOwner != null)
 		{
-			// Stop dash smoothly
-			dashCoroutine ??= StartCoroutine(SmoothLerpVelocity(rb));
+			// Get Rigidbody based on current game phase
+			if (!playerOwner.GetComponent<PlayerBody>().IsDashing) return;
+
+			// Check if the dash has reached its max distance
+			float traveledDistance = Vector3.Distance(dashStartPosition, rb.position);
+			if (traveledDistance >= distance)
+			{
+				// Stop dash smoothly
+				dashCoroutine ??= StartCoroutine(SmoothLerpVelocity(rb));
+			}
+		}
+		else
+		{
+			if (!isDashing) return;
+			Debug.Log("Dashed!");
+			// Check if the dash has reached its max distance
+			traveledDistance = Vector3.Distance(dashStartPosition, rb.position);
+			if (traveledDistance >= distance)
+			{
+				// Stop dash smoothly
+				dashCoroutine ??= StartCoroutine(SmoothLerpVelocity(rb));
+			}
 		}
 	}
 
@@ -70,7 +97,7 @@ public class SpeedType : LilGuyBase
 	private IEnumerator SmoothLerpVelocity(Rigidbody rb)
 	{
 		Vector3 initialVelocity = rb.velocity;
-		Vector3 targetVelocity = playerOwner.MovementDirection.normalized * playerOwner.MaxSpeed;
+		Vector3 targetVelocity = (playerOwner != null) ? playerOwner.MovementDirection.normalized * playerOwner.MaxSpeed : dashDirection * speed;
 		float elapsedTime = 0f;
 
 		while (elapsedTime < dashLerpTime)
@@ -82,6 +109,12 @@ public class SpeedType : LilGuyBase
 
 		// Finalize dash stop in PlayerBody
 		rb.velocity = targetVelocity;
-		playerOwner.StopDash();
+		if (playerOwner != null) playerOwner.StopDash();
+		else
+		{
+
+			isDashing = false;
+			traveledDistance = 0;
+		}
 	}
 }
