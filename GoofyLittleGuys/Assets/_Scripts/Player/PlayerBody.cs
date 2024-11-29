@@ -105,6 +105,7 @@ public class PlayerBody : MonoBehaviour
 		{
 			// Hide them from player, as to not confuse them with a living one... maybe find a better way to convey this
 			lilGuyTeam[0].gameObject.SetActive(false);
+			lilGuyTeam[0].SetLayer(LayerMask.NameToLayer("Player"));
 			lilGuyTeam[0].GetComponentInChildren<SpriteRenderer>().color = Color.white;
 
 
@@ -137,6 +138,7 @@ public class PlayerBody : MonoBehaviour
 
 				lilGuyTeam[0].SetFollowGoal(lilGuyTeamSlots[0].transform); // Update follow goal
 				lilGuyTeam[0].GetComponent<Rigidbody>().isKinematic = true;
+				lilGuyTeam[0].SetLayer(LayerMask.NameToLayer("PlayerLilGuys"));
 				lilGuyTeam[0].transform.localPosition = Vector3.zero;
 				activeLilGuy = lilGuyTeam[0];
 			}
@@ -211,7 +213,7 @@ public class PlayerBody : MonoBehaviour
 
 			SpawnManager.Instance.RemoveLilGuyFromSpawns();
 			closestWildLilGuy.PlayerOwner = this;
-			closestWildLilGuy.Init(LayerMask.NameToLayer("PlayerLilGuys"));
+			closestWildLilGuy.Init(LayerMask.NameToLayer("Player"));
 			closestWildLilGuy.Health = closestWildLilGuy.MaxHealth;
 			closestWildLilGuy.GetComponent<AiController>().SetState(AiController.AIState.Tamed);
 			closestWildLilGuy.LeaveDeathAnim();
@@ -257,9 +259,10 @@ public class PlayerBody : MonoBehaviour
 		// Only one lil guy, so you can't swap.
 		if (lilGuyTeam.Count <= 1 || Time.time <= nextSwapTime) return;
 
-		foreach (var lilGuy in lilGuyTeam)
+		foreach (LilGuyBase lilGuy in lilGuyTeam)
 		{
 			lilGuy.GetComponent<Rigidbody>().isKinematic = false;
+			lilGuy.SetLayer(LayerMask.NameToLayer("Player"));
 		}
 
 		List<LilGuyBase> aliveTeamMembers = lilGuyTeam.Where(guy => guy.Health > 0).ToList();       // Filter out the dead team members from the live ones.
@@ -303,6 +306,7 @@ public class PlayerBody : MonoBehaviour
 		}
 
 		lilGuyTeam[0].GetComponent<Rigidbody>().isKinematic = true;
+		lilGuyTeam[0].SetLayer(LayerMask.NameToLayer("PlayerLilGuys"));
 		lilGuyTeam[0].transform.localPosition = Vector3.zero;
 		activeLilGuy = lilGuyTeam[0];
 		nextSwapTime = Time.time + swapCooldown;
@@ -369,6 +373,7 @@ public class PlayerBody : MonoBehaviour
 			lilGuyTeam[i].gameObject.SetActive(true);
 		}
 		canMove = true;
+		lilGuyTeam[0].SetLayer(LayerMask.NameToLayer("PlayerLilGuys"));
 	}
 
 	/// <summary>

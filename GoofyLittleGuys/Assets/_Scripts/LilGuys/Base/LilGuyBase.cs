@@ -103,9 +103,14 @@ public abstract class LilGuyBase : MonoBehaviour
 	/// <param name="layer">The layer that this lil guy should be on.</param>
 	public void Init(LayerMask layer)
 	{
-		gameObject.layer = layer;
+		SetLayer(layer);
 		GetComponentInChildren<AiHealthUi>().gameObject.SetActive(false);
 		GetComponent<AiController>().SetState(AiController.AIState.Tamed);
+	}
+
+	public void SetLayer(LayerMask layer)
+	{
+		gameObject.layer = layer;
 	}
 
 	private void Update()
@@ -242,7 +247,6 @@ public abstract class LilGuyBase : MonoBehaviour
 
 			// Configure the hitbox
 			Hitbox hitbox = instantiatedHitbox.GetComponent<Hitbox>();
-			hitbox.layerMask = PlayerOwner.gameObject != null ? PlayerOwner.gameObject.layer : gameObject.layer;
 			hitbox.Init(gameObject); // Pass the target directly to enhance accuracy
 		}
 

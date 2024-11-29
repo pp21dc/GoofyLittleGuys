@@ -66,6 +66,7 @@ public class TeamFullMenu : MonoBehaviour
 		// Setting layer to Player Lil Guys, and putting the lil guy into the first empty slot available.
 		lilGuyBeingCaught.gameObject.transform.SetParent(body.transform, true);
 		lilGuyBeingCaught.gameObject.GetComponent<Rigidbody>().isKinematic = (choice == 0);
+		lilGuyBeingCaught.SetLayer((choice == 0) ? LayerMask.NameToLayer("PlayerLilGuys") : LayerMask.NameToLayer("Player"));
 		lilGuyBeingCaught.gameObject.transform.localPosition = Vector3.zero;
 		lilGuyBeingCaught.SetFollowGoal(body.LilGuyTeamSlots[choice].transform);
 
