@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem.XR;
 using Random = UnityEngine.Random;
 
 public abstract class LilGuyBase : MonoBehaviour
@@ -34,30 +35,36 @@ public abstract class LilGuyBase : MonoBehaviour
 	[SerializeField] protected float cooldownDuration = 1;
 	[SerializeField] protected float chargeRefreshRate = 1;
 
-	protected PlayerBody playerOwner = null;
 	protected float cooldownTimer = 0;
 	protected float chargeTimer = 0;
+
+
+	[Header("Movement Specific")]
+	[SerializeField] private float accelerationTime = 0.1f;  // Time to reach target speed
+	private Rigidbody rb;
+	private Vector3 currentVelocity = Vector3.zero;
+	protected Vector3 movementDirection = Vector3.zero;
+
+	// AI Specific
 	protected Transform goalPosition;
-
+	protected PlayerBody playerOwner = null;
 	private bool isMoving = false;
-	private bool isHurt = false;
-	private bool isDead = false;
 
-	private bool isAttacking = false;
 
 	// ANIMATION RELATED
+	private bool isAttacking = false;
 	private bool isInBasicAttack = false;
 	private bool isInSpecialAttack = false;
 
-	private GameObject instantiatedHitbox;
 
 	// Variables for attack speed and cooldown
 	[SerializeField] private float attackCooldown = 1f; // Cooldown duration in seconds
-	[SerializeField] private float attackRange = 2f;   // Max attack range
 	[SerializeField] private GameObject attackEffect;  // Optional VFX prefab for hit feedback
-
+	private GameObject instantiatedHitbox;
 	private float lastAttackTime = -999f; // Tracks the last time an attack occurred
+
 	private bool flip = false;
+	private bool isDead = false;
 
 	#region Getters and Setters
 	public int Level { get => level; set => level = value; }
@@ -68,6 +75,9 @@ public abstract class LilGuyBase : MonoBehaviour
 	public float Strength { get => strength; set => strength = value; }
 	public string GuyName { get => guyName; set => guyName = value; }
 	public PlayerBody PlayerOwner { get => playerOwner; set => playerOwner = value; }
+	public Rigidbody RB => rb;
+	public Vector3 MovementDirection { get { return movementDirection; } set { movementDirection = value; } }
+	public Vector3 CurrentVelocity => currentVelocity;
 	public PrimaryType Type { get => type; set => type = value; }
 	public bool Flip { get { return flip; } set { flip = value; } }
 	public bool IsMoving { get { return isMoving; } set { isMoving = value; } }
@@ -87,14 +97,9 @@ public abstract class LilGuyBase : MonoBehaviour
 		Defense,
 		Speed
 	}
-
-	/// <summary>
-	/// Method that sets the goal position that this Lil Guy will try and follow to (if owned by a player)
-	/// </summary>
-	/// <param name="goalPosition">The goal position the Lil Guy wants to get to.</param>
-	public void SetFollowGoal(Transform goalPosition)
+	private void Start()
 	{
-		this.goalPosition = goalPosition;
+		rb = GetComponent<Rigidbody>();
 	}
 
 	/// <summary>
@@ -108,14 +113,16 @@ public abstract class LilGuyBase : MonoBehaviour
 		GetComponent<AiController>().SetState(AiController.AIState.Tamed);
 	}
 
-	public void SetLayer(LayerMask layer)
-	{
-		gameObject.layer = layer;
-	}
-
-	private void Update()
+	protected virtual void Update()
 	{
 		// Flip character
+		if (playerOwner == null || (playerOwner != null && playerOwner.ActiveLilGuy != this))
+		{
+			// Wild or not active, so the flipping is decided on their own velocity
+			if (currentVelocity.x > 0) flip = true;
+			else if (currentVelocity.x < 0) flip = false;
+		}
+
 		if (flip) mesh.transform.localRotation = Quaternion.Euler(0, 180, 0);
 		else mesh.transform.localRotation = Quaternion.identity;
 
@@ -127,19 +134,14 @@ public abstract class LilGuyBase : MonoBehaviour
 		else isDead = false;
 
 		if (isDead) return;
+
 		// Replenish cooldown over time.
-		if (cooldownTimer > 0)
-		{
-			cooldownTimer -= Time.deltaTime;
-		}
+		if (cooldownTimer > 0) cooldownTimer -= Time.deltaTime;
 
 		// Regenerate charges over time
 		if (currentCharges < maxCharges)
 		{
-			if (chargeTimer > 0)
-			{
-				chargeTimer -= Time.deltaTime;
-			}
+			if (chargeTimer > 0) chargeTimer -= Time.deltaTime;
 			else
 			{
 				// Add a charge and reset the timer
@@ -148,6 +150,7 @@ public abstract class LilGuyBase : MonoBehaviour
 			}
 		}
 
+		// Level Up
 		if (Xp >= max_xp)
 		{
 			Xp -= max_xp;
@@ -160,6 +163,7 @@ public abstract class LilGuyBase : MonoBehaviour
 
 	private void FixedUpdate()
 	{
+		// Applying modified gravity
 		if (GetComponent<Rigidbody>().velocity.y < 0)
 		{
 			GetComponent<Rigidbody>().velocity += Vector3.up * Physics.gravity.y * (4 - 1) * Time.fixedDeltaTime;
@@ -209,27 +213,24 @@ public abstract class LilGuyBase : MonoBehaviour
 		if (anim != null && !isDead && !isInBasicAttack && !isInSpecialAttack) anim.SetTrigger("Hurt");
 	}
 
-	public void PlayDeathAnim()
+	public void PlayDeathAnim(bool isWild = false)
 	{
 		if (anim != null) anim.Play("Death");
 		isInBasicAttack = false;
 		isAttacking = false;
 		isInSpecialAttack = false;
-		StartCoroutine(Disappear());
+		if (!isWild) StartCoroutine(Disappear());
+		else GetComponent<Hurtbox>().lastHit.GetComponent<PlayerBody>().LilGuyTeam[0].AddXP(Level * 2);
 	}
 
+	/// <summary>
+	/// Sets the Lil Guy to inactive after their death animation has played fully.
+	/// </summary>
+	/// <returns></returns>
 	private IEnumerator Disappear()
 	{
 		yield return new WaitUntil(() => anim.GetCurrentAnimatorStateInfo(0).IsName("Death") && anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f);
 		gameObject.SetActive(false);
-	}
-
-	public void OnDeath()
-	{
-		if (anim != null) anim.Play("Death");
-		isInBasicAttack = false;
-		isInSpecialAttack = false;
-		GetComponent<Hurtbox>().lastHit.GetComponent<PlayerBody>().LilGuyTeam[0].AddXP(Level * 2);
 	}
 
 	/// <summary>
@@ -247,16 +248,10 @@ public abstract class LilGuyBase : MonoBehaviour
 		}
 		if (anim != null)
 		{
-			if (!isInBasicAttack && !isInSpecialAttack)
-			{
-				anim.SetTrigger("BasicAttack");
-			}
+			// There are animations made for this lil guy, so set the trigger
+			if (!isInBasicAttack && !isInSpecialAttack) anim.SetTrigger("BasicAttack");
 		}
-		else
-		{
-			SpawnHitbox();
-		}
-
+		else SpawnHitbox(); // Animations for this lil guy not done yet, so just spawn hitbox.
 
 		// Update attack time
 		lastAttackTime = Time.time;
@@ -276,15 +271,25 @@ public abstract class LilGuyBase : MonoBehaviour
 
 		if (anim == null)
 		{
+			// There's no animation event to tell this hitbox to destroy itself so we'll do it after 0.2s
 			Destroy(instantiatedHitbox, 0.2f);
 		}
 	}
 
 	public void DestroyHitbox()
 	{
-
 		// Destroy the hitbox after its effect time
 		Destroy(instantiatedHitbox); // Shorter lifespan for faster feedback
+	}
+
+	public virtual void StartChargingSpecial()
+	{
+		StopChargingSpecial();
+	}
+
+	public virtual void StopChargingSpecial()
+	{
+		Special();
 	}
 
 	/// <summary>
@@ -317,22 +322,10 @@ public abstract class LilGuyBase : MonoBehaviour
 		}
 	}
 
-	// Lil Guy constructor :3
-	public LilGuyBase(string guyName, int health, int maxHealth, PrimaryType type, int speed, int defense, int strength)
-	{
-		this.guyName = guyName;
-		this.health = health;
-		this.maxHealth = maxHealth;
-		this.type = type;
-		this.speed = speed;
-		this.defense = defense;
-		this.strength = strength;
-	}
 
 	/// <summary>
 	/// Add the stats of a given lil guy to this lil guy
 	/// </summary>
-
 	private void LevelUp()
 	{
 		if (level % 5 == 0)
@@ -405,5 +398,29 @@ public abstract class LilGuyBase : MonoBehaviour
 	public Transform GetAttackPosition()
 	{
 		return attackPosition;
+	}
+
+	/// <summary>
+	/// Method that sets the goal position that this Lil Guy will try and follow to (if owned by a player)
+	/// </summary>
+	/// <param name="goalPosition">The goal position the Lil Guy wants to get to.</param>
+	public void SetFollowGoal(Transform goalPosition)
+	{
+		this.goalPosition = goalPosition;
+	}
+
+	public void SetLayer(LayerMask layer)
+	{
+		gameObject.layer = layer;
+	}
+
+	public virtual void MoveLilGuy()
+	{
+		// Move the creature towards the player with smoothing
+		Vector3 targetVelocity = movementDirection.normalized * (speed / 3f);
+		// Smoothly accelerate towards the target velocity
+		currentVelocity = Vector3.Lerp(currentVelocity, targetVelocity, Time.fixedDeltaTime / accelerationTime);
+		// Apply the smoothed velocity to the Rigidbody
+		rb.velocity = new Vector3(currentVelocity.x, rb.velocity.y, currentVelocity.z);
 	}
 }

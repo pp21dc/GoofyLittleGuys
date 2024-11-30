@@ -4,7 +4,108 @@ using UnityEngine;
 
 public class Spricket : SpeedType
 {
-	public Spricket(string guyName, int heath, int maxHealth, PrimaryType type, int speed, int stamina, int strength) : base(guyName, heath, maxHealth, type, speed, stamina, strength)
+	[Header("Spricket Specific")]
+	[SerializeField] private float minChargeTime = 0.5f;
+	[SerializeField] private float maxChargeTime = 1.5f;
+	[SerializeField] private float dashDistance = 5f;
+
+	bool isCharging = false;
+	public bool IsCharging => isCharging;
+	private float chargeTime = 0f;
+
+
+
+	protected override void Update()
 	{
+		base.Update();
+		if (playerOwner != null) movementDirection = playerOwner.MovementDirection;
+		if (isCharging)
+		{
+			chargeTime += Time.deltaTime;
+			if (chargeTime > minChargeTime) chargeTime = maxChargeTime;
+		}
+	}
+	public override void StartChargingSpecial()
+	{
+		if (currentCharges <= 0 && cooldownTimer > 0) return;
+		if (!IsInSpecialAttack && !IsInBasicAttack)
+		{
+			if (!isCharging)
+			{
+				isCharging = true;
+				chargeTime = 0;
+			}
+
+			// Decrement charges and reset cooldowns
+			cooldownTimer = cooldownDuration;
+			chargeTimer = chargeRefreshRate;
+			currentCharges--;
+
+			if (playerOwner == null) StopChargingSpecial();
+		}
+	}
+	public override void StopChargingSpecial()
+	{
+		if (chargeTime >= minChargeTime)
+		{
+			Special();
+		}
+		else
+		{
+			StartCoroutine(WaitForChargeCompletion());
+		}
+	}
+
+	private IEnumerator WaitForChargeCompletion()
+	{
+		while (chargeTime < minChargeTime)
+		{
+			yield return null;
+		}
+		Special();
+	}
+	public override void Special()
+	{
+		Rigidbody rb = (playerOwner == null) ? GetComponent<Rigidbody>() : playerOwner.GetComponent<Rigidbody>();
+		Debug.Log(rb);
+		if (rb != null)
+		{
+			float finalDistance = (dashDistance * speed) + ((chargeTime - minChargeTime) * 2);
+			if (playerOwner != null) playerOwner.StartDash();
+			else isDashing = true;
+			// Apply force to initiate the dash
+			rb.AddForce(movementDirection * finalDistance, ForceMode.Impulse);
+
+			// Reset charging variables
+			chargeTime = 0;
+			isCharging = false;
+
+			// Calculate the duration of the dash
+			float dashDuration = finalDistance / rb.velocity.magnitude;
+
+			// Start coroutine to stop dash after the duration
+			StartCoroutine(StopDashAfterDuration(rb, dashDuration));
+		}
+	}
+
+	private IEnumerator StopDashAfterDuration(Rigidbody rb, float duration)
+	{
+		yield return new WaitForSeconds(0.25f);
+
+		// Call StopDash when the dash is complete
+		if (playerOwner != null)
+		{
+			playerOwner.StopDash();
+		}
+		else isDashing = false;
+		rb.velocity = Vector3.zero;
+	}
+
+	public override void MoveLilGuy()
+	{
+		if (!isDashing)
+		{
+			base.MoveLilGuy();
+		}
 	}
 }

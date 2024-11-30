@@ -14,7 +14,6 @@ public class AiController : MonoBehaviour
 
 	private WildBehaviour wildBehaviour;                // Defines Wild AI behaviour (Idle, Chase, Attack, Death)
 	private TamedBehaviour tamedBehaviour;              // Defines Tamed AI behaviour (Follow Player)
-	private Rigidbody rb;
 
 
 
@@ -23,7 +22,6 @@ public class AiController : MonoBehaviour
 	private LilGuyBase lilGuy;                          // Reference to this AI's stats
 	public Transform FollowPosition => followPosition;
 	public LilGuyBase LilGuy => lilGuy;
-	public Rigidbody RB => rb;
 	private Transform currClosestPlayer;
 	public Vector3 OriginalSpawnPosition => originalSpawnPosition;
 
@@ -31,7 +29,6 @@ public class AiController : MonoBehaviour
 	{
 		wildBehaviour = GetComponent<WildBehaviour>();
 		tamedBehaviour = GetComponent<TamedBehaviour>();
-		rb = GetComponent<Rigidbody>();
 	}
 
 	private void Start()

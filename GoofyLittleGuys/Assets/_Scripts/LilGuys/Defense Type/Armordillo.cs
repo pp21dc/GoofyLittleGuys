@@ -4,7 +4,5 @@ using UnityEngine;
 
 public class Armordillo : DefenseType
 {
-	public Armordillo(string guyName, int heath, int maxHealth, PrimaryType type, int speed, int stamina, int strength) : base(guyName, heath, maxHealth, type, speed, stamina, strength)
-	{
-	}
+
 }

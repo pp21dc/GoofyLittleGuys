@@ -83,6 +83,7 @@ public class PlayerController : MonoBehaviour
 	{
 		if (GameManager.Instance.IsPaused) return;
 		if (playerBody.LilGuyTeam[0].Health <= 0) return;
-		if (ctx.performed) playerBody.LilGuyTeam[0].Special();
+		if (ctx.started) playerBody.LilGuyTeam[0].StartChargingSpecial();
+		else if (ctx.canceled) playerBody.LilGuyTeam[0].StopChargingSpecial();
 	}
 }

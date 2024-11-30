@@ -11,17 +11,12 @@ public class WildBehaviour : MonoBehaviour
 	[SerializeField] private float chaseRange = 10f;
 	[SerializeField] private float attackRange = 1f;
 	[SerializeField] private float attackBuffer = 2f;
-	[SerializeField] private float accelerationTime = 0.1f;  // Time to reach target speed
-	[SerializeField] private float decelerationTime = 0.2f;  // Time to stop
 
 	[SerializeField] private float timeBeforeDestroyed = 5f;  // Time until the gameobject is destroyed
-	[SerializeField] private float interactDistance = 2f;  // Time until the gameobject is destroyed
 
 	private GameObject instantiatedPlayerRangeIndicator;
 	private AiController controller;
 	private Coroutine actionCoroutine = null;
-	private Vector3 moveDirection = Vector3.zero;
-	private Vector3 currentVelocity = Vector3.zero;
 	private float attackTime = 0;
 
 	private void Start()
@@ -32,9 +27,6 @@ public class WildBehaviour : MonoBehaviour
 	// Idle, Chase, Attack, Special, Death
 	private void Update()
 	{
-		if (currentVelocity.x > 0) controller.LilGuy.Flip = true;
-		else if (currentVelocity.x < 0) controller.LilGuy.Flip = false;
-
 		// Reset attack buffer on AI.
 		if (attackTime > 0) attackTime -= Time.deltaTime;
 
@@ -64,7 +56,7 @@ public class WildBehaviour : MonoBehaviour
 
 		if (controller == null) return;
 		controller.ToggleInteractCanvas(false);
-		controller.RB.isKinematic = false;
+		controller.LilGuy.RB.isKinematic = false;
 	}
 
 
@@ -90,9 +82,9 @@ public class WildBehaviour : MonoBehaviour
 	private IEnumerator Dead()
 	{
 		controller.LilGuy.IsMoving = false;
-		controller.LilGuy.OnDeath();
-		controller.RB.isKinematic = true;
-		controller.RB.velocity = Vector3.zero;
+		controller.LilGuy.PlayDeathAnim(true);
+		controller.LilGuy.RB.isKinematic = true;
+		controller.LilGuy.RB.velocity = Vector3.zero;
 
 		instantiatedPlayerRangeIndicator = Instantiate(capturingPlayerRange, transform.position, Quaternion.identity, Managers.SpawnManager.Instance.transform);
 		instantiatedPlayerRangeIndicator.GetComponent<CaptureZone>().Init(controller.LilGuy);
@@ -145,20 +137,15 @@ public class WildBehaviour : MonoBehaviour
 		controller.LilGuy.IsMoving = true;
 		while (controller.DistanceToPlayer() > attackRange && controller.DistanceToPlayer() <= chaseRange && controller.LilGuy.Health > 0)
 		{
-			Vector3 directionToPlayer = (controller.FollowPosition.position - controller.transform.position).normalized;
-			if (controller.LilGuy is SpeedType speedLilGuy && controller.LilGuy.CurrentCharges > 0 && controller.LilGuy.CooldownTimer <= 0 && attackTime <= 0)
+			controller.LilGuy.MovementDirection = (controller.FollowPosition.position - controller.transform.position).normalized;
+			if (controller.LilGuy is SpeedType && controller.LilGuy.CurrentCharges > 0 && controller.LilGuy.CooldownTimer <= 0)
 			{
-				speedLilGuy.DashDirection = directionToPlayer;
-				speedLilGuy.Special();
+				Debug.Log("Special!");
+				controller.LilGuy.StartChargingSpecial();
 			}
 			else
 			{
-				// Move the creature towards the player with smoothing
-				Vector3 targetVelocity = directionToPlayer.normalized * (controller.LilGuy.Speed / 3f);
-				// Smoothly accelerate towards the target velocity
-				currentVelocity = Vector3.Lerp(currentVelocity, targetVelocity, Time.fixedDeltaTime / accelerationTime);
-				// Apply the smoothed velocity to the Rigidbody
-				controller.RB.velocity = new Vector3(currentVelocity.x, controller.RB.velocity.y, currentVelocity.z);
+				controller.LilGuy.MoveLilGuy();
 			}
 			yield return null;
 		}

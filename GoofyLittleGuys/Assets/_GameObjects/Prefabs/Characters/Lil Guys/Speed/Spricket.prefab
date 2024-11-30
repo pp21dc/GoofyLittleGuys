@@ -75,6 +75,9 @@ MonoBehaviour:
   attackRange: 0
   attackEffect: {fileID: 0}
   distance: 5
+  minChargeTime: 0.5
+  maxChargeTime: 1.5
+  dashDistance: 5
 --- !u!136 &3370327291423806742
 CapsuleCollider:
   m_ObjectHideFlags: 0

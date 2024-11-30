@@ -5,9 +5,6 @@ using UnityEngine;
 public class Teddy : StrengthType
 {
 	[SerializeField] private float aoeLifetime = 1;
-	public Teddy(string guyName, int heath, int maxHealth, PrimaryType type, int speed, int stamina, int strength) : base(guyName, heath, maxHealth, type, speed, stamina, strength)
-	{
-	}
 
 	public void SpawnConeAoe()
 	{

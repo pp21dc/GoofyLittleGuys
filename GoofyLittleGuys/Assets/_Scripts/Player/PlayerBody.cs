@@ -22,7 +22,6 @@ public class PlayerBody : MonoBehaviour
 	[SerializeField] private float maxSpeed = 25f;           // This turns into the speed of the active lil guy's. Used for the AI follow behaviours so they all keep the same speed in following the player.
 	[SerializeField] private float accelerationTime = 0.1f;  // Time to reach target speed
 	[SerializeField] private float decelerationTime = 0.2f;  // Time to stop
-	[SerializeField] private float smoothFactor = 0.8f;      // Factor for smooth transitions
 	[SerializeField] private float fallMultiplier = 4f;
 
 	[Header("Berry Inventory Parameters")]
@@ -41,7 +40,6 @@ public class PlayerBody : MonoBehaviour
 	private InteractableBase closestnteractable = null;
 	private int berryCount = 0;
 	private bool isDead = false;
-	private bool canUseBerry = true;
 	private bool canRespawn = true;
 	private bool inStorm = false; // used by storm objects to determine if the player is already accounted for, and in the storm.
 	private bool isDashing = false;                         // When the dash action is pressed for speed lil guy. Note this is in here because if the player swaps mid dash, they will get stuck in dash UNLESS this bool is here and is adjusted here.

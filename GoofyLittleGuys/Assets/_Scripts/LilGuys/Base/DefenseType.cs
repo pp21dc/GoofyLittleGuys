@@ -13,16 +13,13 @@ public class DefenseType : LilGuyBase
 	public bool IsShieldActive { get { return isShieldActive; } set { isShieldActive = value; } }
 	public float DamageReduction { get { return damageReduction; } }
 
-	public DefenseType(string guyName, int heath, int maxHealth, PrimaryType type, int speed, int stamina, int strength) : base(guyName, heath, maxHealth, type, speed, stamina, strength)
-	{
-	}
-
-	public override void Special()
+	public override void StopChargingSpecial()
 	{
 		if (currentCharges <= 0 && cooldownTimer > 0) return;   // If currently on cooldown and there are no more charges to use.
 		if (!IsInSpecialAttack && !IsInBasicAttack)
 		{
-			base.Special();
+			base.StopChargingSpecial();
+
 			spawnedShieldObj ??= Instantiate(shieldPrefab, transform.position, Quaternion.identity, transform); // If spawnShieldObj is null, assign it this instantiated GO
 			spawnedShieldObj.GetComponent<Shield>().Initialize(duration, this);
 			isShieldActive = true;
@@ -32,5 +29,14 @@ public class DefenseType : LilGuyBase
 			chargeTimer = chargeRefreshRate;
 			currentCharges--;
 		}
+	}
+
+	public override void StartChargingSpecial()
+	{
+		base.StartChargingSpecial();
+	}
+	public override void Special()
+	{		
+			base.Special();		
 	}
 }

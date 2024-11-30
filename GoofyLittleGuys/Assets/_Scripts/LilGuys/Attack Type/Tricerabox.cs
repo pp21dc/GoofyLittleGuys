@@ -9,9 +9,6 @@ public class Tricerabox : StrengthType
 	[SerializeField] private float waveAoeDamage;
 	[SerializeField] private float waveAoeLifetime;
 	[SerializeField] private float aoeLifetime;
-	public Tricerabox(string guyName, int heath, int maxHealth, PrimaryType type, int speed, int stamina, int strength) : base(guyName, heath, maxHealth, type, speed, stamina, strength)
-	{
-	}
 
 	public void SpawnPunchAoe()
 	{
