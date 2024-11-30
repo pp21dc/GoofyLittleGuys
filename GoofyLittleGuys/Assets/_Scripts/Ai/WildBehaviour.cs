@@ -74,6 +74,7 @@ public class WildBehaviour : MonoBehaviour
 	/// <returns></returns>
 	private IEnumerator Idle()
 	{
+		controller.LilGuy.IsMoving = false;
 		while (controller.DistanceToPlayer() > chaseRange && controller.LilGuy.Health > 0)
 		{
 			yield return null;
@@ -114,7 +115,6 @@ public class WildBehaviour : MonoBehaviour
 	{
 		while (controller.DistanceToPlayer() <= attackRange && controller.LilGuy.Health > 0)
 		{
-
 			if (controller.LilGuy.CurrentCharges > 0 && controller.LilGuy.CooldownTimer <= 0 && attackTime <= 0 && controller.LilGuy is StrengthType strengthLilGuy)
 			{
 				strengthLilGuy.Special();
@@ -143,7 +143,7 @@ public class WildBehaviour : MonoBehaviour
 	private IEnumerator ChasePlayer()
 	{
 		controller.LilGuy.IsMoving = true;
-		while (controller.DistanceToPlayer() > attackRange && controller.LilGuy.Health > 0)
+		while (controller.DistanceToPlayer() > attackRange && controller.DistanceToPlayer() <= chaseRange && controller.LilGuy.Health > 0)
 		{
 			Vector3 directionToPlayer = (controller.FollowPosition.position - controller.transform.position).normalized;
 			if (controller.LilGuy is SpeedType speedLilGuy && controller.LilGuy.CurrentCharges > 0 && controller.LilGuy.CooldownTimer <= 0 && attackTime <= 0)

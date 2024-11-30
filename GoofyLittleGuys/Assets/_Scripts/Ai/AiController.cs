@@ -1,6 +1,7 @@
 using Managers;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -113,15 +114,27 @@ public class AiController : MonoBehaviour
 	/// <returns></returns>
 	private Transform FindClosestPlayer()
 	{
+		// Return null if there are no players
 		if (GameManager.Instance.Players.Count <= 0) return null;
-		currClosestPlayer = GameManager.Instance.Players[0].transform;
+
+		// Initialize variables
+		Transform closestPlayer = null;
+		float closestDistance = float.MaxValue; // Start with the maximum possible distance
+
+		// Iterate through all players to find the closest living one
 		foreach (PlayerBody body in GameManager.Instance.Players)
 		{
-			if (Vector3.Distance(body.transform.position, transform.position) < Vector3.Distance(currClosestPlayer.transform.position, transform.position))
+			if (!body.IsDead) // Skip dead players
 			{
-				currClosestPlayer = body.transform;
+				float distance = Vector3.Distance(body.transform.position, transform.position);
+				if (distance < closestDistance)
+				{
+					closestDistance = distance;
+					closestPlayer = body.transform;
+				}
 			}
 		}
-		return currClosestPlayer;
+
+		return closestPlayer; // Return the closest living player (or null if none found)
 	}
 }

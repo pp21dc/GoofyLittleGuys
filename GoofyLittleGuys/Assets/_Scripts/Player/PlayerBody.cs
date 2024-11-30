@@ -40,6 +40,7 @@ public class PlayerBody : MonoBehaviour
 
 	private InteractableBase closestnteractable = null;
 	private int berryCount = 0;
+	private bool isDead = false;
 	private bool canUseBerry = true;
 	private bool canRespawn = true;
 	private bool inStorm = false; // used by storm objects to determine if the player is already accounted for, and in the storm.
@@ -66,6 +67,7 @@ public class PlayerBody : MonoBehaviour
 	public LilGuyBase ActiveLilGuy { get { return activeLilGuy; } set { activeLilGuy = value; } }
 	public GameObject TeamFullMenu { get { return teamFullMenu; } set { teamFullMenu = value; } }
 	public bool Flip { get { return flip; } set { flip = value; } }
+	public bool IsDead => isDead;
 	public int BerryCount { get { return berryCount; } set { berryCount = value; } }
 
 	public InteractableBase ClosestInteractable { get { return closestnteractable; } set { closestnteractable = value; } }
@@ -144,6 +146,7 @@ public class PlayerBody : MonoBehaviour
 			}
 			else
 			{
+				isDead = true;
 				// No living lil guys, time for a respawn.
 				StartCoroutine(DelayedRespawn());
 				//Respawn();
@@ -366,6 +369,7 @@ public class PlayerBody : MonoBehaviour
 	/// </summary>
 	private void Respawn()
 	{
+		isDead = false;
 		rb.MovePosition(GameManager.Instance.FountainSpawnPoint.position);
 		for (int i = 0; i < lilGuyTeam.Count; i++)
 		{
