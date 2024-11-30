@@ -32,8 +32,8 @@ public class WildBehaviour : MonoBehaviour
 	// Idle, Chase, Attack, Special, Death
 	private void Update()
 	{
-		if (moveDirection.x > 0) controller.LilGuy.Flip = true;
-		else if (moveDirection.x < 0) controller.LilGuy.Flip = false;
+		if (currentVelocity.x > 0) controller.LilGuy.Flip = true;
+		else if (currentVelocity.x < 0) controller.LilGuy.Flip = false;
 
 		// Reset attack buffer on AI.
 		if (attackTime > 0) attackTime -= Time.deltaTime;
