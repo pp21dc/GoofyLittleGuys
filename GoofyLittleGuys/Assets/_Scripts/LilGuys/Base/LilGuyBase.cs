@@ -206,10 +206,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	public void Damaged()
 	{
 		StartCoroutine(FlashRed());
-		if (anim != null && !isDead) anim.Play("Hurt");
-		isInBasicAttack = false;
-		isInSpecialAttack = false;
-		isAttacking = false;
+		if (anim != null && !isDead && !isInBasicAttack && !isInSpecialAttack) anim.SetTrigger("Hurt");
 	}
 
 	public void PlayDeathAnim()
