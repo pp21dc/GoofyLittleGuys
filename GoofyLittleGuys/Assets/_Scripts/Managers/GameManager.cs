@@ -13,8 +13,8 @@ namespace Managers
 
 		[SerializeField] private List<PlayerSpawnPoint> spawnPoints;
 
-		[SerializeField] private const float phaseOneDuration = 420f;   // Length of Phase 1 in seconds. (This amounts to 7 minutes)
-		[SerializeField] private const float phaseTwoDuration = 180f;   // Length of Phase 2 in seconds. (This amounts to 3 minutes)
+		[SerializeField] private const float phaseOneDuration = 420f;   // Length of Phase 1 in seconds. (This amounts to 7 minutes)420f
+		[SerializeField] private const float phaseTwoDuration = 180f;   // Length of Phase 2 in seconds. (This amounts to 3 minutes)180f
 		[SerializeField] private float currentGameTime = 0;             // Current game time in seconds.
 		[SerializeField] private Transform fountainSpawnPoint;          // The spawn point that players are respawned to in the main game, set by the HealingFountain.cs
 		[SerializeField] private GameObject timerCanvas;                // The Timer UI displayed in between all the split screeens
@@ -86,7 +86,7 @@ namespace Managers
 
 				if (players != null)
 				{
-					MonitorPlayerDefeats();
+					//MonitorPlayerDefeats();
 				}
 				else if (rankings.Count == players.Count - 1)
 				{
@@ -185,7 +185,7 @@ namespace Managers
 		public void PlayerDefeat(PlayerBody defeatedPlayer)
 		{
 			rankings.Add(defeatedPlayer);
-			//players.Remove(defeatedPlayer);
+			Debug.Log("A player has been defeated, and placed into the rankings list!");
 		}
 
 		/// <summary>
@@ -198,22 +198,7 @@ namespace Managers
 			Debug.Log("Brawl Phase has ended, DING DING DING!!!");
 		}
 
-		/// <summary>
-		/// Checks if any players have run out of Lil Guys, 
-		/// then defeats them (calling PlayerDefeat) and adds them to the rankings 
-		/// </summary>
-		private void MonitorPlayerDefeats()
-		{
-			for (int i = 0; i < players.Count; i++)
-			{
-				PlayerBody thePlaye = players[i];
-				if (IsStillKicking(thePlaye))
-				{
-					PlayerDefeat(players[i]);
-
-				}
-			}
-		}
+		
 
 		/// <summary>
 		/// Just checks if the given player has any Lil Guys left

@@ -48,6 +48,7 @@ public class PlayerBody : MonoBehaviour
 	private bool hasSwappedRecently = false; // If the player is in swap cooldown (feel free to delete cmnt)
 	private bool hasImmunity = false; // If the player is in swap I-frames (feel free to delete cmnt)
 	private bool canMove = true; // Whether or not the player can move, set it to false when you want to halt movement
+	private bool wasDefeated = false; // Only true if this player has been defeated in phase 2
 	private Vector3 currentVelocity; // Internal tracking for velocity smoothing
 
 
@@ -145,9 +146,18 @@ public class PlayerBody : MonoBehaviour
 			else
 			{
 				isDead = true;
-				// No living lil guys, time for a respawn.
-				StartCoroutine(DelayedRespawn());
-				//Respawn();
+                // No living lil guys, time for a respawn if possible.
+                if (canRespawn)
+                {
+					StartCoroutine(DelayedRespawn());
+				}
+				else if (GameManager.Instance.CurrentPhase == 2 && !wasDefeated)
+				{
+					GameManager.Instance.PlayerDefeat(this);
+					wasDefeated = true;
+				}
+
+
 			}
 		}
 
@@ -381,7 +391,6 @@ public class PlayerBody : MonoBehaviour
 
 	/// <summary>
 	/// This coroutine simply waits respawnTimer, then respawns the given player
-	/// NOTE: always give this the PlayerBody component of the player in question
 	/// </summary>
 	/// <param name="thePlayer"></param>
 	/// <returns></returns>
@@ -393,6 +402,7 @@ public class PlayerBody : MonoBehaviour
 		{
 			Respawn();
 		}
+		
 
 	}
 }

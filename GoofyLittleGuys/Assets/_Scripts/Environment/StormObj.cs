@@ -6,18 +6,27 @@ public class StormObj : MonoBehaviour
 {
     public float dmgPerInterval = 3;
     public float interval = 3;
+    private float dmgPerTick;
 
-    private bool intervalRunning = false; // whether or not 
+    //private bool intervalRunning = false; // whether or not the storm is currently damaging a player
     // Start is called before the first frame update
     void Start()
     {
-        
+        dmgPerTick = dmgPerInterval / interval;
     }
 
-    // Update is called once per frame
-    void Update()
+   
+
+    private void OnTriggerEnter(Collider hitCollider)
     {
         
+
+        Hurtbox playerHurtbox = hitCollider.gameObject.GetComponent<Hurtbox>();
+        
+        StartCoroutine(DelayedDamage(playerHurtbox));
+        PlayerBody playerHit = hitCollider.gameObject.GetComponent<PlayerBody>();
+        
+           
     }
 
     private void OnTriggerStay(Collider hitCollider)
@@ -26,13 +35,14 @@ public class StormObj : MonoBehaviour
         if(hitCollider.attachedRigidbody)
         {
             Hurtbox playerHurtbox = hitCollider.gameObject.GetComponent<Hurtbox>();
+            //playerHurtbox.TakeDamage(dmgPerInterval);
             PlayerBody playerHit = hitCollider.gameObject.GetComponent<PlayerBody>();
             if (playerHurtbox != null && playerHit != null )
             {
-                if (!playerHit.InStorm)
+                if (playerHit.InStorm)
                 {
-                    StartCoroutine(DelayedDamage(playerHurtbox));
-                    playerHit.InStorm = true;
+                    //StartCoroutine(DelayedDamage(playerHurtbox));
+                    //DamageOverTime(playerHit);
                 }
                 
             }
@@ -48,28 +58,46 @@ public class StormObj : MonoBehaviour
         {
             if (playerHit.InStorm)
             {
-                StopCoroutine(DelayedDamage(playerHurtbox));
+                //StopCoroutine(DelayedDamage(playerHurtbox));
                 playerHit.InStorm = false;
             }
         }
+        StopAllCoroutines();
     }
 
     /// <summary>
-    /// Coroutine that simply waits for interval to elapse, then
+    /// Deals damage to h every frame, but only enough to deal 'dmgPerInterval' per 'interval' of time
+    /// </summary>
+    /// <param name="h"></param>
+    private void DamageOverTime(PlayerBody player)
+    {
+        float dmgTaken = dmgPerTick * Time.deltaTime;
+        LilGuyBase hurtLilGuy = player.gameObject.GetComponent<LilGuyBase>();
+        hurtLilGuy.Health -= dmgTaken;
+        //h.TakeDamage(dmgTaken);
+    }
+
+
+    /// <summary>
+    /// Coroutine that simply waits for interval to elapse, then deals some damage
     /// </summary>
     /// <returns></returns>
-    private IEnumerator DelayedDamage(Hurtbox hurtbox)
+    private IEnumerator DelayedDamage(Hurtbox h)
     {
-        if(hurtbox == null)
+        if(h == null)
         {
-            StopCoroutine(DelayedDamage(hurtbox));
+            StopAllCoroutines();
         }
-        // wait for interval (seconds, ensure it is relative to deltaTime)
+        // wait for interval (seconds, ensure it is relative to deltaTime although I think WaitForSeconds handles that)
         yield return new WaitForSeconds(interval);
         // Deal damage == dmgPerInterval
-        hurtbox.TakeDamage(dmgPerInterval);
+        h.TakeDamage(dmgPerInterval);
+        StartCoroutine(DelayedDamage(h));
+       
 
-        StartCoroutine(DelayedDamage(hurtbox));
+        //StartCoroutine(DelayedDamage(hurtbox));
+        
+        
     }
 
 }
