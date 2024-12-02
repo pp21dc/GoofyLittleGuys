@@ -320,7 +320,8 @@ public class PlayerBody : MonoBehaviour
 		lilGuyTeam[0].SetLayer(LayerMask.NameToLayer("PlayerLilGuys"));
 		lilGuyTeam[0].transform.localPosition = Vector3.zero;
 		activeLilGuy = lilGuyTeam[0];
-		nextSwapTime = Time.time + swapCooldown;
+        playerUi.SetPersistentHealthBarValue(activeLilGuy.Health, activeLilGuy.MaxHealth);
+        nextSwapTime = Time.time + swapCooldown;
 	}
 
 	public void StartDash()
