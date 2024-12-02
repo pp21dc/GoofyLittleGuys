@@ -20,12 +20,16 @@ public abstract class LilGuyBase : MonoBehaviour
 	protected int level = 1;
 	protected int xp = 0;
 	protected int max_xp = 5;
-	[SerializeField] protected float health;
+	[SerializeField] protected float health = 50;
 	[SerializeField] protected float maxHealth;
 	[SerializeField] protected float speed;
 	[SerializeField] protected float defense;
 	[SerializeField] protected float strength;
 	protected const int max_stat = 100;
+	private int milestonePoints = 4;
+	private int primaryPoints = 2;
+	private int secondaryPoints = 1;
+
 
 	[Header("Special Attack Specific")]
 	[Tooltip("The length (in seconds) that the special attack should last for.\n(A value of -1 defaults the length to be the same as the special attack animation).")]
@@ -151,7 +155,7 @@ public abstract class LilGuyBase : MonoBehaviour
 		}
 
 		// Level Up
-		if (Xp >= max_xp)
+		if (Xp >= max_xp && level < 21)
 		{
 			Xp -= max_xp;
 			LevelUp();
@@ -220,7 +224,7 @@ public abstract class LilGuyBase : MonoBehaviour
 		isAttacking = false;
 		isInSpecialAttack = false;
 		if (!isWild) StartCoroutine(Disappear());
-		else GetComponent<Hurtbox>().lastHit.GetComponent<PlayerBody>().LilGuyTeam[0].AddXP(Level * 2);
+		else GetComponent<Hurtbox>().LastHit.LilGuyTeam[0].AddXP(Level * 2);
 	}
 
 	/// <summary>
@@ -330,51 +334,34 @@ public abstract class LilGuyBase : MonoBehaviour
 	{
 		if (level % 5 == 0)
 		{
-			switch (type)
-			{
-				case PrimaryType.Strength:
-					Strength += Random.Range(5, 8);
-					Speed += Random.Range(3, 5);
-					Defense += Random.Range(3, 5);
-					break;
-				case PrimaryType.Defense:
-					Strength += Random.Range(3, 5);
-					Speed += Random.Range(3, 5);
-					Defense += Random.Range(5, 8);
-					break;
-				case PrimaryType.Speed:
-					Strength += Random.Range(3, 5);
-					Speed += Random.Range(5, 8);
-					Defense += Random.Range(3, 5);
-					break;
-				default: // somehow we got here
-					throw new ArgumentOutOfRangeException();
-			}
-			MaxHealth += Random.Range(8, 11);
+			Strength += milestonePoints;
+			Speed += milestonePoints;
+			Defense += milestonePoints;
+			MaxHealth += milestonePoints;
 		}
 		else
 		{
 			switch (type)
 			{
 				case PrimaryType.Strength:
-					Strength += Random.Range(3, 5);
-					Speed += Random.Range(1, 3);
-					Defense += Random.Range(1, 3);
+					Strength += primaryPoints;
+					Speed += secondaryPoints;
+					Defense += secondaryPoints;
 					break;
 				case PrimaryType.Defense:
-					Strength += Random.Range(1, 3);
-					Speed += Random.Range(1, 3);
-					Defense += Random.Range(3, 5);
+					Strength += secondaryPoints;
+					Speed += secondaryPoints;
+					Defense += primaryPoints;
 					break;
 				case PrimaryType.Speed:
-					Strength += Random.Range(1, 3);
-					Speed += Random.Range(3, 5);
-					Defense += Random.Range(1, 3);
+					Strength += secondaryPoints;
+					Speed += primaryPoints;
+					Defense += secondaryPoints;
 					break;
 				default: // somehow we got here
 					throw new ArgumentOutOfRangeException();
 			}
-			MaxHealth += Random.Range(5, 7);
+			MaxHealth += primaryPoints;
 		}
 		Level++;
 		max_xp = (Level) * 5;
@@ -417,7 +404,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	public virtual void MoveLilGuy()
 	{
 		// Move the creature towards the player with smoothing
-		Vector3 targetVelocity = movementDirection.normalized * (speed / 3f);
+		Vector3 targetVelocity = movementDirection.normalized * ((speed + 10) / 3f);
 		// Smoothly accelerate towards the target velocity
 		currentVelocity = Vector3.Lerp(currentVelocity, targetVelocity, Time.fixedDeltaTime / accelerationTime);
 		// Apply the smoothed velocity to the Rigidbody

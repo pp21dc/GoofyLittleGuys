@@ -7,12 +7,12 @@ public class Teleporter : MonoBehaviour
     [SerializeField] private float timeToTeleport;
     [SerializeField] private Teleporter targetTeleporter;
     private float timer = 0.0f;
-    private BoxCollider collider;
+    private BoxCollider teleporterCollider;
 
     private void Start()
     {
-        collider = GetComponent<BoxCollider>();
-        collider.isTrigger = true;
+        teleporterCollider = GetComponent<BoxCollider>();
+        teleporterCollider.isTrigger = true;
     }
 
     private void OnTriggerStay(Collider other)

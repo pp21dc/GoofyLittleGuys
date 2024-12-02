@@ -11,7 +11,8 @@ public class Hurtbox : MonoBehaviour
 	private bool Ai;
 
 	public float Health { get { return health; } }
-	public GameObject lastHit;                      // Player who last hit this hurtbox.
+	private PlayerBody lastHit;                      // Player who last hit this hurtbox.
+	public PlayerBody LastHit { get { return lastHit; } set { lastHit = value; } }
 
 	private void Start()
 	{
@@ -58,6 +59,7 @@ public class Hurtbox : MonoBehaviour
 		{
 			// Player lil guy was hit
 			LilGuyBase playerLilGuy = owner.GetComponent<LilGuyBase>();
+			dmg = Mathf.FloorToInt((float)(dmg * (1 - (playerLilGuy.Defense * 0.006))));
 			playerLilGuy.Health -= dmg;
 			health = playerLilGuy.Health;
 			playerLilGuy.Damaged();
@@ -70,7 +72,8 @@ public class Hurtbox : MonoBehaviour
 		{
 			AiController controller = owner.GetComponent<AiController>();
 			float oldHealth = controller.LilGuy.Health;         // Wild lil guy was hit
-			controller.LilGuy.Health = oldHealth - dmg >= 0 ? oldHealth - dmg : 0;  // Set health to health - dmg if it's greater than or equal to 0, otherwise set it to 0 so it's non-negative.
+            dmg = Mathf.FloorToInt((float)(dmg * (1 - (controller.LilGuy.Defense * 0.006))));
+            controller.LilGuy.Health = oldHealth - dmg >= 0 ? oldHealth - dmg : 0;  // Set health to health - dmg if it's greater than or equal to 0, otherwise set it to 0 so it's non-negative.
 			health = controller.LilGuy.Health;
 			controller.LilGuy.Damaged();
 			owner.GetComponentInChildren<AiHealthUi>().SetHealth(health, oldHealth);
