@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class StormObj : MonoBehaviour
 {
-    public float dmgPerInterval = 3;
-    public float interval = 3;
+    public float dmgPerInterval;
+    public float interval;
     private float dmgPerTick;
 
     //private bool intervalRunning = false; // whether or not the storm is currently damaging a player
@@ -21,11 +21,11 @@ public class StormObj : MonoBehaviour
     {
         
 
-        Hurtbox playerHurtbox = hitCollider.gameObject.GetComponent<Hurtbox>();
+        Hurtbox playerHurtbox = hitCollider.gameObject.GetComponentInParent<Hurtbox>();
         
         StartCoroutine(DelayedDamage(playerHurtbox));
-        PlayerBody playerHit = hitCollider.gameObject.GetComponent<PlayerBody>();
-        
+        PlayerBody playerHit = hitCollider.gameObject.GetComponentInParent<PlayerBody>();
+        playerHit.InStorm = true;
            
     }
 
@@ -39,11 +39,7 @@ public class StormObj : MonoBehaviour
             PlayerBody playerHit = hitCollider.gameObject.GetComponent<PlayerBody>();
             if (playerHurtbox != null && playerHit != null )
             {
-                if (playerHit.InStorm)
-                {
-                    //StartCoroutine(DelayedDamage(playerHurtbox));
-                    //DamageOverTime(playerHit);
-                }
+                
                 
             }
 
@@ -52,8 +48,9 @@ public class StormObj : MonoBehaviour
 
     private void OnTriggerExit(Collider hitCollider)
     {
-        Hurtbox playerHurtbox = hitCollider.gameObject.GetComponent<Hurtbox>();
-        PlayerBody playerHit = hitCollider.gameObject.GetComponent<PlayerBody>();
+        //Hurtbox playerHurtbox = hitCollider.gameObject.GetComponent<Hurtbox>();
+        Hurtbox playerHurtbox = hitCollider.gameObject.GetComponentInParent<Hurtbox>();
+        PlayerBody playerHit = hitCollider.gameObject.GetComponentInParent<PlayerBody>();
         if (playerHurtbox != null && playerHit != null)
         {
             if (playerHit.InStorm)
@@ -62,7 +59,7 @@ public class StormObj : MonoBehaviour
                 playerHit.InStorm = false;
             }
         }
-        StopAllCoroutines();
+        //StopAllCoroutines();
     }
 
     /// <summary>
@@ -84,15 +81,24 @@ public class StormObj : MonoBehaviour
     /// <returns></returns>
     private IEnumerator DelayedDamage(Hurtbox h)
     {
-        if(h == null)
+        PlayerBody playerHit = h.gameObject.GetComponentInParent<PlayerBody>();
+        if (h == null)
         {
             StopAllCoroutines();
         }
         // wait for interval (seconds, ensure it is relative to deltaTime although I think WaitForSeconds handles that)
         yield return new WaitForSeconds(interval);
         // Deal damage == dmgPerInterval
-        h.TakeDamage(dmgPerInterval);
-        StartCoroutine(DelayedDamage(h));
+        if (playerHit.InStorm)
+        {
+            h.TakeDamage(dmgPerInterval);
+            StartCoroutine(DelayedDamage(h));
+        }
+        else
+        {
+            StopCoroutine(DelayedDamage(h));
+        }
+       
        
 
         //StartCoroutine(DelayedDamage(hurtbox));
