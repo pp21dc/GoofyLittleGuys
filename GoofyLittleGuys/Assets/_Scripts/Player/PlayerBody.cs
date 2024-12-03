@@ -257,6 +257,7 @@ public class PlayerBody : MonoBehaviour
 
 			berryCount--;
 			nextBerryUseTime = Time.time + berryUsageCooldown;
+			playerUi.SetPersistentHealthBarValue(lilGuyTeam[0].Health, lilGuyTeam[0].MaxHealth);
 		}
 	}
 
@@ -388,6 +389,7 @@ public class PlayerBody : MonoBehaviour
 		}
 		canMove = true;
 		lilGuyTeam[0].SetLayer(LayerMask.NameToLayer("PlayerLilGuys"));
+		playerUi.SetPersistentHealthBarValue(lilGuyTeam[0].Health, lilGuyTeam[0].MaxHealth);
 	}
 
 	/// <summary>
