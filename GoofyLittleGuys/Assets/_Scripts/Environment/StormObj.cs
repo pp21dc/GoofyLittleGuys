@@ -8,6 +8,7 @@ public class StormObj : MonoBehaviour
     public float interval;
 
 
+
     private void OnTriggerEnter(Collider hitCollider)
     {
         Hurtbox playerHurtbox = hitCollider.gameObject.GetComponent<Hurtbox>();
@@ -31,10 +32,14 @@ public class StormObj : MonoBehaviour
         {
             if (playerHit.InStorm)
             {
-                playerHit.InStorm = false;
+                StopDamage(playerHurtbox,playerHit);
+                //playerHit.InStorm = false;
             }
-        } 
+        }
+
     }
+        
+    
 
     /// <summary>
     /// Coroutine that simply waits for interval to elapse, then deals some damage
@@ -45,16 +50,37 @@ public class StormObj : MonoBehaviour
         if (h == null)
         {
             StopCoroutine(DelayedDamage(h));
+            yield break;
         }
         PlayerBody playerHit = h.gameObject.GetComponentInParent<PlayerBody>();
         if (playerHit == null)
         {
             StopCoroutine(DelayedDamage(h));
+            yield break;
         }
         while (playerHit.InStorm)
         {
-            yield return new WaitForSeconds(interval);
-            h.TakeDamage(dmgPerInterval);
+            if (!playerHit.IsDead)
+            {
+                yield return new WaitForSeconds(interval);
+                h.TakeDamage(dmgPerInterval);
+            }
+            else
+            {
+                yield break;
+            }
+            
         }
     }
+
+    /// <summary>
+    /// Forces the DelayedDamage coroutine to stop for a given hurtbox and player, then makes sure that player is no longer
+    /// considered to be in the storm.
+    /// </summary>
+    private void StopDamage(Hurtbox h, PlayerBody playerHit)
+    {
+        StopCoroutine(DelayedDamage(h));
+        playerHit.InStorm = false;
+    }
+
 }

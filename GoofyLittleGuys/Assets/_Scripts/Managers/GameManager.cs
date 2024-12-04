@@ -71,9 +71,8 @@ namespace Managers
 				}
 				if (currentGameTime >= (phaseOneDuration * 0.5f) && !legendarySpawned)
 				{
-					// Spawning Legendary
 					legendarySpawned = true;
-					SpawnLegendary();
+					//SpawnLegendary(); THIS IS ONLY COMMENTED SINCE NO LEGENDARY IS SET IN EDITOR CURRENTLY
 				}
 
 			}
@@ -196,19 +195,6 @@ namespace Managers
 		{
 
 			Debug.Log("Brawl Phase has ended, DING DING DING!!!");
-		}
-
-		
-
-		/// <summary>
-		/// Just checks if the given player has any Lil Guys left
-		/// </summary>
-		/// <param name="thePlayer"></param>
-		/// <returns></returns>
-		private bool IsAlive(PlayerBody thePlayer)
-		{
-			return thePlayer.CheckTeamHealth();
-
 		}
 
 		/// <summary>
