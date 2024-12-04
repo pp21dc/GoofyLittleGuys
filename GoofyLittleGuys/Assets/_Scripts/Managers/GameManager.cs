@@ -26,9 +26,12 @@ namespace Managers
 
 		private int currentPhase = 0;
 		private float respawnTimer = 5.0f;
+		private float stormTimer = 3.0f; // how long between spawning new storms in phase 2
+		private int activeStorms = 0;  
 
 		private List<PlayerBody> players = new List<PlayerBody>(); // for the list of REMAINING players in phase 2
 		private List<PlayerBody> rankings = new List<PlayerBody>(); // the phase 2 rankings list, ordered from last place -> first place
+		[SerializeField] private List<GameObject> stormSets = new List<GameObject>();
 		public int CurrentPhase => currentPhase; // Getter for current phase
 		public float RespawnTimer => respawnTimer; // Getter for respawn timer
 
@@ -151,7 +154,8 @@ namespace Managers
 			currentLayerMask = phase2LayerMask;
 
 			// Start grand brawl challenge
-
+			GetStormSets();
+			StartCoroutine(SpawnStorms()); ;
 
 			for (int i = 0; i < players.Count; i++)
 			{
@@ -207,5 +211,58 @@ namespace Managers
 			Debug.Log("Brawl Phase has ended by knockout!");
 		}
 
+		/// <summary>
+		/// Finds all storm sets in the level, and writes them into the list of StormSets
+		/// </summary>
+		private void GetStormSets()
+		{
+			GameObject stormParent = GameObject.Find("Storms");
+			if (stormParent != null)
+			{
+				foreach (Transform child in stormParent.transform)
+				{
+					stormSets.Add(child.gameObject);
+				}
+				Debug.Log("Storm sets grabbed: " + stormSets.Count);
+			}
+		}
+
+		/// <summary>
+		/// Randomly picks storm sets (sets of storm objects to activate as a group) and 
+		/// activates them one by one, until all in the StormSets list have been activated.
+		/// </summary>
+		/// <returns></returns>
+		private IEnumerator SpawnStorms()
+        {
+			while(activeStorms < stormSets.Count)
+            {
+				yield return new WaitForSeconds(stormTimer);
+				GameObject stormToActivate = RandFromList(stormSets);
+                if (stormToActivate != null && !stormToActivate.activeSelf)
+                {
+					stormToActivate.SetActive(true);
+					activeStorms++;
+				}
+				
+            }
+			if(activeStorms >= stormSets.Count)
+            {
+				StopCoroutine(SpawnStorms());
+            }
+
+        }
+
+		/// <summary>
+		/// This method accepts a list of objects and returns a random one from that list.
+		/// </summary>
+		/// <param name="theList"></param>
+		/// <returns> GameObject </returns>
+		private GameObject RandFromList(List<GameObject> theList)
+		{
+			return theList[Random.Range(0, theList.Count)];
+
+		}
+
 	}
+
 }
