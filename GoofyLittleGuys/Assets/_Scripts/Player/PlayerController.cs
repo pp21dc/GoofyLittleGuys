@@ -9,11 +9,13 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] private PlayerBody playerBody;
 	[SerializeField] private MultiplayerEventSystem playerEventSystem;
 	[SerializeField] private Camera playerCam;
+	[SerializeField] private Camera spectatorCam;
 
 	private bool showTeamUI = true;
 	private bool showMinimap = true;
 
 	public Camera PlayerCam => playerCam;
+	public Camera SpectatorCam => spectatorCam;
 	public PlayerBody Body => playerBody;
 	public MultiplayerEventSystem PlayerEventSystem => playerEventSystem;
 
@@ -28,6 +30,13 @@ public class PlayerController : MonoBehaviour
 	{
 		if (GameManager.Instance.IsPaused) return;
 		playerBody.UpdateMovementVector(ctx.ReadValue<Vector2>());
+	}
+
+	public void OnSpectatorUpDown(InputAction.CallbackContext ctx)
+	{
+		if (GameManager.Instance.IsPaused) return;
+		if (!playerBody.CanRespawn)
+			playerBody.UpdateUpDown(ctx.performed ? ctx.ReadValue<float>() : 0);
 	}
 
 	public void OnSwap(InputAction.CallbackContext ctx)

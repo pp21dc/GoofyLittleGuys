@@ -461,6 +461,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: fe37d735-7fdf-46b4-8875-74b397259d4d
     m_ActionName: World/UseBerry[/XInputControllerWindows/buttonEast,/Keyboard/b]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3641373110718538541}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnSpectatorUpDown
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 5b0f7781-3cd2-4404-95f2-d2cb8b20800a
+    m_ActionName: World/SpectatorUpDown[/XInputControllerWindows/dpad/down,/XInputControllerWindows/dpad/up,/Keyboard/downArrow,/Keyboard/upArrow]
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: 
   m_DefaultActionMap: World
@@ -481,6 +497,7 @@ MonoBehaviour:
   playerBody: {fileID: 7309893548567680084}
   playerEventSystem: {fileID: 5499870760211805877}
   playerCam: {fileID: 7801862985928928391}
+  spectatorCam: {fileID: 0}
 --- !u!1 &1235229453542371330
 GameObject:
   m_ObjectHideFlags: 0

@@ -411,6 +411,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SpectatorUpDown"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""5b0f7781-3cd2-4404-95f2-d2cb8b20800a"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -721,6 +730,72 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""UseBerry"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Up/Down"",
+                    ""id"": ""c21f2060-4f25-4bef-a614-810684cc9760"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SpectatorUpDown"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""73b05d63-9575-44a7-ab62-ae5e5fdf20da"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""[DEBUG] Keyboard Mouse"",
+                    ""action"": ""SpectatorUpDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""80de18be-8f8a-420c-aa91-ea1fa0898695"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""[DEBUG] Keyboard Mouse"",
+                    ""action"": ""SpectatorUpDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Up/Down"",
+                    ""id"": ""c11e409f-d537-48d2-9540-18db9a8943b5"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SpectatorUpDown"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""4336ee93-56d6-423c-9964-c7d08b8c60f0"",
+                    ""path"": ""<Gamepad>/rightStick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""SpectatorUpDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""4483a7cc-abfb-4d1c-bc0e-f192a42601b2"",
+                    ""path"": ""<Gamepad>/rightStick/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""SpectatorUpDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -769,6 +844,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_World_ShowTeamUI = m_World.FindAction("ShowTeamUI", throwIfNotFound: true);
         m_World_ShowMinimap = m_World.FindAction("ShowMinimap", throwIfNotFound: true);
         m_World_UseBerry = m_World.FindAction("UseBerry", throwIfNotFound: true);
+        m_World_SpectatorUpDown = m_World.FindAction("SpectatorUpDown", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -918,6 +994,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_World_ShowTeamUI;
     private readonly InputAction m_World_ShowMinimap;
     private readonly InputAction m_World_UseBerry;
+    private readonly InputAction m_World_SpectatorUpDown;
     public struct WorldActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -932,6 +1009,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @ShowTeamUI => m_Wrapper.m_World_ShowTeamUI;
         public InputAction @ShowMinimap => m_Wrapper.m_World_ShowMinimap;
         public InputAction @UseBerry => m_Wrapper.m_World_UseBerry;
+        public InputAction @SpectatorUpDown => m_Wrapper.m_World_SpectatorUpDown;
         public InputActionMap Get() { return m_Wrapper.m_World; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -971,6 +1049,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @UseBerry.started += instance.OnUseBerry;
             @UseBerry.performed += instance.OnUseBerry;
             @UseBerry.canceled += instance.OnUseBerry;
+            @SpectatorUpDown.started += instance.OnSpectatorUpDown;
+            @SpectatorUpDown.performed += instance.OnSpectatorUpDown;
+            @SpectatorUpDown.canceled += instance.OnSpectatorUpDown;
         }
 
         private void UnregisterCallbacks(IWorldActions instance)
@@ -1005,6 +1086,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @UseBerry.started -= instance.OnUseBerry;
             @UseBerry.performed -= instance.OnUseBerry;
             @UseBerry.canceled -= instance.OnUseBerry;
+            @SpectatorUpDown.started -= instance.OnSpectatorUpDown;
+            @SpectatorUpDown.performed -= instance.OnSpectatorUpDown;
+            @SpectatorUpDown.canceled -= instance.OnSpectatorUpDown;
         }
 
         public void RemoveCallbacks(IWorldActions instance)
@@ -1060,5 +1144,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnShowTeamUI(InputAction.CallbackContext context);
         void OnShowMinimap(InputAction.CallbackContext context);
         void OnUseBerry(InputAction.CallbackContext context);
+        void OnSpectatorUpDown(InputAction.CallbackContext context);
     }
 }

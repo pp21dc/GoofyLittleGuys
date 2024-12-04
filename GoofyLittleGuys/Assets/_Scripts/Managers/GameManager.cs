@@ -13,7 +13,7 @@ namespace Managers
 
 		[SerializeField] private List<PlayerSpawnPoint> spawnPoints;
 
-		[SerializeField] private const float phaseOneDuration = 420f;   // Length of Phase 1 in seconds. (This amounts to 7 minutes)420f
+		[SerializeField, Tooltip("Time in minutes that the first phase should end at.")] private float phaseOneStartTime = 7f;   // Length of Phase 1 in seconds. (This amounts to 7 minutes)420f
 		[SerializeField] private const float phaseTwoDuration = 180f;   // Length of Phase 2 in seconds. (This amounts to 3 minutes)180f
 		[SerializeField] private float currentGameTime = 0;             // Current game time in seconds.
 		[SerializeField] private Transform fountainSpawnPoint;          // The spawn point that players are respawned to in the main game, set by the HealingFountain.cs
@@ -66,13 +66,13 @@ namespace Managers
 				gameTime = System.TimeSpan.FromSeconds(currentGameTime);
 				if (gameTimer != null) gameTimer.text = gameTime.ToString("mm':'ss");
 
-				if (currentGameTime >= phaseOneDuration)
+				if (currentGameTime >= phaseOneStartTime * 60)
 				{
 					// Starting Phase 2
 					currentPhase++;
 					StartPhaseTwo();
 				}
-				if (currentGameTime >= (phaseOneDuration * 0.5f) && !legendarySpawned)
+				if (currentGameTime >= (phaseOneStartTime * 30f) && !legendarySpawned)
 				{
 					legendarySpawned = true;
 					//SpawnLegendary(); THIS IS ONLY COMMENTED SINCE NO LEGENDARY IS SET IN EDITOR CURRENTLY
@@ -81,7 +81,7 @@ namespace Managers
 			}
 			else if (currentPhase == 2)
 			{
-				if (currentGameTime >= (phaseOneDuration + phaseTwoDuration))
+				if (currentGameTime >= ((phaseOneStartTime * 60f) + phaseTwoDuration))
 				{
 					BrawlTimeEnd();
 				}

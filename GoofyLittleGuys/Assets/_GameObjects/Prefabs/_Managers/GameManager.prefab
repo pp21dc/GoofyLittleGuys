@@ -53,10 +53,12 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  phaseOneStartTime: 7
   currentGameTime: 0
   fountainSpawnPoint: {fileID: 0}
   timerCanvas: {fileID: 0}
   gameTimer: {fileID: 0}
+  stormSets: []
   phase1LayerMask:
     serializedVersion: 2
     m_Bits: 256

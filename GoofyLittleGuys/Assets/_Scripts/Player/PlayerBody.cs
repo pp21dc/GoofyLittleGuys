@@ -147,9 +147,9 @@ public class PlayerBody : MonoBehaviour
 			else
 			{
 				isDead = true;
-                // No living lil guys, time for a respawn if possible.
-                if (canRespawn)
-                {
+				// No living lil guys, time for a respawn if possible.
+				if (canRespawn)
+				{
 					respawnCoroutine ??= StartCoroutine(DelayedRespawn());
 				}
 				else if (GameManager.Instance.CurrentPhase == 2 && !wasDefeated)
@@ -181,7 +181,7 @@ public class PlayerBody : MonoBehaviour
 			}
 
 			// Apply the smoothed velocity to the Rigidbody
-			rb.velocity = new Vector3(currentVelocity.x, rb.velocity.y, currentVelocity.z);
+			rb.velocity = new Vector3(currentVelocity.x, canRespawn ? rb.velocity.y : currentVelocity.y, currentVelocity.z);
 		}
 
 		if (rb.velocity.y < 0)
@@ -196,12 +196,17 @@ public class PlayerBody : MonoBehaviour
 	/// <param name="dir">The input vector.</param>
 	public void UpdateMovementVector(Vector2 dir)
 	{
-		movementDirection = new Vector3(dir.x, 0, dir.y);
+		movementDirection = new Vector3(dir.x, movementDirection.y, dir.y);
 		if (dir.x > 0) flip = true;
 		if (dir.x < 0) flip = false;
 
 		lilGuyTeam[0].IsMoving = Mathf.Abs(movementDirection.magnitude) > 0;
 		lilGuyTeam[0].Flip = flip;
+	}
+
+	public void UpdateUpDown(float dir)
+	{
+		movementDirection = new Vector3(movementDirection.x, dir, movementDirection.z);
 	}
 
 	public void Interact()
@@ -322,8 +327,8 @@ public class PlayerBody : MonoBehaviour
 		lilGuyTeam[0].SetLayer(LayerMask.NameToLayer("PlayerLilGuys"));
 		lilGuyTeam[0].transform.localPosition = Vector3.zero;
 		activeLilGuy = lilGuyTeam[0];
-        playerUi.SetPersistentHealthBarValue(activeLilGuy.Health, activeLilGuy.MaxHealth);
-        nextSwapTime = Time.time + swapCooldown;
+		playerUi.SetPersistentHealthBarValue(activeLilGuy.Health, activeLilGuy.MaxHealth);
+		nextSwapTime = Time.time + swapCooldown;
 	}
 
 	public void StartDash()
@@ -401,13 +406,17 @@ public class PlayerBody : MonoBehaviour
 	private IEnumerator DelayedRespawn()
 	{
 		canMove = false;
+		if (!canRespawn)
+		{
+			rb.useGravity = false;
+		}
 		yield return new WaitForSeconds(Managers.GameManager.Instance.RespawnTimer);
 		if (canRespawn)
 		{
 			Respawn();
 		}
 		respawnCoroutine = null;
-		
+
 
 	}
 }
