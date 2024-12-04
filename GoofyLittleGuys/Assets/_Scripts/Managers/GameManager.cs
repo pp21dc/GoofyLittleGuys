@@ -205,7 +205,7 @@ namespace Managers
 		/// </summary>
 		/// <param name="thePlayer"></param>
 		/// <returns></returns>
-		private bool IsStillKicking(PlayerBody thePlayer)
+		private bool IsAlive(PlayerBody thePlayer)
 		{
 			return thePlayer.CheckTeamHealth();
 

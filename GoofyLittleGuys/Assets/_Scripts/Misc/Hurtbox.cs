@@ -13,6 +13,7 @@ public class Hurtbox : MonoBehaviour
 	public float Health { get { return health; } }
 	private PlayerBody lastHit;                      // Player who last hit this hurtbox.
 	public PlayerBody LastHit { get { return lastHit; } set { lastHit = value; } }
+	public GameObject Owner { get { return owner; }}
 
 	private void Start()
 	{
