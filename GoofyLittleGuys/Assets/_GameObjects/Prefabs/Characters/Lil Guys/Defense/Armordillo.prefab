@@ -177,13 +177,14 @@ MonoBehaviour:
   maxCharges: 1
   cooldownDuration: 17
   chargeRefreshRate: 2
+  accelerationTime: 0.1
   attackCooldown: 0
-  attackRange: 0
   attackEffect: {fileID: 0}
   shieldPrefab: {fileID: 2008765747768666474, guid: 0b6f276f11794084db7a6f88d2820118,
     type: 3}
   duration: 5
   damageReduction: 0.85
+  speedBoost: 20
 --- !u!54 &4146728097653182592
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -248,7 +249,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 0
   owner: {fileID: 6573903925891364681}
-  lastHit: {fileID: 0}
 --- !u!114 &1975696606978852400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -280,7 +280,6 @@ MonoBehaviour:
   teleportRange: 30
   accelerationTime: 0.1
   followRange: 2
-  stateChangeCooldown: 0.1
 --- !u!114 &-3799891229910610430
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -298,10 +297,7 @@ MonoBehaviour:
   chaseRange: 10
   attackRange: 2.5
   attackBuffer: 2
-  accelerationTime: 0.1
-  decelerationTime: 0.2
   timeBeforeDestroyed: 5
-  interactDistance: 2
 --- !u!95 &2852710274394337051
 Animator:
   serializedVersion: 5

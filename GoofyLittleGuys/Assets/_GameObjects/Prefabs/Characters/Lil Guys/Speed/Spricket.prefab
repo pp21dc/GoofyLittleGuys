@@ -66,15 +66,14 @@ MonoBehaviour:
   speed: 13
   defense: 15
   strength: 13
-  specialDuration: 0
+  specialDuration: -1
   currentCharges: 1
   maxCharges: 1
   cooldownDuration: 9
   chargeRefreshRate: 2
+  accelerationTime: 0.1
   attackCooldown: 0
-  attackRange: 0
   attackEffect: {fileID: 0}
-  distance: 5
   minChargeTime: 0.5
   maxChargeTime: 1.5
   dashDistance: 5
@@ -142,7 +141,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 0
   owner: {fileID: 6573903925891364681}
-  lastHit: {fileID: 0}
 --- !u!114 &8019565656019957017
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,7 +172,6 @@ MonoBehaviour:
   teleportRange: 30
   accelerationTime: 0.1
   followRange: 2
-  stateChangeCooldown: 0.1
 --- !u!114 &-7936797645494185066
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -192,10 +189,7 @@ MonoBehaviour:
   chaseRange: 10
   attackRange: 2.5
   attackBuffer: 2
-  accelerationTime: 0.1
-  decelerationTime: 0.2
   timeBeforeDestroyed: 5
-  interactDistance: 2
 --- !u!95 &1192768599668502933
 Animator:
   serializedVersion: 5

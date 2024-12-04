@@ -76,7 +76,7 @@ public class PlayerBody : MonoBehaviour
 	public List<LilGuySlot> LilGuyTeamSlots => lilGuyTeamSlots;
 	public Vector3 MovementDirection => movementDirection;
 	public int MaxBerryCount => maxBerryCount;
-	public float MaxSpeed => maxSpeed;
+	public float MaxSpeed { get { return maxSpeed; } set { maxSpeed = value; } }
 	public PlayerUi PlayerUI => playerUi;
 	public PlayerController Controller => controller;
 

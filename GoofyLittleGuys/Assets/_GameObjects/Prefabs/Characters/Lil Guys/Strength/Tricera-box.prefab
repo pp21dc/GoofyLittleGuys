@@ -363,15 +363,13 @@ MonoBehaviour:
   specialDuration: -1
   currentCharges: 1
   maxCharges: 1
-  cooldownDuration: 1
+  cooldownDuration: 9
   chargeRefreshRate: 1
+  accelerationTime: 0.1
   attackCooldown: 1
-  attackRange: 5
   attackEffect: {fileID: 0}
   aoeShape: {fileID: 7763503517924717934, guid: 783823e0ebd4aff4298168ab9dfa9111,
     type: 3}
-  aoeMaxSize: 4
-  aoeExpansionSpeed: 0.25
   aoeDamage: 7
   waveAoePosition: {fileID: 3305521939920653021}
   waveAoeDamage: 10
@@ -441,7 +439,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 0
   owner: {fileID: 6573903925891364681}
-  lastHit: {fileID: 0}
 --- !u!114 &2836014551602687782
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -473,7 +470,6 @@ MonoBehaviour:
   teleportRange: 30
   accelerationTime: 0.1
   followRange: 2
-  stateChangeCooldown: 0.1
 --- !u!114 &8901250931437216870
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -491,10 +487,7 @@ MonoBehaviour:
   chaseRange: 10
   attackRange: 2.5
   attackBuffer: 2
-  accelerationTime: 0.1
-  decelerationTime: 0.2
   timeBeforeDestroyed: 5
-  interactDistance: 2
 --- !u!95 &5725646759183813981
 Animator:
   serializedVersion: 5
