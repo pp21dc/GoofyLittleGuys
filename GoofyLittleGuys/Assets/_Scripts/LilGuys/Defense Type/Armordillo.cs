@@ -11,7 +11,10 @@ public class Armordillo : DefenseType
 	bool speedBoostActive = false;
 	public override void StartChargingSpecial()
 	{
-		speed += speedBoost;
+		if (!speedBoostActive)
+		{
+			speed += speedBoost;
+		}
 
 		if (playerOwner != null) playerOwner.MaxSpeed = speed;
 		speedBoostActive = true;
