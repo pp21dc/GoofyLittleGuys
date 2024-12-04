@@ -51,6 +51,7 @@ public class PlayerBody : MonoBehaviour
 	private bool wasDefeated = false; // Only true if this player has been defeated in phase 2
 	private Vector3 currentVelocity; // Internal tracking for velocity smoothing
 
+	private Coroutine respawnCoroutine = null;
 
 	private Vector3 movementDirection = Vector3.zero;
 	private Rigidbody rb;
@@ -149,7 +150,7 @@ public class PlayerBody : MonoBehaviour
                 // No living lil guys, time for a respawn if possible.
                 if (canRespawn)
                 {
-					StartCoroutine(DelayedRespawn());
+					respawnCoroutine ??= StartCoroutine(DelayedRespawn());
 				}
 				else if (GameManager.Instance.CurrentPhase == 2 && !wasDefeated)
 				{
@@ -220,8 +221,6 @@ public class PlayerBody : MonoBehaviour
 		{
 			berryCount--;
 
-			playerUi.SetBerryCount(berryCount);
-
 			SpawnManager.Instance.RemoveLilGuyFromSpawns();
 			closestWildLilGuy.PlayerOwner = this;
 			closestWildLilGuy.Init(LayerMask.NameToLayer("Player"));
@@ -259,6 +258,8 @@ public class PlayerBody : MonoBehaviour
 			nextBerryUseTime = Time.time + berryUsageCooldown;
 			playerUi.SetPersistentHealthBarValue(lilGuyTeam[0].Health, lilGuyTeam[0].MaxHealth);
 		}
+
+		playerUi.SetBerryCount(berryCount);
 	}
 
 	/// <summary>
@@ -405,6 +406,7 @@ public class PlayerBody : MonoBehaviour
 		{
 			Respawn();
 		}
+		respawnCoroutine = null;
 		
 
 	}
