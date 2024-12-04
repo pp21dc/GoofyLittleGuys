@@ -17,9 +17,9 @@ public abstract class LilGuyBase : MonoBehaviour
 	[SerializeField] protected Transform attackPosition;
 
 	[Header("Lil Guy Stats")]
-	protected int level = 1;
-	protected int xp = 0;
-	protected int max_xp = 5;
+	[SerializeField] protected int level = 1;
+	[SerializeField] protected int xp = 0;
+	[SerializeField] protected int max_xp = 5;
 	[SerializeField] protected float health = 50;
 	[SerializeField] protected float maxHealth;
 	[SerializeField] protected float speed;
