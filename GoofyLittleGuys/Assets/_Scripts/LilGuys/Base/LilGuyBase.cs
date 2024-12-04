@@ -223,8 +223,12 @@ public abstract class LilGuyBase : MonoBehaviour
 		isInBasicAttack = false;
 		isAttacking = false;
 		isInSpecialAttack = false;
-		if (!isWild) StartCoroutine(Disappear());
-		else GetComponent<Hurtbox>().LastHit.LilGuyTeam[0].AddXP(Level * 2);
+		if (!isWild) 
+		{
+			StartCoroutine(Disappear());
+			GetComponent<Hurtbox>().LastHit.LilGuyTeam[0].AddXP( Mathf.FloorToInt(((Level + 4)^2 )/2) );
+		}
+		else GetComponent<Hurtbox>().LastHit.LilGuyTeam[0].AddXP(Mathf.FloorToInt(((Level + 4)^2 )/3));
 	}
 
 	/// <summary>
