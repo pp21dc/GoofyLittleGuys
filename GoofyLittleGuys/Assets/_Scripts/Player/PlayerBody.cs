@@ -42,7 +42,8 @@ public class PlayerBody : MonoBehaviour
 	private bool isDead = false;
 	private bool canRespawn = true;
 	private bool inStorm = false; // used by storm objects to determine if the player is currently in the storm
-	private bool stormDmg = false; // used by storm objects to determine if the player has already started taking damage.
+	private bool stormDmg = false; // used by storm objects to determine if the player should take storm damage this frame.
+	private bool stormCoroutine = false; // used by storm objects to determine if this player has already started a damage coroutine.
 	private bool isDashing = false;                         // When the dash action is pressed for speed lil guy. Note this is in here because if the player swaps mid dash, they will get stuck in dash UNLESS this bool is here and is adjusted here.
 	private bool flip = false;
 	private bool hasInteracted = false;
@@ -65,6 +66,7 @@ public class PlayerBody : MonoBehaviour
 	public bool CanRespawn { get { return canRespawn; } set { canRespawn = value; } }
 	public bool InStorm { get { return inStorm; } set { inStorm = value; } }
 	public bool StormDmg { get { return stormDmg; } set { stormDmg = value; } }
+	public bool StormCoroutine { get { return stormCoroutine; } set { stormCoroutine = value; } }
 	public bool IsDashing { get { return isDashing; } set { isDashing = value; } }
 	public LilGuyBase ActiveLilGuy { get { return activeLilGuy; } set { activeLilGuy = value; } }
 	public GameObject TeamFullMenu { get { return teamFullMenu; } set { teamFullMenu = value; } }
@@ -420,7 +422,20 @@ public class PlayerBody : MonoBehaviour
 			Respawn();
 		}
 		respawnCoroutine = null;
-
-
 	}
+
+	/// <summary>
+	/// This method deals damage to the currently active Lil Guy if the player is 
+	/// currently meant to be taking storm damage.
+	/// </summary>
+	public void StormDamage(float dmg)
+    {
+		Hurtbox h = lilGuyTeam[0].gameObject.GetComponent<Hurtbox>();
+		if(h != null && StormDmg)
+        {
+			h.TakeDamage(dmg);
+			StormDmg = false;
+		}
+    }
+
 }

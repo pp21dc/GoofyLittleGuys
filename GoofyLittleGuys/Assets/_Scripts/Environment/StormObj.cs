@@ -7,102 +7,68 @@ public class StormObj : MonoBehaviour
     public float dmgPerInterval;
     public float interval;
 
-    private void OnTriggerEnter(Collider hitCollider)
+    //On trigger enter, a coroutine should start for the player that entered, that (while the given player is InStorm),
+    //simply waits a few seconds, then turns on StormDmg for that player if it isn't already on.
+    private void OnTriggerEnter(Collider collision)
     {
-        Hurtbox playerHurtbox = hitCollider.gameObject.GetComponent<Hurtbox>();
-        if (playerHurtbox != null && playerHurtbox.gameObject.GetComponent<TamedBehaviour>() != null) 
-        {
-            PlayerBody playerHit = playerHurtbox.gameObject.GetComponent<LilGuyBase>().PlayerOwner;
-            if (playerHit != null)
-            {
-                if (!playerHit.InStorm)
-                {
-                    playerHit.InStorm = true;
-                }
-                
-               
-            }
-        } 
-    }
-
-    private void OnTriggerStay(Collider hitCollider)
-    {
-        Hurtbox playerHurtbox = hitCollider.gameObject.GetComponent<Hurtbox>();
+        Hurtbox playerHurtbox = collision.gameObject.GetComponent<Hurtbox>();
         if (playerHurtbox != null && playerHurtbox.gameObject.GetComponent<TamedBehaviour>() != null)
         {
             PlayerBody playerHit = playerHurtbox.gameObject.GetComponent<LilGuyBase>().PlayerOwner;
-            // if in the storm, and not yet taking storm damage, start taking damage.
-            if (playerHit.InStorm && !playerHit.StormDmg)
+            if (playerHit != null && !playerHit.StormCoroutine)
             {
-                StartCoroutine(DelayedDamage(playerHurtbox));
-                playerHit.StormDmg = true;
+                playerHit.InStorm = true;
+                StartCoroutine(DmgCycle(playerHit));
             }
         }
-
     }
 
-    private void OnTriggerExit(Collider hitCollider)
+    //On trigger stay (each frame a player is in the storm) they should check if they are meant to take damage this frame, if so, we should call 
+    //the players' StormDamage method.
+    private void OnTriggerStay(Collider collision)
     {
-        //Hurtbox playerHurtbox = hitCollider.gameObject.GetComponent<Hurtbox>();
-        Hurtbox playerHurtbox = hitCollider.gameObject.GetComponentInParent<Hurtbox>();
-        PlayerBody playerHit = hitCollider.gameObject.GetComponentInParent<PlayerBody>();
-        if (playerHurtbox != null && playerHit != null)
+        Hurtbox playerHurtbox = collision.gameObject.GetComponent<Hurtbox>();
+        if (playerHurtbox != null && playerHurtbox.gameObject.GetComponent<TamedBehaviour>() != null)
         {
-            if (playerHit.InStorm)
+            PlayerBody playerHit = playerHurtbox.gameObject.GetComponent<LilGuyBase>().PlayerOwner;
+            if (playerHit != null && playerHit.StormDmg)
             {
-                StopDamage(playerHurtbox,playerHit);
+                playerHit.StormDamage(dmgPerInterval);
             }
         }
-
     }
-        
-    
 
-    /// <summary>
-    /// Coroutine that simply waits for interval to elapse, then deals some damage
-    /// </summary>
-    /// <returns></returns>
-    private IEnumerator DelayedDamage(Hurtbox h)
+    //Coroutine that, notifies thisPlayer it has started this coroutine,
+    //then, while thisPlayer is InStorm, wait interval, then set thisPlayer.StormDmg = true if it's not already.
+    private IEnumerator DmgCycle(PlayerBody thisPlayer)
     {
-        
-        if (h == null)
+        thisPlayer.StormCoroutine = true;
+        while (thisPlayer.InStorm)
         {
-            StopCoroutine(DelayedDamage(h));
-            yield break;
-        }
-        PlayerBody playerHit = h.gameObject.GetComponentInParent<PlayerBody>();
-        if (playerHit == null)
-        {
-            StopCoroutine(DelayedDamage(h));
-            yield break;
-        }
-        while (playerHit.InStorm)
-        {
-            if (!playerHit.IsDead)
+            yield return new WaitForSeconds(interval);
+            if (!thisPlayer.StormDmg)
             {
-                yield return new WaitForSeconds(interval);
-                h.TakeDamage(dmgPerInterval);
+                thisPlayer.StormDmg = true;
             }
-            else
-            {
-                yield break;
-            }
-            
         }
     }
 
-    /// <summary>
-    /// Forces the DelayedDamage coroutine to stop for a given hurtbox and player, then makes sure that player is no longer
-    /// considered to be in the storm.
-    /// </summary>
-    private void StopDamage(Hurtbox h, PlayerBody playerHit)
+    //On trigger exit, thisPlayer that left should have its coroutine stopped, and 
+    //then they should be notified that StormCoroutine = false and StormDmg = false.
+    private void OnTriggerExit(Collider collision)
     {
-        StopCoroutine(DelayedDamage(h));
-        playerHit.InStorm = false;
-        if (playerHit.StormDmg)
+        Hurtbox playerHurtbox = collision.gameObject.GetComponent<Hurtbox>();
+        if (playerHurtbox != null && playerHurtbox.gameObject.GetComponent<TamedBehaviour>() != null)
         {
-            playerHit.StormDmg = false;
+            PlayerBody playerHit = playerHurtbox.gameObject.GetComponent<LilGuyBase>().PlayerOwner;
+            if (playerHit != null && playerHit.StormCoroutine)
+            {
+                StopCoroutine(DmgCycle(playerHit));
+                playerHit.InStorm = false;
+                playerHit.StormDmg = false;
+                playerHit.StormCoroutine = false;
+            }
+
         }
     }
-
 }
