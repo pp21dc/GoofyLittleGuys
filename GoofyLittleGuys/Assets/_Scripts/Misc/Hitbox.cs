@@ -41,13 +41,15 @@ public class Hitbox : MonoBehaviour
 		if (defenseLilGuy != null && defenseLilGuy.IsShieldActive)
 		{
 			// Specifically if we hit a lil guy whose shield is up, we have to apply damage reduction
-			h.TakeDamage(Mathf.CeilToInt(Damage * (1 - defenseLilGuy.DamageReduction)));	// Ceil because we don't want them to be completely immune to damage.
+			h.TakeDamage(Mathf.CeilToInt(Damage * (1 - defenseLilGuy.DamageReduction)));    // Ceil because we don't want them to be completely immune to damage.
+			h.LastHit = hitboxOwner.GetComponent<LilGuyBase>().PlayerOwner;
 		}
 		else
 		{
 			// Regular damage taken.
 			h.TakeDamage(Damage);
-		}
+            h.LastHit = hitboxOwner.GetComponent<LilGuyBase>().PlayerOwner;
+        }
 
 		if (h.Health <= 0 && h.gameObject.layer == LayerMask.NameToLayer("WildLilGuys")) 
 		{

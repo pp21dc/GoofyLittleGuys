@@ -69,6 +69,7 @@ public abstract class LilGuyBase : MonoBehaviour
 
 	private bool flip = false;
 	private bool isDead = false;
+	private bool isDying = false;
 
 	#region Getters and Setters
 	public int Level { get => level; set => level = value; }
@@ -93,6 +94,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	public Transform GoalPosition => goalPosition;
 	public int MaxStat => max_stat;
 	public int Xp { get => xp; set => xp = value; }
+	public bool IsDying { get { return isDying; } set { isDying = value; } }
 	#endregion
 
 	public enum PrimaryType
@@ -219,14 +221,16 @@ public abstract class LilGuyBase : MonoBehaviour
 
 	public void PlayDeathAnim(bool isWild = false)
 	{
+		if (isDying) return;
 		if (anim != null) anim.Play("Death");
+		isDying = true;
 		isInBasicAttack = false;
 		isAttacking = false;
 		isInSpecialAttack = false;
 		if (!isWild) 
 		{
-			StartCoroutine(Disappear());
-			GetComponent<Hurtbox>().LastHit.LilGuyTeam[0].AddXP( Mathf.FloorToInt(((Level + 4)^2 )/2) );
+            if (GetComponent<Hurtbox>().LastHit != null) GetComponent<Hurtbox>().LastHit.LilGuyTeam[0].AddXP(Mathf.FloorToInt(((Level + 4) ^ 2) / 2)); // problem here
+            StartCoroutine(Disappear());
 		}
 		else GetComponent<Hurtbox>().LastHit.LilGuyTeam[0].AddXP(Mathf.FloorToInt(((Level + 4)^2 )/3));
 	}

@@ -234,13 +234,19 @@ namespace Managers
 		/// <returns></returns>
 		private IEnumerator SpawnStorms()
         {
+			bool stormThisLoop = false;
 			while(activeStorms < stormSets.Count)
             {
-				yield return new WaitForSeconds(stormTimer);
+				if (stormThisLoop) // if there has been a storm in this loop, wait for timer
+				{
+					stormThisLoop = false;
+					yield return new WaitForSeconds(stormTimer);
+				}
 				GameObject stormToActivate = RandFromList(stormSets);
-                if (stormToActivate != null && !stormToActivate.activeSelf)
+                if (stormToActivate != null && !stormToActivate.activeSelf) // activate a new storm
                 {
 					stormToActivate.SetActive(true);
+					stormThisLoop = true;
 					activeStorms++;
 				}
 				
@@ -249,7 +255,7 @@ namespace Managers
             {
 				StopCoroutine(SpawnStorms());
             }
-
+			yield return new WaitForEndOfFrame();
         }
 
 		/// <summary>

@@ -46,6 +46,7 @@ public class HealingFountain : InteractableBase
 	public override void OnInteracted(PlayerBody body)
 	{
 		base.OnInteracted(body);
+		if (GameManager.Instance.CurrentPhase == 2) return;
 		foreach (LilGuyBase lilGuy in body.LilGuyTeam)
 		{
 			if (lilGuy.Health < lilGuy.MaxHealth)
@@ -53,6 +54,7 @@ public class HealingFountain : InteractableBase
 				// Heal up every lil guy in the player's team to full.
 				// Reset their visuals.
 				lilGuy.Health = lilGuy.MaxHealth;
+				lilGuy.IsDying = false;
 				lilGuy.gameObject.SetActive(true);
 				lilGuy.GetComponentInChildren<SpriteRenderer>().color = Color.white;
 			}

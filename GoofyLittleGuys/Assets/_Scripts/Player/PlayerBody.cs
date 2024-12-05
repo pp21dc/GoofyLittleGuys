@@ -106,7 +106,7 @@ public class PlayerBody : MonoBehaviour
 		if (lilGuyTeam[0].Health <= 0)
 		{
 			// Hide them from player, as to not confuse them with a living one... maybe find a better way to convey this
-			lilGuyTeam[0].PlayDeathAnim();
+			if (!lilGuyTeam[0].IsDying) lilGuyTeam[0].PlayDeathAnim();
 			lilGuyTeam[0].SetLayer(LayerMask.NameToLayer("Player"));
 			lilGuyTeam[0].GetComponentInChildren<SpriteRenderer>().color = Color.white;
 
@@ -277,17 +277,18 @@ public class PlayerBody : MonoBehaviour
 		// Only one lil guy, so you can't swap.
 		if (lilGuyTeam.Count <= 1 || Time.time <= nextSwapTime) return;
 
-		foreach (LilGuyBase lilGuy in lilGuyTeam)
+        List<LilGuyBase> aliveTeamMembers = lilGuyTeam.Where(guy => guy.Health > 0).ToList();       // Filter out the dead team members from the live ones.
+        List<LilGuySlot> aliveTeamSlots = lilGuyTeamSlots.Where(slot => !slot.LockState).ToList();  // We only care about the lil guy slots of the lil guys that are still alive.
+
+        // Only one lil guy alive, so swapping makes no sense here.
+        Debug.Log(aliveTeamMembers.Count);
+        if (aliveTeamMembers.Count <= 1) return;
+
+        foreach (LilGuyBase lilGuy in lilGuyTeam)
 		{
 			lilGuy.GetComponent<Rigidbody>().isKinematic = false;
 			lilGuy.SetLayer(LayerMask.NameToLayer("Player"));
 		}
-
-		List<LilGuyBase> aliveTeamMembers = lilGuyTeam.Where(guy => guy.Health > 0).ToList();       // Filter out the dead team members from the live ones.
-		List<LilGuySlot> aliveTeamSlots = lilGuyTeamSlots.Where(slot => !slot.LockState).ToList();  // We only care about the lil guy slots of the lil guys that are still alive.
-
-		// Only one lil guy alive, so swapping makes no sense here.
-		if (aliveTeamMembers.Count <= 1) return;
 
 		if (shiftDirection < 0)
 		{
@@ -389,6 +390,7 @@ public class PlayerBody : MonoBehaviour
 		rb.MovePosition(GameManager.Instance.FountainSpawnPoint.position);
 		for (int i = 0; i < lilGuyTeam.Count; i++)
 		{
+			lilGuyTeam[i].IsDying = false;
 			lilGuyTeam[i].Health = lilGuyTeam[i].MaxHealth;
 			lilGuyTeam[i].gameObject.SetActive(true);
 			lilGuyTeamSlots[i].CheckIfLiving(lilGuyTeam[i]);
