@@ -26,7 +26,7 @@ namespace Managers
 
 		private int currentPhase = 0;
 		private float respawnTimer = 5.0f;
-		private float stormTimer = 3.0f; // how long between spawning new storms in phase 2
+		[SerializeField] private float stormTimer = 20.0f; // how long between spawning new storms in phase 2
 		private int activeStorms = 0;  
 
 		private List<PlayerBody> players = new List<PlayerBody>(); // for the list of REMAINING players in phase 2
