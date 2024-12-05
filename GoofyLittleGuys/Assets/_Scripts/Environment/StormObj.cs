@@ -7,8 +7,6 @@ public class StormObj : MonoBehaviour
     public float dmgPerInterval;
     public float interval;
 
-
-
     private void OnTriggerEnter(Collider hitCollider)
     {
         Hurtbox playerHurtbox = hitCollider.gameObject.GetComponent<Hurtbox>();
@@ -17,10 +15,30 @@ public class StormObj : MonoBehaviour
             PlayerBody playerHit = playerHurtbox.gameObject.GetComponent<LilGuyBase>().PlayerOwner;
             if (playerHit != null)
             {
-                playerHit.InStorm = true;
-                StartCoroutine(DelayedDamage(playerHurtbox));
+                if (!playerHit.InStorm)
+                {
+                    playerHit.InStorm = true;
+                }
+                
+               
             }
         } 
+    }
+
+    private void OnTriggerStay(Collider hitCollider)
+    {
+        Hurtbox playerHurtbox = hitCollider.gameObject.GetComponent<Hurtbox>();
+        if (playerHurtbox != null && playerHurtbox.gameObject.GetComponent<TamedBehaviour>() != null)
+        {
+            PlayerBody playerHit = playerHurtbox.gameObject.GetComponent<LilGuyBase>().PlayerOwner;
+            // if in the storm, and not yet taking storm damage, start taking damage.
+            if (playerHit.InStorm && !playerHit.StormDmg)
+            {
+                StartCoroutine(DelayedDamage(playerHurtbox));
+                playerHit.StormDmg = true;
+            }
+        }
+
     }
 
     private void OnTriggerExit(Collider hitCollider)
@@ -33,7 +51,6 @@ public class StormObj : MonoBehaviour
             if (playerHit.InStorm)
             {
                 StopDamage(playerHurtbox,playerHit);
-                //playerHit.InStorm = false;
             }
         }
 
@@ -47,6 +64,7 @@ public class StormObj : MonoBehaviour
     /// <returns></returns>
     private IEnumerator DelayedDamage(Hurtbox h)
     {
+        
         if (h == null)
         {
             StopCoroutine(DelayedDamage(h));
@@ -81,6 +99,10 @@ public class StormObj : MonoBehaviour
     {
         StopCoroutine(DelayedDamage(h));
         playerHit.InStorm = false;
+        if (playerHit.StormDmg)
+        {
+            playerHit.StormDmg = false;
+        }
     }
 
 }
