@@ -267,8 +267,8 @@ public class PlayerBody : MonoBehaviour
 			nextBerryUseTime = Time.time + berryUsageCooldown;
 			playerUi.SetPersistentHealthBarValue(lilGuyTeam[0].Health, lilGuyTeam[0].MaxHealth);
 		}
-
-		playerUi.SetBerryCount(berryCount);
+        playerUi.SetPersistentHealthBarValue(lilGuyTeam[0].Health, lilGuyTeam[0].MaxHealth);
+        playerUi.SetBerryCount(berryCount);
 	}
 
 	/// <summary>
