@@ -184,9 +184,10 @@ public class PlayerBody : MonoBehaviour
 				currentVelocity = Vector3.Lerp(currentVelocity, targetVelocity, Time.fixedDeltaTime / accelerationTime);
 			}
 
-			// Apply the smoothed velocity to the Rigidbody
-			rb.velocity = new Vector3(currentVelocity.x, canRespawn ? rb.velocity.y : currentVelocity.y, currentVelocity.z);
-		}
+            // Apply the smoothed velocity to the Rigidbody
+            rb.velocity = new Vector3(currentVelocity.x, GameManager.Instance.CurrentPhase == 2 && IsDead ? currentVelocity.y : rb.velocity.y, currentVelocity.z);
+
+        }
 
 		if (rb.velocity.y < 0)
 		{

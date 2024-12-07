@@ -90,7 +90,7 @@ namespace Managers
 				{
 					//MonitorPlayerDefeats();
 				}
-				else if (rankings.Count == players.Count - 1)
+				else if (players.Count <= 1)
 				{
 					BrawlKnockoutEnd();
 				}
@@ -208,6 +208,7 @@ namespace Managers
 		public void BrawlKnockoutEnd()
 		{
 			rankings.Add(players[0]);
+			//players[0].
 			Debug.Log("Brawl Phase has ended by knockout!");
 		}
 

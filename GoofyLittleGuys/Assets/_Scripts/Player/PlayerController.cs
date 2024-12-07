@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour
 	public void OnSpectatorUpDown(InputAction.CallbackContext ctx)
 	{
 		if (GameManager.Instance.IsPaused) return;
-		if (!playerBody.CanRespawn)
+		if (playerBody.IsDead && GameManager.Instance.CurrentPhase == 2)
 			playerBody.UpdateUpDown(ctx.performed ? ctx.ReadValue<float>() : 0);
 	}
 
