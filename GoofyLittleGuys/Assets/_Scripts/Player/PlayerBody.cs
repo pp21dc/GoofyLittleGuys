@@ -3,6 +3,7 @@ using Managers;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -52,6 +53,7 @@ public class PlayerBody : MonoBehaviour
 	private bool canMove = true; // Whether or not the player can move, set it to false when you want to halt movement
 	private bool wasDefeated = false; // Only true if this player has been defeated in phase 2
 	private Vector3 currentVelocity; // Internal tracking for velocity smoothing
+	private bool inMenu = true;
 
 	private Coroutine respawnCoroutine = null;
 
@@ -73,8 +75,9 @@ public class PlayerBody : MonoBehaviour
 	public bool Flip { get { return flip; } set { flip = value; } }
 	public bool IsDead => isDead;
 	public int BerryCount { get { return berryCount; } set { berryCount = value; } }
+    public bool InMenu { get { return inMenu; } set { inMenu = value; } }
 
-	public InteractableBase ClosestInteractable { get { return closestnteractable; } set { closestnteractable = value; } }
+    public InteractableBase ClosestInteractable { get { return closestnteractable; } set { closestnteractable = value; } }
 
 	public List<LilGuyBase> LilGuyTeam => lilGuyTeam;
 	public List<LilGuySlot> LilGuyTeamSlots => lilGuyTeamSlots;
@@ -98,13 +101,22 @@ public class PlayerBody : MonoBehaviour
 	{
 		hasInteracted = false;
 	}
-	private void FixedUpdate()
+
+    private void Awake()
+    {
+		//lilGuyTeam = new List<LilGuyBase>();
+    }
+
+    private void FixedUpdate()
 	{
+		if (inMenu) { return; }
+
 		// Flip player if they're moving in a different direction than what they're currently facing.
 		if (flip) playerMesh.transform.rotation = Quaternion.Euler(0, 180, 0);
 		else playerMesh.transform.rotation = Quaternion.Euler(0, 0, 0);
 
-		if (lilGuyTeam[0] != null) maxSpeed = lilGuyTeam[0].Speed;
+		Debug.Log("Count of team"+LilGuyTeam.Count);
+		if (lilGuyTeam.Count > 0 && lilGuyTeam != null && lilGuyTeam[0] != null) maxSpeed = lilGuyTeam[0].Speed;
 
 		// If the first lil guy is defeated, move to end of list automatically
 		if (lilGuyTeam[0].Health <= 0)

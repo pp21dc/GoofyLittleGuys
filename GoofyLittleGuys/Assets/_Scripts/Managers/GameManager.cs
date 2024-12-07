@@ -25,6 +25,7 @@ namespace Managers
 		private bool legendarySpawned = false;
 
 		private int currentPhase = 0;
+		private bool gameOver = false;
 		private float respawnTimer = 5.0f;
 		[SerializeField] private float stormTimer = 20.0f; // how long between spawning new storms in phase 2
 		private int activeStorms = 0;  
@@ -83,15 +84,12 @@ namespace Managers
 			{
 				if (currentGameTime >= ((phaseOneStartTime * 60f) + phaseTwoDuration))
 				{
-					BrawlTimeEnd();
+					//BrawlTimeEnd();
 				}
 
-				if (players != null)
+				if (rankings.Count == (players.Count - 1) && !gameOver)
 				{
-					//MonitorPlayerDefeats();
-				}
-				else if (players.Count <= 1)
-				{
+					gameOver = true;
 					BrawlKnockoutEnd();
 				}
 			}
@@ -113,7 +111,7 @@ namespace Managers
 		/// </summary>
 		public bool GameStarted()
 		{
-			foreach (PlayerBody body in players)
+            foreach (PlayerBody body in players)
 			{
 				// We don't want the players all spawning in the same exact spot, so shift their x and z positions randomly.
 				int randomPos = Random.Range(0, spawnPoints.Count);
@@ -127,7 +125,8 @@ namespace Managers
 					body.GetComponent<Rigidbody>().MovePosition(spawnPoints[randomPos].transform.position + (new Vector3(1, 0, 1) * Random.Range(-1f, 1f)) + Vector3.up);
 					spawnPoints[randomPos].PlayerSpawnedHere = true;
 				}
-			}
+                body.InMenu = false;
+            }
 
 			// Unpause time, and begin phase one!
 			Time.timeScale = 1;
@@ -208,9 +207,36 @@ namespace Managers
 		public void BrawlKnockoutEnd()
 		{
 			rankings.Add(players[0]);
-			//players[0].
-			Debug.Log("Brawl Phase has ended by knockout!");
+			StartCoroutine(nameof(endGame));
+
+            foreach (PlayerBody player in players)
+            {
+                if (!player.IsDead)
+                {
+                    player.PlayerUI.TempWinText.SetActive(true);
+                }
+            }
+
+            Debug.Log("Brawl Phase has ended by knockout!");
 		}
+
+
+		//TODO: DELETE THIS AFTER WHITEBOX AS THIS IS A TEMP SOLVE FOR ENDING GAME
+		private IEnumerator endGame()
+		{
+			yield return new WaitForSeconds(6);
+            LevelLoadManager.Instance.LoadNewLevel("00_MainMenu");
+            QuitGame();
+            for (int i = Players.Count - 1; i >= 0; i--)
+            {
+				Players[i].InMenu = true;
+                Destroy(Players[i].Controller.gameObject);
+            }
+			players.Clear();
+			currentPhase = 0;
+			gameOver = false;
+			StopAllCoroutines(); // this stop the game from fucking destroying itself when restarting TODO: FIND THE FUCKING LEAK
+        }
 
 		/// <summary>
 		/// Finds all storm sets in the level, and writes them into the list of StormSets

@@ -45,7 +45,7 @@ namespace Managers
                 Destroy(GameManager.Instance.Players[i].Controller.gameObject);
             }
 			LevelLoadManager.Instance.LoadNewLevel("00_MainMenu");
-
+            GameManager.Instance.Players.Clear();
 		}
 
         /// <summary>

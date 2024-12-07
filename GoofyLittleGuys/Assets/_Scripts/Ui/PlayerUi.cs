@@ -21,6 +21,10 @@ public class PlayerUi : MonoBehaviour
     [SerializeField] TMP_Text DEF_Txt;
     [SerializeField] TMP_Text LVL_Txt;
     [SerializeField] TMP_Text HP_Txt;
+
+    [SerializeField] GameObject tempWinText;
+    public GameObject TempWinText { get => tempWinText; set => tempWinText = value; }
+
     private void Update()
     {
         STR_Txt.text = "STR: " + pb.LilGuyTeam[0].Strength.ToString();
