@@ -3,7 +3,6 @@ using Managers;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -25,6 +24,8 @@ public class PlayerBody : MonoBehaviour
 	[SerializeField] private float decelerationTime = 0.2f;  // Time to stop
 	[SerializeField] private float fallMultiplier = 4f;
 
+	private float teamSpeedBoost = 0f;						 // If a lil guy gives a team boost to speed, this variable will store that speed boost.
+
 	[Header("Berry Inventory Parameters")]
 	[SerializeField] private int maxBerryCount = 3;
 	[SerializeField, Range(0f, 1f)] private float berryHealPercentage = 0.25f;
@@ -42,17 +43,17 @@ public class PlayerBody : MonoBehaviour
 	private int berryCount = 0;
 	private bool isDead = false;
 	private bool canRespawn = true;
-	private bool inStorm = false; // used by storm objects to determine if the player is currently in the storm
-	private bool stormDmg = false; // used by storm objects to determine if the player should take storm damage this frame.
-	private bool stormCoroutine = false; // used by storm objects to determine if this player has already started a damage coroutine.
-	private bool isDashing = false;                         // When the dash action is pressed for speed lil guy. Note this is in here because if the player swaps mid dash, they will get stuck in dash UNLESS this bool is here and is adjusted here.
+	private bool inStorm = false;				// used by storm objects to determine if the player is currently in the storm
+	private bool stormDmg = false;				// used by storm objects to determine if the player should take storm damage this frame.
+	private bool stormCoroutine = false;		// used by storm objects to determine if this player has already started a damage coroutine.
+	private bool isDashing = false;				// When the dash action is pressed for speed lil guy. Note this is in here because if the player swaps mid dash, they will get stuck in dash UNLESS this bool is here and is adjusted here.
 	private bool flip = false;
 	private bool hasInteracted = false;
-	private bool hasSwappedRecently = false; // If the player is in swap cooldown (feel free to delete cmnt)
-	private bool hasImmunity = false; // If the player is in swap I-frames (feel free to delete cmnt)
-	private bool canMove = true; // Whether or not the player can move, set it to false when you want to halt movement
-	private bool wasDefeated = false; // Only true if this player has been defeated in phase 2
-	private Vector3 currentVelocity; // Internal tracking for velocity smoothing
+	private bool hasSwappedRecently = false;	// If the player is in swap cooldown (feel free to delete cmnt)
+	private bool hasImmunity = false;			// If the player is in swap I-frames (feel free to delete cmnt)
+	private bool canMove = true;				// Whether or not the player can move, set it to false when you want to halt movement
+	private bool wasDefeated = false;			// Only true if this player has been defeated in phase 2
+	private Vector3 currentVelocity;			// Internal tracking for velocity smoothing
 	private bool inMenu = true;
 
 	private Coroutine respawnCoroutine = null;
@@ -84,6 +85,7 @@ public class PlayerBody : MonoBehaviour
 	public Vector3 MovementDirection => movementDirection;
 	public int MaxBerryCount => maxBerryCount;
 	public float MaxSpeed { get { return maxSpeed; } set { maxSpeed = value; } }
+	public float TeamSpeedBoost { get { return teamSpeedBoost; } set { teamSpeedBoost = value; } }
 	public PlayerUi PlayerUI => playerUi;
 	public PlayerController Controller => controller;
 
@@ -116,7 +118,7 @@ public class PlayerBody : MonoBehaviour
 		else playerMesh.transform.rotation = Quaternion.Euler(0, 0, 0);
 
 		Debug.Log("Count of team"+LilGuyTeam.Count);
-		if (lilGuyTeam.Count > 0 && lilGuyTeam != null && lilGuyTeam[0] != null) maxSpeed = lilGuyTeam[0].Speed;
+		if (lilGuyTeam.Count > 0 && lilGuyTeam != null && lilGuyTeam[0] != null) maxSpeed = lilGuyTeam[0].Speed + teamSpeedBoost;
 
 		// If the first lil guy is defeated, move to end of list automatically
 		if (lilGuyTeam[0].Health <= 0)
@@ -191,7 +193,7 @@ public class PlayerBody : MonoBehaviour
 			else
 			{
 				// Calculate the target velocity based on input direction
-				Vector3 targetVelocity = movementDirection.normalized * ((lilGuyTeam[0].Speed + 10) / 3f);
+				Vector3 targetVelocity = movementDirection.normalized * (((lilGuyTeam[0].Speed + 10) / 3f) + teamSpeedBoost);
 				// Smoothly accelerate towards the target velocity
 				currentVelocity = Vector3.Lerp(currentVelocity, targetVelocity, Time.fixedDeltaTime / accelerationTime);
 			}

@@ -2,8 +2,6 @@ using System;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.InputSystem.XR;
-using Random = UnityEngine.Random;
 
 public abstract class LilGuyBase : MonoBehaviour
 {

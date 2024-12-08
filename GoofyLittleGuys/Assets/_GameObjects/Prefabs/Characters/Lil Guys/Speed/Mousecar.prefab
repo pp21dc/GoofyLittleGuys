@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6748941042090021233}
-  - component: {fileID: 8560500225971180568}
+  - component: {fileID: 8156442279735623292}
   - component: {fileID: 3370327291423806742}
   - component: {fileID: 4160209478385978340}
   - component: {fileID: 5496292320864988503}
@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: -7936797645494185066}
   - component: {fileID: 1192768599668502933}
   m_Layer: 8
-  m_Name: Spricket
+  m_Name: Mousecar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -42,7 +42,7 @@ Transform:
   - {fileID: 7961884095964732693}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8560500225971180568
+--- !u!114 &8156442279735623292
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -51,15 +51,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 6573903925891364681}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f74e7ffde571de4da69b6e64c0a6a8d, type: 3}
+  m_Script: {fileID: 11500000, guid: 001640b5575c5894a9962195d8357a1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  guyName: Spricket
+  guyName: Mousecar
   type: 2
   mesh: {fileID: 7048286981774368068}
   hitboxPrefab: {fileID: 7763503517924717934, guid: 9df4356fd20c6d740acf3ba2a05fd8ed,
     type: 3}
-  anim: {fileID: 1192768599668502933}
+  anim: {fileID: 0}
   attackPosition: {fileID: 8713776750063718060}
   level: 1
   xp: 0
@@ -69,7 +69,7 @@ MonoBehaviour:
   speed: 15
   defense: 13
   strength: 13
-  specialDuration: -1
+  specialDuration: 0
   currentCharges: 1
   maxCharges: 1
   cooldownDuration: 9
@@ -77,9 +77,8 @@ MonoBehaviour:
   accelerationTime: 0.1
   attackCooldown: 0
   attackEffect: {fileID: 0}
-  minChargeTime: 0.5
-  maxChargeTime: 1.5
-  dashDistance: 5
+  speedBoostAmount: 10
+  speedBoostDuration: 7
 --- !u!136 &3370327291423806742
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -99,10 +98,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1
+  m_Radius: 0.75
   m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Direction: 0
+  m_Center: {x: 0, y: 0.875, z: 0}
 --- !u!54 &4160209478385978340
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -201,9 +200,9 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6573903925891364681}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 0b8e42a5ffba4124fb9f09625ecceade, type: 2}
+  m_Controller: {fileID: 9100000, guid: c50b8ed2b841eb34eb6719470f8ce5d7, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -465,7 +464,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 276844993, guid: 2f2cbb984155f2a448d63a9479ee0615, type: 3}
+  m_Sprite: {fileID: 839908861, guid: d64ab767a405f7f4787982c012965fc9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -519,7 +518,7 @@ PrefabInstance:
         type: 3}
       propertyPath: lilGuy
       value: 
-      objectReference: {fileID: 8560500225971180568}
+      objectReference: {fileID: 8156442279735623292}
     - target: {fileID: 5729104096301020213, guid: 533e318f743a87f479f4cdd8b25b7ac4,
         type: 3}
       propertyPath: m_AnchorMax.x
