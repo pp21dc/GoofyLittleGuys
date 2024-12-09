@@ -47,9 +47,6 @@ public class TamedBehaviour : MonoBehaviour
 		// Flip character
 		if (controller.FollowPosition != null && !controller.LilGuy.RB.isKinematic) controller.LilGuy.MovementDirection = (controller.FollowPosition.position - transform.position).normalized;
 
-		if (controller.LilGuy.RB.velocity.x > 0) controller.LilGuy.Flip = true;
-		else if (controller.LilGuy.RB.velocity.x < 0) controller.LilGuy.Flip = false;
-
 	}
 
 	private void FixedUpdate()

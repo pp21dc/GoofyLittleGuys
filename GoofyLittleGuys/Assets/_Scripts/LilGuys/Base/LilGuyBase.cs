@@ -1,3 +1,4 @@
+using Managers;
 using System;
 using System.Collections;
 using System.Linq;
@@ -65,7 +66,6 @@ public abstract class LilGuyBase : MonoBehaviour
 	private GameObject instantiatedHitbox;
 	private float lastAttackTime = -999f; // Tracks the last time an attack occurred
 
-	private bool flip = false;
 	private bool isDead = false;
 	private bool isDying = false;
 
@@ -82,7 +82,6 @@ public abstract class LilGuyBase : MonoBehaviour
 	public Vector3 MovementDirection { get { return movementDirection; } set { movementDirection = value; } }
 	public Vector3 CurrentVelocity => currentVelocity;
 	public PrimaryType Type { get => type; set => type = value; }
-	public bool Flip { get { return flip; } set { flip = value; } }
 	public bool IsMoving { get { return isMoving; } set { isMoving = value; } }
 	public bool IsAttacking { get { return isAttacking; } set { isAttacking = value; } }
 	public bool IsInBasicAttack { get { return isInBasicAttack; } set { isInBasicAttack = value; } }
@@ -116,19 +115,25 @@ public abstract class LilGuyBase : MonoBehaviour
 		GetComponentInChildren<AiHealthUi>().gameObject.SetActive(false);
 		GetComponent<AiController>().SetState(AiController.AIState.Tamed);
 	}
-
+	private void OnApplicationFocus(bool focus)
+	{
+		if (!focus)
+		{
+			movementDirection = Vector3.zero;
+			rb.velocity = Vector3.zero;
+		}
+	}
 	protected virtual void Update()
 	{
 		// Flip character
-		if (playerOwner == null || (playerOwner != null && playerOwner.ActiveLilGuy != this))
-		{
-			// Wild or not active, so the flipping is decided on their own velocity
-			if (currentVelocity.x > 0) flip = true;
-			else if (currentVelocity.x < 0) flip = false;
-		}
+		if (movementDirection.x > 0) mesh.transform.localRotation = new Quaternion(0, 1, 0, 0);
+		else if (movementDirection.x < 0) mesh.transform.localRotation = new Quaternion(0, 0, 0, 1);
 
-		if (flip) mesh.transform.localRotation = Quaternion.Euler(0, 180, 0);
-		else mesh.transform.localRotation = Quaternion.identity;
+		if (GameManager.Instance.IsPaused)
+		{
+			movementDirection = Vector3.zero;
+			rb.velocity = Vector3.zero;
+		}
 
 		if (health <= 0)
 		{
@@ -225,12 +230,12 @@ public abstract class LilGuyBase : MonoBehaviour
 		isInBasicAttack = false;
 		isAttacking = false;
 		isInSpecialAttack = false;
-		if (!isWild) 
+		if (!isWild)
 		{
-            if (GetComponent<Hurtbox>().LastHit != null) GetComponent<Hurtbox>().LastHit.LilGuyTeam[0].AddXP(Mathf.FloorToInt(((Level + 4) ^ 2) / 2)); // problem here
-            StartCoroutine(Disappear());
+			if (GetComponent<Hurtbox>().LastHit != null) GetComponent<Hurtbox>().LastHit.LilGuyTeam[0].AddXP(Mathf.FloorToInt(((Level + 4) ^ 2) / 2)); // problem here
+			StartCoroutine(Disappear());
 		}
-		else GetComponent<Hurtbox>().LastHit.LilGuyTeam[0].AddXP(Mathf.FloorToInt(((Level + 4)^2 )/3));
+		else GetComponent<Hurtbox>().LastHit.LilGuyTeam[0].AddXP(Mathf.FloorToInt(((Level + 4) ^ 2) / 3));
 	}
 
 	/// <summary>

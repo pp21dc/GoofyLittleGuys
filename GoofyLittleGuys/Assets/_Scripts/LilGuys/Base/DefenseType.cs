@@ -39,4 +39,9 @@ public class DefenseType : LilGuyBase
 	{		
 			base.Special();		
 	}
+
+	private void OnDisable()
+	{
+		if (spawnedShieldObj != null) Destroy(spawnedShieldObj);
+	}
 }

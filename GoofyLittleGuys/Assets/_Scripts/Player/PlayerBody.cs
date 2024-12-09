@@ -24,7 +24,7 @@ public class PlayerBody : MonoBehaviour
 	[SerializeField] private float decelerationTime = 0.2f;  // Time to stop
 	[SerializeField] private float fallMultiplier = 4f;
 
-	private float teamSpeedBoost = 0f;						 // If a lil guy gives a team boost to speed, this variable will store that speed boost.
+	private float teamSpeedBoost = 0f;                       // If a lil guy gives a team boost to speed, this variable will store that speed boost.
 
 	[Header("Berry Inventory Parameters")]
 	[SerializeField] private int maxBerryCount = 3;
@@ -43,17 +43,17 @@ public class PlayerBody : MonoBehaviour
 	private int berryCount = 0;
 	private bool isDead = false;
 	private bool canRespawn = true;
-	private bool inStorm = false;				// used by storm objects to determine if the player is currently in the storm
-	private bool stormDmg = false;				// used by storm objects to determine if the player should take storm damage this frame.
-	private bool stormCoroutine = false;		// used by storm objects to determine if this player has already started a damage coroutine.
-	private bool isDashing = false;				// When the dash action is pressed for speed lil guy. Note this is in here because if the player swaps mid dash, they will get stuck in dash UNLESS this bool is here and is adjusted here.
+	private bool inStorm = false;               // used by storm objects to determine if the player is currently in the storm
+	private bool stormDmg = false;              // used by storm objects to determine if the player should take storm damage this frame.
+	private bool stormCoroutine = false;        // used by storm objects to determine if this player has already started a damage coroutine.
+	private bool isDashing = false;             // When the dash action is pressed for speed lil guy. Note this is in here because if the player swaps mid dash, they will get stuck in dash UNLESS this bool is here and is adjusted here.
 	private bool flip = false;
 	private bool hasInteracted = false;
-	private bool hasSwappedRecently = false;	// If the player is in swap cooldown (feel free to delete cmnt)
-	private bool hasImmunity = false;			// If the player is in swap I-frames (feel free to delete cmnt)
-	private bool canMove = true;				// Whether or not the player can move, set it to false when you want to halt movement
-	private bool wasDefeated = false;			// Only true if this player has been defeated in phase 2
-	private Vector3 currentVelocity;			// Internal tracking for velocity smoothing
+	private bool hasSwappedRecently = false;    // If the player is in swap cooldown (feel free to delete cmnt)
+	private bool hasImmunity = false;           // If the player is in swap I-frames (feel free to delete cmnt)
+	private bool canMove = true;                // Whether or not the player can move, set it to false when you want to halt movement
+	private bool wasDefeated = false;           // Only true if this player has been defeated in phase 2
+	private Vector3 currentVelocity;            // Internal tracking for velocity smoothing
 	private bool inMenu = true;
 
 	private Coroutine respawnCoroutine = null;
@@ -76,9 +76,9 @@ public class PlayerBody : MonoBehaviour
 	public bool Flip { get { return flip; } set { flip = value; } }
 	public bool IsDead => isDead;
 	public int BerryCount { get { return berryCount; } set { berryCount = value; } }
-    public bool InMenu { get { return inMenu; } set { inMenu = value; } }
+	public bool InMenu { get { return inMenu; } set { inMenu = value; } }
 
-    public InteractableBase ClosestInteractable { get { return closestnteractable; } set { closestnteractable = value; } }
+	public InteractableBase ClosestInteractable { get { return closestnteractable; } set { closestnteractable = value; } }
 
 	public List<LilGuyBase> LilGuyTeam => lilGuyTeam;
 	public List<LilGuySlot> LilGuyTeamSlots => lilGuyTeamSlots;
@@ -102,14 +102,28 @@ public class PlayerBody : MonoBehaviour
 	private void Update()
 	{
 		hasInteracted = false;
+		if (GameManager.Instance.IsPaused)
+		{
+			movementDirection = Vector3.zero;
+			rb.velocity = Vector3.zero;
+			lilGuyTeam[0].IsMoving = false;
+		}
 	}
 
-    private void Awake()
-    {
+	private void Awake()
+	{
 		//lilGuyTeam = new List<LilGuyBase>();
-    }
-
-    private void FixedUpdate()
+	}
+	private void OnApplicationFocus(bool focus)
+	{
+		if (!focus)
+		{
+			movementDirection = Vector3.zero;
+			rb.velocity = Vector3.zero;
+			lilGuyTeam[0].IsMoving = false;
+		}
+	}
+	private void FixedUpdate()
 	{
 		if (inMenu) { return; }
 
@@ -117,7 +131,7 @@ public class PlayerBody : MonoBehaviour
 		if (flip) playerMesh.transform.rotation = Quaternion.Euler(0, 180, 0);
 		else playerMesh.transform.rotation = Quaternion.Euler(0, 0, 0);
 
-		Debug.Log("Count of team"+LilGuyTeam.Count);
+		Debug.Log("Count of team" + LilGuyTeam.Count);
 		if (lilGuyTeam.Count > 0 && lilGuyTeam != null && lilGuyTeam[0] != null) maxSpeed = lilGuyTeam[0].Speed + teamSpeedBoost;
 
 		// If the first lil guy is defeated, move to end of list automatically
@@ -198,10 +212,10 @@ public class PlayerBody : MonoBehaviour
 				currentVelocity = Vector3.Lerp(currentVelocity, targetVelocity, Time.fixedDeltaTime / accelerationTime);
 			}
 
-            // Apply the smoothed velocity to the Rigidbody
-            rb.velocity = new Vector3(currentVelocity.x, GameManager.Instance.CurrentPhase == 2 && IsDead ? currentVelocity.y : rb.velocity.y, currentVelocity.z);
+			// Apply the smoothed velocity to the Rigidbody
+			rb.velocity = new Vector3(currentVelocity.x, GameManager.Instance.CurrentPhase == 2 && IsDead ? currentVelocity.y : rb.velocity.y, currentVelocity.z);
 
-        }
+		}
 
 		if (rb.velocity.y < 0)
 		{
@@ -220,7 +234,7 @@ public class PlayerBody : MonoBehaviour
 		if (dir.x < 0) flip = false;
 
 		lilGuyTeam[0].IsMoving = Mathf.Abs(movementDirection.magnitude) > 0;
-		lilGuyTeam[0].Flip = flip;
+		lilGuyTeam[0].MovementDirection = movementDirection;
 	}
 
 	public void UpdateUpDown(float dir)
@@ -282,8 +296,8 @@ public class PlayerBody : MonoBehaviour
 			nextBerryUseTime = Time.time + berryUsageCooldown;
 			playerUi.SetPersistentHealthBarValue(lilGuyTeam[0].Health, lilGuyTeam[0].MaxHealth);
 		}
-        playerUi.SetPersistentHealthBarValue(lilGuyTeam[0].Health, lilGuyTeam[0].MaxHealth);
-        playerUi.SetBerryCount(berryCount);
+		playerUi.SetPersistentHealthBarValue(lilGuyTeam[0].Health, lilGuyTeam[0].MaxHealth);
+		playerUi.SetBerryCount(berryCount);
 	}
 
 	/// <summary>
@@ -296,14 +310,14 @@ public class PlayerBody : MonoBehaviour
 		// Only one lil guy, so you can't swap.
 		if (lilGuyTeam.Count <= 1 || Time.time <= nextSwapTime) return;
 
-        List<LilGuyBase> aliveTeamMembers = lilGuyTeam.Where(guy => guy.Health > 0).ToList();       // Filter out the dead team members from the live ones.
-        List<LilGuySlot> aliveTeamSlots = lilGuyTeamSlots.Where(slot => !slot.LockState).ToList();  // We only care about the lil guy slots of the lil guys that are still alive.
+		List<LilGuyBase> aliveTeamMembers = lilGuyTeam.Where(guy => guy.Health > 0).ToList();       // Filter out the dead team members from the live ones.
+		List<LilGuySlot> aliveTeamSlots = lilGuyTeamSlots.Where(slot => !slot.LockState).ToList();  // We only care about the lil guy slots of the lil guys that are still alive.
 
-        // Only one lil guy alive, so swapping makes no sense here.
-        Debug.Log(aliveTeamMembers.Count);
-        if (aliveTeamMembers.Count <= 1) return;
+		// Only one lil guy alive, so swapping makes no sense here.
+		Debug.Log(aliveTeamMembers.Count);
+		if (aliveTeamMembers.Count <= 1) return;
 
-        foreach (LilGuyBase lilGuy in lilGuyTeam)
+		foreach (LilGuyBase lilGuy in lilGuyTeam)
 		{
 			lilGuy.GetComponent<Rigidbody>().isKinematic = false;
 			lilGuy.SetLayer(LayerMask.NameToLayer("Player"));
@@ -444,13 +458,13 @@ public class PlayerBody : MonoBehaviour
 	/// currently meant to be taking storm damage.
 	/// </summary>
 	public void StormDamage(float dmg)
-    {
+	{
 		Hurtbox h = lilGuyTeam[0].gameObject.GetComponent<Hurtbox>();
-		if(h != null && StormDmg)
-        {
+		if (h != null && StormDmg)
+		{
 			h.TakeDamage(dmg);
 			StormDmg = false;
 		}
-    }
+	}
 
 }

@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour
 		if (GameManager.Instance.IsPaused) return;
 		playerBody.UpdateMovementVector(ctx.ReadValue<Vector2>());
 	}
-
+	
 	public void OnSpectatorUpDown(InputAction.CallbackContext ctx)
 	{
 		if (GameManager.Instance.IsPaused) return;

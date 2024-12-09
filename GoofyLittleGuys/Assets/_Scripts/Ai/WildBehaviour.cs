@@ -52,7 +52,8 @@ public class WildBehaviour : MonoBehaviour
 	public void OnDisable()
 	{
 		if (instantiatedPlayerRangeIndicator != null) Destroy(instantiatedPlayerRangeIndicator);
-		StopAllCoroutines();
+		StopCoroutine(actionCoroutine);
+		actionCoroutine = null;
 
 		if (controller == null) return;
 		controller.ToggleInteractCanvas(false);
