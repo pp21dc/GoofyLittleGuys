@@ -4,12 +4,18 @@ using UnityEngine;
 
 public class Teddy : StrengthType
 {
-	[SerializeField] private float aoeLifetime = 1;
-
+	private GameObject instantiatedAoe = null;
 	public void SpawnConeAoe()
 	{
-		GameObject aoe = Instantiate(aoeShape, attackPosition);
-		aoe.GetComponent<AoeHitbox>().Init(gameObject);
-		Destroy(aoe, aoeLifetime);
+		instantiatedAoe = Instantiate(aoeShape, attackPosition);
+		instantiatedAoe.GetComponent<AoeHitbox>().AoeDamage = aoeDamage;
+		instantiatedAoe.GetComponent<AoeHitbox>().Init(gameObject);
+		Destroy(instantiatedAoe, aoeDestroyTime);
+	}
+
+	protected override void OnEndSpecial()
+	{
+		//if (instantiatedAoe != null) Destroy(instantiatedAoe);
+		base.OnEndSpecial();
 	}
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Tricerabox : StrengthType
@@ -8,24 +9,39 @@ public class Tricerabox : StrengthType
 	[SerializeField] private Transform waveAoePosition;
 	[SerializeField] private float waveAoeDamage;
 	[SerializeField] private float waveAoeLifetime;
-	[SerializeField] private float aoeLifetime;
+
+	GameObject aoe;
+	GameObject waveAoe;
 
 	public void SpawnPunchAoe()
 	{
-		GameObject aoe = Instantiate(aoeShape, attackPosition);
+		aoe = Instantiate(aoeShape, attackPosition);
 		AoeHitbox hitbox = aoe.GetComponent<AoeHitbox>();
 		hitbox.AoeDamage = aoeDamage;
 		hitbox.Init(gameObject);
-		Destroy(aoe, aoeLifetime);
+		Destroy(aoe, aoeDestroyTime);
 	}
 
 	public void SpawnWaveAoe()
 	{
-		GameObject waveAoe = Instantiate(aoeShape, waveAoePosition);
+		waveAoe = Instantiate(aoeShape, waveAoePosition);
 		AoeHitbox hitbox = waveAoe.GetComponent<AoeHitbox>();
 		hitbox.AoeDamage = waveAoeDamage;
 		waveAoe.GetComponent<AoeHitbox>().Init(gameObject);
 		Destroy(waveAoe, waveAoeLifetime);
 
+	}
+
+	public override void PlayDeathAnim(bool isWild = false)
+	{
+		if (waveAoe != null) Destroy(waveAoe);
+		base.PlayDeathAnim(isWild);
+
+	}
+	protected override void OnEndSpecial()
+	{
+		if (aoe != null) Destroy(aoe);
+		if (waveAoe != null) Destroy(waveAoe);
+		base.OnEndSpecial();
 	}
 }

@@ -1,6 +1,7 @@
 using Managers;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -100,7 +101,7 @@ public abstract class LilGuyBase : MonoBehaviour
 		Defense,
 		Speed
 	}
-	private void Start()
+	protected virtual void Start()
 	{
 		rb = GetComponent<Rigidbody>();
 	}
@@ -222,7 +223,7 @@ public abstract class LilGuyBase : MonoBehaviour
 		if (anim != null && !isDead && !isInBasicAttack && !isInSpecialAttack) anim.SetTrigger("Hurt");
 	}
 
-	public void PlayDeathAnim(bool isWild = false)
+	public virtual void PlayDeathAnim(bool isWild = false)
 	{
 		if (isDying) return;
 		if (anim != null) anim.Play("Death");
@@ -230,12 +231,31 @@ public abstract class LilGuyBase : MonoBehaviour
 		isInBasicAttack = false;
 		isAttacking = false;
 		isInSpecialAttack = false;
+
+		GameObject[] hitboxes = GetAllChildren(attackPosition);
+		for (int i = hitboxes.Length - 1; i >= 0; i--)
+		{
+			Destroy(hitboxes[i]);
+		}
+
 		if (!isWild)
 		{
 			if (GetComponent<Hurtbox>().LastHit != null) GetComponent<Hurtbox>().LastHit.LilGuyTeam[0].AddXP(Mathf.FloorToInt(((Level + 4) ^ 2) / 2)); // problem here
 			StartCoroutine(Disappear());
 		}
 		else GetComponent<Hurtbox>().LastHit.LilGuyTeam[0].AddXP(Mathf.FloorToInt(((Level + 4) ^ 2) / 3));
+	}
+
+	GameObject[] GetAllChildren(Transform parent)
+	{
+		List<GameObject> children = new List<GameObject>();
+
+		foreach (Transform child in parent)
+		{
+			children.Add(child.gameObject);
+		}
+
+		return children.ToArray();
 	}
 
 	/// <summary>
@@ -320,6 +340,11 @@ public abstract class LilGuyBase : MonoBehaviour
 				anim.SetTrigger("SpecialAttack");
 			}
 		}
+		OnEndSpecial();
+	}
+
+	protected virtual void OnEndSpecial()
+	{
 		StartCoroutine(EndSpecial());
 	}
 

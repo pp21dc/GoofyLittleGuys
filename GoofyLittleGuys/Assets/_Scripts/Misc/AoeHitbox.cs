@@ -45,7 +45,7 @@ public class AoeHitbox : MonoBehaviour
 		else
 		{
 			// Regular damage taken.
-			h.TakeDamage(damage);
+			if (gameObject.layer != LayerMask.NameToLayer("Player")) h.TakeDamage(damage);
 		}
 
 		if (h.Health <= 0 && h.gameObject.layer == LayerMask.NameToLayer("WildLilGuys"))

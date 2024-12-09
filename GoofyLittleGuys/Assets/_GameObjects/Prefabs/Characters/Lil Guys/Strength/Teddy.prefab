@@ -354,6 +354,9 @@ MonoBehaviour:
     type: 3}
   anim: {fileID: 2276666689441862867}
   attackPosition: {fileID: 631468313354302470}
+  level: 1
+  xp: 0
+  max_xp: 5
   health: 100
   maxHealth: 100
   speed: 10
@@ -364,14 +367,14 @@ MonoBehaviour:
   maxCharges: 1
   cooldownDuration: 13
   chargeRefreshRate: 2
+  accelerationTime: 0.1
   attackCooldown: 0
-  attackRange: 0
   attackEffect: {fileID: 0}
-  aoeShape: {fileID: 5216711054752746378, guid: de718a7f3579f9a47a910f3cb7043906,
+  aoeShape: {fileID: 7763503517924717934, guid: 783823e0ebd4aff4298168ab9dfa9111,
     type: 3}
-  aoeMaxSize: 4
-  aoeExpansionSpeed: 0.25
   aoeDamage: 8
+  frameToDestroyAoe: 15
+  specialTotalFrames: 17
   aoeLifetime: 1.5
 --- !u!54 &-2568253581838256164
 Rigidbody:
@@ -437,7 +440,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 0
   owner: {fileID: 6573903925891364681}
-  lastHit: {fileID: 0}
 --- !u!114 &2836014551602687782
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -469,7 +471,6 @@ MonoBehaviour:
   teleportRange: 30
   accelerationTime: 0.1
   followRange: 2
-  stateChangeCooldown: 0.1
 --- !u!114 &9121363788417893756
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -487,10 +488,7 @@ MonoBehaviour:
   chaseRange: 10
   attackRange: 2.5
   attackBuffer: 2
-  accelerationTime: 0.1
-  decelerationTime: 0.2
   timeBeforeDestroyed: 5
-  interactDistance: 2
 --- !u!95 &2276666689441862867
 Animator:
   serializedVersion: 5

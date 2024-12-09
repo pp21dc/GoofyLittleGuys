@@ -374,10 +374,11 @@ MonoBehaviour:
   aoeShape: {fileID: 7763503517924717934, guid: 783823e0ebd4aff4298168ab9dfa9111,
     type: 3}
   aoeDamage: 7
+  frameToDestroyAoe: 12
+  specialTotalFrames: 14
   waveAoePosition: {fileID: 3305521939920653021}
   waveAoeDamage: 10
   waveAoeLifetime: 1
-  aoeLifetime: 1
 --- !u!54 &-2568253581838256164
 Rigidbody:
   m_ObjectHideFlags: 0
