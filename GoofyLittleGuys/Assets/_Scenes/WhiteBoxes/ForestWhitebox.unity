@@ -11038,6 +11038,17 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 663184855566833055, guid: 283ff1d72649857449a8b6e438e81b6d,
         type: 3}
+      propertyPath: forestLilGuys.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 663184855566833055, guid: 283ff1d72649857449a8b6e438e81b6d,
+        type: 3}
+      propertyPath: forestLilGuys.Array.data[5]
+      value: 
+      objectReference: {fileID: 6573903925891364681, guid: 854926ce130a86340b6cc690a7fc6d8d,
+        type: 3}
+    - target: {fileID: 663184855566833055, guid: 283ff1d72649857449a8b6e438e81b6d,
+        type: 3}
       propertyPath: forestSpawners.Array.data[0]
       value: 
       objectReference: {fileID: 502716135}
