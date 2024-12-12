@@ -128,8 +128,6 @@ public class PlayerBody : MonoBehaviour
 		if (inMenu) { return; }
 
 		// Flip player if they're moving in a different direction than what they're currently facing.
-		if (flip) playerMesh.transform.rotation = Quaternion.Euler(0, 180, 0);
-		else playerMesh.transform.rotation = Quaternion.Euler(0, 0, 0);
 
 		Debug.Log("Count of team" + LilGuyTeam.Count);
 		if (lilGuyTeam.Count > 0 && lilGuyTeam != null && lilGuyTeam[0] != null) maxSpeed = lilGuyTeam[0].Speed + teamSpeedBoost;
@@ -235,6 +233,7 @@ public class PlayerBody : MonoBehaviour
 
 		lilGuyTeam[0].IsMoving = Mathf.Abs(movementDirection.magnitude) > 0;
 		lilGuyTeam[0].MovementDirection = movementDirection;
+		Debug.Log(lilGuyTeam[0].MovementDirection);
 	}
 
 	public void UpdateUpDown(float dir)

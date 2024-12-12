@@ -12,7 +12,11 @@ public class Teddy : StrengthType
 		instantiatedAoe.GetComponent<AoeHitbox>().Init(gameObject);
 		Destroy(instantiatedAoe, aoeDestroyTime);
 	}
-
+	public override void StartChargingSpecial()
+	{
+		base.StartChargingSpecial();
+		LockAttackRotation = true;
+	}
 	protected override void OnEndSpecial()
 	{
 		//if (instantiatedAoe != null) Destroy(instantiatedAoe);

@@ -15,6 +15,8 @@ public abstract class LilGuyBase : MonoBehaviour
 	[SerializeField] protected GameObject hitboxPrefab;
 	[SerializeField] protected Animator anim;
 	[SerializeField] protected Transform attackPosition;
+	[SerializeField] protected Transform attackOrbit;
+
 
 	[Header("Lil Guy Stats")]
 	[SerializeField] protected int level = 1;
@@ -53,6 +55,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	protected Transform goalPosition;
 	protected PlayerBody playerOwner = null;
 	private bool isMoving = false;
+	private bool lockAttackRotation = false;
 
 
 	// ANIMATION RELATED
@@ -93,6 +96,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	public int MaxStat => max_stat;
 	public int Xp { get => xp; set => xp = value; }
 	public bool IsDying { get { return isDying; } set { isDying = value; } }
+	public bool LockAttackRotation { get { return lockAttackRotation; } set { lockAttackRotation = value; } }
 	#endregion
 
 	public enum PrimaryType
@@ -127,14 +131,32 @@ public abstract class LilGuyBase : MonoBehaviour
 	protected virtual void Update()
 	{
 		// Flip character
-		if (movementDirection.x > 0) mesh.transform.localRotation = new Quaternion(0, 1, 0, 0);
-		else if (movementDirection.x < 0) mesh.transform.localRotation = new Quaternion(0, 0, 0, 1);
+		
 
 		if (GameManager.Instance.IsPaused)
 		{
 			movementDirection = Vector3.zero;
 			rb.velocity = Vector3.zero;
 		}
+
+		if (!lockAttackRotation)
+		{
+			// Flipping Sprite
+			if (movementDirection.x > 0) mesh.transform.localRotation = new Quaternion(0, 1, 0, 0);
+			else if (movementDirection.x < 0) mesh.transform.localRotation = new Quaternion(0, 0, 0, 1);
+
+
+			if (movementDirection.sqrMagnitude > 0.01)
+			{
+				// Calculate the angle using Atan2 (for XZ plane rotation)
+				float targetAngle = Mathf.Atan2(movementDirection.z, -movementDirection.x) * Mathf.Rad2Deg;
+				// Smoothly interpolate to the target rotation
+				float smoothedAngle = Mathf.LerpAngle(transform.eulerAngles.y, targetAngle, Time.deltaTime * 5);
+				// Apply the rotation
+				attackOrbit.rotation = Quaternion.Euler(0, targetAngle, 0);
+			}
+		}
+
 
 		if (health <= 0)
 		{
@@ -231,6 +253,7 @@ public abstract class LilGuyBase : MonoBehaviour
 		isInBasicAttack = false;
 		isAttacking = false;
 		isInSpecialAttack = false;
+		lockAttackRotation = false;
 
 		GameObject[] hitboxes = GetAllChildren(attackPosition);
 		for (int i = hitboxes.Length - 1; i >= 0; i--)
@@ -360,6 +383,7 @@ public abstract class LilGuyBase : MonoBehaviour
 		{
 			anim.SetTrigger("SpecialAttackEnded");
 		}
+		lockAttackRotation = false;
 	}
 
 
@@ -440,7 +464,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	public virtual void MoveLilGuy()
 	{
 		// Move the creature towards the player with smoothing
-		Vector3 targetVelocity = movementDirection.normalized * ((speed + 10) / 3f);
+		Vector3 targetVelocity = movementDirection.normalized * ((((playerOwner != null) ? speed : speed * 0.75f) + 10) / 3f);
 		// Smoothly accelerate towards the target velocity
 		currentVelocity = Vector3.Lerp(currentVelocity, targetVelocity, Time.fixedDeltaTime / accelerationTime);
 		// Apply the smoothed velocity to the Rigidbody

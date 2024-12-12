@@ -32,6 +32,11 @@ public class Tricerabox : StrengthType
 
 	}
 
+	public override void StartChargingSpecial()
+	{
+		LockAttackRotation = true;
+		base.StartChargingSpecial();
+	}
 	public override void PlayDeathAnim(bool isWild = false)
 	{
 		if (waveAoe != null) Destroy(waveAoe);

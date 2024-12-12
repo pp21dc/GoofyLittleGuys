@@ -74,7 +74,7 @@ public class TamedBehaviour : MonoBehaviour
 		else if (distanceToPlayer > followRange)
 		{
 			// Calculate movement direction
-			controller.LilGuy.MovementDirection = (controller.FollowPosition.position - transform.position).normalized;
+			if (controller.FollowPosition != null && !controller.LilGuy.RB.isKinematic) controller.LilGuy.MovementDirection = (controller.FollowPosition.position - transform.position).normalized;
 
 			// Calculate the target velocity
 			float lilGuySpeed = controller.LilGuy.PlayerOwner.MaxSpeed;
