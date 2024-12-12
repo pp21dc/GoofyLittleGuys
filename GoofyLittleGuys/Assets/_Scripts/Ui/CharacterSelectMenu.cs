@@ -48,7 +48,6 @@ public class CharacterSelectMenu : MonoBehaviour
 		player.actions["Cancel"].performed += OnCancelled;
 		player.actions["Navigate"].performed += OnNavigated;
 		player.actions["Submit"].performed += OnSubmitted;
-		EventManager.Instance.GameStarted += GameInit;
 
 		ResetUI();
 	}
@@ -59,17 +58,6 @@ public class CharacterSelectMenu : MonoBehaviour
 		player.actions["Cancel"].performed -= OnCancelled;
 		player.actions["Navigate"].performed -= OnNavigated;
 		player.actions["Submit"].performed -= OnSubmitted;
-		EventManager.Instance.GameStarted -= GameInit;
-	}
-
-	/// <summary>
-	/// Called when we leave characterSelect and go to the main game.
-	/// </summary>
-	void GameInit()
-	{
-		controller.PlayerCam.gameObject.SetActive(true);
-		MultiplayerManager.Instance.AdjustCameraRects();
-		gameObject.SetActive(false);
 	}
 
 	public void SetPlayer(PlayerInput player)
