@@ -150,8 +150,6 @@ public abstract class LilGuyBase : MonoBehaviour
 			{
 				// Calculate the angle using Atan2 (for XZ plane rotation)
 				float targetAngle = Mathf.Atan2(movementDirection.z, -movementDirection.x) * Mathf.Rad2Deg;
-				// Smoothly interpolate to the target rotation
-				float smoothedAngle = Mathf.LerpAngle(transform.eulerAngles.y, targetAngle, Time.deltaTime * 5);
 				// Apply the rotation
 				attackOrbit.rotation = Quaternion.Euler(0, targetAngle, 0);
 			}
