@@ -14,11 +14,6 @@ public class SpeedType : LilGuyBase
 		if (!IsInSpecialAttack && !IsInBasicAttack)
 		{
 			base.StartChargingSpecial();
-
-			// Decrement charges and reset cooldowns
-			cooldownTimer = cooldownDuration;
-			chargeTimer = chargeRefreshRate;
-			currentCharges--;
 		}
 	}
 	public override void StopChargingSpecial()

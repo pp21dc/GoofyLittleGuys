@@ -14,6 +14,7 @@ public class Teddy : StrengthType
 	}
 	public override void StartChargingSpecial()
 	{
+		if (currentCharges <= 0 && cooldownTimer > 0) return;
 		base.StartChargingSpecial();
 		LockAttackRotation = true;
 	}

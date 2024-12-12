@@ -27,13 +27,7 @@ public class Phantaphant : SpeedType
 		if (!IsInSpecialAttack && !IsInBasicAttack)
 		{
 			LocateClosestTarget();
-			if (targetPosition == null) return;
-
 			StopChargingSpecial();
-			// Decrement charges and reset cooldowns
-			cooldownTimer = cooldownDuration;
-			chargeTimer = chargeRefreshRate;
-			currentCharges--;
 		}
 	}
 
@@ -54,6 +48,7 @@ public class Phantaphant : SpeedType
 	}
 	public override void StopChargingSpecial()
 	{
+		if (targetPosition == null) return;
 		base.StopChargingSpecial();
 	}
 

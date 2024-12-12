@@ -109,13 +109,12 @@ public class WildBehaviour : MonoBehaviour
 		{
 			if (controller.LilGuy.CurrentCharges > 0 && controller.LilGuy.CooldownTimer <= 0 && attackTime <= 0 && controller.LilGuy is StrengthType strengthLilGuy)
 			{
-				strengthLilGuy.Special();
+				controller.LilGuy.StartChargingSpecial();
 				attackTime = attackBuffer;
 			}
 			else if (controller.LilGuy.CurrentCharges > 0 && controller.LilGuy.CooldownTimer <= 0 && attackTime <= 0 && controller.LilGuy is DefenseType defenseLilGuy && controller.LilGuy.Health * 2 <= controller.LilGuy.MaxHealth)
 			{
-				defenseLilGuy.Special();
-
+				controller.LilGuy.StartChargingSpecial();
 				attackTime = attackBuffer;
 			}
 			else if (attackTime <= 0)

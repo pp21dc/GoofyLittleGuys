@@ -34,6 +34,7 @@ public class Tricerabox : StrengthType
 
 	public override void StartChargingSpecial()
 	{
+		if (currentCharges <= 0 && cooldownTimer > 0) return;
 		LockAttackRotation = true;
 		base.StartChargingSpecial();
 	}

@@ -70,7 +70,11 @@ public class Spricket : SpeedType
 	}
 	public override void Special()
     {
-        anim.SetTrigger("EndCharge");
+		// Decrement charges and reset cooldowns
+		cooldownTimer = cooldownDuration;
+		chargeTimer = chargeRefreshRate;
+		currentCharges--;
+		anim.SetTrigger("EndCharge");
         anim.ResetTrigger("SpecialAttack");
         Rigidbody rb = (playerOwner == null) ? GetComponent<Rigidbody>() : playerOwner.GetComponent<Rigidbody>();
 		Debug.Log(rb);

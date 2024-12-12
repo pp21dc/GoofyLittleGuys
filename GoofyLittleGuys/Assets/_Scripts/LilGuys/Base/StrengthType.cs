@@ -27,15 +27,9 @@ public class StrengthType : LilGuyBase
 
 	public override void StartChargingSpecial()
 	{
-		if (currentCharges <= 0 && cooldownTimer > 0) return;   // Cooldown is up and there are no more charges available for usage.
-		if (!IsInSpecialAttack && !IsInBasicAttack)
-		{
-			base.StartChargingSpecial();
 
-			cooldownTimer = cooldownDuration;
-			chargeTimer = chargeRefreshRate;
-			currentCharges--;
-		}
+		base.StartChargingSpecial();
+
 	}
 
 	public override void StopChargingSpecial()
@@ -43,7 +37,7 @@ public class StrengthType : LilGuyBase
 		base.StopChargingSpecial();
 	}
 	public override void Special()
-	{		
-			base.Special();			
+	{
+		base.Special();
 	}
 }

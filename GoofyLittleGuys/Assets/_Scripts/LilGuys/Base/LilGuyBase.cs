@@ -340,11 +340,16 @@ public abstract class LilGuyBase : MonoBehaviour
 
 	public virtual void StartChargingSpecial()
 	{
-		StopChargingSpecial();
+		if (playerOwner == null) StopChargingSpecial();
 	}
 
 	public virtual void StopChargingSpecial()
 	{
+		// Decrement charges and reset cooldowns
+		if (currentCharges <= 0 && cooldownTimer > 0) return;
+		cooldownTimer = cooldownDuration;
+		chargeTimer = chargeRefreshRate;
+		currentCharges--;
 		Special();
 	}
 
