@@ -56,6 +56,7 @@ public class PlayerBody : MonoBehaviour
 	private Vector3 currentVelocity;            // Internal tracking for velocity smoothing
 	private bool inMenu = true;
 
+	private bool isSwapping = false;			// NECESSARY FOR AUTOSWAP/PLAYER SWAP. We need a mutex-type mechanism so that that the resources in the lil guy list doesn't get mismanaged from the two swapping mechanisms accessing it at the same time.
 	private Coroutine respawnCoroutine = null;
 
 	private Vector3 movementDirection = Vector3.zero;
@@ -128,13 +129,46 @@ public class PlayerBody : MonoBehaviour
 		if (inMenu) { return; }
 
 		// Flip player if they're moving in a different direction than what they're currently facing.
+		if (flip) playerMesh.transform.rotation = new Quaternion(0, 1, 0, 0);
+		else playerMesh.transform.rotation = new Quaternion(0, 0, 0, 1);
 
 		Debug.Log("Count of team" + LilGuyTeam.Count);
 		if (lilGuyTeam.Count > 0 && lilGuyTeam != null && lilGuyTeam[0] != null) maxSpeed = lilGuyTeam[0].Speed + teamSpeedBoost;
+		// Movement behaviours
+		if (!isDashing && canMove)
+		{
+			// If the player is not dashing, then they will have regular movement mechanics
+
+			if (movementDirection.magnitude < 0.1f)
+			{
+				// Smooth deceleration when no input
+				currentVelocity = Vector3.Lerp(currentVelocity, Vector3.zero, Time.fixedDeltaTime / decelerationTime);
+			}
+			else
+			{
+				// Calculate the target velocity based on input direction
+				Vector3 targetVelocity = movementDirection.normalized * (((lilGuyTeam[0].Speed + 10) / 3f) + teamSpeedBoost);
+				// Smoothly accelerate towards the target velocity
+				currentVelocity = Vector3.Lerp(currentVelocity, targetVelocity, Time.fixedDeltaTime / accelerationTime);
+			}
+
+			// Apply the smoothed velocity to the Rigidbody
+			rb.velocity = new Vector3(currentVelocity.x, GameManager.Instance.CurrentPhase == 2 && IsDead ? currentVelocity.y : rb.velocity.y, currentVelocity.z);
+
+		}
+
+		if (rb.velocity.y < 0)
+		{
+			rb.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.fixedDeltaTime;
+		}
+
 
 		// If the first lil guy is defeated, move to end of list automatically
 		if (lilGuyTeam[0].Health <= 0)
 		{
+			if (isSwapping) return;
+			isSwapping = true;
+
 			// Hide them from player, as to not confuse them with a living one... maybe find a better way to convey this
 			if (!lilGuyTeam[0].IsDying) lilGuyTeam[0].PlayDeathAnim();
 			lilGuyTeam[0].SetLayer(LayerMask.NameToLayer("Player"));
@@ -187,37 +221,9 @@ public class PlayerBody : MonoBehaviour
 					GameManager.Instance.PlayerDefeat(this);
 					wasDefeated = true;
 				}
-
-
-			}
-		}
-
-		// Movement behaviours
-		if (!isDashing && canMove)
-		{
-			// If the player is not dashing, then they will have regular movement mechanics
-
-			if (movementDirection.magnitude < 0.1f)
-			{
-				// Smooth deceleration when no input
-				currentVelocity = Vector3.Lerp(currentVelocity, Vector3.zero, Time.fixedDeltaTime / decelerationTime);
-			}
-			else
-			{
-				// Calculate the target velocity based on input direction
-				Vector3 targetVelocity = movementDirection.normalized * (((lilGuyTeam[0].Speed + 10) / 3f) + teamSpeedBoost);
-				// Smoothly accelerate towards the target velocity
-				currentVelocity = Vector3.Lerp(currentVelocity, targetVelocity, Time.fixedDeltaTime / accelerationTime);
 			}
 
-			// Apply the smoothed velocity to the Rigidbody
-			rb.velocity = new Vector3(currentVelocity.x, GameManager.Instance.CurrentPhase == 2 && IsDead ? currentVelocity.y : rb.velocity.y, currentVelocity.z);
-
-		}
-
-		if (rb.velocity.y < 0)
-		{
-			rb.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.fixedDeltaTime;
+			isSwapping = false;
 		}
 	}
 
@@ -307,14 +313,19 @@ public class PlayerBody : MonoBehaviour
 	public void SwapLilGuy(float shiftDirection)
 	{
 		// Only one lil guy, so you can't swap.
-		if (lilGuyTeam.Count <= 1 || Time.time <= nextSwapTime) return;
+		if (isSwapping || lilGuyTeam.Count <= 1 || Time.time <= nextSwapTime) return;
+		isSwapping = true;
 
 		List<LilGuyBase> aliveTeamMembers = lilGuyTeam.Where(guy => guy.Health > 0).ToList();       // Filter out the dead team members from the live ones.
 		List<LilGuySlot> aliveTeamSlots = lilGuyTeamSlots.Where(slot => !slot.LockState).ToList();  // We only care about the lil guy slots of the lil guys that are still alive.
 
 		// Only one lil guy alive, so swapping makes no sense here.
 		Debug.Log(aliveTeamMembers.Count);
-		if (aliveTeamMembers.Count <= 1) return;
+		if (aliveTeamMembers.Count <= 1)
+		{
+			isSwapping = false;
+			return;
+		}
 
 		foreach (LilGuyBase lilGuy in lilGuyTeam)
 		{
@@ -362,6 +373,8 @@ public class PlayerBody : MonoBehaviour
 		activeLilGuy = lilGuyTeam[0];
 		playerUi.SetPersistentHealthBarValue(activeLilGuy.Health, activeLilGuy.MaxHealth);
 		nextSwapTime = Time.time + swapCooldown;
+
+		isSwapping = false;
 	}
 
 	public void StartDash()
