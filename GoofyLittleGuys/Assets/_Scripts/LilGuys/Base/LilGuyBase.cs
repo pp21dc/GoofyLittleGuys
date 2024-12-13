@@ -285,7 +285,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	/// <returns></returns>
 	private IEnumerator Disappear()
 	{
-		yield return new WaitUntil(() => anim.GetCurrentAnimatorStateInfo(0).IsName("Death") && anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f);
+		if (anim != null) yield return new WaitUntil(() => anim.GetCurrentAnimatorStateInfo(0).IsName("Death") && anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f);
 		gameObject.SetActive(false);
 	}
 
