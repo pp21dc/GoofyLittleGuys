@@ -142,7 +142,7 @@ public class WildBehaviour : MonoBehaviour
 		if (Physics.Raycast(wanderTarget + Vector3.up * 10f, Vector3.down, out hit, 20f, LayerMask.GetMask("Ground")))
 		{
 			wanderTarget = hit.point;
-			while (Vector3.Distance(transform.position, wanderTarget) > 0.5f)
+			while (Vector3.Distance(transform.position, wanderTarget) > 0.5f && controller.LilGuy.Health > 0)
 			{
 				controller.LilGuy.MovementDirection = (wanderTarget - transform.position).normalized;
 				controller.LilGuy.IsMoving = true;
