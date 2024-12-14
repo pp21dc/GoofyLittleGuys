@@ -34,6 +34,7 @@ public class WildBehaviour : MonoBehaviour
 	private float attackTime = 0;
 	private float hostility;
 	private float initialHostility;
+	private float nextWanderTime = -1f;
 	private bool isIdle = false;
 	private bool isWandering = false;
 
@@ -77,6 +78,10 @@ public class WildBehaviour : MonoBehaviour
 		{
 			actionCoroutine ??= StartCoroutine(ChasePlayer());
 		}
+		else if (Time.time >= nextWanderTime)
+		{
+			actionCoroutine ??= StartCoroutine(Wander());
+		}
 		else
 		{
 			actionCoroutine ??= StartCoroutine(Idle());
@@ -111,17 +116,8 @@ public class WildBehaviour : MonoBehaviour
 		isIdle = true;
 		controller.LilGuy.IsMoving = false;
 
-		while (controller.DistanceToPlayer() > chaseRange && controller.LilGuy.Health > 0)
+		while (controller.DistanceToPlayer() > chaseRange && controller.LilGuy.Health > 0 && Time.time < nextWanderTime)
 		{
-			if (!isWandering)
-			{
-				isWandering = true;
-				float wanderDelay = Random.Range(wanderIntervalMin, wanderIntervalMax);
-				yield return new WaitForSeconds(wanderDelay);
-				if (isIdle) StartCoroutine(Wander());
-				isWandering = false;
-			}
-
 			yield return null;
 		}
 		actionCoroutine = null;
@@ -142,16 +138,16 @@ public class WildBehaviour : MonoBehaviour
 		if (Physics.Raycast(wanderTarget + Vector3.up * 10f, Vector3.down, out hit, 20f, LayerMask.GetMask("Ground")))
 		{
 			wanderTarget = hit.point;
-			while (Vector3.Distance(transform.position, wanderTarget) > 0.5f && controller.LilGuy.Health > 0)
+			while (Vector3.Distance(transform.position, wanderTarget) > 0.5f && controller.LilGuy.Health > 0 && hostility <= 3)
 			{
 				controller.LilGuy.MovementDirection = (wanderTarget - transform.position).normalized;
 				controller.LilGuy.IsMoving = true;
 				controller.LilGuy.MoveLilGuy();
 				yield return null;
 			}
-			controller.LilGuy.IsMoving = false;
 		}
-		isWandering = false;
+		actionCoroutine = null;
+		nextWanderTime = Time.time + Random.Range(wanderIntervalMin, wanderIntervalMax);
 	}
 
 	/// <summary>

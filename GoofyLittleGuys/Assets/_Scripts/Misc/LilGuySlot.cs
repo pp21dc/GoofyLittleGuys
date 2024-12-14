@@ -8,16 +8,21 @@ using UnityEngine;
 /// </summary>
 public class LilGuySlot : MonoBehaviour
 {
+	LilGuyBase lilGuyInSlot;
 	bool lockState = false;
-	public bool LockState => lockState;	// Getter for lock state of this lil guy slot.
+	public LilGuyBase LilGuyInSlot { get { return lilGuyInSlot; } set { lilGuyInSlot = value; } }
+	public bool LockState => lockState; // Getter for lock state of this lil guy slot.
 
+	private void Update()
+	{
+		CheckIfLiving();
+	}
 	/// <summary>
 	/// Method that sees if the lil guy contained within this slot is dead or not.
 	/// Sets the lock state to true if the lil guy is dead, otherwise, lockstate is false.
 	/// </summary>
-	public void CheckIfLiving(LilGuyBase lilGuy)
+	public void CheckIfLiving()
 	{
-		LilGuyBase lilGuyInSlot = lilGuy;
 		if (lilGuyInSlot == null) return;
 		lockState = lilGuyInSlot.Health <= 0 ? true : false;
 	}

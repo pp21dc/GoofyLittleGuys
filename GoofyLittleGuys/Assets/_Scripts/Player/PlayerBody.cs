@@ -56,7 +56,7 @@ public class PlayerBody : MonoBehaviour
 	private Vector3 currentVelocity;            // Internal tracking for velocity smoothing
 	private bool inMenu = true;
 
-	private bool isSwapping = false;			// NECESSARY FOR AUTOSWAP/PLAYER SWAP. We need a mutex-type mechanism so that that the resources in the lil guy list doesn't get mismanaged from the two swapping mechanisms accessing it at the same time.
+	private bool isSwapping = false;            // NECESSARY FOR AUTOSWAP/PLAYER SWAP. We need a mutex-type mechanism so that that the resources in the lil guy list doesn't get mismanaged from the two swapping mechanisms accessing it at the same time.
 	private Coroutine respawnCoroutine = null;
 
 	private Vector3 movementDirection = Vector3.zero;
@@ -183,30 +183,7 @@ public class PlayerBody : MonoBehaviour
 					lilGuy.GetComponent<Rigidbody>().isKinematic = false;
 				}
 
-				// Grab the first lil guy, save them.
-				LilGuyBase firstInTeam = lilGuyTeam[0];
-				Transform firstParent = lilGuyTeamSlots[0].transform;
-
-				// Shift each element up the list
-				for (int i = 0; i < lilGuyTeam.Count - 1; i++)
-				{
-					lilGuyTeam[i] = lilGuyTeam[i + 1];
-					lilGuyTeam[i].SetFollowGoal(lilGuyTeamSlots[i].transform); // Update follow goal
-				}
-
-				// Move the first lil guy to the end of the list
-				lilGuyTeam[lilGuyTeam.Count - 1] = firstInTeam;
-				lilGuyTeam[lilGuyTeam.Count - 1].SetFollowGoal(lilGuyTeamSlots[lilGuyTeam.Count - 1].transform); // Update follow goal
-
-				// Call CheckIfLiving on the slots, to update lock state.
-				lilGuyTeamSlots[lilGuyTeam.Count - 1].CheckIfLiving(lilGuyTeam[lilGuyTeam.Count - 1]);
-
-
-				lilGuyTeam[0].SetFollowGoal(lilGuyTeamSlots[0].transform); // Update follow goal
-				lilGuyTeam[0].GetComponent<Rigidbody>().isKinematic = true;
-				lilGuyTeam[0].SetLayer(LayerMask.NameToLayer("PlayerLilGuys"));
-				lilGuyTeam[0].transform.localPosition = Vector3.zero;
-				activeLilGuy = lilGuyTeam[0];
+				ReorganizeTeam();
 			}
 			else
 			{
@@ -223,7 +200,6 @@ public class PlayerBody : MonoBehaviour
 				}
 			}
 
-			isSwapping = false;
 		}
 	}
 
@@ -239,7 +215,6 @@ public class PlayerBody : MonoBehaviour
 
 		lilGuyTeam[0].IsMoving = Mathf.Abs(movementDirection.magnitude) > 0;
 		lilGuyTeam[0].MovementDirection = movementDirection;
-		Debug.Log(lilGuyTeam[0].MovementDirection);
 	}
 
 	public void UpdateUpDown(float dir)
@@ -305,6 +280,27 @@ public class PlayerBody : MonoBehaviour
 		playerUi.SetBerryCount(berryCount);
 	}
 
+	public void ReorganizeTeam()
+	{
+		Debug.Log("eyas");
+		lilGuyTeam = lilGuyTeam
+	.Where(guy => guy.Health > 0) // Filter alive lil guys
+	.Concat(lilGuyTeam.Where(guy => guy.Health <= 0)) // Append dead lil guys
+	.ToList();
+
+		for (int i = 0; i < lilGuyTeam.Count; i++)
+		{
+			lilGuyTeam[i].SetFollowGoal(lilGuyTeamSlots[i].transform); // Update follow goal
+			lilGuyTeamSlots[i].LilGuyInSlot = lilGuyTeam[i];
+		}
+
+		lilGuyTeam[0].GetComponent<Rigidbody>().isKinematic = true;
+		lilGuyTeam[0].SetLayer(LayerMask.NameToLayer("PlayerLilGuys"));
+		lilGuyTeam[0].transform.localPosition = Vector3.zero;
+		activeLilGuy = lilGuyTeam[0];
+
+		isSwapping = false;
+	}
 	/// <summary>
 	/// Swaps the Lil guy based on a queue. If input is right, then the next one in list moves to position 1 and if left, the previous lil guy moves to position 1
 	/// and the rest cascade accordingly.
@@ -438,7 +434,6 @@ public class PlayerBody : MonoBehaviour
 			lilGuyTeam[i].IsDying = false;
 			lilGuyTeam[i].Health = lilGuyTeam[i].MaxHealth;
 			lilGuyTeam[i].gameObject.SetActive(true);
-			lilGuyTeamSlots[i].CheckIfLiving(lilGuyTeam[i]);
 		}
 		canMove = true;
 		lilGuyTeam[0].SetLayer(LayerMask.NameToLayer("PlayerLilGuys"));

@@ -23,7 +23,7 @@ public class Mousecar : SpeedType
 		if (playerOwner != null) playerOwner.TeamSpeedBoost = speedBoostAmount;
 		else speed += speedBoostAmount;
 
-		StopCoroutine(StopSpeedBoost(playerOwner != null));
+		StartCoroutine(StopSpeedBoost(playerOwner != null));
 		base.Special();
 	}
 
