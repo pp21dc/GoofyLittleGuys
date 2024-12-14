@@ -28,7 +28,7 @@ namespace Managers
 		private bool gameOver = false;
 		private float respawnTimer = 5.0f;
 		[SerializeField] private float stormTimer = 20.0f; // how long between spawning new storms in phase 2
-		private int activeStorms = 0;  
+		private int activeStorms = 0;
 
 		private List<PlayerBody> players = new List<PlayerBody>(); // for the list of REMAINING players in phase 2
 		private List<PlayerBody> rankings = new List<PlayerBody>(); // the phase 2 rankings list, ordered from last place -> first place
@@ -111,7 +111,7 @@ namespace Managers
 		/// </summary>
 		public bool GameStarted()
 		{
-            foreach (PlayerBody body in players)
+			foreach (PlayerBody body in players)
 			{
 				// We don't want the players all spawning in the same exact spot, so shift their x and z positions randomly.
 				int randomPos = Random.Range(0, spawnPoints.Count);
@@ -125,8 +125,8 @@ namespace Managers
 					body.GetComponent<Rigidbody>().MovePosition(spawnPoints[randomPos].transform.position + (new Vector3(1, 0, 1) * Random.Range(-1f, 1f)) + Vector3.up);
 					spawnPoints[randomPos].PlayerSpawnedHere = true;
 				}
-                body.InMenu = false;
-            }
+				body.InMenu = false;
+			}
 
 			// Unpause time, and begin phase one!
 			Time.timeScale = 1;
@@ -154,16 +154,7 @@ namespace Managers
 
 			// Start grand brawl challenge
 			GetStormSets();
-			StartCoroutine(SpawnStorms()); ;
-
-			for (int i = 0; i < players.Count; i++)
-			{
-				PlayerBody thisPlayer = players[i];
-				if (thisPlayer != null)
-				{
-					thisPlayer.CanRespawn = false;
-				}
-			}
+			StartCoroutine(SpawnStorms());
 
 		}
 
@@ -209,15 +200,15 @@ namespace Managers
 			rankings.Add(players[0]);
 			StartCoroutine(nameof(endGame));
 
-            foreach (PlayerBody player in players)
-            {
-                if (!player.IsDead)
-                {
-                    player.PlayerUI.TempWinText.SetActive(true);
-                }
-            }
+			foreach (PlayerBody player in players)
+			{
+				if (!player.IsDead)
+				{
+					player.PlayerUI.TempWinText.SetActive(true);
+				}
+			}
 
-            Debug.Log("Brawl Phase has ended by knockout!");
+			Debug.Log("Brawl Phase has ended by knockout!");
 		}
 
 
@@ -225,18 +216,18 @@ namespace Managers
 		private IEnumerator endGame()
 		{
 			yield return new WaitForSeconds(6);
-            LevelLoadManager.Instance.LoadNewLevel("00_MainMenu");
-            QuitGame();
-            for (int i = Players.Count - 1; i >= 0; i--)
-            {
+			LevelLoadManager.Instance.LoadNewLevel("00_MainMenu");
+			QuitGame();
+			for (int i = Players.Count - 1; i >= 0; i--)
+			{
 				Players[i].InMenu = true;
-                Destroy(Players[i].Controller.gameObject);
-            }
+				Destroy(Players[i].Controller.gameObject);
+			}
 			players.Clear();
 			currentPhase = 0;
 			gameOver = false;
 			StopAllCoroutines(); // this stop the game from fucking destroying itself when restarting TODO: FIND THE FUCKING LEAK
-        }
+		}
 
 		/// <summary>
 		/// Finds all storm sets in the level, and writes them into the list of StormSets
@@ -260,30 +251,30 @@ namespace Managers
 		/// </summary>
 		/// <returns></returns>
 		private IEnumerator SpawnStorms()
-        {
+		{
 			bool stormThisLoop = false;
-			while(activeStorms < stormSets.Count)
-            {
+			while (activeStorms < stormSets.Count)
+			{
 				if (stormThisLoop) // if there has been a storm in this loop, wait for timer
 				{
 					stormThisLoop = false;
 					yield return new WaitForSeconds(stormTimer);
 				}
 				GameObject stormToActivate = RandFromList(stormSets);
-                if (stormToActivate != null && !stormToActivate.activeSelf) // activate a new storm
-                {
+				if (stormToActivate != null && !stormToActivate.activeSelf) // activate a new storm
+				{
 					stormToActivate.SetActive(true);
 					stormThisLoop = true;
 					activeStorms++;
 				}
-				
-            }
-			if(activeStorms >= stormSets.Count)
-            {
+
+			}
+			if (activeStorms >= stormSets.Count)
+			{
 				StopCoroutine(SpawnStorms());
-            }
+			}
 			yield return new WaitForEndOfFrame();
-        }
+		}
 
 		/// <summary>
 		/// This method accepts a list of objects and returns a random one from that list.
@@ -296,6 +287,10 @@ namespace Managers
 
 		}
 
+		public float PhaseOneDurationSeconds()
+		{
+			return phaseOneStartTime * 60f;
+		}
 	}
 
 }

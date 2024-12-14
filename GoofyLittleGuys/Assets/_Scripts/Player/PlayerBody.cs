@@ -38,11 +38,11 @@ public class PlayerBody : MonoBehaviour
 	private float nextBerryUseTime = -Mathf.Infinity;
 	private float nextInteractTime = -Mathf.Infinity;
 	private float nextSwapTime = -Mathf.Infinity;
+	private float deathTime = -Mathf.Infinity;	
 
 	private InteractableBase closestnteractable = null;
 	private int berryCount = 0;
 	private bool isDead = false;
-	private bool canRespawn = true;
 	private bool inStorm = false;               // used by storm objects to determine if the player is currently in the storm
 	private bool stormDmg = false;              // used by storm objects to determine if the player should take storm damage this frame.
 	private bool stormCoroutine = false;        // used by storm objects to determine if this player has already started a damage coroutine.
@@ -67,7 +67,6 @@ public class PlayerBody : MonoBehaviour
 	public bool HasInteracted { get { return hasInteracted; } set { hasInteracted = value; } }
 	public bool HasSwappedRecently { get { return hasSwappedRecently; } set { hasSwappedRecently = value; } }
 	public bool HasImmunity { get { return hasImmunity; } set { hasImmunity = value; } }
-	public bool CanRespawn { get { return canRespawn; } set { canRespawn = value; } }
 	public bool InStorm { get { return inStorm; } set { inStorm = value; } }
 	public bool StormDmg { get { return stormDmg; } set { stormDmg = value; } }
 	public bool StormCoroutine { get { return stormCoroutine; } set { stormCoroutine = value; } }
@@ -177,7 +176,6 @@ public class PlayerBody : MonoBehaviour
 
 			if (CheckTeamHealth())
 			{
-				Debug.Log("We are here for some reason");
 				// If this returns true, then there's at least one living lil guy on this player's team, so swap until they're at the front.
 				foreach (var lilGuy in lilGuyTeam)
 				{
@@ -189,7 +187,7 @@ public class PlayerBody : MonoBehaviour
 			{
 				isDead = true;
 				// No living lil guys, time for a respawn if possible.
-				if (canRespawn)
+				if (deathTime < GameManager.Instance.PhaseOneDurationSeconds())
 				{
 					respawnCoroutine ??= StartCoroutine(DelayedRespawn());
 				}
@@ -448,12 +446,13 @@ public class PlayerBody : MonoBehaviour
 	private IEnumerator DelayedRespawn()
 	{
 		canMove = false;
-		if (!canRespawn)
+		deathTime = Time.time;
+		if (deathTime > GameManager.Instance.PhaseOneDurationSeconds())
 		{
 			rb.useGravity = false;
 		}
 		yield return new WaitForSeconds(Managers.GameManager.Instance.RespawnTimer);
-		if (canRespawn)
+		if (deathTime <= GameManager.Instance.PhaseOneDurationSeconds())
 		{
 			Respawn();
 		}
