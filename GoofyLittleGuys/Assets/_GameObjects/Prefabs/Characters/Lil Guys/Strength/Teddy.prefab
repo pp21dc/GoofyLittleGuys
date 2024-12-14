@@ -373,7 +373,7 @@ MonoBehaviour:
   attackEffect: {fileID: 0}
   aoeShape: {fileID: 7763503517924717934, guid: 783823e0ebd4aff4298168ab9dfa9111,
     type: 3}
-  aoeDamage: 8
+  aoeDamage: 4
   frameToDestroyAoe: 15
   specialTotalFrames: 17
 --- !u!54 &-2568253581838256164
@@ -489,6 +489,14 @@ MonoBehaviour:
   attackRange: 2.5
   attackBuffer: 2
   timeBeforeDestroyed: 5
+  maxHostility: 10
+  hostilityDecayRate: 0.5
+  fleeHealthThreshold: 0.5
+  timid: 0
+  wanderIntervalMin: 5
+  wanderIntervalMax: 10
+  minWanderRadius: 2
+  maxWanderRadius: 5
 --- !u!95 &2276666689441862867
 Animator:
   serializedVersion: 5

@@ -5,35 +5,26 @@ using UnityEngine;
 public class Armordillo : DefenseType
 {
 	[Header("Armordillo Specific")]
-	[SerializeField] private float speedBoost = 10f;
+	[SerializeField] private float speedBoost = 30f;
 
 	private float speedBoostTime;
 	bool speedBoostActive = false;
 	public override void StartChargingSpecial()
 	{
-		if (!speedBoostActive)
-		{
-			speed += speedBoost;
-		}
-
-		if (playerOwner != null) playerOwner.MaxSpeed = speed;
+		if (currentCharges <= 0 && cooldownTimer > 0) return;
+		if (speedBoostActive) return;
+		speed += speedBoost;
+		StartCoroutine(StopSpeedBoost(playerOwner != null));
 		speedBoostActive = true;
-		base.StartChargingSpecial();
 	}
 	public override void Special()
 	{
 		base.Special();
-		speedBoostTime = Time.time + specialDuration;
 	}
-
-	protected override void Update()
+	private IEnumerator StopSpeedBoost(bool playerOwned)
 	{
-		base.Update();
-		if (speedBoostActive && Time.time > speedBoostTime)
-		{
-			speed -= speedBoost;
-			if (playerOwner != null) playerOwner.MaxSpeed = speed;
-			speedBoostActive = false;
-		}
+		yield return new WaitForSeconds(specialDuration);
+		speed -= speedBoost;
+		speedBoostActive = false;
 	}
 }

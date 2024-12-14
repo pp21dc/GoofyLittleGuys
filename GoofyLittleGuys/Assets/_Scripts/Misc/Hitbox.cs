@@ -27,7 +27,7 @@ public class Hitbox : MonoBehaviour
 	{
 		this.hitboxOwner = hitboxOwner;
 		gameObject.layer = hitboxOwner.layer;
-		Damage = hitboxOwner.GetComponent<LilGuyBase>().Strength;
+		Damage = Mathf.CeilToInt(0.56f * hitboxOwner.GetComponent<LilGuyBase>().Strength);
 	}
 
 	/// <summary>

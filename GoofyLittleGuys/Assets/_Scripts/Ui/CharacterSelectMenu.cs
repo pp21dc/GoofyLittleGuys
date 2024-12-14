@@ -106,9 +106,11 @@ public class CharacterSelectMenu : MonoBehaviour
 		lilGuyName.text = starters[currStarterIndex].name;
 		lilGuyPreview.SetInteger("StarterIndex", currStarterIndex);
 
-		strengthSlider.maxValue = starters[currStarterIndex].MaxStat;
-		defenseSlider.maxValue = starters[currStarterIndex].MaxStat;
-		speedSlider.maxValue = starters[currStarterIndex].MaxStat;
+		float highestStat = Mathf.Max(starters[currStarterIndex].Strength, Mathf.Max(starters[currStarterIndex].Speed, starters[currStarterIndex].Defense));
+  
+        strengthSlider.maxValue = highestStat;
+		defenseSlider.maxValue = highestStat;
+		speedSlider.maxValue = highestStat;
 
 		strengthSlider.value = starters[currStarterIndex].Strength;
 		defenseSlider.value = starters[currStarterIndex].Defense;

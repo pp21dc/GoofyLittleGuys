@@ -26,7 +26,7 @@ public class AoeHitbox : MonoBehaviour
 	{
 		this.hitboxOwner = hitboxOwner;
 		gameObject.layer = hitboxOwner.layer;
-		damage = aoeDamage + hitboxOwner.GetComponent<LilGuyBase>().Strength;
+		damage = aoeDamage + Mathf.CeilToInt(0.56f * hitboxOwner.GetComponent<LilGuyBase>().Strength);
 	}
 
 	/// <summary>

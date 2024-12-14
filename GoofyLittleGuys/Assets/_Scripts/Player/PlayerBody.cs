@@ -259,7 +259,7 @@ public class PlayerBody : MonoBehaviour
 
 	public void UseBerry()
 	{
-		if (berryCount <= 0 || Time.time <= nextBerryUseTime) return;
+		if (berryCount <= 0) return;
 		if (closestWildLilGuy != null)
 		{
 			berryCount--;
@@ -291,7 +291,7 @@ public class PlayerBody : MonoBehaviour
 				TeamFullMenu.GetComponent<TeamFullMenu>().Init(closestWildLilGuy);
 			}
 		}
-		else if (lilGuyTeam[0].Health < lilGuyTeam[0].MaxHealth)
+		else if (lilGuyTeam[0].Health < lilGuyTeam[0].MaxHealth && Time.time <= nextBerryUseTime)
 		{
 			int healthRestored = Mathf.CeilToInt(lilGuyTeam[0].MaxHealth * berryHealPercentage);
 			if (lilGuyTeam[0].Health + healthRestored > lilGuyTeam[0].MaxHealth) lilGuyTeam[0].Health = lilGuyTeam[0].MaxHealth;

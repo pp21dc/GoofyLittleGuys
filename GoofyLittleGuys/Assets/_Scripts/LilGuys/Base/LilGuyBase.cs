@@ -27,7 +27,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	[SerializeField] protected float speed;
 	[SerializeField] protected float defense;
 	[SerializeField] protected float strength;
-	protected const int max_stat = 100;
+	protected const int max_stat = 50;
 	private int milestonePoints = 4;
 	private int primaryPoints = 2;
 	private int secondaryPoints = 1;

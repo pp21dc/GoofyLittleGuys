@@ -111,7 +111,7 @@ MonoBehaviour:
   accelerationTime: 0.1
   attackCooldown: 1
   attackEffect: {fileID: 0}
-  dashTargetRange: 10
+  dashTargetRange: 20
 --- !u!136 &3370327291423806742
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -225,6 +225,14 @@ MonoBehaviour:
   attackRange: 2.5
   attackBuffer: 2
   timeBeforeDestroyed: 5
+  maxHostility: 10
+  hostilityDecayRate: 0.5
+  fleeHealthThreshold: 0.5
+  timid: 0
+  wanderIntervalMin: 5
+  wanderIntervalMax: 10
+  minWanderRadius: 2
+  maxWanderRadius: 5
 --- !u!95 &1192768599668502933
 Animator:
   serializedVersion: 5

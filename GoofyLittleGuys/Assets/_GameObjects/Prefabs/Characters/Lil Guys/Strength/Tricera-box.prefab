@@ -377,7 +377,7 @@ MonoBehaviour:
   frameToDestroyAoe: 12
   specialTotalFrames: 14
   waveAoePosition: {fileID: 3305521939920653021}
-  waveAoeDamage: 10
+  waveAoeDamage: 4
   waveAoeLifetime: 1
 --- !u!54 &-2568253581838256164
 Rigidbody:
@@ -492,6 +492,14 @@ MonoBehaviour:
   attackRange: 2.5
   attackBuffer: 2
   timeBeforeDestroyed: 5
+  maxHostility: 10
+  hostilityDecayRate: 0.5
+  fleeHealthThreshold: 0.5
+  timid: 0
+  wanderIntervalMin: 5
+  wanderIntervalMax: 10
+  minWanderRadius: 2
+  maxWanderRadius: 5
 --- !u!95 &5725646759183813981
 Animator:
   serializedVersion: 5
