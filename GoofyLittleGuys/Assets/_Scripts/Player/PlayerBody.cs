@@ -177,12 +177,12 @@ public class PlayerBody : MonoBehaviour
 
 			if (CheckTeamHealth())
 			{
+				Debug.Log("We are here for some reason");
 				// If this returns true, then there's at least one living lil guy on this player's team, so swap until they're at the front.
 				foreach (var lilGuy in lilGuyTeam)
 				{
 					lilGuy.GetComponent<Rigidbody>().isKinematic = false;
 				}
-
 				ReorganizeTeam();
 			}
 			else
@@ -198,6 +198,7 @@ public class PlayerBody : MonoBehaviour
 					GameManager.Instance.PlayerDefeat(this);
 					wasDefeated = true;
 				}
+				isSwapping = false;
 			}
 
 		}
@@ -266,7 +267,7 @@ public class PlayerBody : MonoBehaviour
 				TeamFullMenu.GetComponent<TeamFullMenu>().Init(closestWildLilGuy);
 			}
 		}
-		else if (lilGuyTeam[0].Health < lilGuyTeam[0].MaxHealth && Time.time <= nextBerryUseTime)
+		else if (lilGuyTeam[0].Health < lilGuyTeam[0].MaxHealth && Time.time > nextBerryUseTime)
 		{
 			int healthRestored = Mathf.CeilToInt(lilGuyTeam[0].MaxHealth * berryHealPercentage);
 			if (lilGuyTeam[0].Health + healthRestored > lilGuyTeam[0].MaxHealth) lilGuyTeam[0].Health = lilGuyTeam[0].MaxHealth;
@@ -282,7 +283,6 @@ public class PlayerBody : MonoBehaviour
 
 	public void ReorganizeTeam()
 	{
-		Debug.Log("eyas");
 		lilGuyTeam = lilGuyTeam
 	.Where(guy => guy.Health > 0) // Filter alive lil guys
 	.Concat(lilGuyTeam.Where(guy => guy.Health <= 0)) // Append dead lil guys

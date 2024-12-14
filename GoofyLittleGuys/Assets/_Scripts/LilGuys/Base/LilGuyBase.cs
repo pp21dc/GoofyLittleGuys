@@ -261,10 +261,19 @@ public abstract class LilGuyBase : MonoBehaviour
 
 		if (!isWild)
 		{
-			if (GetComponent<Hurtbox>().LastHit != null) GetComponent<Hurtbox>().LastHit.LilGuyTeam[0].AddXP(Mathf.FloorToInt(((Level + 4) ^ 2) / 2)); // problem here
+			// Player owned lil guy died.
+			if (GetComponent<Hurtbox>().LastHit != null)
+			{
+				Debug.Log($"{name} was a player-owned Lil Guy, and was defeated by player {GetComponent<Hurtbox>().LastHit}. Awarding bonus xp.");
+				GetComponent<Hurtbox>().LastHit.LilGuyTeam[0].AddXP(Mathf.FloorToInt((Mathf.Pow((Level + 4), 2)) / 2));
+			}
 			StartCoroutine(Disappear());
 		}
-		else GetComponent<Hurtbox>().LastHit.LilGuyTeam[0].AddXP(Mathf.FloorToInt(((Level + 4) ^ 2) / 3));
+		else
+		{
+			Debug.Log($"{name} was a wild Lil Guy, and was defeated by player {GetComponent<Hurtbox>().LastHit}. Awarding XP.");
+			GetComponent<Hurtbox>().LastHit.LilGuyTeam[0].AddXP(Mathf.FloorToInt((Mathf.Pow((Level + 4), 2)) / 3));
+		}
 	}
 
 	GameObject[] GetAllChildren(Transform parent)
