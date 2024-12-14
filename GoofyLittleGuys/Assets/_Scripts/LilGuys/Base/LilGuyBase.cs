@@ -131,7 +131,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	protected virtual void Update()
 	{
 		// Flip character
-		
+
 
 		if (GameManager.Instance.IsPaused)
 		{
@@ -142,8 +142,10 @@ public abstract class LilGuyBase : MonoBehaviour
 		if (!lockAttackRotation)
 		{
 			// Flipping Sprite
-			if (movementDirection.x > 0) mesh.transform.localRotation = new Quaternion(0, 1, 0, 0);
-			else if (movementDirection.x < 0) mesh.transform.localRotation = new Quaternion(0, 0, 0, 1);
+			if (movementDirection.x > 0)
+				mesh.GetComponent<SpriteRenderer>().flipX = true;
+			else if (movementDirection.x < 0)
+				mesh.GetComponent<SpriteRenderer>().flipX = false;
 
 
 			if (movementDirection.sqrMagnitude > 0.01)

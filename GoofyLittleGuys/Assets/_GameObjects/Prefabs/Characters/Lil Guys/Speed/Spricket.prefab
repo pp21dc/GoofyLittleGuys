@@ -227,6 +227,14 @@ MonoBehaviour:
   attackRange: 2.5
   attackBuffer: 2
   timeBeforeDestroyed: 5
+  maxHostility: 10
+  hostilityDecayRate: 0.5
+  fleeHealthThreshold: 0.5
+  timid: 0
+  wanderIntervalMin: 5
+  wanderIntervalMax: 10
+  minWanderRadius: 2
+  maxWanderRadius: 5
 --- !u!95 &1192768599668502933
 Animator:
   serializedVersion: 5
@@ -465,8 +473,8 @@ SpriteRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7048286981774368068}
   m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
+  m_CastShadows: 2
+  m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
   m_MotionVectors: 1
@@ -477,7 +485,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: -876546973899608171, guid: edf01f56b9860644394a331d443e9e31, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
