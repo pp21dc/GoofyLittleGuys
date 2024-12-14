@@ -67,7 +67,7 @@ public class Hurtbox : MonoBehaviour
 
 			//Passes the new health info to the player UI
 			//Definitely needs to be rewritten for efficency
-			owner.GetComponentInParent<Searchlight>().playerUi.SetPersistentHealthBarValue(health, playerLilGuy.MaxHealth);
+			EventManager.Instance.UpdatePlayerHealthUI(playerLilGuy.PlayerOwner);
 		}
 		else if (gameObject.layer == LayerMask.NameToLayer("WildLilGuys"))
 		{

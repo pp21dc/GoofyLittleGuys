@@ -10,6 +10,9 @@ public class EventManager
 	public delegate void LilGuyLastHitDelegate(PlayerBody body);
 	public event LilGuyLastHitDelegate NotifyLastHit;
 
+	public delegate void UpdatePlayerUIHealthDelegate(PlayerBody body);
+	public event UpdatePlayerUIHealthDelegate NotifyPlayerUIHealthUpdate;
+
 	public delegate void LegendarySpawnedDelegate();
 	public event LegendarySpawnedDelegate NotifyLegendarySpawned;
 
@@ -40,7 +43,10 @@ public class EventManager
 			return _instance;
 		}
 	}
-
+	public void UpdatePlayerHealthUI(PlayerBody body)
+	{
+		body.PlayerUI.SetPersistentHealthBarValue(body.LilGuyTeam[0].Health, body.LilGuyTeam[0].MaxHealth);
+	}
 	public void CallGamePaused(PlayerInput playerWhoPaused)
 	{
 		NotifyGamePaused?.Invoke(playerWhoPaused);

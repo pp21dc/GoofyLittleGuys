@@ -59,6 +59,7 @@ public class HealingFountain : InteractableBase
 				lilGuy.GetComponentInChildren<SpriteRenderer>().color = Color.white;
 			}
 		}
+		EventManager.Instance.UpdatePlayerHealthUI(body);
 		// Play healing effect?
 	}
 }

@@ -131,7 +131,6 @@ public class PlayerBody : MonoBehaviour
 		if (flip) playerMesh.transform.rotation = new Quaternion(0, 1, 0, 0);
 		else playerMesh.transform.rotation = new Quaternion(0, 0, 0, 1);
 
-		Debug.Log("Count of team" + LilGuyTeam.Count);
 		if (lilGuyTeam.Count > 0 && lilGuyTeam != null && lilGuyTeam[0] != null) maxSpeed = lilGuyTeam[0].Speed + teamSpeedBoost;
 		// Movement behaviours
 		if (!isDashing && canMove)
@@ -273,9 +272,9 @@ public class PlayerBody : MonoBehaviour
 
 			berryCount--;
 			nextBerryUseTime = Time.time + berryUsageCooldown;
-			playerUi.SetPersistentHealthBarValue(lilGuyTeam[0].Health, lilGuyTeam[0].MaxHealth);
+			EventManager.Instance.UpdatePlayerHealthUI(this);
 		}
-		playerUi.SetPersistentHealthBarValue(lilGuyTeam[0].Health, lilGuyTeam[0].MaxHealth);
+		EventManager.Instance.UpdatePlayerHealthUI(this);
 		playerUi.SetBerryCount(berryCount);
 	}
 
@@ -314,7 +313,6 @@ public class PlayerBody : MonoBehaviour
 		List<LilGuySlot> aliveTeamSlots = lilGuyTeamSlots.Where(slot => !slot.LockState).ToList();  // We only care about the lil guy slots of the lil guys that are still alive.
 
 		// Only one lil guy alive, so swapping makes no sense here.
-		Debug.Log(aliveTeamMembers.Count);
 		if (aliveTeamMembers.Count <= 1)
 		{
 			isSwapping = false;
@@ -365,7 +363,7 @@ public class PlayerBody : MonoBehaviour
 		lilGuyTeam[0].SetLayer(LayerMask.NameToLayer("PlayerLilGuys"));
 		lilGuyTeam[0].transform.localPosition = Vector3.zero;
 		activeLilGuy = lilGuyTeam[0];
-		playerUi.SetPersistentHealthBarValue(activeLilGuy.Health, activeLilGuy.MaxHealth);
+		EventManager.Instance.UpdatePlayerHealthUI(this);
 		nextSwapTime = Time.time + swapCooldown;
 
 		isSwapping = false;
@@ -435,7 +433,7 @@ public class PlayerBody : MonoBehaviour
 		}
 		canMove = true;
 		lilGuyTeam[0].SetLayer(LayerMask.NameToLayer("PlayerLilGuys"));
-		playerUi.SetPersistentHealthBarValue(lilGuyTeam[0].Health, lilGuyTeam[0].MaxHealth);
+		EventManager.Instance.UpdatePlayerHealthUI(this);
 	}
 
 	/// <summary>
