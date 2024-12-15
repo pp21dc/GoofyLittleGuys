@@ -1,0 +1,101 @@
+using UnityEditor;
+using UnityEngine;
+
+public class SortGameObjects : EditorWindow
+{
+	private bool sortDescending = false;
+	private string baseName = "Object";
+
+	[MenuItem("Tools/Sort Selected GameObjects")]
+	private static void ShowWindow()
+	{
+		GetWindow<SortGameObjects>("Sort GameObjects");
+	}
+
+	private void OnGUI()
+	{
+		GUILayout.Label("Sort GameObjects by Name", EditorStyles.boldLabel);
+		sortDescending = EditorGUILayout.Toggle("Sort Descending", sortDescending);
+		baseName = EditorGUILayout.TextField("Base Name", baseName);
+
+		if (GUILayout.Button("Sort Selected GameObjects"))
+		{
+			SortSelectedGameObjects(sortDescending);
+		}
+
+		if (GUILayout.Button("Rename Descending"))
+		{
+			RenameSelectedGameObjectsDescending(baseName);
+		}
+	}
+
+	private static void SortSelectedGameObjects(bool descending)
+	{
+		// Get all selected GameObjects in the scene
+		GameObject[] selectedObjects = Selection.gameObjects;
+
+		if (selectedObjects.Length == 0)
+		{
+			Debug.LogWarning("No GameObjects selected to sort.");
+			return;
+		}
+
+		// Sort the selected GameObjects by name, either alphabetically or numerically (by suffix if it exists)
+		System.Array.Sort(selectedObjects, (a, b) =>
+		{
+			int suffixA = ExtractSuffix(a.name);
+			int suffixB = ExtractSuffix(b.name);
+
+			// If both GameObjects don't have suffixes, sort alphabetically
+			if (suffixA == 0 && suffixB == 0)
+			{
+				return descending ? b.name.CompareTo(a.name) : a.name.CompareTo(b.name);
+			}
+
+			return descending ? suffixB.CompareTo(suffixA) : suffixA.CompareTo(suffixB);
+		});
+
+		// Reorder in the hierarchy
+		for (int i = 0; i < selectedObjects.Length; i++)
+		{
+			selectedObjects[i].transform.SetSiblingIndex(i);
+		}
+
+		Debug.Log("Selected GameObjects have been sorted.");
+	}
+
+	private static void RenameSelectedGameObjectsDescending(string baseName)
+	{
+		// Get all selected GameObjects in the scene
+		GameObject[] selectedObjects = Selection.gameObjects;
+
+		if (selectedObjects.Length == 0)
+		{
+			Debug.LogWarning("No GameObjects selected to rename.");
+			return;
+		}
+
+		// Rename the GameObjects with the specified base name in decremental order
+		for (int i = 0; i < selectedObjects.Length; i++)
+		{
+			selectedObjects[i].name = $"{baseName} ({selectedObjects.Length - i})";
+		}
+
+		Debug.Log("Selected GameObjects have been renamed in descending order.");
+	}
+
+	private static int ExtractSuffix(string name)
+	{
+		// Extract the numeric suffix, if any
+		int suffixIndex = name.LastIndexOf('(');
+		if (suffixIndex >= 0)
+		{
+			string suffixString = name.Substring(suffixIndex + 1, name.Length - suffixIndex - 2); // Remove the closing parenthesis
+			if (int.TryParse(suffixString, out int suffix))
+			{
+				return suffix;
+			}
+		}
+		return 0; // Default to 0 if no suffix is found
+	}
+}

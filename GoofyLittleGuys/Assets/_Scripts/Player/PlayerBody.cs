@@ -177,13 +177,6 @@ public class PlayerBody : MonoBehaviour
 			}
 
 		}
-
-		Vector3 nextPos = rb.position + (movementDirection);
-		if (IsNearPitEdge(nextPos))
-		{
-			rb.velocity = new Vector3(0, rb.velocity.y, 0);
-			return;
-		}
 		// Movement behaviours
 		if (!isDashing && canMove)
 		{
@@ -208,39 +201,6 @@ public class PlayerBody : MonoBehaviour
 		}
 	}
 
-	private bool IsNearPitEdge(Vector3 position)
-	{
-		float pitDetectionRadius = 4f; // Distance to check for edges
-		int iterations = 8; // Number of directions to check around the AI
-		float angleStep = Mathf.PI * 2f / iterations;
-		RaycastHit hit;
-
-		for (int i = 0; i < iterations; i++)
-		{
-			// Calculate test direction
-			float angle = i * angleStep;
-			Vector3 offset = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * pitDetectionRadius;
-			Vector3 testPos = position + offset;
-
-			// Visualize ray for debugging (optional)
-			Debug.DrawRay(testPos + Vector3.up * 10f, Vector3.down * 100f, Color.red, 0.1f);
-
-			// Raycast downward to check if this is a valid edge
-			if (Physics.Raycast(testPos + Vector3.up * 10f, Vector3.down, out hit, 100f, LayerMask.GetMask("Ground", "PitColliders")))
-			{
-				Debug.Log($"Ray hit: {hit.collider.name}, Layer: {hit.collider.gameObject.layer}, Height: {hit.point.y}");
-
-				if (hit.collider.gameObject.layer == LayerMask.NameToLayer("PitColliders") || position.y - hit.point.y > 10)
-				{
-					// Near an edge or pit
-					return true;
-				}
-			}
-		}
-
-		// No edge detected nearby
-		return false;
-	}
 
 	/// <summary>
 	/// Method that updates the movement vector based on given input direction.

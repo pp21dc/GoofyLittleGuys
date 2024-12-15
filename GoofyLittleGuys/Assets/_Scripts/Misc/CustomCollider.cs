@@ -1,0 +1,100 @@
+using UnityEngine;
+
+[RequireComponent(typeof(MeshFilter), typeof(MeshRenderer), typeof(MeshCollider))]
+public class PolygonCollider3D : MonoBehaviour
+{
+	public Transform[] points; // Array of points defining the polygon's base
+	public float height = 1.0f; // Height of the collider along the Y-axis
+
+	private Mesh _mesh;
+
+	protected void OnValidate()
+	{
+		UpdateCollider();
+	}
+
+	private void OnDrawGizmos()
+	{
+		if (points == null || points.Length < 3) return;
+
+		Gizmos.color = Color.green;
+
+		// Draw base polygon
+		for (int i = 0; i < points.Length; i++)
+		{
+			Vector3 current = points[i].position;
+			Vector3 next = points[(i + 1) % points.Length].position;
+
+			Gizmos.DrawLine(current, next); // Line between points
+			Gizmos.DrawLine(current, current + Vector3.up * height); // Vertical lines
+		}
+
+		// Draw top polygon
+		for (int i = 0; i < points.Length; i++)
+		{
+			Vector3 current = points[i].position + Vector3.up * height;
+			Vector3 next = points[(i + 1) % points.Length].position + Vector3.up * height;
+
+			Gizmos.DrawLine(current, next);
+		}
+	}
+
+	private void UpdateCollider()
+	{
+		if (points == null || points.Length < 3)
+		{
+			Debug.LogWarning("PolygonCollider3D requires at least 3 points to form a shape.");
+			return;
+		}
+
+		// Generate the mesh for the collider
+		Mesh mesh = new Mesh();
+		Vector3[] vertices = new Vector3[points.Length * 2];
+		int[] triangles = new int[(points.Length - 2) * 6 + points.Length * 12];
+
+		// Set vertices for the base and top polygons
+		for (int i = 0; i < points.Length; i++)
+		{
+			vertices[i] = transform.InverseTransformPoint(points[i].position); // Base vertices
+			vertices[i + points.Length] = transform.InverseTransformPoint(points[i].position + Vector3.up * height); // Top vertices
+		}
+
+		// Triangles for base polygon
+		int triIndex = 0;
+		
+
+		// Side wall triangles
+		for (int i = 0; i < points.Length; i++)
+		{
+			int next = (i + 1) % points.Length;
+
+			// First triangle (corrected winding order)
+			triangles[triIndex++] = i;
+			triangles[triIndex++] = points.Length + i;
+			triangles[triIndex++] = next;
+
+			// Second triangle (corrected winding order)
+			triangles[triIndex++] = next;
+			triangles[triIndex++] = points.Length + i;
+			triangles[triIndex++] = points.Length + next;
+		}
+
+
+		mesh.vertices = vertices;
+		mesh.triangles = triangles;
+		mesh.RecalculateNormals();
+
+		// Assign the mesh to a MeshFilter for visualization
+		MeshFilter meshFilter = GetComponent<MeshFilter>();
+		if (!meshFilter) meshFilter = gameObject.AddComponent<MeshFilter>();
+		meshFilter.sharedMesh = mesh;
+
+		// Assign the mesh to a MeshCollider for collision
+		MeshCollider meshCollider = GetComponent<MeshCollider>();
+		if (!meshCollider) meshCollider = gameObject.AddComponent<MeshCollider>();
+		meshCollider.sharedMesh = mesh;
+
+		// Cache the mesh
+		_mesh = mesh;
+	}
+}
