@@ -196,9 +196,9 @@ public abstract class LilGuyBase : MonoBehaviour
 	private void FixedUpdate()
 	{
 		// Applying modified gravity
-		if (GetComponent<Rigidbody>().velocity.y < 0)
+		if (!IsGrounded())
 		{
-			GetComponent<Rigidbody>().velocity += Vector3.up * Physics.gravity.y * (4 - 1) * Time.fixedDeltaTime;
+			rb.velocity += Vector3.up * Physics.gravity.y * (speed - 1) * Time.fixedDeltaTime;
 		}
 	}
 	private void UpdateAnimations()
@@ -474,7 +474,10 @@ public abstract class LilGuyBase : MonoBehaviour
 	{
 		gameObject.layer = layer;
 	}
-
+	private bool IsGrounded()
+	{
+		return Physics.Raycast(rb.position + Vector3.up, Vector3.down, 2f, LayerMask.GetMask("Ground"));
+	}
 	public virtual void MoveLilGuy()
 	{
 		// Move the creature towards the player with smoothing

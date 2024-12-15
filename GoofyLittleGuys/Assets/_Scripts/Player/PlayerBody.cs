@@ -133,9 +133,9 @@ public class PlayerBody : MonoBehaviour
 
 		if (lilGuyTeam.Count > 0 && lilGuyTeam != null && lilGuyTeam[0] != null) maxSpeed = lilGuyTeam[0].Speed + teamSpeedBoost;
 
-		if (rb.velocity.y < 0)
+		if (!IsGrounded())
 		{
-			rb.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.fixedDeltaTime;
+			rb.velocity += Vector3.up * Physics.gravity.y * (maxSpeed - 1) * Time.fixedDeltaTime;
 		}
 
 
@@ -201,6 +201,10 @@ public class PlayerBody : MonoBehaviour
 		}
 	}
 
+	private bool IsGrounded()
+	{
+		return Physics.Raycast(rb.position + Vector3.up, Vector3.down, 2f, LayerMask.GetMask("Ground"));
+	}
 
 	/// <summary>
 	/// Method that updates the movement vector based on given input direction.
