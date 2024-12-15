@@ -33,12 +33,13 @@ public class Phantaphant : SpeedType
 
 	public override void Special()
 	{
+		anim.ResetTrigger("SpecialAttackEnded");
 		Rigidbody rb = (playerOwner == null) ? GetComponent<Rigidbody>() : playerOwner.GetComponent<Rigidbody>();
 		if (rb != null && targetPosition != null)
 		{
 			rb.MovePosition(directionToTarget);
 		}
-		base.Special();		
+		OnEndSpecial();
 	}
 
 	protected override void OnEndSpecial()
@@ -49,7 +50,20 @@ public class Phantaphant : SpeedType
 	public override void StopChargingSpecial()
 	{
 		if (targetPosition == null) return;
-		base.StopChargingSpecial();
+		if (currentCharges <= 0 && cooldownTimer > 0) return;
+		cooldownTimer = cooldownDuration;
+		chargeTimer = chargeRefreshRate;
+		currentCharges--;
+		anim.ResetTrigger("SpecialAttackEnded");
+		anim.SetTrigger("SpecialAttack");
+		StartCoroutine(WaitForEndOfSpecial());
+	}
+
+	private IEnumerator WaitForEndOfSpecial()
+	{
+		AnimationClip clip = anim.runtimeAnimatorController.animationClips.First(clip => clip.name == "InSpecial");
+		if (clip != null) yield return new WaitForSeconds(clip.length);
+		Special();
 	}
 
 	private void LocateClosestTarget()
