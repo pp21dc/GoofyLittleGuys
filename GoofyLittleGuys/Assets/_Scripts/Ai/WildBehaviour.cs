@@ -1,4 +1,5 @@
 using Managers;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -38,6 +39,10 @@ public class WildBehaviour : MonoBehaviour
 	private bool isIdle = false;
 	private bool isWandering = false;
 
+	private Queue<Vector3> unsafeDirections = new Queue<Vector3>();
+	private int maxUnsafeDirections = 3; // Limit to store only a few recent directions
+
+
 	private void Start()
 	{
 		controller = GetComponent<AiController>();
@@ -66,7 +71,7 @@ public class WildBehaviour : MonoBehaviour
 		{
 			actionCoroutine ??= StartCoroutine(Dead());
 		}
-		else if (controller.LilGuy.Health <= controller.LilGuy.MaxHealth * Mathf.Lerp(0.25f, 0.5f, timid / 10f) && hostility < 5f)
+		else if (controller.DistanceToPlayer() <= chaseRange && controller.LilGuy.Health <= controller.LilGuy.MaxHealth * Mathf.Lerp(0.25f, 0.5f, timid / 10f))
 		{
 			actionCoroutine ??= StartCoroutine(Flee());
 		}
@@ -129,22 +134,26 @@ public class WildBehaviour : MonoBehaviour
 	/// <returns></returns>
 	private IEnumerator Wander()
 	{
-		float angle = Random.Range(0f, Mathf.PI * 2f);										// Generate a random angle in radians												
-		float radius = Random.Range(minWanderRadius, maxWanderRadius);						// Generate a random radius between the minimum and maximum range						
+		float angle = Random.Range(0f, Mathf.PI * 2f);                                      // Generate a random angle in radians												
+		float radius = Random.Range(minWanderRadius, maxWanderRadius);                      // Generate a random radius between the minimum and maximum range						
 		Vector3 offset = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * radius;       // Calculate the wander target in local space using polar coordinates																				
-		Vector3 wanderTarget = transform.position + offset;									// Add the offset to the current position
+		Vector3 wanderTarget = transform.position + offset;                                 // Add the offset to the current position
 
 		RaycastHit hit;
-		if (Physics.Raycast(wanderTarget + Vector3.up * 10f, Vector3.down, out hit, 20f, LayerMask.GetMask("Ground")))
+		if (Physics.Raycast(wanderTarget + Vector3.up * 10f, Vector3.down, out hit, 100f, LayerMask.GetMask("Ground")))
 		{
-			wanderTarget = hit.point;
-			while (Vector3.Distance(transform.position, wanderTarget) > 0.5f && controller.LilGuy.Health > 0 && hostility <= 3)
+			if (!IsNearPitEdge(hit.point))
 			{
-				controller.LilGuy.MovementDirection = (wanderTarget - transform.position).normalized;
-				controller.LilGuy.IsMoving = true;
-				controller.LilGuy.MoveLilGuy();
-				yield return null;
+				wanderTarget = hit.point;
+				while (Vector3.Distance(transform.position, wanderTarget) > 0.5f && controller.LilGuy.Health > 0 && hostility <= 3)
+				{
+					controller.LilGuy.MovementDirection = (wanderTarget - transform.position).normalized;
+					controller.LilGuy.IsMoving = true;
+					controller.LilGuy.MoveLilGuy();
+					yield return null;
+				}
 			}
+
 		}
 		actionCoroutine = null;
 		nextWanderTime = Time.time + Random.Range(wanderIntervalMin, wanderIntervalMax);
@@ -182,7 +191,7 @@ public class WildBehaviour : MonoBehaviour
 	private IEnumerator AttackPlayer()
 	{
 		isIdle = false;
-		while (controller.DistanceToPlayer() <= attackRange && controller.LilGuy.Health > 0 & hostility > 3)
+		while (controller.DistanceToPlayer() <= attackRange && controller.LilGuy.Health > controller.LilGuy.MaxHealth * Mathf.Lerp(0.25f, 0.5f, timid / 10f) && hostility > 3)
 		{
 			if (hostility >= 7 && controller.LilGuy.CurrentCharges > 0 && controller.LilGuy.CooldownTimer <= 0 && attackTime <= 0 && controller.LilGuy is StrengthType strengthLilGuy)
 			{
@@ -212,7 +221,7 @@ public class WildBehaviour : MonoBehaviour
 	{
 		isIdle = false;
 		controller.LilGuy.IsMoving = true;
-		while (controller.DistanceToPlayer() > attackRange && controller.DistanceToPlayer() <= chaseRange && controller.LilGuy.Health > 0 && hostility > 3)
+		while (controller.DistanceToPlayer() > attackRange && controller.DistanceToPlayer() <= chaseRange && controller.LilGuy.Health > controller.LilGuy.MaxHealth * Mathf.Lerp(0.25f, 0.5f, timid / 10f) && hostility > 3)
 		{
 			controller.LilGuy.MovementDirection = (controller.FollowPosition.position - controller.transform.position).normalized;
 			if (hostility >= 7f && controller.LilGuy is SpeedType && controller.LilGuy.CurrentCharges > 0 && controller.LilGuy.CooldownTimer <= 0)
@@ -232,17 +241,115 @@ public class WildBehaviour : MonoBehaviour
 	/// State that handles fleeing behavior.
 	/// </summary>
 	/// <returns></returns>
+	/// <summary>
+	/// State that handles fleeing behavior.
+	/// </summary>
+	/// <returns></returns>
 	private IEnumerator Flee()
 	{
 		isIdle = false;
 		controller.LilGuy.IsMoving = true;
+
+		controller.LilGuy.MovementDirection = (controller.transform.position - controller.FollowPosition.position).normalized;
 		while (controller.DistanceToPlayer() <= chaseRange && controller.LilGuy.Health > 0)
 		{
-			controller.LilGuy.MovementDirection = (controller.transform.position - controller.FollowPosition.position).normalized;
-			controller.LilGuy.MoveLilGuy();
+			Vector3 nextPos = controller.LilGuy.RB.position + (controller.LilGuy.MovementDirection);
+
+			// Check if too close to a pit
+			if (IsNearPitEdge(nextPos))
+			{
+				yield return StartCoroutine(FindValidFleeDirection(nextPos));
+			}
+			else
+			{
+				// No hit, adjust direction
+				controller.LilGuy.MoveLilGuy();
+			}
+
 			yield return null;
 		}
+
 		actionCoroutine = null;
+	}
+
+	private IEnumerator FindValidFleeDirection(Vector3 dir)
+	{
+		int iterations = 12;
+		float angleStep = Mathf.PI * 2f / iterations;
+		float radius = 3f;
+		RaycastHit hit;
+		Vector3 bestDir = Vector3.zero;
+		float bestWeight = float.NegativeInfinity;
+
+		for (int i = 0; i < iterations; i++)
+		{
+			float angle = i * angleStep;
+			Vector3 offset = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * radius;
+			Vector3 testPos = transform.position + offset;
+
+			if (Physics.Raycast(testPos + Vector3.up * 10f, Vector3.down, out hit, 100f, LayerMask.GetMask("Ground", "PitColliders")))
+			{
+				if (hit.collider.gameObject.layer != LayerMask.NameToLayer("PitColliders") && dir.y - hit.point.y <= 10)
+				{
+					Vector3 potentialDir = (hit.point - transform.position).normalized;
+
+					// Calculate a weight for this direction based on recent unsafe directions
+					float weight = 1f - unsafeDirections.Sum(ud => Vector3.Dot(ud, potentialDir));
+					if (weight > bestWeight)
+					{
+						bestWeight = weight;
+						bestDir = potentialDir;
+					}
+				}
+			}
+		}
+
+		if (bestWeight > float.NegativeInfinity)
+		{
+			dir = bestDir;
+			controller.LilGuy.MovementDirection = dir;
+			controller.LilGuy.MoveLilGuy();
+
+			unsafeDirections.Enqueue(-dir);
+			if (unsafeDirections.Count > maxUnsafeDirections) unsafeDirections.Dequeue();
+		}
+		yield return null;
+	}
+
+	// Helper Method: Detect proximity to pit edges
+	private bool IsNearPitEdge(Vector3 position)
+	{
+		float pitDetectionRadius = 3f; // Distance to check for edges
+		int iterations = 8; // Number of directions to check around the AI
+		float angleStep = Mathf.PI * 2f / iterations;
+		RaycastHit hit;
+
+		for (int i = 0; i < iterations; i++)
+		{
+			// Calculate test direction
+			float angle = i * angleStep;
+			Vector3 offset = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * pitDetectionRadius;
+			Vector3 testPos = position + offset;
+
+			// Visualize ray for debugging (optional)
+
+			// Raycast downward to check if this is a valid edge
+			if (Physics.Raycast(testPos + Vector3.up * 10f, Vector3.down, out hit, 100f, LayerMask.GetMask("Ground", "PitColliders")))
+			{
+
+				if (hit.collider.gameObject.layer == LayerMask.NameToLayer("PitColliders") || position.y - hit.point.y > 10)
+				{
+					// Near an edge or pit
+					Vector3 fleeDirection = (position - testPos).normalized;
+					controller.LilGuy.MovementDirection = fleeDirection;
+					controller.LilGuy.MoveLilGuy();
+					return true;
+				}
+			}
+		}
+
+		// No edge detected nearby
+		return false;
 	}
 
 	private void OnDestroy()

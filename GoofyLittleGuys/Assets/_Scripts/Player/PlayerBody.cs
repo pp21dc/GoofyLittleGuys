@@ -38,7 +38,7 @@ public class PlayerBody : MonoBehaviour
 	private float nextBerryUseTime = -Mathf.Infinity;
 	private float nextInteractTime = -Mathf.Infinity;
 	private float nextSwapTime = -Mathf.Infinity;
-	private float deathTime = -Mathf.Infinity;	
+	private float deathTime = -Mathf.Infinity;
 
 	private InteractableBase closestnteractable = null;
 	private int berryCount = 0;
@@ -132,28 +132,6 @@ public class PlayerBody : MonoBehaviour
 		else playerMesh.transform.rotation = new Quaternion(0, 0, 0, 1);
 
 		if (lilGuyTeam.Count > 0 && lilGuyTeam != null && lilGuyTeam[0] != null) maxSpeed = lilGuyTeam[0].Speed + teamSpeedBoost;
-		// Movement behaviours
-		if (!isDashing && canMove)
-		{
-			// If the player is not dashing, then they will have regular movement mechanics
-
-			if (movementDirection.magnitude < 0.1f)
-			{
-				// Smooth deceleration when no input
-				currentVelocity = Vector3.Lerp(currentVelocity, Vector3.zero, Time.fixedDeltaTime / decelerationTime);
-			}
-			else
-			{
-				// Calculate the target velocity based on input direction
-				Vector3 targetVelocity = movementDirection.normalized * (((lilGuyTeam[0].Speed + 10) / 3f) + teamSpeedBoost);
-				// Smoothly accelerate towards the target velocity
-				currentVelocity = Vector3.Lerp(currentVelocity, targetVelocity, Time.fixedDeltaTime / accelerationTime);
-			}
-
-			// Apply the smoothed velocity to the Rigidbody
-			rb.velocity = new Vector3(currentVelocity.x, GameManager.Instance.CurrentPhase == 2 && IsDead ? currentVelocity.y : rb.velocity.y, currentVelocity.z);
-
-		}
 
 		if (rb.velocity.y < 0)
 		{
@@ -199,6 +177,69 @@ public class PlayerBody : MonoBehaviour
 			}
 
 		}
+
+		Vector3 nextPos = rb.position + (movementDirection);
+		if (IsNearPitEdge(nextPos))
+		{
+			rb.velocity = new Vector3(0, rb.velocity.y, 0);
+			return;
+		}
+		// Movement behaviours
+		if (!isDashing && canMove)
+		{
+			// If the player is not dashing, then they will have regular movement mechanics
+
+			if (movementDirection.magnitude < 0.1f)
+			{
+				// Smooth deceleration when no input
+				currentVelocity = Vector3.Lerp(currentVelocity, Vector3.zero, Time.fixedDeltaTime / decelerationTime);
+			}
+			else
+			{
+				// Calculate the target velocity based on input direction
+				Vector3 targetVelocity = movementDirection.normalized * (((lilGuyTeam[0].Speed + 10) / 3f) + teamSpeedBoost);
+				// Smoothly accelerate towards the target velocity
+				currentVelocity = Vector3.Lerp(currentVelocity, targetVelocity, Time.fixedDeltaTime / accelerationTime);
+			}
+
+			// Apply the smoothed velocity to the Rigidbody
+			rb.velocity = new Vector3(currentVelocity.x, GameManager.Instance.CurrentPhase == 2 && IsDead ? currentVelocity.y : rb.velocity.y, currentVelocity.z);
+
+		}
+	}
+
+	private bool IsNearPitEdge(Vector3 position)
+	{
+		float pitDetectionRadius = 4f; // Distance to check for edges
+		int iterations = 8; // Number of directions to check around the AI
+		float angleStep = Mathf.PI * 2f / iterations;
+		RaycastHit hit;
+
+		for (int i = 0; i < iterations; i++)
+		{
+			// Calculate test direction
+			float angle = i * angleStep;
+			Vector3 offset = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * pitDetectionRadius;
+			Vector3 testPos = position + offset;
+
+			// Visualize ray for debugging (optional)
+			Debug.DrawRay(testPos + Vector3.up * 10f, Vector3.down * 100f, Color.red, 0.1f);
+
+			// Raycast downward to check if this is a valid edge
+			if (Physics.Raycast(testPos + Vector3.up * 10f, Vector3.down, out hit, 100f, LayerMask.GetMask("Ground", "PitColliders")))
+			{
+				Debug.Log($"Ray hit: {hit.collider.name}, Layer: {hit.collider.gameObject.layer}, Height: {hit.point.y}");
+
+				if (hit.collider.gameObject.layer == LayerMask.NameToLayer("PitColliders") || position.y - hit.point.y > 10)
+				{
+					// Near an edge or pit
+					return true;
+				}
+			}
+		}
+
+		// No edge detected nearby
+		return false;
 	}
 
 	/// <summary>
