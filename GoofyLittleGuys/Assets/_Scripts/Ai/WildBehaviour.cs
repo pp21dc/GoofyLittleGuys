@@ -37,10 +37,6 @@ public class WildBehaviour : MonoBehaviour
 	private float initialHostility;
 	private float nextWanderTime = -1f;
 	private bool isIdle = false;
-	private bool isWandering = false;
-
-	private Queue<Vector3> unsafeDirections = new Queue<Vector3>();
-	private int maxUnsafeDirections = 3; // Limit to store only a few recent directions
 
 
 	private void Start()
@@ -142,14 +138,18 @@ public class WildBehaviour : MonoBehaviour
 		RaycastHit hit;
 		if (Physics.Raycast(wanderTarget + Vector3.up * 10f, Vector3.down, out hit, 20f, LayerMask.GetMask("Ground")))
 		{
-			wanderTarget = hit.point;
-			while (Vector3.Distance(transform.position, wanderTarget) > 0.5f && controller.LilGuy.Health > 0 && hostility <= 3)
+			if (!Physics.Raycast(controller.LilGuy.RB.position, wanderTarget, Vector3.Distance(transform.position, wanderTarget) + 2, LayerMask.GetMask("PitColliders")))
 			{
-				controller.LilGuy.MovementDirection = (wanderTarget - transform.position).normalized;
-				controller.LilGuy.IsMoving = true;
-				controller.LilGuy.MoveLilGuy();
-				yield return null;
+				wanderTarget = hit.point;
+				while (Vector3.Distance(transform.position, wanderTarget) > 0.5f && controller.LilGuy.Health > 0 && hostility <= 3)
+				{
+					controller.LilGuy.MovementDirection = (wanderTarget - transform.position).normalized;
+					controller.LilGuy.IsMoving = true;
+					controller.LilGuy.MoveLilGuy();
+					yield return null;
+				}
 			}
+			
 		}
 		actionCoroutine = null;
 		nextWanderTime = Time.time + Random.Range(wanderIntervalMin, wanderIntervalMax);
