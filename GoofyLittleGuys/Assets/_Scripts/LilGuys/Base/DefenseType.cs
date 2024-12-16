@@ -20,7 +20,7 @@ public class DefenseType : LilGuyBase
 		{
 			base.StopChargingSpecial();
 
-			spawnedShieldObj ??= Instantiate(shieldPrefab, transform.position, Quaternion.identity, transform); // If spawnShieldObj is null, assign it this instantiated GO
+			spawnedShieldObj ??= Instantiate(shieldPrefab, transform.position + Vector3.up, Quaternion.identity, transform); // If spawnShieldObj is null, assign it this instantiated GO
 			spawnedShieldObj.GetComponent<Shield>().Initialize(duration, this);
 			isShieldActive = true;
 
