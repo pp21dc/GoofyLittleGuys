@@ -8,7 +8,8 @@ public class AiHealthUi : MonoBehaviour
 {
 	[SerializeField] private Slider redBar;					// Current health (instant)
 	[SerializeField] private Slider yellowBar;				// Aggravated health (lags behind)
-	[SerializeField] private TextMeshProUGUI healthText;	// Health label
+	[SerializeField] private TMP_Text healthText;			// Health label
+	[SerializeField] private TMP_Text levelText;			// Level label
 	[SerializeField] private LilGuyBase lilGuy;				// Reference to the lil guy
 
 	[SerializeField] private float yellowLerpSpeed = 1f;  // Speed at which yellow bar catches up
@@ -16,6 +17,7 @@ public class AiHealthUi : MonoBehaviour
 
 	private Coroutine yellowLerpCoroutine;
 
+	public Slider YellowBar => yellowBar;
 	
 	private void Start()
 	{
@@ -104,6 +106,7 @@ public class AiHealthUi : MonoBehaviour
 	private void UpdateUI()
 	{
 		healthText.text = $"{lilGuy.Health}/{lilGuy.MaxHealth}";
+		levelText.text = $"Lv. {lilGuy.Level}";
 	}
 
 }

@@ -15,7 +15,7 @@ public class AiController : MonoBehaviour
 	private WildBehaviour wildBehaviour;                // Defines Wild AI behaviour (Idle, Chase, Attack, Death)
 	private TamedBehaviour tamedBehaviour;              // Defines Tamed AI behaviour (Follow Player)
 
-
+	private CanvasGroup healthUi;
 
 	private Vector3 originalSpawnPosition = Vector3.zero;
 	private Transform followPosition;                           // The transform of the closest player to this AI
@@ -34,6 +34,7 @@ public class AiController : MonoBehaviour
 	private void Start()
 	{
 		lilGuy = GetComponent<LilGuyBase>();
+		healthUi = GetComponentInChildren<CanvasGroup>();
 
 		SetSpawnPosition(transform.position);
 		UpdateState();
@@ -44,7 +45,15 @@ public class AiController : MonoBehaviour
 		if (state == AIState.Wild)
 		{
 			if (GameManager.Instance.Players.Count > 0)
+			{
 				followPosition = FindClosestPlayer();
+				if (healthUi != null)
+				{
+					if (DistanceToPlayer() > 20) healthUi.alpha = 0;
+					else if (DistanceToPlayer() <= 10) healthUi.alpha = 1;
+					else healthUi.alpha = (20 - DistanceToPlayer()) / 10; // Smoothly transition alpha from 1 to 0
+				}
+			}
 		}
 		else
 		{

@@ -110,6 +110,57 @@ public abstract class LilGuyBase : MonoBehaviour
 		rb = GetComponent<Rigidbody>();
 	}
 
+	public void DetermineLevel()
+	{
+		int count = 0;
+		int totalLevels = 0;
+		foreach (PlayerBody body in GameManager.Instance.Players)
+		{
+			foreach (LilGuyBase lilGuy in body.LilGuyTeam)
+			{
+				count++;
+				totalLevels += lilGuy.level;
+			}
+		}
+
+		int averageLevel = Mathf.FloorToInt(totalLevels / count);
+		SetWildLilGuyLevel(averageLevel);
+	}
+
+	private void SetWildLilGuyLevel(int level)
+	{
+		level = Mathf.Clamp(Mathf.FloorToInt(UnityEngine.Random.Range(level - 1f, level + 2f)), 1, 24);	// Add a variance of ~1 level greater/less
+		this.level = level;
+
+		int numOfMilestonesMet = Mathf.FloorToInt(level / 5);
+		Strength += (milestonePoints * numOfMilestonesMet);
+		Speed += (milestonePoints * numOfMilestonesMet);
+		Defense += (milestonePoints * numOfMilestonesMet);
+		MaxHealth += (milestonePoints * numOfMilestonesMet);
+
+		switch (type)
+		{
+			case PrimaryType.Strength:
+				Strength += primaryPoints * (level - 1);
+				Speed += secondaryPoints * (level - 1);
+				Defense += secondaryPoints * (level - 1);
+				break;
+			case PrimaryType.Defense:
+				Strength += secondaryPoints * (level - 1);
+				Speed += secondaryPoints * (level - 1);
+				Defense += primaryPoints * (level - 1);
+				break;
+			case PrimaryType.Speed:
+				Strength += secondaryPoints * (level - 1);
+				Speed += primaryPoints * (level - 1);
+				Defense += secondaryPoints * (level - 1);
+				break;
+			default: // somehow we got here
+				throw new ArgumentOutOfRangeException();
+		}
+		MaxHealth += primaryPoints * (level - 1);   // Exclude first level.
+		health = maxHealth;
+	}
 	/// <summary>
 	/// Method to be called on lil guy instantiation.
 	/// </summary>

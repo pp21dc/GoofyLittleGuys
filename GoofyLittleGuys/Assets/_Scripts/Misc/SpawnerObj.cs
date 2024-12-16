@@ -32,6 +32,7 @@ public class SpawnerObj : MonoBehaviour
 
         GameObject GO = Instantiate(newLilGuy, spawningPos, Quaternion.identity, Managers.SpawnManager.Instance.transform);
         GO.layer = LayerMask.NameToLayer("WildLilGuys");
+		GO.GetComponent<LilGuyBase>().DetermineLevel();
         
 
         Managers.SpawnManager.Instance.currNumSpawns++;
