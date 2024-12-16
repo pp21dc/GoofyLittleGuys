@@ -154,9 +154,10 @@ public class PlayerBody : MonoBehaviour
 			if (CheckTeamHealth())
 			{
 				// If this returns true, then there's at least one living lil guy on this player's team, so swap until they're at the front.
-				foreach (var lilGuy in lilGuyTeam)
+				foreach (LilGuyBase lilGuy in lilGuyTeam)
 				{
-					lilGuy.GetComponent<Rigidbody>().isKinematic = false;
+					lilGuy.RB.isKinematic = false;
+					lilGuy.RB.interpolation = RigidbodyInterpolation.Interpolate;
 				}
 				ReorganizeTeam();
 			}
@@ -299,6 +300,7 @@ public class PlayerBody : MonoBehaviour
 
 		lilGuyTeam[0].GetComponent<Rigidbody>().isKinematic = true;
 		lilGuyTeam[0].SetLayer(LayerMask.NameToLayer("PlayerLilGuys"));
+		lilGuyTeam[0].RB.interpolation = RigidbodyInterpolation.None;
 		lilGuyTeam[0].transform.localPosition = Vector3.zero;
 		activeLilGuy = lilGuyTeam[0];
 
@@ -330,6 +332,7 @@ public class PlayerBody : MonoBehaviour
 			lilGuy.GetComponent<Rigidbody>().isKinematic = false;
 			lilGuy.SetLayer(LayerMask.NameToLayer("Player"));
 			lilGuy.IsAttacking = false;
+			lilGuy.RB.interpolation = RigidbodyInterpolation.Interpolate;
 		}
 
 		if (shiftDirection < 0)
@@ -369,6 +372,7 @@ public class PlayerBody : MonoBehaviour
 		lilGuyTeam[0].GetComponent<Rigidbody>().isKinematic = true;
 		lilGuyTeam[0].SetLayer(LayerMask.NameToLayer("PlayerLilGuys"));
 		lilGuyTeam[0].transform.localPosition = Vector3.zero;
+		lilGuyTeam[0].RB.interpolation = RigidbodyInterpolation.None;
 		activeLilGuy = lilGuyTeam[0];
 		EventManager.Instance.UpdatePlayerHealthUI(this);
 		nextSwapTime = Time.time + swapCooldown;
