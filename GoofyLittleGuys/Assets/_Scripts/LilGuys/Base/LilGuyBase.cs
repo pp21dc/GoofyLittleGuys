@@ -142,11 +142,13 @@ public abstract class LilGuyBase : MonoBehaviour
 		if (!lockAttackRotation)
 		{
 			// Flipping Sprite
-			if (movementDirection.x > 0)
-				mesh.GetComponent<SpriteRenderer>().flipX = true;
-			else if (movementDirection.x < 0)
-				mesh.GetComponent<SpriteRenderer>().flipX = false;
+			if (movementDirection.x > 0) mesh.GetComponent<SpriteRenderer>().flipX = true;
+			else if (movementDirection.x < 0) mesh.GetComponent<SpriteRenderer>().flipX = false;
 
+			// Rotating sprite slightly when moving forward/backward
+			if (movementDirection.z > 0) mesh.transform.rotation = movementDirection.x < 0 ? new Quaternion(0, 0.173648164f, 0, 0.984807789f) : new Quaternion(0, -0.173648253f, 0, 0.984807789f);		// 20 degrees on y axis : -20 degrees on y axis
+			else if (movementDirection.z < 0) mesh.transform.rotation = movementDirection.x < 0 ? new Quaternion(0, -0.173648253f, 0, 0.984807789f) : new Quaternion(0, 0.173648164f, 0, 0.984807789f); // -20 degrees on y axis : 20 degrees on y axis
+			else mesh.transform.rotation = new Quaternion(0, 0, 0, 1);
 
 			if (movementDirection.sqrMagnitude > 0.01)
 			{
