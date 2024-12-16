@@ -14,13 +14,32 @@ public class SortGameObjects : EditorWindow
 
 	private void OnGUI()
 	{
-		GUILayout.Label("Sort GameObjects by Name", EditorStyles.boldLabel);
-		sortDescending = EditorGUILayout.Toggle("Sort Descending", sortDescending);
+		GUILayout.Label("Sort and Rename Selected GameObjects", EditorStyles.boldLabel);
+
+		// Input field for base object name
 		baseName = EditorGUILayout.TextField("Base Name", baseName);
 
-		if (GUILayout.Button("Sort Selected GameObjects"))
+		GUILayout.Space(10);
+
+		// Sorting Buttons
+		GUILayout.Label("Sorting Options", EditorStyles.boldLabel);
+		if (GUILayout.Button("Sort Ascending"))
 		{
-			SortSelectedGameObjects(sortDescending);
+			SortSelectedGameObjects(false);
+		}
+
+		if (GUILayout.Button("Sort Descending"))
+		{
+			SortSelectedGameObjects(true);
+		}
+
+		GUILayout.Space(10);
+
+		// Renaming Buttons
+		GUILayout.Label("Renaming Options", EditorStyles.boldLabel);
+		if (GUILayout.Button("Rename Ascending"))
+		{
+			RenameSelectedGameObjectsAscending(baseName);
 		}
 
 		if (GUILayout.Button("Rename Descending"))
@@ -79,6 +98,25 @@ public class SortGameObjects : EditorWindow
 		for (int i = 0; i < selectedObjects.Length; i++)
 		{
 			selectedObjects[i].name = $"{baseName} ({selectedObjects.Length - i})";
+		}
+
+		Debug.Log("Selected GameObjects have been renamed in descending order.");
+	}
+	private static void RenameSelectedGameObjectsAscending(string baseName)
+	{
+		// Get all selected GameObjects in the scene
+		GameObject[] selectedObjects = Selection.gameObjects;
+
+		if (selectedObjects.Length == 0)
+		{
+			Debug.LogWarning("No GameObjects selected to rename.");
+			return;
+		}
+
+		// Rename the GameObjects with the specified base name in decremental order
+		for (int i = 0; i < selectedObjects.Length; i++)
+		{
+			selectedObjects[i].name = $"{baseName} ({i + 1})";
 		}
 
 		Debug.Log("Selected GameObjects have been renamed in descending order.");
