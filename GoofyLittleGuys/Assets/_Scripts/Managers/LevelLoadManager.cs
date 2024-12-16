@@ -9,11 +9,11 @@ namespace Managers
 	public class LevelLoadManager : SingletonBase<LevelLoadManager>
 	{
 		public static LevelLoadManager _Instance;
-		[SerializeField] private GameObject loadingScreen;
+		[SerializeField] private LoadingScreen loadingScreen;
 		[SerializeField] private bool isLoadingLevel = false;
-		[SerializeField] private List<string> currentLevelList;	// The list of scenes currently loaded in (except the persistent scene)
+		[SerializeField] private List<string> currentLevelList; // The list of scenes currently loaded in (except the persistent scene)
 
-		private WaitForSeconds bufferTime;
+		private float bufferTime = 1.5f;
 
 		private void Start()
 		{
@@ -38,7 +38,10 @@ namespace Managers
 		private IEnumerator LoadLevel(string levelName)
 		{
 			isLoadingLevel = true;
-			yield return bufferTime;
+			loadingScreen.gameObject.SetActive(true);
+			loadingScreen.LoadingBar.fillAmount = 0;
+			loadingScreen.LoadProgress.text = "0%";
+			yield return new WaitForSecondsRealtime(bufferTime);
 
 			// Unload all opened scenes (Not the persistent scene
 			if (currentLevelList.Count != 0)
@@ -52,15 +55,18 @@ namespace Managers
 			AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(levelName, LoadSceneMode.Additive);
 			while (!asyncLoad.isDone)
 			{
+				loadingScreen.LoadingBar.fillAmount = asyncLoad.progress;
+				loadingScreen.LoadProgress.text = asyncLoad.progress.ToString("0%");
 				// If we have a loading screen, we can update the slider progress, and pass asyncLoad.progress
 				yield return null;
 			}
 			//SceneManager.SetActiveScene(SceneManager.GetSceneByName(levelName));
 
 			currentLevelList.Add(levelName);
-			yield return bufferTime;
 
-			//loadingScreen.SetActive(false);
+			loadingScreen.gameObject.SetActive(false);
+			loadingScreen.LoadingBar.fillAmount = 0;
+			loadingScreen.LoadProgress.text = "0%";
 			isLoadingLevel = false;
 
 			yield break;
