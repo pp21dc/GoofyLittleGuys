@@ -316,7 +316,10 @@ public abstract class LilGuyBase : MonoBehaviour
 		if (anim != null)
 		{
 			// There are animations made for this lil guy, so set the trigger
-			if (!isInBasicAttack && !isInSpecialAttack) anim.SetTrigger("BasicAttack");
+			if (!isInBasicAttack && !isInSpecialAttack)
+			{
+				anim.SetTrigger("BasicAttack");
+			}
 		}
 		else SpawnHitbox(); // Animations for this lil guy not done yet, so just spawn hitbox.
 
@@ -372,7 +375,7 @@ public abstract class LilGuyBase : MonoBehaviour
 		if (anim != null)
 		{
 			anim.ResetTrigger("SpecialAttackEnded");
-			if (!isInBasicAttack && !isInSpecialAttack)
+			if (!isInSpecialAttack)
 			{
 				anim.SetTrigger("SpecialAttack");
 			}
