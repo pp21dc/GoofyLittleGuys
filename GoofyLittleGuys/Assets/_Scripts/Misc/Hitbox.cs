@@ -47,7 +47,7 @@ public class Hitbox : MonoBehaviour
 		else
 		{
 			// Regular damage taken.
-			if (gameObject.layer != LayerMask.NameToLayer("Player")) h.TakeDamage(Damage);
+			if (gameObject.layer != LayerMask.NameToLayer("Player") && hitboxOwner.GetComponent<LilGuyBase>().PlayerOwner != h.Owner.GetComponent<LilGuyBase>().PlayerOwner) h.TakeDamage(Damage);
 			h.LastHit = hitboxOwner.GetComponent<LilGuyBase>().PlayerOwner;
 		}
 

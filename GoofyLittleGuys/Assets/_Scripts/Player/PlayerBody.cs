@@ -294,6 +294,7 @@ public class PlayerBody : MonoBehaviour
 		{
 			lilGuyTeam[i].SetFollowGoal(lilGuyTeamSlots[i].transform); // Update follow goal
 			lilGuyTeamSlots[i].LilGuyInSlot = lilGuyTeam[i];
+			lilGuyTeam[i].IsAttacking = false;
 		}
 
 		lilGuyTeam[0].GetComponent<Rigidbody>().isKinematic = true;
@@ -328,6 +329,7 @@ public class PlayerBody : MonoBehaviour
 		{
 			lilGuy.GetComponent<Rigidbody>().isKinematic = false;
 			lilGuy.SetLayer(LayerMask.NameToLayer("Player"));
+			lilGuy.IsAttacking = false;
 		}
 
 		if (shiftDirection < 0)
