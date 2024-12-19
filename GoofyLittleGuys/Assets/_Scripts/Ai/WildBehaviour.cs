@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq.Expressions;
 
 [RequireComponent(typeof(AiController))]
 public class WildBehaviour : MonoBehaviour
@@ -29,6 +30,8 @@ public class WildBehaviour : MonoBehaviour
 	[SerializeField] private float minWanderRadius = 2f; // Radius within which to pick a random point to wander
 	[SerializeField] private float maxWanderRadius = 5f; // Radius within which to pick a random point to wander
 
+	[SerializeField] private bool isCatchable = true;
+
 	private GameObject instantiatedPlayerRangeIndicator;
 	private AiController controller;
 	private Coroutine actionCoroutine = null;
@@ -37,6 +40,8 @@ public class WildBehaviour : MonoBehaviour
 	private float initialHostility;
 	private float nextWanderTime = -1f;
 	private bool isIdle = false;
+
+
 
 
 	private void Start()
@@ -149,7 +154,7 @@ public class WildBehaviour : MonoBehaviour
 					yield return null;
 				}
 			}
-			
+
 		}
 		actionCoroutine = null;
 		nextWanderTime = Time.time + Random.Range(wanderIntervalMin, wanderIntervalMax);
@@ -166,18 +171,22 @@ public class WildBehaviour : MonoBehaviour
 		controller.LilGuy.PlayDeathAnim(true);
 		controller.LilGuy.RB.isKinematic = true;
 		controller.LilGuy.RB.velocity = Vector3.zero;
-
-		instantiatedPlayerRangeIndicator = Instantiate(capturingPlayerRange, transform.position, Quaternion.identity, Managers.SpawnManager.Instance.transform);
-		instantiatedPlayerRangeIndicator.GetComponent<CaptureZone>().Init(controller.LilGuy);
-		float currTime = 0;
-		while (currTime < timeBeforeDestroyed)
+		if (isCatchable)
 		{
-			currTime += Time.deltaTime;
-			yield return null;
+			instantiatedPlayerRangeIndicator = Instantiate(capturingPlayerRange, transform.position, Quaternion.identity, Managers.SpawnManager.Instance.transform);
+			instantiatedPlayerRangeIndicator.GetComponent<CaptureZone>().Init(controller.LilGuy);
+			float currTime = 0;
+			while (currTime < timeBeforeDestroyed)
+			{
+				currTime += Time.deltaTime;
+				yield return null;
+			}			
 		}
-		SpawnManager.Instance.RemoveLilGuyFromSpawns();
+
+		SpawnManager.Instance.RemoveLilGuyFromSpawns();	// Move into if statement if we don't want legendaries removed from the spawns
 		Destroy(gameObject);
 		actionCoroutine = null;
+
 	}
 
 	/// <summary>
