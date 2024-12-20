@@ -89,7 +89,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   guyName: Spricket
   type: 2
-  mesh: {fileID: 7048286981774368068}
+  mesh: {fileID: 7390400495179750000}
   hitboxPrefab: {fileID: 7763503517924717934, guid: 9df4356fd20c6d740acf3ba2a05fd8ed,
     type: 3}
   anim: {fileID: 1192768599668502933}
@@ -235,6 +235,7 @@ MonoBehaviour:
   wanderIntervalMax: 10
   minWanderRadius: 2
   maxWanderRadius: 5
+  isCatchable: 1
 --- !u!95 &1192768599668502933
 Animator:
   serializedVersion: 5

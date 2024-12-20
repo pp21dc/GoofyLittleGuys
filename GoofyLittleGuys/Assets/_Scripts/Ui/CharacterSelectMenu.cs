@@ -186,6 +186,7 @@ public class CharacterSelectMenu : MonoBehaviour
 		starter.GetComponent<Rigidbody>().interpolation = RigidbodyInterpolation.None;
 		starter.SetFollowGoal(controller.Body.LilGuyTeamSlots[0].transform);
 		starter.Init(LayerMask.NameToLayer("PlayerLilGuys"));
+		starter.SetMaterial(GameManager.Instance.OutlinedLilGuySpriteMat);
 		starterGO.transform.SetParent(controller.Body.transform, false);
 		starterGO.GetComponent<Rigidbody>().isKinematic = true;
 		starterGO.transform.localPosition = Vector3.zero;

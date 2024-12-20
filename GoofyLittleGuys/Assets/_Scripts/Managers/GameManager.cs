@@ -19,6 +19,11 @@ namespace Managers
 		[SerializeField] private Transform fountainSpawnPoint;          // The spawn point that players are respawned to in the main game, set by the HealingFountain.cs
 		[SerializeField] private GameObject timerCanvas;                // The Timer UI displayed in between all the split screeens
 		[SerializeField] private TextMeshProUGUI gameTimer;             // The Timer textbox itself
+		[SerializeField] private float stormTimer = 20.0f; // how long between spawning new storms in phase 2
+
+		[SerializeField] private Material regularLilGuySpriteMat;
+		[SerializeField] private Material outlinedLilGuySpriteMat;
+		[SerializeField] private float activeLilGuyScaleFactor = 1.1f;
 
 		private System.TimeSpan gameTime;                                       // To convert from total seconds time to a time in the format mm:ss
 		private bool isPaused = false;
@@ -27,7 +32,6 @@ namespace Managers
 		private int currentPhase = 0;
 		private bool gameOver = false;
 		private float respawnTimer = 5.0f;
-		[SerializeField] private float stormTimer = 20.0f; // how long between spawning new storms in phase 2
 		private int activeStorms = 0;
 
 		private List<PlayerBody> players = new List<PlayerBody>(); // for the list of REMAINING players in phase 2
@@ -46,6 +50,9 @@ namespace Managers
 		public LayerMask CurrentLayerMask { get { return currentLayerMask; } }
 		public List<PlayerBody> Players { get { return players; } set { players = value; } }
 
+		public Material RegularLilGuySpriteMat => regularLilGuySpriteMat;
+		public Material OutlinedLilGuySpriteMat => outlinedLilGuySpriteMat;
+		public float ActiveLilGuyScaleFactor => activeLilGuyScaleFactor;
 
 		public override void Awake()
 		{

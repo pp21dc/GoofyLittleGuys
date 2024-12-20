@@ -204,7 +204,7 @@ public class PlayerBody : MonoBehaviour
 
 	private bool IsGrounded()
 	{
-		return Physics.Raycast(rb.position + Vector3.up, Vector3.down, 2f, LayerMask.GetMask("Ground"));
+		return Physics.Raycast(rb.position + Vector3.up, Vector3.down, 3f, LayerMask.GetMask("Ground"));
 	}
 
 	/// <summary>
@@ -296,6 +296,7 @@ public class PlayerBody : MonoBehaviour
 			lilGuyTeam[i].SetFollowGoal(lilGuyTeamSlots[i].transform); // Update follow goal
 			lilGuyTeamSlots[i].LilGuyInSlot = lilGuyTeam[i];
 			lilGuyTeam[i].IsAttacking = false;
+			lilGuyTeam[i].SetMaterial(GameManager.Instance.RegularLilGuySpriteMat);
 		}
 
 		lilGuyTeam[0].GetComponent<Rigidbody>().isKinematic = true;
@@ -303,6 +304,8 @@ public class PlayerBody : MonoBehaviour
 		lilGuyTeam[0].RB.interpolation = RigidbodyInterpolation.None;
 		lilGuyTeam[0].transform.localPosition = Vector3.zero;
 		activeLilGuy = lilGuyTeam[0];
+
+		activeLilGuy.SetMaterial(GameManager.Instance.OutlinedLilGuySpriteMat);
 
 		isSwapping = false;
 	}
@@ -333,6 +336,7 @@ public class PlayerBody : MonoBehaviour
 			lilGuy.SetLayer(LayerMask.NameToLayer("Player"));
 			lilGuy.IsAttacking = false;
 			lilGuy.RB.interpolation = RigidbodyInterpolation.Interpolate;
+			lilGuy.SetMaterial(GameManager.Instance.RegularLilGuySpriteMat);
 		}
 
 		if (shiftDirection < 0)
@@ -374,6 +378,7 @@ public class PlayerBody : MonoBehaviour
 		lilGuyTeam[0].transform.localPosition = Vector3.zero;
 		lilGuyTeam[0].RB.interpolation = RigidbodyInterpolation.None;
 		activeLilGuy = lilGuyTeam[0];
+		activeLilGuy.SetMaterial(GameManager.Instance.OutlinedLilGuySpriteMat);
 		EventManager.Instance.UpdatePlayerHealthUI(this);
 		nextSwapTime = Time.time + swapCooldown;
 

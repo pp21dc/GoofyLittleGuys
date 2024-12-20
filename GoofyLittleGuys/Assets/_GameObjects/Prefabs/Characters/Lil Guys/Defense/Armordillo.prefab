@@ -163,7 +163,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   guyName: Armordillo
   type: 1
-  mesh: {fileID: 7267988168925381940}
+  mesh: {fileID: 2263210829898551102}
   hitboxPrefab: {fileID: 7763503517924717934, guid: 9df4356fd20c6d740acf3ba2a05fd8ed,
     type: 3}
   anim: {fileID: 2852710274394337051}
@@ -311,6 +311,7 @@ MonoBehaviour:
   wanderIntervalMax: 10
   minWanderRadius: 2
   maxWanderRadius: 5
+  isCatchable: 1
 --- !u!95 &2852710274394337051
 Animator:
   serializedVersion: 5

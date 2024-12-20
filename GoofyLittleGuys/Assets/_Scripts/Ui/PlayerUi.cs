@@ -29,7 +29,7 @@ public class PlayerUi : MonoBehaviour
 
 	private void Update()
     {
-        if (pb.LilGuyTeam.Count < 0) return;
+        if (pb.LilGuyTeam.Count <= 0) return;
         STR_Txt.text = "STR: " + pb.LilGuyTeam[0].Strength.ToString();
         SPD_Txt.text = "SPD: " + pb.LilGuyTeam[0].Speed.ToString();
         DEF_Txt.text = "DEF: " + pb.LilGuyTeam[0].Defense.ToString();

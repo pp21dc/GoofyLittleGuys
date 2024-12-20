@@ -11,7 +11,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	[Header("Lil Guy Information")]
 	[SerializeField] protected string guyName;
 	[SerializeField] protected PrimaryType type;
-	[SerializeField] protected GameObject mesh;
+	[SerializeField] protected SpriteRenderer mesh;
 	[SerializeField] protected GameObject hitboxPrefab;
 	[SerializeField] protected Animator anim;
 	[SerializeField] protected Transform attackPosition;
@@ -171,6 +171,12 @@ public abstract class LilGuyBase : MonoBehaviour
 		GetComponentInChildren<AiHealthUi>().gameObject.SetActive(false);
 		GetComponent<AiController>().SetState(AiController.AIState.Tamed);
 	}
+
+	public void SetMaterial(Material material)
+	{
+		mesh.material = material;
+		mesh.transform.localScale = (material == GameManager.Instance.OutlinedLilGuySpriteMat) ? Vector3.one * GameManager.Instance.ActiveLilGuyScaleFactor : Vector3.one;
+	}
 	private void OnApplicationFocus(bool focus)
 	{
 		if (!focus)
@@ -193,8 +199,8 @@ public abstract class LilGuyBase : MonoBehaviour
 		if (!lockAttackRotation)
 		{
 			// Flipping Sprite
-			if (movementDirection.x > 0) mesh.GetComponent<SpriteRenderer>().flipX = true;
-			else if (movementDirection.x < 0) mesh.GetComponent<SpriteRenderer>().flipX = false;
+			if (movementDirection.x > 0) mesh.flipX = true;
+			else if (movementDirection.x < 0) mesh.flipX = false;
 
 			// Rotating sprite slightly when moving forward/backward
 			if (movementDirection.z > 0 && Mathf.Abs(movementDirection.x) < Mathf.Abs(movementDirection.z)) mesh.transform.rotation = movementDirection.x < 0 ? new Quaternion(0, 0.173648164f, 0, 0.984807789f) : new Quaternion(0, -0.173648253f, 0, 0.984807789f);		// 20 degrees on y axis : -20 degrees on y axis

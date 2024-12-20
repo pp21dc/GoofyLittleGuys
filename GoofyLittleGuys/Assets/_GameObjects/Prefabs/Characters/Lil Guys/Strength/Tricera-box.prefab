@@ -349,7 +349,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   guyName: Tricera-box
   type: 0
-  mesh: {fileID: 2449116246927628233}
+  mesh: {fileID: 3759597427848749218}
   hitboxPrefab: {fileID: 7763503517924717934, guid: 9df4356fd20c6d740acf3ba2a05fd8ed,
     type: 3}
   anim: {fileID: 5725646759183813981}
@@ -500,6 +500,7 @@ MonoBehaviour:
   wanderIntervalMax: 10
   minWanderRadius: 2
   maxWanderRadius: 5
+  isCatchable: 1
 --- !u!95 &5725646759183813981
 Animator:
   serializedVersion: 5
