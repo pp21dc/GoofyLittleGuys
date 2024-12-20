@@ -804,7 +804,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""610128ee-2c8a-4f24-9179-40ba2838b1bd"",
-                    ""path"": ""<Keyboard>/tab"",
+                    ""path"": ""<Keyboard>/capsLock"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
@@ -815,7 +815,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""27503f32-d80e-4f01-910b-be732fe0fdc5"",
-                    ""path"": ""<Keyboard>/p"",
+                    ""path"": ""<Keyboard>/enter"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
