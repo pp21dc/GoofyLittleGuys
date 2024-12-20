@@ -55,15 +55,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Point"",
-                    ""type"": ""PassThrough"",
-                    ""id"": ""5ef5e12c-2ae7-4a7c-a77a-769fb1f156dd"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
                     ""name"": ""Click"",
                     ""type"": ""PassThrough"",
                     ""id"": ""e163a07c-c1b4-445f-bdb8-0561b66c54cd"",
@@ -157,7 +148,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -165,10 +156,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""up"",
                     ""id"": ""bffffe41-5575-48c1-ad48-85daea0e2c01"",
-                    ""path"": ""<Keyboard>/upArrow"",
+                    ""path"": ""<Keyboard>/i"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -179,7 +170,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -187,10 +178,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""down"",
                     ""id"": ""290f61f1-3346-45df-bed9-663fde52d2ee"",
-                    ""path"": ""<Keyboard>/downArrow"",
+                    ""path"": ""<Keyboard>/k"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -201,7 +192,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -209,10 +200,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""left"",
                     ""id"": ""98d20ea6-11cc-4296-a0f8-aa86370a4ca7"",
-                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""path"": ""<Keyboard>/j"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -223,7 +214,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -231,10 +222,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""right"",
                     ""id"": ""2ed8d976-872c-4721-8c96-bf8d56dad772"",
-                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""path"": ""<Keyboard>/l"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -252,22 +243,11 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""9142ca68-27ac-4c32-bb0a-b8c83d2a729f"",
-                    ""path"": ""<Pen>/position"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Point"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""ec83bf70-a3d2-469a-8cc7-42a43c554346"",
-                    ""path"": ""<Keyboard>/enter"",
+                    ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Click"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -286,10 +266,21 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""4d07de7c-29b8-45c9-8664-5fe59b37d96b"",
-                    ""path"": ""<Keyboard>/backslash"",
+                    ""path"": ""<Keyboard>/leftShift"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""[DEBUG] Keyboard Mouse"",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""da5aab89-454f-4d66-9ceb-7b1e7d851547"",
+                    ""path"": ""<Keyboard>/rightShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Cancel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -308,10 +299,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""2fc44fa9-3164-4aaf-a29f-dcb9e4dd75a9"",
-                    ""path"": ""<Keyboard>/enter"",
+                    ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""[DEBUG] Keyboard Mouse"",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Submit"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -395,15 +386,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""ShowMinimap"",
-                    ""type"": ""Button"",
-                    ""id"": ""b9aba0a1-adf9-4477-a60c-53b9f8a187dc"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""UseBerry"",
                     ""type"": ""Button"",
                     ""id"": ""fe37d735-7fdf-46b4-8875-74b397259d4d"",
@@ -440,7 +422,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""[DEBUG] Keyboard Mouse"",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -451,7 +433,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""[DEBUG] Keyboard Mouse"",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -462,7 +444,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""[DEBUG] Keyboard Mouse"",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -473,7 +455,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""[DEBUG] Keyboard Mouse"",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -488,6 +470,61 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""IJKL"",
+                    ""id"": ""3c3a18dd-1f3f-4e1c-b12f-c44ea0fde1de"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""f6425798-3551-498b-999c-c00d0b9ad991"",
+                    ""path"": ""<Keyboard>/i"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""b2545a0b-a8fc-4d24-b218-ec2b6188ebd7"",
+                    ""path"": ""<Keyboard>/k"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""f7f0d77b-659f-41ab-b503-67733fff2172"",
+                    ""path"": ""<Keyboard>/j"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""7f574b35-5d59-4c1d-9cbc-4555c64af086"",
+                    ""path"": ""<Keyboard>/l"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""QE"",
@@ -506,7 +543,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/q"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""[DEBUG] Keyboard Mouse"",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""SwapCharacter"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -517,7 +554,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/e"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""[DEBUG] Keyboard Mouse"",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""SwapCharacter"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -556,12 +593,45 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
+                    ""name"": ""UO"",
+                    ""id"": ""9b660b5e-4925-4c1b-858e-ad25f69c9762"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwapCharacter"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""fcc4c237-0267-472d-a637-6adc52969ccb"",
+                    ""path"": ""<Keyboard>/u"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""SwapCharacter"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""222cb8c1-9168-4a20-80a9-03bbe8f2dcc4"",
+                    ""path"": ""<Keyboard>/o"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""SwapCharacter"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
                     ""name"": """",
                     ""id"": ""94d52a14-0a27-481e-b25c-56349a5f0f82"",
                     ""path"": ""<Keyboard>/tab"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""[DEBUG] Keyboard Mouse"",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -579,12 +649,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""66100275-b600-42a9-9c25-f64c674b9d63"",
-                    ""path"": ""<Keyboard>/r"",
+                    ""id"": ""c13fce8d-3a40-4365-b75b-09c5f49032c4"",
+                    ""path"": ""<Keyboard>/backslash"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""[DEBUG] Keyboard Mouse"",
-                    ""action"": ""PrimarySkill"",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -601,12 +671,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""148e1ecc-f474-4749-961e-c444839f25ec"",
-                    ""path"": ""<Keyboard>/t"",
+                    ""id"": ""3b5e5c8d-0815-44c9-a0ec-c27e3d648f2c"",
+                    ""path"": ""<Mouse>/{PrimaryAction}"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""[DEBUG] Keyboard Mouse"",
-                    ""action"": ""SecondarySkill"",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""PrimarySkill"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -623,11 +693,22 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""accd5825-7577-4903-b9d9-dbcfab3a76ff"",
+                    ""path"": ""<Mouse>/{SecondaryAction}"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""SecondarySkill"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""bbe9a32c-df70-4f60-9580-7c15c8fc9c06"",
                     ""path"": ""<Keyboard>/f"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""[DEBUG] Keyboard Mouse"",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -645,11 +726,22 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""18f40039-ae85-4ec1-a68d-723173af4aa1"",
-                    ""path"": ""<Keyboard>/backspace"",
+                    ""id"": ""8f5e43d2-0c49-455e-a5e1-ec20d5bac441"",
+                    ""path"": ""<Keyboard>/h"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""[DEBUG] Keyboard Mouse"",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""18f40039-ae85-4ec1-a68d-723173af4aa1"",
+                    ""path"": ""<Keyboard>/backquote"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Leave"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -661,6 +753,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
+                    ""action"": ""Leave"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5f618440-8383-42a3-b557-5ad879593d6e"",
+                    ""path"": ""<Keyboard>/backspace"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Leave"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -682,30 +785,19 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/tab"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""[DEBUG] Keyboard Mouse"",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""ShowTeamUI"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""e0c037d3-16e2-4ad4-a75e-72a7eb13d6bb"",
-                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""id"": ""27503f32-d80e-4f01-910b-be732fe0fdc5"",
+                    ""path"": ""<Keyboard>/p"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""ShowMinimap"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""bf78a8d2-181f-43cc-a490-53f1fe403616"",
-                    ""path"": ""<Keyboard>/backquote"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""[DEBUG] Keyboard Mouse"",
-                    ""action"": ""ShowMinimap"",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""ShowTeamUI"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -723,16 +815,27 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""e590cc6f-f061-42fb-88bd-558c71957f67"",
-                    ""path"": ""<Keyboard>/b"",
+                    ""path"": ""<Keyboard>/r"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""[DEBUG] Keyboard Mouse"",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""UseBerry"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""Up/Down"",
+                    ""name"": """",
+                    ""id"": ""972dcdfa-c842-4e49-9985-137757efb7db"",
+                    ""path"": ""<Keyboard>/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""UseBerry"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""CV"",
                     ""id"": ""c21f2060-4f25-4bef-a614-810684cc9760"",
                     ""path"": ""1DAxis"",
                     ""interactions"": """",
@@ -745,10 +848,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""negative"",
                     ""id"": ""73b05d63-9575-44a7-ab62-ae5e5fdf20da"",
-                    ""path"": ""<Keyboard>/downArrow"",
+                    ""path"": ""<Keyboard>/c"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""[DEBUG] Keyboard Mouse"",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""SpectatorUpDown"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -756,10 +859,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""positive"",
                     ""id"": ""80de18be-8f8a-420c-aa91-ea1fa0898695"",
-                    ""path"": ""<Keyboard>/upArrow"",
+                    ""path"": ""<Keyboard>/v"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""[DEBUG] Keyboard Mouse"",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""SpectatorUpDown"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -796,28 +899,66 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""SpectatorUpDown"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""NM"",
+                    ""id"": ""243dd5db-2899-400e-ae87-9b39f01bdb6f"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SpectatorUpDown"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""706dfac6-fc23-43cb-a644-a17f8ce6548c"",
+                    ""path"": ""<Keyboard>/n"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""SpectatorUpDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""e10db6bf-8665-4d52-aa53-3615b9833c10"",
+                    ""path"": ""<Keyboard>/m"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""SpectatorUpDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
     ],
     ""controlSchemes"": [
         {
-            ""name"": ""[DEBUG] Keyboard Mouse"",
-            ""bindingGroup"": ""[DEBUG] Keyboard Mouse"",
+            ""name"": ""Gamepad"",
+            ""bindingGroup"": ""Gamepad"",
             ""devices"": [
                 {
-                    ""devicePath"": ""<Keyboard>"",
+                    ""devicePath"": ""<Gamepad>"",
                     ""isOptional"": false,
                     ""isOR"": false
                 }
             ]
         },
         {
-            ""name"": ""Gamepad"",
-            ""bindingGroup"": ""Gamepad"",
+            ""name"": ""Keyboard"",
+            ""bindingGroup"": ""Keyboard"",
             ""devices"": [
                 {
-                    ""devicePath"": ""<Gamepad>"",
+                    ""devicePath"": ""<Keyboard>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                },
+                {
+                    ""devicePath"": ""<Mouse>"",
                     ""isOptional"": false,
                     ""isOR"": false
                 }
@@ -830,7 +971,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
         m_UI_Submit = m_UI.FindAction("Submit", throwIfNotFound: true);
         m_UI_Cancel = m_UI.FindAction("Cancel", throwIfNotFound: true);
-        m_UI_Point = m_UI.FindAction("Point", throwIfNotFound: true);
         m_UI_Click = m_UI.FindAction("Click", throwIfNotFound: true);
         // World
         m_World = asset.FindActionMap("World", throwIfNotFound: true);
@@ -842,7 +982,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_World_Interact = m_World.FindAction("Interact", throwIfNotFound: true);
         m_World_Leave = m_World.FindAction("Leave", throwIfNotFound: true);
         m_World_ShowTeamUI = m_World.FindAction("ShowTeamUI", throwIfNotFound: true);
-        m_World_ShowMinimap = m_World.FindAction("ShowMinimap", throwIfNotFound: true);
         m_World_UseBerry = m_World.FindAction("UseBerry", throwIfNotFound: true);
         m_World_SpectatorUpDown = m_World.FindAction("SpectatorUpDown", throwIfNotFound: true);
     }
@@ -909,7 +1048,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_Navigate;
     private readonly InputAction m_UI_Submit;
     private readonly InputAction m_UI_Cancel;
-    private readonly InputAction m_UI_Point;
     private readonly InputAction m_UI_Click;
     public struct UIActions
     {
@@ -918,7 +1056,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @Navigate => m_Wrapper.m_UI_Navigate;
         public InputAction @Submit => m_Wrapper.m_UI_Submit;
         public InputAction @Cancel => m_Wrapper.m_UI_Cancel;
-        public InputAction @Point => m_Wrapper.m_UI_Point;
         public InputAction @Click => m_Wrapper.m_UI_Click;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
@@ -938,9 +1075,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Cancel.started += instance.OnCancel;
             @Cancel.performed += instance.OnCancel;
             @Cancel.canceled += instance.OnCancel;
-            @Point.started += instance.OnPoint;
-            @Point.performed += instance.OnPoint;
-            @Point.canceled += instance.OnPoint;
             @Click.started += instance.OnClick;
             @Click.performed += instance.OnClick;
             @Click.canceled += instance.OnClick;
@@ -957,9 +1091,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Cancel.started -= instance.OnCancel;
             @Cancel.performed -= instance.OnCancel;
             @Cancel.canceled -= instance.OnCancel;
-            @Point.started -= instance.OnPoint;
-            @Point.performed -= instance.OnPoint;
-            @Point.canceled -= instance.OnPoint;
             @Click.started -= instance.OnClick;
             @Click.performed -= instance.OnClick;
             @Click.canceled -= instance.OnClick;
@@ -992,7 +1123,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_World_Interact;
     private readonly InputAction m_World_Leave;
     private readonly InputAction m_World_ShowTeamUI;
-    private readonly InputAction m_World_ShowMinimap;
     private readonly InputAction m_World_UseBerry;
     private readonly InputAction m_World_SpectatorUpDown;
     public struct WorldActions
@@ -1007,7 +1137,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @Interact => m_Wrapper.m_World_Interact;
         public InputAction @Leave => m_Wrapper.m_World_Leave;
         public InputAction @ShowTeamUI => m_Wrapper.m_World_ShowTeamUI;
-        public InputAction @ShowMinimap => m_Wrapper.m_World_ShowMinimap;
         public InputAction @UseBerry => m_Wrapper.m_World_UseBerry;
         public InputAction @SpectatorUpDown => m_Wrapper.m_World_SpectatorUpDown;
         public InputActionMap Get() { return m_Wrapper.m_World; }
@@ -1043,9 +1172,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @ShowTeamUI.started += instance.OnShowTeamUI;
             @ShowTeamUI.performed += instance.OnShowTeamUI;
             @ShowTeamUI.canceled += instance.OnShowTeamUI;
-            @ShowMinimap.started += instance.OnShowMinimap;
-            @ShowMinimap.performed += instance.OnShowMinimap;
-            @ShowMinimap.canceled += instance.OnShowMinimap;
             @UseBerry.started += instance.OnUseBerry;
             @UseBerry.performed += instance.OnUseBerry;
             @UseBerry.canceled += instance.OnUseBerry;
@@ -1080,9 +1206,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @ShowTeamUI.started -= instance.OnShowTeamUI;
             @ShowTeamUI.performed -= instance.OnShowTeamUI;
             @ShowTeamUI.canceled -= instance.OnShowTeamUI;
-            @ShowMinimap.started -= instance.OnShowMinimap;
-            @ShowMinimap.performed -= instance.OnShowMinimap;
-            @ShowMinimap.canceled -= instance.OnShowMinimap;
             @UseBerry.started -= instance.OnUseBerry;
             @UseBerry.performed -= instance.OnUseBerry;
             @UseBerry.canceled -= instance.OnUseBerry;
@@ -1106,15 +1229,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         }
     }
     public WorldActions @World => new WorldActions(this);
-    private int m_DEBUGKeyboardMouseSchemeIndex = -1;
-    public InputControlScheme DEBUGKeyboardMouseScheme
-    {
-        get
-        {
-            if (m_DEBUGKeyboardMouseSchemeIndex == -1) m_DEBUGKeyboardMouseSchemeIndex = asset.FindControlSchemeIndex("[DEBUG] Keyboard Mouse");
-            return asset.controlSchemes[m_DEBUGKeyboardMouseSchemeIndex];
-        }
-    }
     private int m_GamepadSchemeIndex = -1;
     public InputControlScheme GamepadScheme
     {
@@ -1124,12 +1238,20 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             return asset.controlSchemes[m_GamepadSchemeIndex];
         }
     }
+    private int m_KeyboardSchemeIndex = -1;
+    public InputControlScheme KeyboardScheme
+    {
+        get
+        {
+            if (m_KeyboardSchemeIndex == -1) m_KeyboardSchemeIndex = asset.FindControlSchemeIndex("Keyboard");
+            return asset.controlSchemes[m_KeyboardSchemeIndex];
+        }
+    }
     public interface IUIActions
     {
         void OnNavigate(InputAction.CallbackContext context);
         void OnSubmit(InputAction.CallbackContext context);
         void OnCancel(InputAction.CallbackContext context);
-        void OnPoint(InputAction.CallbackContext context);
         void OnClick(InputAction.CallbackContext context);
     }
     public interface IWorldActions
@@ -1142,7 +1264,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnInteract(InputAction.CallbackContext context);
         void OnLeave(InputAction.CallbackContext context);
         void OnShowTeamUI(InputAction.CallbackContext context);
-        void OnShowMinimap(InputAction.CallbackContext context);
         void OnUseBerry(InputAction.CallbackContext context);
         void OnSpectatorUpDown(InputAction.CallbackContext context);
     }

@@ -605,6 +605,26 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1079232838886079137, guid: 8fa8620f9acdebf4d9874c17dbc0f077,
         type: 3}
+      propertyPath: m_JoinAction.m_Action.m_SingletonActionBindings.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1079232838886079137, guid: 8fa8620f9acdebf4d9874c17dbc0f077,
+        type: 3}
+      propertyPath: m_JoinAction.m_Action.m_SingletonActionBindings.Array.data[2].m_Id
+      value: 8598b5d1-76c5-4aee-8792-2f42e48acf2e
+      objectReference: {fileID: 0}
+    - target: {fileID: 1079232838886079137, guid: 8fa8620f9acdebf4d9874c17dbc0f077,
+        type: 3}
+      propertyPath: m_JoinAction.m_Action.m_SingletonActionBindings.Array.data[2].m_Path
+      value: <Keyboard>/backquote
+      objectReference: {fileID: 0}
+    - target: {fileID: 1079232838886079137, guid: 8fa8620f9acdebf4d9874c17dbc0f077,
+        type: 3}
+      propertyPath: m_JoinAction.m_Action.m_SingletonActionBindings.Array.data[2].m_Action
+      value: Join
+      objectReference: {fileID: 0}
+    - target: {fileID: 1079232838886079137, guid: 8fa8620f9acdebf4d9874c17dbc0f077,
+        type: 3}
       propertyPath: m_PlayerJoinedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OnPlayerJoined
       objectReference: {fileID: 0}
