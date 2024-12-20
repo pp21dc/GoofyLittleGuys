@@ -17,6 +17,7 @@ namespace Managers
 		[SerializeField] private int maxNumSpawns;
 		[SerializeField] private int minNumSpawns;
 		[SerializeField] private float spawnDelay;
+		[SerializeField] private bool isSpawning = false; // whether or not the manager is currently spawning
 
 		//public variables
 		public int currNumSpawns;
@@ -70,20 +71,23 @@ namespace Managers
 		}
 
 		/// <summary>
-		/// This coroutine handles spawning a random number of Lil Guys in each biome 
-		/// (in the range of how many spawns are allowed for each biome)
+		/// This coroutine handles continuous spawning of Lil Guys as logn as we are in phase 1,
+		/// and we haven't reached our max number of spawns.
 		/// </summary>
 		private IEnumerator InitialSpawns()
 		{
-			int numForestSpawns = Random.Range(minNumSpawns, maxNumSpawns + 1);
+			isSpawning = true;
+			//int numForestSpawns = Random.Range(minNumSpawns, maxNumSpawns + 1);
 
+			
 			// Track the number of spawn attempts to avoid an infinite loop
 			while (currNumSpawns < maxNumSpawns)
 			{
 				yield return new WaitForSeconds(spawnDelay);
 				SpawnForest();
-				currNumSpawns++;
 			}
+            
+			
 		}
 
 		/// <summary>
@@ -100,7 +104,7 @@ namespace Managers
 			{
 				yield return new WaitForSeconds(spawnDelay);
 				SpawnForest();
-				currNumSpawns++;
+				//currNumSpawns++;
 			}
 
 		}
