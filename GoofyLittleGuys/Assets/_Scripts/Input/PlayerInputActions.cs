@@ -660,22 +660,22 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""ee40c038-fb4f-44ef-a641-024b54b33e85"",
-                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""id"": ""3b5e5c8d-0815-44c9-a0ec-c27e3d648f2c"",
+                    ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Gamepad"",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""PrimarySkill"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""3b5e5c8d-0815-44c9-a0ec-c27e3d648f2c"",
-                    ""path"": ""<Mouse>/{PrimaryAction}"",
+                    ""id"": ""ee40c038-fb4f-44ef-a641-024b54b33e85"",
+                    ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard"",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""PrimarySkill"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -692,15 +692,37 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""accd5825-7577-4903-b9d9-dbcfab3a76ff"",
-                    ""path"": ""<Mouse>/{SecondaryAction}"",
+                    ""name"": ""Space"",
+                    ""id"": ""d5a80231-0d2f-4560-97b4-f8230dda0c68"",
+                    ""path"": ""OneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SecondarySkill"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""3ff05def-ba21-413d-b596-21499e65c8e4"",
+                    ""path"": ""<Keyboard>/shift"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
                     ""action"": ""SecondarySkill"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": false
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""038be39b-c077-49c7-aeb9-14b58a721014"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""SecondarySkill"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 },
                 {
                     ""name"": """",
