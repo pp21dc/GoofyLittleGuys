@@ -48,6 +48,15 @@ MonoBehaviour:
   GroundLayer:
     serializedVersion: 2
     m_Bits: 8
+  campLilGuys:
+  - {fileID: 6573903925891364681, guid: b435832a316c2424d9a7c25833f9a27b, type: 3}
+  - {fileID: 6573903925891364681, guid: 6737b0716e801e44886d5738d6ff455b, type: 3}
+  - {fileID: 6573903925891364681, guid: 2c1bf7c1eb40c134c82954cef849512d, type: 3}
+  - {fileID: 6573903925891364681, guid: 6b4f9b850a96a7f408dd29d2ab50e2ab, type: 3}
+  - {fileID: 6573903925891364681, guid: 9aa1b886f496e3a45ab0e081b5788f5c, type: 3}
+  - {fileID: 6573903925891364681, guid: 854926ce130a86340b6cc690a7fc6d8d, type: 3}
+  maxSpawnCount: 2
+  currSpawnCount: 0
 --- !u!135 &3945141084385202937
 SphereCollider:
   m_ObjectHideFlags: 0

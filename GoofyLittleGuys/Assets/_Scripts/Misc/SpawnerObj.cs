@@ -14,6 +14,10 @@ public class SpawnerObj : MonoBehaviour
 
     public LayerMask GroundLayer;
 
+	[SerializeField] private List<GameObject> campLilGuys;
+	[SerializeField] private int maxSpawnCount;
+	[SerializeField] public int currSpawnCount;
+
 	private void Start()
 	{
 		spawnRadius = GetComponent<SphereCollider>().radius;
@@ -36,6 +40,16 @@ public class SpawnerObj : MonoBehaviour
         
 
         Managers.SpawnManager.Instance.currNumSpawns++;
+    }
+
+	public void SpawnRandLilGuy()
+    {
+		GameObject randLilGuy = RandFromList(campLilGuys);
+		if(currSpawnCount < maxSpawnCount)
+        {
+			SpawnLilGuy(randLilGuy);
+			currSpawnCount++;
+		}
     }
 
     /// <summary>
@@ -84,6 +98,15 @@ public class SpawnerObj : MonoBehaviour
 		return origin + Vector3.up * 2;  // Default to a position slightly above the spawner
 	}
 
+	/// <summary>
+	/// This method accepts a list of objects and returns a random one from that list.
+	/// </summary>
+	/// <param name="theList"></param>
+	/// <returns> GameObject </returns>
+	public GameObject RandFromList(List<GameObject> theList)
+	{
+		return theList[Random.Range(0, theList.Count)];
 
+	}
 
 }

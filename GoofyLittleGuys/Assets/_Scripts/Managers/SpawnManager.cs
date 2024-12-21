@@ -18,11 +18,13 @@ namespace Managers
 		[SerializeField] private int minNumSpawns;
 		[SerializeField] private float spawnDelay;
 		[SerializeField] private bool isSpawning = false; // whether or not the manager is currently spawning
+		[SerializeField] private int campInitCount; // how many camps have spawned at least one Lil Guy
+
 
 		//public variables
 		public int currNumSpawns;
 
-
+		
 
 		private void Start()
 		{
@@ -40,7 +42,8 @@ namespace Managers
 		}
 
 		/// <summary>
-		/// This method simply spawns a random Forest Lil Guy at a random forest spawner.
+		/// This method simply spawns a random Lil Guy at a random forest spawner. 
+		/// (Camp/Spawner obj handles picking random Lil Guy from its list)
 		/// </summary>
 		/// 
 		public void SpawnForest()
@@ -48,16 +51,16 @@ namespace Managers
 			if (GameManager.Instance.CurrentPhase == 1)
 			{
 				SpawnerObj pointToSpawn;
-				GameObject theLilGuy;
+				//GameObject theLilGuy;
 
-				theLilGuy = RandFromList(forestLilGuys);
+				//theLilGuy = RandFromList(forestLilGuys);
 				pointToSpawn = RandFromList(forestSpawners).GetComponent<SpawnerObj>();
-				if (currNumSpawns < maxNumSpawns)
+				if (currNumSpawns < maxNumSpawns && pointToSpawn.currSpawnCount <= 0)
 				{
-					pointToSpawn.SpawnLilGuy(theLilGuy);
+					pointToSpawn.SpawnRandLilGuy();
+					campInitCount++;
 				}
 			}
-
 		}
 
 		/// <summary>
@@ -81,13 +84,12 @@ namespace Managers
 
 			
 			// Track the number of spawn attempts to avoid an infinite loop
-			while (currNumSpawns < maxNumSpawns)
+			while (campInitCount < forestSpawners.Count)
 			{
 				yield return new WaitForSeconds(spawnDelay);
 				SpawnForest();
+				
 			}
-            
-			
 		}
 
 		/// <summary>
@@ -104,10 +106,10 @@ namespace Managers
 			{
 				yield return new WaitForSeconds(spawnDelay);
 				SpawnForest();
-				//currNumSpawns++;
 			}
-
 		}
+
+
 
 		/// <summary>
 		/// This method accepts a list of objects and returns a random one from that list.
@@ -117,7 +119,6 @@ namespace Managers
 		public GameObject RandFromList(List<GameObject> theList)
 		{
 			return theList[Random.Range(0, theList.Count)];
-
 		}
 
 	}
