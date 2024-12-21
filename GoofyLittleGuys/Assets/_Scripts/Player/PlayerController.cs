@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class PlayerController : MonoBehaviour
 {
@@ -18,6 +19,26 @@ public class PlayerController : MonoBehaviour
 	public Camera SpectatorCam => spectatorCam;
 	public PlayerBody Body => playerBody;
 	public MultiplayerEventSystem PlayerEventSystem => playerEventSystem;
+
+	private void Start()
+	{
+		LayerMask uiCullLayer;
+		switch (GetComponent<PlayerInput>().currentControlScheme)
+		{
+			case "Gamepad":
+				uiCullLayer = LayerMask.NameToLayer("UI_Gamepad");
+				playerCam.cullingMask |= 1 << uiCullLayer; // Add layer to culling mask
+				break;
+			case "Keyboard Left":
+				uiCullLayer = LayerMask.NameToLayer("UI_LeftKeyboard");
+				playerCam.cullingMask |= 1 << uiCullLayer; // Add layer to culling mask
+				break;
+			case "Keyboard Right":
+				uiCullLayer = LayerMask.NameToLayer("UI_RightKeyboard");
+				playerCam.cullingMask |= 1 << uiCullLayer; // Add layer to culling mask
+				break;
+		}
+	}
 
 	public void OnBerryUsed(InputAction.CallbackContext ctx)
 	{
@@ -83,7 +104,8 @@ public class PlayerController : MonoBehaviour
 	{
 		if (GameManager.Instance.IsPaused) return;
 		if (playerBody.LilGuyTeam[0].Health <= 0) return;
-		if (GetComponent<PlayerInput>().currentControlScheme == "Keyboard" && Keyboard.current.shiftKey.isPressed) return;
+		if (GetComponent<PlayerInput>().currentControlScheme == "Keyboard Left" && Keyboard.current.leftShiftKey.isPressed) return;
+		if (GetComponent<PlayerInput>().currentControlScheme == "Keyboard Right" && Keyboard.current.rightShiftKey.isPressed) return;
 
 		// Hold to keep attacking as opposed to mashing.
 		playerBody.LilGuyTeam[0].IsAttacking = ctx.performed;

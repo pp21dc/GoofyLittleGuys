@@ -171,6 +171,8 @@ public class WildBehaviour : MonoBehaviour
 		controller.LilGuy.PlayDeathAnim(true);
 		controller.LilGuy.RB.isKinematic = true;
 		controller.LilGuy.RB.velocity = Vector3.zero;
+
+		controller.HealthUi.gameObject.SetActive(false);
 		if (isCatchable)
 		{
 			instantiatedPlayerRangeIndicator = Instantiate(capturingPlayerRange, transform.position, Quaternion.identity, Managers.SpawnManager.Instance.transform);

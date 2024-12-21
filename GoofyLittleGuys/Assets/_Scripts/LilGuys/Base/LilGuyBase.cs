@@ -129,7 +129,7 @@ public abstract class LilGuyBase : MonoBehaviour
 
 	private void SetWildLilGuyLevel(int level)
 	{
-		level = Mathf.Clamp(Mathf.FloorToInt(UnityEngine.Random.Range(level - 1f, level + 2f)), 1, 24);	// Add a variance of ~1 level greater/less
+		level = Mathf.Clamp(Mathf.FloorToInt(UnityEngine.Random.Range(level - 1f, level + 2f)), 1, 24); // Add a variance of ~1 level greater/less
 		this.level = level;
 
 		int numOfMilestonesMet = Mathf.FloorToInt(level / 5);
@@ -168,7 +168,9 @@ public abstract class LilGuyBase : MonoBehaviour
 	public void Init(LayerMask layer)
 	{
 		SetLayer(layer);
-		GetComponentInChildren<AiHealthUi>().gameObject.SetActive(false);
+		AiHealthUi enemyHealthUI = GetComponentInChildren<AiHealthUi>();
+		if (enemyHealthUI != null) enemyHealthUI.gameObject.SetActive(false);
+
 		GetComponent<AiController>().SetState(AiController.AIState.Tamed);
 	}
 
@@ -203,7 +205,7 @@ public abstract class LilGuyBase : MonoBehaviour
 			else if (movementDirection.x < 0) mesh.flipX = false;
 
 			// Rotating sprite slightly when moving forward/backward
-			if (movementDirection.z > 0 && Mathf.Abs(movementDirection.x) < Mathf.Abs(movementDirection.z)) mesh.transform.rotation = movementDirection.x < 0 ? new Quaternion(0, 0.173648164f, 0, 0.984807789f) : new Quaternion(0, -0.173648253f, 0, 0.984807789f);		// 20 degrees on y axis : -20 degrees on y axis
+			if (movementDirection.z > 0 && Mathf.Abs(movementDirection.x) < Mathf.Abs(movementDirection.z)) mesh.transform.rotation = movementDirection.x < 0 ? new Quaternion(0, 0.173648164f, 0, 0.984807789f) : new Quaternion(0, -0.173648253f, 0, 0.984807789f);       // 20 degrees on y axis : -20 degrees on y axis
 			else if (movementDirection.z < 0 && Mathf.Abs(movementDirection.x) < Mathf.Abs(movementDirection.z)) mesh.transform.rotation = movementDirection.x < 0 ? new Quaternion(0, -0.173648253f, 0, 0.984807789f) : new Quaternion(0, 0.173648164f, 0, 0.984807789f); // -20 degrees on y axis : 20 degrees on y axis
 			else mesh.transform.rotation = new Quaternion(0, 0, 0, 1);
 

@@ -22,6 +22,7 @@ public class AiController : MonoBehaviour
 	private LilGuyBase lilGuy;                          // Reference to this AI's stats
 	public Transform FollowPosition => followPosition;
 	public LilGuyBase LilGuy => lilGuy;
+	public CanvasGroup HealthUi => healthUi;
 	private Transform currClosestPlayer;
 	public Vector3 OriginalSpawnPosition => originalSpawnPosition;
 
@@ -47,7 +48,7 @@ public class AiController : MonoBehaviour
 			if (GameManager.Instance.Players.Count > 0)
 			{
 				followPosition = FindClosestPlayer();
-				if (healthUi != null)
+				if (healthUi != null && healthUi.isActiveAndEnabled)
 				{
 					if (DistanceToPlayer() > 20) healthUi.alpha = 0;
 					else if (DistanceToPlayer() <= 10) healthUi.alpha = 1;
