@@ -35,8 +35,8 @@ public class CharacterSelectHandler : MonoBehaviour
 				GameObject menuToRemove = charSelectUnits[i];
 				GameManager.Instance.Players.RemoveAt(i);
 				charSelectUnits.RemoveAt(i);
-				Destroy(input.gameObject);
 				Destroy(menuToRemove);
+				Destroy(input.gameObject);
 				break;
 			}
 		}

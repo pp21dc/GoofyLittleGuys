@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Users;
 using UnityEngine.SceneManagement;
 using UnityEngine.Windows;
 
@@ -15,6 +16,7 @@ namespace Managers
 		public CharacterSelectHandler CharacterSelectScreen {  get { return characterSelectScreen; } set { characterSelectScreen = value; } }
 
 		private bool canJoinLeave = false;
+		public bool CanJoinLeave => canJoinLeave;
 
 		// Start is called before the first frame update
 		void Start()
@@ -34,8 +36,44 @@ namespace Managers
 		public void OnPlayerJoined(PlayerInput input)
 		{
 			if (!canJoinLeave) return;
+
+			// Detect the key that triggered the join
+			var device = input.devices[0]; // Get the first device used
+			string controlScheme = input.currentControlScheme;
+			string keyPressed = "";
+
+			if (device is Keyboard keyboard)
+			{
+				// Check for specific keys that triggered the join
+				if (keyboard.backspaceKey.wasPressedThisFrame)
+				{
+					keyPressed = "Backspace";
+					controlScheme = "Keyboard Right";
+				}
+				else if (keyboard.backquoteKey.wasPressedThisFrame)
+				{
+					keyPressed = "`";
+					controlScheme = "Keyboard Left";
+				}
+
+				StartCoroutine(SwitchControlSchemeAfterJoin(input, controlScheme, device));
+			}
+
+			Debug.Log($"Player joined with key: {keyPressed}, intended control scheme: {controlScheme}");
+
+			// Add the player to the game and manually assign the control scheme later
 			GameManager.Instance.Players.Add(input.GetComponentInChildren<PlayerBody>());
 			characterSelectScreen.OnPlayerJoin(input);
+
+			// Switch control scheme after setup to avoid conflicts
+			
+		}
+		private IEnumerator SwitchControlSchemeAfterJoin(PlayerInput input, string controlScheme, InputDevice device)
+		{
+			yield return null; // Wait for one frame to let Unity complete the player initialization
+			input.SwitchCurrentControlScheme(controlScheme); 
+			InputUser.PerformPairingWithDevice(device, input.user);
+			input.GetComponent<PlayerController>().UpdateCullLayer();
 		}
 
 		/// <summary>

@@ -154,31 +154,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""up"",
-                    ""id"": ""bffffe41-5575-48c1-ad48-85daea0e2c01"",
-                    ""path"": ""<Keyboard>/i"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard Left"",
-                    ""action"": ""Navigate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
                     ""name"": ""down"",
                     ""id"": ""6a6171d5-96b7-4f9e-b320-e65766801f41"",
                     ""path"": ""<Keyboard>/s"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard Left"",
-                    ""action"": ""Navigate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""290f61f1-3346-45df-bed9-663fde52d2ee"",
-                    ""path"": ""<Keyboard>/k"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard Left"",
@@ -198,31 +176,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""left"",
-                    ""id"": ""98d20ea6-11cc-4296-a0f8-aa86370a4ca7"",
-                    ""path"": ""<Keyboard>/j"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard Left"",
-                    ""action"": ""Navigate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
                     ""name"": ""right"",
                     ""id"": ""f3a3c545-7c85-4ff3-96cf-4d45e66c5f92"",
                     ""path"": ""<Keyboard>/d"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard Left"",
-                    ""action"": ""Navigate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""2ed8d976-872c-4721-8c96-bf8d56dad772"",
-                    ""path"": ""<Keyboard>/l"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard Left"",
@@ -439,15 +395,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""name"": ""Interact"",
                     ""type"": ""Button"",
                     ""id"": ""5ab0f8d9-8263-4721-8b5e-dbfae6f3eef8"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Leave"",
-                    ""type"": ""Button"",
-                    ""id"": ""79c7e248-ed60-4752-aac3-817db1f0d892"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -726,28 +673,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""18f40039-ae85-4ec1-a68d-723173af4aa1"",
-                    ""path"": ""<Keyboard>/backquote"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard Left"",
-                    ""action"": ""Leave"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""cffe8745-3324-481f-8850-4aafa6117cd6"",
-                    ""path"": ""<Gamepad>/select"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Leave"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""3046f86c-6e1d-438b-86b3-5b8b440614aa"",
                     ""path"": ""<Gamepad>/dpad/left"",
                     ""interactions"": """",
@@ -1012,17 +937,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""d5a84b13-179e-4b9d-ac90-a781a5871429"",
-                    ""path"": ""<Keyboard>/backspace"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard Right"",
-                    ""action"": ""Leave"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""b83d45d2-d4fa-4415-b6e1-4307db4be1ac"",
                     ""path"": ""<Keyboard>/enter"",
                     ""interactions"": """",
@@ -1129,7 +1043,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_World_PrimarySkill = m_World.FindAction("PrimarySkill", throwIfNotFound: true);
         m_World_SecondarySkill = m_World.FindAction("SecondarySkill", throwIfNotFound: true);
         m_World_Interact = m_World.FindAction("Interact", throwIfNotFound: true);
-        m_World_Leave = m_World.FindAction("Leave", throwIfNotFound: true);
         m_World_ShowTeamUI = m_World.FindAction("ShowTeamUI", throwIfNotFound: true);
         m_World_UseBerry = m_World.FindAction("UseBerry", throwIfNotFound: true);
         m_World_SpectatorUpDown = m_World.FindAction("SpectatorUpDown", throwIfNotFound: true);
@@ -1270,7 +1183,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_World_PrimarySkill;
     private readonly InputAction m_World_SecondarySkill;
     private readonly InputAction m_World_Interact;
-    private readonly InputAction m_World_Leave;
     private readonly InputAction m_World_ShowTeamUI;
     private readonly InputAction m_World_UseBerry;
     private readonly InputAction m_World_SpectatorUpDown;
@@ -1284,7 +1196,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @PrimarySkill => m_Wrapper.m_World_PrimarySkill;
         public InputAction @SecondarySkill => m_Wrapper.m_World_SecondarySkill;
         public InputAction @Interact => m_Wrapper.m_World_Interact;
-        public InputAction @Leave => m_Wrapper.m_World_Leave;
         public InputAction @ShowTeamUI => m_Wrapper.m_World_ShowTeamUI;
         public InputAction @UseBerry => m_Wrapper.m_World_UseBerry;
         public InputAction @SpectatorUpDown => m_Wrapper.m_World_SpectatorUpDown;
@@ -1315,9 +1226,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Interact.started += instance.OnInteract;
             @Interact.performed += instance.OnInteract;
             @Interact.canceled += instance.OnInteract;
-            @Leave.started += instance.OnLeave;
-            @Leave.performed += instance.OnLeave;
-            @Leave.canceled += instance.OnLeave;
             @ShowTeamUI.started += instance.OnShowTeamUI;
             @ShowTeamUI.performed += instance.OnShowTeamUI;
             @ShowTeamUI.canceled += instance.OnShowTeamUI;
@@ -1349,9 +1257,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Interact.started -= instance.OnInteract;
             @Interact.performed -= instance.OnInteract;
             @Interact.canceled -= instance.OnInteract;
-            @Leave.started -= instance.OnLeave;
-            @Leave.performed -= instance.OnLeave;
-            @Leave.canceled -= instance.OnLeave;
             @ShowTeamUI.started -= instance.OnShowTeamUI;
             @ShowTeamUI.performed -= instance.OnShowTeamUI;
             @ShowTeamUI.canceled -= instance.OnShowTeamUI;
@@ -1420,7 +1325,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnPrimarySkill(InputAction.CallbackContext context);
         void OnSecondarySkill(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
-        void OnLeave(InputAction.CallbackContext context);
         void OnShowTeamUI(InputAction.CallbackContext context);
         void OnUseBerry(InputAction.CallbackContext context);
         void OnSpectatorUpDown(InputAction.CallbackContext context);

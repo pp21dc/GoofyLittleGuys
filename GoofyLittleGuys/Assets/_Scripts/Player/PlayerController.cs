@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
 
 	private bool showTeamUI = true;
 	private bool showMinimap = true;
+	private bool hasJoined = false;
 
 	public Camera PlayerCam => playerCam;
 	public Camera SpectatorCam => spectatorCam;
@@ -21,6 +22,10 @@ public class PlayerController : MonoBehaviour
 	public MultiplayerEventSystem PlayerEventSystem => playerEventSystem;
 
 	private void Start()
+	{
+		UpdateCullLayer();
+	}
+	public void UpdateCullLayer()
 	{
 		LayerMask uiCullLayer;
 		switch (GetComponent<PlayerInput>().currentControlScheme)
@@ -95,10 +100,6 @@ public class PlayerController : MonoBehaviour
 		if (ctx.performed) playerBody.Interact();
 	}
 
-	public void OnLeave(InputAction.CallbackContext ctx)
-	{
-		MultiplayerManager.Instance.LeavePlayer(GetComponent<PlayerInput>());
-	}
 
 	public void OnPrimarySkill(InputAction.CallbackContext ctx)
 	{

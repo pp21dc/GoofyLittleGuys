@@ -204,9 +204,19 @@ public abstract class LilGuyBase : MonoBehaviour
 			if (movementDirection.x > 0) mesh.flipX = true;
 			else if (movementDirection.x < 0) mesh.flipX = false;
 
-			// Rotating sprite slightly when moving forward/backward
-			if (movementDirection.z > 0 && Mathf.Abs(movementDirection.x) < Mathf.Abs(movementDirection.z)) mesh.transform.rotation = movementDirection.x < 0 ? new Quaternion(0, 0.173648164f, 0, 0.984807789f) : new Quaternion(0, -0.173648253f, 0, 0.984807789f);       // 20 degrees on y axis : -20 degrees on y axis
-			else if (movementDirection.z < 0 && Mathf.Abs(movementDirection.x) < Mathf.Abs(movementDirection.z)) mesh.transform.rotation = movementDirection.x < 0 ? new Quaternion(0, -0.173648253f, 0, 0.984807789f) : new Quaternion(0, 0.173648164f, 0, 0.984807789f); // -20 degrees on y axis : 20 degrees on y axis
+			// Rotating sprite slightly when moving forward/backward. I'm so sorry how disgusting this looks, but I needed the 0 case... if there's a way to check for 0 without this mess of if statements, please do
+			if (movementDirection.z > 0 && Mathf.Abs(movementDirection.x) <= Mathf.Abs(movementDirection.z))
+			{
+				if (movementDirection.x < 0) mesh.transform.rotation = new Quaternion(0, 0.173648164f, 0, 0.984807789f);
+				else if (movementDirection.x > 0) mesh.transform.rotation = new Quaternion(0, -0.173648253f, 0, 0.984807789f);       // 20 degrees on y axis : -20 degrees on y axis
+				else mesh.transform.rotation = new Quaternion(0, 0, 0, 1);
+			}
+			else if (movementDirection.z < 0 && Mathf.Abs(movementDirection.x) <= Mathf.Abs(movementDirection.z))
+			{
+				if (movementDirection.x > 0) mesh.transform.rotation = new Quaternion(0, 0.173648164f, 0, 0.984807789f);
+				else if (movementDirection.x < 0) mesh.transform.rotation = new Quaternion(0, -0.173648253f, 0, 0.984807789f);       // 20 degrees on y axis : -20 degrees on y axis
+				else mesh.transform.rotation = new Quaternion(0, 0, 0, 1);
+			}
 			else mesh.transform.rotation = new Quaternion(0, 0, 0, 1);
 
 			if (movementDirection.sqrMagnitude > 0.01)

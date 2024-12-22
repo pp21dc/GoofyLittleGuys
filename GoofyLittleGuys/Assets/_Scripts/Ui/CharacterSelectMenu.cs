@@ -44,12 +44,7 @@ public class CharacterSelectMenu : MonoBehaviour
 
 	private void Start()
 	{
-		player.SwitchCurrentActionMap("UI");
-		player.actions["Cancel"].performed += OnCancelled;
-		player.actions["Navigate"].performed += OnNavigated;
-		player.actions["Submit"].performed += OnSubmitted;
-
-		ResetUI();
+		
 	}
 
 	private void OnDestroy()
@@ -66,6 +61,13 @@ public class CharacterSelectMenu : MonoBehaviour
 		controller = player.GetComponent<PlayerController>();
 		playerEventSystem = controller.PlayerEventSystem;
 		playerEventSystem.firstSelectedGameObject = characterSelectUnit.gameObject;
+
+		this.player.SwitchCurrentActionMap("UI");
+		this.player.actions["Cancel"].performed += OnCancelled;
+		this.player.actions["Navigate"].performed += OnNavigated;
+		this.player.actions["Submit"].performed += OnSubmitted;
+
+		ResetUI();
 
 	}
 
