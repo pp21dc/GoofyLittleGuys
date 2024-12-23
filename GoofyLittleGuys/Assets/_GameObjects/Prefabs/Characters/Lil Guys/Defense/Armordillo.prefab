@@ -110,10 +110,10 @@ MonoBehaviour:
   accelerationTime: 0.1
   attackCooldown: 0
   attackEffect: {fileID: 0}
+  damageReduction: 0.85
   shieldPrefab: {fileID: 2008765747768666474, guid: 0b6f276f11794084db7a6f88d2820118,
     type: 3}
   duration: 5
-  damageReduction: 0.85
   speedBoost: 20
 --- !u!54 &4146728097653182592
 Rigidbody:
@@ -141,7 +141,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 1
   m_Constraints: 112
-  m_CollisionDetection: 1
+  m_CollisionDetection: 3
 --- !u!136 &4988145507736226384
 CapsuleCollider:
   m_ObjectHideFlags: 0
