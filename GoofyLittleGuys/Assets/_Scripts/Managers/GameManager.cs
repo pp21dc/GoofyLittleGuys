@@ -128,7 +128,6 @@ namespace Managers
 				}
 				if (!spawnPoints[randomPos].PlayerSpawnedHere)
 				{
-					Debug.Log(spawnPoints[randomPos].transform.position);
 					body.GetComponent<Rigidbody>().MovePosition(spawnPoints[randomPos].transform.position + (new Vector3(1, 0, 1) * Random.Range(-1f, 1f)) + Vector3.up);
 					spawnPoints[randomPos].PlayerSpawnedHere = true;
 				}

@@ -267,7 +267,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	private void FixedUpdate()
 	{
 		// Applying modified gravity
-		if (!IsGrounded())
+		if (!IsGrounded() && !rb.isKinematic)
 		{
 			rb.velocity += Vector3.up * Physics.gravity.y * (speed - 1) * Time.fixedDeltaTime;
 		}

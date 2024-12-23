@@ -59,7 +59,6 @@ namespace Managers
 				StartCoroutine(SwitchControlSchemeAfterJoin(input, controlScheme, device));
 			}
 
-			Debug.Log($"Player joined with key: {keyPressed}, intended control scheme: {controlScheme}");
 
 			// Add the player to the game and manually assign the control scheme later
 			GameManager.Instance.Players.Add(input.GetComponentInChildren<PlayerBody>());

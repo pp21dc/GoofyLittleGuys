@@ -17,7 +17,6 @@ public class StrengthType : LilGuyBase
 		base.Start();
 
 		AnimationClip clip = anim.runtimeAnimatorController.animationClips.First(clip => clip.name == "Special");
-		Debug.Log(clip);
 		if (clip != null)
 		{
 			aoeDestroyTime = (float)(frameToDestroyAoe / specialTotalFrames) * clip.length;

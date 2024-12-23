@@ -169,8 +169,8 @@ public class WildBehaviour : MonoBehaviour
 		isIdle = false;
 		controller.LilGuy.IsMoving = false;
 		controller.LilGuy.PlayDeathAnim(true);
-		controller.LilGuy.RB.isKinematic = true;
 		controller.LilGuy.RB.velocity = Vector3.zero;
+		controller.LilGuy.RB.isKinematic = true;
 
 		controller.HealthUi.gameObject.SetActive(false);
 		if (isCatchable)

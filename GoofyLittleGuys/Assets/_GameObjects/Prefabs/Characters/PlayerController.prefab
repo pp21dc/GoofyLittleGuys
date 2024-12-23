@@ -441,10 +441,6 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 5b0f7781-3cd2-4404-95f2-d2cb8b20800a
     m_ActionName: World/SpectatorUpDown[/XInputControllerWindows/dpad/down,/XInputControllerWindows/dpad/up,/Keyboard/downArrow,/Keyboard/upArrow]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 3e5344d2-8f62-446f-b5b8-797d3594bae7
-    m_ActionName: UI/Leave[/Keyboard/backquote,/XInputControllerWindows/select,/Keyboard/backspace]
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: 
   m_DefaultActionMap: World
@@ -1736,7 +1732,6 @@ GameObject:
   - component: {fileID: 7801862985928928391}
   - component: {fileID: 5815996008296133835}
   - component: {fileID: 1348014266391142384}
-  - component: {fileID: 7172008907321351924}
   m_Layer: 7
   m_Name: Camera
   m_TagString: Untagged
@@ -1869,14 +1864,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   offset: {x: 0, y: 10, z: -15}
   target: {fileID: 1987567868551127171}
---- !u!81 &7172008907321351924
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6625298026708988075}
-  m_Enabled: 1
 --- !u!1 &6737530101892642954
 GameObject:
   m_ObjectHideFlags: 0
