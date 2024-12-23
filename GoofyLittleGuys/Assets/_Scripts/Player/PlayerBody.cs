@@ -25,6 +25,7 @@ public class PlayerBody : MonoBehaviour
 	[SerializeField] private float fallMultiplier = 4f;
 
 	private float teamSpeedBoost = 0f;                       // If a lil guy gives a team boost to speed, this variable will store that speed boost.
+	private float teamDamageReduction = 0f;                       // If a lil guy gives a team boost to speed, this variable will store that speed boost.
 
 	[Header("Berry Inventory Parameters")]
 	[SerializeField] private int maxBerryCount = 3;
@@ -86,6 +87,7 @@ public class PlayerBody : MonoBehaviour
 	public int MaxBerryCount => maxBerryCount;
 	public float MaxSpeed { get { return maxSpeed; } set { maxSpeed = value; } }
 	public float TeamSpeedBoost { get { return teamSpeedBoost; } set { teamSpeedBoost = value; } }
+	public float TeamDamageReduction { get { return teamDamageReduction; } set { teamDamageReduction = value; } }
 	public PlayerUi PlayerUI => playerUi;
 	public PlayerController Controller => controller;
 

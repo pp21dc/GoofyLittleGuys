@@ -20,7 +20,7 @@ public class Mousecar : SpeedType
 	}
 	public override void Special()
 	{
-		if (playerOwner != null) playerOwner.TeamSpeedBoost = speedBoostAmount;
+		if (playerOwner != null) playerOwner.TeamSpeedBoost += speedBoostAmount;
 		else speed += speedBoostAmount;
 
 		StartCoroutine(StopSpeedBoost(playerOwner != null));
@@ -31,6 +31,6 @@ public class Mousecar : SpeedType
 	{
 		yield return new WaitForSeconds(speedBoostDuration);
 		if (!playerOwned) speed -= speedBoostAmount;
-		else playerOwner.TeamSpeedBoost = 0;
+		else playerOwner.TeamSpeedBoost -= speedBoostAmount;
 	}
 }

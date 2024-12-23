@@ -5,7 +5,9 @@ using UnityEngine;
 public class Armordillo : DefenseType
 {
 	[Header("Armordillo Specific")]
-	[SerializeField] private float speedBoost = 30f;
+	[SerializeField] private GameObject shieldPrefab; // The shield prefab to instantiate
+	[SerializeField] private float duration = 1;
+	[SerializeField] private float speedBoost = 30f; 
 
 	private float speedBoostTime;
 	bool speedBoostActive = false;
@@ -16,6 +18,17 @@ public class Armordillo : DefenseType
 		speed += speedBoost;
 		StartCoroutine(StopSpeedBoost(playerOwner != null));
 		speedBoostActive = true;
+	}
+	public override void StopChargingSpecial()
+	{
+		if (currentCharges <= 0 && cooldownTimer > 0) return;   // If currently on cooldown and there are no more charges to use.
+		if (!IsInSpecialAttack && !IsInBasicAttack)
+		{
+			base.StopChargingSpecial();
+			spawnedShieldObj ??= Instantiate(shieldPrefab, transform.position + Vector3.up, Quaternion.identity, transform); // If spawnShieldObj is null, assign it this instantiated GO
+			spawnedShieldObj.GetComponent<Shield>().Initialize(duration, this);
+			isShieldActive = true;
+		}
 	}
 	public override void Special()
 	{

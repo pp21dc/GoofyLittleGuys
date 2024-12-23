@@ -60,6 +60,7 @@ public class Hurtbox : MonoBehaviour
 		{
 			// Player lil guy was hit
 			LilGuyBase playerLilGuy = owner.GetComponent<LilGuyBase>();
+			dmg *= (1 - playerLilGuy.PlayerOwner.TeamDamageReduction);
 			dmg = Mathf.FloorToInt((float)(dmg * (1 - (playerLilGuy.Defense * 0.006))));
 			playerLilGuy.Health -= dmg;
 			health = playerLilGuy.Health;

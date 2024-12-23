@@ -312,7 +312,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	/// </summary>
 	public void Damaged()
 	{
-		if (isDead || anim.GetCurrentAnimatorStateInfo(0).IsName("Death")) return;
+		if (isDead || (anim != null && anim.GetCurrentAnimatorStateInfo(0).IsName("Death"))) return;
 		StartCoroutine(FlashRed());
 		if (anim != null && !isInBasicAttack && !isInSpecialAttack) anim.SetTrigger("Hurt");
 	}
@@ -378,7 +378,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	/// </summary>
 	public void Attack()
 	{
-		if (isDead || anim.GetCurrentAnimatorStateInfo(0).IsName("Death")) return;
+		if (isDead || (anim != null && anim.GetCurrentAnimatorStateInfo(0).IsName("Death"))) return;
 		// Check if the target is in range
 		// Ensure attack respects cooldown
 		if (Time.time - lastAttackTime < attackCooldown)
@@ -427,13 +427,13 @@ public abstract class LilGuyBase : MonoBehaviour
 
 	public virtual void StartChargingSpecial()
 	{
-		if (isDead || anim.GetCurrentAnimatorStateInfo(0).IsName("Death")) return;
+		if (isDead || (anim != null && anim.GetCurrentAnimatorStateInfo(0).IsName("Death"))) return;
 		if (playerOwner == null) StopChargingSpecial();
 	}
 
 	public virtual void StopChargingSpecial()
 	{
-		if (isDead || anim.GetCurrentAnimatorStateInfo(0).IsName("Death")) return;
+		if (isDead || (anim != null && anim.GetCurrentAnimatorStateInfo(0).IsName("Death"))) return;
 		// Decrement charges and reset cooldowns
 		if (currentCharges <= 0 && cooldownTimer > 0) return;
 		cooldownTimer = cooldownDuration;
@@ -447,7 +447,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	/// </summary>
 	public virtual void Special()
 	{
-		if (isDead || anim.GetCurrentAnimatorStateInfo(0).IsName("Death")) return;
+		if (isDead || (anim != null && anim.GetCurrentAnimatorStateInfo(0).IsName("Death"))) return;
 		if (anim != null)
 		{
 			anim.ResetTrigger("SpecialAttackEnded");
