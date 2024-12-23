@@ -56,8 +56,6 @@ namespace Managers
 				audioSource.volume = objToPlay.volume;
 				audioSource.pitch = objToPlay.pitch;
 
-				// Adjust volume and panning based on player proximity
-				AdjustAudioForProximity(audioSource);
 
 				audioSource.clip = objToPlay.objAudioClip;
 				audioSource.Play();
