@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 393213548326853432}
   - component: {fileID: 556714502467938093}
   - component: {fileID: 152862283294949188}
+  - component: {fileID: 112907549185108428}
   m_Layer: 0
   m_Name: Shield
   m_TagString: Untagged
@@ -120,3 +121,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSize: 5
   expansionSpeed: 0.25
+--- !u!210 &112907549185108428
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2008765747768666474}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortAtRoot: 0

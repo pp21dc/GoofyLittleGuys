@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class Shield : MonoBehaviour
 {
@@ -8,14 +9,18 @@ public class Shield : MonoBehaviour
 	private DefenseType shieldOwner;                    // The owner of this shield
 	[SerializeField] private float maxSize = 1;         // The maximum size this shield will reach
 	[SerializeField] private float expansionSpeed = 1;  // How fast this shield will reach its max size in seconds.
-
+	private SortingGroup sortingGroup;
 
 	private void Start()
 	{
+		sortingGroup = GetComponent<SortingGroup>();
 		transform.localScale = Vector3.zero;
 		StartCoroutine(ResizeShieldOvertime(Vector3.zero, Vector3.one * maxSize, false));
 	}
-
+	private void Update()
+	{
+		sortingGroup.sortingOrder = (int)-shieldOwner.transform.position.z + 1;
+	}
 	/// <summary>
 	/// Method called when this shield is instantiated in the world.
 	/// </summary>

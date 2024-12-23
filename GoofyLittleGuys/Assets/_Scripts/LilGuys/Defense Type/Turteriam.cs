@@ -7,6 +7,9 @@ public class Turteriam : DefenseType
 	[Header("Turteriam Specific")]
 	[SerializeField] private GameObject domePrefab;
 	[SerializeField] private float teamDamageReductionDuration = 6f;
+	[SerializeField] private float domeLifetime = 6f;
+	[SerializeField] private float domeMaxSize = 6f;
+	[SerializeField] private float domeExpansionSpeed = 6f;
 
 
 	private bool damageReductionActive = false;
@@ -46,6 +49,8 @@ public class Turteriam : DefenseType
 		if (playerOwner != null) playerOwner.TeamDamageReduction += DamageReduction;
 		else isShieldActive = true;
 		damageReductionActive = true;
+		instantiatedDome = Instantiate(domePrefab, transform.position, Quaternion.identity);
+		instantiatedDome.GetComponent<TurteriamWall>().Init(domeMaxSize, domeExpansionSpeed, domeLifetime);
 		StartCoroutine(StopDamageReduction(playerOwner != null));
 		base.Special();
 	}
@@ -55,6 +60,7 @@ public class Turteriam : DefenseType
 		if (!playerOwned) isShieldActive = false;
 		else playerOwner.TeamDamageReduction -= DamageReduction;
 
+		instantiatedDome = null;
 		damageReductionActive = false;
 	}
 

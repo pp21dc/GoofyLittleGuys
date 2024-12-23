@@ -190,8 +190,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	protected virtual void Update()
 	{
 		// Flip character
-
-
+		mesh.sortingOrder = (int)-transform.position.z;
 		if (GameManager.Instance.IsPaused)
 		{
 			movementDirection = Vector3.zero;
