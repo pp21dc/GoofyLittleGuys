@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Collections;
 using UnityEngine;
-// Written By: Bryan Bedard
-// Edited by: Bryan Bedard, 
+
 // Purpose: Spawn Lil Guys within a given distance from this object,
 // after a randomized interval (with given min and max value)
 public class SpawnerObj : MonoBehaviour
@@ -12,10 +11,14 @@ public class SpawnerObj : MonoBehaviour
     [ReadOnly]
     private float spawnRadius;
 
+	public bool startedSpawns = false; // whether or not to start spawning
+	private bool isSpawning = false; // if we have a coroutine going currently for spawning
+
     public LayerMask GroundLayer;
 
 	[SerializeField] private List<GameObject> campLilGuys;
 	[SerializeField] private int maxSpawnCount;
+	[SerializeField] private int spawnDelay;
 	[SerializeField] public int currSpawnCount;
 
 	private void Start()
@@ -23,13 +26,21 @@ public class SpawnerObj : MonoBehaviour
 		spawnRadius = GetComponent<SphereCollider>().radius;
 	}
 
-	/// <summary>
-	/// This method accepts a Lil Guy (or any object) and spawns it
-	/// at a random point within this spawner's radius.
-	/// </summary>
-	/// <param name="newLilGuy"></param>
-	/// <returns></returns>
-	public void SpawnLilGuy(GameObject newLilGuy)
+    private void Update()
+    {
+        if(startedSpawns && currSpawnCount < 2)
+        {
+			StartSpawning();
+        }
+    }
+
+    /// <summary>
+    /// This method accepts a Lil Guy (or any object) and spawns it
+    /// at a random point within this spawner's radius.
+    /// </summary>
+    /// <param name="newLilGuy"></param>
+    /// <returns></returns>
+    public void SpawnLilGuy(GameObject newLilGuy)
     {
         //int failedAttempts = 0;
         Vector3 spawningPos = PickValidSpot();
@@ -52,6 +63,31 @@ public class SpawnerObj : MonoBehaviour
 		}
     }
 
+	/// <summary>
+	/// Simply checks if we aren't already trying to spawn a Lil Guy, then spawns one if not.
+	/// </summary>
+	public void StartSpawning()
+    {
+        if (!isSpawning)
+        {
+			StartCoroutine(DelayedSpawn());
+		}
+		
+    }
+
+	/// <summary>
+	/// Just waits for a few seconds then spawns a random Lil Guy.
+	/// </summary>
+	/// <returns></returns>
+	public IEnumerator DelayedSpawn()
+    {
+		isSpawning = true;
+		yield return new WaitForSeconds(spawnDelay);
+		SpawnRandLilGuy();
+		isSpawning = false;
+	}
+
+
     /// <summary>
     /// Simply returns a random value to serve as the position within one axis
     /// (use multiple times to form a random position vector)
@@ -64,7 +100,7 @@ public class SpawnerObj : MonoBehaviour
     }
 
 	/// <summary>
-	/// This me
+	/// This method picks a valid spawning position
 	/// </summary>
 	/// <returns>Vector3</returns>
 	private Vector3 PickValidSpot()
@@ -106,7 +142,6 @@ public class SpawnerObj : MonoBehaviour
 	public GameObject RandFromList(List<GameObject> theList)
 	{
 		return theList[Random.Range(0, theList.Count)];
-
 	}
 
 }

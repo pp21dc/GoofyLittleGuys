@@ -51,13 +51,11 @@ namespace Managers
 			if (GameManager.Instance.CurrentPhase == 1)
 			{
 				SpawnerObj pointToSpawn;
-				//GameObject theLilGuy;
-
-				//theLilGuy = RandFromList(forestLilGuys);
+				
 				pointToSpawn = RandFromList(forestSpawners).GetComponent<SpawnerObj>();
 				if (currNumSpawns < maxNumSpawns && pointToSpawn.currSpawnCount <= 0)
 				{
-					pointToSpawn.SpawnRandLilGuy();
+					pointToSpawn.startedSpawns = true;
 					campInitCount++;
 				}
 			}
@@ -108,8 +106,6 @@ namespace Managers
 				SpawnForest();
 			}
 		}
-
-
 
 		/// <summary>
 		/// This method accepts a list of objects and returns a random one from that list.
