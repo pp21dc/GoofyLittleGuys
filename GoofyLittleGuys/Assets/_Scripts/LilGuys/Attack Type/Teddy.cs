@@ -5,10 +5,10 @@ using UnityEngine;
 public class Teddy : StrengthType
 {
 	private GameObject instantiatedAoe = null;
-	public void SpawnConeAoe()
+	protected void SpawnConeAoe()
 	{
 		instantiatedAoe = Instantiate(aoeShape, attackPosition);
-		instantiatedAoe.GetComponent<AoeHitbox>().AoeDamage = aoeDamage;
+		instantiatedAoe.GetComponent<AoeHitbox>().AoeDamageMultiplier = aoeDamageMultiplier;
 		instantiatedAoe.GetComponent<AoeHitbox>().Init(gameObject);
 		Destroy(instantiatedAoe, aoeDestroyTime);
 	}

@@ -13,8 +13,6 @@ public class Spricket : SpeedType
 	public bool IsCharging => isCharging;
 	private float chargeTime = 0f;
 
-
-
 	protected override void Update()
 	{
 		base.Update();
@@ -42,10 +40,10 @@ public class Spricket : SpeedType
 			currentCharges--;
 
 
-            anim.ResetTrigger("SpecialAttackEnded");
-            anim.ResetTrigger("EndCharge");
-            anim.SetTrigger("SpecialAttack");
-            if (playerOwner == null) StopChargingSpecial();
+			anim.ResetTrigger("SpecialAttackEnded");
+			anim.ResetTrigger("EndCharge");
+			anim.SetTrigger("SpecialAttack");
+			if (playerOwner == null) StopChargingSpecial();
 		}
 	}
 	public override void StopChargingSpecial()
@@ -68,15 +66,15 @@ public class Spricket : SpeedType
 		}
 		Special();
 	}
-	public override void Special()
-    {
+	protected override void Special()
+	{
 		// Decrement charges and reset cooldowns
 		cooldownTimer = cooldownDuration;
 		chargeTimer = chargeRefreshRate;
 		currentCharges--;
 		anim.SetTrigger("EndCharge");
-        anim.ResetTrigger("SpecialAttack");
-        Rigidbody rb = (playerOwner == null) ? GetComponent<Rigidbody>() : playerOwner.GetComponent<Rigidbody>();
+		anim.ResetTrigger("SpecialAttack");
+		Rigidbody rb = (playerOwner == null) ? GetComponent<Rigidbody>() : playerOwner.GetComponent<Rigidbody>();
 		Debug.Log(rb);
 		if (rb != null)
 		{
@@ -108,9 +106,9 @@ public class Spricket : SpeedType
 			playerOwner.StopDash();
 		}
 		else isDashing = false;
-        anim.SetTrigger("SpecialAttackEnded");
-        anim.ResetTrigger("EndCharge");
-        rb.velocity = Vector3.zero;
+		anim.SetTrigger("SpecialAttackEnded");
+		anim.ResetTrigger("EndCharge");
+		rb.velocity = Vector3.zero;
 	}
 
 	public override void MoveLilGuy()

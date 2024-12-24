@@ -15,7 +15,7 @@ public class DefenseType : LilGuyBase
 		if (currentCharges <= 0 && cooldownTimer > 0) return;   // If currently on cooldown and there are no more charges to use.
 		if (!IsInSpecialAttack && !IsInBasicAttack)
 		{
-			base.StopChargingSpecial();			
+			base.StopChargingSpecial();
 		}
 	}
 
@@ -23,9 +23,9 @@ public class DefenseType : LilGuyBase
 	{
 		base.StartChargingSpecial();
 	}
-	public override void Special()
-	{		
-			base.Special();		
+	protected override void Special()
+	{
+		base.Special();
 	}
 
 	private void OnDisable()

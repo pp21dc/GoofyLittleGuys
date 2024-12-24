@@ -72,6 +72,7 @@ public abstract class LilGuyBase : MonoBehaviour
 
 	private bool isDead = false;
 	private bool isDying = false;
+	private bool knockedBack = false;
 
 	#region Getters and Setters
 	public int Level { get => level; set => level = value; }
@@ -97,6 +98,8 @@ public abstract class LilGuyBase : MonoBehaviour
 	public int Xp { get => xp; set => xp = value; }
 	public bool IsDying { get { return isDying; } set { isDying = value; } }
 	public bool LockAttackRotation { get { return lockAttackRotation; } set { lockAttackRotation = value; } }
+
+	public bool KnockedBack { set { knockedBack = value; } }
 	#endregion
 
 	public enum PrimaryType
@@ -311,7 +314,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	/// </summary>
 	public void Damaged()
 	{
-		if (isDead || (anim != null && anim.GetCurrentAnimatorStateInfo(0).IsName("Death"))) return;
+		if (isDead) return;
 		StartCoroutine(FlashRed());
 		if (anim != null && !isInBasicAttack && !isInSpecialAttack) anim.SetTrigger("Hurt");
 	}
@@ -378,7 +381,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	/// </summary>
 	public void Attack()
 	{
-		if (isDead || (anim != null && anim.GetCurrentAnimatorStateInfo(0).IsName("Death"))) return;
+		if (isDead) return;
 		// Check if the target is in range
 		// Ensure attack respects cooldown
 		if (Time.time - lastAttackTime < attackCooldown)
@@ -427,13 +430,13 @@ public abstract class LilGuyBase : MonoBehaviour
 
 	public virtual void StartChargingSpecial()
 	{
-		if (isDead || (anim != null && anim.GetCurrentAnimatorStateInfo(0).IsName("Death"))) return;
+		if (isDead) return;
 		if (playerOwner == null) StopChargingSpecial();
 	}
 
 	public virtual void StopChargingSpecial()
 	{
-		if (isDead || (anim != null && anim.GetCurrentAnimatorStateInfo(0).IsName("Death"))) return;
+		if (isDead) return;
 		// Decrement charges and reset cooldowns
 		if (currentCharges <= 0 && cooldownTimer > 0) return;
 		cooldownTimer = cooldownDuration;
@@ -445,9 +448,9 @@ public abstract class LilGuyBase : MonoBehaviour
 	/// <summary>
 	/// override this function in all derivitives of this class with its unique special attack
 	/// </summary>
-	public virtual void Special()
+	protected virtual void Special()
 	{
-		if (isDead || (anim != null && anim.GetCurrentAnimatorStateInfo(0).IsName("Death"))) return;
+		if (isDead) return;
 		if (anim != null)
 		{
 			anim.ResetTrigger("SpecialAttackEnded");
@@ -559,11 +562,19 @@ public abstract class LilGuyBase : MonoBehaviour
 	}
 	public virtual void MoveLilGuy()
 	{
-		// Move the creature towards the player with smoothing
-		Vector3 targetVelocity = movementDirection.normalized * ((((playerOwner != null) ? speed : speed * 0.75f) + 10) / 3f);
-		// Smoothly accelerate towards the target velocity
-		currentVelocity = Vector3.Lerp(currentVelocity, targetVelocity, Time.fixedDeltaTime / accelerationTime);
-		// Apply the smoothed velocity to the Rigidbody
-		rb.velocity = new Vector3(currentVelocity.x, rb.velocity.y, currentVelocity.z);
+		if (!knockedBack)
+		{
+			// Move the creature towards the player with smoothing
+			Vector3 targetVelocity = movementDirection.normalized * ((((playerOwner != null) ? speed : speed * 0.75f) + 10) / 3f);
+			// Smoothly accelerate towards the target velocity
+			currentVelocity = Vector3.Lerp(currentVelocity, targetVelocity, Time.fixedDeltaTime / accelerationTime);
+			// Apply the smoothed velocity to the Rigidbody
+			rb.velocity = new Vector3(currentVelocity.x, rb.velocity.y, currentVelocity.z);
+		}
 	}
+}
+
+public enum DebuffType
+{
+	Slow
 }

@@ -14,6 +14,9 @@ public class WildBehaviour : MonoBehaviour
 	[SerializeField] private float attackRange = 1f;
 	[SerializeField] private float attackBuffer = 2f;
 
+	[Tooltip("How long this lil guy can stay outside of their home camp before they return back to it.")]
+	[SerializeField] private float maxTimeOutsideHomeSpawner = 3f;
+
 	[SerializeField] private float timeBeforeDestroyed = 5f;  // Time until the gameobject is destroyed
 
 	[Header("Hostility Settings")]
@@ -35,18 +38,25 @@ public class WildBehaviour : MonoBehaviour
 	private GameObject instantiatedPlayerRangeIndicator;
 	private AiController controller;
 	private Coroutine actionCoroutine = null;
+	private SpawnerObj homeSpawner = null;
+	private Collider lilGuyCollider;
+
 	private float attackTime = 0;
+	private float timeSpentFromHome = 0f;
 	private float hostility;
 	private float initialHostility;
 	private float nextWanderTime = -1f;
 	private bool isIdle = false;
+	private bool returnHome = false;
 
+	public SpawnerObj HomeSpawner { get { return homeSpawner; } set { homeSpawner = value; } }
 
 
 
 	private void Start()
 	{
 		controller = GetComponent<AiController>();
+		lilGuyCollider = GetComponent<Collider>();
 	}
 
 	private void OnEnable()
@@ -60,7 +70,12 @@ public class WildBehaviour : MonoBehaviour
 	{
 		// Reset attack buffer on AI.
 		if (attackTime > 0) attackTime -= Time.deltaTime;
-
+		if (!IsWithinCamp()) timeSpentFromHome += Time.deltaTime;
+		else timeSpentFromHome = 0f;
+		if (timeSpentFromHome >= maxTimeOutsideHomeSpawner)
+		{
+			returnHome = true;
+		}
 		// Decay hostility while idle
 		if (isIdle && hostility > initialHostility)
 		{
@@ -71,6 +86,10 @@ public class WildBehaviour : MonoBehaviour
 		if (controller.LilGuy.Health <= 0)
 		{
 			actionCoroutine ??= StartCoroutine(Dead());
+		}
+		else if (returnHome)
+		{
+			actionCoroutine ??= StartCoroutine(ReturnHome());
 		}
 		else if (controller.DistanceToPlayer() <= chaseRange && controller.LilGuy.Health <= controller.LilGuy.MaxHealth * Mathf.Lerp(0.25f, 0.5f, timid / 10f))
 		{
@@ -113,6 +132,34 @@ public class WildBehaviour : MonoBehaviour
 		hostility = Mathf.Min(maxHostility, hostility + amount);
 	}
 
+	private IEnumerator ReturnHome()
+	{
+		Debug.Log($"{controller.LilGuy.GuyName}: Return Home State");
+		float angle = Random.Range(0f, Mathf.PI * 2f);                                                  // Generate a random angle in radians						
+		Vector3 offset = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * 0.5f * homeSpawner.SpawnRadius;  // Calculate the wander target in local space using polar coordinates																				
+		Vector3 wanderTarget = homeSpawner.transform.position + offset;                                 // Add the offset to the current position
+
+		RaycastHit hit;
+		if (Physics.Raycast(wanderTarget + Vector3.up * 10f, Vector3.down, out hit, 20f, LayerMask.GetMask("Ground")))
+		{
+			if (!Physics.Raycast(controller.LilGuy.RB.position, wanderTarget, Vector3.Distance(transform.position, wanderTarget) + 2, LayerMask.GetMask("PitColliders")))
+			{
+				wanderTarget = hit.point;
+				while (Vector3.Distance(transform.position, wanderTarget) > 0.5f && controller.LilGuy.Health > 0)
+				{
+					controller.LilGuy.MovementDirection = (wanderTarget - transform.position).normalized;
+					controller.LilGuy.IsMoving = true;
+					controller.LilGuy.MoveLilGuy();
+					yield return null;
+				}
+			}
+
+		}
+		actionCoroutine = null;
+		returnHome = false;
+		timeSpentFromHome = 0;
+	}
+
 	/// <summary>
 	/// State that handles when the AI is idle.
 	/// </summary>
@@ -122,6 +169,7 @@ public class WildBehaviour : MonoBehaviour
 		isIdle = true;
 		controller.LilGuy.IsMoving = false;
 
+		Debug.Log($"{controller.LilGuy.GuyName}: Idle State");
 		while (controller.DistanceToPlayer() > chaseRange && controller.LilGuy.Health > 0 && Time.time < nextWanderTime)
 		{
 			yield return null;
@@ -135,12 +183,12 @@ public class WildBehaviour : MonoBehaviour
 	/// <returns></returns>
 	private IEnumerator Wander()
 	{
-		float angle = Random.Range(0f, Mathf.PI * 2f);                                      // Generate a random angle in radians												
-		float radius = Random.Range(minWanderRadius, maxWanderRadius);                      // Generate a random radius between the minimum and maximum range						
-		Vector3 offset = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * radius;       // Calculate the wander target in local space using polar coordinates																				
-		Vector3 wanderTarget = transform.position + offset;                                 // Add the offset to the current position
+		float angle = Random.Range(0f, Mathf.PI * 2f);                                                  // Generate a random angle in radians						
+		Vector3 offset = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * homeSpawner.SpawnRadius;  // Calculate the wander target in local space using polar coordinates																				
+		Vector3 wanderTarget = homeSpawner.transform.position + offset;                                 // Add the offset to the current position
 
 		RaycastHit hit;
+		Debug.Log($"{controller.LilGuy.GuyName}: Wander State");
 		if (Physics.Raycast(wanderTarget + Vector3.up * 10f, Vector3.down, out hit, 20f, LayerMask.GetMask("Ground")))
 		{
 			if (!Physics.Raycast(controller.LilGuy.RB.position, wanderTarget, Vector3.Distance(transform.position, wanderTarget) + 2, LayerMask.GetMask("PitColliders")))
@@ -172,6 +220,8 @@ public class WildBehaviour : MonoBehaviour
 		controller.LilGuy.RB.velocity = Vector3.zero;
 		controller.LilGuy.RB.isKinematic = true;
 
+		Debug.Log($"{controller.LilGuy.GuyName}: Dead State");
+		homeSpawner.RemoveLilGuyFromSpawns();
 		controller.HealthUi.gameObject.SetActive(false);
 		if (isCatchable)
 		{
@@ -182,10 +232,9 @@ public class WildBehaviour : MonoBehaviour
 			{
 				currTime += Time.deltaTime;
 				yield return null;
-			}			
+			}
 		}
 
-		SpawnManager.Instance.RemoveLilGuyFromSpawns();	// Move into if statement if we don't want legendaries removed from the spawns
 		Destroy(gameObject);
 		actionCoroutine = null;
 
@@ -198,7 +247,8 @@ public class WildBehaviour : MonoBehaviour
 	private IEnumerator AttackPlayer()
 	{
 		isIdle = false;
-		while (controller.DistanceToPlayer() <= attackRange && controller.LilGuy.Health > controller.LilGuy.MaxHealth * Mathf.Lerp(0.25f, 0.5f, timid / 10f) && hostility > 3)
+		Debug.Log($"{controller.LilGuy.GuyName}: Attack State");
+		while (controller.DistanceToPlayer() <= attackRange && controller.LilGuy.Health > controller.LilGuy.MaxHealth * Mathf.Lerp(0.25f, 0.5f, timid / 10f) && hostility > 3 && !returnHome)
 		{
 			if (hostility >= 7 && controller.LilGuy.CurrentCharges > 0 && controller.LilGuy.CooldownTimer <= 0 && attackTime <= 0 && controller.LilGuy is StrengthType strengthLilGuy)
 			{
@@ -228,9 +278,11 @@ public class WildBehaviour : MonoBehaviour
 	{
 		isIdle = false;
 		controller.LilGuy.IsMoving = true;
-		while (controller.DistanceToPlayer() > attackRange && controller.DistanceToPlayer() <= chaseRange && controller.LilGuy.Health > controller.LilGuy.MaxHealth * Mathf.Lerp(0.25f, 0.5f, timid / 10f) && hostility > 3)
+		Debug.Log($"{controller.LilGuy.GuyName}: Chase State");
+		while (controller.DistanceToPlayer() > attackRange && controller.DistanceToPlayer() <= chaseRange && controller.LilGuy.Health > controller.LilGuy.MaxHealth * Mathf.Lerp(0.25f, 0.5f, timid / 10f) && hostility > 3 && !returnHome)
 		{
 			controller.LilGuy.MovementDirection = (controller.FollowPosition.position - controller.transform.position).normalized;
+			
 			if (hostility >= 7f && controller.LilGuy is SpeedType && controller.LilGuy.CurrentCharges > 0 && controller.LilGuy.CooldownTimer <= 0)
 			{
 				controller.LilGuy.StartChargingSpecial();
@@ -260,13 +312,19 @@ public class WildBehaviour : MonoBehaviour
 	{
 		isIdle = false;
 		controller.LilGuy.IsMoving = true;
-		while (controller.DistanceToPlayer() <= chaseRange && controller.LilGuy.Health > 0)
+		Debug.Log($"{controller.LilGuy.GuyName}: Flee State");
+		while (controller.DistanceToPlayer() <= chaseRange && controller.LilGuy.Health > 0 && !returnHome)
 		{
 			controller.LilGuy.MovementDirection = (controller.transform.position - controller.FollowPosition.position).normalized;
 			controller.LilGuy.MoveLilGuy();
 			yield return null;
 		}
 		actionCoroutine = null;
+	}
+
+	private bool IsWithinCamp()
+	{
+		return Physics.OverlapSphere(homeSpawner.transform.position, homeSpawner.SpawnRadius).Contains(lilGuyCollider);
 	}
 
 	private void OnDestroy()

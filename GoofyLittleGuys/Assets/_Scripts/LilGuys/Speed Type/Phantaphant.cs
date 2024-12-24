@@ -31,7 +31,7 @@ public class Phantaphant : SpeedType
 		}
 	}
 
-	public override void Special()
+	protected override void Special()
 	{
 		anim.ResetTrigger("SpecialAttackEnded");
 		Rigidbody rb = (playerOwner == null) ? GetComponent<Rigidbody>() : playerOwner.GetComponent<Rigidbody>();

@@ -5,10 +5,12 @@ using UnityEngine;
 
 public class Tricerabox : StrengthType
 {
-	[Header("Tricerabox Specific Parameters")]
+	[Header("Tricerabox Specific")]
 	[SerializeField] private Transform waveAoePosition;
-	[SerializeField] private float waveAoeDamage;
+	[SerializeField] private float waveAoeDamageMultiplier;
 	[SerializeField] private float waveAoeLifetime;
+	[SerializeField] private float slowAmount = 10f;
+	[SerializeField] private float slowDuration = 1f;
 
 	GameObject aoe;
 	GameObject waveAoe;
@@ -17,7 +19,9 @@ public class Tricerabox : StrengthType
 	{
 		aoe = Instantiate(aoeShape, attackPosition);
 		AoeHitbox hitbox = aoe.GetComponent<AoeHitbox>();
-		hitbox.AoeDamage = aoeDamage;
+		hitbox.AoeDamageMultiplier = aoeDamageMultiplier;
+		hitbox.SlowAmount = slowAmount;
+		hitbox.SlowDuration = slowDuration;
 		hitbox.Init(gameObject);
 		Destroy(aoe, aoeDestroyTime);
 	}
@@ -26,7 +30,9 @@ public class Tricerabox : StrengthType
 	{
 		waveAoe = Instantiate(aoeShape, waveAoePosition);
 		AoeHitbox hitbox = waveAoe.GetComponent<AoeHitbox>();
-		hitbox.AoeDamage = waveAoeDamage;
+		hitbox.AoeDamageMultiplier = aoeDamageMultiplier;
+		hitbox.SlowAmount = slowAmount;
+		hitbox.SlowDuration = slowDuration;
 		waveAoe.GetComponent<AoeHitbox>().Init(gameObject);
 		Destroy(waveAoe, waveAoeLifetime);
 

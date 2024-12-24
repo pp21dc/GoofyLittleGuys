@@ -6,7 +6,7 @@ using UnityEngine;
 public class StrengthType : LilGuyBase
 {
 	[SerializeField] protected GameObject aoeShape;  // Only visible in editor and only used when aoeType is set to "Custom". 
-	[SerializeField] public int aoeDamage = 1;
+	[SerializeField] public float aoeDamageMultiplier = 1;
 	[SerializeField] private float frameToDestroyAoe = 15;
 	[SerializeField] private float specialTotalFrames = 17;
 
@@ -35,7 +35,7 @@ public class StrengthType : LilGuyBase
 	{
 		base.StopChargingSpecial();
 	}
-	public override void Special()
+	protected override void Special()
 	{
 		base.Special();
 	}

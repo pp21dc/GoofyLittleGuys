@@ -53,6 +53,7 @@ public class PlayerBody : MonoBehaviour
 	private bool hasSwappedRecently = false;    // If the player is in swap cooldown (feel free to delete cmnt)
 	private bool hasImmunity = false;           // If the player is in swap I-frames (feel free to delete cmnt)
 	private bool canMove = true;                // Whether or not the player can move, set it to false when you want to halt movement
+	private bool knockedBack = false;
 	private bool wasDefeated = false;           // Only true if this player has been defeated in phase 2
 	private Vector3 currentVelocity;            // Internal tracking for velocity smoothing
 	private bool inMenu = true;
@@ -72,6 +73,7 @@ public class PlayerBody : MonoBehaviour
 	public bool StormDmg { get { return stormDmg; } set { stormDmg = value; } }
 	public bool StormCoroutine { get { return stormCoroutine; } set { stormCoroutine = value; } }
 	public bool IsDashing { get { return isDashing; } set { isDashing = value; } }
+	public bool KnockedBack { get { return knockedBack; } set { knockedBack = value; } }
 	public LilGuyBase ActiveLilGuy { get { return activeLilGuy; } set { activeLilGuy = value; } }
 	public GameObject TeamFullMenu { get { return teamFullMenu; } set { teamFullMenu = value; } }
 	public bool Flip { get { return flip; } set { flip = value; } }
@@ -181,7 +183,7 @@ public class PlayerBody : MonoBehaviour
 
 		}
 		// Movement behaviours
-		if (!isDashing && canMove)
+		if (!isDashing && canMove && !knockedBack)
 		{
 			// If the player is not dashing, then they will have regular movement mechanics
 

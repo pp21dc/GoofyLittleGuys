@@ -99,5 +99,66 @@ public class EventManager
 		NotifyMicrogameFailed?.Invoke(body);
 	}
 
+	public void ApplyKnockback(GameObject affectedEntity, Vector3 knockbackForce)
+	{
+		GameManager.Instance.StartCoroutine(Knockback(affectedEntity, knockbackForce));
+	}
 
+	public void ApplyDebuff(GameObject affectedEntity, float debuffAmount, float debuffDuration, DebuffType type)
+	{
+		switch(type)
+		{
+			case DebuffType.Slow:
+				GameManager.Instance.StartCoroutine(Slow(affectedEntity, debuffAmount, debuffDuration));
+				break;
+		}
+		
+	}
+
+	private IEnumerator Slow(GameObject affectedEntity, float debuffAmount, float debuffDuration)
+	{
+
+		PlayerBody body = affectedEntity.GetComponent<PlayerBody>();
+		if (body != null)
+		{
+			body.MaxSpeed -= debuffAmount;
+			yield return new WaitForSeconds(debuffDuration);
+
+			body.MaxSpeed += debuffAmount;
+		}
+		else
+		{
+			LilGuyBase lilGuy = affectedEntity.GetComponent<LilGuyBase>();
+			lilGuy.Speed -= debuffAmount;
+			yield return new WaitForSeconds(debuffDuration);
+			lilGuy.Speed += debuffAmount;
+		}
+
+	}
+
+	private IEnumerator Knockback(GameObject affectedEntity, Vector3 knockbackForce)
+	{
+		
+		PlayerBody body = affectedEntity.GetComponent<PlayerBody>();
+		if (body != null)
+		{
+			body.KnockedBack = true;
+			Rigidbody rb = body.GetComponent<Rigidbody>();
+
+			rb.AddForce(knockbackForce, ForceMode.Impulse);
+			yield return new WaitForSeconds(0.5f);
+
+			body.KnockedBack = false;
+		}
+		else
+		{
+			LilGuyBase lilGuy = affectedEntity.GetComponent<LilGuyBase>();
+			lilGuy.KnockedBack = true;
+
+			lilGuy.RB.AddForce(knockbackForce, ForceMode.Impulse);
+			yield return new WaitForSeconds(0.5f);
+
+			lilGuy.KnockedBack = false;
+		}
+	}
 }

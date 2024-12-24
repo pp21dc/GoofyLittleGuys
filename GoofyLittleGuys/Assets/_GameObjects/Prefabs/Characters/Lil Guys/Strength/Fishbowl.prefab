@@ -104,7 +104,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 0b86c77a5c813524ebe9cb14f7f7eada, type: 3}
+  m_Sprite: {fileID: 1166056630, guid: bc26f8c89ce3e094ebfd926fe3451be1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -124,7 +124,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6748941042090021233}
-  - component: {fileID: 5619163176932738922}
+  - component: {fileID: 4522273571620802230}
   - component: {fileID: -2568253581838256164}
   - component: {fileID: -4768661405314685814}
   - component: {fileID: 7145187486415317540}
@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 9121363788417893756}
   - component: {fileID: 2276666689441862867}
   m_Layer: 8
-  m_Name: Teddy
+  m_Name: Fishbowl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -158,7 +158,7 @@ Transform:
   - {fileID: 4913275446959928290}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5619163176932738922
+--- !u!114 &4522273571620802230
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -167,15 +167,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 6573903925891364681}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a1f72f19f8a859c44834bd52497ab846, type: 3}
+  m_Script: {fileID: 11500000, guid: 163631e9c1e533f47a8390e77aa1c49d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  guyName: Teddy
+  guyName: Fishbowl
   type: 0
   mesh: {fileID: 3759597427848749218}
   hitboxPrefab: {fileID: 7763503517924717934, guid: 9df4356fd20c6d740acf3ba2a05fd8ed,
     type: 3}
-  anim: {fileID: 2276666689441862867}
+  anim: {fileID: 0}
   attackPosition: {fileID: 631468313354302470}
   attackOrbit: {fileID: 7739735529090914365}
   level: 1
@@ -183,22 +183,24 @@ MonoBehaviour:
   max_xp: 5
   health: 100
   maxHealth: 100
-  speed: 10
+  speed: 13
   defense: 13
   strength: 17
   specialDuration: -1
   currentCharges: 1
   maxCharges: 1
-  cooldownDuration: 13
-  chargeRefreshRate: 13
+  cooldownDuration: 10
+  chargeRefreshRate: 10
   accelerationTime: 0.1
-  attackCooldown: 0
+  attackCooldown: 1
   attackEffect: {fileID: 0}
   aoeShape: {fileID: 7763503517924717934, guid: 783823e0ebd4aff4298168ab9dfa9111,
     type: 3}
-  aoeDamageMultiplier: 1.2
+  aoeDamageMultiplier: 1.65
   frameToDestroyAoe: 15
   specialTotalFrames: 17
+  aoeMaxSize: 5
+  knockbackForce: 10
 --- !u!54 &-2568253581838256164
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -248,7 +250,7 @@ CapsuleCollider:
   m_Radius: 0.5
   m_Height: 3
   m_Direction: 1
-  m_Center: {x: 0, y: 1.5, z: 0}
+  m_Center: {x: 0.2, y: 1.5, z: 0}
 --- !u!114 &7145187486415317540
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -332,7 +334,7 @@ Animator:
   m_GameObject: {fileID: 6573903925891364681}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 2285051f9c7576746afbccb511584aa6, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -396,12 +398,12 @@ PrefabInstance:
     - target: {fileID: 5426782769016033281, guid: a06ce958a4dab1c488dc74d9d0a05a6a,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 5426782769016033281, guid: a06ce958a4dab1c488dc74d9d0a05a6a,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.5
+      value: 3.25
       objectReference: {fileID: 0}
     - target: {fileID: 5426782769016033281, guid: a06ce958a4dab1c488dc74d9d0a05a6a,
         type: 3}
@@ -472,7 +474,12 @@ PrefabInstance:
         type: 3}
       propertyPath: lilGuy
       value: 
-      objectReference: {fileID: 5619163176932738922}
+      objectReference: {fileID: 4522273571620802230}
+    - target: {fileID: 1365496982641679296, guid: 533e318f743a87f479f4cdd8b25b7ac4,
+        type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5729104096301020213, guid: 533e318f743a87f479f4cdd8b25b7ac4,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -551,12 +558,12 @@ PrefabInstance:
     - target: {fileID: 7358702158427666660, guid: 533e318f743a87f479f4cdd8b25b7ac4,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 7358702158427666660, guid: 533e318f743a87f479f4cdd8b25b7ac4,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 4.5
+      value: 3.75
       objectReference: {fileID: 0}
     - target: {fileID: 7358702158427666660, guid: 533e318f743a87f479f4cdd8b25b7ac4,
         type: 3}

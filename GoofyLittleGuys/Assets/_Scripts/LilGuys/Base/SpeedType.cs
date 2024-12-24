@@ -20,8 +20,8 @@ public class SpeedType : LilGuyBase
 	{
 		base.StopChargingSpecial();
 	}
-	public override void Special()
+	protected override void Special()
 	{
-			base.Special();
+		base.Special();
 	}
 }

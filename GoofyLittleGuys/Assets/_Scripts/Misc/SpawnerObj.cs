@@ -49,6 +49,7 @@ public class SpawnerObj : MonoBehaviour
         GameObject GO = Instantiate(newLilGuy, spawningPos, Quaternion.identity, Managers.SpawnManager.Instance.transform);
         GO.layer = LayerMask.NameToLayer("WildLilGuys");
 		GO.GetComponent<LilGuyBase>().DetermineLevel();
+		GO.GetComponent<WildBehaviour>().HomeSpawner = this;
         
 
         Managers.SpawnManager.Instance.currNumSpawns++;
@@ -143,6 +144,11 @@ public class SpawnerObj : MonoBehaviour
 	public GameObject RandFromList(List<GameObject> theList)
 	{
 		return theList[Random.Range(0, theList.Count)];
+	}
+
+	public void RemoveLilGuyFromSpawns()
+	{
+		currSpawnCount--;
 	}
 
 }

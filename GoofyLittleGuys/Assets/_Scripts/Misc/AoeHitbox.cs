@@ -1,3 +1,4 @@
+using Managers;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,8 +7,14 @@ using UnityEngine;
 public class AoeHitbox : MonoBehaviour
 {
 	protected float damage;
-	protected float aoeDamage;
-	public float AoeDamage { get { return aoeDamage; } set { aoeDamage = value; } }
+	protected float aoeDamageMultiplier;
+	protected float knockbackForce = 0f;
+	protected float slowAmount = 0f;
+	protected float slowDuration = 0f;
+	public float AoeDamageMultiplier { get { return aoeDamageMultiplier; } set { aoeDamageMultiplier = value; } }
+	public float KnockbackForce { get { return knockbackForce; } set { knockbackForce = value; } }
+	public float SlowDuration { set { slowDuration = value; } }
+	public float SlowAmount { set { slowAmount = value; } }
 	public GameObject hitboxOwner;
 	public LayerMask layerMask;
 
@@ -26,7 +33,7 @@ public class AoeHitbox : MonoBehaviour
 	{
 		this.hitboxOwner = hitboxOwner;
 		gameObject.layer = hitboxOwner.layer;
-		damage = aoeDamage + Mathf.CeilToInt(0.56f * hitboxOwner.GetComponent<LilGuyBase>().Strength);
+		damage = Mathf.CeilToInt(0.56f * hitboxOwner.GetComponent<LilGuyBase>().Strength) * aoeDamageMultiplier;
 	}
 
 	/// <summary>
@@ -35,6 +42,7 @@ public class AoeHitbox : MonoBehaviour
 	/// <param name="h"></param>
 	private void OnHit(Hurtbox h)
 	{
+		Vector3 knockbackDir = (h.transform.position - transform.position).normalized;
 		Debug.Log("HIT");
 		DefenseType defenseLilGuy = h.gameObject.GetComponent<DefenseType>();
 		if (defenseLilGuy != null && defenseLilGuy.IsShieldActive)
@@ -52,6 +60,37 @@ public class AoeHitbox : MonoBehaviour
 		{
 			// If this was a wild lil guy that was hit and they were defeated, log the player who last hit them.
 			h.LastHit = hitboxOwner.GetComponent<LilGuyBase>().PlayerOwner;
+		}
+
+		if (knockbackForce != 0)
+		{
+			// Apply Knockback
+			GameObject knockedBackEntity;
+			if (h.gameObject.layer == LayerMask.NameToLayer("PlayerLilGuys"))
+			{
+				knockedBackEntity = h.Owner.GetComponent<LilGuyBase>().PlayerOwner.gameObject;
+			}
+			else if (h.gameObject.layer == LayerMask.NameToLayer("WildLilGuys"))
+			{
+				knockedBackEntity = h.Owner;
+			}
+			else return;
+			EventManager.Instance.ApplyKnockback(knockedBackEntity, knockbackForce * knockbackDir.normalized);
+		}
+		if (slowAmount != 0)
+		{
+			// Apply slow
+			GameObject slowedEntity; 
+			if (h.gameObject.layer == LayerMask.NameToLayer("PlayerLilGuys"))
+			{
+				slowedEntity = h.Owner.GetComponent<LilGuyBase>().PlayerOwner.gameObject;
+			}
+			else if (h.gameObject.layer == LayerMask.NameToLayer("WildLilGuys"))
+			{
+				slowedEntity = h.Owner;
+			}
+			else return;
+			EventManager.Instance.ApplyDebuff(slowedEntity, slowAmount, slowDuration, DebuffType.Slow);
 		}
 	}
 }

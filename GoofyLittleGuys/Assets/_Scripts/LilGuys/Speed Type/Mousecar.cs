@@ -8,8 +8,6 @@ public class Mousecar : SpeedType
 	[SerializeField] private float speedBoostAmount = 10f;
 	[SerializeField] private float speedBoostDuration = 7f;
 
-	private float endSpeedBoostTime = Mathf.Infinity;
-
 	public override void StartChargingSpecial()
 	{
 		base.StartChargingSpecial();
@@ -18,7 +16,7 @@ public class Mousecar : SpeedType
 	{
 		base.StopChargingSpecial();
 	}
-	public override void Special()
+	protected override void Special()
 	{
 		if (playerOwner != null) playerOwner.TeamSpeedBoost += speedBoostAmount;
 		else speed += speedBoostAmount;

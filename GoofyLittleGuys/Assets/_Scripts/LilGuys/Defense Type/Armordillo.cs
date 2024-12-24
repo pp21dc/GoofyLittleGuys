@@ -7,7 +7,7 @@ public class Armordillo : DefenseType
 	[Header("Armordillo Specific")]
 	[SerializeField] private GameObject shieldPrefab; // The shield prefab to instantiate
 	[SerializeField] private float duration = 1;
-	[SerializeField] private float speedBoost = 30f; 
+	[SerializeField] private float speedBoost = 30f;
 
 	private float speedBoostTime;
 	bool speedBoostActive = false;
@@ -30,7 +30,7 @@ public class Armordillo : DefenseType
 			isShieldActive = true;
 		}
 	}
-	public override void Special()
+	protected override void Special()
 	{
 		base.Special();
 	}

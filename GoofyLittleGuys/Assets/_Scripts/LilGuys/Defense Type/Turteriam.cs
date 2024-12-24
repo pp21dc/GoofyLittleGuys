@@ -15,17 +15,17 @@ public class Turteriam : DefenseType
 	private bool damageReductionActive = false;
 	private GameObject instantiatedDome = null;
 
-    // Start is called before the first frame update
-    protected override void Start()
-    {
-        base.Start();
-    }
+	// Start is called before the first frame update
+	protected override void Start()
+	{
+		base.Start();
+	}
 
-    // Update is called once per frame
-    protected override void Update()
-    {
-        base.Update();
-    }
+	// Update is called once per frame
+	protected override void Update()
+	{
+		base.Update();
+	}
 
 	public override void StartChargingSpecial()
 	{
@@ -44,7 +44,7 @@ public class Turteriam : DefenseType
 		}
 	}
 
-	public override void Special()
+	protected override void Special()
 	{
 		if (playerOwner != null) playerOwner.TeamDamageReduction += DamageReduction;
 		else isShieldActive = true;

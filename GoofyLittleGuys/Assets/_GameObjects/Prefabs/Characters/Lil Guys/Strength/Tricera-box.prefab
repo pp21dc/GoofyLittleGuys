@@ -196,12 +196,14 @@ MonoBehaviour:
   attackEffect: {fileID: 0}
   aoeShape: {fileID: 7763503517924717934, guid: 783823e0ebd4aff4298168ab9dfa9111,
     type: 3}
-  aoeDamage: 7
+  aoeDamageMultiplier: 1.4
   frameToDestroyAoe: 12
   specialTotalFrames: 14
   waveAoePosition: {fileID: 3305521939920653021}
-  waveAoeDamage: 4
+  waveAoeDamageMultiplier: 1.4
   waveAoeLifetime: 1
+  slowAmount: 10
+  slowDuration: 5
 --- !u!54 &-2568253581838256164
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -314,6 +316,7 @@ MonoBehaviour:
   chaseRange: 10
   attackRange: 2.5
   attackBuffer: 2
+  maxTimeOutsideHomeSpawner: 3
   timeBeforeDestroyed: 5
   maxHostility: 10
   hostilityDecayRate: 0.5
