@@ -20,6 +20,7 @@ public class SpawnerObj : MonoBehaviour
 	[SerializeField] private int maxSpawnCount;
 	[SerializeField] private int spawnDelay;
 	[SerializeField] public int currSpawnCount;
+	public float SpawnRadius => spawnRadius;
 
 	private void Start()
 	{
