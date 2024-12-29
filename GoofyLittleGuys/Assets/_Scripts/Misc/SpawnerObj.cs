@@ -17,9 +17,11 @@ public class SpawnerObj : MonoBehaviour
     public LayerMask GroundLayer;
 
 	[SerializeField] private List<GameObject> campLilGuys;
+	[SerializeField] private GameObject legendaryLilGuy;
 	[SerializeField] private int maxSpawnCount;
 	[SerializeField] private int spawnDelay;
 	[SerializeField] public int currSpawnCount;
+	[SerializeField] public bool legendarySpawned = false;
 	public float SpawnRadius => spawnRadius;
 
 	private void Start()
@@ -55,6 +57,15 @@ public class SpawnerObj : MonoBehaviour
         Managers.SpawnManager.Instance.currNumSpawns++;
     }
 
+	public void SpawnLegendary()
+    {
+		SpawnLilGuy(legendaryLilGuy);
+		legendarySpawned = true;
+    }
+
+	/// <summary>
+	/// Spawns a random Lil Guy from this camp/spawner's list of Lil Guys
+	/// </summary>
 	public void SpawnRandLilGuy()
     {
 		GameObject randLilGuy = RandFromList(campLilGuys);

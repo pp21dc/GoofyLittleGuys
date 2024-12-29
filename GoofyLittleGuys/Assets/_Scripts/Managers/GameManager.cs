@@ -83,7 +83,7 @@ namespace Managers
 				if (currentGameTime >= (phaseOneStartTime * 30f) && !legendarySpawned)
 				{
 					legendarySpawned = true;
-					//SpawnLegendary(); THIS IS ONLY COMMENTED SINCE NO LEGENDARY IS SET IN EDITOR CURRENTLY
+					SpawnLegendary(); 
 				}
 
 			}

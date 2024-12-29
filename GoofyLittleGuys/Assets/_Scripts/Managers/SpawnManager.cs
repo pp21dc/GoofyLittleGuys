@@ -13,7 +13,7 @@ namespace Managers
 		[SerializeField] private List<GameObject> forestLilGuys;
 		[SerializeField] private List<GameObject> legendaryLilGuys;
 		[SerializeField] private List<GameObject> forestSpawners;
-		[SerializeField] private SpawnerObj legendarySpawner;
+		[SerializeField] private List<GameObject> legendarySpawners;
 		[SerializeField] private int maxNumSpawns;
 		[SerializeField] private int minNumSpawns;
 		[SerializeField] private float spawnDelay;
@@ -66,9 +66,9 @@ namespace Managers
 		/// </summary>
 		public void SpawnLegendaryGuy()
 		{
-			GameObject theLegendary = RandFromList(legendaryLilGuys);
-			legendarySpawner.SpawnLilGuy(theLegendary);
-
+			SpawnerObj targetCamp = RandFromList(legendarySpawners).GetComponent<SpawnerObj>();
+			targetCamp.SpawnLegendary();
+			Debug.Log("Legendary Spawned!");
 		}
 
 		/// <summary>
