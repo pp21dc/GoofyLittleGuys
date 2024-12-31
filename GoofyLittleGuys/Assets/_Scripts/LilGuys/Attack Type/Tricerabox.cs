@@ -6,9 +6,10 @@ using UnityEngine;
 public class Tricerabox : StrengthType
 {
 	[Header("Tricerabox Specific")]
-	[SerializeField] private Transform waveAoePosition;
+	[SerializeField] private GameObject waveAoePrefab;
 	[SerializeField] private float waveAoeDamageMultiplier;
 	[SerializeField] private float waveAoeLifetime;
+	[SerializeField] private float waveSpeed;
 	[SerializeField] private float slowAmount = 10f;
 	[SerializeField] private float slowDuration = 1f;
 
@@ -28,7 +29,9 @@ public class Tricerabox : StrengthType
 
 	public void SpawnWaveAoe()
 	{
-		waveAoe = Instantiate(aoeShape, waveAoePosition);
+		waveAoe = Instantiate(waveAoePrefab, attackPosition.position + Vector3.up, attackOrbit.rotation);
+		waveAoe.layer = gameObject.layer;
+		waveAoe.GetComponent<AoeMovement>().Speed = waveSpeed;
 		AoeHitbox hitbox = waveAoe.GetComponent<AoeHitbox>();
 		hitbox.AoeDamageMultiplier = aoeDamageMultiplier;
 		hitbox.SlowAmount = slowAmount;

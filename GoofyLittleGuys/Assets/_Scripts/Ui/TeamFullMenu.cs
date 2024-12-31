@@ -25,6 +25,7 @@ public class TeamFullMenu : MonoBehaviour
 		playerEventSystem.SetSelectedGameObject(buttons[0].gameObject);
 
 		body = player.GetComponent<PlayerController>().Body;
+		body.HasImmunity = true;
 
 		for (int i = 0; i < buttons.Count; i++)
 		{
@@ -39,6 +40,7 @@ public class TeamFullMenu : MonoBehaviour
 	private void OnDisable()
 	{
 		player.SwitchCurrentActionMap("World");             // Switch back to world action map
+		body.HasImmunity = false;
 	}
 
 	/// <summary>

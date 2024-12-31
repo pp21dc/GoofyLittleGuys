@@ -99,10 +99,6 @@ public class EventManager
 		NotifyMicrogameFailed?.Invoke(body);
 	}
 
-	public void ApplyKnockback(GameObject affectedEntity, Vector3 knockbackForce)
-	{
-		GameManager.Instance.StartCoroutine(Knockback(affectedEntity, knockbackForce));
-	}
 
 	public void ApplyDebuff(GameObject affectedEntity, float debuffAmount, float debuffDuration, DebuffType type)
 	{
@@ -136,29 +132,4 @@ public class EventManager
 
 	}
 
-	private IEnumerator Knockback(GameObject affectedEntity, Vector3 knockbackForce)
-	{
-		
-		PlayerBody body = affectedEntity.GetComponent<PlayerBody>();
-		if (body != null)
-		{
-			body.KnockedBack = true;
-			Rigidbody rb = body.GetComponent<Rigidbody>();
-
-			rb.AddForce(knockbackForce, ForceMode.Impulse);
-			yield return new WaitForSeconds(0.5f);
-
-			body.KnockedBack = false;
-		}
-		else
-		{
-			LilGuyBase lilGuy = affectedEntity.GetComponent<LilGuyBase>();
-			lilGuy.KnockedBack = true;
-
-			lilGuy.RB.AddForce(knockbackForce, ForceMode.Impulse);
-			yield return new WaitForSeconds(0.5f);
-
-			lilGuy.KnockedBack = false;
-		}
-	}
 }

@@ -34,6 +34,7 @@ public class AoeHitbox : MonoBehaviour
 		this.hitboxOwner = hitboxOwner;
 		gameObject.layer = hitboxOwner.layer;
 		damage = Mathf.CeilToInt(0.56f * hitboxOwner.GetComponent<LilGuyBase>().Strength) * aoeDamageMultiplier;
+		gameObject.SetActive(true);
 	}
 
 	/// <summary>
@@ -42,6 +43,7 @@ public class AoeHitbox : MonoBehaviour
 	/// <param name="h"></param>
 	private void OnHit(Hurtbox h)
 	{
+		if (h.Owner == hitboxOwner) return;
 		Vector3 knockbackDir = (h.transform.position - transform.position).normalized;
 		Debug.Log("HIT");
 		DefenseType defenseLilGuy = h.gameObject.GetComponent<DefenseType>();
@@ -62,21 +64,6 @@ public class AoeHitbox : MonoBehaviour
 			h.LastHit = hitboxOwner.GetComponent<LilGuyBase>().PlayerOwner;
 		}
 
-		if (knockbackForce != 0)
-		{
-			// Apply Knockback
-			GameObject knockedBackEntity;
-			if (h.gameObject.layer == LayerMask.NameToLayer("PlayerLilGuys"))
-			{
-				knockedBackEntity = h.Owner.GetComponent<LilGuyBase>().PlayerOwner.gameObject;
-			}
-			else if (h.gameObject.layer == LayerMask.NameToLayer("WildLilGuys"))
-			{
-				knockedBackEntity = h.Owner;
-			}
-			else return;
-			EventManager.Instance.ApplyKnockback(knockedBackEntity, knockbackForce * knockbackDir.normalized);
-		}
 		if (slowAmount != 0)
 		{
 			// Apply slow

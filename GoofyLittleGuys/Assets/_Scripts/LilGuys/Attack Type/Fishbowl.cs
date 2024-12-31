@@ -6,10 +6,11 @@ public class Fishbowl : StrengthType
 {
 	[Header("Fishbowl Specific")]
 	[SerializeField] private float aoeMaxSize = 5f;
-	[SerializeField] private float knockbackForce = 10f;
+	[SerializeField] private float waveDestroyTime = 2f;
+	[SerializeField] private float waveMoveSpeed = 10f;
 
 
-	private GameObject instantiatedAoe = null;
+	private GameObject[] instantiatedAoe = new GameObject[4];
 	public override void StartChargingSpecial()
 	{
 		if (currentCharges <= 0 && cooldownTimer > 0) return;
@@ -33,25 +34,15 @@ public class Fishbowl : StrengthType
 
 	public void SpawnWaveAoe()
 	{
-		instantiatedAoe = Instantiate(aoeShape, attackPosition);
-		instantiatedAoe.GetComponent<AoeHitbox>().AoeDamageMultiplier = aoeDamageMultiplier;
-		instantiatedAoe.GetComponent<AoeHitbox>().KnockbackForce = knockbackForce;
-		instantiatedAoe.GetComponent<AoeHitbox>().Init(gameObject);
-		StartCoroutine(Expand());
-	}
-
-	private IEnumerator Expand()
-	{
-		Vector3 initialScale = instantiatedAoe.transform.localScale;
-		Vector3 targetScale = new Vector3(aoeMaxSize, aoeMaxSize, aoeMaxSize);
-
-		float elapsedTime = 0;
-		while (elapsedTime < aoeDestroyTime)
+		for (int i = 0; i < instantiatedAoe.Length; i++)
 		{
-			instantiatedAoe.transform.localScale = Vector3.Lerp(initialScale, targetScale, elapsedTime / aoeDestroyTime);
-			elapsedTime += Time.deltaTime;
-			yield return null;
+			Quaternion rotation = Quaternion.Euler(0, i * 90, 0);
+			instantiatedAoe[i] = Instantiate(aoeShape, attackOrbit.position, rotation);
+			instantiatedAoe[i].GetComponent<AoeHitbox>().AoeDamageMultiplier = aoeDamageMultiplier;
+			instantiatedAoe[i].GetComponent<AoeMovement>().Speed = waveMoveSpeed;
+			instantiatedAoe[i].GetComponent<AoeHitbox>().Init(gameObject);
+
+			Destroy(instantiatedAoe[i], waveDestroyTime);
 		}
-		Destroy(instantiatedAoe);
 	}
 }
