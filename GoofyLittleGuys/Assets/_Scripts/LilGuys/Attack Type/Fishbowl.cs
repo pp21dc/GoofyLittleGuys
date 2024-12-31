@@ -10,7 +10,7 @@ public class Fishbowl : StrengthType
 	[SerializeField] private float waveMoveSpeed = 10f;
 
 
-	private GameObject[] instantiatedAoe = new GameObject[4];
+	private GameObject instantiatedAoe = null;
 	public override void StartChargingSpecial()
 	{
 		if (currentCharges <= 0 && cooldownTimer > 0) return;
@@ -34,15 +34,14 @@ public class Fishbowl : StrengthType
 
 	public void SpawnWaveAoe()
 	{
-		for (int i = 0; i < instantiatedAoe.Length; i++)
+		instantiatedAoe = Instantiate(aoeShape, transform.position, Quaternion.identity);
+		instantiatedAoe.GetComponent<FishbowlWaves>().Init(specialDuration);
+		foreach(Transform child in  instantiatedAoe.transform)
 		{
-			Quaternion rotation = Quaternion.Euler(0, i * 90, 0);
-			instantiatedAoe[i] = Instantiate(aoeShape, attackOrbit.position, rotation);
-			instantiatedAoe[i].GetComponent<AoeHitbox>().AoeDamageMultiplier = aoeDamageMultiplier;
-			instantiatedAoe[i].GetComponent<AoeMovement>().Speed = waveMoveSpeed;
-			instantiatedAoe[i].GetComponent<AoeHitbox>().Init(gameObject);
+			child.GetComponent<AoeHitbox>().AoeDamageMultiplier = aoeDamageMultiplier;
+			child.GetComponent<AoeMovement>().Speed = waveMoveSpeed;
+			child.GetComponent<AoeHitbox>().Init(gameObject);
 
-			Destroy(instantiatedAoe[i], waveDestroyTime);
 		}
 	}
 }

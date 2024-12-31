@@ -12,10 +12,12 @@ public class AoeMovement : MonoBehaviour
 	private Vector3 velocity = Vector3.zero;
 	private Vector3 forwardDir;
 
+	Rigidbody rb;
 	public float Speed { set {  speed = value; } }
 
 	private void Awake()
 	{
+		rb = GetComponent<Rigidbody>();
 		forwardDir = transform.right;
 	}
 	void Update()
@@ -28,10 +30,10 @@ public class AoeMovement : MonoBehaviour
 		Ray ray = new Ray(targetPosition + Vector3.up * raycastHeightOffset, Vector3.down);
 		if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, groundLayer))
 		{
-			targetPosition.y = hit.point.y + transform.localScale.y * 0.5f; // Align with terrain height
+			targetPosition.y = hit.point.y; // Align with terrain height
 		}
 
 		// Smooth movement to avoid jitter
-		transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
+		rb.MovePosition(Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime));
 	}
 }
