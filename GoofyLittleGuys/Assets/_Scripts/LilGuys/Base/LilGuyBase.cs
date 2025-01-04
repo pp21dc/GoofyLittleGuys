@@ -323,6 +323,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	{
 		if (isDying) return;
 		if (anim != null) anim.Play("Death");
+		RemoveSpeedBoost();
 		isDying = true;
 		isInBasicAttack = false;
 		isAttacking = false;
@@ -572,6 +573,28 @@ public abstract class LilGuyBase : MonoBehaviour
 			rb.velocity = new Vector3(currentVelocity.x, rb.velocity.y, currentVelocity.z);
 		}
 	}
+
+	public void ApplySpeedBoost(float spawnInterval)
+	{
+		AfterimageEffect afterimageController = GetComponent<AfterimageEffect>();
+		if (afterimageController == null)
+		{
+			afterimageController = gameObject.AddComponent<AfterimageEffect>();
+			afterimageController.CharacterSprite = mesh.GetComponent<SpriteRenderer>();
+		}
+		afterimageController.SpawnInterval = spawnInterval;
+		afterimageController.StartAfterimages();
+	}
+
+	public void RemoveSpeedBoost()
+	{
+		AfterimageEffect afterimageController = GetComponent<AfterimageEffect>();
+		if (afterimageController != null)
+		{
+			afterimageController.StopAfterimages();
+		}
+	}
+
 }
 
 public enum DebuffType

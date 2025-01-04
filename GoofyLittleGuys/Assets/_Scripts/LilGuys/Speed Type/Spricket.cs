@@ -74,6 +74,7 @@ public class Spricket : SpeedType
 		currentCharges--;
 		anim.SetTrigger("EndCharge");
 		anim.ResetTrigger("SpecialAttack");
+		ApplySpeedBoost(0.01f);
 		Rigidbody rb = (playerOwner == null) ? GetComponent<Rigidbody>() : playerOwner.GetComponent<Rigidbody>();
 		Debug.Log(rb);
 		if (rb != null)
@@ -108,6 +109,7 @@ public class Spricket : SpeedType
 		else isDashing = false;
 		anim.SetTrigger("SpecialAttackEnded");
 		anim.ResetTrigger("EndCharge");
+		RemoveSpeedBoost();
 		rb.velocity = Vector3.zero;
 	}
 
