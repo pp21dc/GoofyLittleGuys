@@ -7,6 +7,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: Mat
+    second: {fileID: 2100000, guid: 9e18e493ec9c6174e89ed55ac9631c45, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: MushroomCapTex_Textures_001
     second: {fileID: 2100000, guid: 9ddc34d9ba95e1348b95860d9463fd7a, type: 2}
   - first:
@@ -19,6 +24,11 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: PointTex_Textures_001
     second: {fileID: 2100000, guid: 2fc04378cb631dc43a670d3e7364d66b, type: 2}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: combinedMat_1
+    second: {fileID: 2800000, guid: c2b731ed3a54c6346a65d28e8d13a90e, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0

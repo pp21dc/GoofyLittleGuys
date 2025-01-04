@@ -7,6 +7,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: CombinedFlowermat
+    second: {fileID: 2100000, guid: 32ed200e51a14ae43b05446a12fc1e61, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: "FlowerLeaves\u82B1\u53F6"
     second: {fileID: 2100000, guid: b4c8d018ab53f6e458d850248b9f633d, type: 2}
   - first:
@@ -24,6 +29,11 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: "petal\u82B1\u74E3"
     second: {fileID: 2100000, guid: 211fdc72b8b97894da5924604ccd8369, type: 2}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: combinedMat
+    second: {fileID: 2800000, guid: 73245a55381b525458a04ac392b6068c, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
