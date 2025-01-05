@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Teddy : StrengthType
 {
+	[SerializeField] private GameObject specialFXPrefab;
 	private GameObject instantiatedAoe = null;
 	protected void SpawnConeAoe()
 	{
@@ -11,6 +12,11 @@ public class Teddy : StrengthType
 		instantiatedAoe.GetComponent<AoeHitbox>().AoeDamageMultiplier = aoeDamageMultiplier;
 		instantiatedAoe.GetComponent<AoeHitbox>().Init(gameObject);
 		Destroy(instantiatedAoe, aoeDestroyTime);
+	}
+
+	protected void SpawnThrustEffect()
+	{
+		Instantiate(specialFXPrefab, attackPosition.position, Quaternion.Euler(attackPosition.rotation.eulerAngles.y, attackPosition.rotation.eulerAngles.y, 0));
 	}
 	public override void StartChargingSpecial()
 	{
