@@ -114,6 +114,10 @@ MonoBehaviour:
   minChargeTime: 0.5
   maxChargeTime: 1.5
   dashDistance: 5
+  spawnInterval: 0.05
+  maxAfterimages: 8
+  fadeSpeed: 0.5
+  emissionColour: {r: 1, g: 0.82, b: 0.25, a: 1}
 --- !u!136 &3370327291423806742
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -226,6 +230,7 @@ MonoBehaviour:
   chaseRange: 10
   attackRange: 2.5
   attackBuffer: 2
+  maxTimeOutsideHomeSpawner: 3
   timeBeforeDestroyed: 5
   maxHostility: 10
   hostilityDecayRate: 0.5

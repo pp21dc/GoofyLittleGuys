@@ -9,11 +9,15 @@ public class AfterimageEffect : MonoBehaviour
 	[SerializeField] private float fadeSpeed = 0.5f;
 
 	private SpriteRenderer characterSprite;
-	private Coroutine afterimageCoroutine;
+    private Color emissionColour = new Color(1.00f, 0.82f, 0.25f, 1.0f);   // The yellow used for speed lil guys
+    private Coroutine afterimageCoroutine;
 	private Queue<GameObject> afterimageQueue = new Queue<GameObject>();
 
 	public SpriteRenderer CharacterSprite { set { characterSprite = value; } }
 	public float SpawnInterval { set { spawnInterval = value; } }
+	public int MaxAfterimages { set { maxAfterimages = value; } }
+	public float FadeSpeed { set { fadeSpeed = value; } }
+	public Color EmissionColour { set {  emissionColour = value; } }
 
 	public void StartAfterimages()
 	{
