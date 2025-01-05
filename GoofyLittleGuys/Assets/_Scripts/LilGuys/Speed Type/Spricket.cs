@@ -9,7 +9,13 @@ public class Spricket : SpeedType
 	[SerializeField] private float maxChargeTime = 1.5f;
 	[SerializeField] private float dashDistance = 5f;
 
-	bool isCharging = false;
+	[Header("Special FX Specific")]
+    [SerializeField] private float spawnInterval = 0.01f;
+    [SerializeField] private int maxAfterimages = 12;
+    [SerializeField] private float fadeSpeed = 0.5f;
+    [SerializeField] private Color emissionColour = new Color(1.00f, 0.82f, 0.25f, 1.0f);   // The yellow used for speed lil guys
+
+    bool isCharging = false;
 	public bool IsCharging => isCharging;
 	private float chargeTime = 0f;
 
@@ -74,8 +80,8 @@ public class Spricket : SpeedType
 		currentCharges--;
 		anim.SetTrigger("EndCharge");
 		anim.ResetTrigger("SpecialAttack");
-		ApplySpeedBoost(0.01f);
-		Rigidbody rb = (playerOwner == null) ? GetComponent<Rigidbody>() : playerOwner.GetComponent<Rigidbody>();
+        ApplySpeedBoost(spawnInterval, maxAfterimages, fadeSpeed, emissionColour);
+        Rigidbody rb = (playerOwner == null) ? GetComponent<Rigidbody>() : playerOwner.GetComponent<Rigidbody>();
 		Debug.Log(rb);
 		if (rb != null)
 		{

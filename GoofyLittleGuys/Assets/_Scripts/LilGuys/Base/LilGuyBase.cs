@@ -574,16 +574,19 @@ public abstract class LilGuyBase : MonoBehaviour
 		}
 	}
 
-	public void ApplySpeedBoost(float spawnInterval)
+	public void ApplySpeedBoost(float spawnInterval, int maxAfterImages, float fadeSpeed, Color emissionColour)
 	{
 		AfterimageEffect afterimageController = GetComponent<AfterimageEffect>();
 		if (afterimageController == null)
 		{
 			afterimageController = gameObject.AddComponent<AfterimageEffect>();
 			afterimageController.CharacterSprite = mesh.GetComponent<SpriteRenderer>();
-		}
-		afterimageController.SpawnInterval = spawnInterval;
-		afterimageController.StartAfterimages();
+        }
+        afterimageController.SpawnInterval = spawnInterval;
+        afterimageController.FadeSpeed = fadeSpeed;
+        afterimageController.MaxAfterimages = maxAfterImages;
+        afterimageController.EmissionColour = emissionColour;
+        afterimageController.StartAfterimages();
 	}
 
 	public void RemoveSpeedBoost()
