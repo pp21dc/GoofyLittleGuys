@@ -31,6 +31,10 @@ public class StormObj : MonoBehaviour
         if (playerHurtbox != null && playerHurtbox.gameObject.GetComponent<TamedBehaviour>() != null)
         {
             PlayerBody playerHit = playerHurtbox.gameObject.GetComponent<LilGuyBase>().PlayerOwner;
+            if (playerHit != null && !playerHit.InStorm)
+            {
+                playerHit.InStorm = true;
+            }
             if (playerHit != null && playerHit.StormDmg)
             {
                 playerHit.StormDamage(dmgPerInterval);
