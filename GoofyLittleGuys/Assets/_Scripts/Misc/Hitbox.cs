@@ -37,6 +37,14 @@ public class Hitbox : MonoBehaviour
 	private void OnHit(Hurtbox h)
 	{
 		Debug.Log("HIT");
+		Toadstool toadstool = h.GetComponent<Toadstool>();
+		if (toadstool != null && toadstool.IsShieldActive)
+		{
+			h.TakeDamage(Mathf.CeilToInt(Damage * Mathf.Max((1 - toadstool.DamageReduction), 0.01f)));    // Ceil because we don't want them to be completely immune to damage.
+			h.LastHit = hitboxOwner.GetComponent<LilGuyBase>().PlayerOwner;
+
+			EventManager.Instance.ApplyDebuff(hitboxOwner, toadstool.PoisonDamage, toadstool.PoisonDuration, DebuffType.Poison, toadstool.PoisonDamageApplicationInterval);
+		}
 		DefenseType defenseLilGuy = h.gameObject.GetComponent<DefenseType>();
 		if (defenseLilGuy != null && defenseLilGuy.IsShieldActive)
 		{

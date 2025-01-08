@@ -100,17 +100,35 @@ public class EventManager
 	}
 
 
-	public void ApplyDebuff(GameObject affectedEntity, float debuffAmount, float debuffDuration, DebuffType type)
+	public void ApplyDebuff(GameObject affectedEntity, float debuffAmount, float debuffDuration, DebuffType type, float damageApplicationInterval = 0)
 	{
 		switch(type)
 		{
 			case DebuffType.Slow:
 				GameManager.Instance.StartCoroutine(Slow(affectedEntity, debuffAmount, debuffDuration));
 				break;
+			case DebuffType.Poison:
+				// Apply Debuff effect to lil guy as well
+				GameManager.Instance.StartCoroutine(Poison(affectedEntity, debuffAmount, debuffDuration, damageApplicationInterval));
+				break;
 		}
 		
 	}
-
+	private IEnumerator Poison(GameObject affectedEntity, float amount, float duration, float damageApplicationInterval)
+	{
+		float elapsedTime = 0;
+		Hurtbox h = affectedEntity.GetComponent<Hurtbox>();
+		if (h != null)
+		{
+			while (elapsedTime <= duration)
+			{
+				h.TakeDamage(amount);
+				yield return new WaitForSeconds(damageApplicationInterval);
+				elapsedTime += damageApplicationInterval;
+			}
+		}
+		else yield break;
+	}
 	private IEnumerator Slow(GameObject affectedEntity, float debuffAmount, float debuffDuration)
 	{
 

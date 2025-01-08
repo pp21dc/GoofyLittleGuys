@@ -604,5 +604,6 @@ public abstract class LilGuyBase : MonoBehaviour
 
 public enum DebuffType
 {
-	Slow
+	Slow,
+	Poison
 }
