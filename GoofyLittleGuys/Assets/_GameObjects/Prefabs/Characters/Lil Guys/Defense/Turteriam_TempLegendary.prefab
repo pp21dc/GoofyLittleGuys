@@ -65,7 +65,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.4, y: 1.4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5110951285640337659}
@@ -94,6 +94,7 @@ MonoBehaviour:
   anim: {fileID: 2852710274394337051}
   attackPosition: {fileID: 6391458775545658944}
   attackOrbit: {fileID: 122990110928241992}
+  baseSpeed: 13
   level: 15
   xp: 0
   max_xp: 5
