@@ -19,6 +19,7 @@ public abstract class LilGuyBase : MonoBehaviour
 
 
 	[Header("Lil Guy Stats")]
+	[SerializeField] private int baseSpeed = 13;
 	[SerializeField] protected int level = 1;
 	[SerializeField] protected int xp = 0;
 	[SerializeField] protected int max_xp = 5;
@@ -75,6 +76,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	private bool knockedBack = false;
 
 	#region Getters and Setters
+	public int BaseSpeed => baseSpeed;
 	public int Level { get => level; set => level = value; }
 	public float Health { get => health; set => health = value; }
 	public float MaxHealth { get => maxHealth; set => maxHealth = value; }
@@ -566,7 +568,7 @@ public abstract class LilGuyBase : MonoBehaviour
 		if (!knockedBack)
 		{
 			// Move the creature towards the player with smoothing
-			Vector3 targetVelocity = movementDirection.normalized * ((((playerOwner != null) ? speed : speed * 0.75f) + 10) / 3f);
+			Vector3 targetVelocity = movementDirection.normalized * (baseSpeed + ((playerOwner != null) ? speed : speed * 0.75f) * 0.3f);
 			// Smoothly accelerate towards the target velocity
 			currentVelocity = Vector3.Lerp(currentVelocity, targetVelocity, Time.fixedDeltaTime / accelerationTime);
 			// Apply the smoothed velocity to the Rigidbody
