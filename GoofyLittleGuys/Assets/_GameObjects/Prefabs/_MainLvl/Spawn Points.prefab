@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4176501104195731232}
   - component: {fileID: 6844917090405993148}
+  - component: {fileID: 9073287362895974383}
   m_Layer: 0
   m_Name: Spawn Point
   m_TagString: Untagged
@@ -26,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 676404172982610570}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -50.79, y: 56.8, z: 179}
+  m_LocalPosition: {x: 90, y: 56.8, z: 289}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -44,6 +45,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7287cf5f6331e7f42ae462cfdad02e62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &9073287362895974383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 676404172982610570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0e2dd2a44c72f240bfa4cd1adf82b51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  note: Player Spawn Point
+  fontSize: 6
+  fontColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  labelAnchor: 4
+  wordWrap: 1
+  renderInEditor: 1
+  labelRectSize: {x: 100, y: 100}
 --- !u!1 &816005177813197904
 GameObject:
   m_ObjectHideFlags: 0
@@ -54,6 +74,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4885894880053700609}
   - component: {fileID: 3207468430050692015}
+  - component: {fileID: 7005424955884132857}
   m_Layer: 0
   m_Name: Spawn Point
   m_TagString: Untagged
@@ -70,7 +91,7 @@ Transform:
   m_GameObject: {fileID: 816005177813197904}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 196.26, y: 40.818, z: -82.47}
+  m_LocalPosition: {x: 290, y: 40.818, z: 34}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -88,6 +109,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7287cf5f6331e7f42ae462cfdad02e62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7005424955884132857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 816005177813197904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0e2dd2a44c72f240bfa4cd1adf82b51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  note: Player Spawn Point
+  fontSize: 6
+  fontColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  labelAnchor: 4
+  wordWrap: 1
+  renderInEditor: 1
+  labelRectSize: {x: 100, y: 100}
 --- !u!1 &1958656497327057981
 GameObject:
   m_ObjectHideFlags: 0
@@ -98,6 +138,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8946660854660372635}
   - component: {fileID: 4066973637622417550}
+  - component: {fileID: 1238759563966948682}
   m_Layer: 0
   m_Name: Spawn Point
   m_TagString: Untagged
@@ -114,7 +155,7 @@ Transform:
   m_GameObject: {fileID: 1958656497327057981}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -92.12, y: 47.88, z: 32.13}
+  m_LocalPosition: {x: 37.5, y: 47.88, z: 146.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -132,6 +173,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7287cf5f6331e7f42ae462cfdad02e62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1238759563966948682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1958656497327057981}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0e2dd2a44c72f240bfa4cd1adf82b51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  note: Player Spawn Point
+  fontSize: 6
+  fontColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  labelAnchor: 4
+  wordWrap: 1
+  renderInEditor: 1
+  labelRectSize: {x: 100, y: 100}
 --- !u!1 &2590445167140796536
 GameObject:
   m_ObjectHideFlags: 0
@@ -142,6 +202,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2884479891081028465}
   - component: {fileID: 2165459318465442887}
+  - component: {fileID: 2229805433403401201}
   m_Layer: 0
   m_Name: Spawn Point
   m_TagString: Untagged
@@ -158,7 +219,7 @@ Transform:
   m_GameObject: {fileID: 2590445167140796536}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 219.5, y: 48.377, z: 29.1}
+  m_LocalPosition: {x: 302, y: 48.377, z: 165}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -176,6 +237,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7287cf5f6331e7f42ae462cfdad02e62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2229805433403401201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2590445167140796536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0e2dd2a44c72f240bfa4cd1adf82b51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  note: Player Spawn Point
+  fontSize: 6
+  fontColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  labelAnchor: 4
+  wordWrap: 1
+  renderInEditor: 1
+  labelRectSize: {x: 100, y: 100}
 --- !u!1 &4575379053027025317
 GameObject:
   m_ObjectHideFlags: 0
@@ -201,7 +281,7 @@ Transform:
   m_GameObject: {fileID: 4575379053027025317}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 171.5, y: 0, z: 160.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -223,6 +303,7 @@ GameObject:
   m_Component:
   - component: {fileID: 807290872373841128}
   - component: {fileID: 5057830810643238576}
+  - component: {fileID: 7710929316488072019}
   m_Layer: 0
   m_Name: Spawn Point
   m_TagString: Untagged
@@ -239,7 +320,7 @@ Transform:
   m_GameObject: {fileID: 8753348612165169050}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 172.8, y: 51.11, z: 190.3}
+  m_LocalPosition: {x: 290, y: 51.11, z: 287}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -257,6 +338,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7287cf5f6331e7f42ae462cfdad02e62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7710929316488072019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8753348612165169050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0e2dd2a44c72f240bfa4cd1adf82b51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  note: Player Spawn Point
+  fontSize: 6
+  fontColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  labelAnchor: 4
+  wordWrap: 1
+  renderInEditor: 1
+  labelRectSize: {x: 100, y: 100}
 --- !u!1 &9091176949835968090
 GameObject:
   m_ObjectHideFlags: 0
@@ -267,6 +367,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8297902138195160148}
   - component: {fileID: 8961933921043914052}
+  - component: {fileID: 2357175435994080688}
   m_Layer: 0
   m_Name: Spawn Point
   m_TagString: Untagged
@@ -283,7 +384,7 @@ Transform:
   m_GameObject: {fileID: 9091176949835968090}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -66.9, y: 41.24, z: -110.68}
+  m_LocalPosition: {x: 72, y: 41.24, z: 23}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -301,3 +402,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7287cf5f6331e7f42ae462cfdad02e62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2357175435994080688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9091176949835968090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0e2dd2a44c72f240bfa4cd1adf82b51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  note: Player Spawn Point
+  fontSize: 6
+  fontColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  labelAnchor: 4
+  wordWrap: 1
+  renderInEditor: 1
+  labelRectSize: {x: 100, y: 100}
