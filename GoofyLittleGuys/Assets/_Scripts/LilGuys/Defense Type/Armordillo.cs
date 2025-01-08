@@ -14,10 +14,7 @@ public class Armordillo : DefenseType
 	public override void StartChargingSpecial()
 	{
 		if (currentCharges <= 0 && cooldownTimer > 0) return;
-		if (speedBoostActive) return;
-		speed += speedBoost;
-		StartCoroutine(StopSpeedBoost(playerOwner != null));
-		speedBoostActive = true;
+		
 	}
 	public override void StopChargingSpecial()
 	{
@@ -25,16 +22,21 @@ public class Armordillo : DefenseType
 		if (!IsInSpecialAttack && !IsInBasicAttack)
 		{
 			base.StopChargingSpecial();
-			spawnedShieldObj ??= Instantiate(shieldPrefab, transform.position + Vector3.up, Quaternion.identity, transform); // If spawnShieldObj is null, assign it this instantiated GO
-			spawnedShieldObj.GetComponent<Shield>().Initialize(duration, this);
-			isShieldActive = true;
 		}
 	}
 	protected override void Special()
-	{
+	{		
 		base.Special();
+		if (speedBoostActive) return;
+		speed += speedBoost;
+		StartCoroutine(StopSpeedBoost());
+		speedBoostActive = true;
+
+		spawnedShieldObj ??= Instantiate(shieldPrefab, transform.position + Vector3.up, Quaternion.identity, transform); // If spawnShieldObj is null, assign it this instantiated GO
+		spawnedShieldObj.GetComponent<Shield>().Initialize(duration, this);
+		isShieldActive = true;
 	}
-	private IEnumerator StopSpeedBoost(bool playerOwned)
+	private IEnumerator StopSpeedBoost()
 	{
 		yield return new WaitForSeconds(specialDuration);
 		speed -= speedBoost;
