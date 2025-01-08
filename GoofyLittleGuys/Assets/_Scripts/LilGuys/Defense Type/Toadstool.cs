@@ -16,17 +16,6 @@ public class Toadstool : DefenseType
 	public float PoisonDamage => poisonDamage;
 	public float PoisonDuration => poisonDuration;
 	public float PoisonDamageApplicationInterval => poisonDamageApplicationInterval;
-	// Start is called before the first frame update
-	protected override void Start()
-	{
-
-	}
-
-	// Update is called once per frame
-	protected override void Update()
-	{
-
-	}
 
 	protected override void OnEndSpecial()
 	{
