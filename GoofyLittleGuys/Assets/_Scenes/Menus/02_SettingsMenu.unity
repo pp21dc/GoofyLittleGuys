@@ -573,7 +573,7 @@ GameObject:
   - component: {fileID: 601633908}
   - component: {fileID: 601633907}
   m_Layer: 5
-  m_Name: Button (1)
+  m_Name: Display_BTN
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -694,7 +694,7 @@ GameObject:
   - component: {fileID: 635330339}
   - component: {fileID: 635330338}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Controls_BTN
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2334,8 +2334,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 769551317}
-  - {fileID: 635330337}
   - {fileID: 601633906}
+  - {fileID: 635330337}
   - {fileID: 2072970695}
   - {fileID: 1957749390}
   - {fileID: 1539542916}
@@ -2423,7 +2423,7 @@ GameObject:
   - component: {fileID: 1957749392}
   - component: {fileID: 1957749391}
   m_Layer: 5
-  m_Name: Button (3)
+  m_Name: Accessibility_BTN
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2544,7 +2544,7 @@ GameObject:
   - component: {fileID: 2072970697}
   - component: {fileID: 2072970696}
   m_Layer: 5
-  m_Name: Button (2)
+  m_Name: Audio_BTN
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
