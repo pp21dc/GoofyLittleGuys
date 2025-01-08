@@ -91,7 +91,7 @@ MonoBehaviour:
   mesh: {fileID: 2263210829898551102}
   hitboxPrefab: {fileID: 7763503517924717934, guid: 9df4356fd20c6d740acf3ba2a05fd8ed,
     type: 3}
-  anim: {fileID: 0}
+  anim: {fileID: 2852710274394337051}
   attackPosition: {fileID: 6391458775545658944}
   attackOrbit: {fileID: 122990110928241992}
   baseSpeed: 13
@@ -250,7 +250,7 @@ Animator:
   m_GameObject: {fileID: 6573903925891364681}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: f7c96402e47472f479d1e8d35384f7e5, type: 2}
+  m_Controller: {fileID: 9100000, guid: 50c94ed98813a6240bc1d6fab9298fb9, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -470,6 +470,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6748941042090021233}
     m_Modifications:
+    - target: {fileID: 338731693121088716, guid: 533e318f743a87f479f4cdd8b25b7ac4,
+        type: 3}
+      propertyPath: lilGuy
+      value: 
+      objectReference: {fileID: 3334407532617332349}
     - target: {fileID: 1365496982641679296, guid: 533e318f743a87f479f4cdd8b25b7ac4,
         type: 3}
       propertyPath: m_PresetInfoIsWorld
