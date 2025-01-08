@@ -57,6 +57,10 @@ public class Teleporter : InteractableBase
             inRange.Remove(other.gameObject);
             other.GetComponent<PlayerBody>().ClosestInteractable = null;
         }
+        if (inRange.Count == 0)
+        {
+            interactableCanvas.SetActive(false);
+        }
     }
     #endregion
 
@@ -64,11 +68,17 @@ public class Teleporter : InteractableBase
     {
         base.OnInteracted(body);
 
-        body.gameObject.transform.position = targetTeleporter.EndTeleportLocation.position;
+        if (!onCooldown)
+        {
+            body.gameObject.transform.position = targetTeleporter.EndTeleportLocation.position;
+            Debug.Log("TELEPORTED " + body.name + "TO " + targetTeleporter.EndTeleportLocation.position);
+            StartCoroutine(nameof(WaitForCooldown));
+        }
     }
 
     private IEnumerator WaitForCooldown()
     {
+        yield return new WaitForEndOfFrame();
         onCooldown = true;
         targetTeleporter.OnCooldown = true;
         yield return new WaitForSeconds(cooldown);
