@@ -40,7 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6748941042090021233}
-  - component: {fileID: 3815921599392353586}
+  - component: {fileID: 3334407532617332349}
   - component: {fileID: 4146728097653182592}
   - component: {fileID: 4988145507736226384}
   - component: {fileID: 64493841757031541}
@@ -49,7 +49,7 @@ GameObject:
   - component: {fileID: -3799891229910610430}
   - component: {fileID: 2852710274394337051}
   m_Layer: 8
-  m_Name: Turteriam_TempLegendary
+  m_Name: Toadstool_Legendary
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -74,7 +74,7 @@ Transform:
   - {fileID: 4616524815062592788}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3815921599392353586
+--- !u!114 &3334407532617332349
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -83,10 +83,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6573903925891364681}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46becde836e89c04892cd67c38e82f10, type: 3}
+  m_Script: {fileID: 11500000, guid: 6400cbf5d6cfbaf48a4f53c6380af89b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  guyName: Turteriam
+  guyName: Toadstool
   type: 1
   mesh: {fileID: 2263210829898551102}
   hitboxPrefab: {fileID: 7763503517924717934, guid: 9df4356fd20c6d740acf3ba2a05fd8ed,
@@ -106,18 +106,17 @@ MonoBehaviour:
   specialDuration: -1
   currentCharges: 1
   maxCharges: 1
-  cooldownDuration: 20
-  chargeRefreshRate: 20
+  cooldownDuration: 1
+  chargeRefreshRate: 1
   accelerationTime: 0.1
   attackCooldown: 1
   attackEffect: {fileID: 0}
-  damageReduction: 0.55
-  domePrefab: {fileID: 839464886904612836, guid: 0538508ef34bfe24abd69e9edf842f7e,
-    type: 3}
-  teamDamageReductionDuration: 0.55
-  domeLifetime: 6
-  domeMaxSize: 10
-  domeExpansionSpeed: 0.5
+  damageReduction: 0.5
+  gasPrefab: {fileID: 0}
+  shieldTime: 4
+  poisonDamage: 3
+  poisonDuration: 2
+  poisonDamageApplicationInterval: 0.5
 --- !u!54 &4146728097653182592
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -251,7 +250,7 @@ Animator:
   m_GameObject: {fileID: 6573903925891364681}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: f7c96402e47472f479d1e8d35384f7e5, type: 2}
+  m_Controller: {fileID: 9100000, guid: 50c94ed98813a6240bc1d6fab9298fb9, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -321,7 +320,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.7, y: 0.75, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6748941042090021233}
@@ -367,7 +366,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2001894648, guid: 561eabcb423db7e4885742b8d1c1f6ae, type: 3}
+  m_Sprite: {fileID: -59262008, guid: 145c9c088cd499943be10f02a38aa370, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -475,7 +474,7 @@ PrefabInstance:
         type: 3}
       propertyPath: lilGuy
       value: 
-      objectReference: {fileID: 3815921599392353586}
+      objectReference: {fileID: 3334407532617332349}
     - target: {fileID: 1365496982641679296, guid: 533e318f743a87f479f4cdd8b25b7ac4,
         type: 3}
       propertyPath: m_PresetInfoIsWorld
