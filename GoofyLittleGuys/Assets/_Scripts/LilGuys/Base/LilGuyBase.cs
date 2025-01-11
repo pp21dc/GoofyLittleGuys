@@ -123,11 +123,6 @@ public abstract class LilGuyBase : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
-    private void OnDisable()
-    {
-        GameObject instantiatedFX = Instantiate(deathCloudFX, transform.position + Vector3.up + Vector3.back, Quaternion.identity);
-    }
-
     public void DetermineLevel()
     {
         int count = 0;
@@ -397,9 +392,14 @@ public abstract class LilGuyBase : MonoBehaviour
     private IEnumerator Disappear()
     {
         if (anim != null) yield return new WaitUntil(() => anim.GetCurrentAnimatorStateInfo(0).IsName("Death") && anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f);
-        gameObject.SetActive(false);
+        SpawnDeathParticle();
+		gameObject.SetActive(false);
     }
 
+    public void SpawnDeathParticle()
+    {
+		GameObject instantiatedFX = Instantiate(deathCloudFX, transform.position + Vector3.up + Vector3.back, Quaternion.identity);
+	}
     /// <summary>
     /// This is the basic attack across all lil guys
     /// it uses a hitbox prefab to detect other ai within it and deal damage from that script

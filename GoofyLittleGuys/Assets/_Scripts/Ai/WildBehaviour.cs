@@ -234,7 +234,7 @@ public class WildBehaviour : MonoBehaviour
 				yield return null;
 			}
 		}
-
+		controller.LilGuy.SpawnDeathParticle();
 		Destroy(gameObject);
 		actionCoroutine = null;
 

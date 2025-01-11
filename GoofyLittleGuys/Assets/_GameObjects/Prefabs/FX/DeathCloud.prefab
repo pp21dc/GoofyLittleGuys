@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8584496848745920432}
   - component: {fileID: 1104308030566548389}
   - component: {fileID: 7589569370016752588}
+  - component: {fileID: -77556172929185720}
   m_Layer: 0
   m_Name: DeathCloud
   m_TagString: Untagged
@@ -117,5 +118,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 602780de1b0eef649a7e123106d1915a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-77556172929185720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2269913496460467973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f18daac8f54d1b4db8d08718189c448, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
