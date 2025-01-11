@@ -193,6 +193,13 @@ MonoBehaviour:
   cooldownDuration: 10
   chargeRefreshRate: 10
   accelerationTime: 0.1
+  deathCloudFX: {fileID: 2269913496460467973, guid: e1a285177c7faaf4aa01bdadd2d5a852,
+    type: 3}
+  levelUpFX: {fileID: 2890091950658190173, guid: 491a86361fa465d4d95296e0db061338,
+    type: 3}
+  DustParticleFX: {fileID: 6102333242288699407, guid: 6c1e35896bd1f7e4cbf0df5720e3aded,
+    type: 3}
+  dustSpawnInterval: 1
   attackCooldown: 1
   attackEffect: {fileID: 0}
   aoeShape: {fileID: 3002048726699763566, guid: 42eafbd32610d954eaa3c0cc605b89bc,

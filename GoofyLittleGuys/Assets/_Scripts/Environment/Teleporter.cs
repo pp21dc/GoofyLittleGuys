@@ -70,7 +70,7 @@ public class Teleporter : InteractableBase
 
         if (!onCooldown)
         {
-            body.gameObject.transform.position = targetTeleporter.EndTeleportLocation.position;
+            body.GetComponent<Rigidbody>().MovePosition(targetTeleporter.EndTeleportLocation.position);
             Debug.Log("TELEPORTED " + body.name + "TO " + targetTeleporter.EndTeleportLocation.position);
             StartCoroutine(nameof(WaitForCooldown));
         }
