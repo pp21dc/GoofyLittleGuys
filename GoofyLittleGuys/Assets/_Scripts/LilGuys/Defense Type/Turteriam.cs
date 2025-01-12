@@ -15,6 +15,9 @@ public class Turteriam : DefenseType
 	private bool damageReductionActive = false;
 	private GameObject instantiatedDome = null;
 
+	public GameObject InstantiatedDome { set { instantiatedDome = value; } }
+	public bool DamageReductionActive { set { damageReductionActive = value; } }
+
 	// Start is called before the first frame update
 	protected override void Start()
 	{
@@ -46,22 +49,13 @@ public class Turteriam : DefenseType
 
 	protected override void Special()
 	{
-		if (playerOwner != null) playerOwner.TeamDamageReduction += DamageReduction;
+		if (playerOwner != null) EventManager.Instance.ApplyTeamDamageReduction(playerOwner, teamDamageReductionDuration, this);
 		else isShieldActive = true;
 		damageReductionActive = true;
 		instantiatedDome = Instantiate(domePrefab, transform.position, Quaternion.identity);
 		instantiatedDome.GetComponent<TurteriamWall>().Init(domeMaxSize, domeExpansionSpeed, domeLifetime);
-		StartCoroutine(StopDamageReduction(playerOwner != null));
 		base.Special();
 	}
-	private IEnumerator StopDamageReduction(bool playerOwned)
-	{
-		yield return new WaitForSeconds(teamDamageReductionDuration);
-		if (!playerOwned) isShieldActive = false;
-		else playerOwner.TeamDamageReduction -= DamageReduction;
-
-		instantiatedDome = null;
-		damageReductionActive = false;
-	}
+	
 
 }

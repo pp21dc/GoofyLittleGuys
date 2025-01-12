@@ -102,7 +102,7 @@ public class EventManager
 
 	public void ApplyDebuff(GameObject affectedEntity, float debuffAmount, float debuffDuration, DebuffType type, float damageApplicationInterval = 0)
 	{
-		switch(type)
+		switch (type)
 		{
 			case DebuffType.Slow:
 				GameManager.Instance.StartCoroutine(Slow(affectedEntity, debuffAmount, debuffDuration));
@@ -112,7 +112,7 @@ public class EventManager
 				GameManager.Instance.StartCoroutine(Poison(affectedEntity, debuffAmount, debuffDuration, damageApplicationInterval));
 				break;
 		}
-		
+
 	}
 	private IEnumerator Poison(GameObject affectedEntity, float amount, float duration, float damageApplicationInterval)
 	{
@@ -148,6 +148,60 @@ public class EventManager
 			lilGuy.Speed += debuffAmount;
 		}
 
+	}
+
+	public void ApplySpeedBoost(PlayerBody playerOwner, float speedBoostAmount, float spawnInterval, int maxAfterImages, float fadeSpeed, Color emissionColour, float speedBoostDuration)
+	{
+		playerOwner.TeamSpeedBoost += speedBoostAmount;
+		foreach (LilGuyBase lilGuy in playerOwner.LilGuyTeam)
+		{
+			if (!lilGuy.isActiveAndEnabled) continue;
+			lilGuy.ApplySpeedBoost(spawnInterval, maxAfterImages, fadeSpeed, emissionColour);
+
+		}
+		GameManager.Instance.StartCoroutine(StopSpeedBoost(playerOwner, speedBoostAmount, speedBoostDuration));
+	}
+	public void ApplySpeedBoost(LilGuyBase lilGuy, float speedBoostAmount, float spawnInterval, int maxAfterImages, float fadeSpeed, Color emissionColour, float speedBoostDuration)
+	{
+		lilGuy.Speed += speedBoostAmount;
+		lilGuy.ApplySpeedBoost(spawnInterval, maxAfterImages, fadeSpeed, emissionColour);
+		GameManager.Instance.StartCoroutine(StopSpeedBoost(lilGuy, speedBoostAmount, speedBoostDuration));
+	}
+
+	private IEnumerator StopSpeedBoost(PlayerBody body, float speedBoostAmount, float speedBoostDuration)
+	{
+		yield return new WaitForSeconds(speedBoostDuration);
+
+		body.TeamSpeedBoost -= speedBoostAmount;
+		foreach (LilGuyBase lilGuy in body.LilGuyTeam)
+		{
+			lilGuy.RemoveSpeedBoost();
+		}
+
+	}
+	private IEnumerator StopSpeedBoost(LilGuyBase lilGuy, float speedBoostAmount, float speedBoostDuration)
+	{
+		yield return new WaitForSeconds(speedBoostDuration);
+
+		lilGuy.Speed -= speedBoostAmount;
+		lilGuy.RemoveSpeedBoost();
+
+	}
+
+	public void ApplyTeamDamageReduction(PlayerBody playerOwner, float teamDamageReductionDuration, Turteriam lilGuy)
+	{
+		playerOwner.TeamDamageReduction += lilGuy.DamageReduction;
+		GameManager.Instance.StartCoroutine(StopDamageReduction(playerOwner, teamDamageReductionDuration, lilGuy));
+	}
+
+	private IEnumerator StopDamageReduction(PlayerBody playerOwner, float teamDamageReductionDuration, Turteriam lilGuy)
+	{
+		yield return new WaitForSeconds(teamDamageReductionDuration);
+		lilGuy.IsShieldActive = false;
+		playerOwner.TeamDamageReduction -= lilGuy.DamageReduction;
+
+		lilGuy.InstantiatedDome = null;
+		lilGuy.DamageReductionActive = false;
 	}
 
 }

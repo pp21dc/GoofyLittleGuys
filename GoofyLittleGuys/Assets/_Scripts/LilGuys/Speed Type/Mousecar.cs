@@ -27,39 +27,12 @@ public class Mousecar : SpeedType
     {
         if (playerOwner != null)
         {
-            playerOwner.TeamSpeedBoost += speedBoostAmount;
-            foreach (LilGuyBase lilGuy in playerOwner.LilGuyTeam)
-            {
-                if (!lilGuy.isActiveAndEnabled) continue;
-                lilGuy.ApplySpeedBoost(spawnInterval, maxAfterimages, fadeSpeed, emissionColour);
-
-            }
+            EventManager.Instance.ApplySpeedBoost(playerOwner, speedBoostAmount, spawnInterval, maxAfterimages, fadeSpeed, emissionColour, speedBoostDuration);
         }
         else
         {
-            speed += speedBoostAmount;
-            ApplySpeedBoost(spawnInterval, maxAfterimages, fadeSpeed, emissionColour);
+            EventManager.Instance.ApplySpeedBoost(this, speedBoostAmount, spawnInterval, maxAfterimages, fadeSpeed, emissionColour, speedBoostDuration);
         }
-
-        StartCoroutine(StopSpeedBoost(playerOwner != null));
         base.Special();
-    }
-
-    private IEnumerator StopSpeedBoost(bool playerOwned)
-    {
-        yield return new WaitForSeconds(speedBoostDuration);
-        if (!playerOwned)
-        {
-            speed -= speedBoostAmount;
-            RemoveSpeedBoost();
-        }
-        else
-        {
-            playerOwner.TeamSpeedBoost -= speedBoostAmount;
-            foreach (LilGuyBase lilGuy in playerOwner.LilGuyTeam)
-            {
-                lilGuy.RemoveSpeedBoost();
-            }
-        }
     }
 }
