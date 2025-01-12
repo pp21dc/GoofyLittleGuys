@@ -149,7 +149,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4674532825210419824}
@@ -190,8 +190,8 @@ MonoBehaviour:
   specialDuration: 2
   currentCharges: 1
   maxCharges: 1
-  cooldownDuration: 10
-  chargeRefreshRate: 10
+  cooldownDuration: 12
+  chargeRefreshRate: 12
   accelerationTime: 0.1
   deathCloudFX: {fileID: 2269913496460467973, guid: e1a285177c7faaf4aa01bdadd2d5a852,
     type: 3}

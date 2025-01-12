@@ -273,7 +273,7 @@ public abstract class LilGuyBase : MonoBehaviour
         }
 
         // Level Up
-        if (Xp >= max_xp && level < 21)
+        if (Xp >= max_xp && level < 20)
         {
             Xp -= max_xp;
             LevelUp();
