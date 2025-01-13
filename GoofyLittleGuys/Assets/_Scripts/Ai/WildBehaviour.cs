@@ -91,7 +91,7 @@ public class WildBehaviour : MonoBehaviour
 		{
 			actionCoroutine ??= StartCoroutine(ReturnHome());
 		}
-		else if (controller.DistanceToPlayer() <= chaseRange && controller.LilGuy.Health <= controller.LilGuy.MaxHealth * Mathf.Lerp(0.25f, 0.5f, timid / 10f))
+		else if (isCatchable && controller.DistanceToPlayer() <= chaseRange && controller.LilGuy.Health <= controller.LilGuy.MaxHealth * Mathf.Lerp(0.25f, 0.5f, timid / 10f) && (timid - hostility > 0))
 		{
 			actionCoroutine ??= StartCoroutine(Flee());
 		}

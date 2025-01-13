@@ -255,7 +255,7 @@ public abstract class LilGuyBase : MonoBehaviour
         }
         else isDead = false;
 
-        if (isDead) return;
+		if (isDead) return;
 
         // Replenish cooldown over time.
         if (cooldownTimer > 0) cooldownTimer -= Time.deltaTime;
@@ -279,8 +279,8 @@ public abstract class LilGuyBase : MonoBehaviour
             LevelUp();
         }
 
-        if (anim != null) UpdateAnimations();
-        if (isAttacking) Attack();
+		if (anim != null) UpdateAnimations();
+		if (isAttacking) Attack();
     }
 
     private void FixedUpdate()
@@ -295,6 +295,7 @@ public abstract class LilGuyBase : MonoBehaviour
 
     private void UpdateAnimations()
     {
+        anim.SetBool("IsDead", isDead);
         if (!isDead)
         {
             anim.SetBool("IsMoving", isMoving);
@@ -341,10 +342,10 @@ public abstract class LilGuyBase : MonoBehaviour
     public virtual void PlayDeathAnim(bool isWild = false)
     {
         if (isDying) return;
-        if (anim != null) anim.Play("Death");
         RemoveSpeedBoost();
         isDying = true;
-        isInBasicAttack = false;
+		anim.SetBool("IsDead", true);
+		isInBasicAttack = false;
         isAttacking = false;
         isInSpecialAttack = false;
         lockAttackRotation = false;
@@ -390,8 +391,8 @@ public abstract class LilGuyBase : MonoBehaviour
     /// </summary>
     /// <returns></returns>
     private IEnumerator Disappear()
-    {
-        if (anim != null) yield return new WaitUntil(() => anim.GetCurrentAnimatorStateInfo(0).IsName("Death") && anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f);
+	{
+		if (anim != null) yield return new WaitUntil(() => anim.GetCurrentAnimatorStateInfo(0).IsName("Death") && anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f);
         SpawnDeathParticle();
 		gameObject.SetActive(false);
     }
@@ -556,7 +557,6 @@ public abstract class LilGuyBase : MonoBehaviour
 
     public void LeaveDeathAnim()
     {
-        if (anim != null) anim.SetTrigger("Revive");
     }
 
     public GameObject GetHitboxPrefab()

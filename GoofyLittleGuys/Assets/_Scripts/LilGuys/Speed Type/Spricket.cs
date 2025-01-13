@@ -26,7 +26,11 @@ public class Spricket : SpeedType
 		if (isCharging)
 		{
 			chargeTime += Time.deltaTime;
-			if (chargeTime > minChargeTime) chargeTime = maxChargeTime;
+			chargeTime = Mathf.Clamp(chargeTime, 0, maxChargeTime);
+			if (chargeTime >= maxChargeTime)
+			{
+				StopChargingSpecial();
+			}
 		}
 	}
 	public override void StartChargingSpecial()
@@ -45,7 +49,7 @@ public class Spricket : SpeedType
 			chargeTimer = chargeRefreshRate;
 			currentCharges--;
 
-
+			
 			anim.ResetTrigger("SpecialAttackEnded");
 			anim.ResetTrigger("EndCharge");
 			anim.SetTrigger("SpecialAttack");
@@ -54,8 +58,10 @@ public class Spricket : SpeedType
 	}
 	public override void StopChargingSpecial()
 	{
+		if (!isCharging) return;
 		if (chargeTime >= minChargeTime)
 		{
+			isCharging = false;
 			Special();
 		}
 		else
@@ -70,6 +76,7 @@ public class Spricket : SpeedType
 		{
 			yield return null;
 		}
+		isCharging = false;
 		Special();
 	}
 	protected override void Special()

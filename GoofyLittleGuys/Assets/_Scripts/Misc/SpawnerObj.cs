@@ -58,10 +58,17 @@ public class SpawnerObj : MonoBehaviour
     }
 
 	public void SpawnLegendary()
-    {
-		SpawnLilGuy(legendaryLilGuy);
-		legendarySpawned = true;
-    }
+	{//int failedAttempts = 0;
+		Vector3 spawningPos = PickValidSpot();
+
+		GameObject GO = Instantiate(legendaryLilGuy, spawningPos, Quaternion.identity, Managers.SpawnManager.Instance.transform);
+		GO.layer = LayerMask.NameToLayer("WildLilGuys");
+
+		GO.GetComponent<WildBehaviour>().HomeSpawner = this;
+
+
+		Managers.SpawnManager.Instance.currNumSpawns++;
+	}
 
 	/// <summary>
 	/// Spawns a random Lil Guy from this camp/spawner's list of Lil Guys

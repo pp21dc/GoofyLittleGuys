@@ -48,6 +48,6 @@ public class Toadstool : DefenseType
 	{
 		yield return new WaitForSeconds(shieldTime);
 		affectedRB.isKinematic = false;
-
+		isShieldActive = false;
 	}
 }
