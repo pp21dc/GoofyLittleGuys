@@ -59,8 +59,8 @@ public abstract class LilGuyBase : MonoBehaviour
     [SerializeField] private float dustSpawnInterval = 1f;
     private Coroutine dustSpawnCoroutine;
 
-    // AI Specific
-    protected Transform goalPosition;
+	// AI Specific
+	protected Transform goalPosition;
     protected PlayerBody playerOwner = null;
     private bool isMoving = false;
     private bool lockAttackRotation = false;
@@ -79,11 +79,13 @@ public abstract class LilGuyBase : MonoBehaviour
     private float lastAttackTime = -999f; // Tracks the last time an attack occurred
 
     private bool isDead = false;
+    private bool isInvincible = false;
     private bool isDying = false;
     private bool knockedBack = false;
     private bool spawnedDustParticle = false;
 
     #region Getters and Setters
+    public SpriteRenderer Mesh => mesh;
     public int BaseSpeed => baseSpeed;
     public int Level { get => level; set => level = value; }
     public float Health { get => health; set => health = value; }
@@ -107,6 +109,7 @@ public abstract class LilGuyBase : MonoBehaviour
     public int MaxStat => max_stat;
     public int Xp { get => xp; set => xp = value; }
     public bool IsDying { get { return isDying; } set { isDying = value; } }
+    public bool IsInvincible { get { return isInvincible; } set { isInvincible = value; } }
     public bool LockAttackRotation { get { return lockAttackRotation; } set { lockAttackRotation = value; } }
 
     public bool KnockedBack { set { knockedBack = value; } }
@@ -577,15 +580,18 @@ public abstract class LilGuyBase : MonoBehaviour
     {
         this.goalPosition = goalPosition;
     }
+  
 
-    public void SetLayer(LayerMask layer)
+	public void SetLayer(LayerMask layer)
     {
         gameObject.layer = layer;
     }
+
     private bool IsGrounded()
     {
         return Physics.Raycast(rb.position + Vector3.up, Vector3.down, 2f, LayerMask.GetMask("Ground"));
     }
+
     public virtual void MoveLilGuy()
     {
         if (!knockedBack)

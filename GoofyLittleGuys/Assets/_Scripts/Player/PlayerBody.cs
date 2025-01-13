@@ -17,6 +17,8 @@ public class PlayerBody : MonoBehaviour
 	[SerializeField] private PlayerUi playerUi;                         // This player's input component.
 	[SerializeField] private GameObject teamFullMenu;                   // The menu shown if the player captured a lil guy but their team is full.
 	[SerializeField] private PlayerController controller;
+	[SerializeField] private GameObject invincibilityFX;
+	[SerializeField] private GameObject stormHurtFX;
 
 	[Header("Movement Parameters")]
 	[SerializeField] private float maxSpeed = 25f;           // This turns into the speed of the active lil guy's. Used for the AI follow behaviours so they all keep the same speed in following the player.
@@ -35,6 +37,8 @@ public class PlayerBody : MonoBehaviour
 	[SerializeField] private float berryUsageCooldown = 3f;
 	[SerializeField] private float interactCooldown = 0.2f;
 	[SerializeField] private float swapCooldown = 3f;
+	[SerializeField] private float respawnInvincibility = 3f;
+	[SerializeField] private float swapInvincibility = 1f;
 
 	private float nextBerryUseTime = -Mathf.Infinity;
 	private float nextInteractTime = -Mathf.Infinity;
@@ -60,6 +64,7 @@ public class PlayerBody : MonoBehaviour
 
 	private bool isSwapping = false;            // NECESSARY FOR AUTOSWAP/PLAYER SWAP. We need a mutex-type mechanism so that that the resources in the lil guy list doesn't get mismanaged from the two swapping mechanisms accessing it at the same time.
 	private Coroutine respawnCoroutine = null;
+	private Coroutine invincibilityCoroutine = null;
 
 	private Vector3 movementDirection = Vector3.zero;
 	private Rigidbody rb;
@@ -112,6 +117,11 @@ public class PlayerBody : MonoBehaviour
 			rb.velocity = Vector3.zero;
 			lilGuyTeam[0].IsMoving = false;
 		}
+		if (lilGuyTeam.Count <= 0) return;
+		invincibilityFX.SetActive(hasImmunity);
+		invincibilityFX.transform.rotation = lilGuyTeam[0].Mesh.transform.rotation;
+		stormHurtFX.SetActive(inStorm && !hasImmunity);
+		stormHurtFX.transform.rotation = lilGuyTeam[0].Mesh.transform.rotation;
 	}
 
 	private void Awake()
@@ -124,6 +134,7 @@ public class PlayerBody : MonoBehaviour
 		{
 			movementDirection = Vector3.zero;
 			rb.velocity = Vector3.zero;
+			if (lilGuyTeam.Count <= 0) return;
 			lilGuyTeam[0].IsMoving = false;
 		}
 	}
@@ -312,6 +323,7 @@ public class PlayerBody : MonoBehaviour
 		activeLilGuy.SetMaterial(GameManager.Instance.OutlinedLilGuySpriteMat);
 
 		isSwapping = false;
+		SetInvincible(swapInvincibility);
 	}
 	/// <summary>
 	/// Swaps the Lil guy based on a queue. If input is right, then the next one in list moves to position 1 and if left, the previous lil guy moves to position 1
@@ -387,6 +399,7 @@ public class PlayerBody : MonoBehaviour
 		nextSwapTime = Time.time + swapCooldown;
 
 		isSwapping = false;
+		SetInvincible(swapInvincibility);
 	}
 
 	public void StartDash()
@@ -454,6 +467,7 @@ public class PlayerBody : MonoBehaviour
 		canMove = true;
 		lilGuyTeam[0].SetLayer(LayerMask.NameToLayer("PlayerLilGuys"));
 		EventManager.Instance.UpdatePlayerHealthUI(this);
+		SetInvincible(respawnInvincibility);
 	}
 
 	/// <summary>
@@ -491,4 +505,41 @@ public class PlayerBody : MonoBehaviour
 		}
 	}
 
+
+	/// <summary>
+	/// Method that makes this lil guy invincible for x duration in seconds. 
+	/// Duration less than or equal to -1: Sets invincibility to true indefinitely (until you turn it off elsewhere).
+	/// Duration equal to 0: Sets invincibility to false.
+	/// </summary>
+	/// <param name="duration">Duration in seconds.</param>
+	public void SetInvincible(float duration)
+	{
+		if (invincibilityCoroutine != null)
+		{
+			StopCoroutine(invincibilityCoroutine);
+			invincibilityCoroutine = null;
+			hasImmunity = false;
+		}
+
+		if (duration <= -1)
+		{
+			hasImmunity = true;
+			return;
+		}
+		else if (duration == 0)
+		{
+			hasImmunity = false;
+			return;
+		}
+		else invincibilityCoroutine = StartCoroutine(InvincibilityTimer(duration));
+
+
+	}
+
+	private IEnumerator InvincibilityTimer(float invincibilityDuration)
+	{
+		hasImmunity = true;
+		yield return new WaitForSeconds(invincibilityDuration);
+		hasImmunity = false;
+	}
 }

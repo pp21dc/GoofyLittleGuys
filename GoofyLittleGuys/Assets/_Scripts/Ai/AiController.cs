@@ -16,7 +16,7 @@ public class AiController : MonoBehaviour
 	private TamedBehaviour tamedBehaviour;              // Defines Tamed AI behaviour (Follow Player)
 
 	private CanvasGroup healthUi;
-	private AiHealthUi healthBars;
+	[SerializeField] private AiHealthUi healthBars;
 
 	private Vector3 originalSpawnPosition = Vector3.zero;
 	private Transform followPosition;                           // The transform of the closest player to this AI
@@ -37,7 +37,6 @@ public class AiController : MonoBehaviour
 	{
 		lilGuy = GetComponent<LilGuyBase>();
 		healthUi = GetComponentInChildren<CanvasGroup>();
-		healthBars = healthUi.GetComponent<AiHealthUi>();
 
 		SetSpawnPosition(transform.position);
 		UpdateState();

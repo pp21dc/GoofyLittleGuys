@@ -205,6 +205,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   interactCanvas: {fileID: 3610544722249190497}
+  healthBars: {fileID: 923938762962127165}
 --- !u!114 &3658422248159458916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -592,6 +593,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 533e318f743a87f479f4cdd8b25b7ac4, type: 3}
+--- !u!114 &923938762962127165 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 338731693121088716, guid: 533e318f743a87f479f4cdd8b25b7ac4,
+    type: 3}
+  m_PrefabInstance: {fileID: 603789967473534449}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59d73e6935b4c3546abf53e6f3489360, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &7961884095964732693 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7358702158427666660, guid: 533e318f743a87f479f4cdd8b25b7ac4,
