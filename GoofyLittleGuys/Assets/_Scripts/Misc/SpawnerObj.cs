@@ -102,8 +102,8 @@ public class SpawnerObj : MonoBehaviour
 	public IEnumerator DelayedSpawn()
     {
 		isSpawning = true;
-		yield return new WaitForSeconds(spawnDelay);
 		SpawnRandLilGuy();
+		yield return new WaitForSeconds(spawnDelay);
 		isSpawning = false;
 	}
 

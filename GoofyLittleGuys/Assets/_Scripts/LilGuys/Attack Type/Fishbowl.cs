@@ -25,11 +25,15 @@ public class Fishbowl : StrengthType
 	protected override void Special()
 	{
 		base.Special();
+		Rigidbody rb = (playerOwner == null) ? RB : playerOwner.GetComponent<Rigidbody>();
+		rb.isKinematic = true;
 	}
 
 	protected override void OnEndSpecial()
 	{
 		base.OnEndSpecial();
+		Rigidbody rb = (playerOwner == null) ? RB : playerOwner.GetComponent<Rigidbody>();
+		rb.isKinematic = false;
 	}
 
 	public void SpawnWaveAoe()
