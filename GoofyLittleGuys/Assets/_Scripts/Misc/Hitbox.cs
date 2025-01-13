@@ -12,8 +12,13 @@ public class Hitbox : MonoBehaviour
 	public GameObject hitboxOwner;
 	public LayerMask layerMask;
 
+	private void Update()
+	{
+		if (hitboxOwner != null) gameObject.layer = hitboxOwner.layer;
+	}
 	private void OnTriggerEnter(Collider other)
 	{
+		if (hitboxOwner.layer == LayerMask.NameToLayer("Player")) return;
 		Hurtbox h = other.GetComponent<Hurtbox>();
 		if (h != null)
 			OnHit(h);
@@ -26,7 +31,6 @@ public class Hitbox : MonoBehaviour
 	public virtual void Init(GameObject hitboxOwner)
 	{
 		this.hitboxOwner = hitboxOwner;
-		gameObject.layer = hitboxOwner.layer;
 		Damage = Mathf.CeilToInt(0.56f * hitboxOwner.GetComponent<LilGuyBase>().Strength);
 	}
 
@@ -36,6 +40,7 @@ public class Hitbox : MonoBehaviour
 	/// <param name="h"></param>
 	private void OnHit(Hurtbox h)
 	{
+		if (hitboxOwner.layer == LayerMask.NameToLayer("Player")) return;
 		Debug.Log("HIT");
 		Toadstool toadstool = h.GetComponent<Toadstool>();
 		if (toadstool != null && toadstool.IsShieldActive)

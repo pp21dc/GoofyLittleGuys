@@ -18,6 +18,10 @@ public class AoeHitbox : MonoBehaviour
 	public GameObject hitboxOwner;
 	public LayerMask layerMask;
 
+	private void Update()
+	{
+		if (hitboxOwner != null) gameObject.layer = hitboxOwner.layer;
+	}
 	private void OnTriggerEnter(Collider other)
 	{
 		Hurtbox h = other.GetComponent<Hurtbox>();

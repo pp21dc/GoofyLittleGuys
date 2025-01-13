@@ -91,7 +91,7 @@ public class WildBehaviour : MonoBehaviour
 		{
 			actionCoroutine ??= StartCoroutine(ReturnHome());
 		}
-		else if (isCatchable && controller.DistanceToPlayer() <= chaseRange && controller.LilGuy.Health <= controller.LilGuy.MaxHealth * Mathf.Lerp(0.25f, 0.5f, timid / 10f) && (timid - hostility > 0))
+		else if (isCatchable && controller.DistanceToPlayer() <= chaseRange && controller.LilGuy.Health <= controller.LilGuy.MaxHealth * Mathf.Lerp(0.125f, 0.5f, timid / 10f) && (timid - hostility > 0))
 		{
 			actionCoroutine ??= StartCoroutine(Flee());
 		}
@@ -248,7 +248,7 @@ public class WildBehaviour : MonoBehaviour
 	{
 		isIdle = false;
 		Debug.Log($"{controller.LilGuy.GuyName}: Attack State");
-		while (controller.DistanceToPlayer() <= attackRange && controller.LilGuy.Health > controller.LilGuy.MaxHealth * Mathf.Lerp(0.25f, 0.5f, timid / 10f) && hostility > 3 && !returnHome)
+		while (controller.DistanceToPlayer() <= attackRange && controller.LilGuy.Health > controller.LilGuy.MaxHealth * Mathf.Lerp(0.25f, 0.5f, timid / 10f) && hostility > 3 && (timid - hostility <= 0) && !returnHome)
 		{
 			if (hostility >= 7 && controller.LilGuy.CurrentCharges > 0 && controller.LilGuy.CooldownTimer <= 0 && attackTime <= 0 && controller.LilGuy is StrengthType strengthLilGuy)
 			{
@@ -313,7 +313,7 @@ public class WildBehaviour : MonoBehaviour
 		isIdle = false;
 		controller.LilGuy.IsMoving = true;
 		Debug.Log($"{controller.LilGuy.GuyName}: Flee State");
-		while (controller.DistanceToPlayer() <= chaseRange && controller.LilGuy.Health > 0 && !returnHome)
+		while (controller.DistanceToPlayer() <= chaseRange && controller.LilGuy.Health > 0 && (timid - hostility > 0) && !returnHome)
 		{
 			controller.LilGuy.MovementDirection = (controller.transform.position - controller.FollowPosition.position).normalized;
 			controller.LilGuy.MoveLilGuy();
