@@ -186,11 +186,11 @@ MonoBehaviour:
   maxHealth: 75
   speed: 11
   defense: 11
-  strength: 25
+  strength: 35
   specialDuration: -1
   currentCharges: 1
   maxCharges: 1
-  cooldownDuration: 9
+  cooldownDuration: 6
   chargeRefreshRate: 9
   accelerationTime: 0.1
   deathCloudFX: {fileID: 2269913496460467973, guid: e1a285177c7faaf4aa01bdadd2d5a852,
@@ -204,7 +204,7 @@ MonoBehaviour:
   attackEffect: {fileID: 0}
   aoeShape: {fileID: 7763503517924717934, guid: 783823e0ebd4aff4298168ab9dfa9111,
     type: 3}
-  aoeDamageMultiplier: 1.4
+  aoeDamageMultiplier: 1.2
   frameToDestroyAoe: 12
   specialTotalFrames: 14
   waveAoePrefab: {fileID: 7763503517924717934, guid: cee25af8c16e11e4a806c624ad058e67,
