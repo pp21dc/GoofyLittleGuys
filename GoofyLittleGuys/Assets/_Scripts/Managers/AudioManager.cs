@@ -10,55 +10,69 @@ namespace Managers
 {
 	public class AudioManager : SingletonBase<AudioManager>
 	{
+		[Header("Mixer")]
 		[SerializeField] private AudioMixer mainMixer;
-		[SerializeField] private AudioObject[] SfxObjects;
-		[SerializeField] private AudioObject[] MusicObjects;
+		[Header("Audio Objects")]
+		[SerializeField] private AudioObject[] sfxObjects;
+		[SerializeField] private AudioObject[] musicObjects;
 
-		private Dictionary<string, AudioObject> SfxDictionary = new Dictionary<string, AudioObject>();
-		private Dictionary<string, AudioObject> MusicDictionary = new Dictionary<string, AudioObject>();
+		private Dictionary<string, AudioObject> sfxDictionary = new Dictionary<string, AudioObject>();
+		private Dictionary<string, AudioObject> musicDictionary = new Dictionary<string, AudioObject>();
 
 		private void Start()
 		{
-			for (int i = 0; i < SfxObjects.Length; i++)
+			//sound effects
+			foreach (AudioObject clip in sfxObjects)
 			{
-				addNewSfxObject(SfxObjects[i].key, SfxObjects[i]);
+				if (sfxDictionary.ContainsKey(clip.key))
+				{
+					Debug.LogError($"{clip.key} already exists in SFX dictionary. Detected for {clip.name}. Changing key now");
+					clip.key += $"NAME_ERROR";
+				}
+				sfxDictionary.Add(clip.key, clip);
 			}
-			for (int i = 0; i < MusicObjects.Length; i++)
+			
+			//music
+			foreach (AudioObject clip in musicObjects)
 			{
-				addNewMusicObject(MusicObjects[i].key, MusicObjects[i]);
+				if (musicDictionary.ContainsKey(clip.key))
+				{
+					Debug.LogError($"{clip.key} already exists in SFX dictionary. Detected for {clip.name}. Changing key now");
+					clip.key += $"NAME_ERROR";
+				}
+				musicDictionary.Add(clip.key, clip);
 			}
 		}
 
-		public void PlaySfx(string key, AudioSource audioSource)
+		public void PlaySfx(string key, AudioSource source)
 		{
-			AudioObject objToPlay;
-			if (SfxDictionary[key] != null)
+			if (sfxDictionary[key] != null)
 			{
-				objToPlay = SfxDictionary[key];
-				// Set the basic properties (volume, pitch)
-				audioSource.volume = objToPlay.volume;
-				audioSource.pitch = objToPlay.pitch;
+				// Sound source setup
+				source.clip = getRandomClip(sfxDictionary[key]);
+				source.volume = sfxDictionary[key].volume;
+				source.pitch = Random.Range(sfxDictionary[key].pitch.x, sfxDictionary[key].pitch.y);
+				source.spatialBlend = sfxDictionary[key].isSpatial ? 1.0f : 0.0f;
 
 				// Adjust volume and panning based on player proximity
-				AdjustAudioForProximity(audioSource);
+				AdjustAudioForProximity(source);
 
-				audioSource.PlayOneShot(objToPlay.objAudioClip);
+				source.Play();
 			}
 		}
 
-		public void PlayMusic(string key, AudioSource audioSource)
+		public void PlayMusic(string key, AudioSource source)
 		{
 			AudioObject objToPlay;
-			if (MusicDictionary[key] != null)
+			if (musicDictionary[key] != null)
 			{
-				objToPlay = MusicDictionary[key];
+				objToPlay = musicDictionary[key];
 				// Set the basic properties (volume, pitch)
-				audioSource.volume = objToPlay.volume;
-				audioSource.pitch = objToPlay.pitch;
+				source.volume = objToPlay.volume;
+				source.pitch = Random.Range(objToPlay.pitch.x, objToPlay.pitch.y);
 
-
-				audioSource.clip = objToPlay.objAudioClip;
-				audioSource.Play();
+				source.clip = getRandomClip(objToPlay);
+				source.Play();
 			}
 		}
 
@@ -128,14 +142,15 @@ namespace Managers
 			mainMixer.SetFloat("musicVolume", value);
 		}
 
-		public void addNewSfxObject(string key, AudioObject newSfxObject)
+		/// <summary>
+		/// Picks a random clip from the array of clips held by a given audio object
+		/// </summary>
+		/// <param name="audioObject"></param>
+		/// <returns></returns>
+		private AudioClip getRandomClip(AudioObject audioObject)
 		{
-			SfxDictionary.Add(key, newSfxObject);
-		}
-
-		public void addNewMusicObject(string key, AudioObject newMusicObject)
-		{
-			MusicDictionary.Add(key, newMusicObject);
+			int index = Random.Range(0, audioObject.clips.Length);
+			return audioObject.clips[index];
 		}
 	}
 }
