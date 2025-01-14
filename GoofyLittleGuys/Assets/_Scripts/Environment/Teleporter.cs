@@ -27,7 +27,7 @@ public class Teleporter : InteractableBase
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == 7 && !inRange.Contains(other.gameObject))
+        if (other.gameObject.layer == LayerMask.NameToLayer("Player") && !inRange.Contains(other.gameObject))
         {
             inRange.Add(other.gameObject);
             other.GetComponent<PlayerBody>().ClosestInteractable = this;
