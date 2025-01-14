@@ -186,7 +186,7 @@ MonoBehaviour:
   maxHealth: 75
   speed: 11
   defense: 11
-  strength: 15
+  strength: 25
   specialDuration: -1
   currentCharges: 1
   maxCharges: 1
@@ -209,9 +209,9 @@ MonoBehaviour:
   specialTotalFrames: 14
   waveAoePrefab: {fileID: 7763503517924717934, guid: cee25af8c16e11e4a806c624ad058e67,
     type: 3}
-  waveAoeDamageMultiplier: 1.4
+  waveAoeDamageMultiplier: 1.6
   waveAoeLifetime: 1
-  waveSpeed: 10
+  waveSpeed: 12
   slowAmount: 10
   slowDuration: 5
 --- !u!54 &-2568253581838256164
