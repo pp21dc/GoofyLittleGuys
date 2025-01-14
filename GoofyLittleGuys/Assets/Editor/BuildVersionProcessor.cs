@@ -12,11 +12,11 @@ public class BuildVersionProcessor : IPreprocessBuildWithReport
     
     public void OnPreprocessBuild(BuildReport report)
     {
-        string currentVersion = FindCurrentVerion();
+        string currentVersion = FindCurrentVersion();
         UpdateVersion(currentVersion);
     }
 
-    private string FindCurrentVerion()
+    private string FindCurrentVersion()
     {
         string[] currentVersions = PlayerSettings.bundleVersion.Split('.');
         
