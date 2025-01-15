@@ -114,6 +114,7 @@ public abstract class LilGuyBase : MonoBehaviour
     public bool LockAttackRotation { get { return lockAttackRotation; } set { lockAttackRotation = value; } }
     public bool LockMovement { get { return lockMovement; } set { lockMovement = value; } }
 
+    public int MaxXp { get { return max_xp; } }
     public bool KnockedBack { set { knockedBack = value; } }
     #endregion
 
