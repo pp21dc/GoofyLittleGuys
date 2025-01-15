@@ -100,15 +100,15 @@ MonoBehaviour:
   level: 1
   xp: 0
   max_xp: 5
-  health: 75
-  maxHealth: 75
-  speed: 15
+  health: 60
+  maxHealth: 60
+  speed: 20
   defense: 13
-  strength: 13
+  strength: 15
   specialDuration: -1
   currentCharges: 1
   maxCharges: 1
-  cooldownDuration: 6
+  cooldownDuration: 4
   chargeRefreshRate: 6
   accelerationTime: 0.1
   deathCloudFX: {fileID: 2269913496460467973, guid: e1a285177c7faaf4aa01bdadd2d5a852,
@@ -120,9 +120,9 @@ MonoBehaviour:
   dustSpawnInterval: 1
   attackCooldown: 0
   attackEffect: {fileID: 0}
-  minChargeTime: 0.5
-  maxChargeTime: 1.5
-  dashDistance: 5
+  minChargeTime: 0.25
+  maxChargeTime: 1
+  dashDistance: 11
   spawnInterval: 0.05
   maxAfterimages: 8
   fadeSpeed: 0.5
@@ -240,6 +240,7 @@ MonoBehaviour:
   chaseRange: 10
   attackRange: 2.5
   attackBuffer: 2
+  currentState: Idle State
   maxTimeOutsideHomeSpawner: 3
   timeBeforeDestroyed: 5
   maxHostility: 10

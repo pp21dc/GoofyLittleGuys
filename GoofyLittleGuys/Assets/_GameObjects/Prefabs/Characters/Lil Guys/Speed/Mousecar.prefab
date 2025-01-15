@@ -99,8 +99,8 @@ MonoBehaviour:
   level: 1
   xp: 0
   max_xp: 5
-  health: 75
-  maxHealth: 75
+  health: 60
+  maxHealth: 60
   speed: 15
   defense: 13
   strength: 13
@@ -238,6 +238,7 @@ MonoBehaviour:
   chaseRange: 10
   attackRange: 2.5
   attackBuffer: 2
+  currentState: Idle State
   maxTimeOutsideHomeSpawner: 3
   timeBeforeDestroyed: 5
   maxHostility: 10
