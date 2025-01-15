@@ -2,16 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// Written By: Bryan Bedard
-// Edited by: Bryan Bedard, 
+
 // Purpose: To manage spawning Lil Guys at the correct Spawners
 namespace Managers
 {
 	public class SpawnManager : SingletonBase<SpawnManager>
 	{
 		//Serialized fields
-		[SerializeField] private List<GameObject> forestLilGuys;
-		[SerializeField] private List<GameObject> legendaryLilGuys;
 		[SerializeField] private List<GameObject> forestSpawners;
 		[SerializeField] private List<GameObject> legendarySpawners;
 		[SerializeField] private int maxNumSpawns;
@@ -55,7 +52,10 @@ namespace Managers
 				pointToSpawn = RandFromList(forestSpawners).GetComponent<SpawnerObj>();
 				if (currNumSpawns < maxNumSpawns && pointToSpawn.currSpawnCount <= 0)
 				{
-					pointToSpawn.startedSpawns = true;
+                    if (!pointToSpawn.startedSpawns)
+                    {
+						pointToSpawn.startedSpawns = true;
+					}
 					campInitCount++;
 				}
 			}
@@ -78,13 +78,11 @@ namespace Managers
 		private IEnumerator InitialSpawns()
 		{
 			isSpawning = true;
-			//int numForestSpawns = Random.Range(minNumSpawns, maxNumSpawns + 1);
-
 			
 			// Track the number of spawn attempts to avoid an infinite loop
 			while (campInitCount < forestSpawners.Count)
 			{
-				yield return new WaitForSeconds(spawnDelay);
+				yield return new WaitForSeconds(0.1f);
 				SpawnForest();
 				
 			}
@@ -98,12 +96,12 @@ namespace Managers
 		/// <returns></returns>
 		private IEnumerator RespawnWithDelay()
 		{
-
 			// Track the number of spawn attempts to avoid an infinite loop
 			while (currNumSpawns < maxNumSpawns)
 			{
 				yield return new WaitForSeconds(spawnDelay);
 				SpawnForest();
+
 			}
 		}
 

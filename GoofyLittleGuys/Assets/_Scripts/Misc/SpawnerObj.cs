@@ -22,7 +22,10 @@ public class SpawnerObj : MonoBehaviour
 	[SerializeField] private int spawnDelay;
 	[SerializeField] public int currSpawnCount;
 	[SerializeField] public bool legendarySpawned = false;
+
+	private bool isRespawning = false;
 	public float SpawnRadius => spawnRadius;
+	public int SpawnDelay => spawnDelay;
 
 	private void Start()
 	{
@@ -31,7 +34,7 @@ public class SpawnerObj : MonoBehaviour
 
     private void Update()
     {
-        if(startedSpawns && currSpawnCount < 2)
+        if(startedSpawns && currSpawnCount < maxSpawnCount)
         {
 			StartSpawning();
         }
@@ -88,11 +91,10 @@ public class SpawnerObj : MonoBehaviour
 	/// </summary>
 	public void StartSpawning()
     {
-        if (!isSpawning)
+        if (!isSpawning && !isRespawning)
         {
 			StartCoroutine(DelayedSpawn());
 		}
-		
     }
 
 	/// <summary>
@@ -102,9 +104,14 @@ public class SpawnerObj : MonoBehaviour
 	public IEnumerator DelayedSpawn()
     {
 		isSpawning = true;
-		SpawnRandLilGuy();
+		//SpawnRandLilGuy();
 		yield return new WaitForSeconds(spawnDelay);
+		SpawnRandLilGuy();
 		isSpawning = false;
+        if (isRespawning)
+        {
+			isRespawning = false;
+		}
 	}
 
 
@@ -167,6 +174,8 @@ public class SpawnerObj : MonoBehaviour
 	public void RemoveLilGuyFromSpawns()
 	{
 		currSpawnCount--;
+		isRespawning = true;
+		StartCoroutine(DelayedSpawn());
 	}
 
 }
