@@ -100,9 +100,9 @@ MonoBehaviour:
   max_xp: 5
   health: 75
   maxHealth: 75
-  speed: 13
-  defense: 15
-  strength: 13
+  speed: 12
+  defense: 18
+  strength: 16
   specialDuration: 3
   currentCharges: 1
   maxCharges: 1
@@ -240,6 +240,7 @@ MonoBehaviour:
   currentState: Idle State
   maxTimeOutsideHomeSpawner: 3
   timeBeforeDestroyed: 5
+  initialHostility: -1
   maxHostility: 10
   hostilityDecayRate: 0.5
   fleeHealthThreshold: 0.5
