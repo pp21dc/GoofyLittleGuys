@@ -37,8 +37,8 @@ public class Teleporter : InteractableBase
     // Using this as a cheaper update loop
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.layer == 7)
-        {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
+		{
             if (inRange.Count > 0 && !onCooldown)
             {
                 interactableCanvas.SetActive(true);
@@ -52,7 +52,7 @@ public class Teleporter : InteractableBase
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.layer == 7 && inRange.Contains(other.gameObject))
+        if (other.gameObject.layer == LayerMask.NameToLayer("Player") && inRange.Contains(other.gameObject))
         {
             inRange.Remove(other.gameObject);
             other.GetComponent<PlayerBody>().ClosestInteractable = null;
