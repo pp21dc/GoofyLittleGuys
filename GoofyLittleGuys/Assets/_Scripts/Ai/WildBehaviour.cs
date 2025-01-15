@@ -325,6 +325,7 @@ public class WildBehaviour : MonoBehaviour
 		Debug.Log($"{controller.LilGuy.GuyName}: Flee State");
 		while (controller.DistanceToPlayer() <= chaseRange && controller.LilGuy.Health > 0 && !returnHome)
 		{
+			if (controller.FollowPosition == null) break;
 			controller.LilGuy.MovementDirection = (controller.transform.position - controller.FollowPosition.position).normalized;
 			controller.LilGuy.MoveLilGuy();
 			yield return null;
