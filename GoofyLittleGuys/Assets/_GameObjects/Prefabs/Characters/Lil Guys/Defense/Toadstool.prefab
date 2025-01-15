@@ -121,7 +121,7 @@ MonoBehaviour:
   damageReduction: 0.5
   gasPrefab: {fileID: 0}
   shieldTime: 4
-  poisonDamage: 3
+  poisonDamage: 12
   poisonDuration: 3
   poisonDamageApplicationInterval: 0.5
 --- !u!54 &4146728097653182592
@@ -237,6 +237,7 @@ MonoBehaviour:
   chaseRange: 10
   attackRange: 2.5
   attackBuffer: 2
+  currentState: Idle State
   maxTimeOutsideHomeSpawner: 3
   timeBeforeDestroyed: 5
   maxHostility: 10

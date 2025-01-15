@@ -1002,7 +1002,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.7824377, y: 0}
   m_AnchorMax: {x: 1, y: 0.11588779}
-  m_AnchoredPosition: {x: -19.904968, y: 7.553772}
+  m_AnchoredPosition: {x: -19.90503, y: 7.553772}
   m_SizeDelta: {x: -17, y: -25}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!1 &3081260147457976226
@@ -2549,12 +2549,12 @@ MonoBehaviour:
   decelerationTime: 0.2
   fallMultiplier: 4
   maxBerryCount: 3
-  berryHealPercentage: 0.25
+  berryHealPercentage: 0.33
   berryUsageCooldown: 3
   interactCooldown: 0.2
-  swapCooldown: 3
+  swapCooldown: 0.75
   respawnInvincibility: 3
-  swapInvincibility: 1
+  swapInvincibility: 0.2
 --- !u!54 &8216949787665781932
 Rigidbody:
   m_ObjectHideFlags: 0

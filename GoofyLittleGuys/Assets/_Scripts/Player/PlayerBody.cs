@@ -37,9 +37,9 @@ public class PlayerBody : MonoBehaviour
 	[Header("Cooldown Parameters")]
 	[SerializeField] private float berryUsageCooldown = 1f;
 	[SerializeField] private float interactCooldown = 0.2f;
-	[SerializeField] private float swapCooldown = 0.75f;
+	[SerializeField] private float swapCooldown = 0.25f;
 	[SerializeField] private float respawnInvincibility = 3f;
-	[SerializeField] private float swapInvincibility = 0.2f;
+	[SerializeField] private float swapInvincibility = 0.05f;
 
 	private float nextBerryUseTime = -Mathf.Infinity;
 	private float nextInteractTime = -Mathf.Infinity;
