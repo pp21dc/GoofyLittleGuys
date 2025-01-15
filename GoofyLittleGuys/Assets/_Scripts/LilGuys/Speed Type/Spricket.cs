@@ -7,15 +7,16 @@ public class Spricket : SpeedType
 	[Header("Spricket Specific")]
 	[SerializeField] private float minChargeTime = 0.5f;
 	[SerializeField] private float maxChargeTime = 1.5f;
-	[SerializeField] private float dashDistance = 5f;
+	[SerializeField] private float mindashDistance = 2f;
+	[SerializeField] private float maxDashDistance = 10f;
 
 	[Header("Special FX Specific")]
-    [SerializeField] private float spawnInterval = 0.01f;
-    [SerializeField] private int maxAfterimages = 12;
-    [SerializeField] private float fadeSpeed = 0.5f;
-    [SerializeField] private Color emissionColour = new Color(1.00f, 0.82f, 0.25f, 1.0f);   // The yellow used for speed lil guys
+	[SerializeField] private float spawnInterval = 0.01f;
+	[SerializeField] private int maxAfterimages = 12;
+	[SerializeField] private float fadeSpeed = 0.5f;
+	[SerializeField] private Color emissionColour = new Color(1.00f, 0.82f, 0.25f, 1.0f);   // The yellow used for speed lil guys
 
-    bool isCharging = false;
+	bool isCharging = false;
 	public bool IsCharging => isCharging;
 	private float chargeTime = 0f;
 
@@ -50,7 +51,7 @@ public class Spricket : SpeedType
 			chargeTimer = chargeRefreshRate;
 			currentCharges--;
 
-			
+
 			anim.ResetTrigger("SpecialAttackEnded");
 			anim.ResetTrigger("EndCharge");
 			anim.SetTrigger("SpecialAttack");
@@ -89,13 +90,13 @@ public class Spricket : SpeedType
 		currentCharges--;
 		anim.SetTrigger("EndCharge");
 		anim.ResetTrigger("SpecialAttack");
-        ApplySpeedBoost(spawnInterval, maxAfterimages, fadeSpeed, emissionColour);
+		ApplySpeedBoost(spawnInterval, maxAfterimages, fadeSpeed, emissionColour);
 		LockMovement = false;
 		Rigidbody rb = (playerOwner == null) ? GetComponent<Rigidbody>() : playerOwner.GetComponent<Rigidbody>();
 		Debug.Log(rb);
 		if (rb != null)
 		{
-			float finalDistance = (dashDistance * speed) + ((chargeTime - minChargeTime) * 2);
+			float finalDistance = (Mathf.Lerp(mindashDistance, maxDashDistance, (chargeTime - minChargeTime) / (maxChargeTime - minChargeTime)) * speed) + ((chargeTime - minChargeTime) * 2);
 			if (playerOwner != null) playerOwner.StartDash();
 			else isDashing = true;
 			// Apply force to initiate the dash
