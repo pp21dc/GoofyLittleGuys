@@ -21,6 +21,7 @@ public class WildBehaviour : MonoBehaviour
 	[SerializeField] private float timeBeforeDestroyed = 5f;  // Time until the gameobject is destroyed
 
 	[Header("Hostility Settings")]
+	[SerializeField] private float initialHostility = -1;
 	[SerializeField] private float maxHostility = 10f;
 	[SerializeField] private float hostilityDecayRate = 0.5f; // Hostility points lost per second while idle
 	[SerializeField] private float fleeHealthThreshold = 0.5f; // Health % threshold to trigger flee when hostility < 5
@@ -45,7 +46,6 @@ public class WildBehaviour : MonoBehaviour
 	private float attackTime = 0;
 	private float timeSpentFromHome = 0f;
 	private float hostility;
-	private float initialHostility;
 	private float nextWanderTime = -1f;
 	private bool isIdle = false;
 	private bool returnHome = false;
@@ -62,7 +62,7 @@ public class WildBehaviour : MonoBehaviour
 
 	private void OnEnable()
 	{
-		initialHostility = Random.Range(0f, 5f);
+		if (initialHostility < 0) initialHostility = Random.Range(0f, 5f);
 		hostility = initialHostility;
 		timid = Random.Range(0f, 10f); // Assign a random timid value between 0 and 10
 	}
@@ -92,7 +92,7 @@ public class WildBehaviour : MonoBehaviour
 		{
 			actionCoroutine ??= StartCoroutine(ReturnHome());
 		}
-		else if (isCatchable && controller.DistanceToPlayer() <= chaseRange && controller.LilGuy.Health <= controller.LilGuy.MaxHealth * Mathf.Lerp(0.125f, 0.5f, timid / 10f))
+		else if (isCatchable && controller.DistanceToPlayer() <= chaseRange && controller.LilGuy.Health <= controller.LilGuy.MaxHealth * Mathf.Lerp(0.125f, 0.5f, timid / 10f) && timid > 5)
 		{
 			actionCoroutine ??= StartCoroutine(Flee());
 		}
@@ -254,9 +254,13 @@ public class WildBehaviour : MonoBehaviour
 		isIdle = false;
 		currentState = "Attack State";
 		Debug.Log($"{controller.LilGuy.GuyName}: Attack State");
-		while (controller.DistanceToPlayer() <= attackRange && !returnHome)
+		while (controller.DistanceToPlayer() <= attackRange)
 		{
-			if (isCatchable && (controller.LilGuy.Health <= controller.LilGuy.MaxHealth * Mathf.Lerp(0.125f, 0.5f, timid / 10f) || hostility <= 3)) break;
+			if (isCatchable && (timid > 5 && controller.LilGuy.Health <= controller.LilGuy.MaxHealth * Mathf.Lerp(0.125f, 0.5f, timid / 10f) || hostility <= 3 || returnHome))
+			{
+				break;
+			}
+
 			if (hostility >= 7 && controller.LilGuy.CurrentCharges > 0 && controller.LilGuy.CooldownTimer <= 0 && attackTime <= 0 && controller.LilGuy is StrengthType strengthLilGuy)
 			{
 				controller.LilGuy.StartChargingSpecial();
@@ -287,11 +291,15 @@ public class WildBehaviour : MonoBehaviour
 		controller.LilGuy.IsMoving = true;
 		currentState = "Chase State";
 		Debug.Log($"{controller.LilGuy.GuyName}: Chase State");
-		while (controller.DistanceToPlayer() > attackRange && controller.DistanceToPlayer() <= chaseRange && !returnHome)
+		while (controller.DistanceToPlayer() > attackRange && controller.DistanceToPlayer() <= chaseRange)
 		{
-			if (isCatchable && (controller.LilGuy.Health <= controller.LilGuy.MaxHealth * Mathf.Lerp(0.125f, 0.5f, timid / 10f) || hostility <= 3)) break;
+			if (isCatchable && (timid > 5 && controller.LilGuy.Health <= controller.LilGuy.MaxHealth * Mathf.Lerp(0.125f, 0.5f, timid / 10f) || hostility <= 3 || returnHome))
+			{
+				Debug.Log("For some reason we're here");
+				break;
+			}
 			controller.LilGuy.MovementDirection = (controller.FollowPosition.position - controller.transform.position).normalized;
-			
+
 			if (hostility >= 7f && controller.LilGuy is SpeedType && controller.LilGuy.CurrentCharges > 0 && controller.LilGuy.CooldownTimer <= 0)
 			{
 				controller.LilGuy.StartChargingSpecial();

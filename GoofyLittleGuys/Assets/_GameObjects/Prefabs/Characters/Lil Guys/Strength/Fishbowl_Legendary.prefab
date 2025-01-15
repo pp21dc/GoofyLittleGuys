@@ -207,6 +207,8 @@ MonoBehaviour:
   aoeDamageMultiplier: 1.65
   frameToDestroyAoe: 15
   specialTotalFrames: 17
+  minChargeTime: 0.5
+  maxChargeTime: 1.5
   aoeMaxSize: 5
   waveDestroyTime: 2
   waveMoveSpeed: 10
@@ -320,11 +322,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   capturingPlayerRange: {fileID: 1077468314875122021, guid: 081d1ff4c291f5d43b44c86f1d39e953,
     type: 3}
-  chaseRange: 10
-  attackRange: 2.5
+  chaseRange: 20
+  attackRange: 5
   attackBuffer: 2
+  currentState: Idle State
   maxTimeOutsideHomeSpawner: 3
   timeBeforeDestroyed: 5
+  initialHostility: 5
   maxHostility: 10
   hostilityDecayRate: 0.5
   fleeHealthThreshold: 0.5
