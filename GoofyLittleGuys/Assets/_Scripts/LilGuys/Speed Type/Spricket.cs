@@ -44,6 +44,7 @@ public class Spricket : SpeedType
 				chargeTime = 0;
 			}
 
+			LockMovement = true;
 			// Decrement charges and reset cooldowns
 			cooldownTimer = cooldownDuration;
 			chargeTimer = chargeRefreshRate;
@@ -61,6 +62,7 @@ public class Spricket : SpeedType
 		if (!isCharging) return;
 		if (chargeTime >= minChargeTime)
 		{
+			LockMovement = false;
 			isCharging = false;
 			Special();
 		}
@@ -88,7 +90,8 @@ public class Spricket : SpeedType
 		anim.SetTrigger("EndCharge");
 		anim.ResetTrigger("SpecialAttack");
         ApplySpeedBoost(spawnInterval, maxAfterimages, fadeSpeed, emissionColour);
-        Rigidbody rb = (playerOwner == null) ? GetComponent<Rigidbody>() : playerOwner.GetComponent<Rigidbody>();
+		LockMovement = false;
+		Rigidbody rb = (playerOwner == null) ? GetComponent<Rigidbody>() : playerOwner.GetComponent<Rigidbody>();
 		Debug.Log(rb);
 		if (rb != null)
 		{
@@ -124,6 +127,7 @@ public class Spricket : SpeedType
 		anim.ResetTrigger("EndCharge");
 		RemoveSpeedBoost();
 		rb.velocity = Vector3.zero;
+		LockMovement = false;
 	}
 
 	public override void MoveLilGuy()

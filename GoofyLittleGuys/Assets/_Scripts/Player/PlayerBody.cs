@@ -3,6 +3,7 @@ using Managers;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -194,7 +195,7 @@ public class PlayerBody : MonoBehaviour
 
 		}
 		// Movement behaviours
-		if (!isDashing && canMove && !knockedBack)
+		if (!isDashing && canMove && !lilGuyTeam[0].LockMovement && !knockedBack)
 		{
 			// If the player is not dashing, then they will have regular movement mechanics
 
@@ -215,7 +216,9 @@ public class PlayerBody : MonoBehaviour
 			rb.velocity = new Vector3(currentVelocity.x, GameManager.Instance.CurrentPhase == 2 && IsDead ? currentVelocity.y : rb.velocity.y, currentVelocity.z);
 
 		}
+		if (lilGuyTeam[0].LockMovement) rb.velocity = new Vector3(0, rb.velocity.y, 0);
 	}
+	
 
 	private bool IsGrounded()
 	{

@@ -63,6 +63,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	protected Transform goalPosition;
     protected PlayerBody playerOwner = null;
     private bool isMoving = false;
+    private bool lockMovement = false;
     private bool lockAttackRotation = false;
 
 
@@ -111,6 +112,7 @@ public abstract class LilGuyBase : MonoBehaviour
     public bool IsDying { get { return isDying; } set { isDying = value; } }
     public bool IsInvincible { get { return isInvincible; } set { isInvincible = value; } }
     public bool LockAttackRotation { get { return lockAttackRotation; } set { lockAttackRotation = value; } }
+    public bool LockMovement { get { return lockMovement; } set { lockMovement = value; } }
 
     public bool KnockedBack { set { knockedBack = value; } }
     #endregion
@@ -509,6 +511,7 @@ public abstract class LilGuyBase : MonoBehaviour
             anim.SetTrigger("SpecialAttackEnded");
         }
         lockAttackRotation = false;
+        lockMovement = false;
     }
 
 
@@ -594,7 +597,7 @@ public abstract class LilGuyBase : MonoBehaviour
 
     public virtual void MoveLilGuy()
     {
-        if (!knockedBack)
+        if (!knockedBack && !lockMovement)
         {
             // Move the creature towards the player with smoothing
             Vector3 targetVelocity = movementDirection.normalized * (baseSpeed + ((playerOwner != null) ? speed : speed * 0.75f) * 0.3f);
@@ -602,6 +605,10 @@ public abstract class LilGuyBase : MonoBehaviour
             currentVelocity = Vector3.Lerp(currentVelocity, targetVelocity, Time.fixedDeltaTime / accelerationTime);
             // Apply the smoothed velocity to the Rigidbody
             rb.velocity = new Vector3(currentVelocity.x, rb.velocity.y, currentVelocity.z);
+        }
+        if (lockMovement)
+        {
+            rb.velocity = new Vector3(0, rb.velocity.y, 0);
         }
     }
 
