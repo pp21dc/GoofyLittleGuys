@@ -184,9 +184,9 @@ MonoBehaviour:
   max_xp: 5
   health: 75
   maxHealth: 75
-  speed: 11
+  speed: 13
   defense: 11
-  strength: 35
+  strength: 30
   specialDuration: -1
   currentCharges: 1
   maxCharges: 1
@@ -204,12 +204,12 @@ MonoBehaviour:
   attackEffect: {fileID: 0}
   aoeShape: {fileID: 7763503517924717934, guid: 783823e0ebd4aff4298168ab9dfa9111,
     type: 3}
-  aoeDamageMultiplier: 1.2
+  aoeDamageMultiplier: 1.3
   frameToDestroyAoe: 12
   specialTotalFrames: 14
   waveAoePrefab: {fileID: 7763503517924717934, guid: cee25af8c16e11e4a806c624ad058e67,
     type: 3}
-  waveAoeDamageMultiplier: 1.6
+  waveAoeDamageMultiplier: 1
   waveAoeLifetime: 1
   waveSpeed: 12
   slowAmount: 10
@@ -327,6 +327,7 @@ MonoBehaviour:
   chaseRange: 10
   attackRange: 2.5
   attackBuffer: 2
+  currentState: Idle State
   maxTimeOutsideHomeSpawner: 3
   timeBeforeDestroyed: 5
   maxHostility: 10
