@@ -15,6 +15,8 @@ public class PlayerController : MonoBehaviour
 	private bool showMinimap = true;
 	private bool hasJoined = false;
 
+	public bool HasJoined { get { return hasJoined; } set { hasJoined = value; } }
+
 	public Camera PlayerCam => playerCam;
 	public Camera SpectatorCam => spectatorCam;
 	public PlayerBody Body => playerBody;
