@@ -7,6 +7,8 @@ public class Phantaphant : SpeedType
 {
 	[Header("Phant-a-phant Specific")]
 	[SerializeField, Tooltip("The maximum range that a target to dash to can be picked.")] private float dashTargetRange;
+	[SerializeField] private float slowAmount = 20f;
+	[SerializeField] private float slowDuration = 2f;
 	private Transform targetPosition;
 	private Vector3 directionToTarget;
 	// Start is called before the first frame update
@@ -39,6 +41,19 @@ public class Phantaphant : SpeedType
 		{
 			rb.MovePosition(directionToTarget);
 		}
+		GameObject slowedEntity;
+		PlayerBody body = targetPosition.GetComponent<PlayerBody>();
+		LilGuyBase lilGuy = targetPosition.GetComponent<LilGuyBase>();
+		if (body != null)
+		{
+			slowedEntity = body.gameObject;
+		}
+		else if (lilGuy != null)
+		{
+			slowedEntity = lilGuy.gameObject;
+		}
+		else return;
+		EventManager.Instance.ApplyDebuff(slowedEntity, slowAmount, slowDuration, DebuffType.Slow);
 		OnEndSpecial();
 	}
 
