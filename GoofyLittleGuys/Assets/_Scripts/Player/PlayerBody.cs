@@ -32,14 +32,14 @@ public class PlayerBody : MonoBehaviour
 
 	[Header("Berry Inventory Parameters")]
 	[SerializeField] private int maxBerryCount = 3;
-	[SerializeField, Range(0f, 1f)] private float berryHealPercentage = 0.25f;
+	[SerializeField, Range(0f, 1f)] private float berryHealPercentage = 0.33f;
 
 	[Header("Cooldown Parameters")]
-	[SerializeField] private float berryUsageCooldown = 1.5f;
+	[SerializeField] private float berryUsageCooldown = 1f;
 	[SerializeField] private float interactCooldown = 0.2f;
-	[SerializeField] private float swapCooldown = 1.2f;
+	[SerializeField] private float swapCooldown = 0.75f;
 	[SerializeField] private float respawnInvincibility = 3f;
-	[SerializeField] private float swapInvincibility = 0.4f;
+	[SerializeField] private float swapInvincibility = 0.2f;
 
 	private float nextBerryUseTime = -Mathf.Infinity;
 	private float nextInteractTime = -Mathf.Infinity;
