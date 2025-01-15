@@ -113,6 +113,8 @@ public abstract class LilGuyBase : MonoBehaviour
     public bool LockAttackRotation { get { return lockAttackRotation; } set { lockAttackRotation = value; } }
 
     public bool KnockedBack { set { knockedBack = value; } }
+
+    public int MaxXP { get { return max_xp; } }
     #endregion
 
     public enum PrimaryType

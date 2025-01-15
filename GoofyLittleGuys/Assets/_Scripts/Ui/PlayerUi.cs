@@ -14,6 +14,7 @@ public class PlayerUi : MonoBehaviour
     [SerializeField] Image persistentAbilityIcon;
     [SerializeField] TMP_Text berryCountText;
 
+    
     [SerializeField] PlayerBody pb;
 
     [SerializeField] TMP_Text STR_Txt;
@@ -22,19 +23,24 @@ public class PlayerUi : MonoBehaviour
     [SerializeField] TMP_Text LVL_Txt;
     [SerializeField] TMP_Text HP_Txt;
 
+    [SerializeField] Slider XP_Slider;
+    TMP_Text levelHPBar;
+
     [SerializeField] GameObject tempWinText;
     public GameObject TempWinText { get => tempWinText; set => tempWinText = value; }
 	public RectTransform mirroredXUi; // Assign this in the inspector
 
-
-	private void Update()
+    private void Update()
     {
         if (pb.LilGuyTeam.Count <= 0) return;
         STR_Txt.text = "STR: " + pb.LilGuyTeam[0].Strength.ToString();
         SPD_Txt.text = "SPD: " + pb.LilGuyTeam[0].Speed.ToString();
         DEF_Txt.text = "DEF: " + pb.LilGuyTeam[0].Defense.ToString();
-        LVL_Txt.text = "LVL: " + pb.LilGuyTeam[0].Level.ToString();
+        //LVL_Txt.text = "LVL: " + pb.LilGuyTeam[0].Level.ToString();
+        LVL_Txt.text = pb.LilGuyTeam[0].Level.ToString();
         HP_Txt.text =  "HP: "  + pb.LilGuyTeam[0].Health.ToString() + " / " + pb.LilGuyTeam[0].MaxHealth.ToString();
+        XP_Slider.maxValue = pb.LilGuyTeam[0].MaxHealth;
+        XP_Slider.value = pb.LilGuyTeam[0].Xp;
 
 		if (pb.Controller.PlayerCam != null && mirroredXUi != null)
 		{
@@ -85,6 +91,11 @@ public class PlayerUi : MonoBehaviour
     public void SetPersistentAbilityIcon(Sprite newAbilityIcon)
     {
         persistentAbilityIcon.sprite = newAbilityIcon;
+    }
+
+    public void SetHealthBarLevel(int level)
+    {
+
     }
 
 
