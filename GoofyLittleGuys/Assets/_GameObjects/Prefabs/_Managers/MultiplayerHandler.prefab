@@ -48,13 +48,13 @@ MonoBehaviour:
   m_NotificationBehavior: 2
   m_MaxPlayerCount: 4
   m_AllowJoining: 1
-  m_JoinBehavior: 1
+  m_JoinBehavior: 0
   m_PlayerJoinedEvent:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 4602530222243131923}
         m_TargetAssemblyTypeName: Managers.MultiplayerManager, Assembly-CSharp
-        m_MethodName: OnPlayerJoinedLeft
+        m_MethodName: OnPlayerJoined
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -102,8 +102,7 @@ MonoBehaviour:
         m_Action: Join
         m_Flags: 0
       m_Flags: 0
-    m_Reference: {fileID: 1535766364094367406, guid: 1cc106afa4d5a114cbc33fe18d0845b8,
-      type: 3}
+    m_Reference: {fileID: 0}
   m_PlayerPrefab: {fileID: 1078234526939753339, guid: 419b24a3c7dbdbc4d9fabf6e7fe01f57,
     type: 3}
   m_SplitScreen: 1

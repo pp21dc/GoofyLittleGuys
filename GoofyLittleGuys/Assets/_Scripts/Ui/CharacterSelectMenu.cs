@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Windows;
 
 public class CharacterSelectMenu : MonoBehaviour
 {
@@ -67,6 +68,7 @@ public class CharacterSelectMenu : MonoBehaviour
 		this.player.actions["Navigate"].performed += OnNavigated;
 		this.player.actions["Submit"].performed += OnSubmitted;
 
+		this.player.GetComponent<PlayerController>().HasJoined = false;
 		ResetUI();
 
 	}
@@ -125,11 +127,17 @@ public class CharacterSelectMenu : MonoBehaviour
 	/// <param name="ctx"></param>
 	private void OnCancelled(InputAction.CallbackContext ctx)
 	{
+		if (!ctx.performed) return;
+		if (!player.GetComponent<PlayerController>().HasJoined)
+		{
+			player.GetComponent<PlayerController>().HasJoined = true;
+			return;
+		}
 		switch (currentState)
 		{
 			case CharacterSelectState.CharacterSelect:
 				MultiplayerManager.Instance.LeavePlayer(player);
-				if (GameManager.Instance.Players.Count <= 0) LevelLoadManager.Instance.LoadNewLevel("00_MainMenu");
+				if (GameManager.Instance.Players.Count == 1) LevelLoadManager.Instance.LoadNewLevel("00_MainMenu");
 				break;
 
 			case CharacterSelectState.LockedIn:
