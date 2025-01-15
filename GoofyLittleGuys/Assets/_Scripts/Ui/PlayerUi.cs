@@ -9,7 +9,7 @@ public class PlayerUi : MonoBehaviour
 {
     List<LilGuyPopout> popouts;
 
-    [SerializeField] Image persistentHealthBar;
+    [SerializeField] Slider persistentHealthBar;
     [SerializeField] Image persistentIcon;
     [SerializeField] Image persistentAbilityIcon;
     [SerializeField] TMP_Text berryCountText;
@@ -72,9 +72,9 @@ public class PlayerUi : MonoBehaviour
     public void SetPersistentHealthBarValue(float value, float maxHealth)
     {
         value = value / maxHealth;                                          //sets value to the hp %
-        value = value * 0.75f;                                              //Sets Value to percentage of HP Bar max
+        //value = value * 0.75f;                                              //Sets Value to percentage of HP Bar max
 
-        persistentHealthBar.fillAmount = value;
+        persistentHealthBar.value = value;
     }
 
     public void SetPersistentIcon(Sprite newIcon)
