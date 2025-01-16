@@ -101,8 +101,8 @@ MonoBehaviour:
   health: 75
   maxHealth: 75
   speed: 14
-  defense: 21
-  strength: 18
+  defense: 20
+  strength: 16
   specialDuration: 3
   currentCharges: 1
   maxCharges: 1
@@ -121,9 +121,9 @@ MonoBehaviour:
   damageReduction: 0.5
   gasPrefab: {fileID: 0}
   shieldTime: 6
-  poisonDamage: 8
+  poisonDamage: 6
   poisonDuration: 3
-  poisonDamageApplicationInterval: 0.3
+  poisonDamageApplicationInterval: 0.25
 --- !u!54 &4146728097653182592
 Rigidbody:
   m_ObjectHideFlags: 0

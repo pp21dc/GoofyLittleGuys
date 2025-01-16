@@ -101,8 +101,8 @@ MonoBehaviour:
   max_xp: 5
   health: 75
   maxHealth: 75
-  speed: 26
-  defense: 12
+  speed: 28
+  defense: 7
   strength: 15
   specialDuration: -1
   currentCharges: 1
@@ -119,7 +119,7 @@ MonoBehaviour:
   dustSpawnInterval: 1
   attackCooldown: 0
   attackEffect: {fileID: 0}
-  speedBoostAmount: 10
+  speedBoostAmount: 20
   speedBoostDuration: 5
   spawnInterval: 0.025
   maxAfterimages: 4
