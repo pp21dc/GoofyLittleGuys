@@ -100,9 +100,9 @@ MonoBehaviour:
   max_xp: 5
   health: 100
   maxHealth: 100
-  speed: 9
-  defense: 22
-  strength: 16
+  speed: 14
+  defense: 24
+  strength: 14
   specialDuration: -1
   currentCharges: 1
   maxCharges: 1
@@ -121,9 +121,9 @@ MonoBehaviour:
   damageReduction: 0.7
   domePrefab: {fileID: 839464886904612836, guid: 0538508ef34bfe24abd69e9edf842f7e,
     type: 3}
-  teamDamageReductionDuration: 0.7
+  teamDamageReductionDuration: 0.8
   domeLifetime: 8
-  domeMaxSize: 16
+  domeMaxSize: 24
   domeExpansionSpeed: 0.5
 --- !u!54 &4146728097653182592
 Rigidbody:
