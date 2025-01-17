@@ -104,6 +104,8 @@ public class PlayerUi : MonoBehaviour
         else if (pb.LilGuyTeam[0].GuyName == "Tricerabox")
             CurrentCharacter.sprite = iconSprites[(int)LilGuys.Tricerabox];
         //LB
+        if (pb.LilGuyTeam.Count <= 1) return;
+
         if (pb.LilGuyTeam[1].GuyName == "Teddy")
             LBCharacter.sprite = iconSprites[(int)LilGuys.Teddy];
         else if (pb.LilGuyTeam[1].GuyName == "Spricket")
@@ -122,8 +124,9 @@ public class PlayerUi : MonoBehaviour
             LBCharacter.sprite = iconSprites[(int)LilGuys.Toadstool];
         else if (pb.LilGuyTeam[1].GuyName == "Tricerabox")
             LBCharacter.sprite = iconSprites[(int)LilGuys.Tricerabox];
-        //RB
-        if (pb.LilGuyTeam[2].GuyName == "Teddy")
+		//RB
+		if (pb.LilGuyTeam.Count <= 2) return;
+		if (pb.LilGuyTeam[2].GuyName == "Teddy")
             RBCharacter.sprite = iconSprites[(int)LilGuys.Teddy];
         else if (pb.LilGuyTeam[2].GuyName == "Spricket")
             RBCharacter.sprite = iconSprites[(int)LilGuys.Spricket];

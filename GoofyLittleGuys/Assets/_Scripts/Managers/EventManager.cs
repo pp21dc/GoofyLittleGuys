@@ -43,6 +43,13 @@ public class EventManager
 			return _instance;
 		}
 	}
+
+	public void HealLilGuy(LilGuyBase lilGuy, int amount)
+	{
+		if (lilGuy.Health + amount > lilGuy.MaxHealth) lilGuy.Health = lilGuy.MaxHealth;
+		else lilGuy.Health += amount;
+		lilGuy.PlayHealEffect();
+	}
 	public void UpdatePlayerHealthUI(PlayerBody body)
 	{
 		body.PlayerUI.SetPersistentHealthBarValue(body.LilGuyTeam[0].Health, body.LilGuyTeam[0].MaxHealth);

@@ -23,6 +23,7 @@ namespace Managers
 
 		[SerializeField] private Material regularLilGuySpriteMat;
 		[SerializeField] private Material outlinedLilGuySpriteMat;
+		[SerializeField] private Color[] playerColours;
 		[SerializeField] private float activeLilGuyScaleFactor = 1.1f;
 
 		private System.TimeSpan gameTime;                                       // To convert from total seconds time to a time in the format mm:ss
@@ -118,7 +119,7 @@ namespace Managers
 		/// </summary>
 		public bool GameStarted()
 		{
-			foreach (PlayerBody body in players)
+			for (int i = 0; i < players.Count; i++)
 			{
 				// We don't want the players all spawning in the same exact spot, so shift their x and z positions randomly.
 				int randomPos = Random.Range(0, spawnPoints.Count);
@@ -128,10 +129,11 @@ namespace Managers
 				}
 				if (!spawnPoints[randomPos].PlayerSpawnedHere)
 				{
-					body.GetComponent<Rigidbody>().MovePosition(spawnPoints[randomPos].transform.position + (new Vector3(1, 0, 1) * Random.Range(-1f, 1f)) + Vector3.up);
+					players[i].GetComponent<Rigidbody>().MovePosition(spawnPoints[randomPos].transform.position + (new Vector3(1, 0, 1) * Random.Range(-1f, 1f)) + Vector3.up);
 					spawnPoints[randomPos].PlayerSpawnedHere = true;
 				}
-				body.InMenu = false;
+				players[i].InMenu = false;
+				players[i].PlayerColour = playerColours[i];
 			}
 
 			// Unpause time, and begin phase one!
@@ -259,25 +261,30 @@ namespace Managers
 		private IEnumerator SpawnStorms()
 		{
 			bool stormThisLoop = false;
-			while (activeStorms < stormSets.Count)
+			while (true)
 			{
-				if (stormThisLoop) // if there has been a storm in this loop, wait for timer
+				bool allStormsActive = true;
+				foreach(GameObject storm in stormSets)
 				{
-					stormThisLoop = false;
-					yield return new WaitForSeconds(stormTimer);
+					if (!storm.activeSelf)
+					{
+						allStormsActive = false;
+						break;
+					}
 				}
+				if (allStormsActive) break;
 				GameObject stormToActivate = RandFromList(stormSets);
 				if (stormToActivate != null && !stormToActivate.activeSelf) // activate a new storm
 				{
 					stormToActivate.SetActive(true);
 					stormThisLoop = true;
-					activeStorms++;
+				}
+				if (stormThisLoop) // if there has been a storm in this loop, wait for timer
+				{
+					stormThisLoop = false;
+					yield return new WaitForSeconds(stormTimer);
 				}
 
-			}
-			if (activeStorms >= stormSets.Count)
-			{
-				StopCoroutine(SpawnStorms());
 			}
 			yield return new WaitForEndOfFrame();
 		}

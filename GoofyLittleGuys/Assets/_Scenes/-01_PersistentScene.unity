@@ -290,6 +290,7 @@ Transform:
   - {fileID: 424032243}
   - {fileID: 1356844168}
   - {fileID: 288199679}
+  - {fileID: 1123293869}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &288199678
@@ -1041,7 +1042,7 @@ MonoBehaviour:
   m_XRTrackingOrigin: {fileID: 0}
   m_ActionsAsset: {fileID: -944628639613478452, guid: 1cc106afa4d5a114cbc33fe18d0845b8,
     type: 3}
-  m_PointAction: {fileID: -5646111732720649952, guid: 1cc106afa4d5a114cbc33fe18d0845b8,
+  m_PointAction: {fileID: 622780773776766459, guid: 1cc106afa4d5a114cbc33fe18d0845b8,
     type: 3}
   m_MoveAction: {fileID: 3710738434707379630, guid: 1cc106afa4d5a114cbc33fe18d0845b8,
     type: 3}
@@ -1770,6 +1771,69 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1041602680}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1123293868
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1123293869}
+  - component: {fileID: 1123293870}
+  m_Layer: 0
+  m_Name: FXManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1123293869
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1123293868}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 273621188}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1123293870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1123293868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b31c291507b6e1649b9aa3ae428ee180, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dontDestroyOnLoad: 1
+  effects:
+  - name: Heal
+    effect: {fileID: 2994279062390966794, guid: ecfb549a8bb4c964e8530b38770c0b00,
+      type: 3}
+  - name: Dust
+    effect: {fileID: 6102333242288699407, guid: 6c1e35896bd1f7e4cbf0df5720e3aded,
+      type: 3}
+  - name: DeathCloud
+    effect: {fileID: 2269913496460467973, guid: e1a285177c7faaf4aa01bdadd2d5a852,
+      type: 3}
+  - name: LevelUp
+    effect: {fileID: 2890091950658190173, guid: 491a86361fa465d4d95296e0db061338,
+      type: 3}
+  - name: Spawn
+    effect: {fileID: 308813279737208299, guid: d820b583c53b880418a0aec0344c3cbe, type: 3}
+  - name: Catch
+    effect: {fileID: 3506703645925743762, guid: 326409ac32486ad46a99a1bf3274d152,
+      type: 3}
 --- !u!1 &1158062337
 GameObject:
   m_ObjectHideFlags: 0

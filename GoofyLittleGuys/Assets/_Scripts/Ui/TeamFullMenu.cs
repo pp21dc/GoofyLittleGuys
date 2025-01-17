@@ -27,7 +27,7 @@ public class TeamFullMenu : MonoBehaviour
 		body = player.GetComponent<PlayerController>().Body;
 		body.SetInvincible(-1);
 
-		for (int i = 0; i < buttons.Count; i++)
+		for (int i = 0; i < buttons.Count - 1; i++)
 		{
 			TextMeshProUGUI label = buttons[i].GetComponentInChildren<TextMeshProUGUI>();
 			if (label != null)
@@ -58,6 +58,15 @@ public class TeamFullMenu : MonoBehaviour
 	/// <param name="choice">Which team index the player has chosen to remove from their team.</param>
 	public void OnLilGuyChosenToRelease(int choice)
 	{
+		if (choice == 3)
+		{
+			buttons[3].interactable = false;
+			Destroy(lilGuyBeingCaught.gameObject);
+			body.BerryCount++;
+			gameObject.SetActive(false);
+			buttons[3].interactable = true;
+			return;
+		}
 		LilGuyBase lilGuyBeingReleased = body.LilGuyTeam[choice];
 
 		body.LilGuyTeam[choice] = lilGuyBeingCaught;

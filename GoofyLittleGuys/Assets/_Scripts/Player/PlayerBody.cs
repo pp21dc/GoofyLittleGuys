@@ -6,6 +6,7 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering.Universal;
 
 public class PlayerBody : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class PlayerBody : MonoBehaviour
 	[SerializeField] private PlayerController controller;
 	[SerializeField] private GameObject invincibilityFX;
 	[SerializeField] private GameObject stormHurtFX;
+	[SerializeField] private GameObject directionIndicator;
 
 	[Header("Movement Parameters")]
 	[SerializeField] private float maxSpeed = 25f;           // This turns into the speed of the active lil guy's. Used for the AI follow behaviours so they all keep the same speed in following the player.
@@ -44,7 +46,10 @@ public class PlayerBody : MonoBehaviour
 	private float nextBerryUseTime = -Mathf.Infinity;
 	private float nextInteractTime = -Mathf.Infinity;
 	private float nextSwapTime = -Mathf.Infinity;
-	private float deathTime = -Mathf.Infinity;
+	private float deathTime = -Mathf.Infinity; 
+	private float smoothFactor = 10;
+
+	private Color playerColour = Color.white;
 
 	private InteractableBase closestnteractable = null;
 	private int berryCount = 0;
@@ -70,8 +75,18 @@ public class PlayerBody : MonoBehaviour
 	private Vector3 movementDirection = Vector3.zero;
 	private Rigidbody rb;
 	private LilGuyBase closestWildLilGuy = null;
-	public LilGuyBase ClosestWildLilGuy { get { return closestWildLilGuy; } set { closestWildLilGuy = value; } }
 
+	public Color PlayerColour { get { return playerColour; } 
+		set
+		{ 
+			playerColour = value;
+			DecalProjector projector = directionIndicator.GetComponentInChildren<DecalProjector>();
+			Material directionIndicatorMat = new Material(projector.material);
+			directionIndicatorMat.SetColor("_BaseColor", playerColour);
+			projector.material = directionIndicatorMat;
+		}
+	} 
+	public LilGuyBase ClosestWildLilGuy { get { return closestWildLilGuy; } set { closestWildLilGuy = value; } }
 	public bool HasInteracted { get { return hasInteracted; } set { hasInteracted = value; } }
 	public bool HasSwappedRecently { get { return hasSwappedRecently; } set { hasSwappedRecently = value; } }
 	public bool HasImmunity { get { return hasImmunity; } set { hasImmunity = value; } }
@@ -118,10 +133,20 @@ public class PlayerBody : MonoBehaviour
 			rb.velocity = Vector3.zero;
 			lilGuyTeam[0].IsMoving = false;
 		}
-		if (lilGuyTeam.Count <= 0) return;
+		if (lilGuyTeam.Count <= 0) return; 
+		RaycastHit hit;
+		if (Physics.Raycast(directionIndicator.transform.position + Vector3.up, Vector3.down*10, out hit))
+		{
+			Quaternion surfaceRotation = Quaternion.FromToRotation(Vector3.up, hit.normal); // Calculate the rotation to match the surface normal   
+			
+			// Calculate the angle using Atan2 (for XZ plane rotation)
+			Quaternion finalRotation = surfaceRotation * lilGuyTeam[0].AttackOrbit.rotation;          // Combine with the pivot's rotation
+
+			directionIndicator.transform.rotation = Quaternion.Slerp(directionIndicator.transform.rotation, finalRotation, smoothFactor); ;
+		}
 		invincibilityFX.SetActive(hasImmunity);
 		invincibilityFX.transform.rotation = lilGuyTeam[0].Mesh.transform.rotation;
-		stormHurtFX.SetActive(inStorm && !hasImmunity);
+		stormHurtFX.SetActive(inStorm);
 		stormHurtFX.transform.rotation = lilGuyTeam[0].Mesh.transform.rotation;
 	}
 
@@ -287,12 +312,13 @@ public class PlayerBody : MonoBehaviour
 				TeamFullMenu.SetActive(true);
 				TeamFullMenu.GetComponent<TeamFullMenu>().Init(closestWildLilGuy);
 			}
+			GameObject catchEffect = Instantiate(FXManager.Instance.GetEffect("Catch"), transform.position, Quaternion.identity);
+			catchEffect.GetComponent<SpriteRenderer>().sortingOrder = (int)-transform.position.z - 1;
 		}
 		else if (lilGuyTeam[0].Health < lilGuyTeam[0].MaxHealth && Time.time > nextBerryUseTime)
 		{
 			int healthRestored = Mathf.CeilToInt(lilGuyTeam[0].MaxHealth * berryHealPercentage);
-			if (lilGuyTeam[0].Health + healthRestored > lilGuyTeam[0].MaxHealth) lilGuyTeam[0].Health = lilGuyTeam[0].MaxHealth;
-			else lilGuyTeam[0].Health += healthRestored;
+			EventManager.Instance.HealLilGuy(lilGuyTeam[0], healthRestored);
 
 			berryCount--;
 			nextBerryUseTime = Time.time + berryUsageCooldown;
@@ -501,10 +527,10 @@ public class PlayerBody : MonoBehaviour
 	public void StormDamage(float dmg)
 	{
 		Hurtbox h = lilGuyTeam[0].gameObject.GetComponent<Hurtbox>();
-		if (h != null && StormDmg)
+		if (h != null)
 		{
+			inStorm = true;
 			h.TakeDamage(dmg);
-			StormDmg = false;
 		}
 	}
 

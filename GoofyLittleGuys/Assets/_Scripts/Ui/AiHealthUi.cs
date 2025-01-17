@@ -24,11 +24,14 @@ public class AiHealthUi : MonoBehaviour
 		// Initializing all slider min, max and current values to lil guy's health stats.
 		redBar.minValue = 0;
 		yellowBar.maxValue = 0;
-		redBar.maxValue = lilGuy.MaxHealth;
-		yellowBar.maxValue = lilGuy.MaxHealth;
-		redBar.value = lilGuy.Health;
-		yellowBar.value = lilGuy.Health;
-		UpdateUI();
+		if (lilGuy != null)
+		{
+			redBar.maxValue = lilGuy.MaxHealth;
+			yellowBar.maxValue = lilGuy.MaxHealth;
+			redBar.value = lilGuy.Health;
+			yellowBar.value = lilGuy.Health;
+			UpdateUI();
+		}
 	}
 
 	/// <summary>

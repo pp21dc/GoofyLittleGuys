@@ -16,6 +16,7 @@ public abstract class LilGuyBase : MonoBehaviour
     [SerializeField] protected Animator anim;
     [SerializeField] protected Transform attackPosition;
     [SerializeField] protected Transform attackOrbit;
+    [SerializeField] private GameObject healFXPrefab;
 
 
     [Header("Lil Guy Stats")]
@@ -53,9 +54,6 @@ public abstract class LilGuyBase : MonoBehaviour
     protected Vector3 movementDirection = Vector3.zero;
 
     [Header("FX")]
-    [SerializeField] private GameObject deathCloudFX;
-    [SerializeField] private GameObject levelUpFX;
-    [SerializeField] private GameObject DustParticleFX;
     [SerializeField] private float dustSpawnInterval = 1f;
     private Coroutine dustSpawnCoroutine;
 
@@ -86,6 +84,7 @@ public abstract class LilGuyBase : MonoBehaviour
     private bool spawnedDustParticle = false;
 
     #region Getters and Setters
+    public Transform AttackOrbit => attackOrbit;
     public SpriteRenderer Mesh => mesh;
     public int BaseSpeed => baseSpeed;
     public int Level { get => level; set => level = value; }
@@ -127,6 +126,22 @@ public abstract class LilGuyBase : MonoBehaviour
     protected virtual void Start()
     {
         rb = GetComponent<Rigidbody>();
+		GameObject instantiantedFX = Instantiate(FXManager.Instance.GetEffect("Spawn"), transform.position, Quaternion.identity);
+        instantiantedFX.GetComponent<SpriteRenderer>().sortingOrder = (int)-transform.position.z - 1;
+        Vector3 initialScale = gameObject.transform.localScale;
+        StartCoroutine(ScaleUp(initialScale));
+	}
+
+    private IEnumerator ScaleUp(Vector3 scaleTo)
+    {
+        float elapsedTime = 0;
+        while (elapsedTime < 0.25f)
+        {
+            transform.localScale = Vector3.Lerp(Vector3.zero, scaleTo, elapsedTime / 0.25f);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
     }
 
     public void DetermineLevel()
@@ -241,7 +256,7 @@ public abstract class LilGuyBase : MonoBehaviour
             {
                 if (!spawnedDustParticle)
                 {
-                    GameObject spawnedParticle = Instantiate(DustParticleFX, transform.position, Quaternion.identity);
+                    GameObject spawnedParticle = Instantiate(FXManager.Instance.GetEffect("Dust"), transform.position, Quaternion.identity);
                     spawnedParticle.GetComponent<SpriteRenderer>().flipX = mesh.flipX;
                     spawnedDustParticle = true;
                 }
@@ -405,7 +420,7 @@ public abstract class LilGuyBase : MonoBehaviour
 
     public void SpawnDeathParticle()
     {
-		GameObject instantiatedFX = Instantiate(deathCloudFX, transform.position + Vector3.up + Vector3.back, Quaternion.identity);
+		GameObject instantiatedFX = Instantiate(FXManager.Instance.GetEffect("DeathCloud"), transform.position + Vector3.up + Vector3.back, Quaternion.identity);
 	}
     /// <summary>
     /// This is the basic attack across all lil guys
@@ -521,7 +536,7 @@ public abstract class LilGuyBase : MonoBehaviour
     /// </summary>
     private void LevelUp()
     {
-        GameObject instantiantedFX = Instantiate(levelUpFX, transform.position + Vector3.forward + Vector3.up * 0.25f, Quaternion.identity, transform);
+        GameObject instantiantedFX = Instantiate(FXManager.Instance.GetEffect("LevelUp"), transform.position + Vector3.forward + Vector3.up * 0.25f, Quaternion.identity, transform);
         if (level % 5 == 0)
         {
             Strength += milestonePoints;
@@ -637,6 +652,11 @@ public abstract class LilGuyBase : MonoBehaviour
         }
     }
 
+    public void PlayHealEffect()
+    {
+        GameObject instantiatedHeal = Instantiate(FXManager.Instance.GetEffect("Heal"), transform.position, Quaternion.identity, transform);
+        instantiatedHeal.GetComponent<SpriteRenderer>().sortingOrder = mesh.sortingOrder + 1;
+    }
 }
 
 public enum DebuffType
