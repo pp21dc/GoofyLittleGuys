@@ -442,7 +442,7 @@ PrefabInstance:
     - target: {fileID: 4476805679437409250, guid: 3fdbd3de7f90953408fca5ccebc1efdf,
         type: 3}
       propertyPath: musicObjects.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4476805679437409250, guid: 3fdbd3de7f90953408fca5ccebc1efdf,
         type: 3}
@@ -461,6 +461,12 @@ PrefabInstance:
       propertyPath: musicObjects.Array.data[1]
       value: 
       objectReference: {fileID: 11400000, guid: 9d31fa899c1d8f644a2a6816a138908d,
+        type: 2}
+    - target: {fileID: 4476805679437409250, guid: 3fdbd3de7f90953408fca5ccebc1efdf,
+        type: 3}
+      propertyPath: musicObjects.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: b89f6b2e75c690e40bc7c69559d53036,
         type: 2}
     - target: {fileID: 6031546425642116890, guid: 3fdbd3de7f90953408fca5ccebc1efdf,
         type: 3}
