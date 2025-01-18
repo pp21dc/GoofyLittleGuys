@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
 using UnityEngine.SceneManagement;
-using UnityEditor.iOS;
 
 namespace Managers
 {
