@@ -22,9 +22,9 @@ AnimationClip:
     curve:
     - time: 0
       value: {fileID: 1568515587, guid: fb455d655f0d69c4cb72781393084216, type: 3}
-    - time: 0.016666668
+    - time: 0.083333336
       value: {fileID: -366305273, guid: fb455d655f0d69c4cb72781393084216, type: 3}
-    - time: 0.033333335
+    - time: 0.16666667
       value: {fileID: -1947760202, guid: fb455d655f0d69c4cb72781393084216, type: 3}
     attribute: m_Sprite
     path: FishbowlWaveLeft/Left
@@ -35,9 +35,9 @@ AnimationClip:
     curve:
     - time: 0
       value: {fileID: 1568515587, guid: fb455d655f0d69c4cb72781393084216, type: 3}
-    - time: 0.016666668
+    - time: 0.083333336
       value: {fileID: -366305273, guid: fb455d655f0d69c4cb72781393084216, type: 3}
-    - time: 0.033333335
+    - time: 0.16666667
       value: {fileID: -1947760202, guid: fb455d655f0d69c4cb72781393084216, type: 3}
     attribute: m_Sprite
     path: FishbowlWaveLeft/Left2
@@ -48,9 +48,9 @@ AnimationClip:
     curve:
     - time: 0
       value: {fileID: -1396401214, guid: dd603432149836248a8ef4cea77c8831, type: 3}
-    - time: 0.016666668
+    - time: 0.083333336
       value: {fileID: -631295847, guid: dd603432149836248a8ef4cea77c8831, type: 3}
-    - time: 0.033333335
+    - time: 0.16666667
       value: {fileID: 2005411326, guid: dd603432149836248a8ef4cea77c8831, type: 3}
     attribute: m_Sprite
     path: FishbowlWaveForward/Front
@@ -61,9 +61,9 @@ AnimationClip:
     curve:
     - time: 0
       value: {fileID: 1568515587, guid: fb455d655f0d69c4cb72781393084216, type: 3}
-    - time: 0.016666668
+    - time: 0.083333336
       value: {fileID: -366305273, guid: fb455d655f0d69c4cb72781393084216, type: 3}
-    - time: 0.033333335
+    - time: 0.16666667
       value: {fileID: -1947760202, guid: fb455d655f0d69c4cb72781393084216, type: 3}
     attribute: m_Sprite
     path: FishbowlWaveRight/Right2
@@ -74,9 +74,9 @@ AnimationClip:
     curve:
     - time: 0
       value: {fileID: 1568515587, guid: fb455d655f0d69c4cb72781393084216, type: 3}
-    - time: 0.016666668
+    - time: 0.083333336
       value: {fileID: -366305273, guid: fb455d655f0d69c4cb72781393084216, type: 3}
-    - time: 0.033333335
+    - time: 0.16666667
       value: {fileID: -1947760202, guid: fb455d655f0d69c4cb72781393084216, type: 3}
     attribute: m_Sprite
     path: FishbowlWaveRight/Right
@@ -87,16 +87,16 @@ AnimationClip:
     curve:
     - time: 0
       value: {fileID: -1256596799, guid: dd1c56d4596e09d46ac269bad74c4320, type: 3}
-    - time: 0.016666668
+    - time: 0.083333336
       value: {fileID: 60967200, guid: dd1c56d4596e09d46ac269bad74c4320, type: 3}
-    - time: 0.033333335
+    - time: 0.16666667
       value: {fileID: 1521597891, guid: dd1c56d4596e09d46ac269bad74c4320, type: 3}
     attribute: m_Sprite
     path: FishbowlWaveBackward/Back
     classID: 212
     script: {fileID: 0}
     flags: 2
-  m_SampleRate: 60
+  m_SampleRate: 12
   m_WrapMode: 0
   m_Bounds:
     m_Center: {x: 0, y: 0, z: 0}
@@ -181,7 +181,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.050000004
+    m_StopTime: 0.25
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
