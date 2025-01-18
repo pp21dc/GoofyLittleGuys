@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEditor.iOS;
 
 namespace Managers
 {
@@ -20,6 +21,7 @@ namespace Managers
 		[SerializeField] private GameObject timerCanvas;                // The Timer UI displayed in between all the split screeens
 		[SerializeField] private TextMeshProUGUI gameTimer;             // The Timer textbox itself
 		[SerializeField] private float stormTimer = 20.0f; // how long between spawning new storms in phase 2
+		[SerializeField] private AudioSource[] phaseAudioSources; // how long between spawning new storms in phase 2
 
 		[SerializeField] private Material regularLilGuySpriteMat;
 		[SerializeField] private Material outlinedLilGuySpriteMat;
@@ -63,6 +65,7 @@ namespace Managers
 		private void Start()
 		{
 			Time.timeScale = 0;
+			AudioManager.Instance.PlayMusic("GLGMainMenu", phaseAudioSources[0]);
 			if (gameStartTest) EventManager.Instance.GameStartedEvent();
 		}
 
@@ -151,6 +154,7 @@ namespace Managers
 		{
 			currentPhase++;
 			currentLayerMask = phase1LayerMask;
+			AudioManager.Instance.PlayMusic("GLGPhase1", "GLGPhase2", phaseAudioSources[1], phaseAudioSources[0]);
 		}
 
 		/// <summary>
@@ -163,7 +167,29 @@ namespace Managers
 			// Start grand brawl challenge
 			GetStormSets();
 			StartCoroutine(SpawnStorms());
+			StartCoroutine(Crossfade(phaseAudioSources[0], phaseAudioSources[1], 0.5f));
 
+		}
+		private IEnumerator Crossfade(AudioSource fromSource, AudioSource toSource, float duration)
+		{
+			float elapsed = 0.0f;
+
+			while (elapsed < duration)
+			{
+				elapsed += Time.unscaledDeltaTime;
+				float t = elapsed / duration;
+
+				// Linearly interpolate volumes
+				fromSource.volume = Mathf.Lerp(1.0f, 0.0f, t);
+				toSource.volume = Mathf.Lerp(0.0f, 1.0f, t);
+
+				yield return null;
+			}
+
+			// Ensure final values
+			fromSource.volume = 0.0f;
+			fromSource.Stop(); // Stop the previous clip
+			toSource.volume = 1.0f;
 		}
 
 		/// <summary>

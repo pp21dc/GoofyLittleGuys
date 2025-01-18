@@ -138,8 +138,8 @@ public abstract class LilGuyBase : MonoBehaviour
         while (elapsedTime < 0.25f)
         {
             transform.localScale = Vector3.Lerp(Vector3.zero, scaleTo, elapsedTime / 0.25f);
-            elapsedTime += Time.deltaTime;
-            yield return null;
+            elapsedTime += Time.unscaledDeltaTime;
+			yield return null;
         }
 
     }

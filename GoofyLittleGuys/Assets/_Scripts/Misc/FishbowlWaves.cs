@@ -17,6 +17,7 @@ public class FishbowlWaves : MonoBehaviour
 		this.duration = duration;
 		transform.localScale = Vector3.Lerp(minScale, maxScale, (chargeTime - minChargeTime) / (maxChargeTime - minChargeTime));
 		duration = Mathf.Lerp(minDuration, maxDuration, (chargeTime - minChargeTime) / (maxChargeTime - minChargeTime));
+
 		anim = GetComponent<Animator>();
 		StartCoroutine(EndWaves());
 	}

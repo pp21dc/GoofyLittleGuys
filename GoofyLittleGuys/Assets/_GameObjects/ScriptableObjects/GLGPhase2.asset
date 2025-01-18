@@ -10,9 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 455a8510209860a489a9ad867f112ef6, type: 3}
-  m_Name: TestMusic
+  m_Name: GLGPhase2
   m_EditorClassIdentifier: 
-  objAudioClip: {fileID: 8300000, guid: cdf9fafc2789ff24eb64adc544c517d8, type: 3}
-  key: TestMusic
+  clips:
+  - {fileID: 8300000, guid: 89487242a8389f54292c9b060b8ef56f, type: 3}
+  isSpatial: 0
+  playOnce: 0
   volume: 1
-  pitch: 1
+  pitch: {x: 1, y: 1}
+  key: GLGPhase2

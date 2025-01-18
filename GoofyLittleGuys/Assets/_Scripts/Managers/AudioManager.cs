@@ -31,7 +31,7 @@ namespace Managers
 				}
 				sfxDictionary.Add(clip.key, clip);
 			}
-			
+
 			//music
 			foreach (AudioObject clip in musicObjects)
 			{
@@ -61,7 +61,7 @@ namespace Managers
 			}
 		}
 
-		public void PlayMusic(string key, AudioSource source)
+		public void PlayMusic(string key, AudioSource source, bool continueFromSamePosition = false)
 		{
 			AudioObject objToPlay;
 			if (musicDictionary[key] != null)
@@ -71,10 +71,43 @@ namespace Managers
 				source.volume = objToPlay.volume;
 				source.pitch = Random.Range(objToPlay.pitch.x, objToPlay.pitch.y);
 
-				source.clip = getRandomClip(objToPlay);
+				if (continueFromSamePosition)
+				{
+					float currTime = source.time;
+					source.clip = getRandomClip(objToPlay);
+					source.time = currTime;
+				}
+				else
+				{
+					source.clip = getRandomClip(objToPlay);
+				}
 				source.Play();
 			}
 		}
+
+		public void PlayMusic(string key, string key2, AudioSource nextSource, AudioSource prevSource)
+		{
+			AudioObject objToPlay;
+			AudioObject objToPlay2;
+			if (musicDictionary[key2] != null && musicDictionary[key] != null)
+			{
+				objToPlay = musicDictionary[key];
+				objToPlay2 = musicDictionary[key2];
+				// Set the basic properties (volume, pitch)
+
+				prevSource.volume = objToPlay.volume;
+				prevSource.pitch = Random.Range(objToPlay.pitch.x, objToPlay.pitch.y);
+				prevSource.clip = getRandomClip(objToPlay);
+
+				nextSource.volume = 0;
+				nextSource.pitch = Random.Range(objToPlay.pitch.x, objToPlay.pitch.y);
+				nextSource.clip = getRandomClip(objToPlay2);
+
+				prevSource.Play();
+				nextSource.Play();
+			}
+		}
+
 
 		/// <summary>
 		/// Method that adjusts volume of audio source based on proximity to any player and pans the audio based on what side of the screen the player's screen is on.
