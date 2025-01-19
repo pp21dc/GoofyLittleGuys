@@ -35,12 +35,8 @@ public class PlayerController : MonoBehaviour
 				uiCullLayer = LayerMask.NameToLayer("UI_Gamepad");
 				playerCam.cullingMask |= 1 << uiCullLayer; // Add layer to culling mask
 				break;
-			case "Keyboard Left":
+			case "Keyboard":
 				uiCullLayer = LayerMask.NameToLayer("UI_LeftKeyboard");
-				playerCam.cullingMask |= 1 << uiCullLayer; // Add layer to culling mask
-				break;
-			case "Keyboard Right":
-				uiCullLayer = LayerMask.NameToLayer("UI_RightKeyboard");
 				playerCam.cullingMask |= 1 << uiCullLayer; // Add layer to culling mask
 				break;
 		}

@@ -282,6 +282,7 @@ public class PlayerBody : MonoBehaviour
 	public void UseBerry()
 	{
 		if (berryCount <= 0) return;
+		if (IsDead) return;
 		if (closestWildLilGuy != null)
 		{
 			berryCount--;

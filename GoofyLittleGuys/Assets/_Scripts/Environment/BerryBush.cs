@@ -52,6 +52,7 @@ public class BerryBush : InteractableBase
 	/// <param name="body">PlayerBody: The player that interacted with this object.</param>
 	public override void OnInteracted(PlayerBody body)
 	{
+		if (body.IsDead) return;
 		base.OnInteracted(body);
 		if (berryAmountOnBush > 0 && body.BerryCount < body.MaxBerryCount)
 		{
