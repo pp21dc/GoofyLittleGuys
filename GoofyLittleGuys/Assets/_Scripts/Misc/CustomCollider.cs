@@ -39,11 +39,19 @@ public class PolygonCollider3D : MonoBehaviour
 		}
 	}
 
+	public int fanCenterIndex = 0; // Index of the vertex to fan from
+
 	private void UpdateCollider()
 	{
 		if (points == null || points.Length < 3)
 		{
 			Debug.LogWarning("PolygonCollider3D requires at least 3 points to form a shape.");
+			return;
+		}
+
+		if (fanCenterIndex < 0 || fanCenterIndex >= points.Length)
+		{
+			Debug.LogWarning("Invalid fanCenterIndex. It must be between 0 and the number of points - 1.");
 			return;
 		}
 
@@ -59,26 +67,45 @@ public class PolygonCollider3D : MonoBehaviour
 			vertices[i + points.Length] = transform.InverseTransformPoint(points[i].position + Vector3.up * height); // Top vertices
 		}
 
-		// Triangles for base polygon
 		int triIndex = 0;
-		
 
-		// Side wall triangles
+		// Triangles for the base polygon
+		for (int i = 0; i < points.Length - 1; i++)
+		{
+			int current = (fanCenterIndex + i) % points.Length;
+			int next = (fanCenterIndex + i + 1) % points.Length;
+
+			triangles[triIndex++] = fanCenterIndex;
+			triangles[triIndex++] = current;
+			triangles[triIndex++] = next;
+		}
+
+		// Triangles for the top polygon
+		for (int i = 0; i < points.Length - 1; i++)
+		{
+			int current = (fanCenterIndex + i) % points.Length;
+			int next = (fanCenterIndex + i + 1) % points.Length;
+
+			triangles[triIndex++] = fanCenterIndex + points.Length;
+			triangles[triIndex++] = next + points.Length;
+			triangles[triIndex++] = current + points.Length;
+		}
+
+		// Triangles for the side walls
 		for (int i = 0; i < points.Length; i++)
 		{
 			int next = (i + 1) % points.Length;
 
-			// First triangle (corrected winding order)
+			// First triangle for the side wall
 			triangles[triIndex++] = i;
 			triangles[triIndex++] = points.Length + i;
 			triangles[triIndex++] = next;
 
-			// Second triangle (corrected winding order)
+			// Second triangle for the side wall
 			triangles[triIndex++] = next;
 			triangles[triIndex++] = points.Length + i;
 			triangles[triIndex++] = points.Length + next;
 		}
-
 
 		mesh.vertices = vertices;
 		mesh.triangles = triangles;
@@ -97,4 +124,6 @@ public class PolygonCollider3D : MonoBehaviour
 		// Cache the mesh
 		_mesh = mesh;
 	}
+
+
 }
