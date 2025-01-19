@@ -27,17 +27,17 @@ public class Teleporter : InteractableBase
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Player") && !inRange.Contains(other.gameObject))
+        if (other.gameObject.layer == LayerMask.NameToLayer("PlayerLilGuys") && !inRange.Contains(other.gameObject))
         {
             inRange.Add(other.gameObject);
-            other.GetComponent<PlayerBody>().ClosestInteractable = this;
+            other.GetComponent<LilGuyBase>().PlayerOwner.ClosestInteractable = this;
         }
     }
 
     // Using this as a cheaper update loop
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("PlayerLilGuys"))
 		{
             if (inRange.Count > 0 && !onCooldown)
             {
@@ -52,11 +52,11 @@ public class Teleporter : InteractableBase
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Player") && inRange.Contains(other.gameObject))
+        if (other.gameObject.layer == LayerMask.NameToLayer("PlayerLilGuys") && inRange.Contains(other.gameObject))
         {
             inRange.Remove(other.gameObject);
-            other.GetComponent<PlayerBody>().ClosestInteractable = null;
-        }
+			other.GetComponent<LilGuyBase>().PlayerOwner.ClosestInteractable = this;
+		}
         if (inRange.Count == 0)
         {
             interactableCanvas.SetActive(false);
