@@ -12,6 +12,7 @@ public class Fishbowl : StrengthType
 	[SerializeField] private float waveMoveSpeed = 10f;
 	[SerializeField] private float minKnockback = 10f;
 	[SerializeField] private float maxKnockback = 25f;
+	[SerializeField] private float knockbackDuration = 1f;
 
 	bool isCharging = false;
 	private float chargeTime = 0f;
@@ -93,10 +94,13 @@ public class Fishbowl : StrengthType
 		instantiatedAoe.GetComponent<FishbowlWaves>().Init(specialDuration, chargeTime, maxChargeTime, minChargeTime);
 		foreach(Transform child in  instantiatedAoe.transform)
 		{
-			child.GetComponent<AoeHitbox>().AoeDamageMultiplier = aoeDamageMultiplier;
+			AoeHitbox hitbox = child.GetComponent<AoeHitbox>();
+			KnockbackHitbox kHitbox = child.GetComponent<KnockbackHitbox>();
+			hitbox.AoeDamageMultiplier = aoeDamageMultiplier;
 			child.GetComponent<AoeMovement>().Speed = waveMoveSpeed;
-			child.GetComponent<AoeHitbox>().Init(gameObject);
-			child.GetComponent<KnockbackHitbox>().KnockbackForce = Mathf.Lerp(minKnockback, maxKnockback, (chargeTime - minChargeTime)/(maxChargeTime - minChargeTime));
+			hitbox.Init(gameObject);
+			kHitbox.KnockbackForce = Mathf.Lerp(minKnockback, maxKnockback, (chargeTime - minChargeTime)/(maxChargeTime - minChargeTime));
+			kHitbox.KnockbackDuration = knockbackDuration;
 
 		}
 	}

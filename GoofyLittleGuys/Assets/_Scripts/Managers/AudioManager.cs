@@ -19,6 +19,20 @@ namespace Managers
 		private Dictionary<string, AudioObject> sfxDictionary = new Dictionary<string, AudioObject>();
 		private Dictionary<string, AudioObject> musicDictionary = new Dictionary<string, AudioObject>();
 
+
+		public override void Awake()
+		{
+			base.Awake();
+			foreach (AudioObject clip in musicObjects)
+			{
+				if (musicDictionary.ContainsKey(clip.key))
+				{
+					Debug.LogError($"{clip.key} already exists in SFX dictionary. Detected for {clip.name}. Changing key now");
+					clip.key += $"NAME_ERROR";
+				}
+				musicDictionary.Add(clip.key, clip);
+			}
+		}
 		private void Start()
 		{
 			//sound effects
@@ -33,15 +47,6 @@ namespace Managers
 			}
 
 			//music
-			foreach (AudioObject clip in musicObjects)
-			{
-				if (musicDictionary.ContainsKey(clip.key))
-				{
-					Debug.LogError($"{clip.key} already exists in SFX dictionary. Detected for {clip.name}. Changing key now");
-					clip.key += $"NAME_ERROR";
-				}
-				musicDictionary.Add(clip.key, clip);
-			}
 		}
 
 		public void PlaySfx(string key, AudioSource source)

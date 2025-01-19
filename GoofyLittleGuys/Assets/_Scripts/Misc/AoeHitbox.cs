@@ -24,6 +24,7 @@ public class AoeHitbox : MonoBehaviour
 	}
 	private void OnTriggerEnter(Collider other)
 	{
+		if (hitboxOwner == null) return;
 		Hurtbox h = other.GetComponent<Hurtbox>();
 		if (h != null)
 			OnHit(h);

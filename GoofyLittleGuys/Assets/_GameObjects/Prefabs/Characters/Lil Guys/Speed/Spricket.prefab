@@ -114,10 +114,17 @@ MonoBehaviour:
   dustSpawnInterval: 1
   attackCooldown: 0
   attackEffect: {fileID: 0}
+  knockbackPrefab: {fileID: 4631284653977187687, guid: 9341da0943f3c924db490a9047fb1341,
+    type: 3}
   minChargeTime: 0.25
   maxChargeTime: 1
-  mindashDistance: 2
-  maxDashDistance: 11
+  minDashDistance: 10
+  dashSpeed: 100
+  applySpeedStat: 1
+  baseMaxDistance: 40
+  distanceThreshold: 100
+  speedStatInfluence: 1
+  maxDistanceFalloff: 40
   spawnInterval: 0.05
   maxAfterimages: 8
   fadeSpeed: 0.5

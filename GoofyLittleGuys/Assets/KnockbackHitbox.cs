@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -5,6 +6,7 @@ public class KnockbackHitbox : MonoBehaviour
 {
 	[SerializeField] private float knockbackForce = 10f; // Strength of knockback
 	[SerializeField] private bool relativeToHitbox = true; // Direction relative to hitbox center
+	[SerializeField] private float knockbackDuration = 1f; 
 
 	private HashSet<LilGuyBase> wildLilGuys = new HashSet<LilGuyBase>(); // Track wild lil guys
 	private HashSet<LilGuyBase> playerLilGuys = new HashSet<LilGuyBase>(); // Track player-owned lil guys
@@ -12,6 +14,8 @@ public class KnockbackHitbox : MonoBehaviour
 	public HashSet<LilGuyBase> PlayerLilGuys => playerLilGuys;
 	public HashSet<LilGuyBase> WildLilGuys => wildLilGuys;
 	public float KnockbackForce { set { knockbackForce = value; } }
+	public float KnockbackDuration { set { knockbackDuration = value; } }
+
 
 	private void OnTriggerEnter(Collider other)
 	{
@@ -29,11 +33,11 @@ public class KnockbackHitbox : MonoBehaviour
 	{
 		if (other.gameObject.layer == LayerMask.NameToLayer("WildLilGuys"))
 		{
-			ResetKnockback(other, wildLilGuys);
+			StartCoroutine(ResetKnockback(other, wildLilGuys));
 		}
 		else if (other.gameObject.layer == LayerMask.NameToLayer("PlayerLilGuys"))
 		{
-			ResetKnockback(other, playerLilGuys, true);
+			StartCoroutine(ResetKnockback(other, playerLilGuys, true));
 		}
 	}
 
@@ -61,7 +65,7 @@ public class KnockbackHitbox : MonoBehaviour
 			Rigidbody rb = isPlayerOwned ? lilGuy.PlayerOwner.GetComponent<Rigidbody>() : lilGuy.RB;
 			if (rb != null)
 			{
-				rb.AddForce(direction * knockbackForce, ForceMode.Impulse);
+				rb.AddForce(direction * knockbackForce, ForceMode.VelocityChange);
 			}
 
 			// Add to the tracking set if not already tracked
@@ -72,8 +76,9 @@ public class KnockbackHitbox : MonoBehaviour
 		}
 	}
 
-	public void ResetKnockback(Collider other, HashSet<LilGuyBase> lilGuySet, bool isPlayerOwned = false)
+	public IEnumerator ResetKnockback(Collider other, HashSet<LilGuyBase> lilGuySet, bool isPlayerOwned = false)
 	{
+		yield return new WaitForSeconds(knockbackDuration);
 		LilGuyBase lilGuy = other.GetComponent<LilGuyBase>();
 		if (lilGuy != null && lilGuySet.Contains(lilGuy))
 		{
