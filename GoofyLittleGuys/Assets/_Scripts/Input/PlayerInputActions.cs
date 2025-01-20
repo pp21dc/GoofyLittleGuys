@@ -793,17 +793,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""Space"",
-                    ""id"": ""b641f6a0-564d-4bc9-9e4e-9d29a6b0a7bc"",
-                    ""path"": ""OneModifier"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""SecondarySkill"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
                     ""name"": ""NM"",
                     ""id"": ""529ec1de-6f78-4695-925e-8574ba6eca72"",
                     ""path"": ""1DAxis"",

@@ -102,8 +102,7 @@ public class PlayerController : MonoBehaviour
 	{
 		if (GameManager.Instance.IsPaused) return;
 		if (playerBody.LilGuyTeam[0].Health <= 0) return;
-		if (GetComponent<PlayerInput>().currentControlScheme == "Keyboard Left" && Keyboard.current.leftShiftKey.isPressed) return;
-		if (GetComponent<PlayerInput>().currentControlScheme == "Keyboard Right" && Keyboard.current.rightShiftKey.isPressed) return;
+		if (GetComponent<PlayerInput>().currentControlScheme == "Keyboard" && Keyboard.current.shiftKey.isPressed) return;
 
 		// Hold to keep attacking as opposed to mashing.
 		playerBody.LilGuyTeam[0].IsAttacking = ctx.performed;
