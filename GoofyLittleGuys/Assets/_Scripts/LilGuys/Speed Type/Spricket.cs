@@ -31,6 +31,7 @@ public class Spricket : SpeedType
 	public bool IsCharging => isCharging;
 	private float chargeTime = 0f;
 	private GameObject instantiatedKnockback;
+	private Coroutine dashCoroutine;
 	protected override void Update()
 	{
 		base.Update();
@@ -67,6 +68,7 @@ public class Spricket : SpeedType
 
 			anim.ResetTrigger("SpecialAttackEnded");
 			anim.ResetTrigger("EndCharge");
+			anim.ResetTrigger("SpecialAttack");
 			anim.SetTrigger("SpecialAttack");
 			if (playerOwner == null) StopChargingSpecial();
 		}
@@ -82,7 +84,7 @@ public class Spricket : SpeedType
 		}
 		else
 		{
-			StartCoroutine(WaitForChargeCompletion());
+			dashCoroutine = StartCoroutine(WaitForChargeCompletion());
 		}
 	}
 
@@ -127,7 +129,7 @@ public class Spricket : SpeedType
 			float dashDuration = finalDistance / dashSpeed;
 
 			// Start coroutine to stop dash after the duration
-			StartCoroutine(StopDashAfterDuration(rb, dashDuration));
+			dashCoroutine = StartCoroutine(StopDashAfterDuration(rb, dashDuration));
 		}
 	}
 
@@ -148,6 +150,43 @@ public class Spricket : SpeedType
 		LockMovement = false;
 		Destroy(instantiatedKnockback);
 	}
+
+	public override void CancelSpecial()
+	{
+		if (isCharging || isDashing)
+		{
+			// Reset special state
+			isCharging = false;
+			isDashing = false;
+			LockMovement = false;
+
+			// Check if the Animator is in the "InSpecial" state and handle accordingly
+			if (anim.GetCurrentAnimatorStateInfo(0).IsName("InSpecial"))
+			{
+				anim.SetTrigger("EndCharge"); // Trigger EndCharge to progress the animation properly
+			}
+			// Reset animations
+			anim.SetTrigger("SpecialAttackEnded");
+
+
+			// Stop any ongoing coroutines
+			StopAllCoroutines(); // Ensure all related coroutines are stopped
+
+			// Destroy the knockback prefab if it exists
+			if (instantiatedKnockback != null)
+			{
+				Destroy(instantiatedKnockback);
+			}
+
+			// Reset Rigidbody velocity
+			Rigidbody rb = (playerOwner == null) ? GetComponent<Rigidbody>() : playerOwner.GetComponent<Rigidbody>();
+			if (rb != null)
+			{
+				rb.velocity = Vector3.zero;
+			}
+		}
+	}
+
 
 	public override void MoveLilGuy()
 	{

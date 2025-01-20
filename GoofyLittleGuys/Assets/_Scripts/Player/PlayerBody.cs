@@ -186,6 +186,7 @@ public class PlayerBody : MonoBehaviour
 			if (isSwapping) return;
 			isSwapping = true;
 
+			activeLilGuy.CancelSpecial();
 			// Hide them from player, as to not confuse them with a living one... maybe find a better way to convey this
 			if (!lilGuyTeam[0].IsDying) lilGuyTeam[0].PlayDeathAnim();
 			lilGuyTeam[0].SetLayer(LayerMask.NameToLayer("Player"));
@@ -368,6 +369,7 @@ public class PlayerBody : MonoBehaviour
 
 		List<LilGuyBase> aliveTeamMembers = lilGuyTeam.Where(guy => guy.Health > 0).ToList();       // Filter out the dead team members from the live ones.
 		List<LilGuySlot> aliveTeamSlots = lilGuyTeamSlots.Where(slot => !slot.LockState).ToList();  // We only care about the lil guy slots of the lil guys that are still alive.
+		activeLilGuy.CancelSpecial();
 
 		// Only one lil guy alive, so swapping makes no sense here.
 		if (aliveTeamMembers.Count <= 1)

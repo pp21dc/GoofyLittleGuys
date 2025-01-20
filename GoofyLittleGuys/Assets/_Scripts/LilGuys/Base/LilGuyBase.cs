@@ -492,6 +492,9 @@ public abstract class LilGuyBase : MonoBehaviour
         Special();
     }
 
+    public virtual void CancelSpecial()
+    {        
+    }
     /// <summary>
     /// override this function in all derivitives of this class with its unique special attack
     /// </summary>
