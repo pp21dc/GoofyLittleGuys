@@ -88,7 +88,7 @@ public class WildBehaviour : MonoBehaviour
 		{
 			actionCoroutine ??= StartCoroutine(Dead());
 		}
-		else if (isCatchable && returnHome)
+		else if (returnHome)
 		{
 			actionCoroutine ??= StartCoroutine(ReturnHome());
 		}
