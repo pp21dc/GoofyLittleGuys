@@ -1,63 +1,153 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Threading.Tasks;
+using System.Threading;
+using UnityEngine.Rendering;
 
 public class StormObj : MonoBehaviour
 {
-	public float dmgPerInterval;
-	public float interval;
+    [SerializeField] private float dmgPerInterval = 10f;
+    [SerializeField] private float interval = 1f;
+    [SerializeField] private float passiveTime = 15f;
+    [SerializeField] private BoxCollider damageZone;
+    [SerializeField] private Volume postVol;
 
-	private List<PlayerBody> playersInStorm = new List<PlayerBody>();
-	private Coroutine stormDmgCoroutine = null;
+    private List<PlayerBody> playersInStorm = new List<PlayerBody>();
+    private bool isRunning = true;
+    private Dictionary<PlayerBody, CancellationTokenSource> playerTokens = new Dictionary<PlayerBody, CancellationTokenSource>();
 
-	private void Start()
-	{
-		StartCoroutine(DmgCycle());
-	}
+    private  void Start()
+    {
+        if (damageZone == null) damageZone = GetComponent<BoxCollider>();
+        if (postVol == null) postVol = GetComponent<Volume>();
+        damageZone.enabled = false;
+        postVol.enabled = false;
+    }
 
-	//On trigger enter, a coroutine should start for the player that entered, that (while the given player is InStorm),
-	//simply waits a few seconds, then turns on StormDmg for that player if it isn't already on.
-	private void OnTriggerEnter(Collider collision)
-	{
-		Hurtbox playerHurtbox = collision.gameObject.GetComponent<Hurtbox>();
-		if (playerHurtbox != null && playerHurtbox.gameObject.GetComponent<TamedBehaviour>() != null)
-		{
-			PlayerBody playerHit = playerHurtbox.gameObject.GetComponent<LilGuyBase>().PlayerOwner;
-			if (playerHit == null) return;
-			if (!playersInStorm.Contains(playerHit))
-			{
-				playersInStorm.Add(playerHit);
-			}
-		}
-	}
+    private async void OnEnable()
+    {
+        await Task.Delay((int)(passiveTime * 1000)); //task.delay uses ms, so *1000 for seconds
+        damageZone.enabled = true;
+        postVol.enabled = true;
 
+        _ = DamageCycleAsync();
+    }
 
-	//Coroutine that, notifies thisPlayer it has started this coroutine,
-	//then, while thisPlayer is InStorm, wait interval, then set thisPlayer.StormDmg = true if it's not already.
-	private IEnumerator DmgCycle()
-	{
-		while (true)
-		{
-			yield return new WaitForSeconds(interval);
-			if (playersInStorm.Count > 0) foreach (PlayerBody body in playersInStorm) body.StormDamage(dmgPerInterval);
-		}
-	}
+    private async Task DamageCycleAsync()
+    {
+        while (isRunning)
+        {
+            if (playersInStorm.Count > 0)
+            {
+                foreach (var player in playersInStorm.ToArray())
+                {
+                    if (player != null)
+                    {
+                        player.StormDamage(dmgPerInterval);
+                    }
+                }
+            }
+            await Task.Delay((int)(interval * 1000));
+        }
+    }
 
-	//On trigger exit, thisPlayer that left should have its coroutine stopped, and 
-	//then they should be notified that StormCoroutine = false and StormDmg = false.
-	private void OnTriggerExit(Collider collision)
-	{
-		Hurtbox playerHurtbox = collision.gameObject.GetComponent<Hurtbox>();
-		if (playerHurtbox != null && playerHurtbox.gameObject.GetComponent<TamedBehaviour>() != null)
-		{
-			PlayerBody playerHit = playerHurtbox.gameObject.GetComponent<LilGuyBase>().PlayerOwner;
-			if (playerHit == null) return;
-			if (playersInStorm.Contains(playerHit))
-			{
-				playerHit.InStorm = false;
-				playersInStorm.Remove(playerHit);
-			}
+    private async void OnTriggerEnter(Collider collision)
+    {
+        if (!damageZone.enabled) return;
 
-		}
-	}
+        var playerHurtbox = collision.gameObject.GetComponent<Hurtbox>();
+        if (playerHurtbox != null && playerHurtbox.gameObject.TryGetComponent<TamedBehaviour>(out _))
+        {
+            var playerHit = playerHurtbox.gameObject.GetComponent<LilGuyBase>()?.PlayerOwner;
+            if (playerHit == null) return;
+
+            var tokenSource = new CancellationTokenSource();
+            playerTokens[playerHit] = tokenSource;
+
+            try
+            {
+                await HandlePlayerEntryAsync(playerHit, tokenSource.Token);
+            }
+            catch (System.OperationCanceledException)
+            {
+                Debug.Log($"Storm cancelled for {playerHit.name}");
+                if (playerHit != null)
+                {
+                    playerHit.InStorm = false;
+                }
+                playerTokens.Remove(playerHit);
+                playersInStorm.Remove(playerHit);
+            }
+        }
+    }
+
+    private async Task HandlePlayerEntryAsync(PlayerBody player, CancellationToken token)
+    {
+        token.ThrowIfCancellationRequested();
+        try
+        {
+            if (!playersInStorm.Contains(player))
+            {
+                playersInStorm.Add(player);
+            }
+        }
+        catch (System.OperationCanceledException)
+        {
+            throw;
+        }
+        catch (System.Exception ex)
+        {
+            CleanUpPlayerState(player);
+        }
+    }
+
+    private void CleanUpPlayerState(PlayerBody player)
+    {
+        if (player != null) return;
+
+        player.InStorm = false;
+        playersInStorm.Remove(player);
+        if (playerTokens.TryGetValue(player, out var tokenSource))
+        {
+            tokenSource.Dispose();
+            playerTokens.Remove(player);
+        }
+    }
+
+    private void OnTriggerExit(Collider collision)
+    {
+        var playerHurtbox = collision.gameObject.GetComponent<Hurtbox>();
+        if (playerHurtbox != null && playerHurtbox.gameObject.TryGetComponent<TamedBehaviour>(out _))
+        {
+            var playerHit = playerHurtbox.gameObject.GetComponent<LilGuyBase>()?.PlayerOwner;
+            if (playerHit == null) return;
+
+            // Cancel any ongoing operations for this player
+            if (playerTokens.TryGetValue(playerHit, out var tokenSource))
+            {
+                tokenSource.Cancel();
+                tokenSource.Dispose();
+                playerTokens.Remove(playerHit);
+            }
+
+            if (playersInStorm.Contains(playerHit))
+            {
+                playerHit.InStorm = false;
+                playersInStorm.Remove(playerHit);
+            }
+        }
+    }
+
+    private void OnDisable()
+    {
+        isRunning = false;
+        // Clean up all token sources
+        foreach (var tokenSource in playerTokens.Values)
+        {
+            tokenSource.Cancel();
+            tokenSource.Dispose();
+        }
+        playerTokens.Clear();
+    }
 }
