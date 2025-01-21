@@ -513,6 +513,7 @@ public class PlayerBody : MonoBehaviour
 	private IEnumerator DelayedRespawn()
 	{
 		canMove = false;
+		rb.velocity = Vector3.zero;
 		deathTime = GameManager.Instance.CurrentGameTime;
 		if (deathTime > GameManager.Instance.PhaseOneDurationSeconds())
 		{
@@ -524,7 +525,11 @@ public class PlayerBody : MonoBehaviour
 			rb.useGravity = true;
 			Respawn();
 		}
-		else rb.useGravity = false;
+		else
+		{
+			canMove = true;
+			rb.useGravity = false;
+		}
 		respawnCoroutine = null;
 	}
 

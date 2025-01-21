@@ -108,6 +108,10 @@ namespace Managers
 
 		public void QuitGame()
 		{
+			stormSets.Clear();
+			rankings.Clear();
+			AudioManager.Instance.PlayMusic("GLGMainMenu", phaseAudioSources[0]);
+			phaseAudioSources[1].volume = 0;
 			currentPhase = 0;
 			currentGameTime = 0;
 			timerCanvas.SetActive(false);
