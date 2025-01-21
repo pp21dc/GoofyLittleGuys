@@ -76,6 +76,7 @@ public class PlayerBody : MonoBehaviour
 	private Rigidbody rb;
 	private LilGuyBase closestWildLilGuy = null;
 
+	public GameObject MinimapIcon;
 	public Color PlayerColour { get { return playerColour; } 
 		set
 		{ 
@@ -84,6 +85,7 @@ public class PlayerBody : MonoBehaviour
 			Material directionIndicatorMat = new Material(projector.material);
 			directionIndicatorMat.SetColor("_BaseColor", playerColour);
 			projector.material = directionIndicatorMat;
+			MinimapIcon.GetComponent<Renderer>().material.color = playerColour;
 		}
 	} 
 	public LilGuyBase ClosestWildLilGuy { get { return closestWildLilGuy; } set { closestWildLilGuy = value; } }
