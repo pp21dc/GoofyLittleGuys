@@ -41,6 +41,7 @@ namespace Managers
 		[SerializeField] private List<GameObject> stormSets = new List<GameObject>();
 		public int CurrentPhase => currentPhase; // Getter for current phase
 		public float RespawnTimer => respawnTimer; // Getter for respawn timer
+		public float CurrentGameTime => currentGameTime;
 
 		[Header("Hitbox LayerMasks")]
 		[SerializeField] private LayerMask phase1LayerMask;
@@ -86,7 +87,7 @@ namespace Managers
 				if (currentGameTime >= 300 && !legendarySpawned)
 				{
 					legendarySpawned = true;
-					SpawnLegendary(); 
+					SpawnLegendary();
 				}
 
 			}
@@ -121,6 +122,8 @@ namespace Managers
 		/// </summary>
 		public bool GameStarted()
 		{
+			currentGameTime = 0;
+			currentPhase = 0;
 			for (int i = 0; i < players.Count; i++)
 			{
 				// We don't want the players all spawning in the same exact spot, so shift their x and z positions randomly.
@@ -258,6 +261,8 @@ namespace Managers
 			}
 			players.Clear();
 			currentPhase = 0;
+			currentGameTime = 0;
+			Time.timeScale = 0;
 			gameOver = false;
 			StopAllCoroutines(); // this stop the game from fucking destroying itself when restarting TODO: FIND THE FUCKING LEAK
 		}
@@ -289,7 +294,7 @@ namespace Managers
 			while (true)
 			{
 				bool allStormsActive = true;
-				foreach(GameObject storm in stormSets)
+				foreach (GameObject storm in stormSets)
 				{
 					if (!storm.activeSelf)
 					{

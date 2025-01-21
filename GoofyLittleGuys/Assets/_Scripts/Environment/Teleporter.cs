@@ -28,9 +28,11 @@ public class Teleporter : InteractableBase
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("PlayerLilGuys") && !inRange.Contains(other.gameObject))
-        {
-            inRange.Add(other.gameObject);
-            other.GetComponent<LilGuyBase>().PlayerOwner.ClosestInteractable = this;
+		{
+			LilGuyBase lilGuy = other.GetComponent<LilGuyBase>();
+			if (lilGuy == null) return;
+			inRange.Add(other.gameObject);         
+           lilGuy.PlayerOwner.ClosestInteractable = this;
         }
     }
 
@@ -54,8 +56,10 @@ public class Teleporter : InteractableBase
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("PlayerLilGuys") && inRange.Contains(other.gameObject))
         {
-            inRange.Remove(other.gameObject);
-			other.GetComponent<LilGuyBase>().PlayerOwner.ClosestInteractable = this;
+			LilGuyBase lilGuy = other.GetComponent<LilGuyBase>();
+			if (lilGuy == null) return;
+			if (inRange.Contains(lilGuy.gameObject)) inRange.Remove(lilGuy.gameObject);
+			lilGuy.PlayerOwner.ClosestInteractable = null;
 		}
         if (inRange.Count == 0)
         {

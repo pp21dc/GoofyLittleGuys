@@ -488,6 +488,7 @@ public class PlayerBody : MonoBehaviour
 	/// </summary>
 	private void Respawn()
 	{
+		knockedBack = false;
 		isDead = false;
 		rb.MovePosition(GameManager.Instance.FountainSpawnPoint.position);
 		for (int i = 0; i < lilGuyTeam.Count; i++)
@@ -510,7 +511,7 @@ public class PlayerBody : MonoBehaviour
 	private IEnumerator DelayedRespawn()
 	{
 		canMove = false;
-		deathTime = Time.time;
+		deathTime = GameManager.Instance.CurrentGameTime;
 		if (deathTime > GameManager.Instance.PhaseOneDurationSeconds())
 		{
 			rb.useGravity = false;
@@ -518,8 +519,10 @@ public class PlayerBody : MonoBehaviour
 		yield return new WaitForSeconds(Managers.GameManager.Instance.RespawnTimer);
 		if (deathTime <= GameManager.Instance.PhaseOneDurationSeconds())
 		{
+			rb.useGravity = true;
 			Respawn();
 		}
+		else rb.useGravity = false;
 		respawnCoroutine = null;
 	}
 
