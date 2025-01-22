@@ -116,7 +116,14 @@ public class EventManager
 				break;
 			case DebuffType.Poison:
 				// Apply Debuff effect to lil guy as well
-				GameManager.Instance.StartCoroutine(Poison(affectedEntity, debuffAmount, debuffDuration, damageApplicationInterval));
+				Poison poisoned = affectedEntity.GetComponent<Poison>();
+				if (poisoned == null)
+				{
+					poisoned = affectedEntity.AddComponent<Poison>();
+					poisoned.Init(debuffAmount, debuffDuration, damageApplicationInterval);
+				}					
+				else
+					poisoned.CurrentDuration = 0;
 				break;
 		}
 

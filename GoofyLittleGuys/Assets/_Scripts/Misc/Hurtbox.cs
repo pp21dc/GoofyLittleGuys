@@ -62,7 +62,7 @@ public class Hurtbox : MonoBehaviour
 			LilGuyBase playerLilGuy = owner.GetComponent<LilGuyBase>();
 			if (playerLilGuy.PlayerOwner.HasImmunity) return;
 			dmg *= (1 - playerLilGuy.PlayerOwner.TeamDamageReduction);
-			dmg = Mathf.FloorToInt((float)(dmg * (1 - (playerLilGuy.Defense * 0.006))));
+			dmg = Mathf.CeilToInt((float)(dmg * (1 - (playerLilGuy.Defense * 0.006))));
 			playerLilGuy.Health -= dmg;
 			health = playerLilGuy.Health;
 			playerLilGuy.Damaged();
@@ -75,7 +75,7 @@ public class Hurtbox : MonoBehaviour
 		{
 			AiController controller = owner.GetComponent<AiController>();
 			float oldHealth = controller.LilGuy.Health;         // Wild lil guy was hit
-            dmg = Mathf.FloorToInt((float)(dmg * (1 - (controller.LilGuy.Defense * 0.006))));
+            dmg = Mathf.CeilToInt((float)(dmg * (1 - (controller.LilGuy.Defense * 0.006))));
             controller.LilGuy.Health = oldHealth - dmg >= 0 ? oldHealth - dmg : 0;  // Set health to health - dmg if it's greater than or equal to 0, otherwise set it to 0 so it's non-negative.
 			health = controller.LilGuy.Health;
 			controller.LilGuy.Damaged();

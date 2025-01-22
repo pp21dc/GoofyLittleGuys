@@ -56,6 +56,14 @@ public class Turteriam : DefenseType
 		instantiatedDome.GetComponent<TurteriamWall>().Init(domeMaxSize, domeExpansionSpeed, domeLifetime);
 		base.Special();
 	}
-	
+
+	protected override void OnEndSpecial()
+	{
+		base.OnEndSpecial();
+		if (playerOwner != null) return;
+		damageReductionActive = false;
+		isShieldActive = false;
+
+	}
 
 }
