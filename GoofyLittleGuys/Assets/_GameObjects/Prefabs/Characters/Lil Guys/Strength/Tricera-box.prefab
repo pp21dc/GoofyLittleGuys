@@ -199,15 +199,15 @@ MonoBehaviour:
   attackEffect: {fileID: 0}
   aoeShape: {fileID: 7763503517924717934, guid: 783823e0ebd4aff4298168ab9dfa9111,
     type: 3}
-  aoeDamageMultiplier: 1.15
+  aoeDamageMultiplier: 1.05
   frameToDestroyAoe: 12
   specialTotalFrames: 14
   waveAoePrefab: {fileID: 7763503517924717934, guid: cee25af8c16e11e4a806c624ad058e67,
     type: 3}
-  waveAoeDamageMultiplier: 0.25
-  waveAoeLifetime: 1
-  waveSpeed: 12
-  slowAmount: 15
+  waveAoeDamageMultiplier: 0.15
+  waveAoeLifetime: 1.2
+  waveSpeed: 15
+  slowAmount: 10
   slowDuration: 1.3
 --- !u!54 &-2568253581838256164
 Rigidbody:
