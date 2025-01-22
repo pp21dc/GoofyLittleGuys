@@ -178,6 +178,7 @@ MonoBehaviour:
   anim: {fileID: 2276666689441862867}
   attackPosition: {fileID: 631468313354302470}
   attackOrbit: {fileID: 7739735529090914365}
+  healFXPrefab: {fileID: 0}
   baseSpeed: 13
   level: 1
   xp: 0
@@ -193,12 +194,6 @@ MonoBehaviour:
   cooldownDuration: 8
   chargeRefreshRate: 8
   accelerationTime: 0.1
-  deathCloudFX: {fileID: 2269913496460467973, guid: e1a285177c7faaf4aa01bdadd2d5a852,
-    type: 3}
-  levelUpFX: {fileID: 2890091950658190173, guid: 491a86361fa465d4d95296e0db061338,
-    type: 3}
-  DustParticleFX: {fileID: 6102333242288699407, guid: 6c1e35896bd1f7e4cbf0df5720e3aded,
-    type: 3}
   dustSpawnInterval: 1
   attackCooldown: 0
   attackEffect: {fileID: 0}
