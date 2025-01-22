@@ -14,6 +14,8 @@ namespace Managers
         [SerializeField] private GameObject firstSelected;      // The first button in the menu to be selected on default
         [SerializeField] private GameObject playerUiPrefab;     // Prefab for ingame player UI
 
+        [SerializeField] private GameObject settingsInitButton;
+        
         [SerializeField] List<PlayerUi> playerUis;              //List of PlayerUi prefab canvases 
         private void Start()
         {
@@ -106,6 +108,11 @@ namespace Managers
         {
             GameObject ui = Instantiate(playerUiPrefab);
             playerUis.Add(ui.GetComponent<PlayerUi>());
+        }
+
+        public void OpenSettingsMenu()
+        {
+            EventSystem.current.SetSelectedGameObject(settingsInitButton);
         }
     }
 }
