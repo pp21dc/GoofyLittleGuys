@@ -65,6 +65,8 @@ public class TamedBehaviour : MonoBehaviour
 	{
 		float distanceToPlayer = controller.DistanceToPlayer();
 
+		Vector3 velocity = controller.LilGuy.RB.velocity;
+		velocity.y = 0;
 		if (distanceToPlayer > teleportRange)
 		{
 			// Teleport lil guy to the player
@@ -87,10 +89,11 @@ public class TamedBehaviour : MonoBehaviour
 				Time.fixedDeltaTime / accelerationTime
 			);
 
-			controller.LilGuy.RB.velocity = new Vector3(currentVelocity.x, controller.LilGuy.RB.velocity.y, currentVelocity.z);
+			controller.LilGuy.RB.AddForce(targetVelocity - velocity, ForceMode.VelocityChange);
 		}
 		else if (distanceToPlayer > 0.1f) // Add a stopping threshold
 		{
+			Vector3 targetVelocity = Vector3.zero;
 			// Smoothly decelerate when close to follow range
 			currentVelocity = Vector3.Lerp(
 				currentVelocity,
@@ -98,7 +101,7 @@ public class TamedBehaviour : MonoBehaviour
 				Time.fixedDeltaTime / accelerationTime
 			);
 
-			controller.LilGuy.RB.velocity = new Vector3(currentVelocity.x, controller.LilGuy.RB.velocity.y, currentVelocity.z);
+			controller.LilGuy.RB.AddForce(targetVelocity - velocity, ForceMode.VelocityChange);
 		}
 		else
 		{

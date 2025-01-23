@@ -188,11 +188,11 @@ public class Spricket : SpeedType
 	}
 
 
-	public override void MoveLilGuy()
+	public override void MoveLilGuy(float s = 1)
 	{
 		if (!isDashing)
 		{
-			base.MoveLilGuy();
+			base.MoveLilGuy(s);
 		}
 	}
 }

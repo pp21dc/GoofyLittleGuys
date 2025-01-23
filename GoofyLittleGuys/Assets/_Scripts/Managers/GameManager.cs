@@ -110,6 +110,7 @@ namespace Managers
 		{
 			stormSets.Clear();
 			rankings.Clear();
+			legendarySpawned = false;
 			AudioManager.Instance.PlayMusic("GLGMainMenu", phaseAudioSources[0]);
 			phaseAudioSources[1].volume = 0;
 			currentPhase = 0;

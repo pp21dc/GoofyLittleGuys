@@ -174,7 +174,7 @@ public class PlayerBody : MonoBehaviour
 		if (flip) playerMesh.transform.rotation = new Quaternion(0, 1, 0, 0);
 		else playerMesh.transform.rotation = new Quaternion(0, 0, 0, 1);
 
-		if (lilGuyTeam.Count > 0 && lilGuyTeam != null && lilGuyTeam[0] != null) maxSpeed = lilGuyTeam[0].Speed + teamSpeedBoost;
+		if (lilGuyTeam.Count > 0 && lilGuyTeam != null && lilGuyTeam[0] != null) maxSpeed = (lilGuyTeam[0].BaseSpeed + (lilGuyTeam[0].Speed * 0.3f) + teamSpeedBoost);
 
 		if (!IsGrounded())
 		{
@@ -225,23 +225,27 @@ public class PlayerBody : MonoBehaviour
 		// Movement behaviours
 		if (!isDashing && canMove && !lilGuyTeam[0].LockMovement && !knockedBack)
 		{
+			Vector3 velocity = rb.velocity;
+			velocity.y = 0;
+			Vector3 targetVelocity;
 			// If the player is not dashing, then they will have regular movement mechanics
 
 			if (movementDirection.magnitude < 0.1f)
 			{
+				targetVelocity = Vector3.zero;
 				// Smooth deceleration when no input
 				currentVelocity = Vector3.Lerp(currentVelocity, Vector3.zero, Time.fixedDeltaTime / decelerationTime);
 			}
 			else
 			{
 				// Calculate the target velocity based on input direction
-				Vector3 targetVelocity = movementDirection.normalized * (lilGuyTeam[0].BaseSpeed + (lilGuyTeam[0].Speed * 0.3f) + teamSpeedBoost);
+				 targetVelocity = movementDirection.normalized * (lilGuyTeam[0].BaseSpeed + (lilGuyTeam[0].Speed * 0.3f) + teamSpeedBoost);
 				// Smoothly accelerate towards the target velocity
 				currentVelocity = Vector3.Lerp(currentVelocity, targetVelocity, Time.fixedDeltaTime / accelerationTime);
 			}
 
 			// Apply the smoothed velocity to the Rigidbody
-			rb.velocity = new Vector3(currentVelocity.x, GameManager.Instance.CurrentPhase == 2 && IsDead ? currentVelocity.y : rb.velocity.y, currentVelocity.z);
+			rb.AddForce(targetVelocity - velocity, ForceMode.VelocityChange);
 
 		}
 		if (lilGuyTeam[0].LockMovement) rb.velocity = new Vector3(0, rb.velocity.y, 0);

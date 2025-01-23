@@ -63,6 +63,7 @@ public class KnockbackHitbox : MonoBehaviour
 
 			// Apply knockback force
 			Rigidbody rb = isPlayerOwned ? lilGuy.PlayerOwner.GetComponent<Rigidbody>() : lilGuy.RB;
+			rb.velocity = Vector3.zero;
 			if (rb != null)
 			{
 				rb.AddForce(direction * knockbackForce, ForceMode.VelocityChange);

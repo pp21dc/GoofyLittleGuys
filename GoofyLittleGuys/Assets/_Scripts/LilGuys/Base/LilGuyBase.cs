@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem.XR;
 
 public abstract class LilGuyBase : MonoBehaviour
 {
@@ -614,16 +615,18 @@ public abstract class LilGuyBase : MonoBehaviour
         return Physics.Raycast(rb.position + Vector3.up, Vector3.down, 2f, LayerMask.GetMask("Ground"));
     }
 
-    public virtual void MoveLilGuy()
+    public virtual void MoveLilGuy(float speedAdjustment = 1f)
     {
         if (!knockedBack && !lockMovement)
-        {
-            // Move the creature towards the player with smoothing
-            Vector3 targetVelocity = movementDirection.normalized * (baseSpeed + ((playerOwner != null) ? speed : speed * 0.75f) * 0.3f);
+		{
+			Vector3 velocity = rb.velocity;
+			velocity.y = 0;
+			// Move the creature towards the player with smoothing
+			Vector3 targetVelocity = movementDirection.normalized * ((baseSpeed + ((playerOwner != null) ? speed : speed * 0.75f) * 0.3f) * speedAdjustment);
             // Smoothly accelerate towards the target velocity
             currentVelocity = Vector3.Lerp(currentVelocity, targetVelocity, Time.fixedDeltaTime / accelerationTime);
             // Apply the smoothed velocity to the Rigidbody
-            rb.velocity = new Vector3(currentVelocity.x, rb.velocity.y, currentVelocity.z);
+            rb.AddForce(targetVelocity - velocity, ForceMode.VelocityChange);
         }
         if (lockMovement)
         {

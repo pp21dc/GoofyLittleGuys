@@ -335,7 +335,7 @@ public class WildBehaviour : MonoBehaviour
 		{
 			if (controller.FollowPosition == null) break;
 			controller.LilGuy.MovementDirection = (controller.transform.position - controller.FollowPosition.position).normalized;
-			controller.LilGuy.MoveLilGuy();
+			controller.LilGuy.MoveLilGuy(0.5f);
 			yield return null;
 		}
 		actionCoroutine = null;
