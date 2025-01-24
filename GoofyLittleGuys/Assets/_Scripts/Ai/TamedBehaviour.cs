@@ -88,20 +88,17 @@ public class TamedBehaviour : MonoBehaviour
 				targetVelocity,
 				Time.fixedDeltaTime / accelerationTime
 			);
-
-			controller.LilGuy.RB.AddForce(targetVelocity - velocity, ForceMode.VelocityChange);
+			controller.LilGuy.RB.velocity = new Vector3(currentVelocity.x, controller.LilGuy.RB.velocity.y, currentVelocity.z);
 		}
 		else if (distanceToPlayer > 0.1f) // Add a stopping threshold
 		{
-			Vector3 targetVelocity = Vector3.zero;
 			// Smoothly decelerate when close to follow range
 			currentVelocity = Vector3.Lerp(
 				currentVelocity,
 				Vector3.zero,
 				Time.fixedDeltaTime / accelerationTime
 			);
-
-			controller.LilGuy.RB.AddForce(targetVelocity - velocity, ForceMode.VelocityChange);
+			controller.LilGuy.RB.velocity = new Vector3(currentVelocity.x, controller.LilGuy.RB.velocity.y, currentVelocity.z);
 		}
 		else
 		{

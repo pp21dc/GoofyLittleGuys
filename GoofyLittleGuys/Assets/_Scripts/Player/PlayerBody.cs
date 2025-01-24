@@ -245,7 +245,7 @@ public class PlayerBody : MonoBehaviour
 			}
 
 			// Apply the smoothed velocity to the Rigidbody
-			rb.AddForce(targetVelocity - velocity, ForceMode.VelocityChange);
+			rb.velocity = new Vector3(currentVelocity.x, GameManager.Instance.CurrentPhase == 2 && IsDead ? currentVelocity.y : rb.velocity.y, currentVelocity.z);
 
 		}
 		if (lilGuyTeam[0].LockMovement) rb.velocity = new Vector3(0, rb.velocity.y, 0);

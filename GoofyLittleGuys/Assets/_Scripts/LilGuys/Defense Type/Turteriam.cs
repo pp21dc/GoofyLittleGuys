@@ -30,6 +30,15 @@ public class Turteriam : DefenseType
 		base.Update();
 	}
 
+	private void OnDestroy()
+	{
+		if (instantiatedDome != null) Destroy(instantiatedDome);
+	}
+
+	private void OnDisable()
+	{
+		if (instantiatedDome != null) Destroy(instantiatedDome);
+	}
 	public override void StartChargingSpecial()
 	{
 		if (currentCharges <= 0 && cooldownTimer > 0) return;

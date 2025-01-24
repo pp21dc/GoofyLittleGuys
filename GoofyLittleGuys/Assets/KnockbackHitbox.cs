@@ -21,11 +21,11 @@ public class KnockbackHitbox : MonoBehaviour
 	{
 		if (other.gameObject.layer == LayerMask.NameToLayer("WildLilGuys"))
 		{
-			HandleKnockback(other, wildLilGuys);
+			EventManager.Instance.HandleKnockback(other, knockbackForce, knockbackDuration, (other.transform.position - transform.position).normalized);
 		}
 		else if (other.gameObject.layer == LayerMask.NameToLayer("PlayerLilGuys"))
 		{
-			HandleKnockback(other, playerLilGuys, true);
+			EventManager.Instance.HandleKnockback(other, knockbackForce, knockbackDuration, (other.transform.position - transform.position).normalized, true);
 		}
 	}
 
@@ -41,41 +41,7 @@ public class KnockbackHitbox : MonoBehaviour
 		}
 	}
 
-	public void HandleKnockback(Collider other, HashSet<LilGuyBase> lilGuySet, bool isPlayerOwned = false)
-	{
-		LilGuyBase lilGuy = other.GetComponent<LilGuyBase>();
-		if (lilGuy != null)
-		{
-			// Set KnockedBack state
-			if (isPlayerOwned)
-			{
-				lilGuy.PlayerOwner.KnockedBack = true;
-			}
-			else
-			{
-				lilGuy.KnockedBack = true;
-			}
-
-			// Calculate knockback direction
-			Vector3 direction = relativeToHitbox
-				? (other.transform.position - transform.position).normalized
-				: Vector3.up;
-
-			// Apply knockback force
-			Rigidbody rb = isPlayerOwned ? lilGuy.PlayerOwner.GetComponent<Rigidbody>() : lilGuy.RB;
-			rb.velocity = Vector3.zero;
-			if (rb != null)
-			{
-				rb.AddForce(direction * knockbackForce, ForceMode.VelocityChange);
-			}
-
-			// Add to the tracking set if not already tracked
-			if (!lilGuySet.Contains(lilGuy))
-			{
-				lilGuySet.Add(lilGuy);
-			}
-		}
-	}
+	
 
 	public IEnumerator ResetKnockback(Collider other, HashSet<LilGuyBase> lilGuySet, bool isPlayerOwned = false)
 	{

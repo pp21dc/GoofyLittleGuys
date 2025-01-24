@@ -66,8 +66,10 @@ public class Hitbox : MonoBehaviour
 
 		if (h.gameObject.layer == LayerMask.NameToLayer("WildLilGuys"))
 		{
+			WildBehaviour hitLilGuyWild = h.GetComponent<WildBehaviour>();
 			// If this was a wild lil guy that was hit and they were defeated, log the player who last hit them.
-			h.GetComponent<WildBehaviour>().IncreaseHostility(Random.Range(1f, 3f));
+			hitLilGuyWild.IncreaseHostility(Random.Range(1f, 3f));
+			if (hitLilGuyWild.Charisma > 5) hitLilGuyWild.AggroWildLilGuys();
 			if (h.Health <= 0) h.LastHit = hitboxOwner.GetComponent<LilGuyBase>().PlayerOwner;
 		}
 		Destroy(gameObject);

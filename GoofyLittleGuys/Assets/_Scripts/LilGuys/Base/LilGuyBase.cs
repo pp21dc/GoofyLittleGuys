@@ -617,22 +617,31 @@ public abstract class LilGuyBase : MonoBehaviour
 
     public virtual void MoveLilGuy(float speedAdjustment = 1f)
     {
-        if (!knockedBack && !lockMovement)
+		if (knockedBack)
+		{
+			// If knocked back, let the Rigidbody's current velocity handle movement.
+			return;
+		}
+
+		if (!lockMovement)
 		{
 			Vector3 velocity = rb.velocity;
 			velocity.y = 0;
+
 			// Move the creature towards the player with smoothing
 			Vector3 targetVelocity = movementDirection.normalized * ((baseSpeed + ((playerOwner != null) ? speed : speed * 0.75f) * 0.3f) * speedAdjustment);
-            // Smoothly accelerate towards the target velocity
-            currentVelocity = Vector3.Lerp(currentVelocity, targetVelocity, Time.fixedDeltaTime / accelerationTime);
-            // Apply the smoothed velocity to the Rigidbody
-            rb.AddForce(targetVelocity - velocity, ForceMode.VelocityChange);
-        }
-        if (lockMovement)
-        {
-            rb.velocity = new Vector3(0, rb.velocity.y, 0);
-        }
-    }
+
+			// Smoothly accelerate towards the target velocity
+			currentVelocity = Vector3.Lerp(currentVelocity, targetVelocity, Time.fixedDeltaTime / accelerationTime);
+
+			// Apply the smoothed velocity to the Rigidbody
+			rb.velocity = new Vector3(currentVelocity.x, rb.velocity.y, currentVelocity.z);
+		}
+		else
+		{
+			rb.velocity = new Vector3(0, rb.velocity.y, 0);
+		}
+	}
 
     public void ApplySpeedBoost(float spawnInterval, int maxAfterImages, float fadeSpeed, Color emissionColour)
     {

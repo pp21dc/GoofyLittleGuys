@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class EventManager
 {
@@ -106,6 +107,56 @@ public class EventManager
 		NotifyMicrogameFailed?.Invoke(body);
 	}
 
+	public void HandleKnockback(Collider other, float knockbackForce, float duration, Vector3 direction, bool isPlayerOwned = false)
+	{
+		LilGuyBase lilGuy = other.GetComponent<LilGuyBase>();
+		if (lilGuy != null)
+		{
+			// Set KnockedBack state
+			if (isPlayerOwned)
+			{
+				lilGuy.PlayerOwner.KnockedBack = true;
+			}
+			else
+			{
+				lilGuy.KnockedBack = true;
+			}
+
+			// Calculate knockback direction
+
+			// Apply knockback force
+			Rigidbody rb = isPlayerOwned ? lilGuy.PlayerOwner.GetComponent<Rigidbody>() : lilGuy.RB;
+			if (rb != null)
+			{
+				// Clear current velocity to prioritize knockback
+
+				// Scale knockback force dynamically based on distance
+
+				// Apply force as impulse
+				rb.AddForce(direction * knockbackForce * rb.mass, ForceMode.Impulse);
+			}
+
+			GameManager.Instance.StartCoroutine(ResetKnockback(other, duration, isPlayerOwned));
+		}
+	}
+
+	public IEnumerator ResetKnockback(Collider other, float duration, bool isPlayerOwned = false)
+	{
+		yield return new WaitForSeconds(duration);
+		LilGuyBase lilGuy = other.GetComponent<LilGuyBase>();
+		if (lilGuy != null)
+		{
+			// Reset KnockedBack state
+			if (isPlayerOwned)
+			{
+				lilGuy.PlayerOwner.KnockedBack = false;
+			}
+			else
+			{
+				lilGuy.KnockedBack = false;
+			}
+		}
+	}
 
 	public void ApplyDebuff(GameObject affectedEntity, float debuffAmount, float debuffDuration, DebuffType type, float damageApplicationInterval = 0)
 	{

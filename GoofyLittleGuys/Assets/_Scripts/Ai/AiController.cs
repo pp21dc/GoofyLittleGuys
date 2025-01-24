@@ -9,6 +9,7 @@ public class AiController : MonoBehaviour
 {
 	public enum AIState { Wild, Tamed }
 	private AIState state = AIState.Wild;               // The current state of the AI (either wild or one caught by a player)
+	public AIState State => state;
 	[SerializeField] private LayerMask groundLayer;
 	[SerializeField] private GameObject interactCanvas;
 
