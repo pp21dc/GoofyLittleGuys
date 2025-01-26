@@ -447,9 +447,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4476805679437409250, guid: 3fdbd3de7f90953408fca5ccebc1efdf,
         type: 3}
+      propertyPath: sfxObjects.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4476805679437409250, guid: 3fdbd3de7f90953408fca5ccebc1efdf,
+        type: 3}
       propertyPath: SfxObjects.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 37f02f06a5cf87d40bce6e349aa056ac,
+        type: 2}
+    - target: {fileID: 4476805679437409250, guid: 3fdbd3de7f90953408fca5ccebc1efdf,
+        type: 3}
+      propertyPath: sfxObjects.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5ac3862abba01c84998d81ff472fdc83,
+        type: 2}
+    - target: {fileID: 4476805679437409250, guid: 3fdbd3de7f90953408fca5ccebc1efdf,
+        type: 3}
+      propertyPath: sfxObjects.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 6b9b6ec78c5771b4a8682a556de6248c,
         type: 2}
     - target: {fileID: 4476805679437409250, guid: 3fdbd3de7f90953408fca5ccebc1efdf,
         type: 3}

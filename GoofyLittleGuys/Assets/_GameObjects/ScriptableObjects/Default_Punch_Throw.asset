@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 455a8510209860a489a9ad867f112ef6, type: 3}
   m_Name: Default_Punch_Throw
   m_EditorClassIdentifier: 
-  clips: []
-  isSpatial: 0
-  playOnce: 0
+  clips:
+  - {fileID: 8300000, guid: b2f2361895fc20f4f9b500413ed866b1, type: 3}
+  isSpatial: 1
+  playOnce: 1
   volume: 1
   pitch: {x: 1, y: 1}
-  key: 
+  key: Throw_Punch
