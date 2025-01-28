@@ -84,7 +84,7 @@ namespace Managers
 					currentPhase++;
 					StartPhaseTwo();
 				}
-				if (currentGameTime >= 300 && !legendarySpawned)
+				if (currentGameTime >= 240 && !legendarySpawned)
 				{
 					legendarySpawned = true;
 					SpawnLegendary();
