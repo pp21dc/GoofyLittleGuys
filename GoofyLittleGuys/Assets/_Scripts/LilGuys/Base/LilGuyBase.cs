@@ -554,18 +554,18 @@ public abstract class LilGuyBase : MonoBehaviour
             {
                 case PrimaryType.Strength:
                     Strength += primaryPoints;
-                    Speed += secondaryPoints;
-                    Defense += secondaryPoints;
+                    Speed += primaryPoints;
+                    Defense += primaryPoints;
                     break;
                 case PrimaryType.Defense:
-                    Strength += secondaryPoints;
-                    Speed += secondaryPoints;
+                    Strength += primaryPoints;
+                    Speed += primaryPoints;
                     Defense += primaryPoints;
                     break;
                 case PrimaryType.Speed:
-                    Strength += secondaryPoints;
+                    Strength += primaryPoints;
                     Speed += primaryPoints;
-                    Defense += secondaryPoints;
+                    Defense += primaryPoints;
                     break;
                 default: // somehow we got here
                     throw new ArgumentOutOfRangeException();
