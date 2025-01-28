@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+// AUTH: thomas berner
+
+/// <summary>
+/// Place this on the player controller prefab to give functionality to write custom binds for each unique player without affecting all other players
+/// </summary>
 public class InputProfileManager : MonoBehaviour
 {
     public InputProfile playerProfile;
@@ -11,9 +16,16 @@ public class InputProfileManager : MonoBehaviour
     private void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
+        if (playerInput != null)
+        {
+            Debug.LogError("INPUT PROFILE MANAGER IS ON WRONG OBJECT! PLEASE PUT IT ON A GAMEOBJECT WITH THE PLAYERINPUT COMPONENT");
+        }
         ApplyProfileBinds();
     }
 
+    /// <summary>
+    /// this goes through all the saved binds in order of the actionmap binds and overrides them with the selected profile
+    /// </summary>
     private void ApplyProfileBinds()
     {
         if (playerProfile == null) return;
