@@ -115,7 +115,7 @@ MonoBehaviour:
   attackCooldown: 1
   attackEffect: {fileID: 0}
   dashTargetRange: 35
-  slowAmount: 25
+  slowAmount: 10
   slowDuration: 3
 --- !u!136 &3370327291423806742
 CapsuleCollider:
@@ -230,7 +230,7 @@ MonoBehaviour:
   chaseRange: 10
   attackRange: 2.5
   attackBuffer: 2
-  currentState: Idle State
+  currentState: 0
   maxTimeOutsideHomeSpawner: 3
   timeBeforeDestroyed: 5
   initialHostility: -1
