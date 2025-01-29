@@ -163,7 +163,13 @@ public class EventManager
 		switch (type)
 		{
 			case DebuffType.Slow:
-				GameManager.Instance.StartCoroutine(Slow(affectedEntity, debuffAmount, debuffDuration));
+				Slow slowed = affectedEntity.GetComponent<Slow>();
+				if (slowed == null)
+				{
+					slowed = affectedEntity.AddComponent<Slow>();
+					slowed.Init(debuffAmount, debuffDuration, damageApplicationInterval);
+				}
+				else slowed.CurrentDuration = 0;
 				break;
 			case DebuffType.Poison:
 				// Apply Debuff effect to lil guy as well
@@ -176,41 +182,6 @@ public class EventManager
 				else
 					poisoned.CurrentDuration = 0;
 				break;
-		}
-
-	}
-	private IEnumerator Poison(GameObject affectedEntity, float amount, float duration, float damageApplicationInterval)
-	{
-		float elapsedTime = 0;
-		Hurtbox h = affectedEntity.GetComponent<Hurtbox>();
-		if (h != null)
-		{
-			while (elapsedTime <= duration)
-			{
-				h.TakeDamage(amount);
-				yield return new WaitForSeconds(damageApplicationInterval);
-				elapsedTime += damageApplicationInterval;
-			}
-		}
-		else yield break;
-	}
-	private IEnumerator Slow(GameObject affectedEntity, float debuffAmount, float debuffDuration)
-	{
-
-		PlayerBody body = affectedEntity.GetComponent<PlayerBody>();
-		if (body != null)
-		{
-			body.MaxSpeed -= debuffAmount;
-			yield return new WaitForSeconds(debuffDuration);
-
-			body.MaxSpeed += debuffAmount;
-		}
-		else
-		{
-			LilGuyBase lilGuy = affectedEntity.GetComponent<LilGuyBase>();
-			lilGuy.Speed -= debuffAmount;
-			yield return new WaitForSeconds(debuffDuration);
-			lilGuy.Speed += debuffAmount;
 		}
 
 	}

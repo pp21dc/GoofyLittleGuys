@@ -2,21 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Poison : MonoBehaviour
+public class Poison : Debuff
 {
-    private float damage;
-    private float duration;
-    private float currentDuration;
-    private float damageApplicationInterval;
 	private LilGuyBase affectedGuy;
-
-    public float Damage { set { damage = value; } }
-    public float Duration { set { duration = value; } }
-    public float CurrentDuration { set { currentDuration = value; } }
-    public float DamageApplicationInterval { set { damageApplicationInterval = value; } }
-
-
-	public void Init(float damage, float duration, float interval)
+	private GameObject instantiatedFX;
+	public override void Init(float damage, float duration, float interval)
 	{
 		this.damage = damage;
 		this.duration = duration;
@@ -25,8 +15,10 @@ public class Poison : MonoBehaviour
 
 		affectedGuy = GetComponent<LilGuyBase>();
 
+		instantiatedFX = Instantiate(FXManager.Instance.GetEffect("Poisoned"), affectedGuy.transform.position, Quaternion.identity, affectedGuy.transform);
 		StartCoroutine(Poisoned());
 	}
+
 	private IEnumerator Poisoned()
 	{
 		Hurtbox h = affectedGuy.GetComponent<Hurtbox>();
@@ -54,5 +46,10 @@ public class Poison : MonoBehaviour
 		}
 
 		Destroy(this); // Destroy the component when the effect ends
+	}
+
+	private void OnDestroy()
+	{
+		Destroy(instantiatedFX);
 	}
 }

@@ -87,7 +87,7 @@ public abstract class LilGuyBase : MonoBehaviour
     #region Getters and Setters
     public Transform AttackOrbit => attackOrbit;
     public SpriteRenderer Mesh => mesh;
-    public int BaseSpeed => baseSpeed;
+    public int BaseSpeed { get { return baseSpeed; } set { baseSpeed = value; } }
     public int Level { get => level; set => level = value; }
     public float Health { get => health; set => health = value; }
     public float MaxHealth { get => maxHealth; set => maxHealth = value; }
