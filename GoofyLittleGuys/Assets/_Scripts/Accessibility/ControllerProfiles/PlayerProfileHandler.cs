@@ -1,14 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 // AUTH: thomas berner
 
 /// <summary>
-/// Place this on the player controller prefab to give functionality to write custom binds for each unique player without affecting all other players
+/// Place this on the player controller prefab,
+/// uses InputProfiles to overwrite input bindings.
+/// allows each player to have unique bindings without multiple input action maps
 /// </summary>
-public class InputProfileManager : MonoBehaviour
+public class PlayerProfileHandler : MonoBehaviour
 {
     public InputProfile playerProfile;
     private PlayerInput playerInput;
@@ -18,13 +18,14 @@ public class InputProfileManager : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
         if (playerInput != null)
         {
-            Debug.LogError("INPUT PROFILE MANAGER IS ON WRONG OBJECT! PLEASE PUT IT ON A GAMEOBJECT WITH THE PLAYERINPUT COMPONENT");
+            Debug.LogError($"INPUT PROFILE MANAGER IS ON WRONG OBJECT! CURRENTLY ON {gameObject.name}." +
+                           $" PLEASE PUT IT ON A GAME OBJECT WITH THE PLAYER INPUT COMPONENT");
         }
         ApplyProfileBinds();
     }
 
     /// <summary>
-    /// this goes through all the saved binds in order of the actionmap binds and overrides them with the selected profile
+    /// this goes through all the saved binds in order of the action map binds and overrides them with the selected profile
     /// </summary>
     private void ApplyProfileBinds()
     {
