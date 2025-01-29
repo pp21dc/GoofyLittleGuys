@@ -101,7 +101,7 @@ MonoBehaviour:
   max_xp: 5
   health: 100
   maxHealth: 100
-  speed: 10
+  speed: 13
   defense: 25
   strength: 22
   specialDuration: -1
@@ -113,12 +113,12 @@ MonoBehaviour:
   dustSpawnInterval: 1
   attackCooldown: 1
   attackEffect: {fileID: 0}
-  damageReduction: 0.7
+  damageReduction: 0.85
   domePrefab: {fileID: 839464886904612836, guid: 0538508ef34bfe24abd69e9edf842f7e,
     type: 3}
-  teamDamageReductionDuration: 0.65
+  teamDamageReductionDuration: 0.7
   domeLifetime: 8
-  domeMaxSize: 16
+  domeMaxSize: 20
   domeExpansionSpeed: 0.5
 --- !u!54 &4146728097653182592
 Rigidbody:
