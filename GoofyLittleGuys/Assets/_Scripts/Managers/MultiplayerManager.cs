@@ -69,6 +69,20 @@ namespace Managers
 		{
 			int playerCount = GameManager.Instance.Players.Count;
 
+			if (playerCount > 2)
+			{
+				for (int i = 0; i < GameManager.Instance.Players.Count; i++)
+				{
+					GameManager.Instance.Players[i].Controller.PlayerCam.fieldOfView = 70;
+				}
+			}
+			else if (playerCount <= 2)
+			{
+				for (int i = 0; i < GameManager.Instance.Players.Count; i++)
+				{
+					GameManager.Instance.Players[i].Controller.PlayerCam.fieldOfView = 90;
+				}
+			}
 			if (playerCount == 3)
 			{
 				// Centering the 3rd player to the bottom of the screen, which is why it's not in a for loop
