@@ -311,7 +311,7 @@ public class WildBehaviour : MonoBehaviour
 		fleeTarget = ValidateFleePosition(fleeTarget, fleeDirection);
 
 		// Move AI toward the flee target
-		MoveLilGuyTowards(fleeTarget, 0.5f);
+		MoveLilGuyTowards(fleeTarget, 0.35f);
 	}
 	private Vector3 ValidateFleePosition(Vector3 fleeTarget, Vector3 fleeDirection)
 	{
