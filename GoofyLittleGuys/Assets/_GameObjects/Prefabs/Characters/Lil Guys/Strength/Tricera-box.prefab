@@ -202,6 +202,8 @@ MonoBehaviour:
   aoeDamageMultiplier: 1.05
   frameToDestroyAoe: 12
   specialTotalFrames: 14
+  specialFXPrefab: {fileID: 125122912735167046, guid: 55fabaf05f6ae3348b9d481e8cb3875b,
+    type: 3}
   waveAoePrefab: {fileID: 7763503517924717934, guid: cee25af8c16e11e4a806c624ad058e67,
     type: 3}
   waveAoeDamageMultiplier: 0.15
@@ -322,7 +324,7 @@ MonoBehaviour:
   chaseRange: 10
   attackRange: 2.5
   attackBuffer: 2
-  currentState: Idle State
+  currentState: 0
   maxTimeOutsideHomeSpawner: 3
   timeBeforeDestroyed: 5
   initialHostility: -1

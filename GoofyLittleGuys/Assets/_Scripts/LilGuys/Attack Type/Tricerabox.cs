@@ -6,6 +6,7 @@ using UnityEngine;
 public class Tricerabox : StrengthType
 {
 	[Header("Tricerabox Specific")]
+	[SerializeField] private GameObject specialFXPrefab;
 	[SerializeField] private GameObject waveAoePrefab;
 	[SerializeField] private float waveAoeDamageMultiplier;
 	[SerializeField] private float waveAoeLifetime;
@@ -39,6 +40,11 @@ public class Tricerabox : StrengthType
 		waveAoe.GetComponent<AoeHitbox>().Init(gameObject);
 		Destroy(waveAoe, waveAoeLifetime);
 
+	}
+
+	protected void SpawnThrustEffect()
+	{
+		Instantiate(specialFXPrefab, attackPosition.position, Quaternion.Euler(attackOrbit.rotation.eulerAngles.y, attackPosition.rotation.eulerAngles.y, 0));
 	}
 
 	public override void StartChargingSpecial()

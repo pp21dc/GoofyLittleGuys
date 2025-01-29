@@ -64,7 +64,7 @@ public class WildBehaviour : MonoBehaviour
 	private float nextWanderTime = -1f;
 	private bool isIdle = false;
 	private bool returnHome = false;
-
+	GameObject faintedEffect;
 	public SpawnerObj HomeSpawner { get { return homeSpawner; } set { homeSpawner = value; } }
 	public float Charisma => charisma;
 
@@ -156,6 +156,7 @@ public class WildBehaviour : MonoBehaviour
 	public void OnDisable()
 	{
 		if (instantiatedPlayerRangeIndicator != null) Destroy(instantiatedPlayerRangeIndicator);
+		if (faintedEffect != null) Destroy(faintedEffect);
 		StopAllCoroutines();
 
 		if (controller == null) return;
@@ -371,6 +372,7 @@ public class WildBehaviour : MonoBehaviour
 		controller.LilGuy.RB.velocity = Vector3.zero;
 		controller.LilGuy.RB.isKinematic = true;
 		homeSpawner.RemoveLilGuyFromSpawns();
+		faintedEffect = Instantiate(FXManager.Instance.GetEffect("Fainted"), transform.position, Quaternion.identity, transform);
 		controller.HealthUi.gameObject.SetActive(false);
 		if (isCatchable)
 		{
@@ -382,6 +384,11 @@ public class WildBehaviour : MonoBehaviour
 				currTime += Time.deltaTime;
 				yield return null;
 			}
+		}
+		else
+		{
+			Hurtbox h = GetComponent<Hurtbox>();
+			GameObject legendaryKillEffect = Instantiate(FXManager.Instance.GetEffect("LegendaryKill"), h.LastHit.transform.position + Vector3.forward, Quaternion.identity, h.LastHit.transform);
 		}
 
 		controller.LilGuy.SpawnDeathParticle();
@@ -398,6 +405,8 @@ public class WildBehaviour : MonoBehaviour
 	{
 		if (instantiatedPlayerRangeIndicator != null) Destroy(instantiatedPlayerRangeIndicator);
 	}
+
+	
 }
 
 public enum AIState

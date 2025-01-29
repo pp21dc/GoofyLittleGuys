@@ -75,7 +75,9 @@ public abstract class LilGuyBase : MonoBehaviour
     // Variables for attack speed and cooldown
     [SerializeField] private float attackCooldown = 1f; // Cooldown duration in seconds
     [SerializeField] private GameObject attackEffect;  // Optional VFX prefab for hit feedback
-    private GameObject instantiatedHitbox;
+    GameObject levelUpEffect;
+    public GameObject LevelUpEffect => levelUpEffect;
+	private GameObject instantiatedHitbox;
     private float lastAttackTime = -999f; // Tracks the last time an attack occurred
 
     private bool isDead = false;
@@ -544,7 +546,7 @@ public abstract class LilGuyBase : MonoBehaviour
     /// </summary>
     private void LevelUp()
     {
-        GameObject instantiantedFX = Instantiate(FXManager.Instance.GetEffect("LevelUp"), transform.position + Vector3.forward + Vector3.up * 0.25f, Quaternion.identity, transform);
+        levelUpEffect = Instantiate(FXManager.Instance.GetEffect("LevelUp"), transform.position + Vector3.forward + Vector3.up * 0.25f, Quaternion.identity, transform);
         if (level % 5 == 0)
         {
             Strength += milestonePoints;

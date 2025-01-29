@@ -2290,6 +2290,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1970606836446198798, guid: de1849616cf5e6e41990742051e315c8,
         type: 3}
+      propertyPath: legendarySpawnTime
+      value: 0.125
+      objectReference: {fileID: 0}
+    - target: {fileID: 1970606836446198798, guid: de1849616cf5e6e41990742051e315c8,
+        type: 3}
       propertyPath: spawnPoints.Array.data[0]
       value: 
       objectReference: {fileID: 733882634}
@@ -2607,6 +2612,12 @@ MonoBehaviour:
       type: 3}
   - name: Poisoned
     effect: {fileID: 4540654624954009262, guid: 82cf19940a31e27468d607e60eda50de,
+      type: 3}
+  - name: Fainted
+    effect: {fileID: 8346612930699453455, guid: ce49fef6268e7bb41a3131d4427432c3,
+      type: 3}
+  - name: LegendaryKill
+    effect: {fileID: 8088459897394799272, guid: 910c0fbcf3156bd4c87d18b8ddde6b1d,
       type: 3}
 --- !u!1 &1158062337
 GameObject:
