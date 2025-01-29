@@ -384,7 +384,9 @@ public abstract class LilGuyBase : MonoBehaviour
             if (GetComponent<Hurtbox>().LastHit != null)
             {
                 Debug.Log($"{name} was a player-owned Lil Guy, and was defeated by player {GetComponent<Hurtbox>().LastHit}. Awarding bonus xp.");
-                GetComponent<Hurtbox>().LastHit.LilGuyTeam[0].AddXP(Mathf.FloorToInt((Mathf.Pow((Level + 4), 2)) / 2));
+                GetComponent<Hurtbox>().LastHit.LilGuyTeam[0].AddXP(Mathf.FloorToInt((Mathf.Pow((Level + 5), 2)) / 2));
+                GetComponent<Hurtbox>().LastHit.LilGuyTeam[1].AddXP(Mathf.FloorToInt((Mathf.Pow((Level + 3), 2)) / 2));
+                GetComponent<Hurtbox>().LastHit.LilGuyTeam[2].AddXP(Mathf.FloorToInt((Mathf.Pow((Level + 3), 2)) / 2));
             }
             StartCoroutine(Disappear());
         }
@@ -392,6 +394,8 @@ public abstract class LilGuyBase : MonoBehaviour
         {
             Debug.Log($"{name} was a wild Lil Guy, and was defeated by player {GetComponent<Hurtbox>().LastHit}. Awarding XP.");
             GetComponent<Hurtbox>().LastHit.LilGuyTeam[0].AddXP(Mathf.FloorToInt((Mathf.Pow((Level + 4), 2)) / 3));
+            GetComponent<Hurtbox>().LastHit.LilGuyTeam[1].AddXP(Mathf.FloorToInt((Mathf.Pow((Level + 2), 2)) / 3));
+            GetComponent<Hurtbox>().LastHit.LilGuyTeam[2].AddXP(Mathf.FloorToInt((Mathf.Pow((Level + 2), 2)) / 3));
             isDying = false;
         }
     }
