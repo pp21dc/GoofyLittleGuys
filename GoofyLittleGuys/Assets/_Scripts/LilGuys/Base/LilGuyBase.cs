@@ -396,8 +396,8 @@ public abstract class LilGuyBase : MonoBehaviour
         {
             Debug.Log($"{name} was a wild Lil Guy, and was defeated by player {GetComponent<Hurtbox>().LastHit}. Awarding XP.");
             GetComponent<Hurtbox>().LastHit.LilGuyTeam[0].AddXP(Mathf.FloorToInt((Mathf.Pow((Level + 5), 2)) / 3));
-            GetComponent<Hurtbox>().LastHit.LilGuyTeam[1].AddXP(Mathf.FloorToInt((Mathf.Pow((Level + 4), 2)) / 5));
-            GetComponent<Hurtbox>().LastHit.LilGuyTeam[2].AddXP(Mathf.FloorToInt((Mathf.Pow((Level + 4), 2)) / 5));
+            GetComponent<Hurtbox>().LastHit.LilGuyTeam[1].AddXP(Mathf.FloorToInt((Mathf.Pow((Level + 4), 2)) / 6));
+            GetComponent<Hurtbox>().LastHit.LilGuyTeam[2].AddXP(Mathf.FloorToInt((Mathf.Pow((Level + 4), 2)) / 6));
             isDying = false;
         }
     }
