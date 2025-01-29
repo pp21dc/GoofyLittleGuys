@@ -264,11 +264,11 @@ public class WildBehaviour : MonoBehaviour
 
 		Vector3 targetPosition;
 
-		if (dot > 0.5f)  // AI is ahead of the player → Charge directly
+		if (dot > 0.5f)  // AI is ahead of the player -> Charge directly
 		{
 			targetPosition = controller.FollowPosition.position;
 		}
-		else  // AI is behind or beside the player → Predict escape path
+		else  // AI is behind or beside the player -> Predict escape path
 		{
 			// Predict the player's future position
 			targetPosition = controller.FollowPosition.position + (playerMovementDir * body.MaxSpeed * thinkSpeed);
