@@ -41,6 +41,8 @@ public class Phantaphant : SpeedType
 		if (rb != null && targetPosition != null)
 		{
 			rb.MovePosition(directionToTarget);
+			LilGuyBase targLilGuy = targetPosition.GetComponent<LilGuyBase>();
+			Instantiate(FXManager.Instance.GetEffect("PhantaphantTeleport"), targetPosition.position, Quaternion.identity, targLilGuy.PlayerOwner != null ? targLilGuy.PlayerOwner.transform : targLilGuy.transform);
 		}
 
 		GameObject slowedEntity;
@@ -75,6 +77,7 @@ public class Phantaphant : SpeedType
 		currentCharges--;
 		anim.ResetTrigger("SpecialAttackEnded");
 		anim.SetTrigger("SpecialAttack");
+		Instantiate(FXManager.Instance.GetEffect("PhantaphantTeleport"), transform.position, Quaternion.identity, transform);
 		StartCoroutine(WaitForEndOfSpecial());
 	}
 
