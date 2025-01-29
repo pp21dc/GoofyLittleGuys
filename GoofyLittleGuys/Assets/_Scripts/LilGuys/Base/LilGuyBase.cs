@@ -436,7 +436,7 @@ public abstract class LilGuyBase : MonoBehaviour
         if (isDead) return;
         // Check if the target is in range
         // Ensure attack respects cooldown
-        if (Time.time - lastAttackTime < attackCooldown)
+        if (Time.time - lastAttackTime < attackCooldown && playerOwner == null)
         {
             Debug.Log("Attack on cooldown.");
             return;
