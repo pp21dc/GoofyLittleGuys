@@ -27,8 +27,8 @@ public class Slow : Debuff
 		}
 		else
 		{
-			
-			lilGuy.Speed -= damage;
+
+			lilGuy.BaseSpeed -= (int)damage;
 		}
 
 		while (getCurrentDuration() < duration)
@@ -44,7 +44,7 @@ public class Slow : Debuff
 		}
 		else
 		{
-			lilGuy.Speed += damage;
+			lilGuy.BaseSpeed += (int)damage;
 		}
 
 

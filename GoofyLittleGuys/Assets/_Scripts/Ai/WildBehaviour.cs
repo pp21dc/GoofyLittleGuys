@@ -122,10 +122,6 @@ public class WildBehaviour : MonoBehaviour
 		{
 			ChangeState(AIState.Chase);
 		}
-		else if (isCatchable && controller.DistanceToPlayer() <= chaseRange && timid > 5 && controller.LilGuy.Health <= controller.LilGuy.MaxHealth * Mathf.Lerp(0.125f, 0.5f, timid / 10f))
-		{
-			ChangeState(AIState.Flee);
-		}
 		else if (isCatchable && Time.time >= nextWanderTime)
 		{
 			ChangeState(AIState.Wander);
