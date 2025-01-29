@@ -13,7 +13,8 @@ namespace Managers
 
 		[SerializeField] private List<PlayerSpawnPoint> spawnPoints;
 
-		[SerializeField, Tooltip("Time in minutes that the first phase should end at.")] private float phaseOneStartTime = 7f;   // Length of Phase 1 in seconds. (This amounts to 7 minutes)420f
+		[SerializeField, Tooltip("Time in minutes that the first phase should end at.")]	private float phaseOneStartTime = 7f;   // Length of Phase 1 in minutes.
+		[SerializeField, Tooltip("Time in minutes that the legendary spawns.")]				private float legendarySpawnTime = 4f;   // Legendary spawn time in minutes. 
 		[SerializeField] private const float phaseTwoDuration = 180f;   // Length of Phase 2 in seconds. (This amounts to 3 minutes)180f
 		[SerializeField] private float currentGameTime = 0;             // Current game time in seconds.
 		[SerializeField] private Transform fountainSpawnPoint;          // The spawn point that players are respawned to in the main game, set by the HealingFountain.cs
@@ -84,7 +85,7 @@ namespace Managers
 					currentPhase++;
 					StartPhaseTwo();
 				}
-				if (currentGameTime >= 240 && !legendarySpawned)
+				if (currentGameTime >= legendarySpawnTime * 60 && !legendarySpawned)
 				{
 					legendarySpawned = true;
 					SpawnLegendary();

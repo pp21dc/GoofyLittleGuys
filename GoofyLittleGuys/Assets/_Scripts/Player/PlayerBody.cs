@@ -77,6 +77,8 @@ public class PlayerBody : MonoBehaviour
 	private LilGuyBase closestWildLilGuy = null;
 
 	public GameObject MinimapIcon;
+
+	public Vector3 CurrentVelocity => currentVelocity;
 	public Color PlayerColour { get { return playerColour; } 
 		set
 		{ 

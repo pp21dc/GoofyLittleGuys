@@ -37,13 +37,16 @@ public class Phantaphant : SpeedType
 	{
 		anim.ResetTrigger("SpecialAttackEnded");
 		Rigidbody rb = (playerOwner == null) ? GetComponent<Rigidbody>() : playerOwner.GetComponent<Rigidbody>();
+
 		if (rb != null && targetPosition != null)
 		{
 			rb.MovePosition(directionToTarget);
 		}
+
 		GameObject slowedEntity;
 		PlayerBody body = targetPosition.GetComponent<PlayerBody>();
 		LilGuyBase lilGuy = targetPosition.GetComponent<LilGuyBase>();
+
 		if (body != null)
 		{
 			slowedEntity = body.gameObject;
@@ -53,6 +56,7 @@ public class Phantaphant : SpeedType
 			slowedEntity = lilGuy.gameObject;
 		}
 		else return;
+
 		EventManager.Instance.ApplyDebuff(slowedEntity, slowAmount, slowDuration, DebuffType.Slow);
 		OnEndSpecial();
 	}
@@ -83,56 +87,44 @@ public class Phantaphant : SpeedType
 
 	private void LocateClosestTarget()
 	{
-		if (playerOwner != null)
+		Collider[] nearbyColliders = Physics.OverlapSphere(transform.position, dashTargetRange,
+			playerOwner != null ? LayerMask.GetMask("WildLilGuys", "PlayerLilGuys") : LayerMask.GetMask("PlayerLilGuys"));
+
+		float closestDistance = float.MaxValue;
+		Transform closestTarget = null;
+		Vector3 closestTargetVelocity = Vector3.zero;
+
+		foreach (Collider collider in nearbyColliders)
 		{
-			// Player owned target choosing
-			Collider[] nearbyColliders = Physics.OverlapSphere(RB.position, dashTargetRange, LayerMask.GetMask("WildLilGuys", "PlayerLilGuys"));
-			Debug.Log(nearbyColliders.Length);
+			if (collider.transform == transform) continue; // Ignore itself
 
-			float closestDistance = float.MaxValue;
-			Transform closestTarget = null;
-
-			foreach (Collider collider in nearbyColliders)
+			float distance = Vector3.Distance(collider.transform.position, transform.position);
+			if (distance < closestDistance)
 			{
-				if (collider.transform == transform) continue; // If the collider is itself, skip
-				float distance = Vector3.Distance(collider.transform.position, transform.position);
-				if (distance < closestDistance)
+				closestDistance = distance;
+				closestTarget = collider.transform;
+
+				// Get target's velocity if it has a Rigidbody
+				LilGuyBase lilGuy = collider.GetComponent<LilGuyBase>();
+				if (lilGuy != null)
 				{
-					closestDistance = distance;
-					closestTarget = collider.transform;
+					closestTargetVelocity = lilGuy.PlayerOwner != null ? lilGuy.PlayerOwner.CurrentVelocity : lilGuy.CurrentVelocity;
 				}
 			}
-
-			if (closestTarget != null)
-			{
-				targetPosition = closestTarget;
-				directionToTarget = targetPosition.position /*- transform.position*/;
-			}
 		}
-		else
+
+		if (closestTarget != null)
 		{
-			// Enemy target choosing
-			Collider[] nearbyColliders = Physics.OverlapSphere(transform.position, dashTargetRange, LayerMask.GetMask("PlayerLilGuys"));
-
-			float closestDistance = float.MaxValue;
-			Transform closestTarget = null;
-
-			foreach (Collider collider in nearbyColliders)
-			{
-				if (collider.transform == transform) continue; // If the collider is itself, skip
-				float distance = Vector3.Distance(collider.transform.position, transform.position);
-				if (distance < closestDistance)
-				{
-					closestDistance = distance;
-					closestTarget = collider.transform;
-				}
-			}
-
-			if (closestTarget != null)
-			{
-				targetPosition = closestTarget;
-				directionToTarget = targetPosition.position /*- transform.position*/;
-			}
+			targetPosition = closestTarget;
+			AnimationClip clip = anim.runtimeAnimatorController.animationClips.First(clip => clip.name == "InSpecial");
+			// Predict where the target *will* be
+			float teleportTime = clip.length; // Adjust this for fine-tuning
+			directionToTarget = PredictFuturePosition(closestTarget.position, closestTargetVelocity, teleportTime);
 		}
+	}
+
+	private Vector3 PredictFuturePosition(Vector3 currentPos, Vector3 velocity, float timeAhead)
+	{
+		return currentPos + (velocity * timeAhead);
 	}
 }
