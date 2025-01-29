@@ -54,13 +54,15 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   phaseOneStartTime: 7
+  legendarySpawnTime: 4
   currentGameTime: 0
   fountainSpawnPoint: {fileID: 0}
   timerCanvas: {fileID: 0}
   gameTimer: {fileID: 0}
   stormTimer: 30
-  regularLilGuySpriteMat: {fileID: -876546973899608171, guid: edf01f56b9860644394a331d443e9e31,
-    type: 3}
+  phaseAudioSources: []
+  regularLilGuySpriteMat: {fileID: 2100000, guid: 98f6ac7211c776543ab77ca212154ae1,
+    type: 2}
   outlinedLilGuySpriteMat: {fileID: 2100000, guid: ef163e33c1c51ce46a3b3ebfca4b585f,
     type: 2}
   playerColours:
