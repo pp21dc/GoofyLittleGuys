@@ -381,24 +381,27 @@ public abstract class LilGuyBase : MonoBehaviour
             Destroy(hitboxes[i]);
         }
 
-        if (!isWild)
+		Hurtbox h = GetComponent<Hurtbox>();
+		if (!isWild)
         {
-            // Player owned lil guy died.
-            if (GetComponent<Hurtbox>().LastHit != null)
+			// Player owned lil guy died.
+			if (h.LastHit != null)
             {
-                Debug.Log($"{name} was a player-owned Lil Guy, and was defeated by player {GetComponent<Hurtbox>().LastHit}. Awarding bonus xp.");
-                GetComponent<Hurtbox>().LastHit.LilGuyTeam[0].AddXP(Mathf.FloorToInt((Mathf.Pow((Level + 6), 2)) / 2));
-                GetComponent<Hurtbox>().LastHit.LilGuyTeam[1].AddXP(Mathf.FloorToInt((Mathf.Pow((Level + 5), 2)) / 4));
-                GetComponent<Hurtbox>().LastHit.LilGuyTeam[2].AddXP(Mathf.FloorToInt((Mathf.Pow((Level + 5), 2)) / 4));
+                Debug.Log($"{name} was a player-owned Lil Guy, and was defeated by player {h.LastHit}. Awarding bonus xp.");
+                for (int i = 0; i < h.LastHit.LilGuyTeam.Count; i++)
+                {
+                    h.LastHit.LilGuyTeam[i].AddXP((i ==0) ? Mathf.FloorToInt((Mathf.Pow((Level + 6), 2)) / 2) : Mathf.FloorToInt((Mathf.Pow((Level + 5), 2)) / 4));
+				}
             }
             StartCoroutine(Disappear());
         }
         else
         {
-            Debug.Log($"{name} was a wild Lil Guy, and was defeated by player {GetComponent<Hurtbox>().LastHit}. Awarding XP.");
-            GetComponent<Hurtbox>().LastHit.LilGuyTeam[0].AddXP(Mathf.FloorToInt((Mathf.Pow((Level + 5), 2)) / 3));
-            GetComponent<Hurtbox>().LastHit.LilGuyTeam[1].AddXP(Mathf.FloorToInt((Mathf.Pow((Level + 4), 2)) / 6));
-            GetComponent<Hurtbox>().LastHit.LilGuyTeam[2].AddXP(Mathf.FloorToInt((Mathf.Pow((Level + 4), 2)) / 6));
+            Debug.Log($"{name} was a wild Lil Guy, and was defeated by player {GetComponent<Hurtbox>().LastHit}. Awarding XP."); 
+            for (int i = 0; i < h.LastHit.LilGuyTeam.Count; i++)
+			{
+				h.LastHit.LilGuyTeam[i].AddXP((i == 0) ? Mathf.FloorToInt((Mathf.Pow((Level + 5), 2) / 3)) : Mathf.FloorToInt((Mathf.Pow((Level + 4), 2) / 6)));
+			}
             isDying = false;
         }
     }
