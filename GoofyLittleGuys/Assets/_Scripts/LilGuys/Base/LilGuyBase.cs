@@ -18,6 +18,7 @@ public abstract class LilGuyBase : MonoBehaviour
     [SerializeField] protected Transform attackPosition;
     [SerializeField] protected Transform attackOrbit;
     [SerializeField] private GameObject healFXPrefab;
+    [SerializeField] private AudioSource audioSource;
 
 
     [Header("Lil Guy Stats")]
@@ -480,6 +481,11 @@ public abstract class LilGuyBase : MonoBehaviour
     {
         // Destroy the hitbox after its effect time
         Destroy(instantiatedHitbox); // Shorter lifespan for faster feedback
+    }
+
+    public void PlaySound(string key)
+    {
+        Managers.AudioManager.Instance.PlaySfx(key, audioSource);
     }
 
     public virtual void StartChargingSpecial()
