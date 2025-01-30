@@ -40,9 +40,12 @@ public class Phantaphant : SpeedType
 
 		if (rb != null && targetPosition != null)
 		{
-			rb.MovePosition(directionToTarget);
+			Vector3 validatedTeleportPosition = GetValidTeleportPosition(directionToTarget);
+
+			rb.MovePosition(validatedTeleportPosition);
 			LilGuyBase targLilGuy = targetPosition.GetComponent<LilGuyBase>();
-			Instantiate(FXManager.Instance.GetEffect("PhantaphantTeleport"), targetPosition.position, Quaternion.identity, targLilGuy.PlayerOwner != null ? targLilGuy.PlayerOwner.transform : targLilGuy.transform);
+			Instantiate(FXManager.Instance.GetEffect("PhantaphantTeleport"), validatedTeleportPosition, Quaternion.identity,
+				targLilGuy.PlayerOwner != null ? targLilGuy.PlayerOwner.transform : targLilGuy.transform);
 		}
 
 		GameObject slowedEntity;
@@ -61,6 +64,25 @@ public class Phantaphant : SpeedType
 
 		EventManager.Instance.ApplyDebuff(slowedEntity, slowAmount, slowDuration, DebuffType.Slow);
 		OnEndSpecial();
+	}
+
+	private Vector3 GetValidTeleportPosition(Vector3 predictedPosition)
+	{
+		Vector3 startPos = transform.position;
+		Vector3 direction = (predictedPosition - startPos).normalized;
+		float distance = Vector3.Distance(startPos, predictedPosition);
+
+		RaycastHit hit;
+
+		// Raycast to check if there's an obstacle between current position and predicted position
+		if (Physics.Raycast(startPos, direction, out hit, distance, LayerMask.GetMask("PitColliders")))
+		{
+			// If there's an obstacle, adjust the teleport position to just before the hit point
+			return hit.point - (direction * 1.5f); // Adjusts to be slightly before the wall
+		}
+
+		// No obstacles, return the predicted position
+		return predictedPosition;
 	}
 
 	protected override void OnEndSpecial()
