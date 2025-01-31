@@ -17,6 +17,7 @@ public class PlayerBody : MonoBehaviour
 	[SerializeField] private GameObject playerMesh;                     // Reference to the player's mesh gameobject
 	[SerializeField] private PlayerInput playerInput;                   // This player's input component.
 	[SerializeField] private PlayerUi playerUi;                         // This player's input component.
+	[SerializeField] private GameObject playerHealthBar;                         // This player's input component.
 	[SerializeField] private GameObject teamFullMenu;                   // The menu shown if the player captured a lil guy but their team is full.
 	[SerializeField] private PlayerController controller;
 	[SerializeField] private GameObject invincibilityFX;
@@ -150,10 +151,11 @@ public class PlayerBody : MonoBehaviour
 
 			directionIndicator.transform.rotation = Quaternion.Slerp(directionIndicator.transform.rotation, finalRotation, smoothFactor); ;
 		}
-		invincibilityFX.SetActive(hasImmunity);
+		invincibilityFX.SetActive(hasImmunity && !wasDefeated);
 		invincibilityFX.transform.rotation = lilGuyTeam[0].Mesh.transform.rotation;
-		stormHurtFX.SetActive(inStorm);
+		stormHurtFX.SetActive(inStorm && !wasDefeated);
 		stormHurtFX.transform.rotation = lilGuyTeam[0].Mesh.transform.rotation;
+		playerHealthBar.SetActive(!wasDefeated);
 	}
 
 	private void Awake()
@@ -577,6 +579,7 @@ public class PlayerBody : MonoBehaviour
 	/// </summary>
 	public void StormDamage(float dmg)
 	{
+		if (GameManager.Instance.IsPaused) return;
 		Hurtbox h = lilGuyTeam[0].gameObject.GetComponent<Hurtbox>();
 		if (h != null)
 		{

@@ -2882,6 +2882,7 @@ MonoBehaviour:
   playerMesh: {fileID: 1987567868551127171}
   playerInput: {fileID: 674771134529610598}
   playerUi: {fileID: 7631443951995230505}
+  playerHealthBar: {fileID: 4594532337236100961}
   teamFullMenu: {fileID: 1280155277074193209}
   controller: {fileID: 3641373110718538541}
   invincibilityFX: {fileID: 1172655192903034848}
@@ -3691,6 +3692,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &4594532337236100961 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8843062740006680514, guid: 0ed03362164b40c4c801c51f821efc57,
+    type: 3}
+  m_PrefabInstance: {fileID: 5006824542939115683}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &7579776744156142008 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3191669701371914523, guid: 0ed03362164b40c4c801c51f821efc57,
