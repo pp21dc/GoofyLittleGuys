@@ -372,36 +372,40 @@ public class PlayerBody : MonoBehaviour
 		if (!activeLilGuy.IsDying) lilGuyTeam[0].PlayDeathAnim();
 		activeLilGuy.SetLayer(LayerMask.NameToLayer("Player"));
 
-		LilGuyBase nextAlive = lilGuyTeam.FirstOrDefault(guy => guy.Health > 0);
-		if (nextAlive != null)
+		if (lilGuyTeam.Any(guy => guy.Health > 0))
 		{
-			lilGuyTeam.Remove(activeLilGuy);
-			lilGuyTeam.Add(activeLilGuy); // Move dead Lil Guy to the back
-
-			SetActiveLilGuy(nextAlive);
-
-			// Update follow goals
-			for (int i = 0; i < lilGuyTeam.Count; i++)
+			LilGuyBase nextAlive = lilGuyTeam.FirstOrDefault(guy => guy.Health > 0);
+			if (nextAlive != null)
 			{
-				lilGuyTeam[i].SetFollowGoal(lilGuyTeamSlots[i].transform);
+				lilGuyTeam.Remove(activeLilGuy);
+				lilGuyTeam.Add(activeLilGuy); // Move dead Lil Guy to the back
+
+				SetActiveLilGuy(nextAlive);
+
+				// Update follow goals
+				for (int i = 0; i < lilGuyTeam.Count; i++)
+				{
+					lilGuyTeam[i].SetFollowGoal(lilGuyTeamSlots[i].transform);
+				}
+
+				foreach (var lilGuy in lilGuyTeam.Skip(1))
+				{
+					lilGuy.gameObject.layer = LayerMask.NameToLayer("Player");
+					lilGuy.GetComponent<Rigidbody>().isKinematic = false;
+					lilGuy.GetComponent<Rigidbody>().interpolation = RigidbodyInterpolation.Interpolate;
+					lilGuy.IsAttacking = false;
+					lilGuy.SetMaterial(GameManager.Instance.RegularLilGuySpriteMat);
+				}
+
+
+				SetInvincible(swapInvincibility);
+				EventManager.Instance.UpdatePlayerHealthUI(this);
 			}
-
-			foreach (var lilGuy in lilGuyTeam.Skip(1))
-			{
-				lilGuy.gameObject.layer = LayerMask.NameToLayer("Player");
-				lilGuy.GetComponent<Rigidbody>().isKinematic = false;
-				lilGuy.GetComponent<Rigidbody>().interpolation = RigidbodyInterpolation.Interpolate;
-				lilGuy.IsAttacking = false;
-				lilGuy.SetMaterial(GameManager.Instance.RegularLilGuySpriteMat);
-			}
-
-
-			SetInvincible(swapInvincibility);
-			EventManager.Instance.UpdatePlayerHealthUI(this);
 		}
 		else
 		{
 			isDead = true;
+			deathTime = GameManager.Instance.CurrentGameTime;
 			// No living lil guys, time for a respawn if possible.
 			if (deathTime < GameManager.Instance.PhaseOneDurationSeconds())
 			{
@@ -411,6 +415,8 @@ public class PlayerBody : MonoBehaviour
 			{
 				GameManager.Instance.PlayerDefeat(this);
 				wasDefeated = true;
+				canMove = true;
+				rb.useGravity = false;
 			}
 		}
 	}
@@ -542,13 +548,11 @@ public class PlayerBody : MonoBehaviour
 	/// <summary>
 	/// This coroutine simply waits respawnTimer, then respawns the given player
 	/// </summary>
-	/// <param name="thePlayer"></param>
 	/// <returns></returns>
 	private IEnumerator DelayedRespawn()
 	{
 		canMove = false;
 		rb.velocity = Vector3.zero;
-		deathTime = GameManager.Instance.CurrentGameTime;
 		if (deathTime > GameManager.Instance.PhaseOneDurationSeconds())
 		{
 			rb.useGravity = false;

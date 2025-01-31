@@ -44,7 +44,7 @@ public class Phantaphant : SpeedType
 
 			rb.MovePosition(validatedTeleportPosition);
 			LilGuyBase targLilGuy = targetPosition.GetComponent<LilGuyBase>();
-			Instantiate(FXManager.Instance.GetEffect("PhantaphantTeleport"), validatedTeleportPosition, Quaternion.identity,
+			Instantiate(FXManager.Instance.GetEffect("PhantaphantTeleport"), targLilGuy.transform.position, Quaternion.identity,
 				targLilGuy.PlayerOwner != null ? targLilGuy.PlayerOwner.transform : targLilGuy.transform);
 		}
 
@@ -122,6 +122,8 @@ public class Phantaphant : SpeedType
 		foreach (Collider collider in nearbyColliders)
 		{
 			if (collider.transform == transform) continue; // Ignore itself
+			LilGuyBase lilGuy = collider.GetComponent<LilGuyBase>();
+			if (lilGuy == null || lilGuy.Health <= 0) continue;
 
 			float distance = Vector3.Distance(collider.transform.position, transform.position);
 			if (distance < closestDistance)
@@ -130,10 +132,8 @@ public class Phantaphant : SpeedType
 				closestTarget = collider.transform;
 
 				// Get target's velocity if it has a Rigidbody
-				LilGuyBase lilGuy = collider.GetComponent<LilGuyBase>();
 				if (lilGuy != null)
 				{
-					if (lilGuy.Health <= 0) continue;
 					closestTargetVelocity = lilGuy.PlayerOwner != null ? lilGuy.PlayerOwner.CurrentVelocity : lilGuy.CurrentVelocity;
 				}
 			}
