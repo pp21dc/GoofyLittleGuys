@@ -46,7 +46,7 @@ public class PlayerBody : MonoBehaviour
 	private float nextBerryUseTime = -Mathf.Infinity;
 	private float nextInteractTime = -Mathf.Infinity;
 	private float nextSwapTime = -Mathf.Infinity;
-	private float deathTime = -Mathf.Infinity; 
+	private float deathTime = -Mathf.Infinity;
 	private float smoothFactor = 10;
 
 	private Color playerColour = Color.white;
@@ -79,9 +79,11 @@ public class PlayerBody : MonoBehaviour
 	public GameObject MinimapIcon;
 
 	public Vector3 CurrentVelocity => currentVelocity;
-	public Color PlayerColour { get { return playerColour; } 
+	public Color PlayerColour
+	{
+		get { return playerColour; }
 		set
-		{ 
+		{
 			playerColour = value;
 			DecalProjector projector = directionIndicator.GetComponentInChildren<DecalProjector>();
 			Material directionIndicatorMat = new Material(projector.material);
@@ -89,7 +91,7 @@ public class PlayerBody : MonoBehaviour
 			projector.material = directionIndicatorMat;
 			MinimapIcon.GetComponent<Renderer>().material.color = playerColour;
 		}
-	} 
+	}
 	public LilGuyBase ClosestWildLilGuy { get { return closestWildLilGuy; } set { closestWildLilGuy = value; } }
 	public bool HasInteracted { get { return hasInteracted; } set { hasInteracted = value; } }
 	public bool HasSwappedRecently { get { return hasSwappedRecently; } set { hasSwappedRecently = value; } }
@@ -135,14 +137,14 @@ public class PlayerBody : MonoBehaviour
 		{
 			movementDirection = Vector3.zero;
 			rb.velocity = Vector3.zero;
-			lilGuyTeam[0].IsMoving = false;
+			activeLilGuy.IsMoving = false;
 		}
-		if (lilGuyTeam.Count <= 0) return; 
+		if (lilGuyTeam.Count <= 0) return;
 		RaycastHit hit;
-		if (Physics.Raycast(directionIndicator.transform.position + Vector3.up, Vector3.down*10, out hit))
+		if (Physics.Raycast(directionIndicator.transform.position + Vector3.up, Vector3.down * 10, out hit))
 		{
 			Quaternion surfaceRotation = Quaternion.FromToRotation(Vector3.up, hit.normal); // Calculate the rotation to match the surface normal   
-			
+
 			// Calculate the angle using Atan2 (for XZ plane rotation)
 			Quaternion finalRotation = surfaceRotation * lilGuyTeam[0].AttackOrbit.rotation;          // Combine with the pivot's rotation
 
@@ -165,7 +167,7 @@ public class PlayerBody : MonoBehaviour
 			movementDirection = Vector3.zero;
 			rb.velocity = Vector3.zero;
 			if (lilGuyTeam.Count <= 0) return;
-			lilGuyTeam[0].IsMoving = false;
+			activeLilGuy.IsMoving = false;
 		}
 	}
 	private void FixedUpdate()
@@ -183,47 +185,6 @@ public class PlayerBody : MonoBehaviour
 			rb.velocity += Vector3.up * Physics.gravity.y * (maxSpeed - 1) * Time.fixedDeltaTime;
 		}
 
-
-		// If the first lil guy is defeated, move to end of list automatically
-		if (lilGuyTeam[0].Health <= 0)
-		{
-			if (isSwapping) return;
-			isSwapping = true;
-
-			activeLilGuy.CancelSpecial();
-			// Hide them from player, as to not confuse them with a living one... maybe find a better way to convey this
-			if (!lilGuyTeam[0].IsDying) lilGuyTeam[0].PlayDeathAnim();
-			lilGuyTeam[0].SetLayer(LayerMask.NameToLayer("Player"));
-			lilGuyTeam[0].GetComponentInChildren<SpriteRenderer>().color = Color.white;
-
-
-			if (CheckTeamHealth())
-			{
-				// If this returns true, then there's at least one living lil guy on this player's team, so swap until they're at the front.
-				foreach (LilGuyBase lilGuy in lilGuyTeam)
-				{
-					lilGuy.RB.isKinematic = false;
-					lilGuy.RB.interpolation = RigidbodyInterpolation.Interpolate;
-				}
-				ReorganizeTeam();
-			}
-			else
-			{
-				isDead = true;
-				// No living lil guys, time for a respawn if possible.
-				if (deathTime < GameManager.Instance.PhaseOneDurationSeconds())
-				{
-					respawnCoroutine ??= StartCoroutine(DelayedRespawn());
-				}
-				else if (GameManager.Instance.CurrentPhase == 2 && !wasDefeated)
-				{
-					GameManager.Instance.PlayerDefeat(this);
-					wasDefeated = true;
-				}
-				isSwapping = false;
-			}
-
-		}
 		// Movement behaviours
 		if (!isDashing && canMove && !lilGuyTeam[0].LockMovement && !knockedBack)
 		{
@@ -241,7 +202,7 @@ public class PlayerBody : MonoBehaviour
 			else
 			{
 				// Calculate the target velocity based on input direction
-				 targetVelocity = movementDirection.normalized * (lilGuyTeam[0].BaseSpeed + (lilGuyTeam[0].Speed * 0.3f) + teamSpeedBoost);
+				targetVelocity = movementDirection.normalized * (lilGuyTeam[0].BaseSpeed + (lilGuyTeam[0].Speed * 0.3f) + teamSpeedBoost);
 				// Smoothly accelerate towards the target velocity
 				currentVelocity = Vector3.Lerp(currentVelocity, targetVelocity, Time.fixedDeltaTime / accelerationTime);
 			}
@@ -252,7 +213,7 @@ public class PlayerBody : MonoBehaviour
 		}
 		if (lilGuyTeam[0].LockMovement) rb.velocity = new Vector3(0, rb.velocity.y, 0);
 	}
-	
+
 
 	private bool IsGrounded()
 	{
@@ -269,8 +230,8 @@ public class PlayerBody : MonoBehaviour
 		if (dir.x > 0) flip = true;
 		if (dir.x < 0) flip = false;
 
-		lilGuyTeam[0].IsMoving = Mathf.Abs(movementDirection.magnitude) > 0;
-		lilGuyTeam[0].MovementDirection = movementDirection;
+		activeLilGuy.IsMoving = Mathf.Abs(movementDirection.magnitude) > 0;
+		activeLilGuy.MovementDirection = movementDirection;
 	}
 
 	public void UpdateUpDown(float dir)
@@ -364,6 +325,96 @@ public class PlayerBody : MonoBehaviour
 		isSwapping = false;
 		SetInvincible(swapInvincibility);
 	}
+
+	public void SetActiveLilGuy(LilGuyBase newLilGuy)
+	{
+		if (activeLilGuy != null)
+		{
+			activeLilGuy.OnDeath -= HandleLilGuyDeath; // Unsubscribe from old Lil Guy
+		}
+
+		activeLilGuy = newLilGuy;
+		activeLilGuy.IsAttacking = false;
+		// Configure active LilGuy's Rigidbody
+		activeLilGuy.GetComponent<Rigidbody>().isKinematic = true;
+		activeLilGuy.GetComponent<Rigidbody>().interpolation = RigidbodyInterpolation.None;
+
+		// Reset active LilGuy's position
+		activeLilGuy.transform.localPosition = Vector3.zero;
+
+		// Set layers to ensure only active LilGuy takes damage
+		activeLilGuy.gameObject.layer = LayerMask.NameToLayer("PlayerLilGuys");
+		if (activeLilGuy != null)
+		{
+			activeLilGuy.OnDeath += HandleLilGuyDeath; // Subscribe to new Lil Guy
+			activeLilGuy.SetMaterial(GameManager.Instance.OutlinedLilGuySpriteMat);
+		}
+	}
+
+	/// <summary>
+	/// Only use this in Character Select Menu for now
+	/// </summary>
+	public void UnsubscribeActiveLilGuy()
+	{
+		if (activeLilGuy != null)
+		{
+			activeLilGuy.OnDeath -= HandleLilGuyDeath; // Unsubscribe from old Lil Guy
+		}
+	}
+
+	public void HandleLilGuyDeath()
+	{
+		if (activeLilGuy.Health > 0) return;
+
+		activeLilGuy.CancelSpecial();
+
+		// Hide them from player, as to not confuse them with a living one... maybe find a better way to convey this
+		if (!activeLilGuy.IsDying) lilGuyTeam[0].PlayDeathAnim();
+		activeLilGuy.SetLayer(LayerMask.NameToLayer("Player"));
+
+		LilGuyBase nextAlive = lilGuyTeam.FirstOrDefault(guy => guy.Health > 0);
+		if (nextAlive != null)
+		{
+			lilGuyTeam.Remove(activeLilGuy);
+			lilGuyTeam.Add(activeLilGuy); // Move dead Lil Guy to the back
+
+			SetActiveLilGuy(nextAlive);
+
+			// Update follow goals
+			for (int i = 0; i < lilGuyTeam.Count; i++)
+			{
+				lilGuyTeam[i].SetFollowGoal(lilGuyTeamSlots[i].transform);
+			}
+
+			foreach (var lilGuy in lilGuyTeam.Skip(1))
+			{
+				lilGuy.gameObject.layer = LayerMask.NameToLayer("Player");
+				lilGuy.GetComponent<Rigidbody>().isKinematic = false;
+				lilGuy.GetComponent<Rigidbody>().interpolation = RigidbodyInterpolation.Interpolate;
+				lilGuy.IsAttacking = false;
+				lilGuy.SetMaterial(GameManager.Instance.RegularLilGuySpriteMat);
+			}
+
+
+			SetInvincible(swapInvincibility);
+			EventManager.Instance.UpdatePlayerHealthUI(this);
+		}
+		else
+		{
+			isDead = true;
+			// No living lil guys, time for a respawn if possible.
+			if (deathTime < GameManager.Instance.PhaseOneDurationSeconds())
+			{
+				respawnCoroutine ??= StartCoroutine(DelayedRespawn());
+			}
+			else if (GameManager.Instance.CurrentPhase == 2 && !wasDefeated)
+			{
+				GameManager.Instance.PlayerDefeat(this);
+				wasDefeated = true;
+			}
+		}
+	}
+
 	/// <summary>
 	/// Swaps the Lil guy based on a queue. If input is right, then the next one in list moves to position 1 and if left, the previous lil guy moves to position 1
 	/// and the rest cascade accordingly.
@@ -371,75 +422,52 @@ public class PlayerBody : MonoBehaviour
 	/// <param name="shiftDirection">The input provided by the D-Pad. Negative means they pressed left, and positive means they pressed right.</param>
 	public void SwapLilGuy(float shiftDirection)
 	{
-		// Only one lil guy, so you can't swap.
-		if (isSwapping || lilGuyTeam.Count <= 1 || Time.time <= nextSwapTime) return;
+		if (isSwapping || lilGuyTeam.Count <= 1) return;
 		isSwapping = true;
 
-		List<LilGuyBase> aliveTeamMembers = lilGuyTeam.Where(guy => guy.Health > 0).ToList();       // Filter out the dead team members from the live ones.
-		List<LilGuySlot> aliveTeamSlots = lilGuyTeamSlots.Where(slot => !slot.LockState).ToList();  // We only care about the lil guy slots of the lil guys that are still alive.
-		activeLilGuy.CancelSpecial();
-
-		// Only one lil guy alive, so swapping makes no sense here.
-		if (aliveTeamMembers.Count <= 1)
+		List<LilGuyBase> aliveTeam = lilGuyTeam.Where(guy => guy.Health > 0).ToList();
+		if (aliveTeam.Count <= 1)
 		{
 			isSwapping = false;
 			return;
 		}
 
-		foreach (LilGuyBase lilGuy in lilGuyTeam)
+		if (shiftDirection < 0) // Left shift
 		{
+			LilGuyBase first = aliveTeam[0];
+			aliveTeam.RemoveAt(0);
+			aliveTeam.Add(first);
+		}
+		else if (shiftDirection > 0) // Right shift
+		{
+			LilGuyBase last = aliveTeam[aliveTeam.Count - 1];
+			aliveTeam.RemoveAt(aliveTeam.Count - 1);
+			aliveTeam.Insert(0, last);
+		}
+
+		lilGuyTeam = aliveTeam.Concat(lilGuyTeam.Where(guy => guy.Health <= 0)).ToList();
+		SetActiveLilGuy(lilGuyTeam[0]);
+
+		// Update follow goals
+		for (int i = 0; i < lilGuyTeam.Count; i++)
+		{
+			lilGuyTeam[i].SetFollowGoal(lilGuyTeamSlots[i].transform);
+		}
+
+		foreach (var lilGuy in lilGuyTeam.Skip(1))
+		{
+			lilGuy.gameObject.layer = LayerMask.NameToLayer("Player");
 			lilGuy.GetComponent<Rigidbody>().isKinematic = false;
-			lilGuy.SetLayer(LayerMask.NameToLayer("Player"));
+			lilGuy.GetComponent<Rigidbody>().interpolation = RigidbodyInterpolation.Interpolate;
 			lilGuy.IsAttacking = false;
-			lilGuy.RB.interpolation = RigidbodyInterpolation.Interpolate;
 			lilGuy.SetMaterial(GameManager.Instance.RegularLilGuySpriteMat);
 		}
 
-		if (shiftDirection < 0)
-		{
-			LilGuyBase firstInTeam = lilGuyTeam[0];
-			Transform firstParent = aliveTeamSlots[0].transform;
 
-			// Shift each element up the list
-			for (int i = 0; i < aliveTeamMembers.Count - 1; i++)
-			{
-				lilGuyTeam[i] = lilGuyTeam[i + 1];
-				lilGuyTeam[i].SetFollowGoal(aliveTeamSlots[i].transform); // Update follow goal
-			}
-
-			// Move the first lil guy to the end of the list
-			lilGuyTeam[aliveTeamMembers.Count - 1] = firstInTeam;
-			lilGuyTeam[aliveTeamMembers.Count - 1].SetFollowGoal(aliveTeamSlots[aliveTeamMembers.Count - 1].transform); // Update follow goal
-		}
-		else if (shiftDirection > 0)
-		{
-			// Store the last element to rotate it to the beginning of the living member list.
-			LilGuyBase lastInTeam = lilGuyTeam[aliveTeamMembers.Count - 1];
-			Transform lastParent = aliveTeamSlots[aliveTeamMembers.Count - 1].transform;
-
-			// Shift each element down the list
-			for (int i = aliveTeamMembers.Count - 1; i > 0; i--)
-			{
-				lilGuyTeam[i] = lilGuyTeam[i - 1];
-				lilGuyTeam[i].SetFollowGoal(aliveTeamSlots[i].transform); // Update follow goal
-			}
-
-			// Move the last lil guy to the front of the list
-			lilGuyTeam[0] = lastInTeam;
-			lilGuyTeam[0].SetFollowGoal(aliveTeamSlots[0].transform); // Update follow goal
-		}
-
-		lilGuyTeam[0].GetComponent<Rigidbody>().isKinematic = true;
-		lilGuyTeam[0].SetLayer(LayerMask.NameToLayer("PlayerLilGuys"));
-		lilGuyTeam[0].transform.localPosition = Vector3.zero;
-		lilGuyTeam[0].RB.interpolation = RigidbodyInterpolation.None;
-		activeLilGuy = lilGuyTeam[0];
-		activeLilGuy.SetMaterial(GameManager.Instance.OutlinedLilGuySpriteMat);
+		SetInvincible(swapInvincibility);
 		EventManager.Instance.UpdatePlayerHealthUI(this);
-		nextSwapTime = Time.time + swapCooldown;
 
 		isSwapping = false;
-		SetInvincible(swapInvincibility);
 	}
 
 	public void StartDash()

@@ -148,6 +148,7 @@ public class CharacterSelectMenu : MonoBehaviour
 				// Grab the lil guy this player had, and delete them.
 				GameObject lilGuyToRemove = controller.Body.LilGuyTeam[0].gameObject;
 				controller.Body.LilGuyTeam.RemoveAt(0);
+				controller.Body.UnsubscribeActiveLilGuy();
 				Destroy(lilGuyToRemove);
 
 				// Unlock the player's button options again.
@@ -200,7 +201,7 @@ public class CharacterSelectMenu : MonoBehaviour
 		starterGO.transform.SetParent(controller.Body.transform, false);
 		starterGO.GetComponent<Rigidbody>().isKinematic = true;
 		starterGO.transform.localPosition = Vector3.zero;
-		controller.Body.ActiveLilGuy = starter;
+		controller.Body.SetActiveLilGuy(starter);
 
 		// Add the lil guy to the player's party.
 		controller.Body.LilGuyTeam.Add(starter);

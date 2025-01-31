@@ -87,6 +87,8 @@ public abstract class LilGuyBase : MonoBehaviour
     private bool knockedBack = false;
     private bool spawnedDustParticle = false;
 
+    public event Action OnDeath;
+
     #region Getters and Setters
     public Transform AttackOrbit => attackOrbit;
     public SpriteRenderer Mesh => mesh;
@@ -272,13 +274,12 @@ public abstract class LilGuyBase : MonoBehaviour
             else spawnedDustParticle = false;
         }
 
-
-        if (health <= 0)
-        {
-            health = 0;
-            isDead = true;
-        }
-        else isDead = false;
+		if (health <= 0)
+		{
+			health = 0;
+			isDead = true;
+		}
+		else isDead = false;
 
 		if (isDead) return;
 
@@ -358,8 +359,14 @@ public abstract class LilGuyBase : MonoBehaviour
     /// Helper method called when the lil guy is damaged.
     /// </summary>
     public void Damaged()
-    {
-        if (isDead) return;
+	{
+        if (health <= 0)
+        {
+            OnDeath?.Invoke();
+            mesh.color = Color.white;
+            return;
+        }
+		if (isDead) return;
         StartCoroutine(FlashRed());
         if (anim != null && !isInBasicAttack && !isInSpecialAttack) anim.SetTrigger("Hurt");
     }
@@ -695,6 +702,8 @@ public abstract class LilGuyBase : MonoBehaviour
 
         Slow slow = GetComponent<Slow>();
         if (slow != null) Destroy(slow);
+
+        IsAttacking = false;
 	}
 }
 
