@@ -28,6 +28,7 @@ namespace Managers
 		[SerializeField] private Color[] playerColours;
 		[SerializeField] private float activeLilGuyScaleFactor = 1.1f;
 
+		private float timeUntilNextStorm = 0.0f;
 		private System.TimeSpan gameTime;                                       // To convert from total seconds time to a time in the format mm:ss
 		private bool isPaused = false;
 		private bool legendarySpawned = false;
@@ -94,6 +95,12 @@ namespace Managers
 			}
 			else if (currentPhase == 2)
 			{
+				if (gameTimer != null)
+				{
+					gameTimer.color = Color.red;
+					gameTimer.text = $"0:{timeUntilNextStorm.ToString("00")}";
+				}
+
 				if (currentGameTime >= ((phaseOneStartTime * 60f) + phaseTwoDuration))
 				{
 					//BrawlTimeEnd();
@@ -318,7 +325,12 @@ namespace Managers
 				if (stormThisLoop) // if there has been a storm in this loop, wait for timer
 				{
 					stormThisLoop = false;
-					yield return new WaitForSeconds(stormTimer);
+					timeUntilNextStorm = stormTimer;
+					while (timeUntilNextStorm > 0)
+					{
+						timeUntilNextStorm -= Time.deltaTime;
+						yield return null;
+					}
 				}
 
 			}
