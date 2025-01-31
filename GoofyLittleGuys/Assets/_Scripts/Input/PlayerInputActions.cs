@@ -32,7 +32,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""type"": ""Button"",
                     ""id"": ""b90f8d89-23e3-47b1-8b81-babec8d24833"",
                     ""expectedControlType"": ""Button"",
-                    ""processors"": """",
+                    ""processors"": ""AxisDeadzone"",
                     ""interactions"": """",
                     ""initialStateCheck"": true
                 },
@@ -340,7 +340,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""type"": ""PassThrough"",
                     ""id"": ""75368486-51da-4cc8-bf89-0bb1ab1f4615"",
                     ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
+                    ""processors"": ""StickDeadzone"",
                     ""interactions"": """",
                     ""initialStateCheck"": false
                 },
@@ -412,7 +412,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""type"": ""PassThrough"",
                     ""id"": ""5b0f7781-3cd2-4404-95f2-d2cb8b20800a"",
                     ""expectedControlType"": ""Axis"",
-                    ""processors"": """",
+                    ""processors"": ""AxisDeadzone"",
                     ""interactions"": """",
                     ""initialStateCheck"": false
                 }
