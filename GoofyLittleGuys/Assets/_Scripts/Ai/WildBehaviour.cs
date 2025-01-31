@@ -89,8 +89,10 @@ public class WildBehaviour : MonoBehaviour
 	{
 		// Reset attack buffer on AI.
 		if (attackTime > 0) attackTime -= Time.deltaTime;
+
 		if (!IsWithinCamp()) timeSpentFromHome += Time.deltaTime;
 		else timeSpentFromHome = 0f;
+
 		if (timeSpentFromHome >= maxTimeOutsideHomeSpawner)
 		{
 			returnHome = true;

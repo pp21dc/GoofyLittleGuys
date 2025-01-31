@@ -133,6 +133,7 @@ public class Phantaphant : SpeedType
 				LilGuyBase lilGuy = collider.GetComponent<LilGuyBase>();
 				if (lilGuy != null)
 				{
+					if (lilGuy.Health <= 0) continue;
 					closestTargetVelocity = lilGuy.PlayerOwner != null ? lilGuy.PlayerOwner.CurrentVelocity : lilGuy.CurrentVelocity;
 				}
 			}

@@ -687,6 +687,15 @@ public abstract class LilGuyBase : MonoBehaviour
         GameObject instantiatedHeal = Instantiate(FXManager.Instance.GetEffect("Heal"), transform.position, Quaternion.identity, transform);
         instantiatedHeal.GetComponent<SpriteRenderer>().sortingOrder = mesh.sortingOrder + 1;
     }
+
+	private void OnDisable()
+	{
+		Poison poison = GetComponent<Poison>();
+        if (poison != null) Destroy(poison);
+
+        Slow slow = GetComponent<Slow>();
+        if (slow != null) Destroy(slow);
+	}
 }
 
 public enum DebuffType
