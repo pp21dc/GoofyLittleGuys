@@ -44,8 +44,7 @@ public class Phantaphant : SpeedType
 
 			rb.MovePosition(validatedTeleportPosition);
 			LilGuyBase targLilGuy = targetPosition.GetComponent<LilGuyBase>();
-			Instantiate(FXManager.Instance.GetEffect("PhantaphantTeleport"), targLilGuy.transform.position, Quaternion.identity,
-				targLilGuy.PlayerOwner != null ? targLilGuy.PlayerOwner.transform : targLilGuy.transform);
+			Instantiate(FXManager.Instance.GetEffect("PhantaphantTeleport"), targLilGuy.transform.position, Quaternion.identity, targLilGuy.transform);
 		}
 
 		GameObject slowedEntity;
