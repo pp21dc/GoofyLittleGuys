@@ -33,6 +33,15 @@ public class Hitbox : MonoBehaviour
 		this.hitboxOwner = hitboxOwner;
 		Damage = Mathf.CeilToInt(0.56f * hitboxOwner.GetComponent<LilGuyBase>().Strength);
 	}
+	private bool AreEnemies(GameObject attacker, GameObject target)
+	{
+		LilGuyBase attackerLilGuy = attacker.GetComponent<LilGuyBase>();
+		LilGuyBase targetLilGuy = target.GetComponent<LilGuyBase>();
+
+		if (attackerLilGuy == null || targetLilGuy == null) return false; // Safety check
+
+		return attackerLilGuy.PlayerOwner != targetLilGuy.PlayerOwner; // Only true if they have different owners
+	}
 
 	/// <summary>
 	/// Method called when this hitbox hits a hurtbox.
@@ -43,7 +52,7 @@ public class Hitbox : MonoBehaviour
 		if (hitboxOwner.layer == LayerMask.NameToLayer("Player")) return;
 		Debug.Log("HIT");
 		Toadstool toadstool = h.GetComponent<Toadstool>();
-		if (toadstool != null && toadstool.IsShieldActive)
+		if (toadstool != null && toadstool.IsShieldActive && AreEnemies(hitboxOwner, h.gameObject))
 		{
 			h.TakeDamage(Mathf.CeilToInt(Damage * Mathf.Max((1 - toadstool.DamageReduction), 0.01f)));    // Ceil because we don't want them to be completely immune to damage.
 			h.LastHit = hitboxOwner.GetComponent<LilGuyBase>().PlayerOwner;

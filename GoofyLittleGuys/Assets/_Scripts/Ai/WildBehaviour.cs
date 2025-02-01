@@ -263,7 +263,7 @@ public class WildBehaviour : MonoBehaviour
 
 		Vector3 targetPosition;
 
-		if (dot > 0.5f)  // AI is ahead of the player -> Charge directly
+		if (dot > 0.25f)  // AI is ahead of the player -> Charge directly
 		{
 			targetPosition = controller.FollowPosition.position;
 		}
@@ -273,7 +273,7 @@ public class WildBehaviour : MonoBehaviour
 			targetPosition = controller.FollowPosition.position + (playerMovementDir * body.MaxSpeed * thinkSpeed);
 
 			// Smooth prediction to prevent overshooting
-			targetPosition = Vector3.Lerp(controller.FollowPosition.position, targetPosition, 0.75f);
+			targetPosition = Vector3.Lerp(controller.FollowPosition.position, targetPosition, 0.5f);
 		}
 
 		return targetPosition;

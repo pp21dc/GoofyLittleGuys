@@ -38,6 +38,14 @@ public class Slow : Debuff
 			yield return null;
 		}
 
+		Destroy(this); // Destroy the component when the effect ends
+	}
+
+	private void OnDestroy()
+	{
+
+		PlayerBody body = GetComponent<PlayerBody>();
+		LilGuyBase lilGuy = GetComponent<LilGuyBase>(); 
 		if (body != null)
 		{
 			body.TeamSpeedBoost += damage;
@@ -46,9 +54,5 @@ public class Slow : Debuff
 		{
 			lilGuy.BaseSpeed += (int)damage;
 		}
-
-
-		Destroy(this); // Destroy the component when the effect ends
 	}
-
 }

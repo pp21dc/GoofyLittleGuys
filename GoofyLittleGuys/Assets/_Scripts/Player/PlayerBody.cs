@@ -264,6 +264,7 @@ public class PlayerBody : MonoBehaviour
 			closestWildLilGuy.Init(LayerMask.NameToLayer("Player"));
 			closestWildLilGuy.Health = closestWildLilGuy.MaxHealth;
 			closestWildLilGuy.GetComponent<AiController>().SetState(AiController.AIState.Tamed);
+			closestWildLilGuy.GetComponent<Hurtbox>().LastHit = null;
 			closestWildLilGuy.LeaveDeathAnim();
 			if (LilGuyTeam.Count < 3)
 			{
@@ -476,6 +477,7 @@ public class PlayerBody : MonoBehaviour
 		EventManager.Instance.UpdatePlayerHealthUI(this);
 
 		isSwapping = false;
+		nextSwapTime = Time.time + swapCooldown;
 	}
 
 	public void StartDash()

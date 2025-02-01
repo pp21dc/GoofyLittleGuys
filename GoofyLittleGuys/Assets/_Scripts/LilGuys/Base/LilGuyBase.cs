@@ -662,6 +662,7 @@ public abstract class LilGuyBase : MonoBehaviour
 		else
 		{
 			rb.velocity = new Vector3(0, rb.velocity.y, 0);
+            currentVelocity = Vector3.zero;
 		}
 	}
 
