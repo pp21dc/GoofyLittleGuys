@@ -40,6 +40,8 @@ public class TeamFullMenu : MonoBehaviour
 	private void OnDisable()
 	{
 		player.SwitchCurrentActionMap("World");             // Switch back to world action map
+		// Set the first selected button to "Yes"
+		playerEventSystem.gameObject.SetActive(false);
 		body.SetInvincible(0);
 	}
 
