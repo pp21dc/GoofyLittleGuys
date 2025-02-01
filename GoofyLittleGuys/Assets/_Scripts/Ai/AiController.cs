@@ -101,7 +101,7 @@ public class AiController : MonoBehaviour
 	/// <returns>The distance this AI is to the player.</returns>
 	public float DistanceToPlayer()
 	{
-		if (GameManager.Instance.Players.Count > 0)
+		if (GameManager.Instance.Players.Count > 0 && followPosition != null)
 			return Vector3.Distance(transform.position, followPosition.position);
 		else return 0;
 	}

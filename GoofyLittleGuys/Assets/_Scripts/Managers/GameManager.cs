@@ -13,8 +13,8 @@ namespace Managers
 
 		[SerializeField] private List<PlayerSpawnPoint> spawnPoints;
 
-		[SerializeField, Tooltip("Time in minutes that the first phase should end at.")]	private float phaseOneStartTime = 7f;   // Length of Phase 1 in minutes.
-		[SerializeField, Tooltip("Time in minutes that the legendary spawns.")]				private float legendarySpawnTime = 4f;   // Legendary spawn time in minutes. 
+		[SerializeField, Tooltip("Time in minutes that the first phase should end at.")] private float phaseOneStartTime = 7f;   // Length of Phase 1 in minutes.
+		[SerializeField, Tooltip("Time in minutes that the legendary spawns.")] private float legendarySpawnTime = 4f;   // Legendary spawn time in minutes. 
 		[SerializeField] private const float phaseTwoDuration = 180f;   // Length of Phase 2 in seconds. (This amounts to 3 minutes)180f
 		[SerializeField] private float currentGameTime = 0;             // Current game time in seconds.
 		[SerializeField] private Transform fountainSpawnPoint;          // The spawn point that players are respawned to in the main game, set by the HealingFountain.cs
@@ -77,6 +77,7 @@ namespace Managers
 			{
 				// We are in phase 1, so update the timer accordingly.
 				currentGameTime += Time.deltaTime;
+				gameTimer.color = Color.white;
 				gameTime = System.TimeSpan.FromSeconds(currentGameTime);
 				if (gameTimer != null) gameTimer.text = gameTime.ToString("mm':'ss");
 
@@ -106,7 +107,7 @@ namespace Managers
 					//BrawlTimeEnd();
 				}
 
-				if (rankings.Count == (players.Count - 1) && !gameOver)
+				if (rankings.Count >= (players.Count - 1) && !gameOver)
 				{
 					gameOver = true;
 					BrawlKnockoutEnd();
@@ -246,16 +247,15 @@ namespace Managers
 		/// </summary>
 		public void BrawlKnockoutEnd()
 		{
-			rankings.Add(players[0]);
+			//rankings.Add(players[0]);
 			StartCoroutine(nameof(endGame));
-
 			foreach (PlayerBody player in players)
 			{
-				if (!player.IsDead)
-				{
-					player.PlayerUI.TempWinText.SetActive(true);
-				}
+				if (!rankings.Contains(player)) rankings.Add(player);
 			}
+
+			rankings[rankings.Count - 1].PlayerUI.TempWinText.SetActive(true);
+
 
 			Debug.Log("Brawl Phase has ended by knockout!");
 		}

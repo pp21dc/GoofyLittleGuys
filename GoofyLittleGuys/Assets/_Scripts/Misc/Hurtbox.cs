@@ -79,7 +79,7 @@ public class Hurtbox : MonoBehaviour
             controller.LilGuy.Health = oldHealth - dmg >= 0 ? oldHealth - dmg : 0;  // Set health to health - dmg if it's greater than or equal to 0, otherwise set it to 0 so it's non-negative.
 			health = controller.LilGuy.Health;
 			controller.LilGuy.Damaged();
-			owner.GetComponentInChildren<AiHealthUi>().SetHealth(health, oldHealth);
+			owner.GetComponentInChildren<AiHealthUi>().SetHealth(health, oldHealth);	// TODO: Sometimes returns null ref. Figure out why
 		}
 		else
 		{
