@@ -3,118 +3,102 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-// Purpose: To manage spawning Lil Guys at the correct Spawners
+
 namespace Managers
 {
+	/// <summary>
+	/// Manages all spawners and enforces spawn limits across different clearings.
+	/// Ensures that each clearing has a maximum of 3 Lil Guys per spawner, while also ensuring
+	/// that each spawner in the clearing has spawned at least one Lil Guy.
+	/// Legendary spawners are exempt from these limits.
+	/// </summary>
 	public class SpawnManager : SingletonBase<SpawnManager>
 	{
-		//Serialized fields
-		[SerializeField] private List<GameObject> forestSpawners;
-		[SerializeField] private List<GameObject> legendarySpawners;
-		[SerializeField] private int maxNumSpawns;
-		[SerializeField] private int minNumSpawns;
-		[SerializeField] private float spawnDelay;
-		[SerializeField] private bool isSpawning = false; // whether or not the manager is currently spawning
-		[SerializeField] private int campInitCount; // how many camps have spawned at least one Lil Guy
+		private Dictionary<string, List<SpawnerObj>> clearingSpawners = new();	// Tracks spawners per clearing
+		private Dictionary<string, int> clearingSpawnCounts = new();			// Tracks active Lil Guys per clearing
+		private List<SpawnerObj> legendarySpawners = new();                     // Tracks all legendary spawners
 
 
-		//public variables
-		public int currNumSpawns;
-
-		
-
-		private void Start()
+		/// <summary>
+		/// Registers a spawner to the appropriate clearing, or as a legendary spawner if applicable.
+		/// Ensures at least one Lil Guy is spawned per spawner in a clearing.
+		/// </summary>
+		public void RegisterSpawner(SpawnerObj spawner, string clearingID)
 		{
-			currNumSpawns = 0;
-			StartCoroutine(InitialSpawns());
-		}
-
-		public void RemoveLilGuyFromSpawns()
-		{
-			currNumSpawns--;
-			if (currNumSpawns < maxNumSpawns)
+			if (spawner.legendarySpawned)
 			{
-				StartCoroutine(RespawnWithDelay());
+				legendarySpawners.Add(spawner);
+				return;
 			}
+
+			if (!clearingSpawners.ContainsKey(clearingID))
+			{
+				clearingSpawners[clearingID] = new List<SpawnerObj>();
+				clearingSpawnCounts[clearingID] = 0;
+			}
+
+			clearingSpawners[clearingID].Add(spawner);
+			EnsureMinimumSpawns(clearingID);
 		}
 
 		/// <summary>
-		/// This method simply spawns a random Lil Guy at a random forest spawner. 
-		/// (Camp/Spawner obj handles picking random Lil Guy from its list)
+		/// Ensures that each spawner in a clearing has spawned at least one Lil Guy.
 		/// </summary>
-		/// 
-		public void SpawnForest()
+		private void EnsureMinimumSpawns(string clearingID)
 		{
-			if (GameManager.Instance.CurrentPhase == 1)
+			if (clearingSpawners.ContainsKey(clearingID))
 			{
-				SpawnerObj pointToSpawn;
-				
-				pointToSpawn = RandFromList(forestSpawners).GetComponent<SpawnerObj>();
-				if (currNumSpawns < maxNumSpawns && pointToSpawn.currSpawnCount <= 0)
+				foreach (SpawnerObj spawner in clearingSpawners[clearingID])
 				{
-                    if (!pointToSpawn.startedSpawns)
-                    {
-						pointToSpawn.startedSpawns = true;
+					if (spawner.CurrentSpawnCount == 0)
+					{
+						spawner.SpawnRandLilGuy();
 					}
-					campInitCount++;
 				}
 			}
 		}
 
 		/// <summary>
-		/// Method that spawns a random Legendary at the provided legendarySpawner
+		/// Checks if a clearing can spawn more Lil Guys, ensuring it does not exceed the cap of 3 per spawner.
 		/// </summary>
-		public void SpawnLegendaryGuy()
+		public bool CanSpawnMore(string clearingID)
 		{
-			SpawnerObj targetCamp = RandFromList(legendarySpawners).GetComponent<SpawnerObj>();
-			targetCamp.SpawnLegendary();
-			Debug.Log("Legendary Spawned!");
+			return clearingSpawnCounts.ContainsKey(clearingID) && clearingSpawnCounts[clearingID] < clearingSpawners[clearingID].Count * 3;
 		}
 
 		/// <summary>
-		/// This coroutine handles continuous spawning of Lil Guys as logn as we are in phase 1,
-		/// and we haven't reached our max number of spawns.
+		/// Registers a new Lil Guy spawn within a clearing, increasing the count.
 		/// </summary>
-		private IEnumerator InitialSpawns()
+		public void RegisterSpawn(string clearingID)
 		{
-			isSpawning = true;
-			
-			// Track the number of spawn attempts to avoid an infinite loop
-			while (campInitCount < forestSpawners.Count)
+			if (clearingSpawnCounts.ContainsKey(clearingID))
 			{
-				yield return new WaitForSeconds(0.1f);
-				SpawnForest();
-				
+				clearingSpawnCounts[clearingID]++;
 			}
 		}
 
 		/// <summary>
-		/// Coroutine that spawns a NEW Lil Guy into the forest.
-		/// It waits for spawnDelay
+		/// Deregisters a Lil Guy spawn when one is removed, reducing the count.
 		/// </summary>
-		/// <param name="biomeNum"></param>
-		/// <returns></returns>
-		private IEnumerator RespawnWithDelay()
+		public void DeregisterSpawn(string clearingID)
 		{
-			// Track the number of spawn attempts to avoid an infinite loop
-			while (currNumSpawns < maxNumSpawns)
+			if (clearingSpawnCounts.ContainsKey(clearingID) && clearingSpawnCounts[clearingID] > 0)
 			{
-				yield return new WaitForSeconds(spawnDelay);
-				SpawnForest();
-
+				clearingSpawnCounts[clearingID]--;
 			}
 		}
 
 		/// <summary>
-		/// This method accepts a list of objects and returns a random one from that list.
+		/// Randomly selects a legendary spawner and triggers its SpawnLegendary() method.
+		/// Ensures that legendary Lil Guys are spawned independently of clearing spawn limits.
 		/// </summary>
-		/// <param name="theList"></param>
-		/// <returns> GameObject </returns>
-		public GameObject RandFromList(List<GameObject> theList)
+		public void SpawnLegendaryLilGuy()
 		{
-			return theList[Random.Range(0, theList.Count)];
+			if (legendarySpawners.Count > 0)
+			{
+				SpawnerObj selectedSpawner = legendarySpawners[Random.Range(0, legendarySpawners.Count)];
+				selectedSpawner.SpawnLegendary();
+			}
 		}
-
 	}
-
 }

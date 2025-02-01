@@ -138,19 +138,18 @@ public abstract class LilGuyBase : MonoBehaviour
         StartCoroutine(ScaleUp(initialScale));
 	}
 
-    private IEnumerator ScaleUp(Vector3 scaleTo)
-    {
-        float elapsedTime = 0;
-        while (elapsedTime < 0.25f)
-        {
-            transform.localScale = Vector3.Lerp(Vector3.zero, scaleTo, elapsedTime / 0.25f);
-            elapsedTime += Time.unscaledDeltaTime;
+	private IEnumerator ScaleUp(Vector3 scaleTo)
+	{
+		float elapsedTime = 0;
+		while (elapsedTime < 0.25f)
+		{
+			transform.localScale = Vector3.Lerp(Vector3.zero, scaleTo, elapsedTime / 0.25f);
+			elapsedTime += Time.unscaledDeltaTime;
 			yield return null;
-        }
-
-    }
-
-    public void DetermineLevel()
+		}
+		transform.localScale = scaleTo; // Ensure the final scale is applied
+	}
+	public void DetermineLevel()
     {
         int count = 0;
         int totalLevels = 0;

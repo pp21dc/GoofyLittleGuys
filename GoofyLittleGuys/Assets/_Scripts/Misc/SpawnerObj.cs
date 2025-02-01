@@ -1,181 +1,149 @@
+using Managers;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Collections;
 using UnityEngine;
 
-// Purpose: Spawn Lil Guys within a given distance from this object,
-// after a randomized interval (with given min and max value)
+/// <summary>
+/// Handles spawning and managing Lil Guys in a specific area.
+/// Ensures limits per spawner and per clearing while allowing legendary spawns unrestricted.
+/// </summary>
 public class SpawnerObj : MonoBehaviour
 {
-    
-    [ReadOnly]
-    private float spawnRadius;
+	[SerializeField] private List<GameObject> campLilGuys; // List of possible Lil Guys to spawn
+	[SerializeField] private GameObject legendaryLilGuy; // Legendary Lil Guy prefab
+	[SerializeField] private int maxSpawnCount = 3; // Max Lil Guys per spawner (updated from 2 to 3)
+	[SerializeField] private int spawnDelay = 5; // Delay between spawns
+	[SerializeField] public bool legendarySpawned = false; // If legendary Lil Guy has spawned
 
-	public bool startedSpawns = false; // whether or not to start spawning
-	private bool isSpawning = false; // if we have a coroutine going currently for spawning
+	private int currSpawnCount = 0; // Current count of spawned Lil Guys
+	private bool isSpawning = false; // If a spawn is currently in progress
+	private SpawnManager spawnManager; // Reference to the SpawnManager
+	private SphereCollider spawnArea; // Collider representing the spawn area
+	private string clearingID; // ID representing the clearing this spawner belongs to
 
-    public LayerMask GroundLayer;
+	public LayerMask GroundLayer; // Layer mask for valid ground placement
 
-	[SerializeField] private List<GameObject> campLilGuys;
-	[SerializeField] private GameObject legendaryLilGuy;
-	[SerializeField] private int maxSpawnCount;
-	[SerializeField] private int spawnDelay;
-	[SerializeField] public int currSpawnCount;
-	[SerializeField] public bool legendarySpawned = false;
+	public int CurrentSpawnCount => currSpawnCount;
 
-	private bool isRespawning = false;
-	public float SpawnRadius => spawnRadius;
-	public int SpawnDelay => spawnDelay;
+	public SphereCollider SpawnArea => spawnArea;
 
 	private void Start()
 	{
-		spawnRadius = GetComponent<SphereCollider>().radius;
+		spawnArea = GetComponent<SphereCollider>();
+		spawnManager = SpawnManager.Instance;
+		clearingID = transform.parent.name; // Assuming parent represents the clearing
+		spawnManager.RegisterSpawner(this, clearingID);
+		EnsureAtLeastOneSpawn();
 	}
 
-    private void Update()
-    {
-        if(startedSpawns && currSpawnCount < maxSpawnCount)
-        {
+	private void Update()
+	{
+		if (currSpawnCount < maxSpawnCount && spawnManager.CanSpawnMore(clearingID))
+		{
 			StartSpawning();
-        }
-    }
-
-    /// <summary>
-    /// This method accepts a Lil Guy (or any object) and spawns it
-    /// at a random point within this spawner's radius.
-    /// </summary>
-    /// <param name="newLilGuy"></param>
-    /// <returns></returns>
-    public void SpawnLilGuy(GameObject newLilGuy)
-    {
-        //int failedAttempts = 0;
-        Vector3 spawningPos = PickValidSpot();
-
-        GameObject GO = Instantiate(newLilGuy, spawningPos, Quaternion.identity, Managers.SpawnManager.Instance.transform);
-        GO.layer = LayerMask.NameToLayer("WildLilGuys");
-		GO.GetComponent<LilGuyBase>().DetermineLevel();
-		GO.GetComponent<WildBehaviour>().HomeSpawner = this;
-        
-
-        Managers.SpawnManager.Instance.currNumSpawns++;
-    }
-
-	public void SpawnLegendary()
-	{//int failedAttempts = 0;
-		Vector3 spawningPos = PickValidSpot();
-
-		GameObject GO = Instantiate(legendaryLilGuy, spawningPos, Quaternion.identity, Managers.SpawnManager.Instance.transform);
-		GO.layer = LayerMask.NameToLayer("WildLilGuys");
-
-		GO.GetComponent<WildBehaviour>().HomeSpawner = this;
-
-
-		Managers.SpawnManager.Instance.currNumSpawns++;
+		}
 	}
 
 	/// <summary>
-	/// Spawns a random Lil Guy from this camp/spawner's list of Lil Guys
+	/// Ensures at least one Lil Guy is spawned immediately upon initialization.
+	/// </summary>
+	private void EnsureAtLeastOneSpawn()
+	{
+		if (currSpawnCount == 0)
+		{
+			SpawnRandLilGuy();
+		}
+	}
+
+	/// <summary>
+	/// Spawns a random Lil Guy from the available list.
 	/// </summary>
 	public void SpawnRandLilGuy()
-    {
-		GameObject randLilGuy = RandFromList(campLilGuys);
-		if(currSpawnCount < maxSpawnCount)
-        {
-			SpawnLilGuy(randLilGuy);
-			currSpawnCount++;
-		}
-    }
+	{
+		if (currSpawnCount >= maxSpawnCount || !spawnManager.CanSpawnMore(clearingID)) return;
+
+		GameObject randLilGuy = campLilGuys[Random.Range(0, campLilGuys.Count)];
+		SpawnLilGuy(randLilGuy);
+	}
 
 	/// <summary>
-	/// Simply checks if we aren't already trying to spawn a Lil Guy, then spawns one if not.
+	/// Instantiates a specific Lil Guy at a valid spawn position.
 	/// </summary>
-	public void StartSpawning()
-    {
-        if (!isSpawning && !isRespawning)
-        {
+	private void SpawnLilGuy(GameObject lilGuyPrefab)
+	{
+		Vector3 spawnPos = PickValidSpot();
+		GameObject lilGuy = Instantiate(lilGuyPrefab, spawnPos, Quaternion.identity, Managers.SpawnManager.Instance.transform);
+		lilGuy.layer = LayerMask.NameToLayer("WildLilGuys");
+		lilGuy.GetComponent<WildBehaviour>().HomeSpawner = this;
+		currSpawnCount++;
+		spawnManager.RegisterSpawn(clearingID);
+	}
+
+	/// <summary>
+	/// Spawns the legendary Lil Guy, ignoring normal spawn restrictions.
+	/// </summary>
+	public void SpawnLegendary()
+	{
+		Vector3 spawnPos = PickValidSpot();
+		GameObject legendary = Instantiate(legendaryLilGuy, spawnPos, Quaternion.identity, Managers.SpawnManager.Instance.transform);
+		legendary.layer = LayerMask.NameToLayer("WildLilGuys");
+		legendary.GetComponent<WildBehaviour>().HomeSpawner = this;
+	}
+
+	/// <summary>
+	/// Initiates the delayed spawning process.
+	/// </summary>
+	private void StartSpawning()
+	{
+		if (!isSpawning)
+		{
 			StartCoroutine(DelayedSpawn());
 		}
-    }
+	}
 
 	/// <summary>
-	/// Just waits for a few seconds then spawns a random Lil Guy.
+	/// Waits for a delay before spawning a random Lil Guy.
 	/// </summary>
-	/// <returns></returns>
-	public IEnumerator DelayedSpawn()
-    {
+	private IEnumerator DelayedSpawn()
+	{
 		isSpawning = true;
-		//SpawnRandLilGuy();
 		yield return new WaitForSeconds(spawnDelay);
 		SpawnRandLilGuy();
 		isSpawning = false;
-        if (isRespawning)
-        {
-			isRespawning = false;
-		}
-	}
-
-
-    /// <summary>
-    /// Simply returns a random value to serve as the position within one axis
-    /// (use multiple times to form a random position vector)
-    /// </summary>
-    ///  /// <param name="offset"></param> -> Should be the spawner's position in desired axis
-    /// <returns>float</returns>
-    public float RandPos(float offset)
-    {
-        return (Random.Range(-spawnRadius, spawnRadius)) + offset;
-    }
-
-	/// <summary>
-	/// This method picks a valid spawning position
-	/// </summary>
-	/// <returns>Vector3</returns>
-	private Vector3 PickValidSpot()
-	{
-		const int maxAttempts = 10;
-		const float startHeight = 1000f;  // Height to cast down from
-		Vector3 origin = transform.position;
-
-		for (int i = 0; i < maxAttempts; i++)
-		{
-			// Randomize a position within the spawn radius around the spawner
-			Vector3 spawnPos = new Vector3(
-				RandPos(origin.x),
-				origin.y + startHeight,
-				RandPos(origin.z)
-			);
-
-			// Raycast down from this high position
-			Ray ray = new Ray(spawnPos, Vector3.down);
-			if (Physics.Raycast(ray, out RaycastHit hit, startHeight * 2, GroundLayer))
-			{
-				// If it hits, adjust spawn position slightly above ground level
-				spawnPos = hit.point;
-				spawnPos.y += 2f;  // Offset to prevent clipping into ground
-				return spawnPos;
-			}
-		}
-
-		// If no valid spawn point found, log a warning and return a default position
-		Debug.LogWarning("Failed to find a valid spawn position after max attempts.");
-		return origin + Vector3.up * 2;  // Default to a position slightly above the spawner
 	}
 
 	/// <summary>
-	/// This method accepts a list of objects and returns a random one from that list.
+	/// Removes a Lil Guy from this spawner's count and triggers a respawn attempt.
 	/// </summary>
-	/// <param name="theList"></param>
-	/// <returns> GameObject </returns>
-	public GameObject RandFromList(List<GameObject> theList)
-	{
-		return theList[Random.Range(0, theList.Count)];
-	}
-
 	public void RemoveLilGuyFromSpawns()
 	{
 		currSpawnCount--;
-		isRespawning = true;
+		spawnManager.DeregisterSpawn(clearingID);
 		StartCoroutine(DelayedSpawn());
 	}
 
+	/// <summary>
+	/// Finds a valid ground position within the spawner's radius for spawning.
+	/// </summary>
+	private Vector3 PickValidSpot()
+	{
+		Vector3 origin = transform.position + spawnArea.center;
+		const float startHeight = 1000f;
+
+		for (int i = 0; i < 10; i++)
+		{
+			Vector3 spawnPos = new Vector3(
+				Random.Range(origin.x - spawnArea.radius, origin.x + spawnArea.radius),
+				origin.y + startHeight,
+				Random.Range(origin.z - spawnArea.radius, origin.z + spawnArea.radius)
+			);
+
+			if (Physics.Raycast(spawnPos, Vector3.down, out RaycastHit hit, startHeight * 2, GroundLayer))
+			{
+				spawnPos = hit.point + Vector3.up * 2f;
+				return spawnPos;
+			}
+		}
+		return origin + Vector3.up * 2;
+	}
 }

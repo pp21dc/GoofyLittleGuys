@@ -258,8 +258,7 @@ public class PlayerBody : MonoBehaviour
 		if (closestWildLilGuy != null)
 		{
 			berryCount--;
-
-			SpawnManager.Instance.RemoveLilGuyFromSpawns();
+			closestWildLilGuy.GetComponent<WildBehaviour>().HomeSpawner.RemoveLilGuyFromSpawns();
 			closestWildLilGuy.PlayerOwner = this;
 			closestWildLilGuy.Init(LayerMask.NameToLayer("Player"));
 			closestWildLilGuy.Health = closestWildLilGuy.MaxHealth;
@@ -432,6 +431,7 @@ public class PlayerBody : MonoBehaviour
 	public void SwapLilGuy(float shiftDirection)
 	{
 		if (isSwapping || lilGuyTeam.Count <= 1) return;
+		if (Time.time < nextSwapTime) return;
 		isSwapping = true;
 
 		List<LilGuyBase> aliveTeam = lilGuyTeam.Where(guy => guy.Health > 0).ToList();

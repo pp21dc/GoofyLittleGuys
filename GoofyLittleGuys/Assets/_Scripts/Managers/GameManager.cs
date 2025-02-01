@@ -215,7 +215,7 @@ namespace Managers
 		{
 			if (SpawnManager.Instance != null)
 			{
-				SpawnManager.Instance.SpawnLegendaryGuy();
+				SpawnManager.Instance.SpawnLegendaryLilGuy();
 			}
 		}
 

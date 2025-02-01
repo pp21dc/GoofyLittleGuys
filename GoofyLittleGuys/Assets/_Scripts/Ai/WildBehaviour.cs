@@ -400,7 +400,7 @@ public class WildBehaviour : MonoBehaviour
 
 	private bool IsWithinCamp()
 	{
-		return Physics.OverlapSphere(homeSpawner.transform.position + homeSpawner.GetComponent<SphereCollider>().center, homeSpawner.SpawnRadius).Contains(lilGuyCollider);
+		return Physics.OverlapSphere(homeSpawner.transform.position + homeSpawner.SpawnArea.center, homeSpawner.SpawnArea.radius).Contains(lilGuyCollider);
 	}
 
 	private void OnDestroy()
