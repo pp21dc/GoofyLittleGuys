@@ -291,7 +291,7 @@ public class PlayerBody : MonoBehaviour
 			GameObject catchEffect = Instantiate(FXManager.Instance.GetEffect("Catch"), transform.position, Quaternion.identity);
 			catchEffect.GetComponent<SpriteRenderer>().sortingOrder = (int)-transform.position.z - 1;
 		}
-		else if (lilGuyTeam[0].Health < lilGuyTeam[0].MaxHealth && Time.time > nextBerryUseTime)
+		else if (lilGuyTeam[0].Health < lilGuyTeam[0].MaxHealth && nextBerryUseTime <= 0)
 		{
 			int healthRestored = Mathf.CeilToInt(lilGuyTeam[0].MaxHealth * berryHealPercentage);
 			EventManager.Instance.HealLilGuy(lilGuyTeam[0], healthRestored);
