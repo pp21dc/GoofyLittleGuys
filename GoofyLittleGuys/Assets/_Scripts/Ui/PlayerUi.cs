@@ -13,6 +13,8 @@ public class PlayerUi : MonoBehaviour
     [SerializeField] Image persistentIcon;
     [SerializeField] Image persistentAbilityIcon;
     [SerializeField] TMP_Text berryCountText;
+    [SerializeField] TMP_Text berryCooldownTime;
+    [SerializeField] Image berryCooldownSlider;
 
     [SerializeField] PlayerBody pb;
 
@@ -48,9 +50,19 @@ public class PlayerUi : MonoBehaviour
     public GameObject TempWinText { get => tempWinText; set => tempWinText = value; }
     public RectTransform mirroredXUi; // Assign this in the inspector
 
-
-    private void Update()
+	private void Update()
     {
+        if (pb.NextBerryUseTime > 0)
+        {
+			berryCooldownTime.text = pb.NextBerryUseTime.ToString("0.0");
+			berryCooldownSlider.fillAmount = pb.NextBerryUseTime / pb.BerryCooldown;
+            berryCooldownTime.enabled = true;
+		}
+        else
+        {
+            berryCooldownSlider.fillAmount = 0;
+            berryCooldownTime.enabled = false;
+        }
         if (pb.LilGuyTeam.Count <= 0) return;
         STR_Txt.text = "STR: " + pb.LilGuyTeam[0].Strength.ToString();
         SPD_Txt.text = "SPD: " + pb.LilGuyTeam[0].Speed.ToString();

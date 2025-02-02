@@ -107,7 +107,7 @@ public class CharacterSelectMenu : MonoBehaviour
 
 	void ResetUI()
 	{
-		lilGuyName.text = starters[currStarterIndex].name;
+		lilGuyName.text = starters[currStarterIndex].name.ToUpper();
 		lilGuyPreview.SetInteger("StarterIndex", currStarterIndex);
 
 		float highestStat = Mathf.Max(starters[currStarterIndex].Strength, Mathf.Max(starters[currStarterIndex].Speed, starters[currStarterIndex].Defense));

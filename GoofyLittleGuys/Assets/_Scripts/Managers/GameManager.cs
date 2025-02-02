@@ -19,7 +19,8 @@ namespace Managers
 		[SerializeField] private float currentGameTime = 0;             // Current game time in seconds.
 		[SerializeField] private Transform fountainSpawnPoint;          // The spawn point that players are respawned to in the main game, set by the HealingFountain.cs
 		[SerializeField] private GameObject timerCanvas;                // The Timer UI displayed in between all the split screeens
-		[SerializeField] private TextMeshProUGUI gameTimer;             // The Timer textbox itself
+		[SerializeField] private TMP_Text gameTimer;             // The Timer textbox itself
+		[SerializeField] private TMP_Text timerContext;             // The Timer textbox itself
 		[SerializeField] private float stormTimer = 20.0f; // how long between spawning new storms in phase 2
 		[SerializeField] private AudioSource[] phaseAudioSources; // how long between spawning new storms in phase 2
 
@@ -77,8 +78,10 @@ namespace Managers
 			{
 				// We are in phase 1, so update the timer accordingly.
 				currentGameTime += Time.deltaTime;
+				timerContext.color = Color.white;
+				timerContext.text = "Storm approaches";
 				gameTimer.color = Color.white;
-				gameTime = System.TimeSpan.FromSeconds(currentGameTime);
+				gameTime = System.TimeSpan.FromSeconds((phaseOneStartTime * 60) - currentGameTime);
 				if (gameTimer != null) gameTimer.text = gameTime.ToString("mm':'ss");
 
 				if (currentGameTime >= phaseOneStartTime * 60)
@@ -98,6 +101,8 @@ namespace Managers
 			{
 				if (gameTimer != null)
 				{
+					timerContext.color = Color.red;
+					timerContext.text = "Time until next storm";
 					gameTimer.color = Color.red;
 					gameTimer.text = $"0:{timeUntilNextStorm.ToString("00")}";
 				}

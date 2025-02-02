@@ -44,7 +44,7 @@ public class PlayerBody : MonoBehaviour
 	[SerializeField] private float respawnInvincibility = 3f;
 	[SerializeField] private float swapInvincibility = 0.05f;
 
-	private float nextBerryUseTime = -Mathf.Infinity;
+	private float nextBerryUseTime = 0;
 	private float nextInteractTime = -Mathf.Infinity;
 	private float nextSwapTime = -Mathf.Infinity;
 	private float deathTime = -Mathf.Infinity;
@@ -108,6 +108,8 @@ public class PlayerBody : MonoBehaviour
 	public bool IsDead => isDead;
 	public int BerryCount { get { return berryCount; } set { berryCount = value; } }
 	public bool InMenu { get { return inMenu; } set { inMenu = value; } }
+	public float NextBerryUseTime => nextBerryUseTime;
+	public float BerryCooldown => berryUsageCooldown;
 
 	public InteractableBase ClosestInteractable { get { return closestnteractable; } set { closestnteractable = value; } }
 
@@ -133,6 +135,7 @@ public class PlayerBody : MonoBehaviour
 	}
 	private void Update()
 	{
+		if (nextBerryUseTime > 0) nextBerryUseTime -= Time.deltaTime;
 		hasInteracted = false;
 		if (GameManager.Instance.IsPaused)
 		{
@@ -294,7 +297,7 @@ public class PlayerBody : MonoBehaviour
 			EventManager.Instance.HealLilGuy(lilGuyTeam[0], healthRestored);
 
 			berryCount--;
-			nextBerryUseTime = Time.time + berryUsageCooldown;
+			nextBerryUseTime = berryUsageCooldown;
 			EventManager.Instance.UpdatePlayerHealthUI(this);
 		}
 		EventManager.Instance.UpdatePlayerHealthUI(this);
@@ -501,6 +504,7 @@ public class PlayerBody : MonoBehaviour
 		playerInput.camera.clearFlags = CameraClearFlags.Skybox;
 		controller.PlayerEventSystem.firstSelectedGameObject = null;
 		controller.PlayerEventSystem.gameObject.SetActive(false);
+		playerUi.SetBerryCount(berryCount);
 		playerMesh.SetActive(true);
 	}
 
