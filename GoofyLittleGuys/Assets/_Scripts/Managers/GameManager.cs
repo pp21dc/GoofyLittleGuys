@@ -183,7 +183,7 @@ namespace Managers
 			// Start grand brawl challenge
 			GetStormSets();
 			StartCoroutine(SpawnStorms());
-			StartCoroutine(Crossfade(phaseAudioSources[0], phaseAudioSources[1], 0.5f));
+			StartCoroutine(Crossfade(phaseAudioSources[0], phaseAudioSources[1], 1f));
 
 		}
 		private IEnumerator Crossfade(AudioSource fromSource, AudioSource toSource, float duration)
