@@ -103,17 +103,17 @@ public class PlayerUi : MonoBehaviour
             CurrentCharacter.sprite = iconSprites[(int)LilGuys.Spricket];
         else if (pb.LilGuyTeam[0].GuyName == "Armordillo")
             CurrentCharacter.sprite = iconSprites[(int)LilGuys.Armordillo];
-        else if (pb.LilGuyTeam[0].GuyName == "Phantaphant")
+        else if (pb.LilGuyTeam[0].GuyName == "Phant-a-phant")
             CurrentCharacter.sprite = iconSprites[(int)LilGuys.Phant];
         else if (pb.LilGuyTeam[0].GuyName == "Fishbowl")
             CurrentCharacter.sprite = iconSprites[(int)LilGuys.Fishbowl];
-        else if (pb.LilGuyTeam[0].GuyName == "Turterium")
+        else if (pb.LilGuyTeam[0].GuyName == "Turteriam")
             CurrentCharacter.sprite = iconSprites[(int)LilGuys.Turterium];
         else if (pb.LilGuyTeam[0].GuyName == "Mousecar")
             CurrentCharacter.sprite = iconSprites[(int)LilGuys.Mousecar];
         else if (pb.LilGuyTeam[0].GuyName == "Toadstool")
             CurrentCharacter.sprite = iconSprites[(int)LilGuys.Toadstool];
-        else if (pb.LilGuyTeam[0].GuyName == "Tricerabox")
+        else if (pb.LilGuyTeam[0].GuyName == "Tricera-box")
             CurrentCharacter.sprite = iconSprites[(int)LilGuys.Tricerabox];
         //LB
         if (pb.LilGuyTeam.Count <= 1) return;
@@ -124,17 +124,17 @@ public class PlayerUi : MonoBehaviour
             LBCharacter.sprite = iconSprites[(int)LilGuys.Spricket];
         else if (pb.LilGuyTeam[1].GuyName == "Armordillo")
             LBCharacter.sprite = iconSprites[(int)LilGuys.Armordillo];
-        else if (pb.LilGuyTeam[1].GuyName == "Phantaphant")
+        else if (pb.LilGuyTeam[1].GuyName == "Phant-a-phant")
             LBCharacter.sprite = iconSprites[(int)LilGuys.Phant];
         else if (pb.LilGuyTeam[1].GuyName == "Fishbowl")
             LBCharacter.sprite = iconSprites[(int)LilGuys.Fishbowl];
-        else if (pb.LilGuyTeam[1].GuyName == "Turterium")
+        else if (pb.LilGuyTeam[1].GuyName == "Turteriam")
             LBCharacter.sprite = iconSprites[(int)LilGuys.Turterium];
         else if (pb.LilGuyTeam[1].GuyName == "Mousecar")
             LBCharacter.sprite = iconSprites[(int)LilGuys.Mousecar];
         else if (pb.LilGuyTeam[1].GuyName == "Toadstool")
             LBCharacter.sprite = iconSprites[(int)LilGuys.Toadstool];
-        else if (pb.LilGuyTeam[1].GuyName == "Tricerabox")
+        else if (pb.LilGuyTeam[1].GuyName == "Tricera-box")
             LBCharacter.sprite = iconSprites[(int)LilGuys.Tricerabox];
 		//RB
 		if (pb.LilGuyTeam.Count <= 2) return;
@@ -144,17 +144,17 @@ public class PlayerUi : MonoBehaviour
             RBCharacter.sprite = iconSprites[(int)LilGuys.Spricket];
         else if (pb.LilGuyTeam[2].GuyName == "Armordillo")
             RBCharacter.sprite = iconSprites[(int)LilGuys.Armordillo];
-        else if (pb.LilGuyTeam[2].GuyName == "Phantaphant")
+        else if (pb.LilGuyTeam[2].GuyName == "Phant-a-phant")
             RBCharacter.sprite = iconSprites[(int)LilGuys.Phant];
         else if (pb.LilGuyTeam[2].GuyName == "Fishbowl")
             RBCharacter.sprite = iconSprites[(int)LilGuys.Fishbowl];
-        else if (pb.LilGuyTeam[2].GuyName == "Turterium")
+        else if (pb.LilGuyTeam[2].GuyName == "Turteriam")
             RBCharacter.sprite = iconSprites[(int)LilGuys.Turterium];
         else if (pb.LilGuyTeam[2].GuyName == "Mousecar")
             RBCharacter.sprite = iconSprites[(int)LilGuys.Mousecar];
         else if (pb.LilGuyTeam[2].GuyName == "Toadstool")
             RBCharacter.sprite = iconSprites[(int)LilGuys.Toadstool];
-        else if (pb.LilGuyTeam[2].GuyName == "Tricerabox")
+        else if (pb.LilGuyTeam[2].GuyName == "Tricera-box")
             RBCharacter.sprite = iconSprites[(int)LilGuys.Tricerabox];
     }
     public void SetBerryCount(int count)
