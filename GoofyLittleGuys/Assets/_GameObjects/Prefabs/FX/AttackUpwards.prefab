@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5790815869585271762}
   - component: {fileID: 4407737617544345687}
   - component: {fileID: 134636407147498330}
+  - component: {fileID: 5358951756218194656}
   m_Layer: 0
   m_Name: AttackUpwards
   m_TagString: Untagged
@@ -106,3 +107,15 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &5358951756218194656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5560988675122072843}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84f29e322cdb48b469422eaf709eea18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -3,7 +3,17 @@ guid: d0b1931727cfd41c5bc2b5a72ba9734a
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - mesh: {instanceID: 0}
+  - hitboxPrefab: {instanceID: 0}
+  - basicFxPrefab: {fileID: 6289883933322449799, guid: f3d71d1644122624ebc96371258e6023,
+      type: 3}
+  - anim: {instanceID: 0}
+  - attackPosition: {instanceID: 0}
+  - attackOrbit: {instanceID: 0}
+  - healFXPrefab: {instanceID: 0}
+  - audioSource: {instanceID: 0}
+  - attackEffect: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

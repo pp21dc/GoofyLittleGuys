@@ -4,7 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.InputSystem.XR;
 
 public abstract class LilGuyBase : MonoBehaviour
 {
@@ -14,6 +13,7 @@ public abstract class LilGuyBase : MonoBehaviour
     [SerializeField] protected PrimaryType type;
     [SerializeField] protected SpriteRenderer mesh;
     [SerializeField] protected GameObject hitboxPrefab;
+    [SerializeField] protected GameObject basicFxPrefab;
     [SerializeField] protected Animator anim;
     [SerializeField] protected Transform attackPosition;
     [SerializeField] protected Transform attackOrbit;
@@ -81,6 +81,7 @@ public abstract class LilGuyBase : MonoBehaviour
     GameObject levelUpEffect;
     public GameObject LevelUpEffect => levelUpEffect;
 	private GameObject instantiatedHitbox;
+    private GameObject instantiatedBasicFx;
     private float lastAttackTime = -999f; // Tracks the last time an attack occurred
 
     private bool isDead = false;
@@ -483,12 +484,18 @@ public abstract class LilGuyBase : MonoBehaviour
             // Configure the hitbox
             Hitbox hitbox = instantiatedHitbox.GetComponent<Hitbox>();
             hitbox.Init(gameObject); // Pass the target directly to enhance accuracy
+            
+            // Spawn in Fx prefab along-side hitbox
+            instantiatedBasicFx = Instantiate(basicFxPrefab, attackPosition.position, Quaternion.identity, gameObject.transform);
+            var fx = instantiatedBasicFx.GetComponent<BasicAttackFx>();
+            fx.Init(this);
         }
 
         if (anim == null)
         {
             // There's no animation event to tell this hitbox to destroy itself so we'll do it after 0.2s
             Destroy(instantiatedHitbox, 0.2f);
+            Destroy(instantiatedBasicFx, 0.2f);
         }
     }
 

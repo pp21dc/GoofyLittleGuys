@@ -3,7 +3,6 @@
 public class BasicAttackFx : MonoBehaviour
 {
     private static readonly int Attack = Animator.StringToHash("Attack");
-    [SerializeField] private Hitbox hitbox;
     [SerializeField] private Animator centerAttack;
     [SerializeField] private Animator upwardsAttack;
     [SerializeField] private Animator downwardsAttack;
@@ -18,10 +17,13 @@ public class BasicAttackFx : MonoBehaviour
      * I also flipped the single line if statements so it's fine :3
      */
 
+    public void Init(LilGuyBase owner)
+    {
+        _owner = owner;
+    }
+    
     private void Start()
     {
-        _owner = hitbox.hitboxOwner.GetComponent<LilGuyBase>();
-        
         _rotation = _owner.AttackOrbit.rotation.eulerAngles.y;
 
         var convertRotation = ConvertRotation(_rotation);
