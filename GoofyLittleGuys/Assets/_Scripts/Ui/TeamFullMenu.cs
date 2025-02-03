@@ -34,7 +34,8 @@ public class TeamFullMenu : MonoBehaviour
 			TextMeshProUGUI label = buttons[i].GetComponentInChildren<TextMeshProUGUI>();
 			if (label != null)
 			{
-				label.text = body.LilGuyTeam[i].GuyName;
+				label.text = body.LilGuyTeam[i].GuyName + "\n Lvl: " + body.LilGuyTeam[i].Level + "\n HP: " + body.LilGuyTeam[i].Health;
+
 			}
 		}
 	}

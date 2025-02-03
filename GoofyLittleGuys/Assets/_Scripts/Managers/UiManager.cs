@@ -15,7 +15,9 @@ namespace Managers
         [SerializeField] private GameObject playerUiPrefab;     // Prefab for ingame player UI
 
         [SerializeField] private GameObject settingsInitButton;
-        
+
+        [SerializeField] public List<Sprite> shapes = new List<Sprite>();
+
         [SerializeField] List<PlayerUi> playerUis;              //List of PlayerUi prefab canvases 
         private void Start()
         {
