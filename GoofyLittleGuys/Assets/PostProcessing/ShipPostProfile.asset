@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d7fd9488000d3734a9e00ee676215985, type: 3}
-  m_Name: PondPostProfile
+  m_Name: ShipPostProfile
   m_EditorClassIdentifier: 
   components:
   - {fileID: 6512289754411072084}
@@ -30,10 +30,10 @@ MonoBehaviour:
   active: 1
   shadows:
     m_OverrideState: 1
-    m_Value: {r: 0.6698113, g: 0.3821338, b: 0.28119436, a: 1}
+    m_Value: {r: 0.4528302, g: 0.45258692, b: 0.27554289, a: 1}
   highlights:
     m_OverrideState: 1
-    m_Value: {r: 0.32941175, g: 0.85882354, b: 0.66645825, a: 1}
+    m_Value: {r: 0.6603774, g: 0.43697432, b: 0.23985404, a: 1}
   balance:
     m_OverrideState: 0
     m_Value: 0
@@ -52,7 +52,7 @@ MonoBehaviour:
   active: 1
   postExposure:
     m_OverrideState: 1
-    m_Value: 0.2
+    m_Value: 0.3
   contrast:
     m_OverrideState: 0
     m_Value: 0
@@ -61,7 +61,7 @@ MonoBehaviour:
     m_Value: {r: 1, g: 1, b: 1, a: 1}
   hueShift:
     m_OverrideState: 1
-    m_Value: 1.96
+    m_Value: -2.02
   saturation:
     m_OverrideState: 1
-    m_Value: -1.69
+    m_Value: 2.51
