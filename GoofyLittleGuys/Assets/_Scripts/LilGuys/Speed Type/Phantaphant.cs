@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -40,9 +40,11 @@ public class Phantaphant : SpeedType
 
 		if (rb != null && targetPosition != null)
 		{
-			Vector3 validatedTeleportPosition = GetValidTeleportPosition(directionToTarget);
+			// Get the latest position of the target right before teleporting
+			Vector3 latestTargetPosition = targetPosition.position;
 
-			rb.MovePosition(validatedTeleportPosition);
+			// Instantly move Phant to the target’s last known position
+			rb.MovePosition(latestTargetPosition);
 			LilGuyBase targLilGuy = targetPosition.GetComponent<LilGuyBase>();
 			Instantiate(FXManager.Instance.GetEffect("PhantaphantTeleport"), targLilGuy.transform.position, Quaternion.identity, targLilGuy.transform);
 		}
@@ -63,25 +65,6 @@ public class Phantaphant : SpeedType
 
 		EventManager.Instance.ApplyDebuff(slowedEntity, slowAmount, slowDuration, DebuffType.Slow);
 		OnEndSpecial();
-	}
-
-	private Vector3 GetValidTeleportPosition(Vector3 predictedPosition)
-	{
-		Vector3 startPos = transform.position;
-		Vector3 direction = (predictedPosition - startPos).normalized;
-		float distance = Vector3.Distance(startPos, predictedPosition);
-
-		RaycastHit hit;
-
-		// Raycast to check if there's an obstacle between current position and predicted position
-		if (Physics.Raycast(startPos, direction, out hit, distance, LayerMask.GetMask("PitColliders")))
-		{
-			// If there's an obstacle, adjust the teleport position to just before the hit point
-			return hit.point - (direction * 1.5f); // Adjusts to be slightly before the wall
-		}
-
-		// No obstacles, return the predicted position
-		return predictedPosition;
 	}
 
 	protected override void OnEndSpecial()
@@ -120,7 +103,7 @@ public class Phantaphant : SpeedType
 
 		foreach (Collider collider in nearbyColliders)
 		{
-			if (collider.transform == transform) continue; // Ignore itself
+			if (collider.transform == transform) continue;
 			LilGuyBase lilGuy = collider.GetComponent<LilGuyBase>();
 			if (lilGuy == null || lilGuy.Health <= 0) continue;
 
@@ -130,9 +113,15 @@ public class Phantaphant : SpeedType
 				closestDistance = distance;
 				closestTarget = collider.transform;
 
-				// Get target's velocity if it has a Rigidbody
-				if (lilGuy != null)
+				// Get the most recent velocity
+				Rigidbody rb = lilGuy.GetComponent<Rigidbody>();
+				if (rb != null)
 				{
+					closestTargetVelocity = rb.velocity; // Get the real-time velocity from Rigidbody
+				}
+				else
+				{
+					// If no Rigidbody, use stored movement direction
 					closestTargetVelocity = lilGuy.PlayerOwner != null ? lilGuy.PlayerOwner.CurrentVelocity : lilGuy.CurrentVelocity;
 				}
 			}
@@ -142,14 +131,43 @@ public class Phantaphant : SpeedType
 		{
 			targetPosition = closestTarget;
 			AnimationClip clip = anim.runtimeAnimatorController.animationClips.First(clip => clip.name == "InSpecial");
-			// Predict where the target *will* be
-			float teleportTime = clip.length; // Adjust this for fine-tuning
+
+			float teleportTime = clip.length;
+
+			// Ensure velocity is non-zero before using it for prediction
+			if (closestTargetVelocity.magnitude < 0.1f)
+			{
+				closestTargetVelocity = Vector3.zero; // Avoid bad predictions when the target is not moving
+			}
+
 			directionToTarget = PredictFuturePosition(closestTarget.position, closestTargetVelocity, teleportTime);
 		}
 	}
 
+	#region Old Prediction Code (Remove in Future if Current is better)
+	private Vector3 GetValidTeleportPosition(Vector3 predictedPosition)
+	{
+		Vector3 startPos = transform.position;
+		Vector3 direction = (predictedPosition - startPos).normalized;
+		float distance = Vector3.Distance(startPos, predictedPosition);
+
+		RaycastHit hit;
+
+		// Raycast to check if there's an obstacle between current position and predicted position
+		if (Physics.Raycast(startPos, direction, out hit, distance, LayerMask.GetMask("PitColliders")))
+		{
+			// If there's an obstacle, adjust the teleport position to just before the hit point
+			return hit.point - (direction * 1.5f); // Adjusts to be slightly before the wall
+		}
+
+		// No obstacles, return the predicted position
+		return predictedPosition;
+	}
+
 	private Vector3 PredictFuturePosition(Vector3 currentPos, Vector3 velocity, float timeAhead)
 	{
-		return currentPos + (velocity * timeAhead);
+		Vector3 futurePos = currentPos + (velocity * timeAhead);
+		return futurePos;
 	}
+	#endregion
 }
