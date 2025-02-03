@@ -31,6 +31,7 @@ public class Armordillo : DefenseType
 		base.Special();
 		if (speedBoostActive) return;
 		speed += speedBoost;
+		CalculateMoveSpeed();
 		StartCoroutine(StopSpeedBoost());
 		speedBoostActive = true;
 
@@ -42,6 +43,7 @@ public class Armordillo : DefenseType
 	{
 		yield return new WaitForSeconds(specialDuration);
 		speed -= speedBoost;
+		CalculateMoveSpeed();
 		speedBoostActive = false;
 	}
 }
