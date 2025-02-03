@@ -24,6 +24,8 @@ public class TeamFullMenu : MonoBehaviour
 		playerEventSystem.firstSelectedGameObject = buttons[0].gameObject;
 		playerEventSystem.SetSelectedGameObject(buttons[0].gameObject);
 
+		player.GetComponent<PlayerController>().InTeamFullMenu = true;
+
 		body = player.GetComponent<PlayerController>().Body;
 		body.SetInvincible(-1);
 
@@ -39,6 +41,7 @@ public class TeamFullMenu : MonoBehaviour
 
 	private void OnDisable()
 	{
+		player.GetComponent<PlayerController>().InTeamFullMenu = false;
 		player.SwitchCurrentActionMap("World");             // Switch back to world action map
 		// Set the first selected button to "Yes"
 		playerEventSystem.gameObject.SetActive(false);

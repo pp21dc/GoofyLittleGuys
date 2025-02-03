@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour
 	private bool showTeamUI = true;
 	private bool showMinimap = true;
 	private bool hasJoined = false;
+	private bool inTeamFullMenu = false;
+	public bool InTeamFullMenu { get { return inTeamFullMenu; } set { inTeamFullMenu = value; } }
 
 	public bool HasJoined { get { return hasJoined; } set { hasJoined = value; } }
 

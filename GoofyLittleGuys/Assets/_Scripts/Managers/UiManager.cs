@@ -29,6 +29,10 @@ namespace Managers
         {
             GameManager.Instance.IsPaused = false;
 			Time.timeScale = 1;
+			foreach (PlayerBody body in GameManager.Instance.Players)
+			{
+				body.Controller.PlayerEventSystem.gameObject.SetActive(true);
+			}
 			pauseScreen.SetActive(GameManager.Instance.IsPaused);
             EnableAllPlayerInputs();
         }
@@ -69,7 +73,8 @@ namespace Managers
             foreach (var playerInput in FindObjectsOfType<PlayerInput>())
             {
                 playerInput.ActivateInput(); // Reactivate input for all players
-                playerInput.SwitchCurrentActionMap("World"); // Switch back to gameplay action map
+                if (playerInput.GetComponent<PlayerController>().InTeamFullMenu) playerInput.SwitchCurrentActionMap("UI");
+				else playerInput.SwitchCurrentActionMap("World"); // Switch back to gameplay action map
             }
         }
 
@@ -80,9 +85,22 @@ namespace Managers
         private void GamePaused(PlayerInput player)
         {
             pauseScreen.SetActive(GameManager.Instance.IsPaused);
-			if (GameManager.Instance.IsPaused)
+            if (GameManager.Instance.IsPaused)
+			{
 				Time.timeScale = 0;
-			else Time.timeScale = 1;
+				foreach (PlayerBody body in GameManager.Instance.Players)
+                {
+                    body.Controller.PlayerEventSystem.gameObject.SetActive(false);
+				}
+            }
+            else
+            {
+                Time.timeScale = 1;
+				foreach (PlayerBody body in GameManager.Instance.Players)
+				{
+					body.Controller.PlayerEventSystem.gameObject.SetActive(true);
+				}
+			}
 			pauseEventSystem.GetComponent<InputSystemUIInputModule>().actionsAsset = player.actions;    // Set the UI input module's input to be the player who paused.
 
             DisableAllPlayerInputs();
