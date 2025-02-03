@@ -50,4 +50,11 @@ public class Toadstool : DefenseType
 		affectedRB.isKinematic = false;
 		isShieldActive = false;
 	}
+
+	protected override void OnDisable()
+	{
+		base.OnDisable();
+		affectedRB.isKinematic = false;
+		isShieldActive = false;
+	}
 }

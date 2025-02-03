@@ -22,6 +22,12 @@ public class Turteriam : DefenseType
 	protected override void Start()
 	{
 		base.Start();
+		OnDeath += DeleteDome;
+	}
+
+	public void DeleteDome()
+	{
+		if (instantiatedDome != null) Destroy(instantiatedDome);
 	}
 
 	// Update is called once per frame
@@ -32,12 +38,14 @@ public class Turteriam : DefenseType
 
 	private void OnDestroy()
 	{
-		if (instantiatedDome != null) Destroy(instantiatedDome);
+		DeleteDome();
+		OnDeath -= DeleteDome;
 	}
 
-	private void OnDisable()
+	protected override void OnDisable()
 	{
-		if (instantiatedDome != null) Destroy(instantiatedDome);
+		DeleteDome();
+		base.OnDisable();
 	}
 	public override void StartChargingSpecial()
 	{

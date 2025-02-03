@@ -695,7 +695,7 @@ public abstract class LilGuyBase : MonoBehaviour
         instantiatedHeal.GetComponent<SpriteRenderer>().sortingOrder = mesh.sortingOrder + 1;
     }
 
-	private void OnDisable()
+	protected virtual void OnDisable()
 	{
 		Poison poison = GetComponent<Poison>();
         if (poison != null) Destroy(poison);
