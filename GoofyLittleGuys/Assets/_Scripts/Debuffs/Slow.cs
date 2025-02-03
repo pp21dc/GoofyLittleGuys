@@ -23,12 +23,12 @@ public class Slow : Debuff
 		LilGuyBase lilGuy = GetComponent<LilGuyBase>();
 		if (body != null)
 		{
-			body.TeamSpeedBoost -= damage;
+			body.LilGuyTeam[0].MoveSpeedModifier = Mathf.Max(lilGuy.MoveSpeedModifier + damage, 0.1f);
 		}
 		else
 		{
 
-			lilGuy.BaseSpeed -= (int)damage;
+			lilGuy.MoveSpeedModifier = Mathf.Max(lilGuy.MoveSpeedModifier +  damage, 0.1f);
 		}
 
 		while (getCurrentDuration() < duration)
@@ -48,11 +48,11 @@ public class Slow : Debuff
 		LilGuyBase lilGuy = GetComponent<LilGuyBase>(); 
 		if (body != null)
 		{
-			body.TeamSpeedBoost += damage;
+			body.LilGuyTeam[0].MoveSpeedModifier = Mathf.Max(lilGuy.MoveSpeedModifier - damage, 1f);
 		}
 		else
 		{
-			lilGuy.BaseSpeed += (int)damage;
+			lilGuy.MoveSpeedModifier = Mathf.Max(lilGuy.MoveSpeedModifier - damage, 1f);
 		}
 	}
 }
