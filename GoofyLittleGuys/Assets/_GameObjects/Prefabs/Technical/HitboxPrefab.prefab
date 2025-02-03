@@ -75,7 +75,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7763503517924717934}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -133,7 +133,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7763503517924717934}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f75a55e0d51e49fcbb752141bf7be6ed, type: 3}
   m_Name: 
@@ -155,6 +155,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: AttackCenter
       objectReference: {fileID: 0}
+    - target: {fileID: 5508847459989876671, guid: 236ce2137056aff468c0bb9980ccaefa,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8726878711411236837, guid: 236ce2137056aff468c0bb9980ccaefa,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8726878711411236837, guid: 236ce2137056aff468c0bb9980ccaefa,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8726878711411236837, guid: 236ce2137056aff468c0bb9980ccaefa,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 8726878711411236837, guid: 236ce2137056aff468c0bb9980ccaefa,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -163,7 +183,7 @@ PrefabInstance:
     - target: {fileID: 8726878711411236837, guid: 236ce2137056aff468c0bb9980ccaefa,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 8726878711411236837, guid: 236ce2137056aff468c0bb9980ccaefa,
         type: 3}
@@ -232,13 +252,28 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2510376478626190757, guid: 3fba83ed5e835d04ba258dcc379c2c3a,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2510376478626190757, guid: 3fba83ed5e835d04ba258dcc379c2c3a,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2510376478626190757, guid: 3fba83ed5e835d04ba258dcc379c2c3a,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2510376478626190757, guid: 3fba83ed5e835d04ba258dcc379c2c3a,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2510376478626190757, guid: 3fba83ed5e835d04ba258dcc379c2c3a,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 2510376478626190757, guid: 3fba83ed5e835d04ba258dcc379c2c3a,
         type: 3}
@@ -285,6 +320,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: AttackDownwards
       objectReference: {fileID: 0}
+    - target: {fileID: 5730664529170388639, guid: 3fba83ed5e835d04ba258dcc379c2c3a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -315,6 +355,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: AttackUpwards
       objectReference: {fileID: 0}
+    - target: {fileID: 5560988675122072843, guid: f8e77888188daa94ba79f4fb69aec0ae,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5790815869585271762, guid: f8e77888188daa94ba79f4fb69aec0ae,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5790815869585271762, guid: f8e77888188daa94ba79f4fb69aec0ae,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5790815869585271762, guid: f8e77888188daa94ba79f4fb69aec0ae,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 5790815869585271762, guid: f8e77888188daa94ba79f4fb69aec0ae,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -323,7 +383,7 @@ PrefabInstance:
     - target: {fileID: 5790815869585271762, guid: f8e77888188daa94ba79f4fb69aec0ae,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 5790815869585271762, guid: f8e77888188daa94ba79f4fb69aec0ae,
         type: 3}

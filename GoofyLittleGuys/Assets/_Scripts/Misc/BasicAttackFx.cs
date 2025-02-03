@@ -2,6 +2,7 @@
 
 public class BasicAttackFx : MonoBehaviour
 {
+    private static readonly int Attack = Animator.StringToHash("Attack");
     [SerializeField] private Hitbox hitbox;
     [SerializeField] private Animator centerAttack;
     [SerializeField] private Animator upwardsAttack;
@@ -10,45 +11,65 @@ public class BasicAttackFx : MonoBehaviour
     private LilGuyBase _owner;
     private float _rotation;
     private bool _flip;
+    
+    /*
+     * just now realizing i switched the logic for flipping the fx,
+     * so when flip is true it doesn't flip and when it's false it does.
+     * I also flipped the single line if statements so it's fine :3
+     */
 
-    private void Awake()
+    private void Start()
     {
         _owner = hitbox.hitboxOwner.GetComponent<LilGuyBase>();
+        
+        _rotation = _owner.AttackOrbit.rotation.eulerAngles.y;
+
+        var convertRotation = ConvertRotation(_rotation);
+        Debug.Log($"convertRotation: {convertRotation} & _rotation: {_rotation}");
+        switch (convertRotation)
+        {
+            // Upwards animation
+            case > 25:
+                upwardsAttack.gameObject.SetActive(true);
+                upwardsAttack.ResetTrigger(Attack);
+                upwardsAttack.SetTrigger(Attack);
+                break;
+            // Downwards animation
+            case < -25:
+                downwardsAttack.gameObject.SetActive(true);
+                downwardsAttack.ResetTrigger(Attack);
+                downwardsAttack.SetTrigger(Attack);
+                break;
+            // Center animation
+            default:
+                centerAttack.gameObject.SetActive(true);
+                centerAttack.ResetTrigger(Attack);
+                centerAttack.SetTrigger(Attack);
+                break;
+        }
     }
 
     private void Update()
     {
-        // Flip the sprite to left or right for proper direction
-        _rotation = _owner.AttackOrbit.rotation.y;
-        _flip = Mathf.Abs(_rotation) < 90;
+        // flippin code (flip the attack to proper orientation)
+        _rotation = _owner.AttackOrbit.rotation.eulerAngles.y;
+        _flip = Mathf.Abs(_rotation) > 90 || Mathf.Abs(_rotation) < -90;
 
-        _rotation = ConvertRotation(_rotation);
-        if (_rotation is > 25 and <= 90) // Upwards animation
+        var convertRotation = ConvertRotation(_rotation);
+        switch (convertRotation)
         {
-            if (_flip)
-                upwardsAttack.transform.rotation = Quaternion.Euler(0, 180, 0);
-            else
-                upwardsAttack.transform.rotation = Quaternion.Euler(0, 0, 0);
-            
-            // up and check flip
-        }
-        else if (_rotation is >= -90 and < -25) // Downwards animation
-        {
-            if (_flip)
-                downwardsAttack.transform.rotation = Quaternion.Euler(0, 180, 0);
-            else
-                downwardsAttack.transform.rotation = Quaternion.Euler(0, 0, 0);
-            
-            // down and check flip
-        }
-        else // Center animation
-        {
-            if (_flip)
-                centerAttack.transform.rotation = Quaternion.Euler(0, 180, 0);
-            else
-                centerAttack.transform.rotation = Quaternion.Euler(0, 0, 0);
-            
-            //center and check flip
+            // Upwards animation
+            case > 25:
+                upwardsAttack.gameObject.transform.rotation = Quaternion.Euler(0, _flip ? 0 : 180, 0);
+                break;
+            // Downwards animation
+            case < -25:
+                downwardsAttack.gameObject.transform.rotation = Quaternion.Euler(0, _flip ? 0 : 180, 0);
+                break;
+            // Center animation
+            default:
+                centerAttack.gameObject.transform.rotation = Quaternion.Euler(0, _flip ? 0 : 180, 0);
+                break;
         }
     }
 
@@ -59,8 +80,17 @@ public class BasicAttackFx : MonoBehaviour
     /// <returns>Converted rotation value</returns>
     private float ConvertRotation(float rotation)
     {
-        return rotation > 90 ? (rotation - 180) * -1 : (rotation < -90 ? (rotation + 180) * -1 : rotation);
+        // had this line for some reason it doesnt work properly even tho the math seems fine... idk come back later :3
+        //return rotation > 90 ? (rotation - 180) * -1 : (rotation < -90 ? (rotation + 180) * -1 : rotation);
+
+        if (rotation > 90)
+        {
+            return (rotation - 180) * -1;
+        }
+        if (rotation < -90)
+        {
+            return (rotation + 180) * -1;
+        }
+        return rotation;
     }
-    
-    
 }
