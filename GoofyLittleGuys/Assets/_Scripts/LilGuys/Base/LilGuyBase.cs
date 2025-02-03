@@ -52,6 +52,8 @@ public abstract class LilGuyBase : MonoBehaviour
     [Header("Movement Specific")]
     [SerializeField] private float accelerationTime = 0.1f;  // Time to reach target speed
     private Rigidbody rb;
+    private float movementSpeed;
+    protected float moveSpeedModifier = 1;
     private Vector3 currentVelocity = Vector3.zero;
     protected Vector3 movementDirection = Vector3.zero;
 
@@ -103,6 +105,8 @@ public abstract class LilGuyBase : MonoBehaviour
     public PlayerBody PlayerOwner { get => playerOwner; set => playerOwner = value; }
     public Rigidbody RB => rb;
     public Vector3 MovementDirection { get { return movementDirection; } set { movementDirection = value; } }
+    public float MovementSpeed { get { return movementSpeed; } set => movementSpeed = value; }
+    public float MoveSpeedModifier { get { return moveSpeedModifier; } set => moveSpeedModifier = value; }
     public Vector3 CurrentVelocity => currentVelocity;
     public PrimaryType Type { get => type; set => type = value; }
     public bool IsMoving { get { return isMoving; } set { isMoving = value; } }
@@ -136,6 +140,7 @@ public abstract class LilGuyBase : MonoBehaviour
         instantiantedFX.GetComponent<SpriteRenderer>().sortingOrder = (int)-transform.position.z - 1;
         Vector3 initialScale = gameObject.transform.localScale;
         StartCoroutine(ScaleUp(initialScale));
+		CalculateMoveSpeed();
 	}
 
 	private IEnumerator ScaleUp(Vector3 scaleTo)
@@ -228,6 +233,7 @@ public abstract class LilGuyBase : MonoBehaviour
     }
     protected virtual void Update()
     {
+
         // Flip character
         mesh.sortingOrder = (int)-transform.position.z;
         if (GameManager.Instance.IsPaused)
@@ -595,7 +601,9 @@ public abstract class LilGuyBase : MonoBehaviour
         }
         Level++;
         max_xp = (Level) * 5;
-    }
+
+		CalculateMoveSpeed();
+	}
 
     public void AddXP(int xpToAdd)
     {
@@ -636,8 +644,15 @@ public abstract class LilGuyBase : MonoBehaviour
         return Physics.Raycast(rb.position + Vector3.up, Vector3.down, 2f, LayerMask.GetMask("Ground"));
     }
 
-    public virtual void MoveLilGuy(float speedAdjustment = 1f)
+    public void CalculateMoveSpeed()
     {
+		movementSpeed = (baseSpeed + ((playerOwner != null) ? speed : speed * 0.75f) * 0.3f);
+	}
+
+    public virtual void MoveLilGuy(float speedAdjustment = 1f)
+	{
+		// Calculate total movement speed.
+
 		if (knockedBack)
 		{
 			// If knocked back, let the Rigidbody's current velocity handle movement.
@@ -650,7 +665,7 @@ public abstract class LilGuyBase : MonoBehaviour
 			velocity.y = 0;
 
 			// Move the creature towards the player with smoothing
-			Vector3 targetVelocity = movementDirection.normalized * ((baseSpeed + ((playerOwner != null) ? speed : speed * 0.75f) * 0.3f) * speedAdjustment);
+			Vector3 targetVelocity = movementDirection.normalized * movementSpeed * speedAdjustment * moveSpeedModifier;
 
 			// Smoothly accelerate towards the target velocity
 			currentVelocity = Vector3.Lerp(currentVelocity, targetVelocity, Time.fixedDeltaTime / accelerationTime);

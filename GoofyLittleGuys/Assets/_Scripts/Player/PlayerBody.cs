@@ -183,7 +183,7 @@ public class PlayerBody : MonoBehaviour
 		if (flip) playerMesh.transform.rotation = new Quaternion(0, 1, 0, 0);
 		else playerMesh.transform.rotation = new Quaternion(0, 0, 0, 1);
 
-		if (lilGuyTeam.Count > 0 && lilGuyTeam != null && lilGuyTeam[0] != null) maxSpeed = (lilGuyTeam[0].BaseSpeed + (lilGuyTeam[0].Speed * 0.3f) + teamSpeedBoost);
+		if (lilGuyTeam.Count > 0 && lilGuyTeam != null && lilGuyTeam[0] != null) maxSpeed = (lilGuyTeam[0].MovementSpeed + teamSpeedBoost);
 
 		if (!IsGrounded())
 		{
@@ -207,7 +207,7 @@ public class PlayerBody : MonoBehaviour
 			else
 			{
 				// Calculate the target velocity based on input direction
-				targetVelocity = movementDirection.normalized * (lilGuyTeam[0].BaseSpeed + (lilGuyTeam[0].Speed * 0.3f) + teamSpeedBoost);
+				targetVelocity = movementDirection.normalized * (lilGuyTeam[0].MovementSpeed * lilGuyTeam[0].MoveSpeedModifier + teamSpeedBoost);
 				// Smoothly accelerate towards the target velocity
 				currentVelocity = Vector3.Lerp(currentVelocity, targetVelocity, Time.fixedDeltaTime / accelerationTime);
 			}
@@ -268,6 +268,7 @@ public class PlayerBody : MonoBehaviour
 			closestWildLilGuy.GetComponent<AiController>().SetState(AiController.AIState.Tamed);
 			closestWildLilGuy.GetComponent<Hurtbox>().LastHit = null;
 			closestWildLilGuy.LeaveDeathAnim();
+			closestWildLilGuy.CalculateMoveSpeed();
 			if (LilGuyTeam.Count < 3)
 			{
 
