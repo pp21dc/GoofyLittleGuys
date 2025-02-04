@@ -298,6 +298,7 @@ public class PlayerBody : MonoBehaviour
 			EventManager.Instance.HealLilGuy(lilGuyTeam[0], healthRestored);
 
 			berryCount--;
+			lilGuyTeam[0].PlaySound("Eat_Berry");
 			nextBerryUseTime = berryUsageCooldown;
 			EventManager.Instance.UpdatePlayerHealthUI(this);
 		}
