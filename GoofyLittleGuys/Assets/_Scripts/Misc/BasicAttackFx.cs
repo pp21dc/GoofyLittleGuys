@@ -31,13 +31,13 @@ public class BasicAttackFx : MonoBehaviour
         switch (convertRotation)
         {
             // Upwards animation
-            case > 25:
+            case > 25 and < 90:
                 upwardsAttack.gameObject.SetActive(true);
                 upwardsAttack.ResetTrigger(Attack);
                 upwardsAttack.SetTrigger(Attack);
                 break;
             // Downwards animation
-            case < -25:
+            case < 335 and > 270:
                 downwardsAttack.gameObject.SetActive(true);
                 downwardsAttack.ResetTrigger(Attack);
                 downwardsAttack.SetTrigger(Attack);
@@ -55,17 +55,17 @@ public class BasicAttackFx : MonoBehaviour
     {
         // flippin code (flip the attack to proper orientation)
         _rotation = _owner.AttackOrbit.rotation.eulerAngles.y;
-        _flip = Mathf.Abs(_rotation) > 90 || Mathf.Abs(_rotation) < -90;
+        _flip = _rotation is > 90 and < 270;
 
         var convertRotation = ConvertRotation(_rotation);
         switch (convertRotation)
         {
             // Upwards animation
-            case > 25:
+            case > 25 and < 90:
                 upwardsAttack.gameObject.transform.rotation = Quaternion.Euler(0, _flip ? 0 : 180, 0);
                 break;
             // Downwards animation
-            case < -25:
+            case < 335 and > 270:
                 downwardsAttack.gameObject.transform.rotation = Quaternion.Euler(0, _flip ? 0 : 180, 0);
                 break;
             // Center animation
@@ -76,23 +76,13 @@ public class BasicAttackFx : MonoBehaviour
     }
 
     /// <summary>
-    /// Convert the rotation to constantly be between 90 and -90 based on the attack orbit of a player
+    /// Convert the rotation to constantly be between quadrants 1 and 4 when given a rotation
     /// </summary>
     /// <param name="rotation">Rotation to convert</param>
     /// <returns>Converted rotation value</returns>
     private float ConvertRotation(float rotation)
     {
-        // had this line for some reason it doesnt work properly even tho the math seems fine... idk come back later :3
-        //return rotation > 90 ? (rotation - 180) * -1 : (rotation < -90 ? (rotation + 180) * -1 : rotation);
-
-        if (rotation > 90)
-        {
-            return (rotation - 180) * -1;
-        }
-        if (rotation < -90)
-        {
-            return (rotation + 180) * -1;
-        }
-        return rotation;
+        return rotation is > 90 and < 270 ? (rotation is < 180 ? (rotation - 180) * -1 : 360 - (rotation - 180)) 
+            : rotation;
     }
 }
