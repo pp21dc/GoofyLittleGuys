@@ -4172,6 +4172,11 @@ PrefabInstance:
       objectReference: {fileID: 2076096001799409681}
     - target: {fileID: 1910863067338394544, guid: 110c20c757e90874fad83a63fb1d8c6e,
         type: 3}
+      propertyPath: AbilityIcon
+      value: 
+      objectReference: {fileID: 7938909950438407753}
+    - target: {fileID: 1910863067338394544, guid: 110c20c757e90874fad83a63fb1d8c6e,
+        type: 3}
       propertyPath: LBCharacter
       value: 
       objectReference: {fileID: 108257896578277284}
@@ -4227,6 +4232,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1910863067338394544, guid: 110c20c757e90874fad83a63fb1d8c6e,
         type: 3}
+      propertyPath: abilitySprites.Array.size
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1910863067338394544, guid: 110c20c757e90874fad83a63fb1d8c6e,
+        type: 3}
       propertyPath: iconSprites.Array.data[0]
       value: 
       objectReference: {fileID: 982053239, guid: dbd36cbf2296ff4458633473bc255154,
@@ -4278,6 +4288,60 @@ PrefabInstance:
       propertyPath: iconSprites.Array.data[8]
       value: 
       objectReference: {fileID: -1180211745, guid: d93dbf01f1ba3304ca9c6b65f830d153,
+        type: 3}
+    - target: {fileID: 1910863067338394544, guid: 110c20c757e90874fad83a63fb1d8c6e,
+        type: 3}
+      propertyPath: abilitySprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: ac10007a749b5314c824763b0cf726b4,
+        type: 3}
+    - target: {fileID: 1910863067338394544, guid: 110c20c757e90874fad83a63fb1d8c6e,
+        type: 3}
+      propertyPath: abilitySprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: 771a9f0a186d64a479de574870795380,
+        type: 3}
+    - target: {fileID: 1910863067338394544, guid: 110c20c757e90874fad83a63fb1d8c6e,
+        type: 3}
+      propertyPath: abilitySprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300000, guid: bb26a4d319e426640866b35d4d8672a0,
+        type: 3}
+    - target: {fileID: 1910863067338394544, guid: 110c20c757e90874fad83a63fb1d8c6e,
+        type: 3}
+      propertyPath: abilitySprites.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300000, guid: 434131e8502f46140a4fbf8e34710a90,
+        type: 3}
+    - target: {fileID: 1910863067338394544, guid: 110c20c757e90874fad83a63fb1d8c6e,
+        type: 3}
+      propertyPath: abilitySprites.Array.data[4]
+      value: 
+      objectReference: {fileID: 21300000, guid: 0ecf6093e641cfc41821e65f6021c415,
+        type: 3}
+    - target: {fileID: 1910863067338394544, guid: 110c20c757e90874fad83a63fb1d8c6e,
+        type: 3}
+      propertyPath: abilitySprites.Array.data[5]
+      value: 
+      objectReference: {fileID: 21300000, guid: 217458d167f50654ca1a7e6a70e5f30d,
+        type: 3}
+    - target: {fileID: 1910863067338394544, guid: 110c20c757e90874fad83a63fb1d8c6e,
+        type: 3}
+      propertyPath: abilitySprites.Array.data[6]
+      value: 
+      objectReference: {fileID: 21300000, guid: 52f18aa93cf195c469d27fd0c91b4aa8,
+        type: 3}
+    - target: {fileID: 1910863067338394544, guid: 110c20c757e90874fad83a63fb1d8c6e,
+        type: 3}
+      propertyPath: abilitySprites.Array.data[7]
+      value: 
+      objectReference: {fileID: 21300000, guid: 9dfe6ec82d8399a4a92f4304376ce7e3,
+        type: 3}
+    - target: {fileID: 1910863067338394544, guid: 110c20c757e90874fad83a63fb1d8c6e,
+        type: 3}
+      propertyPath: abilitySprites.Array.data[8]
+      value: 
+      objectReference: {fileID: 21300000, guid: 4b30639c1759efb489215a1a0dac941f,
         type: 3}
     - target: {fileID: 2079288867042919110, guid: 110c20c757e90874fad83a63fb1d8c6e,
         type: 3}
@@ -4526,6 +4590,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7938909950438407753 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2107762188781694160, guid: 110c20c757e90874fad83a63fb1d8c6e,
+    type: 3}
+  m_PrefabInstance: {fileID: 8317279909359964825}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!224 &8089549856976464221 stripped

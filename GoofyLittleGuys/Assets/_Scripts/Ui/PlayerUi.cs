@@ -28,10 +28,15 @@ public class PlayerUi : MonoBehaviour
     [SerializeField] Image LBCharacter;
     [SerializeField] Image RBCharacter;
 
+    [SerializeField] Image AbilityIcon;
+    [SerializeField] Image abilityCooldownTimer;
+    [SerializeField] TMP_Text abilityCooldownText;
+
     [SerializeField] Slider XP_Slider;
     TMP_Text levelHPBar;
 
     [SerializeField] List<Sprite> iconSprites;
+    [SerializeField] List<Sprite> abilitySprites;
 
     [SerializeField] GameObject tempWinText;
 
@@ -95,6 +100,26 @@ public class PlayerUi : MonoBehaviour
 
         //Setting the UI Images - needs to be redone for efficency
 
+        //Abiltiy Icon
+        if (pb.LilGuyTeam[0].GuyName == "Teddy")
+            AbilityIcon.sprite = abilitySprites[(int)LilGuys.Teddy];
+        else if (pb.LilGuyTeam[0].GuyName == "Spricket")
+            AbilityIcon.sprite = abilitySprites[(int)LilGuys.Spricket];
+        else if (pb.LilGuyTeam[0].GuyName == "Armordillo")
+            AbilityIcon.sprite = abilitySprites[(int)LilGuys.Armordillo];
+        else if (pb.LilGuyTeam[0].GuyName == "Phant-a-phant")
+            AbilityIcon.sprite = abilitySprites[(int)LilGuys.Phant];
+        else if (pb.LilGuyTeam[0].GuyName == "Fishbowl")
+            AbilityIcon.sprite = abilitySprites[(int)LilGuys.Fishbowl];
+        else if (pb.LilGuyTeam[0].GuyName == "Turteriam")
+            AbilityIcon.sprite = abilitySprites[(int)LilGuys.Turterium];
+        else if (pb.LilGuyTeam[0].GuyName == "Mousecar")
+            AbilityIcon.sprite = abilitySprites[(int)LilGuys.Mousecar];
+        else if (pb.LilGuyTeam[0].GuyName == "Toadstool")
+            AbilityIcon.sprite = abilitySprites[(int)LilGuys.Toadstool];
+        else if (pb.LilGuyTeam[0].GuyName == "Tricera-box")
+            AbilityIcon.sprite = abilitySprites[(int)LilGuys.Tricerabox];
+
 
         //Current
         if (pb.LilGuyTeam[0].GuyName == "Teddy")
@@ -156,6 +181,8 @@ public class PlayerUi : MonoBehaviour
             RBCharacter.sprite = iconSprites[(int)LilGuys.Toadstool];
         else if (pb.LilGuyTeam[2].GuyName == "Tricera-box")
             RBCharacter.sprite = iconSprites[(int)LilGuys.Tricerabox];
+
+        
     }
     public void SetBerryCount(int count)
     {
@@ -186,7 +213,20 @@ public class PlayerUi : MonoBehaviour
         persistentAbilityIcon.sprite = newAbilityIcon;
     }
 
+    private void SetCooldownIndicator()
+    {
+        float timeLeft = 0;
+        //float timeLeft = 1-currentCDTime/maxCDLength
 
+        abilityCooldownTimer.fillAmount = timeLeft;
+        abilityCooldownText.text = timeLeft.ToString();
+
+        if (timeLeft > 1)
+        {
+            abilityCooldownTimer.gameObject.SetActive(false);
+            abilityCooldownText.gameObject.SetActive(false);
+        }
+    }
 }
 
 
