@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Toadstool : DefenseType
@@ -47,14 +46,14 @@ public class Toadstool : DefenseType
 	private IEnumerator EndShield()
 	{
 		yield return new WaitForSeconds(shieldTime);
-		affectedRB.isKinematic = false;
+		if (!ReferenceEquals(affectedRB, null)) affectedRB.isKinematic = false;
 		isShieldActive = false;
 	}
 
 	protected override void OnDisable()
 	{
 		base.OnDisable();
-		affectedRB.isKinematic = false;
+		if (!ReferenceEquals(affectedRB, null)) affectedRB.isKinematic = false;
 		isShieldActive = false;
 	}
 }
