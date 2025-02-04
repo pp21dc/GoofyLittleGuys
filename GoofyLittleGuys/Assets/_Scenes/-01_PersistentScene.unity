@@ -448,7 +448,7 @@ PrefabInstance:
     - target: {fileID: 4476805679437409250, guid: 3fdbd3de7f90953408fca5ccebc1efdf,
         type: 3}
       propertyPath: sfxObjects.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4476805679437409250, guid: 3fdbd3de7f90953408fca5ccebc1efdf,
         type: 3}
@@ -479,6 +479,12 @@ PrefabInstance:
       propertyPath: sfxObjects.Array.data[3]
       value: 
       objectReference: {fileID: 11400000, guid: 04c29b8f53ec96444ab9e62eb3ed6dd9,
+        type: 2}
+    - target: {fileID: 4476805679437409250, guid: 3fdbd3de7f90953408fca5ccebc1efdf,
+        type: 3}
+      propertyPath: sfxObjects.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: 7dd3b7bd74766584293c3710607c0a44,
         type: 2}
     - target: {fileID: 4476805679437409250, guid: 3fdbd3de7f90953408fca5ccebc1efdf,
         type: 3}

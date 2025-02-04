@@ -510,6 +510,19 @@ public abstract class LilGuyBase : MonoBehaviour
         Managers.AudioManager.Instance.PlaySfx(key, audioSource);
     }
 
+    /// <summary>
+    /// Specifically for playing a sound on a spawned object or effect
+    /// </summary>
+    /// <param name="key"></param>
+    public void PlayEffectSound(GameObject effect, string key)
+    {
+        AudioSource soundSource = effect.GetComponent<AudioSource>();
+        if(soundSource != null)
+        {
+            Managers.AudioManager.Instance.PlaySfx(key, soundSource);
+        }
+    }
+
     public virtual void StartChargingSpecial()
     {
         if (isDead) return;
@@ -715,6 +728,7 @@ public abstract class LilGuyBase : MonoBehaviour
     {
         GameObject instantiatedHeal = Instantiate(FXManager.Instance.GetEffect("Heal"), transform.position, Quaternion.identity, transform);
         instantiatedHeal.GetComponent<SpriteRenderer>().sortingOrder = mesh.sortingOrder + 1;
+        PlayEffectSound(instantiatedHeal, "Heal");
     }
 
 	protected virtual void OnDisable()
