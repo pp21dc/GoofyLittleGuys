@@ -74,6 +74,7 @@ namespace Managers
 				for (int i = 0; i < GameManager.Instance.Players.Count; i++)
 				{
 					GameManager.Instance.Players[i].Controller.PlayerCam.fieldOfView = 70;
+					GameManager.Instance.Players[i].Controller.PlayerNumber = i + 1;
 				}
 			}
 			else if (playerCount <= 2)
@@ -81,6 +82,7 @@ namespace Managers
 				for (int i = 0; i < GameManager.Instance.Players.Count; i++)
 				{
 					GameManager.Instance.Players[i].Controller.PlayerCam.fieldOfView = 90;
+					GameManager.Instance.Players[i].Controller.PlayerNumber = i + 1;
 				}
 			}
 			if (playerCount == 3)

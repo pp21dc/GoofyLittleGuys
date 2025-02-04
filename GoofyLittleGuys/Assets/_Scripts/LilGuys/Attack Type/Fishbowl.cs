@@ -68,6 +68,13 @@ public class Fishbowl : StrengthType
 		}
 	}
 
+	protected override void OnDisable()
+	{
+		base.OnDisable();
+		LockMovement = false;
+		isCharging = false;
+	}
+
 	protected override void Special()
 	{
 		LockMovement = true;	
