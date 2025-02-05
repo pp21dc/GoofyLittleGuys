@@ -23,6 +23,7 @@ namespace Managers
 		[SerializeField] private TMP_Text timerContext;             // The Timer textbox itself
 		[SerializeField] private float stormTimer = 20.0f; // how long between spawning new storms in phase 2
 		[SerializeField] private AudioSource[] phaseAudioSources; // how long between spawning new storms in phase 2
+		[SerializeField] private AudioSource alertAudioSource; // a central audio source for sounds such as alerts, events etc.
 
 		[SerializeField] private Material regularLilGuySpriteMat;
 		[SerializeField] private Material outlinedLilGuySpriteMat;
@@ -88,6 +89,7 @@ namespace Managers
 				{
 					// Starting Phase 2
 					currentPhase++;
+					AudioManager.Instance.PlaySfx("Phase_Change", alertAudioSource);
 					StartPhaseTwo();
 				}
 				if (currentGameTime >= legendarySpawnTime * 60 && !legendarySpawned)
@@ -189,7 +191,7 @@ namespace Managers
 			GetStormSets();
 			StartCoroutine(SpawnStorms());
 			StartCoroutine(Crossfade(phaseAudioSources[0], phaseAudioSources[1], 1f));
-
+			
 		}
 		private IEnumerator Crossfade(AudioSource fromSource, AudioSource toSource, float duration)
 		{
