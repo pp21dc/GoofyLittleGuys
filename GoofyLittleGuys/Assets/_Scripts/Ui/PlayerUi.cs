@@ -100,6 +100,7 @@ public class PlayerUi : MonoBehaviour
 
         //Setting the UI Images - needs to be redone for efficency
 
+       
         //Abiltiy Icon
         if (pb.LilGuyTeam[0].GuyName == "Teddy")
             AbilityIcon.sprite = abilitySprites[(int)LilGuys.Teddy];
@@ -215,17 +216,19 @@ public class PlayerUi : MonoBehaviour
 
     private void SetCooldownIndicator()
     {
-        float timeLeft = 0;
-        //float timeLeft = 1-currentCDTime/maxCDLength
 
-        abilityCooldownTimer.fillAmount = timeLeft;
-        abilityCooldownText.text = timeLeft.ToString();
+    }
 
-        if (timeLeft > 1)
+    private IEnumerator AbilityCooldownTimer(float cooldownLength)
+    {
+        float timer = cooldownLength;
+
+        while(timer > 0)
         {
-            abilityCooldownTimer.gameObject.SetActive(false);
-            abilityCooldownText.gameObject.SetActive(false);
+            timer -= Time.deltaTime;
+            yield return null;
         }
+            
     }
 }
 

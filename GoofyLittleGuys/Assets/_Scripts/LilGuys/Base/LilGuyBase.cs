@@ -115,6 +115,7 @@ public abstract class LilGuyBase : MonoBehaviour
     public bool IsInBasicAttack { get { return isInBasicAttack; } set { isInBasicAttack = value; } }
     public bool IsInSpecialAttack { get { return isInSpecialAttack; } set { isInSpecialAttack = value; } }
     public float CooldownTimer => cooldownTimer;
+    public float CooldownDuration => CooldownDuration;
     public int CurrentCharges => currentCharges;
     public Transform GoalPosition => goalPosition;
     public int MaxStat => max_stat;
