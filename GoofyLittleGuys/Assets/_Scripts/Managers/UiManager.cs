@@ -14,6 +14,14 @@ namespace Managers
         [SerializeField] private GameObject firstSelected;      // The first button in the menu to be selected on default
         [SerializeField] private GameObject playerUiPrefab;     // Prefab for ingame player UI
 
+        public enum Shapes
+        {
+            Circle,
+            Hexagon,
+            Diamond,
+            Square
+        };
+
         [SerializeField] private GameObject settingsInitButton;
 
         [SerializeField] public List<Sprite> shapes = new List<Sprite>();
