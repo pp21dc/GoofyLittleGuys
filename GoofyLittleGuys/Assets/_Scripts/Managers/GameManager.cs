@@ -89,7 +89,6 @@ namespace Managers
 				{
 					// Starting Phase 2
 					currentPhase++;
-					AudioManager.Instance.PlaySfx("Phase_Change", alertAudioSource);
 					StartPhaseTwo();
 				}
 				if (currentGameTime >= legendarySpawnTime * 60 && !legendarySpawned)
@@ -191,7 +190,7 @@ namespace Managers
 			GetStormSets();
 			StartCoroutine(SpawnStorms());
 			StartCoroutine(Crossfade(phaseAudioSources[0], phaseAudioSources[1], 1f));
-			
+			AudioManager.Instance.PlaySfx("Phase_Change", alertAudioSource);
 		}
 		private IEnumerator Crossfade(AudioSource fromSource, AudioSource toSource, float duration)
 		{

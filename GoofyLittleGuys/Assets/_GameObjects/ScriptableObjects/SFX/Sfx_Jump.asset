@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 455a8510209860a489a9ad867f112ef6, type: 3}
   m_Name: Sfx_Jump
   m_EditorClassIdentifier: 
-  objAudioClip: {fileID: 8300000, guid: 9eb8b161b66fb9248820cd07ad57766f, type: 3}
-  key: Jump
+  clips: []
+  isSpatial: 0
+  playOnce: 0
   volume: 1
-  pitch: 1
+  pitch: {x: 1, y: 1}
+  key: Jump

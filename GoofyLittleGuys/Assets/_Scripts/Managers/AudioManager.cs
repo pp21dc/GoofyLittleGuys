@@ -58,8 +58,11 @@ namespace Managers
 				source.pitch = Random.Range(sfxDictionary[key].pitch.x, sfxDictionary[key].pitch.y);
 				source.spatialBlend = sfxDictionary[key].isSpatial ? 1.0f : 0.0f;
 
-				// Adjust volume and panning based on player proximity
-				AdjustAudioForProximity(source);
+                // Adjust volume and panning based on player proximity
+                if (sfxDictionary[key].isSpatial)
+                {
+					AdjustAudioForProximity(source);
+				}
 
 				source.Play();
 			}
