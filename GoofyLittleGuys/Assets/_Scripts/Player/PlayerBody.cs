@@ -7,6 +7,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.UI;
 
 public class PlayerBody : MonoBehaviour
 {
@@ -77,7 +78,7 @@ public class PlayerBody : MonoBehaviour
 	private Rigidbody rb;
 	private LilGuyBase closestWildLilGuy = null;
 
-	public GameObject MinimapIcon;
+	public GameObject miniMapIcon;
 
 	public Vector3 CurrentVelocity => currentVelocity;
 	public Color PlayerColour
@@ -90,7 +91,7 @@ public class PlayerBody : MonoBehaviour
 			Material directionIndicatorMat = new Material(projector.material);
 			directionIndicatorMat.SetColor("_BaseColor", playerColour);
 			projector.material = directionIndicatorMat;
-			MinimapIcon.GetComponent<Renderer>().material.color = playerColour;
+			miniMapIcon.GetComponent<Renderer>().material.color = playerColour;
 		}
 	}
 	public LilGuyBase ClosestWildLilGuy { get { return closestWildLilGuy; } set { closestWildLilGuy = value; } }
@@ -500,6 +501,7 @@ public class PlayerBody : MonoBehaviour
 	/// </summary>
 	private void Init()
 	{
+		
 		DisableUIControl();
 		rb.isKinematic = false;
 		controller.PlayerCam.gameObject.SetActive(true);
@@ -508,8 +510,13 @@ public class PlayerBody : MonoBehaviour
 		controller.PlayerEventSystem.gameObject.SetActive(false);
 		playerUi.SetBerryCount(berryCount);
 		playerMesh.SetActive(true);
-	}
+        SetIcon();
+    }
 
+	private void SetIcon()
+	{
+		miniMapIcon.GetComponent<SpriteRenderer>().sprite = UiManager.Instance.shapes[(controller.PlayerNumber)-1];
+	}
 	/// <summary>
 	/// Enable UI control for the player
 	/// </summary>
