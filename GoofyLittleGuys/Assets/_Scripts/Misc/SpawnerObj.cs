@@ -2,6 +2,7 @@ using Managers;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Util;
 
 /// <summary>
 /// Handles spawning and managing Lil Guys in a specific area.
@@ -17,9 +18,12 @@ public class SpawnerObj : MonoBehaviour
 
 	private int currSpawnCount = 0; // Current count of spawned Lil Guys
 	private bool isSpawning = false; // If a spawn is currently in progress
+	private bool initialSpawnsSpawned = false; // If a spawn is currently in progress
 	private SpawnManager spawnManager; // Reference to the SpawnManager
 	private SphereCollider spawnArea; // Collider representing the spawn area
 	private string clearingID; // ID representing the clearing this spawner belongs to
+	private ShuffleBag<GameObject> lilGuyShuffleBag; // Shuffle Bag to random select lil Guys, but ensure each in the list appears once before repeats occur.
+
 
 	public LayerMask GroundLayer; // Layer mask for valid ground placement
 
@@ -29,6 +33,8 @@ public class SpawnerObj : MonoBehaviour
 
 	private void Start()
 	{
+		initialSpawnsSpawned = false;
+		lilGuyShuffleBag = new ShuffleBag<GameObject>(campLilGuys);
 		spawnArea = GetComponent<SphereCollider>();
 		spawnManager = SpawnManager.Instance;
 		clearingID = transform.parent.name; // Assuming parent represents the clearing
@@ -38,7 +44,7 @@ public class SpawnerObj : MonoBehaviour
 
 	private void Update()
 	{
-		if (currSpawnCount < maxSpawnCount && spawnManager.CanSpawnMore(clearingID))
+		if (currSpawnCount < maxSpawnCount && spawnManager.CanSpawnMore(clearingID) && initialSpawnsSpawned)
 		{
 			StartSpawning();
 		}
@@ -51,10 +57,16 @@ public class SpawnerObj : MonoBehaviour
 	{
 		if (currSpawnCount == 0)
 		{
-			SpawnRandLilGuy();
+			StartCoroutine(DelayInitialSpawn());
 		}
 	}
 
+	private IEnumerator DelayInitialSpawn()
+	{
+		yield return new WaitForSeconds(spawnManager.GracePeriod);
+		SpawnRandLilGuy();
+		initialSpawnsSpawned = true;
+	}
 	/// <summary>
 	/// Spawns a random Lil Guy from the available list.
 	/// </summary>
@@ -62,7 +74,7 @@ public class SpawnerObj : MonoBehaviour
 	{
 		if (currSpawnCount >= maxSpawnCount || !spawnManager.CanSpawnMore(clearingID)) return;
 
-		GameObject randLilGuy = campLilGuys[Random.Range(0, campLilGuys.Count)];
+		GameObject randLilGuy = lilGuyShuffleBag.Next();
 		SpawnLilGuy(randLilGuy);
 	}
 
