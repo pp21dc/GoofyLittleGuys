@@ -77,6 +77,7 @@ public class SpawnerObj : MonoBehaviour
 		lilGuy.GetComponent<WildBehaviour>().HomeSpawner = this;
 		currSpawnCount++;
 		spawnManager.RegisterSpawn(clearingID);
+		lilGuy.GetComponent<LilGuyBase>().DetermineLevel();
 	}
 
 	/// <summary>
