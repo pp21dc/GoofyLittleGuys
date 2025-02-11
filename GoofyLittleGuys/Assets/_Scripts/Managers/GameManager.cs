@@ -71,6 +71,13 @@ namespace Managers
 			Time.timeScale = 0;
 			AudioManager.Instance.PlayMusic("GLGMainMenu", phaseAudioSources[0]);
 			if (gameStartTest) EventManager.Instance.GameStartedEvent();
+
+			EventManager.Instance.NotifyGameOver += QuitGame;
+		}
+
+		private void OnDestroy()
+		{
+			EventManager.Instance.NotifyGameOver -= QuitGame;
 		}
 
 		private void Update()
@@ -271,8 +278,8 @@ namespace Managers
 		private IEnumerator endGame()
 		{
 			yield return new WaitForSeconds(6);
+			EventManager.Instance.CallGameOverEvent();
 			LevelLoadManager.Instance.LoadNewLevel("00_MainMenu");
-			QuitGame();
 			for (int i = Players.Count - 1; i >= 0; i--)
 			{
 				Players[i].InMenu = true;

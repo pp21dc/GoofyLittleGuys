@@ -54,7 +54,7 @@ namespace Managers
         {
             GameManager.Instance.IsPaused = false;
             pauseScreen.SetActive(GameManager.Instance.IsPaused);
-			GameManager.Instance.QuitGame();
+            EventManager.Instance.CallGameOverEvent();
             for (int i = GameManager.Instance.Players.Count - 1; i >= 0; i--)
             {
                 // Delete all player instances.

@@ -11,10 +11,12 @@ namespace Managers
 {
 	public class MultiplayerManager : SingletonBase<MultiplayerManager>
 	{
+		[SerializeField] private GameObject blackoutCam;
 		[SerializeField] private int characterSelectSceneIndex = 1; // Change to the build index of the char select screen.
 		private CharacterSelectHandler characterSelectScreen;
-		public CharacterSelectHandler CharacterSelectScreen {  get { return characterSelectScreen; } set { characterSelectScreen = value; } }
+		public CharacterSelectHandler CharacterSelectScreen { get { return characterSelectScreen; } set { characterSelectScreen = value; } }
 
+		private GameObject instantiatedBlackoutCam = null;
 		private bool canJoinLeave = false;
 		public bool CanJoinLeave => canJoinLeave;
 
@@ -22,6 +24,7 @@ namespace Managers
 		void Start()
 		{
 			SceneManager.sceneLoaded += OnSceneLoaded;
+			EventManager.Instance.NotifyGameOver += OnGameOver;
 			canJoinLeave = CheckSceneIndex(SceneManager.GetActiveScene().buildIndex);
 
 			if (canJoinLeave) PlayerInputManager.instance.EnableJoining();
@@ -31,6 +34,15 @@ namespace Managers
 		private void OnDestroy()
 		{
 			SceneManager.sceneLoaded -= OnSceneLoaded;
+			EventManager.Instance.NotifyGameOver -= OnGameOver;
+		}
+
+		public void OnGameOver()
+		{
+			if (!ReferenceEquals(instantiatedBlackoutCam, null))
+			{
+				Destroy(instantiatedBlackoutCam );
+			}
 		}
 
 		public void OnPlayerJoined(PlayerInput input)
@@ -91,6 +103,9 @@ namespace Managers
 				GameManager.Instance.Players[2].Controller.PlayerCam.rect = new Rect(0f, 0f, 0.5f, 0.5f);
 				GameManager.Instance.Players[1].Controller.PlayerCam.rect = new Rect(0.5f, 0.5f, 0.5f, 0.5f);
 				GameManager.Instance.Players[0].Controller.PlayerCam.rect = new Rect(0f, 0.5f, 0.5f, 0.5f);
+				instantiatedBlackoutCam = Instantiate(blackoutCam);
+				Camera cam = instantiatedBlackoutCam.GetComponent<Camera>();
+				cam.rect = new Rect(0.5f, 0, 0.5f, 0.5f);
 			}
 			else if (playerCount == 2)
 			{
