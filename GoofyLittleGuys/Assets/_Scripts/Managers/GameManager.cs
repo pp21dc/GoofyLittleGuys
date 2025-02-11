@@ -262,14 +262,20 @@ namespace Managers
 		{
 			//rankings.Add(players[0]);
 			StartCoroutine(nameof(endGame));
+			List<StatMetrics> metrics = new List<StatMetrics>();
 			foreach (PlayerBody player in players)
 			{
-				if (!rankings.Contains(player)) rankings.Add(player);
+				if (!rankings.Contains(player)) rankings.Add(player); 
+				metrics.Add(player.GameplayStats);
 			}
 
 			rankings[rankings.Count - 1].PlayerUI.TempWinText.SetActive(true);
 
-
+			
+			foreach (PlayerBody player in players)
+			{
+				player.GameplayStats.ShowMetrics(metrics);			
+			}
 			Debug.Log("Brawl Phase has ended by knockout!");
 		}
 

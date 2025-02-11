@@ -391,6 +391,7 @@ public class WildBehaviour : MonoBehaviour
 		{
 			Hurtbox h = GetComponent<Hurtbox>();
 			GameObject legendaryKillEffect = Instantiate(FXManager.Instance.GetEffect("LegendaryKill"), h.LastHit.transform.position + Vector3.forward, Quaternion.identity, h.LastHit.transform);
+			h.LastHit.GameplayStats.KilledLegendary = true;
 		}
 
 		controller.LilGuy.SpawnDeathParticle();

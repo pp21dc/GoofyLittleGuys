@@ -9,21 +9,47 @@ public class Hurtbox : MonoBehaviour
 	[SerializeField] private GameObject owner;
 	private bool player;
 	private bool Ai;
+	private float timeSinceLastHit = 0;
 
 	public float Health { get { return health; } }
 	private PlayerBody lastHit;                      // Player who last hit this hurtbox.
 	public PlayerBody LastHit { get { return lastHit; } set { lastHit = value; } }
 	public GameObject Owner { get { return owner; }}
 
+
+	private LilGuyBase lilGuy;
 	private void Start()
 	{
 		EventManager.Instance.GameStarted += Init;
+		lilGuy = GetComponent<LilGuyBase>();
 	}
 	private void OnDestroy()
 	{
 		EventManager.Instance.GameStarted -= Init;
 	}
 
+	private void Update()
+	{
+		if (lilGuy.PlayerOwner == null || (lilGuy.PlayerOwner != null && lilGuy.PlayerOwner.GameplayStats.SurvivedWithLowHP)) return;
+		if (lilGuy.PlayerOwner != null && lilGuy.PlayerOwner.ActiveLilGuy == lilGuy)
+		{
+			if (lilGuy.Health < 0)
+			{
+				timeSinceLastHit = 0;
+				return;
+			}
+			timeSinceLastHit += Time.deltaTime;
+			if (timeSinceLastHit > 5 && lilGuy.Health < 10)
+			{
+				lilGuy.PlayerOwner.GameplayStats.SurvivedWithLowHP = true;
+			}
+		}
+		else
+		{
+			timeSinceLastHit = 0;
+		}
+		
+	}
 	/// <summary>
 	/// Method called when the game is started.
 	/// </summary>
@@ -58,6 +84,7 @@ public class Hurtbox : MonoBehaviour
 	{
 		if (gameObject.layer == LayerMask.NameToLayer("PlayerLilGuys"))
 		{
+			timeSinceLastHit = 0;
 			// Player lil guy was hit
 			LilGuyBase playerLilGuy = owner.GetComponent<LilGuyBase>();
 			if (playerLilGuy.PlayerOwner.HasImmunity) return;
@@ -66,6 +93,7 @@ public class Hurtbox : MonoBehaviour
 			playerLilGuy.Health -= dmg;
 			health = playerLilGuy.Health;
 			playerLilGuy.Damaged();
+			playerLilGuy.PlayerOwner.GameplayStats.DamageTaken += dmg;
 
 			//Passes the new health info to the player UI
 			//Definitely needs to be rewritten for efficency

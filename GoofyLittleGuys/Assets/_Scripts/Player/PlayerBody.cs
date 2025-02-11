@@ -24,6 +24,7 @@ public class PlayerBody : MonoBehaviour
 	[SerializeField] private GameObject invincibilityFX;
 	[SerializeField] private GameObject stormHurtFX;
 	[SerializeField] private GameObject directionIndicator;
+	[SerializeField] private StatMetrics gameplayStats;
 
 	[Header("Movement Parameters")]
 	[SerializeField] private float maxSpeed = 25f;           // This turns into the speed of the active lil guy's. Used for the AI follow behaviours so they all keep the same speed in following the player.
@@ -95,6 +96,7 @@ public class PlayerBody : MonoBehaviour
 			miniMapIcon.GetComponent<Renderer>().material.color = playerColour;
 		}
 	}
+	public StatMetrics GameplayStats => gameplayStats;
 	public LilGuyBase ClosestWildLilGuy { get { return closestWildLilGuy; } set { closestWildLilGuy = value; } }
 	public bool HasInteracted { get { return hasInteracted; } set { hasInteracted = value; } }
 	public bool HasSwappedRecently { get { return hasSwappedRecently; } set { hasSwappedRecently = value; } }
@@ -126,10 +128,13 @@ public class PlayerBody : MonoBehaviour
 	public PlayerUi PlayerUI => playerUi;
 	public PlayerController Controller => controller;
 
+	private float distanceTraveled = 0f; // Total distance
+	private Vector3 lastPosition; // Previous position for tracking
 	private void Start()
 	{
 		rb = GetComponent<Rigidbody>();
 		EventManager.Instance.GameStarted += Init;
+		lastPosition = transform.position; // Initialize position
 	}
 
 	private void OnDestroy()
@@ -162,6 +167,13 @@ public class PlayerBody : MonoBehaviour
 		stormHurtFX.SetActive(inStorm && !wasDefeated);
 		stormHurtFX.transform.rotation = lilGuyTeam[0].Mesh.transform.rotation;
 		playerHealthBar.SetActive(!wasDefeated);
+
+		if (isDead) return;
+		Vector3 currentPosition = transform.position;
+		float distanceThisFrame = Vector3.Distance(lastPosition, currentPosition);
+
+		GameplayStats.DistanceTraveled += distanceThisFrame;
+		lastPosition = currentPosition; // Update last position
 	}
 
 	private void Awake()
@@ -273,6 +285,8 @@ public class PlayerBody : MonoBehaviour
 		if (closestWildLilGuy != null)
 		{
 			berryCount--;
+			GameplayStats.BerriesEaten++;
+			GameplayStats.LilGuysTamedTotal++;
 			closestWildLilGuy.GetComponent<WildBehaviour>().HomeSpawner.RemoveLilGuyFromSpawns();
 			closestWildLilGuy.PlayerOwner = this;
 			closestWildLilGuy.Init(LayerMask.NameToLayer("Player"));
@@ -310,6 +324,7 @@ public class PlayerBody : MonoBehaviour
 			EventManager.Instance.HealLilGuy(lilGuyTeam[0], healthRestored);
 
 			berryCount--;
+			GameplayStats.BerriesEaten++;
 			lilGuyTeam[0].PlaySound("Eat_Berry");
 			nextBerryUseTime = berryUsageCooldown;
 			EventManager.Instance.UpdatePlayerHealthUI(this);
@@ -418,12 +433,15 @@ public class PlayerBody : MonoBehaviour
 
 
 				SetInvincible(swapInvincibility);
+				GameplayStats.SwitchCharacter(lilGuyTeam[0].GuyName);
 				EventManager.Instance.UpdatePlayerHealthUI(this);
 			}
 		}
 		else
 		{
 			isDead = true;
+			lilGuyTeam[0].GetComponent<Hurtbox>().LastHit.GameplayStats.TeamWipes++;
+			GameplayStats.DeathCount++;
 			deathTime = GameManager.Instance.CurrentGameTime;
 			// No living lil guys, time for a respawn if possible.
 			if (deathTime < GameManager.Instance.PhaseOneDurationSeconds())
@@ -491,6 +509,7 @@ public class PlayerBody : MonoBehaviour
 
 
 		SetInvincible(swapInvincibility);
+		GameplayStats.SwitchCharacter(lilGuyTeam[0].GuyName);
 		EventManager.Instance.UpdatePlayerHealthUI(this);
 
 		isSwapping = false;
@@ -522,6 +541,7 @@ public class PlayerBody : MonoBehaviour
 		playerUi.SetBerryCount(berryCount);
 		playerMesh.SetActive(true);
         SetIcon();
+		GameplayStats.CurrentCharacter = lilGuyTeam[0].GuyName;
     }
 
 	private void SetIcon()

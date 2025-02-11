@@ -3069,6 +3069,7 @@ GameObject:
   - component: {fileID: 8258734022756987788}
   - component: {fileID: 5527764453125288824}
   - component: {fileID: 5988006712079065957}
+  - component: {fileID: 4539726413739708141}
   m_Layer: 7
   m_Name: PlayerBody
   m_TagString: Untagged
@@ -3123,6 +3124,7 @@ MonoBehaviour:
   invincibilityFX: {fileID: 1172655192903034848}
   stormHurtFX: {fileID: 8541868705519709291}
   directionIndicator: {fileID: 2406372175181913216}
+  gameplayStats: {fileID: 4539726413739708141}
   maxSpeed: 15
   accelerationTime: 0.1
   decelerationTime: 0.2
@@ -3294,6 +3296,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerUi: {fileID: 7631443951995230505}
+--- !u!114 &4539726413739708141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8389416483884224456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a84e3210cae97f44912874cc0567769, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8541868705519709291
 GameObject:
   m_ObjectHideFlags: 0

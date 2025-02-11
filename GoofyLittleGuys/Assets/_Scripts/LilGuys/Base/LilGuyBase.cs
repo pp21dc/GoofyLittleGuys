@@ -417,6 +417,7 @@ public abstract class LilGuyBase : MonoBehaviour
 			{
 				h.LastHit.LilGuyTeam[i].AddXP((i == 0) ? Mathf.FloorToInt((Mathf.Pow((Level + 5), 2) / 3)) : Mathf.FloorToInt((Mathf.Pow((Level + 4), 2) / 6)));
 			}
+            h.LastHit.GameplayStats.WildLilGuysDefeated++;
             isDying = false;
         }
     }
@@ -562,6 +563,7 @@ public abstract class LilGuyBase : MonoBehaviour
                 anim.SetTrigger("SpecialAttack");
             }
         }
+        if (playerOwner != null) playerOwner.GameplayStats.SpecialsUsed++;
         OnEndSpecial();
     }
 

@@ -71,6 +71,8 @@ public class TeamFullMenu : MonoBehaviour
 			buttons[3].interactable = false;
 			Destroy(lilGuyBeingCaught.gameObject);
 			body.BerryCount++;
+			body.GameplayStats.BerriesEaten--;
+			body.GameplayStats.LilGuysTamedTotal--;
 			gameObject.SetActive(false);
 			buttons[3].interactable = true;
 			return;
