@@ -47,13 +47,31 @@ public class BerryBush : InteractableBase
 	}
 
 	/// <summary>
+	/// Called when a player starts interacting.
+	/// </summary>
+	public override void StartInteraction(PlayerBody body)
+	{
+		if (body.IsDead) return;
+		base.StartInteraction(body);
+	}
+
+	/// <summary>
+	/// Called when a player stops interacting (releasing the button).
+	/// </summary>
+	public override void CancelInteraction(PlayerBody body)
+	{
+		if (body.IsDead) return;
+		base.CancelInteraction(body);
+	}
+
+	/// <summary>
 	/// Called when a player interacts with this interactable object.
 	/// </summary>
 	/// <param name="body">PlayerBody: The player that interacted with this object.</param>
-	public override void OnInteracted(PlayerBody body)
+	protected override void CompleteInteraction(PlayerBody body)
 	{
 		if (body.IsDead) return;
-		base.OnInteracted(body);
+		base.CompleteInteraction(body);
 		if (berryAmountOnBush > 0 && body.BerryCount < body.MaxBerryCount)
 		{
 			body.BerryCount++;
@@ -65,16 +83,11 @@ public class BerryBush : InteractableBase
 		// Start Berry Regrowth timer.
 		if (berryAmountOnBush <= 0) hasBerries = false;
 		else hasBerries = true;
-
-
-		UpdateVisuals(berryAmountOnBush); 		
+		UpdateVisuals(berryAmountOnBush);
 		if (berryAmountOnBush <= 0 && !isRegrowing)
 		{
 			StartCoroutine(BerryRegrowth(Random.Range(minBerryTime, maxBerryTime + 1)));
 		}
-
-
-		// Play healing effect?
 	}
 
 	/// <summary>

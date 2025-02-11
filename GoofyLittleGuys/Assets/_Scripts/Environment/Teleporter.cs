@@ -66,20 +66,41 @@ public class Teleporter : InteractableBase
             interactableCanvas.SetActive(false);
         }
     }
-    #endregion
+	#endregion
 
-    public override void OnInteracted(PlayerBody body)
-    {
-        base.OnInteracted(body);
+	/// <summary>
+	/// Called when a player starts interacting.
+	/// </summary>
+	public override void StartInteraction(PlayerBody body)
+	{
+		if (body.IsDead) return;
+		base.StartInteraction(body);
+	}
 
-        if (!onCooldown)
-        {
-            body.GetComponent<Rigidbody>().MovePosition(targetTeleporter.EndTeleportLocation.position);
-            Debug.Log("TELEPORTED " + body.name + "TO " + targetTeleporter.EndTeleportLocation.position);
-            StartCoroutine(nameof(WaitForCooldown));
-        }
-    }
+	/// <summary>
+	/// Called when a player stops interacting (releasing the button).
+	/// </summary>
+	public override void CancelInteraction(PlayerBody body)
+	{
+		if (body.IsDead) return;
+		base.CancelInteraction(body);
+	}
 
+	/// <summary>
+	/// Called when a player interacts with this interactable object.
+	/// </summary>
+	/// <param name="body">PlayerBody: The player that interacted with this object.</param>
+	protected override void CompleteInteraction(PlayerBody body)
+	{
+		if (body.IsDead) return;
+		base.CompleteInteraction(body);
+		if (!onCooldown)
+		{
+			body.GetComponent<Rigidbody>().MovePosition(targetTeleporter.EndTeleportLocation.position);
+			Debug.Log("TELEPORTED " + body.name + "TO " + targetTeleporter.EndTeleportLocation.position);
+			StartCoroutine(nameof(WaitForCooldown));
+		}
+	}
     private IEnumerator WaitForCooldown()
     {
         yield return new WaitForEndOfFrame();

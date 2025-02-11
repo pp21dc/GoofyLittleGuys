@@ -53,7 +53,7 @@ public class PlayerBody : MonoBehaviour
 
 	private Color playerColour = Color.white;
 
-	private InteractableBase closestnteractable = null;
+	private InteractableBase closestInteractable = null;
 	private int berryCount = 0;
 	private bool isDead = false;
 	private bool inStorm = false;               // used by storm objects to determine if the player is currently in the storm
@@ -62,6 +62,7 @@ public class PlayerBody : MonoBehaviour
 	private bool isDashing = false;             // When the dash action is pressed for speed lil guy. Note this is in here because if the player swaps mid dash, they will get stuck in dash UNLESS this bool is here and is adjusted here.
 	private bool flip = false;
 	private bool hasInteracted = false;
+	private bool isInteracting = false;
 	private bool hasSwappedRecently = false;    // If the player is in swap cooldown (feel free to delete cmnt)
 	private bool hasImmunity = false;           // If the player is in swap I-frames (feel free to delete cmnt)
 	private bool canMove = true;                // Whether or not the player can move, set it to false when you want to halt movement
@@ -102,6 +103,7 @@ public class PlayerBody : MonoBehaviour
 	public bool StormDmg { get { return stormDmg; } set { stormDmg = value; } }
 	public bool StormCoroutine { get { return stormCoroutine; } set { stormCoroutine = value; } }
 	public bool IsDashing { get { return isDashing; } set { isDashing = value; } }
+	public bool IsInteracting { get { return isInteracting; } set { isInteracting = value; } }
 	public bool KnockedBack { get { return knockedBack; } set { knockedBack = value; } }
 	public LilGuyBase ActiveLilGuy { get { return activeLilGuy; } set { activeLilGuy = value; } }
 	public GameObject TeamFullMenu { get { return teamFullMenu; } set { teamFullMenu = value; } }
@@ -112,7 +114,7 @@ public class PlayerBody : MonoBehaviour
 	public float NextBerryUseTime => nextBerryUseTime;
 	public float BerryCooldown => berryUsageCooldown;
 
-	public InteractableBase ClosestInteractable { get { return closestnteractable; } set { closestnteractable = value; } }
+	public InteractableBase ClosestInteractable { get { return closestInteractable; } set { closestInteractable = value; } }
 
 	public List<LilGuyBase> LilGuyTeam => lilGuyTeam;
 	public List<LilGuySlot> LilGuyTeamSlots => lilGuyTeamSlots;
@@ -248,12 +250,21 @@ public class PlayerBody : MonoBehaviour
 	public void Interact()
 	{
 		if (Time.time <= nextInteractTime) return;
-		if (closestnteractable != null)
+		if (closestInteractable != null)
 		{
-			closestnteractable.OnInteracted(this);
+			closestInteractable.StartInteraction(this); // Start the interaction process
 		}
 		nextInteractTime = Time.time + interactCooldown;
 	}
+
+	public void StopInteract()
+	{
+		if (closestInteractable != null)
+		{
+			closestInteractable.CancelInteraction(this); // Stop the interaction process
+		}
+	}
+
 
 	public void UseBerry()
 	{

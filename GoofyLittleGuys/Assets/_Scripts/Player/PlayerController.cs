@@ -100,7 +100,9 @@ public class PlayerController : MonoBehaviour
 	public void OnInteract(InputAction.CallbackContext ctx)
 	{
 		if (ctx.performed) playerBody.Interact();
+		if (ctx.canceled) playerBody.StopInteract(); // Call stop when player releases input
 	}
+
 
 
 	public void OnPrimarySkill(InputAction.CallbackContext ctx)

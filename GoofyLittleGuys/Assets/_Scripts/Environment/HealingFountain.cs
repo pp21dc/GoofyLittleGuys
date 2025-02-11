@@ -43,9 +43,26 @@ public class HealingFountain : InteractableBase
 		GameManager.Instance.FountainSpawnPoint = spawnPoint;
 	}
 
-	public override void OnInteracted(PlayerBody body)
+	public override void StartInteraction(PlayerBody body)
 	{
-		base.OnInteracted(body);
+		if (GameManager.Instance.CurrentPhase == 2) return;
+		if (body.IsDead) return;
+		base.StartInteraction(body);
+	}
+
+	/// <summary>
+	/// Called when a player stops interacting (releasing the button).
+	/// </summary>
+	public override void CancelInteraction(PlayerBody body)
+	{
+		if (GameManager.Instance.CurrentPhase == 2) return;
+		if (body.IsDead) return;
+		base.CancelInteraction(body);
+	}
+
+	protected override void CompleteInteraction(PlayerBody body)
+	{
+		base.CompleteInteraction(body);
 		if (GameManager.Instance.CurrentPhase == 2) return;
 		if (body.IsDead) return;
 		foreach (LilGuyBase lilGuy in body.LilGuyTeam)
@@ -61,6 +78,5 @@ public class HealingFountain : InteractableBase
 			}
 		}
 		EventManager.Instance.UpdatePlayerHealthUI(body);
-		// Play healing effect?
 	}
 }
