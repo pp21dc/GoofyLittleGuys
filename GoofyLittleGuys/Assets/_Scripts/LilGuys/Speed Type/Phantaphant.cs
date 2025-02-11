@@ -23,6 +23,12 @@ public class Phantaphant : SpeedType
 		base.Update();
 	}
 
+	public void EndAfterDeathAnimation()
+	{
+		if (playerOwner == null) return;
+		anim.SetTrigger("EndAfterDeath");
+	}
+
 	public override void StartChargingSpecial()
 	{
 		if (currentCharges <= 0 && cooldownTimer > 0) return;

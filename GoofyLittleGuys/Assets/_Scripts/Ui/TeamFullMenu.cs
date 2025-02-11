@@ -42,10 +42,12 @@ public class TeamFullMenu : MonoBehaviour
 
 	private void OnDisable()
 	{
+		body = player.GetComponent<PlayerBody>();
 		player.GetComponent<PlayerController>().InTeamFullMenu = false;
 		player.SwitchCurrentActionMap("World");             // Switch back to world action map
 		// Set the first selected button to "Yes"
 		playerEventSystem.gameObject.SetActive(false);
+		body.PlayerUI.SetBerryCount(body.BerryCount);
 		body.SetInvincible(0);
 	}
 

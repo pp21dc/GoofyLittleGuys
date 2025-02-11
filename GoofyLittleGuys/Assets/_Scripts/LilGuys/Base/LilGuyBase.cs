@@ -231,6 +231,7 @@ public abstract class LilGuyBase : MonoBehaviour
         {
             movementDirection = Vector3.zero;
             rb.velocity = Vector3.zero;
+            isAttacking = false;
         }
     }
     protected virtual void Update()
@@ -438,7 +439,10 @@ public abstract class LilGuyBase : MonoBehaviour
     /// <returns></returns>
     private IEnumerator Disappear()
 	{
-		if (anim != null) yield return new WaitUntil(() => anim.GetCurrentAnimatorStateInfo(0).IsName("Death") && anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f);
+        if (anim != null)
+        {
+            yield return new WaitUntil(() => anim.GetCurrentAnimatorStateInfo(0).IsName("Death") && anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f);
+        }
         SpawnDeathParticle();
 		gameObject.SetActive(false);
     }
