@@ -82,7 +82,7 @@ public class StatMetrics : MonoBehaviour
 		if (body.LilGuyTeam.Count > 0)
 		{
 			if (string.IsNullOrEmpty(currentCharacter)) return;
-			if (characterUsage.ContainsKey(currentCharacter))
+			if (!characterUsage.ContainsKey(currentCharacter))
 			{
 				characterUsage[currentCharacter] = 0;
 			}
