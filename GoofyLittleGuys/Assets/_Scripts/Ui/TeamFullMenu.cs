@@ -47,7 +47,6 @@ public class TeamFullMenu : MonoBehaviour
 		player.SwitchCurrentActionMap("World");             // Switch back to world action map
 		// Set the first selected button to "Yes"
 		playerEventSystem.gameObject.SetActive(false);
-		body.PlayerUI.SetBerryCount(body.BerryCount);
 		body.SetInvincible(0);
 	}
 
@@ -73,6 +72,7 @@ public class TeamFullMenu : MonoBehaviour
 			body.BerryCount++;
 			body.GameplayStats.BerriesEaten--;
 			body.GameplayStats.LilGuysTamedTotal--;
+			body.PlayerUI.SetBerryCount(body.BerryCount);
 			gameObject.SetActive(false);
 			buttons[3].interactable = true;
 			return;

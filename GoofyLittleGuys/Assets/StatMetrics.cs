@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class StatMetrics : MonoBehaviour
 {
-    // General metrics
-    private float damageDealt = 0;
-    private float damageTaken = 0;
-    private float damageReduced = 0;
-    private int specialsUsed = 0;
-    private int teamWipes = 0;
-    private int wildLilGuysDefeated = 0;
-    private int deathCount = 0;
-    private int berriesEaten = 0;
-    private float distanceTraveled = 0;
-    private int lilGuysTamedTotal = 0;
+	// General metrics
+	private float damageDealt = 0;
+	private float damageTaken = 0;
+	private float damageReduced = 0;
+	private int specialsUsed = 0;
+	private int teamWipes = 0;
+	private int wildLilGuysDefeated = 0;
+	private int deathCount = 0;
+	private int berriesEaten = 0;
+	private float distanceTraveled = 0;
+	private int lilGuysTamedTotal = 0;
 	private bool killedLegendary = false;
 
 	private float lowestHPDuringBattle;
@@ -46,7 +46,7 @@ public class StatMetrics : MonoBehaviour
 	private Dictionary<string, int> locationVisits = new Dictionary<string, int>();
 	private string mostVisitedLocation;
 
-    private PlayerBody body;
+	private PlayerBody body;
 
 	public List<string> GetTitles(List<StatMetrics> allPlayers)
 	{
@@ -72,16 +72,20 @@ public class StatMetrics : MonoBehaviour
 
 	// Start is called before the first frame update
 	void Start()
-    {
-        body = GetComponent<PlayerBody>();
-    }
+	{
+		body = GetComponent<PlayerBody>();
+	}
 
-    // Update is called once per frame
-    void Update()
-    {
+	// Update is called once per frame
+	void Update()
+	{
 		if (body.LilGuyTeam.Count > 0)
 		{
-			if (!characterUsage.ContainsKey(currentCharacter)) characterUsage[currentCharacter] = 0;
+			if (string.IsNullOrEmpty(currentCharacter)) return;
+			if (characterUsage.ContainsKey(currentCharacter))
+			{
+				characterUsage[currentCharacter] = 0;
+			}
 			characterUsage[currentCharacter] += Time.deltaTime;
 		}
 	}
