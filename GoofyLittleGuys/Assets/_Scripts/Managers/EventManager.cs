@@ -67,13 +67,13 @@ public class EventManager
 	}
 	public void CallLilGuyLockedInEvent()
 	{
-		LevelLoadManager.Instance.LoadNewLevel("TerrainWhitebox");
+		LevelLoadManager.Instance.LoadNewLevel("ForestWhitebox");
 		MultiplayerManager.Instance.AdjustCameraRects();
 		LevelLoadManager.Instance.StartCoroutine(WaitForLevelToLoad());
 	}
 	private IEnumerator WaitForLevelToLoad()
 	{
-		yield return new WaitUntil(() => SceneManager.GetSceneByName("TerrainWhitebox").isLoaded);
+		yield return new WaitUntil(() => SceneManager.GetSceneByName("ForestWhitebox").isLoaded);
 		yield return new WaitUntil(() => GameManager.Instance.GameStarted());
 		// Once loading is complete, invoke the GameStarted event
 		GameStartedEvent();
