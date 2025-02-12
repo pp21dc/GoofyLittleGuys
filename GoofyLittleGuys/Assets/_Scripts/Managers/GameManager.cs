@@ -186,6 +186,7 @@ namespace Managers
 			StartPhaseOne();
 			if (timerCanvas != null) timerCanvas.SetActive(true);   // Show the timer canvas if one exists.
 
+
 			return true;
 		}
 
@@ -197,7 +198,8 @@ namespace Managers
 			currentPhase++;
 			currentLayerMask = phase1LayerMask;
 			AudioManager.Instance.PlayMusic("GLGPhase1", "GLGPhase2", phaseAudioSources[1], phaseAudioSources[0]);
-		}
+
+        }
 
 		/// <summary>
 		/// Method that starts phase two.

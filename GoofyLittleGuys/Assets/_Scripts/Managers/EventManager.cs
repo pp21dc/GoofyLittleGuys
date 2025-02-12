@@ -251,7 +251,7 @@ public class EventManager
 		NotifyStartAbilityCooldown?.Invoke(playerUi, cdLength);
 	}
 
-	public void SwapUI(PlayerUi playerUi, float swapDirection)
+	public void RefreshUi(PlayerUi playerUi, float swapDirection)
 	{
 		NotifyUiSwap?.Invoke(playerUi, swapDirection);
 	}

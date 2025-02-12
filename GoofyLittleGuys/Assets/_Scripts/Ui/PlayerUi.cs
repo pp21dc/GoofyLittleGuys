@@ -40,7 +40,6 @@ public class PlayerUi : MonoBehaviour
 
     [SerializeField] GameObject tempWinText;
 
-    private PlayerBody body;
     enum LilGuys
     {
         Teddy,
@@ -58,9 +57,8 @@ public class PlayerUi : MonoBehaviour
 
     private void Start()
     {
-        body = GetComponentInParent<PlayerBody>();
         EventManager.Instance.NotifyStartAbilityCooldown += SetCooldownIndicator;
-        EventManager.Instance.NotifyUiSwap += OnSwap;
+        EventManager.Instance.NotifyUiSwap += RefreshIcons;
     }
 
     private void Instance_NotifyStartAbilityCooldown(PlayerUi playerWhoUsedAbility, float cdLength)
@@ -196,30 +194,26 @@ public class PlayerUi : MonoBehaviour
         else if (pb.LilGuyTeam[2].GuyName == "Tricera-box")
             RBCharacter.sprite = iconSprites[(int)LilGuys.Tricerabox];*/
 
-        
     }
-
-    private void OnSwap(PlayerUi playerUi, float swapDirection)
+    private void ModifyTeam()
     {
+
+    }
+    private void RefreshIcons(PlayerUi playerUi, float swapDirection)
+    {
+        Debug.Log("Swap Direction: " + swapDirection);
         if(playerUi == this)
         {
-            Image tempHolder;
-
-            //Left Shift
-            if (swapDirection < 0)
-            {
-                CurrentCharacter.sprite = body.LilGuyTeam[0].Icon;
-                RBCharacter.sprite = body.LilGuyTeam[1].Icon;
-                LBCharacter.sprite = body.LilGuyTeam[2].Icon;
-            }
-            else if (swapDirection > 0)
-            {
-                tempHolder = CurrentCharacter;
-                CurrentCharacter = RBCharacter;
-                RBCharacter = LBCharacter;
-                LBCharacter = tempHolder;
-            }
+            SetIcons();
         }
+    }
+
+    private void SetIcons()
+    {
+        CurrentCharacter.sprite = pb.LilGuyTeam[0].Icon;
+        AbilityIcon.sprite = pb.LilGuyTeam[0].AbilityIcon;
+        RBCharacter.sprite = pb.LilGuyTeam[1].Icon;
+        LBCharacter.sprite = pb.LilGuyTeam[2].Icon;
     }
     public void SetBerryCount(int count)
     {
