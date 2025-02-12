@@ -65,6 +65,7 @@ public class HealingFountain : InteractableBase
 		base.CompleteInteraction(body);
 		if (GameManager.Instance.CurrentPhase == 2) return;
 		if (body.IsDead) return;
+		body.GameplayStats.FountainUses++;
 		foreach (LilGuyBase lilGuy in body.LilGuyTeam)
 		{
 			if (lilGuy.Health < lilGuy.MaxHealth)

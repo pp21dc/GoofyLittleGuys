@@ -14,6 +14,7 @@ public class StatMetrics : MonoBehaviour
 	private int deathCount = 0;
 	private int swapCount = 0;
 	private int berriesEaten = 0;
+	private int fountainUses = 0;
 	private float distanceTraveled = 0;
 	private int lilGuysTamedTotal = 0;
 	private bool killedLegendary = false;
@@ -31,6 +32,7 @@ public class StatMetrics : MonoBehaviour
 	public int DeathCount { get => deathCount; set => deathCount = value; }
 	public int SwapCount { get => swapCount; set => swapCount = value; }
 	public int BerriesEaten { get => berriesEaten; set => berriesEaten = value; }
+	public int FountainUses { get => fountainUses; set => fountainUses = value; }
 	public float DistanceTraveled { get => distanceTraveled; set => distanceTraveled = value; }
 	public int LilGuysTamedTotal { get => lilGuysTamedTotal; set => lilGuysTamedTotal = value; }
 
@@ -131,7 +133,7 @@ public class StatMetrics : MonoBehaviour
 		List<string> titles = GetTitles(allPlayers);
 		foreach (string title in titles) outputMessage += title + "\n";
 
-		outputMessage += $"\nStats\nDamage Dealt: {damageDealt}\nDamage Taken: {damageTaken}\nDamage Reduced: {damageReduced}\nSpecials Used: {specialsUsed}\nTeam Wipes: {teamWipes}\nWild Lil Guys Defeated: {wildLilGuysDefeated}\nDeath Count: {deathCount}\nSwap Count: {swapCount}\nBerries Eaten: {berriesEaten}\nDistance Traveled: {distanceTraveled}m\nLil Guys tamed: {lilGuysTamedTotal}" +
+		outputMessage += $"\nStats\nDamage Dealt: {damageDealt}\nDamage Taken: {damageTaken}\nDamage Reduced: {damageReduced}\nSpecials Used: {specialsUsed}\nTeam Wipes: {teamWipes}\nWild Lil Guys Defeated: {wildLilGuysDefeated}\nDeath Count: {deathCount}\nSwap Count: {swapCount}\nBerries Eaten: {berriesEaten}\nFountain Uses: {fountainUses}\nDistance Traveled: {distanceTraveled}m\nLil Guys tamed: {lilGuysTamedTotal}" +
 			$"\nFavourite Lil Guy: {GetFavoriteCharacter()}\nMost Visited Location: {GetMostVisitedLocation()}";
 		Debug.Log(outputMessage);
 	}
