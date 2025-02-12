@@ -40,6 +40,7 @@ public class PlayerUi : MonoBehaviour
 
     [SerializeField] GameObject tempWinText;
 
+    private PlayerBody body;
     enum LilGuys
     {
         Teddy,
@@ -57,7 +58,9 @@ public class PlayerUi : MonoBehaviour
 
     private void Start()
     {
+        body = GetComponentInParent<PlayerBody>();
         EventManager.Instance.NotifyStartAbilityCooldown += SetCooldownIndicator;
+        EventManager.Instance.NotifyUiSwap += OnSwap;
     }
 
     private void Instance_NotifyStartAbilityCooldown(PlayerUi playerWhoUsedAbility, float cdLength)
@@ -111,7 +114,7 @@ public class PlayerUi : MonoBehaviour
         //Setting the UI Images - needs to be redone for efficency
 
        
-        //Abiltiy Icon
+/*        //Abiltiy Icon
         if (pb.LilGuyTeam[0].GuyName == "Teddy")
             AbilityIcon.sprite = abilitySprites[(int)LilGuys.Teddy];
         else if (pb.LilGuyTeam[0].GuyName == "Spricket")
@@ -191,9 +194,32 @@ public class PlayerUi : MonoBehaviour
         else if (pb.LilGuyTeam[2].GuyName == "Toadstool")
             RBCharacter.sprite = iconSprites[(int)LilGuys.Toadstool];
         else if (pb.LilGuyTeam[2].GuyName == "Tricera-box")
-            RBCharacter.sprite = iconSprites[(int)LilGuys.Tricerabox];
+            RBCharacter.sprite = iconSprites[(int)LilGuys.Tricerabox];*/
 
         
+    }
+
+    private void OnSwap(PlayerUi playerUi, float swapDirection)
+    {
+        if(playerUi == this)
+        {
+            Image tempHolder;
+
+            //Left Shift
+            if (swapDirection < 0)
+            {
+                CurrentCharacter.sprite = body.LilGuyTeam[0].Icon;
+                RBCharacter.sprite = body.LilGuyTeam[1].Icon;
+                LBCharacter.sprite = body.LilGuyTeam[2].Icon;
+            }
+            else if (swapDirection > 0)
+            {
+                tempHolder = CurrentCharacter;
+                CurrentCharacter = RBCharacter;
+                RBCharacter = LBCharacter;
+                LBCharacter = tempHolder;
+            }
+        }
     }
     public void SetBerryCount(int count)
     {
