@@ -439,7 +439,8 @@ public class PlayerBody : MonoBehaviour
 		else
 		{
 			isDead = true;
-			lilGuyTeam[0].GetComponent<Hurtbox>().LastHit.GameplayStats.TeamWipes++;
+			if (!ReferenceEquals(lilGuyTeam[0].GetComponent<Hurtbox>().LastHit, null))
+				lilGuyTeam[0].GetComponent<Hurtbox>().LastHit.GameplayStats.TeamWipes++;
 			GameplayStats.DeathCount++;
 			deathTime = GameManager.Instance.CurrentGameTime;
 			// No living lil guys, time for a respawn if possible.

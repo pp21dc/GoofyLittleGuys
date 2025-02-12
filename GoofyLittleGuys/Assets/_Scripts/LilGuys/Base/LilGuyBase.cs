@@ -173,9 +173,16 @@ public abstract class LilGuyBase : MonoBehaviour
         SetWildLilGuyLevel(averageLevel);
     }
 
-    private void SetWildLilGuyLevel(int level)
+    public void CreateLegendary(float maxScale, int level)
     {
-        level = Mathf.Clamp(Mathf.FloorToInt(UnityEngine.Random.Range(level - 2f, level + 3f)), 1, 24); // Add a variance of ~1 level greater/less
+        transform.localScale = Vector3.one * maxScale;
+        SetWildLilGuyLevel(level, false);
+        GetComponent<WildBehaviour>().IsCatchable = false;
+    }
+
+    private void SetWildLilGuyLevel(int level, bool randomRange = true)
+    {
+        if (randomRange) level = Mathf.Clamp(Mathf.FloorToInt(UnityEngine.Random.Range(level - 2f, level + 3f)), 1, 24); // Add a variance of ~1 level greater/less
         this.level = level;
 
         int numOfMilestonesMet = Mathf.FloorToInt(level / 5);

@@ -95,12 +95,15 @@ public class SpawnerObj : MonoBehaviour
 	/// <summary>
 	/// Spawns the legendary Lil Guy, ignoring normal spawn restrictions.
 	/// </summary>
-	public void SpawnLegendary()
+	public void SpawnLegendary(float maxScale, int level)
 	{
 		Vector3 spawnPos = PickValidSpot();
 		GameObject legendary = Instantiate(legendaryLilGuy, spawnPos, Quaternion.identity, Managers.SpawnManager.Instance.transform);
 		legendary.layer = LayerMask.NameToLayer("WildLilGuys");
 		legendary.GetComponent<WildBehaviour>().HomeSpawner = this;
+
+		LilGuyBase leg = legendary.GetComponent<LilGuyBase>();
+		leg.CreateLegendary(maxScale, level);
 	}
 
 	/// <summary>
