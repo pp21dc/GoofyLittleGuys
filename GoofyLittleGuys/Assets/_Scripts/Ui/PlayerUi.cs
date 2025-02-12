@@ -55,7 +55,17 @@ public class PlayerUi : MonoBehaviour
     public GameObject TempWinText { get => tempWinText; set => tempWinText = value; }
     public RectTransform mirroredXUi; // Assign this in the inspector
 
-	private void Update()
+    private void Start()
+    {
+        EventManager.Instance.NotifyStartAbilityCooldown += SetCooldownIndicator;
+    }
+
+    private void Instance_NotifyStartAbilityCooldown(PlayerUi playerWhoUsedAbility, float cdLength)
+    {
+        throw new NotImplementedException();
+    }
+
+    private void Update()
     {
         if (pb.NextBerryUseTime > 0)
         {
@@ -214,9 +224,12 @@ public class PlayerUi : MonoBehaviour
         persistentAbilityIcon.sprite = newAbilityIcon;
     }
 
-    private void SetCooldownIndicator()
+    private void SetCooldownIndicator(PlayerUi playerUi, float cooldownLength)
     {
-
+        if(playerUi == this)
+        {
+            StartCoroutine(AbilityCooldownTimer(cooldownLength));
+        }
     }
 
     private IEnumerator AbilityCooldownTimer(float cooldownLength)
@@ -226,6 +239,7 @@ public class PlayerUi : MonoBehaviour
         while(timer > 0)
         {
             timer -= Time.deltaTime;
+            abilityCooldownTimer.fillAmount = timer / cooldownLength;
             yield return null;
         }
             

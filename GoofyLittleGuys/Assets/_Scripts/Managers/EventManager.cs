@@ -35,6 +35,9 @@ public class EventManager
 	public delegate void GamePausedDelegate(PlayerInput playerWhoPaused);
 	public event GamePausedDelegate NotifyGamePaused;
 
+	public delegate void StartAbilityCooldownDelegate(PlayerUi playerWhoUsedAbility, float cdLength);
+	public event StartAbilityCooldownDelegate NotifyStartAbilityCooldown;
+
 	private static EventManager _instance = null;
 	public static EventManager Instance
 	{
@@ -238,6 +241,11 @@ public class EventManager
 
 		lilGuy.InstantiatedDome = null;
 		lilGuy.DamageReductionActive = false;
+	}
+
+	public void StartAbilityCooldown(PlayerUi playerUi, float cdLength)
+	{
+		NotifyStartAbilityCooldown?.Invoke(playerUi, cdLength);
 	}
 
 }
