@@ -37,7 +37,7 @@ namespace Managers
 		private float timeUntilNextStorm = 0.0f;
 		private System.TimeSpan gameTime;                                       // To convert from total seconds time to a time in the format mm:ss
 		private bool isPaused = false;
-		private bool[] legendarySpawned = { false, false, false };
+		private bool[] legendarySpawned = { false, false };
 
 		private int currentPhase = 0;
 		private bool gameOver = false;
@@ -111,11 +111,6 @@ namespace Managers
 				{
 					legendarySpawned[1] = true;
 					SpawnLegendary(legendaryMaxScales[1], legendaryLevels[1]);
-				}
-				else if (currentGameTime >= legendarySpawnTimes[2] * 60 && !legendarySpawned[2])
-				{
-					legendarySpawned[2] = true;
-					SpawnLegendary(legendaryMaxScales[2], legendaryLevels[2]);
 				}
 
 			}
