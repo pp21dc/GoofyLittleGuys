@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
+using UnityEngine.UI;
 
 namespace Managers
 {
@@ -102,7 +103,8 @@ namespace Managers
                 {
                     body.Controller.PlayerEventSystem.gameObject.SetActive(false);
 				}
-            }
+
+			}
             else
             {
                 Time.timeScale = 1;
@@ -112,8 +114,10 @@ namespace Managers
 				}
 			}
 			pauseEventSystem.GetComponent<InputSystemUIInputModule>().actionsAsset = player.actions;    // Set the UI input module's input to be the player who paused.
+			pauseEventSystem.SetSelectedGameObject(null);
+			pauseEventSystem.SetSelectedGameObject(firstSelected);
 
-            DisableAllPlayerInputs();
+			DisableAllPlayerInputs();
 
             if (GameManager.Instance.IsPaused) player.SwitchCurrentActionMap("UI");
             else player.SwitchCurrentActionMap("World");

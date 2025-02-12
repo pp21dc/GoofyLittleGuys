@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 using TMPro;
 using UnityEngine.SceneManagement;
 using Util;
+using Unity.VisualScripting;
 
 namespace Managers
 {
@@ -36,7 +37,7 @@ namespace Managers
 		private float timeUntilNextStorm = 0.0f;
 		private System.TimeSpan gameTime;                                       // To convert from total seconds time to a time in the format mm:ss
 		private bool isPaused = false;
-		private bool[] legendarySpawned = { false, false, false };
+		private bool[] legendarySpawned = { false, false };
 
 		private int currentPhase = 0;
 		private bool gameOver = false;
@@ -110,11 +111,6 @@ namespace Managers
 				{
 					legendarySpawned[1] = true;
 					SpawnLegendary(legendaryMaxScales[1], legendaryLevels[1]);
-				}
-				else if (currentGameTime >= legendarySpawnTimes[2] * 60 && !legendarySpawned[2])
-				{
-					legendarySpawned[2] = true;
-					SpawnLegendary(legendaryMaxScales[2], legendaryLevels[2]);
 				}
 
 			}
@@ -198,7 +194,7 @@ namespace Managers
 			currentPhase++;
 			currentLayerMask = phase1LayerMask;
 			AudioManager.Instance.PlayMusic("GLGPhase1", "GLGPhase2", phaseAudioSources[1], phaseAudioSources[0]);
-
+            StartCoroutine(InitialUiLoad());
         }
 
 		/// <summary>
@@ -386,6 +382,17 @@ namespace Managers
 		{
 			return phaseOneStartTime * 60f;
 		}
-	}
+
+        public IEnumerator InitialUiLoad()
+        {
+            yield return new WaitForNextFrameUnit();
+
+            foreach (PlayerBody pb in players)
+			{
+				EventManager.Instance.RefreshUi(pb.PlayerUI, 0);
+			}
+
+        }
+    }
 
 }
