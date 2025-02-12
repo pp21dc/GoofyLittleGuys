@@ -517,6 +517,36 @@ PrefabInstance:
       propertyPath: m_PresetInfoIsWorld
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1840946438735149832, guid: 533e318f743a87f479f4cdd8b25b7ac4,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1840946438735149832, guid: 533e318f743a87f479f4cdd8b25b7ac4,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1840946438735149832, guid: 533e318f743a87f479f4cdd8b25b7ac4,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3855026606095277741, guid: 533e318f743a87f479f4cdd8b25b7ac4,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3855026606095277741, guid: 533e318f743a87f479f4cdd8b25b7ac4,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3855026606095277741, guid: 533e318f743a87f479f4cdd8b25b7ac4,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5729104096301020213, guid: 533e318f743a87f479f4cdd8b25b7ac4,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -621,6 +651,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: AIHealthBar
+      objectReference: {fileID: 0}
+    - target: {fileID: 8843062740006680514, guid: 533e318f743a87f479f4cdd8b25b7ac4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
