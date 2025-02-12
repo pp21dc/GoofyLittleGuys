@@ -377,23 +377,23 @@ public class WildBehaviour : MonoBehaviour
 		homeSpawner.RemoveLilGuyFromSpawns();
 		faintedEffect = Instantiate(FXManager.Instance.GetEffect("Fainted"), transform.position, Quaternion.identity, transform);
 		controller.HealthUi.gameObject.SetActive(false);
-		if (!isCatchable)
+		if (isCatchable)
+		{
+			instantiatedPlayerRangeIndicator = Instantiate(capturingPlayerRange, transform.position, Quaternion.identity, Managers.SpawnManager.Instance.transform);
+			instantiatedPlayerRangeIndicator.GetComponent<CaptureZone>().Init(controller.LilGuy);
+			float currTime = 0;
+			while (currTime < timeBeforeDestroyed)
+			{
+				currTime += Time.deltaTime;
+				yield return null;
+			}
+		}
+		else
 		{
 			Hurtbox h = GetComponent<Hurtbox>();
 			GameObject legendaryKillEffect = Instantiate(FXManager.Instance.GetEffect("LegendaryKill"), h.LastHit.transform.position + Vector3.forward, Quaternion.identity, h.LastHit.transform);
 			h.LastHit.GameplayStats.KilledLegendary = true;
 		}
-
-		instantiatedPlayerRangeIndicator = Instantiate(capturingPlayerRange, transform.position, Quaternion.identity, Managers.SpawnManager.Instance.transform);
-		instantiatedPlayerRangeIndicator.GetComponent<CaptureZone>().Init(controller.LilGuy);
-		float currTime = 0;
-		while (currTime < timeBeforeDestroyed)
-		{
-			currTime += Time.deltaTime;
-			yield return null;
-		}
-
-
 
 		controller.LilGuy.SpawnDeathParticle();
 		Destroy(gameObject);
@@ -410,7 +410,7 @@ public class WildBehaviour : MonoBehaviour
 		if (instantiatedPlayerRangeIndicator != null) Destroy(instantiatedPlayerRangeIndicator);
 	}
 
-
+	
 }
 
 public enum AIState
