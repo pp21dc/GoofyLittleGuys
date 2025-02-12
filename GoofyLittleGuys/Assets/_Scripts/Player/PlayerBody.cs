@@ -135,7 +135,7 @@ public class PlayerBody : MonoBehaviour
 		rb = GetComponent<Rigidbody>();
 		EventManager.Instance.GameStarted += Init;
 		lastPosition = transform.position; // Initialize position
-    }
+	}
 
 	private void OnDestroy()
 	{
@@ -315,9 +315,7 @@ public class PlayerBody : MonoBehaviour
 			GameObject catchEffect = Instantiate(FXManager.Instance.GetEffect("Catch"), transform.position, Quaternion.identity);
 			catchEffect.GetComponent<SpriteRenderer>().sortingOrder = (int)-transform.position.z - 1;
 		}
-
-		if (berryCount <= 0) return;
-		if (lilGuyTeam[0].Health < lilGuyTeam[0].MaxHealth && nextBerryUseTime <= 0)
+		else if (lilGuyTeam[0].Health < lilGuyTeam[0].MaxHealth && nextBerryUseTime <= 0 && berryCount > 0)
 		{
 			int healthRestored = Mathf.CeilToInt(lilGuyTeam[0].MaxHealth * berryHealPercentage);
 			EventManager.Instance.HealLilGuy(lilGuyTeam[0], healthRestored);
@@ -327,9 +325,11 @@ public class PlayerBody : MonoBehaviour
 			lilGuyTeam[0].PlaySound("Eat_Berry");
 			nextBerryUseTime = berryUsageCooldown;
 			EventManager.Instance.UpdatePlayerHealthUI(this);
+
+			EventManager.Instance.UpdatePlayerHealthUI(this);
+			playerUi.SetBerryCount(berryCount);
 		}
-		EventManager.Instance.UpdatePlayerHealthUI(this);
-		playerUi.SetBerryCount(berryCount);
+
 	}
 
 	public void ReorganizeTeam()
@@ -487,7 +487,7 @@ public class PlayerBody : MonoBehaviour
 			LilGuyBase last = aliveTeam[aliveTeam.Count - 1];
 			aliveTeam.RemoveAt(aliveTeam.Count - 1);
 			aliveTeam.Insert(0, last);
-        }
+		}
 
 		lilGuyTeam = aliveTeam.Concat(lilGuyTeam.Where(guy => guy.Health <= 0)).ToList();
 		SetActiveLilGuy(lilGuyTeam[0]);
@@ -514,8 +514,8 @@ public class PlayerBody : MonoBehaviour
 
 		isSwapping = false;
 		nextSwapTime = Time.time + swapCooldown;
-        EventManager.Instance.RefreshUi(playerUi, 0);
-    }
+		EventManager.Instance.RefreshUi(playerUi, 0);
+	}
 
 	public void StartDash()
 	{
@@ -532,7 +532,7 @@ public class PlayerBody : MonoBehaviour
 	/// </summary>
 	private void Init()
 	{
-		
+
 		DisableUIControl();
 		rb.isKinematic = false;
 		controller.PlayerCam.gameObject.SetActive(true);
@@ -541,14 +541,14 @@ public class PlayerBody : MonoBehaviour
 		controller.PlayerEventSystem.gameObject.SetActive(false);
 		playerUi.SetBerryCount(berryCount);
 		playerMesh.SetActive(true);
-        SetIcon();
+		SetIcon();
 		GameplayStats.CurrentCharacter = lilGuyTeam[0].GuyName;
 		//EventManager.Instance.RefreshUi(playerUi, 0);
-    }
+	}
 
 	private void SetIcon()
 	{
-		miniMapIcon.GetComponent<SpriteRenderer>().sprite = UiManager.Instance.shapes[(controller.PlayerNumber)-1];
+		miniMapIcon.GetComponent<SpriteRenderer>().sprite = UiManager.Instance.shapes[(controller.PlayerNumber) - 1];
 	}
 	/// <summary>
 	/// Enable UI control for the player
