@@ -38,6 +38,9 @@ public class EventManager
 	public delegate void StartAbilityCooldownDelegate(PlayerUi playerWhoUsedAbility, float cdLength);
 	public event StartAbilityCooldownDelegate NotifyStartAbilityCooldown;
 
+	public delegate void UiSwapDelegate(PlayerUi playerUi, float swapDirection);
+	public event UiSwapDelegate NotifyUiSwap;
+
 	private static EventManager _instance = null;
 	public static EventManager Instance
 	{
@@ -248,4 +251,8 @@ public class EventManager
 		NotifyStartAbilityCooldown?.Invoke(playerUi, cdLength);
 	}
 
+	public void SwapUI(PlayerUi playerUi, float swapDirection)
+	{
+		NotifyUiSwap?.Invoke(playerUi, swapDirection);
+	}
 }

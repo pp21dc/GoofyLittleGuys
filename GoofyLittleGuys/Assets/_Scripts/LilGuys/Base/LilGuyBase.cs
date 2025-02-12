@@ -19,7 +19,8 @@ public abstract class LilGuyBase : MonoBehaviour
     [SerializeField] protected Transform attackOrbit;
     [SerializeField] private GameObject healFXPrefab;
     [SerializeField] private AudioSource audioSource;
-
+    [SerializeField] private Sprite uiIcon;
+    [SerializeField] private Sprite abilityIcon;
 
     [Header("Lil Guy Stats")]
     [SerializeField] private int baseSpeed = 13;
@@ -127,6 +128,9 @@ public abstract class LilGuyBase : MonoBehaviour
 
     public int MaxXp { get { return max_xp; } }
     public bool KnockedBack { set { knockedBack = value; } }
+
+    public Sprite Icon { get { return uiIcon; } }
+    public Sprite AbilityIcon {  get { return abilityIcon; } }
     #endregion
 
     public enum PrimaryType

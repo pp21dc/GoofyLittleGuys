@@ -481,13 +481,15 @@ public class PlayerBody : MonoBehaviour
 			LilGuyBase first = aliveTeam[0];
 			aliveTeam.RemoveAt(0);
 			aliveTeam.Add(first);
+			EventManager.Instance.SwapUI(playerUi, shiftDirection);
 		}
 		else if (shiftDirection > 0) // Right shift
 		{
 			LilGuyBase last = aliveTeam[aliveTeam.Count - 1];
 			aliveTeam.RemoveAt(aliveTeam.Count - 1);
 			aliveTeam.Insert(0, last);
-		}
+            EventManager.Instance.SwapUI(playerUi, shiftDirection);
+        }
 
 		lilGuyTeam = aliveTeam.Concat(lilGuyTeam.Where(guy => guy.Health <= 0)).ToList();
 		SetActiveLilGuy(lilGuyTeam[0]);
