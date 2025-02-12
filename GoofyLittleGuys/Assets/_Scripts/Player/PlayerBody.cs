@@ -425,7 +425,7 @@ public class PlayerBody : MonoBehaviour
 				{
 					lilGuy.gameObject.layer = LayerMask.NameToLayer("Player");
 					lilGuy.GetComponent<Rigidbody>().isKinematic = false;
-					lilGuy.GetComponent<Rigidbody>().interpolation = RigidbodyInterpolation.Interpolate;
+					lilGuy.GetComponent<Rigidbody>().interpolation = RigidbodyInterpolation.None;
 					lilGuy.IsAttacking = false;
 					lilGuy.SetMaterial(GameManager.Instance.RegularLilGuySpriteMat);
 				}
@@ -504,7 +504,7 @@ public class PlayerBody : MonoBehaviour
 		{
 			lilGuy.gameObject.layer = LayerMask.NameToLayer("Player");
 			lilGuy.GetComponent<Rigidbody>().isKinematic = false;
-			lilGuy.GetComponent<Rigidbody>().interpolation = RigidbodyInterpolation.Interpolate;
+			lilGuy.GetComponent<Rigidbody>().interpolation = RigidbodyInterpolation.None;
 			lilGuy.IsAttacking = false;
 			lilGuy.SetMaterial(GameManager.Instance.RegularLilGuySpriteMat);
 		}

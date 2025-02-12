@@ -91,6 +91,12 @@ public class TeamFullMenu : MonoBehaviour
 		lilGuyBeingCaught.gameObject.transform.localPosition = Vector3.zero;
 		lilGuyBeingCaught.SetFollowGoal(body.LilGuyTeamSlots[choice].transform);
 
+		if (choice == 0)
+		{
+			body.ActiveLilGuy = lilGuyBeingCaught;
+			body.PlayerUI.SetPersistentHealthBarValue(lilGuyBeingCaught.Health, lilGuyBeingCaught.MaxHealth);
+		}
+
 		// Remove the lil guy being released.
 		Destroy(lilGuyBeingReleased.gameObject);
 

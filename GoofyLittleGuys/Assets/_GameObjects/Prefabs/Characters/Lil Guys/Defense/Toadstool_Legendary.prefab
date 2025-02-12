@@ -99,6 +99,8 @@ MonoBehaviour:
   attackOrbit: {fileID: 122990110928241992}
   healFXPrefab: {fileID: 0}
   audioSource: {fileID: 2174837283464971496}
+  uiIcon: {fileID: 0}
+  abilityIcon: {fileID: 0}
   baseSpeed: 13
   level: 25
   xp: 0
@@ -147,9 +149,9 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 1
+  m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 3
+  m_CollisionDetection: 2
 --- !u!136 &4988145507736226384
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -252,8 +254,8 @@ MonoBehaviour:
   slowestThinkSpeed: 1
   wanderIntervalMin: 5
   wanderIntervalMax: 10
-  minWanderRadius: 2
-  maxWanderRadius: 5
+  minWanderRadius: 5
+  maxWanderRadius: 10
   isCatchable: 0
 --- !u!95 &2852710274394337051
 Animator:
