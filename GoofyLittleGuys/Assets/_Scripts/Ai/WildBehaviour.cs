@@ -67,6 +67,7 @@ public class WildBehaviour : MonoBehaviour
 	GameObject faintedEffect;
 	public SpawnerObj HomeSpawner { get { return homeSpawner; } set { homeSpawner = value; } }
 	public float Charisma => charisma;
+	public bool IsCatchable { get => isCatchable; set => isCatchable = value; }
 
 	private void Start()
 	{

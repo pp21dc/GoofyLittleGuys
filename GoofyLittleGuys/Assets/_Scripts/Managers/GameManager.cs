@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
 using UnityEngine.SceneManagement;
+using Util;
 
 namespace Managers
 {
@@ -14,7 +15,9 @@ namespace Managers
 		[SerializeField] private List<PlayerSpawnPoint> spawnPoints;
 
 		[SerializeField, Tooltip("Time in minutes that the first phase should end at.")] private float phaseOneStartTime = 7f;   // Length of Phase 1 in minutes.
-		[SerializeField, Tooltip("Time in minutes that the legendary spawns.")] private float legendarySpawnTime = 4f;   // Legendary spawn time in minutes. 
+		[SerializeField, Tooltip("Time in minutes that the legendary spawns.")] private float[] legendarySpawnTimes = { 2f, 3f, 4f };   // Legendary spawn time in minutes. 
+		[SerializeField] private float[] legendaryMaxScales = { 2f, 2.5f, 3f };   // Legendary spawn time in minutes. 
+		[SerializeField] private int[] legendaryLevels = { 10, 15, 20 };   // Legendary spawn time in minutes. 
 		[SerializeField] private const float phaseTwoDuration = 180f;   // Length of Phase 2 in seconds. (This amounts to 3 minutes)180f
 		[SerializeField] private float currentGameTime = 0;             // Current game time in seconds.
 		[SerializeField] private Transform fountainSpawnPoint;          // The spawn point that players are respawned to in the main game, set by the HealingFountain.cs
@@ -33,7 +36,7 @@ namespace Managers
 		private float timeUntilNextStorm = 0.0f;
 		private System.TimeSpan gameTime;                                       // To convert from total seconds time to a time in the format mm:ss
 		private bool isPaused = false;
-		private bool legendarySpawned = false;
+		private bool[] legendarySpawned = { false, false, false };
 
 		private int currentPhase = 0;
 		private bool gameOver = false;
@@ -98,10 +101,20 @@ namespace Managers
 					currentPhase++;
 					StartPhaseTwo();
 				}
-				if (currentGameTime >= legendarySpawnTime * 60 && !legendarySpawned)
+				if (currentGameTime >= legendarySpawnTimes[0] * 60 && !legendarySpawned[0])
 				{
-					legendarySpawned = true;
-					SpawnLegendary();
+					legendarySpawned[0] = true;
+					SpawnLegendary(legendaryMaxScales[0], legendaryLevels[0]);
+				}
+				else if (currentGameTime >= legendarySpawnTimes[1] * 60 && !legendarySpawned[1])
+				{
+					legendarySpawned[1] = true;
+					SpawnLegendary(legendaryMaxScales[1], legendaryLevels[1]);
+				}
+				else if (currentGameTime >= legendarySpawnTimes[2] * 60 && !legendarySpawned[2])
+				{
+					legendarySpawned[2] = true;
+					SpawnLegendary(legendaryMaxScales[2], legendaryLevels[2]);
 				}
 
 			}
@@ -132,7 +145,7 @@ namespace Managers
 		{
 			stormSets.Clear();
 			rankings.Clear();
-			legendarySpawned = false;
+			for (int i = 0; i < legendarySpawned.Length; i++) { legendarySpawned[i] = false; }
 			AudioManager.Instance.PlayMusic("GLGMainMenu", phaseAudioSources[0]);
 			phaseAudioSources[1].volume = 0;
 			currentPhase = 0;
@@ -224,11 +237,11 @@ namespace Managers
 		/// <summary>
 		/// Method to call when it's time to spawn a legendary lil guy
 		/// </summary>
-		public void SpawnLegendary()
+		public void SpawnLegendary(float maxScale, int level)
 		{
 			if (SpawnManager.Instance != null)
 			{
-				SpawnManager.Instance.SpawnLegendaryLilGuy();
+				SpawnManager.Instance.SpawnLegendaryLilGuy(maxScale, level);
 			}
 		}
 
@@ -265,16 +278,16 @@ namespace Managers
 			List<StatMetrics> metrics = new List<StatMetrics>();
 			foreach (PlayerBody player in players)
 			{
-				if (!rankings.Contains(player)) rankings.Add(player); 
+				if (!rankings.Contains(player)) rankings.Add(player);
 				metrics.Add(player.GameplayStats);
 			}
 
 			rankings[rankings.Count - 1].PlayerUI.TempWinText.SetActive(true);
 
-			
+
 			foreach (PlayerBody player in players)
 			{
-				player.GameplayStats.ShowMetrics(metrics);			
+				player.GameplayStats.ShowMetrics(metrics);
 			}
 			Debug.Log("Brawl Phase has ended by knockout!");
 		}

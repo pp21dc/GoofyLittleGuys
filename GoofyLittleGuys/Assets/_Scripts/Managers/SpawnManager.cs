@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Util;
 
 
 
@@ -14,13 +15,19 @@ namespace Managers
 	/// </summary>
 	public class SpawnManager : SingletonBase<SpawnManager>
 	{
-		private Dictionary<string, List<SpawnerObj>> clearingSpawners = new();	// Tracks spawners per clearing
-		private Dictionary<string, int> clearingSpawnCounts = new();			// Tracks active Lil Guys per clearing
+		private Dictionary<string, List<SpawnerObj>> clearingSpawners = new();  // Tracks spawners per clearing
+		private Dictionary<string, int> clearingSpawnCounts = new();            // Tracks active Lil Guys per clearing
 		private List<SpawnerObj> legendarySpawners = new();                     // Tracks all legendary spawners
 
 		private float gracePeriod = 3f;
 
+		private ShuffleBag<SpawnerObj> legendarySpawnersSB = new();
 		public float GracePeriod { get => gracePeriod; set => gracePeriod = value; }
+
+		private void Start()
+		{
+
+		}
 
 		/// <summary>
 		/// Registers a spawner to the appropriate clearing, or as a legendary spawner if applicable.
@@ -31,6 +38,7 @@ namespace Managers
 			if (spawner.legendarySpawned)
 			{
 				legendarySpawners.Add(spawner);
+				legendarySpawnersSB.Add(spawner);
 				return;
 			}
 
@@ -95,13 +103,12 @@ namespace Managers
 		/// Randomly selects a legendary spawner and triggers its SpawnLegendary() method.
 		/// Ensures that legendary Lil Guys are spawned independently of clearing spawn limits.
 		/// </summary>
-		public void SpawnLegendaryLilGuy()
+		public void SpawnLegendaryLilGuy(float maxScale, int level)
 		{
-			if (legendarySpawners.Count > 0)
-			{
-				SpawnerObj selectedSpawner = legendarySpawners[Random.Range(0, legendarySpawners.Count)];
-				selectedSpawner.SpawnLegendary();
-			}
+
+			SpawnerObj selectedSpawner = legendarySpawnersSB.Next();
+			selectedSpawner.SpawnLegendary(maxScale, level);
+			
 		}
 	}
 }
