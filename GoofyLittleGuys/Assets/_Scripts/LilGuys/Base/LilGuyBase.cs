@@ -416,7 +416,7 @@ public abstract class LilGuyBase : MonoBehaviour
                 Debug.Log($"{name} was a player-owned Lil Guy, and was defeated by player {h.LastHit}. Awarding bonus xp.");
                 for (int i = 0; i < h.LastHit.LilGuyTeam.Count; i++)
                 {
-                    h.LastHit.LilGuyTeam[i].AddXP((i ==0) ? Mathf.FloorToInt((Mathf.Pow((Level + 4), 2)) / 4) : Mathf.FloorToInt((Mathf.Pow((Level + 2), 2)) / 6));
+                    h.LastHit.LilGuyTeam[i].AddXP((i ==0) ? Mathf.FloorToInt((Mathf.Pow((Level + 4), 2)) / 3) : Mathf.FloorToInt((Mathf.Pow((Level + 2), 2)) / 5));
 				}
             }
             StartCoroutine(Disappear());
@@ -426,7 +426,7 @@ public abstract class LilGuyBase : MonoBehaviour
             Debug.Log($"{name} was a wild Lil Guy, and was defeated by player {GetComponent<Hurtbox>().LastHit}. Awarding XP."); 
             for (int i = 0; i < h.LastHit.LilGuyTeam.Count; i++)
 			{
-				h.LastHit.LilGuyTeam[i].AddXP((i == 0) ? Mathf.FloorToInt((Mathf.Pow((Level + 2), 2) / 6)) : Mathf.FloorToInt((Mathf.Pow((Level + 1), 2) / 8)));
+				h.LastHit.LilGuyTeam[i].AddXP((i == 0) ? Mathf.FloorToInt((Mathf.Pow((Level + 2), 2) / 5)) : Mathf.FloorToInt((Mathf.Pow((Level + 1), 2) / 7)));
 			}
             h.LastHit.GameplayStats.WildLilGuysDefeated++;
             isDying = false;
