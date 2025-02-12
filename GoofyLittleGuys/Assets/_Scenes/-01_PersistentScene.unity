@@ -2606,6 +2606,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1970606836446198798, guid: de1849616cf5e6e41990742051e315c8,
         type: 3}
+      propertyPath: legendaryLevels.Array.data[0]
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1970606836446198798, guid: de1849616cf5e6e41990742051e315c8,
+        type: 3}
+      propertyPath: legendaryLevels.Array.data[1]
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 1970606836446198798, guid: de1849616cf5e6e41990742051e315c8,
+        type: 3}
+      propertyPath: legendaryLevels.Array.data[2]
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1970606836446198798, guid: de1849616cf5e6e41990742051e315c8,
+        type: 3}
       propertyPath: phaseAudioSources.Array.data[0]
       value: 
       objectReference: {fileID: 1050155459}
@@ -2614,6 +2629,36 @@ PrefabInstance:
       propertyPath: phaseAudioSources.Array.data[1]
       value: 
       objectReference: {fileID: 207391564}
+    - target: {fileID: 1970606836446198798, guid: de1849616cf5e6e41990742051e315c8,
+        type: 3}
+      propertyPath: legendaryMaxScales.Array.data[0]
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1970606836446198798, guid: de1849616cf5e6e41990742051e315c8,
+        type: 3}
+      propertyPath: legendaryMaxScales.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1970606836446198798, guid: de1849616cf5e6e41990742051e315c8,
+        type: 3}
+      propertyPath: legendaryMaxScales.Array.data[2]
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1970606836446198798, guid: de1849616cf5e6e41990742051e315c8,
+        type: 3}
+      propertyPath: legendarySpawnTimes.Array.data[0]
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1970606836446198798, guid: de1849616cf5e6e41990742051e315c8,
+        type: 3}
+      propertyPath: legendarySpawnTimes.Array.data[1]
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1970606836446198798, guid: de1849616cf5e6e41990742051e315c8,
+        type: 3}
+      propertyPath: legendarySpawnTimes.Array.data[2]
+      value: 3.75
+      objectReference: {fileID: 0}
     - target: {fileID: 3641037799363622999, guid: de1849616cf5e6e41990742051e315c8,
         type: 3}
       propertyPath: m_LocalPosition.x
