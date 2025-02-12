@@ -212,8 +212,10 @@ public class PlayerUi : MonoBehaviour
     {
         CurrentCharacter.sprite = pb.LilGuyTeam[0].Icon;
         AbilityIcon.sprite = pb.LilGuyTeam[0].AbilityIcon;
-        RBCharacter.sprite = pb.LilGuyTeam[1].Icon;
-        LBCharacter.sprite = pb.LilGuyTeam[2].Icon;
+        if (pb.LilGuyTeam.Count > 1)
+            RBCharacter.sprite = pb.LilGuyTeam[1].Icon;
+        if (pb.LilGuyTeam.Count > 2)
+            LBCharacter.sprite = pb.LilGuyTeam[2].Icon;
     }
     public void SetBerryCount(int count)
     {

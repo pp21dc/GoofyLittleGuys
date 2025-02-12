@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 using TMPro;
 using UnityEngine.SceneManagement;
 using Util;
+using Unity.VisualScripting;
 
 namespace Managers
 {
@@ -198,7 +199,7 @@ namespace Managers
 			currentPhase++;
 			currentLayerMask = phase1LayerMask;
 			AudioManager.Instance.PlayMusic("GLGPhase1", "GLGPhase2", phaseAudioSources[1], phaseAudioSources[0]);
-
+            StartCoroutine(InitialUiLoad());
         }
 
 		/// <summary>
@@ -386,6 +387,17 @@ namespace Managers
 		{
 			return phaseOneStartTime * 60f;
 		}
-	}
+
+        public IEnumerator InitialUiLoad()
+        {
+            yield return new WaitForNextFrameUnit();
+
+            foreach (PlayerBody pb in players)
+			{
+				EventManager.Instance.RefreshUi(pb.PlayerUI, 0);
+			}
+
+        }
+    }
 
 }
