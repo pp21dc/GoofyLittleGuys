@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine.Windows;
 
 public class CharacterSelectMenu : MonoBehaviour
@@ -137,7 +138,15 @@ public class CharacterSelectMenu : MonoBehaviour
 		{
 			case CharacterSelectState.CharacterSelect:
 				MultiplayerManager.Instance.LeavePlayer(player);
-				if (GameManager.Instance.Players.Count == 1) LevelLoadManager.Instance.LoadNewLevel("00_MainMenu");
+				if (GameManager.Instance.Players.Count == 1)
+				{
+					foreach (var p in GameManager.Instance.Players)
+					{
+						Destroy(p.Controller.gameObject);
+					}
+					GameManager.Instance.Players.Clear();
+					LevelLoadManager.Instance.LoadNewLevel("00_MainMenu");
+				}
 				break;
 
 			case CharacterSelectState.LockedIn:
