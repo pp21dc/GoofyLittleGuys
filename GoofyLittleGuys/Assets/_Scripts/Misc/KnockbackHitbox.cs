@@ -19,30 +19,27 @@ public class KnockbackHitbox : MonoBehaviour
 
 	private void OnTriggerEnter(Collider other)
 	{
+		LilGuyBase lilGuy = other.GetComponent<LilGuyBase>();
+		if (lilGuy == null) return;
+
+		Debug.Log(other.gameObject);
 		if (other.gameObject.layer == LayerMask.NameToLayer("WildLilGuys"))
 		{
-			EventManager.Instance.HandleKnockback(other, knockbackForce, knockbackDuration, (other.transform.position - transform.position).normalized);
+			lilGuy.ApplyKnockback((other.transform.position - transform.position).normalized * knockbackForce);
 		}
 		else if (other.gameObject.layer == LayerMask.NameToLayer("PlayerLilGuys"))
 		{
-			EventManager.Instance.HandleKnockback(other, knockbackForce, knockbackDuration, (other.transform.position - transform.position).normalized, true);
+			lilGuy.PlayerOwner.ApplyKnockback((other.transform.position - transform.position).normalized * knockbackForce);
 		}
 	}
 
 	private void OnTriggerExit(Collider other)
 	{
-		if (other.gameObject.layer == LayerMask.NameToLayer("WildLilGuys"))
-		{
-			StartCoroutine(ResetKnockback(other, wildLilGuys));
-		}
-		else if (other.gameObject.layer == LayerMask.NameToLayer("PlayerLilGuys"))
-		{
-			StartCoroutine(ResetKnockback(other, playerLilGuys, true));
-		}
+		
 	}
 
-	
 
+	/*
 	public IEnumerator ResetKnockback(Collider other, HashSet<LilGuyBase> lilGuySet, bool isPlayerOwned = false)
 	{
 		yield return new WaitForSeconds(knockbackDuration);
@@ -66,7 +63,6 @@ public class KnockbackHitbox : MonoBehaviour
 
 	private void OnDestroy()
 	{
-		ResetAllKnockbackStates();
 	}
 	private void ResetAllKnockbackStates()
 	{
@@ -95,4 +91,5 @@ public class KnockbackHitbox : MonoBehaviour
 			playerLilGuys.Clear();
 		}
 	}
+	*/
 }

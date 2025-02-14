@@ -758,7 +758,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -803,6 +803,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 602780de1b0eef649a7e123106d1915a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  movingObject: 1
 --- !u!1 &1235229453542371330
 GameObject:
   m_ObjectHideFlags: 0
@@ -2322,7 +2323,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4095
+    m_Bits: 69631
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -3129,6 +3130,8 @@ MonoBehaviour:
   accelerationTime: 0.1
   decelerationTime: 0.2
   fallMultiplier: 4
+  knockbackResistance: 1
+  knockbackDecayRate: 5
   maxBerryCount: 3
   berryHealPercentage: 0.33
   berryUsageCooldown: 3
@@ -3146,8 +3149,8 @@ Rigidbody:
   m_GameObject: {fileID: 8389416483884224456}
   serializedVersion: 4
   m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
+  m_Drag: 0.2
+  m_AngularDrag: 0.2
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -3382,7 +3385,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -3406,6 +3409,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 602780de1b0eef649a7e123106d1915a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  movingObject: 1
 --- !u!95 &854192111883124028
 Animator:
   serializedVersion: 5
@@ -4148,6 +4152,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 415.0001
+      objectReference: {fileID: 0}
+    - target: {fileID: 1296173568760400907, guid: 110c20c757e90874fad83a63fb1d8c6e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1910863067338394544, guid: 110c20c757e90874fad83a63fb1d8c6e,
         type: 3}

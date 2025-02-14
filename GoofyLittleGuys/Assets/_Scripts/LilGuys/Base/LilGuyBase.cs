@@ -55,7 +55,11 @@ public abstract class LilGuyBase : MonoBehaviour
     private Rigidbody rb;
     private float movementSpeed;
     protected float moveSpeedModifier = 1;
-    private Vector3 currentVelocity = Vector3.zero;
+	[SerializeField] private float knockbackResistance = 1f;
+	[SerializeField] private float knockbackDecayRate = 5f;
+	private Vector3 knockbackForce = Vector3.zero;
+
+	private Vector3 currentVelocity = Vector3.zero;
     protected Vector3 movementDirection = Vector3.zero;
 
     [Header("FX")]
@@ -88,7 +92,6 @@ public abstract class LilGuyBase : MonoBehaviour
     private bool isDead = false;
     private bool isInvincible = false;
     private bool isDying = false;
-    private bool knockedBack = false;
     private bool spawnedDustParticle = false;
 
     public event Action OnDeath;
@@ -127,7 +130,6 @@ public abstract class LilGuyBase : MonoBehaviour
     public bool LockMovement { get { return lockMovement; } set { lockMovement = value; } }
 
     public int MaxXp { get { return max_xp; } }
-    public bool KnockedBack { set { knockedBack = value; } }
 
     public Sprite Icon { get { return uiIcon; } }
     public Sprite AbilityIcon {  get { return abilityIcon; } }
@@ -335,7 +337,17 @@ public abstract class LilGuyBase : MonoBehaviour
         {
             rb.velocity += Vector3.up * Physics.gravity.y * (speed - 1) * Time.fixedDeltaTime;
         }
-    }
+
+		// Always apply knockback, even when not moving
+		if (!isMoving && knockbackForce.magnitude > 0.1f)
+		{
+			// Apply knockback to Rigidbody
+			rb.velocity = new Vector3(knockbackForce.x, rb.velocity.y, knockbackForce.z);
+
+			// Knockback decays over time
+			knockbackForce = Vector3.Lerp(knockbackForce, Vector3.zero, Time.fixedDeltaTime * knockbackDecayRate);
+		}
+	}
 
 
     private void UpdateAnimations()
@@ -690,14 +702,12 @@ public abstract class LilGuyBase : MonoBehaviour
 		movementSpeed = (baseSpeed + ((playerOwner != null) ? speed : speed * 0.75f) * 0.3f);
 	}
 
-    public virtual void MoveLilGuy(float speedAdjustment = 1f)
+	public virtual void MoveLilGuy(float speedAdjustment = 1f)
 	{
-		// Calculate total movement speed.
-
-		if (knockedBack)
+		if (knockbackForce.magnitude > 0.1f)
 		{
-			// If knocked back, let the Rigidbody's current velocity handle movement.
-			return;
+			// Knockback decays over time
+			knockbackForce = Vector3.Lerp(knockbackForce, Vector3.zero, Time.fixedDeltaTime * knockbackDecayRate);
 		}
 
 		if (!lockMovement)
@@ -705,23 +715,32 @@ public abstract class LilGuyBase : MonoBehaviour
 			Vector3 velocity = rb.velocity;
 			velocity.y = 0;
 
-			// Move the creature towards the player with smoothing
-			Vector3 targetVelocity = movementDirection.normalized * movementSpeed * speedAdjustment * moveSpeedModifier;
+			// Move towards the player with smoothing
 
+			Vector3 targetVelocity = movementDirection.magnitude < 0.1f
+				? Vector3.zero
+				: movementDirection.normalized * movementSpeed * speedAdjustment * moveSpeedModifier;
 			// Smoothly accelerate towards the target velocity
 			currentVelocity = Vector3.Lerp(currentVelocity, targetVelocity, Time.fixedDeltaTime / accelerationTime);
 
-			// Apply the smoothed velocity to the Rigidbody
-			rb.velocity = new Vector3(currentVelocity.x, rb.velocity.y, currentVelocity.z);
+			// Apply movement and knockback force
+			rb.velocity = new Vector3(currentVelocity.x + knockbackForce.x, rb.velocity.y, currentVelocity.z + knockbackForce.z);
 		}
 		else
 		{
 			rb.velocity = new Vector3(0, rb.velocity.y, 0);
-            currentVelocity = Vector3.zero;
+			currentVelocity = Vector3.zero;
 		}
 	}
 
-    public void ApplySpeedBoost(float spawnInterval, int maxAfterImages, float fadeSpeed, Color emissionColour)
+	// Method to apply knockback
+	public void ApplyKnockback(Vector3 force)
+	{
+		knockbackForce = force / knockbackResistance;
+	}
+
+
+	public void ApplySpeedBoost(float spawnInterval, int maxAfterImages, float fadeSpeed, Color emissionColour)
     {
         AfterimageEffect afterimageController = GetComponent<AfterimageEffect>();
         if (afterimageController == null)

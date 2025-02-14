@@ -113,6 +113,7 @@ public class EventManager
 		NotifyMicrogameFailed?.Invoke(body);
 	}
 
+	/*
 	public void HandleKnockback(Collider other, float knockbackForce, float duration, Vector3 direction, bool isPlayerOwned = false)
 	{
 		LilGuyBase lilGuy = other.GetComponent<LilGuyBase>();
@@ -145,7 +146,6 @@ public class EventManager
 			GameManager.Instance.StartCoroutine(ResetKnockback(other, duration, isPlayerOwned));
 		}
 	}
-
 	public IEnumerator ResetKnockback(Collider other, float duration, bool isPlayerOwned = false)
 	{
 		yield return new WaitForSeconds(duration);
@@ -163,6 +163,7 @@ public class EventManager
 			}
 		}
 	}
+	*/
 
 	public void ApplyDebuff(GameObject affectedEntity, float debuffAmount, float debuffDuration, DebuffType type, float damageApplicationInterval = 0)
 	{

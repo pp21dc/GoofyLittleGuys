@@ -31,6 +31,9 @@ public class PlayerBody : MonoBehaviour
 	[SerializeField] private float accelerationTime = 0.1f;  // Time to reach target speed
 	[SerializeField] private float decelerationTime = 0.2f;  // Time to stop
 	[SerializeField] private float fallMultiplier = 4f;
+	[SerializeField] private float knockbackResistance = 1f;  // Reduce knockback effect
+	[SerializeField] private float knockbackDecayRate = 5f;   // Speed at which knockback fades
+	private Vector3 knockbackForce = Vector3.zero;
 
 	private float teamSpeedBoost = 0f;                       // If a lil guy gives a team boost to speed, this variable will store that speed boost.
 	private float teamDamageReduction = 0f;                       // If a lil guy gives a team boost to speed, this variable will store that speed boost.
@@ -192,47 +195,53 @@ public class PlayerBody : MonoBehaviour
 	}
 	private void FixedUpdate()
 	{
-		if (inMenu) { return; }
+		if (inMenu) return;
 
-		// Flip player if they're moving in a different direction than what they're currently facing.
+		// Apply knockback decay
+		if (knockbackForce.magnitude > 0.1f)
+		{
+			knockbackForce = Vector3.Lerp(knockbackForce, Vector3.zero, Time.fixedDeltaTime * knockbackDecayRate);
+		}
+
+		// Flip player if moving in a different direction than they are facing
 		if (flip) playerMesh.transform.rotation = new Quaternion(0, 1, 0, 0);
 		else playerMesh.transform.rotation = new Quaternion(0, 0, 0, 1);
 
-		if (lilGuyTeam.Count > 0 && lilGuyTeam != null && lilGuyTeam[0] != null) maxSpeed = (lilGuyTeam[0].MovementSpeed + teamSpeedBoost);
+		if (lilGuyTeam.Count > 0 && lilGuyTeam[0] != null)
+			maxSpeed = (lilGuyTeam[0].MovementSpeed + teamSpeedBoost);
 
 		if (!IsGrounded())
 		{
 			rb.velocity += Vector3.up * Physics.gravity.y * (maxSpeed - 1) * Time.fixedDeltaTime;
 		}
 
-		// Movement behaviours
-		if (!isDashing && canMove && !lilGuyTeam[0].LockMovement && !knockedBack)
+		// Apply movement
+		if (!isDashing && canMove && !lilGuyTeam[0].LockMovement)
 		{
 			Vector3 velocity = rb.velocity;
 			velocity.y = 0;
-			Vector3 targetVelocity;
-			// If the player is not dashing, then they will have regular movement mechanics
 
-			if (movementDirection.magnitude < 0.1f)
-			{
-				targetVelocity = Vector3.zero;
-				// Smooth deceleration when no input
-				currentVelocity = Vector3.Lerp(currentVelocity, Vector3.zero, Time.fixedDeltaTime / decelerationTime);
-			}
-			else
-			{
-				// Calculate the target velocity based on input direction
-				targetVelocity = movementDirection.normalized * (lilGuyTeam[0].MovementSpeed * lilGuyTeam[0].MoveSpeedModifier + teamSpeedBoost);
-				// Smoothly accelerate towards the target velocity
-				currentVelocity = Vector3.Lerp(currentVelocity, targetVelocity, Time.fixedDeltaTime / accelerationTime);
-			}
+			Vector3 targetVelocity = movementDirection.magnitude < 0.1f
+				? Vector3.zero
+				: movementDirection.normalized * (lilGuyTeam[0].MovementSpeed * lilGuyTeam[0].MoveSpeedModifier + teamSpeedBoost);
 
-			// Apply the smoothed velocity to the Rigidbody
-			rb.velocity = new Vector3(currentVelocity.x, GameManager.Instance.CurrentPhase == 2 && IsDead ? currentVelocity.y : rb.velocity.y, currentVelocity.z);
+			// Smoothly accelerate towards the target velocity
+			currentVelocity = Vector3.Lerp(currentVelocity, targetVelocity, Time.fixedDeltaTime / accelerationTime);
 
+			// Apply movement and knockback force
+			rb.velocity = new Vector3(currentVelocity.x + knockbackForce.x, rb.velocity.y, currentVelocity.z + knockbackForce.z);
 		}
-		if (lilGuyTeam[0].LockMovement) rb.velocity = new Vector3(0, rb.velocity.y, 0);
+
+		if (lilGuyTeam[0].LockMovement)
+			rb.velocity = new Vector3(0, rb.velocity.y, 0);
 	}
+
+	// Method to apply knockback
+	public void ApplyKnockback(Vector3 force)
+	{
+		knockbackForce = force / knockbackResistance; // Reduce knockback effect if resistance is higher
+	}
+
 
 
 	private bool IsGrounded()

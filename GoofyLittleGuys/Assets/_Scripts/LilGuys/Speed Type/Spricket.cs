@@ -11,7 +11,7 @@ public class Spricket : SpeedType
 	[SerializeField, Tooltip("Minimum distance Spricket dash can travel.")] private float minDashDistance = 10f;
 	[SerializeField, Tooltip("Speed of which Spricket travels x distance.")] private float dashSpeed = 10f;
 	[SerializeField, Tooltip("Should the speed stat affect max distance?")] private bool applySpeedStat = false;
-	[SerializeField] private float knockbackForce = 100f;
+	[SerializeField] private float knockbackForceAmount = 60f;
 	[SerializeField] private float knockbackDuration = 1f;
 
 	[Header("Dash/Speed Curve Settings")]
@@ -113,7 +113,7 @@ public class Spricket : SpeedType
 		{
 			instantiatedKnockback = Instantiate(knockbackPrefab, transform.position, Quaternion.identity, transform);
 			KnockbackHitbox h = instantiatedKnockback.GetComponent<KnockbackHitbox>();
-			h.KnockbackForce = knockbackForce;
+			h.KnockbackForce = knockbackForceAmount;
 			h.KnockbackDuration = knockbackDuration;
 			float finalDistance = (Mathf.Lerp(minDashDistance, (applySpeedStat ? maxDashDistance : baseMaxDistance), (chargeTime - minChargeTime) / (maxChargeTime - minChargeTime)));
 			if (playerOwner != null) playerOwner.StartDash();

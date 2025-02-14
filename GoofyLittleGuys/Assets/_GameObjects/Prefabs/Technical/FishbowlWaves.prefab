@@ -73,7 +73,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_Sprite: {fileID: -495334012, guid: fb455d655f0d69c4cb72781393084216, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
@@ -97,6 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 602780de1b0eef649a7e123106d1915a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  movingObject: 1
 --- !u!1 &3002048726699763566
 GameObject:
   m_ObjectHideFlags: 0
@@ -244,7 +245,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_Sprite: {fileID: 1413761315, guid: dd603432149836248a8ef4cea77c8831, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -268,6 +269,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 602780de1b0eef649a7e123106d1915a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  movingObject: 1
 --- !u!1 &5411960810127486401
 GameObject:
   m_ObjectHideFlags: 0
@@ -341,7 +343,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 1413761315, guid: dd603432149836248a8ef4cea77c8831, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -365,6 +367,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 602780de1b0eef649a7e123106d1915a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  movingObject: 1
 --- !u!1 &8514007712949877487
 GameObject:
   m_ObjectHideFlags: 0
@@ -462,6 +465,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 602780de1b0eef649a7e123106d1915a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  movingObject: 1
 --- !u!1001 &3283708193161703679
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -474,6 +478,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 1221785381948155648, guid: 4b53c665f4a26b443acae7ef8819cedf,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 1221785381948155648, guid: 4b53c665f4a26b443acae7ef8819cedf,
         type: 3}
@@ -625,6 +634,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 602780de1b0eef649a7e123106d1915a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  movingObject: 1
 --- !u!1 &5057421870007354769 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7763503517924717934, guid: 4b53c665f4a26b443acae7ef8819cedf,
@@ -670,7 +680,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0cba0f4bacbae542b7cdf368e34fd66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  knockbackForce: 10
+  knockbackForce: 25
   relativeToHitbox: 1
   knockbackDuration: 0.5
 --- !u!1 &5175655964302369493 stripped
@@ -691,6 +701,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 602780de1b0eef649a7e123106d1915a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  movingObject: 1
 --- !u!4 &8774727968976348844 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6076494633963378259, guid: 4b53c665f4a26b443acae7ef8819cedf,
@@ -849,7 +860,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0cba0f4bacbae542b7cdf368e34fd66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  knockbackForce: 10
+  knockbackForce: 25
   relativeToHitbox: 1
   knockbackDuration: 0.5
 --- !u!4 &7606933331554563519 stripped
@@ -1012,7 +1023,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0cba0f4bacbae542b7cdf368e34fd66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  knockbackForce: 10
+  knockbackForce: 25
   relativeToHitbox: 1
   knockbackDuration: 0.5
 --- !u!1001 &7240422519247928812
@@ -1163,7 +1174,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0cba0f4bacbae542b7cdf368e34fd66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  knockbackForce: 10
+  knockbackForce: 25
   relativeToHitbox: 1
   knockbackDuration: 0.5
 --- !u!4 &3472044723214396351 stripped

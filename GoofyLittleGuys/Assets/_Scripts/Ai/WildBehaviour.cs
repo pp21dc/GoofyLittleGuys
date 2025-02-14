@@ -56,6 +56,8 @@ public class WildBehaviour : MonoBehaviour
 	private SpawnerObj homeSpawner = null;
 	private Collider lilGuyCollider;
 
+	Vector3 wanderTarget = Vector3.zero;
+	bool pickedLocation = false;
 	private float attackTime = 0;
 	private float timeSpentFromHome = 0f;
 	private float hostility;
@@ -203,32 +205,53 @@ public class WildBehaviour : MonoBehaviour
 	{
 		if (Time.time >= nextWanderTime)
 		{
-			Vector3 wanderTarget = GetRandomWanderPoint();
+			if (!pickedLocation)
+			{
+				wanderTarget = GetRandomWanderPoint();
+				pickedLocation = true;
+			}
 			RaycastHit hit;
-			if (!Physics.Raycast(wanderTarget + Vector3.up * 10f, Vector3.down, out hit, 20f, LayerMask.GetMask("Ground")))
+			if (Physics.Raycast(wanderTarget + Vector3.up * 10f, Vector3.down, out hit, 20f, LayerMask.GetMask("Ground")))
 			{
 				wanderTarget = hit.point;
 			}
 			Vector3 dir = (wanderTarget - transform.position).normalized;
 			MoveLilGuyTowards(wanderTarget);
 
-			nextWanderTime = Time.time + Random.Range(wanderIntervalMin, wanderIntervalMax);
+			if ((wanderTarget - transform.position).magnitude < 0.5f)
+			{
+				nextWanderTime = Time.time + Random.Range(wanderIntervalMin, wanderIntervalMax);
+				pickedLocation = false;
+			}
 		}
 	}
 
 	private Vector3 GetRandomWanderPoint()
 	{
 		float angle = Random.Range(0f, Mathf.PI * 2f);
-		Vector3 offset = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * Random.Range(minWanderRadius, maxWanderRadius);
+		Vector3 offset = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * Random.Range(minWanderRadius, Mathf.Min(homeSpawner.SpawnArea.radius, maxWanderRadius));
 
 		return homeSpawner.transform.position + offset;
 	}
 
 	private void MoveLilGuyTowards(Vector3 target, float moveSpeedAdjustment = 1.0f)
 	{
-		Vector3 direction = (target - transform.position).normalized;
+		Vector3 direction = (target - transform.position);
+		float distance = direction.magnitude;
+
+		// Stop moving if within a small range
+		if (distance < 0.5f)
+		{
+			controller.LilGuy.MovementDirection = Vector3.zero; // Stop movement
+			controller.LilGuy.IsMoving = false;
+			return;
+		}
+
+		// Normalize and move towards the target
+		direction.Normalize();
 		controller.LilGuy.MovementDirection = direction;
 		controller.LilGuy.IsMoving = true;
+
 		if (hostility >= 7f && controller.LilGuy is SpeedType && controller.LilGuy.CurrentCharges > 0 && controller.LilGuy.CooldownTimer <= 0)
 		{
 			controller.LilGuy.StartChargingSpecial();
@@ -238,6 +261,7 @@ public class WildBehaviour : MonoBehaviour
 			controller.LilGuy.MoveLilGuy(moveSpeedAdjustment);
 		}
 	}
+
 
 	private void HandleChase()
 	{
@@ -410,7 +434,7 @@ public class WildBehaviour : MonoBehaviour
 		if (instantiatedPlayerRangeIndicator != null) Destroy(instantiatedPlayerRangeIndicator);
 	}
 
-	
+
 }
 
 public enum AIState
