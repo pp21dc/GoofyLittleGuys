@@ -20,6 +20,7 @@ namespace Managers
 		private bool canJoinLeave = false;
 		public bool CanJoinLeave => canJoinLeave;
 
+		[SerializeField] GameObject tutorialUi;
 		// Start is called before the first frame update
 		void Start()
 		{
@@ -48,7 +49,7 @@ namespace Managers
 		public void OnPlayerJoined(PlayerInput input)
 		{
 			if (!canJoinLeave) return;
-
+			tutorialUi.SetActive(false);
 			// Add the player to the game and manually assign the control scheme later
 			GameManager.Instance.Players.Add(input.GetComponentInChildren<PlayerBody>());
 			characterSelectScreen.OnPlayerJoin(input);
