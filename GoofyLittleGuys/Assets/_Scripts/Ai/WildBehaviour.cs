@@ -71,6 +71,11 @@ public class WildBehaviour : MonoBehaviour
 	public float Charisma => charisma;
 	public bool IsCatchable { get => isCatchable; set => isCatchable = value; }
 
+	private Vector3 lastPosition;
+	private float stuckTimer = 0f;
+	[SerializeField] private float stuckThreshold = 1.5f; // Seconds before considering stuck
+	[SerializeField] private float minMoveDistance = 0.5f; // Distance AI must move to not be considered stuck
+
 	private void Start()
 	{
 		controller = GetComponent<AiController>();
@@ -141,6 +146,8 @@ public class WildBehaviour : MonoBehaviour
 
 	private void FixedUpdate()
 	{
+		
+
 		switch (currentState)
 		{
 			case AIState.Wander:
@@ -156,6 +163,24 @@ public class WildBehaviour : MonoBehaviour
 				HandleReturnHome();
 				break;
 		}
+	}
+	private Waypoint FindClosestWaypoint()
+	{
+		Waypoint[] allWaypoints = FindObjectsOfType<Waypoint>();
+		Waypoint closest = null;
+		float minDistance = Mathf.Infinity;
+
+		foreach (Waypoint wp in allWaypoints)
+		{
+			float distance = Vector3.Distance(transform.position, wp.transform.position);
+			if (distance < minDistance)
+			{
+				minDistance = distance;
+				closest = wp;
+			}
+		}
+
+		return closest;
 	}
 
 	public void OnDisable()
@@ -177,6 +202,29 @@ public class WildBehaviour : MonoBehaviour
 		currentState = state;
 
 		Debug.Log($"[{controller.LilGuy.GuyName}]: Changed to {state} State.");
+		OnStateEnter(state); // Call OnStateEnter when state changes
+	}
+
+	private void OnStateEnter(AIState state)
+	{
+		switch (state)
+		{
+			case AIState.Wander:
+				if (!pickedLocation)
+				{
+					wanderTarget = GetRandomWanderPoint();
+					pickedLocation = true;
+				}
+				RaycastHit hit;
+				if (Physics.Raycast(wanderTarget + Vector3.up * 10f, Vector3.down, out hit, 20f, LayerMask.GetMask("Ground")))
+				{
+					wanderTarget = hit.point;
+				}
+				break;
+			case AIState.ReturnHome:
+				wanderTarget = GetRandomWanderPoint();
+				break;
+		}
 	}
 
 	private void HandleState()
@@ -205,16 +253,6 @@ public class WildBehaviour : MonoBehaviour
 	{
 		if (Time.time >= nextWanderTime)
 		{
-			if (!pickedLocation)
-			{
-				wanderTarget = GetRandomWanderPoint();
-				pickedLocation = true;
-			}
-			RaycastHit hit;
-			if (Physics.Raycast(wanderTarget + Vector3.up * 10f, Vector3.down, out hit, 20f, LayerMask.GetMask("Ground")))
-			{
-				wanderTarget = hit.point;
-			}
 			Vector3 dir = (wanderTarget - transform.position).normalized;
 			MoveLilGuyTowards(wanderTarget);
 
@@ -356,11 +394,43 @@ public class WildBehaviour : MonoBehaviour
 
 	private void HandleReturnHome()
 	{
-		Vector3 homePosition = homeSpawner.transform.position;
-		MoveLilGuyTowards(homePosition);
+		if (Vector3.Distance(transform.position, lastPosition) < minMoveDistance && controller.LilGuy.IsMoving)
+		{
+			stuckTimer += Time.fixedDeltaTime;
+
+			if (stuckTimer >= stuckThreshold)
+			{
+				Debug.Log("[AI] Stuck! Searching for closest waypoint...");
+				Waypoint closest = FindClosestWaypoint();
+
+				if (closest != null)
+				{
+					Debug.Log($"[AI] Moving to waypoint {closest.name} to escape.");
+					wanderTarget = closest.transform.position;
+				}
+
+				stuckTimer = 0f; // Reset stuck timer after adjusting
+			}
+		}
+		else
+		{
+			stuckTimer = 0f; // Reset timer if AI is moving normally
+		}
+
+		lastPosition = transform.position;
+
+		// NEW: If AI is close enough to the waypoint, resume wandering
+		if (Vector3.Distance(transform.position, wanderTarget) < 1.0f)
+		{
+			Debug.Log("[AI] Reached waypoint. Resuming normal wandering.");
+			wanderTarget = GetRandomWanderPoint(); // Switch back to normal wandering
+		}
+
+		MoveLilGuyTowards(wanderTarget);
 
 		if (IsWithinCamp()) returnHome = false;
 	}
+
 
 	private void HandleDead()
 	{
