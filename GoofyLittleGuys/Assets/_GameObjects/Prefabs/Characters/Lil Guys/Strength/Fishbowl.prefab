@@ -192,7 +192,7 @@ MonoBehaviour:
   health: 55
   maxHealth: 55
   speed: 13
-  defense: 26
+  defense: 24
   strength: 18
   specialDuration: 2
   currentCharges: 1
@@ -207,7 +207,7 @@ MonoBehaviour:
   attackEffect: {fileID: 0}
   aoeShape: {fileID: 3002048726699763566, guid: 42eafbd32610d954eaa3c0cc605b89bc,
     type: 3}
-  aoeDamageMultiplier: 1.25
+  aoeDamageMultiplier: 1.15
   frameToDestroyAoe: 15
   specialTotalFrames: 17
   minChargeTime: 0.5

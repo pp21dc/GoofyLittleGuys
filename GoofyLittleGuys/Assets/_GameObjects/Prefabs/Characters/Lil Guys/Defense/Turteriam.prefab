@@ -105,9 +105,9 @@ MonoBehaviour:
   level: 1
   xp: 0
   max_xp: 5
-  health: 100
-  maxHealth: 100
-  speed: 13
+  health: 110
+  maxHealth: 110
+  speed: 10
   defense: 25
   strength: 22
   specialDuration: -1
@@ -260,6 +260,8 @@ MonoBehaviour:
   minWanderRadius: 5
   maxWanderRadius: 10
   isCatchable: 1
+  stuckThreshold: 1.5
+  minMoveDistance: 0.5
 --- !u!95 &2852710274394337051
 Animator:
   serializedVersion: 5
