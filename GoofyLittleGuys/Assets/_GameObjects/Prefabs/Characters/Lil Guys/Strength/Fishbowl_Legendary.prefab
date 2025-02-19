@@ -207,7 +207,7 @@ MonoBehaviour:
   attackEffect: {fileID: 0}
   aoeShape: {fileID: 3002048726699763566, guid: 42eafbd32610d954eaa3c0cc605b89bc,
     type: 3}
-  aoeDamageMultiplier: 1.45
+  aoeDamageMultiplier: 1.25
   frameToDestroyAoe: 15
   specialTotalFrames: 17
   minChargeTime: 0.5
@@ -350,6 +350,8 @@ MonoBehaviour:
   minWanderRadius: 5
   maxWanderRadius: 10
   isCatchable: 0
+  stuckThreshold: 1.5
+  minMoveDistance: 0.5
 --- !u!95 &2276666689441862867
 Animator:
   serializedVersion: 5

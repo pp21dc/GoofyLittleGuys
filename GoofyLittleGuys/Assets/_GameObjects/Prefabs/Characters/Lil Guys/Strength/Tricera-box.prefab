@@ -207,14 +207,14 @@ MonoBehaviour:
   attackEffect: {fileID: 0}
   aoeShape: {fileID: 7763503517924717934, guid: 783823e0ebd4aff4298168ab9dfa9111,
     type: 3}
-  aoeDamageMultiplier: 1.05
+  aoeDamageMultiplier: 1
   frameToDestroyAoe: 12
   specialTotalFrames: 14
   specialFXPrefab: {fileID: 125122912735167046, guid: 55fabaf05f6ae3348b9d481e8cb3875b,
     type: 3}
   waveAoePrefab: {fileID: 7763503517924717934, guid: cee25af8c16e11e4a806c624ad058e67,
     type: 3}
-  waveAoeDamageMultiplier: 0.15
+  waveAoeDamageMultiplier: 0.35
   waveAoeLifetime: 1.2
   waveSpeed: 15
   slowAmount: -0.35
@@ -351,6 +351,8 @@ MonoBehaviour:
   minWanderRadius: 5
   maxWanderRadius: 10
   isCatchable: 1
+  stuckThreshold: 1.5
+  minMoveDistance: 0.5
 --- !u!95 &5725646759183813981
 Animator:
   serializedVersion: 5

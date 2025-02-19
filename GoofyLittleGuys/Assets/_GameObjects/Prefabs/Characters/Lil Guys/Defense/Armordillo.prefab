@@ -109,7 +109,7 @@ MonoBehaviour:
   maxHealth: 100
   speed: 17
   defense: 22
-  strength: 15
+  strength: 19
   specialDuration: 2
   currentCharges: 1
   maxCharges: 1
@@ -260,6 +260,8 @@ MonoBehaviour:
   minWanderRadius: 5
   maxWanderRadius: 10
   isCatchable: 1
+  stuckThreshold: 1.5
+  minMoveDistance: 0.5
 --- !u!95 &2852710274394337051
 Animator:
   serializedVersion: 5
