@@ -346,6 +346,8 @@ MonoBehaviour:
   minWanderRadius: 5
   maxWanderRadius: 10
   isCatchable: 1
+  stuckThreshold: 1.5
+  minMoveDistance: 0.5
 --- !u!95 &2276666689441862867
 Animator:
   serializedVersion: 5
