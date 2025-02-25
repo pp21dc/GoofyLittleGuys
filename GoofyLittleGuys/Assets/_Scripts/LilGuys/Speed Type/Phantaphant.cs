@@ -112,7 +112,7 @@ public class Phantaphant : SpeedType
 			if (collider.transform == transform) continue;
 			LilGuyBase lilGuy = collider.GetComponent<LilGuyBase>();
 			if (lilGuy == null || lilGuy.Health <= 0) continue;
-
+			if (closestTarget != null && (closestTarget.GetComponent<LilGuyBase>().PlayerOwner != null && lilGuy.PlayerOwner == null)) continue;	// Prioritizes players possibly.
 			float distance = Vector3.Distance(collider.transform.position, transform.position);
 			if (distance < closestDistance)
 			{

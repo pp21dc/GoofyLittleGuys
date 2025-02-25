@@ -19,7 +19,7 @@ namespace Managers
 		private Dictionary<string, int> clearingSpawnCounts = new();            // Tracks active Lil Guys per clearing
 		private List<SpawnerObj> legendarySpawners = new();                     // Tracks all legendary spawners
 
-		private float gracePeriod = 3f;
+		[SerializeField] private float gracePeriod = 5f;
 
 		private ShuffleBag<SpawnerObj> legendarySpawnersSB = new();
 		public float GracePeriod { get => gracePeriod; set => gracePeriod = value; }
