@@ -11,6 +11,8 @@ namespace Managers
 {
 	public class GameManager : SingletonBase<GameManager>
 	{
+		private enum TimerState { LegendaryOneApproaching, LegendaryTwoApproaching, LegendaryThreeApproaching, StormApproaching, NextStorm }
+		[SerializeField] private TimerState currentTimerState = TimerState.LegendaryOneApproaching;
 		[SerializeField] private bool gameStartTest = true;             // TEST BOOL FOR DESIGNERS TO PLAY THE GAME WITHOUT GOING INTO PERSISTENT ALL THE TIME
 
 		[SerializeField] private List<PlayerSpawnPoint> spawnPoints;
@@ -84,17 +86,52 @@ namespace Managers
 			EventManager.Instance.NotifyGameOver -= QuitGame;
 		}
 
+		private void UpdateTimer()
+		{
+			if (gameTimer == null) return;
+			switch (currentTimerState)
+			{
+				case TimerState.LegendaryOneApproaching:
+					timerContext.color = Color.white;
+					timerContext.text = "Legendary Approaching";
+					gameTimer.color = Color.white;
+					gameTime = System.TimeSpan.FromSeconds((legendarySpawnTimes[0] * 60) - currentGameTime);
+					gameTimer.text = gameTime.ToString("mm':'ss");
+					break;
+				case TimerState.LegendaryTwoApproaching:
+					timerContext.color = Color.white;
+					timerContext.text = "Legendary Approaching";
+					gameTimer.color = Color.white;
+					gameTime = System.TimeSpan.FromSeconds((legendarySpawnTimes[1] * 60) - currentGameTime);
+					gameTimer.text = gameTime.ToString("mm':'ss");
+					break;
+				case TimerState.StormApproaching:
+					timerContext.color = Color.white;
+					timerContext.text = "Storm Approaching";
+					gameTimer.color = Color.white;
+					gameTime = System.TimeSpan.FromSeconds((phaseOneStartTime * 60) - currentGameTime);
+					gameTimer.text = gameTime.ToString("mm':'ss");
+					break;
+				case TimerState.NextStorm:
+					timerContext.color = Color.red;
+					timerContext.text = "Next Storm Approaching";
+					gameTimer.color = Color.red;
+					gameTime = System.TimeSpan.FromSeconds((legendarySpawnTimes[1] * 60) - currentGameTime);
+					gameTimer.text = $"0:{timeUntilNextStorm.ToString("00")}";
+					break;
+
+			}
+		}
+
 		private void Update()
 		{
+			if (currentPhase < 1 || currentPhase > 2) return;
+
+			UpdateTimer();
 			if (currentPhase == 1)
 			{
 				// We are in phase 1, so update the timer accordingly.
 				currentGameTime += Time.deltaTime;
-				timerContext.color = Color.white;
-				timerContext.text = "Storm approaches";
-				gameTimer.color = Color.white;
-				gameTime = System.TimeSpan.FromSeconds((phaseOneStartTime * 60) - currentGameTime);
-				if (gameTimer != null) gameTimer.text = gameTime.ToString("mm':'ss");
 
 				if (currentGameTime >= phaseOneStartTime * 60)
 				{
@@ -102,28 +139,23 @@ namespace Managers
 					currentPhase++;
 					StartPhaseTwo();
 				}
-				if (currentGameTime >= legendarySpawnTimes[0] * 60 && !legendarySpawned[0])
-				{
-					legendarySpawned[0] = true;
-					SpawnLegendary(legendaryMaxScales[0], legendaryLevels[0]);
-				}
 				else if (currentGameTime >= legendarySpawnTimes[1] * 60 && !legendarySpawned[1])
 				{
 					legendarySpawned[1] = true;
+					currentTimerState = TimerState.StormApproaching;
 					SpawnLegendary(legendaryMaxScales[1], legendaryLevels[1]);
 				}
+				else if (currentGameTime >= legendarySpawnTimes[0] * 60 && !legendarySpawned[0])
+				{
+					legendarySpawned[0] = true;
+					currentTimerState = TimerState.LegendaryTwoApproaching;
+					SpawnLegendary(legendaryMaxScales[0], legendaryLevels[0]);
+				}				
 
 			}
 			else if (currentPhase == 2)
 			{
-				if (gameTimer != null)
-				{
-					timerContext.color = Color.red;
-					timerContext.text = "Time until next storm";
-					gameTimer.color = Color.red;
-					gameTimer.text = $"0:{timeUntilNextStorm.ToString("00")}";
-				}
-
+				currentTimerState = TimerState.NextStorm;
 				if (currentGameTime >= ((phaseOneStartTime * 60f) + phaseTwoDuration))
 				{
 					//BrawlTimeEnd();
@@ -160,6 +192,7 @@ namespace Managers
 		{
 			currentGameTime = 0;
 			currentPhase = 0;
+			currentTimerState = TimerState.LegendaryOneApproaching;
 			for (int i = 0; i < players.Count; i++)
 			{
 				// We don't want the players all spawning in the same exact spot, so shift their x and z positions randomly.
@@ -194,8 +227,8 @@ namespace Managers
 			currentPhase++;
 			currentLayerMask = phase1LayerMask;
 			AudioManager.Instance.PlayMusic("GLGPhase1", "GLGPhase2", phaseAudioSources[1], phaseAudioSources[0]);
-            StartCoroutine(InitialUiLoad());
-        }
+			StartCoroutine(InitialUiLoad());
+		}
 
 		/// <summary>
 		/// Method that starts phase two.
@@ -383,16 +416,16 @@ namespace Managers
 			return phaseOneStartTime * 60f;
 		}
 
-        public IEnumerator InitialUiLoad()
-        {
-            yield return new WaitForNextFrameUnit();
+		public IEnumerator InitialUiLoad()
+		{
+			yield return new WaitForNextFrameUnit();
 
-            foreach (PlayerBody pb in players)
+			foreach (PlayerBody pb in players)
 			{
 				EventManager.Instance.RefreshUi(pb.PlayerUI, 0);
 			}
 
-        }
-    }
+		}
+	}
 
 }
