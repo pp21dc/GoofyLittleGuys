@@ -547,6 +547,13 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
+  - time: 0.33333334
+    functionName: PlaySound
+    data: Special_Tbox
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
   - time: 0.5833333
     functionName: SpawnPunchAoe
     data: 
@@ -557,13 +564,6 @@ AnimationClip:
   - time: 0.5833333
     functionName: SpawnThrustEffect
     data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0.5833333
-    functionName: PlaySound
-    data: Special_Tbox
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
