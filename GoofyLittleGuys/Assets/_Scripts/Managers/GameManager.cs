@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using _Scripts.Misc.ShaderCode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
@@ -33,6 +34,7 @@ namespace Managers
 
 		[SerializeField] private Material regularLilGuySpriteMat;
 		[SerializeField] private Material outlinedLilGuySpriteMat;
+		[SerializeField] private WaterChangeContainer waterChangeContainer;
 		[SerializeField] private Color[] playerColours;
 		[SerializeField] private float activeLilGuyScaleFactor = 1.1f;
 
@@ -66,6 +68,7 @@ namespace Managers
 		public Material RegularLilGuySpriteMat => regularLilGuySpriteMat;
 		public Material OutlinedLilGuySpriteMat => outlinedLilGuySpriteMat;
 		public float ActiveLilGuyScaleFactor => activeLilGuyScaleFactor;
+		public WaterChangeContainer WaterChangeContainer => waterChangeContainer;
 
 		public override void Awake()
 		{
@@ -239,10 +242,33 @@ namespace Managers
 
 			// Start grand brawl challenge
 			GetStormSets();
+			StartCoroutine(FadeWater(4));
 			StartCoroutine(SpawnStorms());
 			StartCoroutine(Crossfade(phaseAudioSources[0], phaseAudioSources[1], 1f));
 			AudioManager.Instance.PlaySfx("Phase_Change", alertAudioSource);
 		}
+
+		/// <summary>
+		/// Fade between the base water color and blood color
+		/// </summary>
+		/// <param name="fadeTime">Duration of fade in seconds</param>
+		/// <returns></returns>
+		private IEnumerator FadeWater(float fadeTime)
+		{
+			float timeElapsed = 0;
+			while (timeElapsed < fadeTime)
+			{
+				Color c1  = Color.Lerp(waterChangeContainer.baseWaterColor, waterChangeContainer.waterColor, timeElapsed / fadeTime);
+				Color c2  = Color.Lerp(waterChangeContainer.baseLightFoamColor, waterChangeContainer.lightFoamColor, timeElapsed / fadeTime);
+				Color c3  = Color.Lerp(waterChangeContainer.baseDarkFoamColor, waterChangeContainer.darkFoamColor, timeElapsed / fadeTime);
+			
+				waterChangeContainer.SwapColors(c1, c2, c3);
+				
+				timeElapsed += Time.deltaTime;
+				yield return null;
+			}
+		}
+
 		private IEnumerator Crossfade(AudioSource fromSource, AudioSource toSource, float duration)
 		{
 			float elapsed = 0.0f;
@@ -328,6 +354,7 @@ namespace Managers
 		private IEnumerator endGame()
 		{
 			yield return new WaitForSeconds(6);
+			waterChangeContainer.SwapColors(waterChangeContainer.baseWaterColor, waterChangeContainer.baseLightFoamColor, waterChangeContainer.baseDarkFoamColor);
 			EventManager.Instance.CallGameOverEvent();
 			LevelLoadManager.Instance.LoadNewLevel("00_MainMenu");
 			for (int i = Players.Count - 1; i >= 0; i--)
