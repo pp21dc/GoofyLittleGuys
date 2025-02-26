@@ -31,6 +31,7 @@ namespace Managers
 		[SerializeField] private float stormTimer = 20.0f; // how long between spawning new storms in phase 2
 		[SerializeField] private AudioSource[] phaseAudioSources; // how long between spawning new storms in phase 2
 		[SerializeField] private AudioSource alertAudioSource; // a central audio source for sounds such as alerts, events etc.
+		[SerializeField] private Animator phase2CloudAnim;
 
 		[SerializeField] private Material regularLilGuySpriteMat;
 		[SerializeField] private Material outlinedLilGuySpriteMat;
@@ -140,6 +141,7 @@ namespace Managers
 				{
 					// Starting Phase 2
 					currentPhase++;
+					phase2CloudAnim.SetTrigger("Phase2");
 					StartPhaseTwo();
 				}
 				else if (currentGameTime >= legendarySpawnTimes[1] * 60 && !legendarySpawned[1])
@@ -174,6 +176,7 @@ namespace Managers
 
 		public void QuitGame()
 		{
+			phase2CloudAnim.SetTrigger("Phase2");
 			stormSets.Clear();
 			rankings.Clear();
 			for (int i = 0; i < legendarySpawned.Length; i++) { legendarySpawned[i] = false; }
