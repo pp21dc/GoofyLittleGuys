@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Turteriam : DefenseType
@@ -13,9 +14,10 @@ public class Turteriam : DefenseType
 
 
 	private bool damageReductionActive = false;
+	private Coroutine damageReductionRemoval = null;
 	private GameObject instantiatedDome = null;
 
-	public GameObject InstantiatedDome { set { instantiatedDome = value; } }
+	public GameObject InstantiatedDome { set { instantiatedDome = value; } get { return instantiatedDome; } }
 	public bool DamageReductionActive { set { damageReductionActive = value; } }
 
 	// Start is called before the first frame update
@@ -34,6 +36,11 @@ public class Turteriam : DefenseType
 	protected override void Update()
 	{
 		base.Update();
+		if (!damageReductionActive && damageReductionRemoval != null)
+		{
+			StopCoroutine(damageReductionRemoval);
+			damageReductionRemoval = null;
+		}
 	}
 
 	private void OnDestroy()
@@ -76,11 +83,36 @@ public class Turteriam : DefenseType
 
 	public override void OnEndSpecial(bool stopImmediate = false)
 	{
-		base.OnEndSpecial();
-		if (playerOwner != null) return;
-		damageReductionActive = false;
-		isShieldActive = false;
+		base.OnEndSpecial(stopImmediate);
 
 	}
+	protected override IEnumerator EndSpecial(bool stopImmediate = false)
+	{
+		if (stopImmediate)
+		{
+			DeleteDome();
+			if (damageReductionRemoval != null) StopCoroutine(damageReductionRemoval);
+			damageReductionRemoval = StartCoroutine(EventManager.Instance.StopDamageReduction(playerOwner, teamDamageReductionDuration, this, true));
+		}
+		else if (!stopImmediate)
+		{
+			if (specialDuration >= 0) yield return new WaitForSeconds(specialDuration);
+			else if (specialDuration == -1)
+			{
+				AnimationClip clip = anim.runtimeAnimatorController.animationClips.First(clip => clip.name == "Special");
+				if (clip != null) yield return new WaitForSeconds(clip.length);
+			}
 
+			damageReductionRemoval ??= StartCoroutine(EventManager.Instance.StopDamageReduction(playerOwner, teamDamageReductionDuration, this));
+		}
+		if (anim != null)
+		{
+			anim.SetTrigger("SpecialAttackEnded");
+		}
+
+		LockAttackRotation = false;
+		LockMovement = false;
+
+		if (playerOwner != null) yield break;
+	}
 }

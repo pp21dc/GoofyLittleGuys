@@ -119,10 +119,29 @@ public class PlayerController : MonoBehaviour
 	{
 		if (GameManager.Instance.IsPaused) return;
 		if (playerBody.LilGuyTeam[0].Health <= 0) return;
-		if (ctx.started) playerBody.LilGuyTeam[0].StartChargingSpecial();
-		else if (ctx.canceled) playerBody.LilGuyTeam[0].StopChargingSpecial();
 
-		
+		var character = playerBody.LilGuyTeam[0];
 
-    }
+		if (ctx.started)
+		{
+			if (character is Turteriam turt && turt.InstantiatedDome != null)
+			{
+				turt.DeleteDome(); // Remove the dome when canceling special
+			}
+			else if (character is Toadstool defenseCharacter && defenseCharacter.IsInSpecialAttack)
+			{				
+				defenseCharacter.OnEndSpecial(true); // End the special
+			}
+			else
+			{
+				character.StartChargingSpecial();
+			}
+		}
+		else if (ctx.canceled)
+		{
+			character.StopChargingSpecial();
+		}
+	}
+
+
 }

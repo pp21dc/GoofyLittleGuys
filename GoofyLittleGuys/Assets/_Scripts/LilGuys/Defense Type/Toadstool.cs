@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 public class Toadstool : DefenseType
@@ -19,7 +20,7 @@ public class Toadstool : DefenseType
 	public override void OnEndSpecial(bool stopImmediate = false)
 	{
 		isShieldActive = false;
-		base.OnEndSpecial();
+		base.OnEndSpecial(stopImmediate);
 	}
 
 	protected override void Special()
@@ -29,7 +30,6 @@ public class Toadstool : DefenseType
 		affectedRB.velocity = Vector3.zero;
 		affectedRB.isKinematic = true;
 		isShieldActive = true;
-		StartCoroutine(EndShield());
 	}
 
 	public override void StartChargingSpecial()
@@ -43,11 +43,26 @@ public class Toadstool : DefenseType
 	
 	}
 
-	private IEnumerator EndShield()
+	protected override IEnumerator EndSpecial(bool stopImmediate = false)
 	{
-		yield return new WaitForSeconds(shieldTime);
+		if (!stopImmediate)
+		{
+			if (specialDuration >= 0) yield return new WaitForSeconds(specialDuration);
+			else if (specialDuration == -1)
+			{
+				AnimationClip clip = anim.runtimeAnimatorController.animationClips.First(clip => clip.name == "Special");
+				if (clip != null) yield return new WaitForSeconds(clip.length);
+			}
+		}
+		if (anim != null)
+		{
+			anim.SetTrigger("SpecialAttackEnded");
+		}
+
 		if (!ReferenceEquals(affectedRB, null)) affectedRB.isKinematic = false;
 		isShieldActive = false;
+		LockAttackRotation = false;
+		LockMovement = false;
 	}
 
 	protected override void OnDisable()

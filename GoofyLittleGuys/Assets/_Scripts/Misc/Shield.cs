@@ -5,7 +5,7 @@ using UnityEngine.Rendering;
 
 public class Shield : MonoBehaviour
 {
-	private float shieldDuration = 1;                   // How long the shield will last for before it is destroyed
+	private float shieldUptime = 5;                   // How long the shield will last for before it is destroyed
 	private DefenseType shieldOwner;                    // The owner of this shield
 	[SerializeField] private SpriteRenderer shieldSprite;  // How fast this shield will reach its max size in seconds.
 	[SerializeField] private float maxSize = 1;         // The maximum size this shield will reach
@@ -14,6 +14,7 @@ public class Shield : MonoBehaviour
 
 	private Color startColour;
 	private Color endColour;
+	private bool isFading = false;
 
 	private void Start()
 	{
@@ -33,30 +34,36 @@ public class Shield : MonoBehaviour
 	/// <param name="shieldOwner"></param>
 	public void Initialize(float duration, DefenseType shieldOwner, Color start, Color end)
 	{
-		shieldDuration = duration;
+		shieldUptime = duration;
 		this.shieldOwner = shieldOwner;
 		startColour = start;
 		endColour = end;
 		shieldSprite.color = startColour;
-		StartCoroutine("ShieldUp");
 	}
 
 	/// <summary>
-	/// Coroutine that handles when the shield goes up, and keeps track of the time until it
-	/// goes down again.
+	/// Begins the shield's fade-out process when called.
 	/// </summary>
-	/// <returns></returns>
-	private IEnumerator ShieldUp()
+	public void BeginShieldFade()
+	{
+		if (isFading) return; // Prevent multiple fade calls.
+		isFading = true;
+		StartCoroutine(FadeAndDestroyShield());
+	}
+
+	/// <summary>
+	/// Coroutine that fades the shield out over shieldUptime before destroying it.
+	/// </summary>
+	private IEnumerator FadeAndDestroyShield()
 	{
 		float elapsedTime = 0;
-		while (elapsedTime < shieldDuration)
+		while (elapsedTime < shieldUptime)
 		{
-			shieldSprite.color = Color.Lerp(startColour, endColour, elapsedTime / shieldDuration);
+			shieldSprite.color = Color.Lerp(startColour, endColour, elapsedTime / shieldUptime);
 			elapsedTime += Time.deltaTime;
 			yield return null;
 		}
-		transform.parent.GetComponent<DefenseType>().SpawnedShieldObj = null;
-		shieldOwner.IsShieldActive = false;
+
 		StartCoroutine(ResizeShieldOvertime(Vector3.one * maxSize, Vector3.zero, true));
 	}
 
@@ -81,4 +88,9 @@ public class Shield : MonoBehaviour
 		if (destroyAfterResize) Destroy(gameObject);
 	}
 
+	private void OnDestroy()
+	{
+		shieldOwner.SpawnedShieldObj = null;
+		shieldOwner.IsShieldActive = false;
+	}
 }

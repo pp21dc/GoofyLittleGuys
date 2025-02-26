@@ -185,7 +185,7 @@ public class EventManager
 				{
 					poisoned = affectedEntity.AddComponent<Poison>();
 					poisoned.Init(debuffAmount, debuffDuration, damageApplicationInterval);
-				}					
+				}
 				else
 					poisoned.CurrentDuration = 0;
 				break;
@@ -234,16 +234,15 @@ public class EventManager
 	public void ApplyTeamDamageReduction(PlayerBody playerOwner, float teamDamageReductionDuration, Turteriam lilGuy)
 	{
 		playerOwner.TeamDamageReduction += lilGuy.DamageReduction;
-		GameManager.Instance.StartCoroutine(StopDamageReduction(playerOwner, teamDamageReductionDuration, lilGuy));
 	}
 
-	private IEnumerator StopDamageReduction(PlayerBody playerOwner, float teamDamageReductionDuration, Turteriam lilGuy)
+	public IEnumerator StopDamageReduction(PlayerBody playerOwner, float teamDamageReductionDuration, Turteriam lilGuy, bool stopImmediate = false)
 	{
-		yield return new WaitForSeconds(teamDamageReductionDuration);
+		if (!stopImmediate) yield return new WaitForSeconds(teamDamageReductionDuration);
+
 		lilGuy.IsShieldActive = false;
 		playerOwner.TeamDamageReduction -= lilGuy.DamageReduction;
 
-		lilGuy.InstantiatedDome = null;
 		lilGuy.DamageReductionActive = false;
 	}
 

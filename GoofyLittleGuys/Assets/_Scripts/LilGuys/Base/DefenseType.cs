@@ -28,8 +28,9 @@ public class DefenseType : LilGuyBase
 		base.Special();
 	}
 
-	private void OnDisable()
+	protected override void OnDisable()
 	{
+		base.OnDisable();
 		if (spawnedShieldObj != null) Destroy(spawnedShieldObj);
 	}
 }
