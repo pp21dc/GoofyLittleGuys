@@ -269,26 +269,6 @@ public class PlayerBody : MonoBehaviour
 
 	public void Interact()
 	{
-		if (Time.time <= nextInteractTime) return;
-		if (closestInteractable != null)
-		{
-			closestInteractable.StartInteraction(this); // Start the interaction process
-		}
-		nextInteractTime = Time.time + interactCooldown;
-	}
-
-	public void StopInteract()
-	{
-		if (closestInteractable != null)
-		{
-			closestInteractable.CancelInteraction(this); // Stop the interaction process
-		}
-	}
-
-
-	public void UseBerry()
-	{
-		if (IsDead || LilGuyTeam[0].IsDying) return;
 		if (closestWildLilGuy != null)
 		{
 			GameplayStats.LilGuysTamedTotal++;
@@ -323,7 +303,29 @@ public class PlayerBody : MonoBehaviour
 			GameObject catchEffect = Instantiate(FXManager.Instance.GetEffect("Catch"), transform.position, Quaternion.identity);
 			catchEffect.GetComponent<SpriteRenderer>().sortingOrder = (int)-transform.position.z - 1;
 		}
-		else if (lilGuyTeam[0].Health < lilGuyTeam[0].MaxHealth && nextBerryUseTime <= 0 && berryCount > 0)
+
+		if (Time.time <= nextInteractTime) return;
+		if (closestInteractable != null)
+		{
+			closestInteractable.StartInteraction(this); // Start the interaction process
+		}
+		nextInteractTime = Time.time + interactCooldown;
+	}
+
+	public void StopInteract()
+	{
+		if (closestInteractable != null)
+		{
+			closestInteractable.CancelInteraction(this); // Stop the interaction process
+		}
+	}
+
+
+	public void UseBerry()
+	{
+		if (IsDead || LilGuyTeam[0].IsDying) return;
+		
+		if (lilGuyTeam[0].Health < lilGuyTeam[0].MaxHealth && nextBerryUseTime <= 0 && berryCount > 0)
 		{
 			int healthRestored = Mathf.CeilToInt(lilGuyTeam[0].MaxHealth * berryHealPercentage);
 			EventManager.Instance.HealLilGuy(lilGuyTeam[0], healthRestored);
