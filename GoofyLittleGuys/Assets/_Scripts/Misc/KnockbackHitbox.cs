@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class KnockbackHitbox : MonoBehaviour
 {
-	[SerializeField] private float knockbackForce = 10f; // Strength of knockback
+	[SerializeField] private float knockbackForce = 100f; // Strength of knockback
 	[SerializeField] private bool relativeToHitbox = true; // Direction relative to hitbox center
 	[SerializeField] private float knockbackDuration = 1f; 
 
@@ -26,11 +26,13 @@ public class KnockbackHitbox : MonoBehaviour
 		if (other.gameObject.layer == LayerMask.NameToLayer("WildLilGuys"))
 		{
 			lilGuy.ApplyKnockback((other.transform.position - transform.position).normalized * knockbackForce);
+			Debug.Log("The knockback is: " +  knockbackForce);
 		}
 		else if (other.gameObject.layer == LayerMask.NameToLayer("PlayerLilGuys"))
 		{
 			lilGuy.PlayerOwner.ApplyKnockback((other.transform.position - transform.position).normalized * knockbackForce);
-		}
+            Debug.Log("The knockback is: " + knockbackForce);
+        }
 	}
 
 	private void OnTriggerExit(Collider other)
