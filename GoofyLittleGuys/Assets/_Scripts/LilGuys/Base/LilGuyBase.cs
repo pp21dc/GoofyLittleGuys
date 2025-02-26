@@ -593,19 +593,22 @@ public abstract class LilGuyBase : MonoBehaviour
         OnEndSpecial();
     }
 
-    protected virtual void OnEndSpecial()
+    public virtual void OnEndSpecial(bool stopImmediate = false)
     {
-        StartCoroutine(EndSpecial());
+        StartCoroutine(EndSpecial(stopImmediate));
     }
 
-    private IEnumerator EndSpecial()
+    protected virtual IEnumerator EndSpecial(bool stopImmediate = false)
     {
-        if (specialDuration >= 0) yield return new WaitForSeconds(specialDuration);
-        else if (specialDuration == -1)
+        if (!stopImmediate)
         {
-            AnimationClip clip = anim.runtimeAnimatorController.animationClips.First(clip => clip.name == "Special");
-            if (clip != null) yield return new WaitForSeconds(clip.length);
-        }
+			if (specialDuration >= 0) yield return new WaitForSeconds(specialDuration);
+			else if (specialDuration == -1)
+			{
+				AnimationClip clip = anim.runtimeAnimatorController.animationClips.First(clip => clip.name == "Special");
+				if (clip != null) yield return new WaitForSeconds(clip.length);
+			}
+		}       
         if (anim != null)
         {
             anim.SetTrigger("SpecialAttackEnded");

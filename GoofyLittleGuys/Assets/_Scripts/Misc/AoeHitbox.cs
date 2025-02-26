@@ -7,7 +7,7 @@ using UnityEngine;
 public class AoeHitbox : MonoBehaviour
 {
 	protected float damage;
-	protected float aoeDamageMultiplier;
+	protected float aoeDamageMultiplier = 1;
 	protected float knockbackForce = 0f;
 	protected float slowAmount = 0f;
 	protected float slowDuration = 0f;

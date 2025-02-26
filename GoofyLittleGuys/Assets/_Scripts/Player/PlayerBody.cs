@@ -407,7 +407,7 @@ public class PlayerBody : MonoBehaviour
 	{
 		if (activeLilGuy.Health > 0) return;
 
-		activeLilGuy.CancelSpecial();
+		activeLilGuy.OnEndSpecial(true);
 
 		// Hide them from player, as to not confuse them with a living one... maybe find a better way to convey this
 		if (!activeLilGuy.IsDying) lilGuyTeam[0].PlayDeathAnim();

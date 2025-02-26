@@ -1731,16 +1731,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 807290872373841128, guid: 350f89563f2548540b1220bb948a17b5,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 52.07
-      objectReference: {fileID: 0}
-    - target: {fileID: 2884479891081028465, guid: 350f89563f2548540b1220bb948a17b5,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 48.83
-      objectReference: {fileID: 0}
     - target: {fileID: 3874832209383713839, guid: 350f89563f2548540b1220bb948a17b5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1791,60 +1781,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4176501104195731232, guid: 350f89563f2548540b1220bb948a17b5,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 57.79
-      objectReference: {fileID: 0}
     - target: {fileID: 4575379053027025317, guid: 350f89563f2548540b1220bb948a17b5,
         type: 3}
       propertyPath: m_Name
       value: Spawn Points
       objectReference: {fileID: 0}
-    - target: {fileID: 4885894880053700609, guid: 350f89563f2548540b1220bb948a17b5,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 42.56
-      objectReference: {fileID: 0}
-    - target: {fileID: 8297902138195160148, guid: 350f89563f2548540b1220bb948a17b5,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 42.86
-      objectReference: {fileID: 0}
-    - target: {fileID: 8946660854660372635, guid: 350f89563f2548540b1220bb948a17b5,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 48.71
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7991171722782372437, guid: 350f89563f2548540b1220bb948a17b5, type: 3}
+    - {fileID: 3024240891673600904, guid: 350f89563f2548540b1220bb948a17b5, type: 3}
+    - {fileID: 1627195017645541940, guid: 350f89563f2548540b1220bb948a17b5, type: 3}
+    - {fileID: 7457998735842212199, guid: 350f89563f2548540b1220bb948a17b5, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 350f89563f2548540b1220bb948a17b5, type: 3}
---- !u!114 &733882629 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6844917090405993148, guid: 350f89563f2548540b1220bb948a17b5,
-    type: 3}
-  m_PrefabInstance: {fileID: 733882628}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7287cf5f6331e7f42ae462cfdad02e62, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &733882630 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5057830810643238576, guid: 350f89563f2548540b1220bb948a17b5,
-    type: 3}
-  m_PrefabInstance: {fileID: 733882628}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7287cf5f6331e7f42ae462cfdad02e62, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &733882631 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2165459318465442887, guid: 350f89563f2548540b1220bb948a17b5,
@@ -2777,6 +2727,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1970606836446198798, guid: de1849616cf5e6e41990742051e315c8,
         type: 3}
+      propertyPath: spawnPoints.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1970606836446198798, guid: de1849616cf5e6e41990742051e315c8,
+        type: 3}
       propertyPath: spawnPoints.Array.data[0]
       value: 
       objectReference: {fileID: 733882634}
@@ -2799,12 +2754,12 @@ PrefabInstance:
         type: 3}
       propertyPath: spawnPoints.Array.data[4]
       value: 
-      objectReference: {fileID: 733882630}
+      objectReference: {fileID: 0}
     - target: {fileID: 1970606836446198798, guid: de1849616cf5e6e41990742051e315c8,
         type: 3}
       propertyPath: spawnPoints.Array.data[5]
       value: 
-      objectReference: {fileID: 733882629}
+      objectReference: {fileID: 0}
     - target: {fileID: 1970606836446198798, guid: de1849616cf5e6e41990742051e315c8,
         type: 3}
       propertyPath: phaseAudioSources.Array.size

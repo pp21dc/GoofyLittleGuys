@@ -74,7 +74,7 @@ public class Turteriam : DefenseType
 		base.Special();
 	}
 
-	protected override void OnEndSpecial()
+	public override void OnEndSpecial(bool stopImmediate = false)
 	{
 		base.OnEndSpecial();
 		if (playerOwner != null) return;

@@ -122,6 +122,10 @@ MonoBehaviour:
   attackCooldown: 0
   attackEffect: {fileID: 0}
   damageReduction: 0.8
+  knockbackPrefab: {fileID: 4631284653977187687, guid: 9341da0943f3c924db490a9047fb1341,
+    type: 3}
+  knockbackForceAmount: 60
+  knockbackDuration: 1
   shieldPrefab: {fileID: 2008765747768666474, guid: 0b6f276f11794084db7a6f88d2820118,
     type: 3}
   duration: 7

@@ -16,7 +16,7 @@ public class Toadstool : DefenseType
 	public float PoisonDuration => poisonDuration;
 	public float PoisonDamageApplicationInterval => poisonDamageApplicationInterval;
 
-	protected override void OnEndSpecial()
+	public override void OnEndSpecial(bool stopImmediate = false)
 	{
 		isShieldActive = false;
 		base.OnEndSpecial();

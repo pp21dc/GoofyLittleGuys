@@ -15,6 +15,7 @@ public class Spricket : SpeedType
 	[SerializeField] private float knockbackDuration = 1f;
 
 	[Header("Dash/Speed Curve Settings")]
+	private float dashDamageMultiplier = 1f;
 	[SerializeField, Tooltip("Base max distance Spricket dash can travel.")] private float baseMaxDistance = 40f;
 	[SerializeField, Tooltip("Maximum distance Spricket dash can travel after speed stat is applied.")] private float distanceThreshold = 100f;
 	[SerializeField, Tooltip("How much the speed stat influences max distance.")] private float speedStatInfluence = 1;
@@ -32,6 +33,7 @@ public class Spricket : SpeedType
 	private float chargeTime = 0f;
 	private GameObject instantiatedKnockback;
 	private Coroutine dashCoroutine;
+
 	protected override void Update()
 	{
 		base.Update();
@@ -115,6 +117,10 @@ public class Spricket : SpeedType
 			KnockbackHitbox h = instantiatedKnockback.GetComponent<KnockbackHitbox>();
 			h.KnockbackForce = knockbackForceAmount;
 			h.KnockbackDuration = knockbackDuration;
+
+			AoeHitbox a = instantiatedKnockback.GetComponent<AoeHitbox>();
+			a.AoeDamageMultiplier = dashDamageMultiplier;
+			a.Init(gameObject);
 			float finalDistance = (Mathf.Lerp(minDashDistance, (applySpeedStat ? maxDashDistance : baseMaxDistance), (chargeTime - minChargeTime) / (maxChargeTime - minChargeTime)));
 			if (playerOwner != null) playerOwner.StartDash();
 			else isDashing = true;

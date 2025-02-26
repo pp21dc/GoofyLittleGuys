@@ -73,7 +73,7 @@ public class Phantaphant : SpeedType
 		OnEndSpecial();
 	}
 
-	protected override void OnEndSpecial()
+	public override void OnEndSpecial(bool stopImmediate = false)
 	{
 		base.OnEndSpecial();
 		targetPosition = null;

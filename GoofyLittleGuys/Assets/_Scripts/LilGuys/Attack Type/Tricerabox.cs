@@ -59,7 +59,7 @@ public class Tricerabox : StrengthType
 		base.PlayDeathAnim(isWild);
 
 	}
-	protected override void OnEndSpecial()
+	public override void OnEndSpecial(bool stopImmediate = false)
 	{
 		if (aoe != null) Destroy(aoe);
 		if (waveAoe != null) Destroy(waveAoe);

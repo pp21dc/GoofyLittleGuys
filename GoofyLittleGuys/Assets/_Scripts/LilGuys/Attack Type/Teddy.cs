@@ -30,7 +30,7 @@ public class Teddy : StrengthType
 		base.StartChargingSpecial();
 		LockAttackRotation = true;
 	}
-	protected override void OnEndSpecial()
+	public override void OnEndSpecial(bool stopImmediate = false)
 	{
 		//if (instantiatedAoe != null) Destroy(instantiatedAoe);
 		base.OnEndSpecial();
