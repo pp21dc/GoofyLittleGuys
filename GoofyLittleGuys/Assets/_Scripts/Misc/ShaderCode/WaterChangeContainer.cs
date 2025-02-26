@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 namespace _Scripts.Misc.ShaderCode
 {
@@ -22,9 +23,22 @@ namespace _Scripts.Misc.ShaderCode
 
         private void OnEnable()
         {
+            EditorApplication.playModeStateChanged += ResetColors;
+            
             baseWaterColor = waterMaterials[0].GetColor(WaterColor);
             baseLightFoamColor = waterMaterials[0].GetColor(LightFoamColor);
             baseDarkFoamColor = waterMaterials[0].GetColor(DarkFoamColor);
+        }
+
+        private void OnDisable()
+        {
+            EditorApplication.playModeStateChanged -= ResetColors;
+        }
+
+        private void ResetColors(PlayModeStateChange playModeStateChange)
+        {
+            if (playModeStateChange == PlayModeStateChange.ExitingPlayMode)
+                SwapColors(baseWaterColor, baseLightFoamColor, baseDarkFoamColor);
         }
 
         /// <summary>
