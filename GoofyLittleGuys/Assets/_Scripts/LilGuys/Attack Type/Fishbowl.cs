@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Fishbowl : StrengthType
@@ -48,7 +49,11 @@ public class Fishbowl : StrengthType
 			chargeTimer = chargeRefreshRate;
 			currentCharges--;
 
-			if (playerOwner == null) StopChargingSpecial();
+            anim.ResetTrigger("SpecialAttackEnded");
+            anim.ResetTrigger("EndCharge");
+            anim.ResetTrigger("SpecialAttack");
+            anim.SetTrigger("SpecialAttack");
+            if (playerOwner == null) StopChargingSpecial();
 		}
 			
 	}
@@ -56,7 +61,7 @@ public class Fishbowl : StrengthType
 	public override void StopChargingSpecial()
 	{
 		if (!isCharging) return;
-		if (chargeTime >= minChargeTime)
+        if (chargeTime >= minChargeTime)
 		{
 			LockMovement = false;
 			isCharging = false;
@@ -76,16 +81,14 @@ public class Fishbowl : StrengthType
 	}
 
 	protected override void Special()
-	{
-		LockMovement = true;	
+    {
+        anim.SetTrigger("EndCharge");
+        anim.ResetTrigger("SpecialAttack");
+        LockMovement = true;	
 		base.Special();
 		isCharging = false;
 	}
 
-	public override void OnEndSpecial(bool stopImmediate = false)
-	{
-		base.OnEndSpecial();
-	}
 	private IEnumerator WaitForChargeCompletion()
 	{
 		while (chargeTime < minChargeTime)
@@ -95,7 +98,27 @@ public class Fishbowl : StrengthType
 		isCharging = false;
 		Special();
 	}
-	public void SpawnWaveAoe()
+
+    protected override IEnumerator EndSpecial(bool stopImmediate = false)
+    {
+        if (!stopImmediate)
+        {
+            if (specialDuration >= 0) yield return new WaitForSeconds(specialDuration);
+            else if (specialDuration == -1)
+            {
+                AnimationClip clip = anim.runtimeAnimatorController.animationClips.First(clip => clip.name == "Special");
+                if (clip != null) yield return new WaitForSeconds(clip.length);
+            }
+        }
+        if (anim != null)
+        {
+            anim.SetTrigger("SpecialAttackEnded");
+            anim.ResetTrigger("EndCharge");
+        }
+        LockAttackRotation = false;
+        LockMovement = false;
+    }
+    public void SpawnWaveAoe()
 	{
 		instantiatedAoe = Instantiate(aoeShape, transform.position, Quaternion.identity);
 		instantiatedAoe.GetComponent<FishbowlWaves>().Init(specialDuration, chargeTime, maxChargeTime, minChargeTime);

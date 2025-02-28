@@ -92,7 +92,7 @@ public class Turteriam : DefenseType
 		{
 			DeleteDome();
 			if (damageReductionRemoval != null) StopCoroutine(damageReductionRemoval);
-			damageReductionRemoval = StartCoroutine(EventManager.Instance.StopDamageReduction(playerOwner, teamDamageReductionDuration, this, true));
+			if (playerOwner != null) damageReductionRemoval = StartCoroutine(EventManager.Instance.StopDamageReduction(playerOwner, teamDamageReductionDuration, this, true));
 		}
 		else if (!stopImmediate)
 		{
@@ -103,7 +103,7 @@ public class Turteriam : DefenseType
 				if (clip != null) yield return new WaitForSeconds(clip.length);
 			}
 
-			damageReductionRemoval ??= StartCoroutine(EventManager.Instance.StopDamageReduction(playerOwner, teamDamageReductionDuration, this));
+            if (playerOwner != null) damageReductionRemoval ??= StartCoroutine(EventManager.Instance.StopDamageReduction(playerOwner, teamDamageReductionDuration, this));
 		}
 		if (anim != null)
 		{
@@ -112,6 +112,8 @@ public class Turteriam : DefenseType
 
 		LockAttackRotation = false;
 		LockMovement = false;
+		isShieldActive = false;
+		damageReductionActive = false;
 
 		if (playerOwner != null) yield break;
 	}

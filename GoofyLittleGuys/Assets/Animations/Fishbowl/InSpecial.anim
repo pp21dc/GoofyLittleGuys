@@ -26,12 +26,6 @@ AnimationClip:
       value: {fileID: 2011495464, guid: eb87b0d022ab64c4888493bc433f94f7, type: 3}
     - time: 0.16666667
       value: {fileID: -2102427176, guid: eb87b0d022ab64c4888493bc433f94f7, type: 3}
-    - time: 0.25
-      value: {fileID: 403308529, guid: eb87b0d022ab64c4888493bc433f94f7, type: 3}
-    - time: 0.33333334
-      value: {fileID: -2036838309, guid: eb87b0d022ab64c4888493bc433f94f7, type: 3}
-    - time: 0.41666666
-      value: {fileID: 1992598494, guid: eb87b0d022ab64c4888493bc433f94f7, type: 3}
     attribute: m_Sprite
     path: Mesh
     classID: 212
@@ -57,15 +51,12 @@ AnimationClip:
     - {fileID: 424618212, guid: eb87b0d022ab64c4888493bc433f94f7, type: 3}
     - {fileID: 2011495464, guid: eb87b0d022ab64c4888493bc433f94f7, type: 3}
     - {fileID: -2102427176, guid: eb87b0d022ab64c4888493bc433f94f7, type: 3}
-    - {fileID: 403308529, guid: eb87b0d022ab64c4888493bc433f94f7, type: 3}
-    - {fileID: -2036838309, guid: eb87b0d022ab64c4888493bc433f94f7, type: 3}
-    - {fileID: 1992598494, guid: eb87b0d022ab64c4888493bc433f94f7, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.5
+    m_StopTime: 0.25
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -87,13 +78,6 @@ AnimationClip:
   m_Events:
   - time: 0
     functionName: DestroyHitbox
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0
-    functionName: SpawnWaveAoe
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
