@@ -14,10 +14,12 @@ public class Fishbowl : StrengthType
 	[SerializeField] private float minKnockback = 10f;
 	[SerializeField] private float maxKnockback = 25f;
 	[SerializeField] private float knockbackDuration = 1f;
+	[SerializeField] private Color chargeEffectColour;
 
 	bool isCharging = false;
 	private float chargeTime = 0f;
 	private GameObject instantiatedAoe = null;
+	private GameObject chargeEffect;
 
 	protected override void Update()
 	{
@@ -26,6 +28,7 @@ public class Fishbowl : StrengthType
 		{
 			chargeTime += Time.deltaTime;
 			chargeTime = Mathf.Clamp(chargeTime, 0, maxChargeTime);
+			if (chargeEffect != null) chargeEffect.transform.localScale = Vector3.one * (0.5f + 2 * chargeTime);
 			if (chargeTime >= maxChargeTime)
 			{
 				StopChargingSpecial();
@@ -41,6 +44,8 @@ public class Fishbowl : StrengthType
 			{
 				isCharging = true;
 				chargeTime = 0;
+				chargeEffect = Instantiate(FXManager.Instance.GetEffect("ChargeUp"), transform.position, Quaternion.identity, transform);
+				chargeEffect.GetComponent<ParticleSystem>().startColor = chargeEffectColour;
 			}
 
 			LockMovement = true;
@@ -76,13 +81,15 @@ public class Fishbowl : StrengthType
 	protected override void OnDisable()
 	{
 		base.OnDisable();
+		Destroy(chargeEffect);
 		LockMovement = false;
 		isCharging = false;
 	}
 
 	protected override void Special()
-    {
-        anim.SetTrigger("EndCharge");
+	{
+		Destroy(chargeEffect);
+		anim.SetTrigger("EndCharge");
         anim.ResetTrigger("SpecialAttack");
         LockMovement = true;	
 		base.Special();

@@ -13,6 +13,7 @@ public class Spricket : SpeedType
 	[SerializeField, Tooltip("Should the speed stat affect max distance?")] private bool applySpeedStat = false;
 	[SerializeField] private float knockbackForceAmount = 60f;
 	[SerializeField] private float knockbackDuration = 1f;
+	[SerializeField] private Color chargeEffectColour;
 
 	[Header("Dash/Speed Curve Settings")]
 	private float dashDamageMultiplier = 1f;
@@ -33,7 +34,7 @@ public class Spricket : SpeedType
 	private float chargeTime = 0f;
 	private GameObject instantiatedKnockback;
 	private Coroutine dashCoroutine;
-
+	private GameObject chargeEffect;
 	protected override void Update()
 	{
 		base.Update();
@@ -42,6 +43,7 @@ public class Spricket : SpeedType
 		{
 			chargeTime += Time.deltaTime;
 			chargeTime = Mathf.Clamp(chargeTime, 0, maxChargeTime);
+			if (chargeEffect != null) chargeEffect.transform.localScale = Vector3.one * (0.5f + 2 * chargeTime);
 			if (chargeTime >= maxChargeTime)
 			{
 				StopChargingSpecial();
@@ -59,8 +61,10 @@ public class Spricket : SpeedType
 			{
 				isCharging = true;
 				chargeTime = 0;
-			}
+				chargeEffect = Instantiate(FXManager.Instance.GetEffect("ChargeUp"), transform.position, Quaternion.identity, transform);
+				chargeEffect.GetComponent<ParticleSystem>().startColor = chargeEffectColour;
 
+			}
 			LockMovement = true;
 			// Decrement charges and reset cooldowns
 			cooldownTimer = cooldownDuration;
@@ -101,6 +105,7 @@ public class Spricket : SpeedType
 	}
 	protected override void Special()
 	{
+		Destroy(chargeEffect);
 		// Decrement charges and reset cooldowns
 		cooldownTimer = cooldownDuration;
 		chargeTimer = chargeRefreshRate;
@@ -161,6 +166,7 @@ public class Spricket : SpeedType
 	{
 		if (isCharging || isDashing)
 		{
+			Destroy(chargeEffect);
 			// Reset special state
 			isCharging = false;
 			isDashing = false;
