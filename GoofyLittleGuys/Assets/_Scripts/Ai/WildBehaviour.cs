@@ -342,24 +342,33 @@ public class WildBehaviour : MonoBehaviour
 		return targetPosition;
 	}
 
+
 	private void HandleAttack()
 	{
 		if (attackTime <= 0)
 		{
-			if (hostility >= 7 && controller.LilGuy.CurrentCharges > 0 && controller.LilGuy.CooldownTimer <= 0 && attackTime <= 0 && controller.LilGuy is StrengthType strengthLilGuy)
+			if (hostility >= 7 && controller.LilGuy.CurrentCharges > 0 && controller.LilGuy.CooldownTimer <= 0 && controller.LilGuy is StrengthType strengthLilGuy)
 			{
 				controller.LilGuy.StartChargingSpecial();
 				attackTime = attackBuffer;
 			}
-			else if (controller.LilGuy.CurrentCharges > 0 && controller.LilGuy.CooldownTimer <= 0 && attackTime <= 0 && controller.LilGuy is DefenseType defenseLilGuy && controller.LilGuy.Health * 2 <= controller.LilGuy.MaxHealth)
+			else if (controller.LilGuy.CurrentCharges > 0 && controller.LilGuy.CooldownTimer <= 0 && controller.LilGuy is DefenseType defenseLilGuy && controller.LilGuy.Health * 2 <= controller.LilGuy.MaxHealth)
 			{
 				controller.LilGuy.StartChargingSpecial();
 				attackTime = attackBuffer;
 			}
 			else
 			{
-				controller.LilGuy.Attack();
-				attackTime = attackBuffer;
+				// AI Combo Logic
+				if (controller.LilGuy.CurrentComboCount == 0 || controller.LilGuy.CanChainAttack) // Allow chaining at the correct frames
+				{
+					controller.LilGuy.AttemptAttack();
+
+					if (controller.LilGuy.CurrentComboCount >= controller.LilGuy.maxCombo)
+					{
+						attackTime = attackBuffer;
+					}
+				}
 			}
 		}
 	}

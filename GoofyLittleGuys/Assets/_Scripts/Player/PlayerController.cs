@@ -110,9 +110,16 @@ public class PlayerController : MonoBehaviour
 		if (GameManager.Instance.IsPaused) return;
 		if (playerBody.LilGuyTeam[0].Health <= 0) return;
 		if (GetComponent<PlayerInput>().currentControlScheme == "Keyboard" && Keyboard.current.shiftKey.isPressed) return;
-
-		// Hold to keep attacking as opposed to mashing.
-		playerBody.LilGuyTeam[0].IsAttacking = ctx.performed;
+		
+		
+		if (ctx.performed) // Button Pressed (Start Holding)
+		{
+			playerBody.LilGuyTeam[0].StartAttacking();
+		}
+		else if (ctx.canceled) // Button Released (Stop Holding)
+		{
+			playerBody.LilGuyTeam[0].StopAttacking();
+		}
 	}
 
 	public void OnSecondarySkill(InputAction.CallbackContext ctx)

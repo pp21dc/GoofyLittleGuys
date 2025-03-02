@@ -87,6 +87,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2ecb69dd2b908c48aaa672ee55c8c2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxCombo: 3
+  comboBufferTime: 0.75
   guyName: Armordillo
   type: 1
   mesh: {fileID: 2263210829898551102}
