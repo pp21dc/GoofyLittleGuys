@@ -299,6 +299,7 @@ namespace Managers
 		/// </summary>
 		public void SpawnLegendary(float maxScale, int level)
 		{
+			AudioManager.Instance.PlaySfx("LegendarySpawned", alertAudioSource);
 			if (SpawnManager.Instance != null)
 			{
 				SpawnManager.Instance.SpawnLegendaryLilGuy(maxScale, level);

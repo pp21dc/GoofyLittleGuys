@@ -550,7 +550,7 @@ PrefabInstance:
     - target: {fileID: 4476805679437409250, guid: 3fdbd3de7f90953408fca5ccebc1efdf,
         type: 3}
       propertyPath: sfxObjects.Array.size
-      value: 11
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 4476805679437409250, guid: 3fdbd3de7f90953408fca5ccebc1efdf,
         type: 3}
@@ -623,6 +623,18 @@ PrefabInstance:
       propertyPath: sfxObjects.Array.data[10]
       value: 
       objectReference: {fileID: 11400000, guid: 1b79b129299a4c5418ac3b760e867476,
+        type: 2}
+    - target: {fileID: 4476805679437409250, guid: 3fdbd3de7f90953408fca5ccebc1efdf,
+        type: 3}
+      propertyPath: sfxObjects.Array.data[11]
+      value: 
+      objectReference: {fileID: 11400000, guid: f5e5410f358d7ec46999912d9e644dee,
+        type: 2}
+    - target: {fileID: 4476805679437409250, guid: 3fdbd3de7f90953408fca5ccebc1efdf,
+        type: 3}
+      propertyPath: sfxObjects.Array.data[12]
+      value: 
+      objectReference: {fileID: 11400000, guid: 76acf2ae7bdf8324e909bb76b4e0571a,
         type: 2}
     - target: {fileID: 4476805679437409250, guid: 3fdbd3de7f90953408fca5ccebc1efdf,
         type: 3}
@@ -3188,6 +3200,9 @@ MonoBehaviour:
       type: 3}
   - name: LegendaryKill
     effect: {fileID: 8088459897394799272, guid: 910c0fbcf3156bd4c87d18b8ddde6b1d,
+      type: 3}
+  - name: ChargeUp
+    effect: {fileID: 8568319286658472734, guid: 62e91bebbac9b2341ad1307cd6528cb1,
       type: 3}
 --- !u!1 &1158062337
 GameObject:
