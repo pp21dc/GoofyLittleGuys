@@ -635,6 +635,9 @@ public abstract class LilGuyBase : MonoBehaviour
 		Hitbox hitbox = instantiatedHitbox.GetComponent<Hitbox>();
 		hitbox.Init(gameObject); // Pass the target directly to enhance accuracy
 
+		KnockbackHitbox k = instantiatedHitbox.GetComponent<KnockbackHitbox>();
+		k.KnockbackDir = (playerOwner == null) ? MovementDirection.normalized : playerOwner.MovementDirection.normalized;
+
 		// Spawn in Fx prefab along-side hitbox
 		instantiatedBasicFx = Instantiate(basicFxPrefab, attackPosition.position, Quaternion.identity, gameObject.transform);
 		var fx = instantiatedBasicFx.GetComponent<BasicAttackFx>();
