@@ -92,7 +92,7 @@ public class StatMetrics : MonoBehaviour
 		if (body.LilGuyTeam.Exists(lilGuy => lilGuy.GuyName.Equals("Teddy")) && body.LilGuyTeam.Exists(lilGuy => lilGuy.GuyName.Equals("Tricera-box")) && body.LilGuyTeam.Exists(lilGuy => lilGuy.GuyName.Equals("Fishbowl"))) titles.Add("The Mighty");
 		if (body.LilGuyTeam.Exists(lilGuy => lilGuy.GuyName.Equals("Spricket")) && body.LilGuyTeam.Exists(lilGuy => lilGuy.GuyName.Equals("Phant-a-phant")) && body.LilGuyTeam.Exists(lilGuy => lilGuy.GuyName.Equals("Mousecar"))) titles.Add("The Quick");
 		if (body.LilGuyTeam.Exists(lilGuy => lilGuy.GuyName.Equals("Toadstool")) && body.LilGuyTeam.Exists(lilGuy => lilGuy.GuyName.Equals("Armordillo")) && body.LilGuyTeam.Exists(lilGuy => lilGuy.GuyName.Equals("Turteriam"))) titles.Add("The Wall");
-		if (body.LilGuyTeam.Exists(lilGuy => lilGuy.GuyName.Equals("Toadstool")) && body.LilGuyTeam.Exists(lilGuy => lilGuy.GuyName.Equals("Mousecar"))) titles.Add("Gas, Gas, Gas");
+		if (body.LilGuyTeam.Exists(lilGuy => lilGuy.GuyName.Equals("Toadstool")) && body.LilGuyTeam.Exists(lilGuy => lilGuy.GuyName.Equals("Mousecar"))) titles.Add("Toxic Tires");
 		if (body.LilGuyTeam.Exists(lilGuy => lilGuy.GuyName.Equals("Tricera-box")) && body.LilGuyTeam.Exists(lilGuy => lilGuy.GuyName.Equals("Mousecar"))) titles.Add("Mach Punch");
 
 		if (body.LilGuyTeam.Exists(lilGuy => lilGuy.GuyName.Equals("Fishbowl")) && body.LilGuyTeam.Exists(lilGuy => lilGuy.GuyName.Equals("Toadstool"))) titles.Add("Dome Buddies");
@@ -107,7 +107,7 @@ public class StatMetrics : MonoBehaviour
 		else if (body.LilGuyTeam.Exists(lilGuy => lilGuy.GuyName.Equals("Teddy")) && body.LilGuyTeam.Exists(lilGuy => lilGuy.GuyName.Equals("Spricket"))) titles.Add("Bread \'n Butter");
 
 		if (body.LilGuyTeam.Exists(lilGuy => lilGuy.GuyName.Equals("Fishbowl")) && body.LilGuyTeam.Exists(lilGuy => lilGuy.GuyName.Equals("Armordillo"))) titles.Add("Rolling Waves");
-		if (body.LilGuyTeam.Exists(lilGuy => lilGuy.GuyName.Equals("Mousecar")) && body.LilGuyTeam.Exists(lilGuy => lilGuy.GuyName.Equals("Phant-a-phant"))) titles.Add("Ghostrider");
+		if (body.LilGuyTeam.Exists(lilGuy => lilGuy.GuyName.Equals("Mousecar")) && body.LilGuyTeam.Exists(lilGuy => lilGuy.GuyName.Equals("Phant-a-phant"))) titles.Add("Phantomrider");
 		if (body.LilGuyTeam.Exists(lilGuy => lilGuy.GuyName.Equals("Spricket")) && body.LilGuyTeam.Exists(lilGuy => lilGuy.GuyName.Equals("Toadstool"))) titles.Add("Leaping Legends");
 		if (body.LilGuyTeam.Exists(lilGuy => lilGuy.GuyName.Equals("Teddy")) && body.LilGuyTeam.Exists(lilGuy => lilGuy.GuyName.Equals("Phant-a-phant"))) titles.Add("Phantom Flurry");
 		if (body.LilGuyTeam.Exists(lilGuy => lilGuy.GuyName.Equals("Armordillo")) && body.LilGuyTeam.Exists(lilGuy => lilGuy.GuyName.Equals("Turteriam"))) titles.Add("Defensive Offense");
