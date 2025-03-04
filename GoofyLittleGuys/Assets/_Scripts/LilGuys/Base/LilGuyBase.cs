@@ -660,6 +660,26 @@ public abstract class LilGuyBase : MonoBehaviour
 		Managers.AudioManager.Instance.PlaySfx(key, audioSource);
 	}
 
+	//Changes this source to loop and plays a sound until StopLoopingSound is called
+	public void PlayLoopingSound(string key)
+	{
+		if (audioSource.loop == false)
+		{
+			audioSource.loop = true;
+		}
+		Managers.AudioManager.Instance.PlaySfx(key, audioSource);
+	}
+
+	//Changes this source to not loop and stops whatever it is currently playing
+	public void StopLoopingSound()
+	{
+		if (audioSource.loop == true) { audioSource.loop = false; }
+		if (audioSource.isPlaying)
+		{
+			audioSource.Stop();
+		}
+	}
+
 	/// <summary>
 	/// Specifically for playing a sound on a spawned object or effect
 	/// </summary>

@@ -66,7 +66,8 @@ public class Fishbowl : StrengthType
 	public override void StopChargingSpecial()
 	{
 		if (!isCharging) return;
-        if (chargeTime >= minChargeTime)
+		PlaySound("Fishbowl_PopOff");
+		if (chargeTime >= minChargeTime)
 		{
 			LockMovement = false;
 			isCharging = false;
@@ -121,7 +122,9 @@ public class Fishbowl : StrengthType
         {
             anim.SetTrigger("SpecialAttackEnded");
             anim.ResetTrigger("EndCharge");
-        }
+			StopLoopingSound();
+			PlaySound("Fishbowl_PopOn");
+		}
         LockAttackRotation = false;
         LockMovement = false;
     }
@@ -140,5 +143,6 @@ public class Fishbowl : StrengthType
 			kHitbox.KnockbackDuration = knockbackDuration;
 
 		}
+		PlayLoopingSound("Special_Fishbowl");
 	}
 }
