@@ -362,7 +362,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	/// </summary>
 	public void AttemptAttack()
 	{
-		if (isDead || !isAttacking) return;
+		if (isDead || ((playerOwner != null) && !isAttacking)) return;
 
 		// If first attack in the combo, trigger immediately
 		if (currentComboCount == 0 && Time.time - lastAttackTime > comboBufferTime)
@@ -918,6 +918,8 @@ public abstract class LilGuyBase : MonoBehaviour
 
 	protected virtual void OnDisable()
 	{
+		RemoveSpeedBoost();
+
 		Poison poison = GetComponent<Poison>();
 		if (poison != null) Destroy(poison);
 
