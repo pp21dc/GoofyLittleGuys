@@ -81,6 +81,7 @@ public class TeamFullMenu : MonoBehaviour
 
 		lilGuyBeingCaught.PlayerOwner = body;
 		lilGuyBeingCaught.Health = lilGuyBeingCaught.MaxHealth;
+		lilGuyBeingCaught.PlaySound("Tamed_Lil_Guy");
 
 		// Setting layer to Player Lil Guys, and putting the lil guy into the first empty slot available.
 		lilGuyBeingCaught.gameObject.transform.SetParent(body.transform, true);

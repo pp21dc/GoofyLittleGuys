@@ -282,7 +282,7 @@ public class PlayerBody : MonoBehaviour
 			closestWildLilGuy.CalculateMoveSpeed();
 			if (LilGuyTeam.Count < 3)
 			{
-
+				lilGuyTeam[0].PlaySound("Tamed_Lil_Guy");
 				// There is room on the player's team for this lil guy.
 				// Set player owner to this player, and reset the lil guy's health to full, before adding to the player's party.
 				LilGuyTeam.Add(closestWildLilGuy);

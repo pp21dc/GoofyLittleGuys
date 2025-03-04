@@ -745,6 +745,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	private void LevelUp()
 	{
 		levelUpEffect = Instantiate(FXManager.Instance.GetEffect("LevelUp"), transform.position + Vector3.forward + Vector3.up * 0.25f, Quaternion.identity, transform);
+		PlayEffectSound(levelUpEffect, "Level_Up");
 		if (level % 5 == 0)
 		{
 			Strength += milestonePoints;
