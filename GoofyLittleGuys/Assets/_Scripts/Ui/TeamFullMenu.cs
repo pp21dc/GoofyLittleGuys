@@ -12,6 +12,7 @@ public class TeamFullMenu : MonoBehaviour
 	[SerializeField] private List<Button> buttons;                        // The first button to be selected on default.
 	[SerializeField] private MultiplayerEventSystem playerEventSystem;  // Reference to the player's event system.
 
+	[SerializeField] private List<Image> images;
 	private LilGuyBase lilGuyBeingCaught;                                 // Thi lil guy we are trying to capture... or not.
 	private PlayerBody body;
 
@@ -34,8 +35,8 @@ public class TeamFullMenu : MonoBehaviour
 			TextMeshProUGUI label = buttons[i].GetComponentInChildren<TextMeshProUGUI>();
 			if (label != null)
 			{
-				label.text = body.LilGuyTeam[i].GuyName + "\n Lvl: " + body.LilGuyTeam[i].Level + "\n HP: " + body.LilGuyTeam[i].Health;
-
+				label.text = "Lvl: " + body.LilGuyTeam[i].Level + "\n HP: " + body.LilGuyTeam[i].Health;
+				images[i].sprite = body.LilGuyTeam[i].Icon;
 			}
 		}
 	}
