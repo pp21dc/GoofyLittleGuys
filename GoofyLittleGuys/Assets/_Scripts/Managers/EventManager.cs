@@ -226,8 +226,11 @@ public class EventManager
 	{
 		yield return new WaitForSeconds(speedBoostDuration);
 
-		lilGuy.Speed -= speedBoostAmount;
-		lilGuy.RemoveSpeedBoost();
+		if (lilGuy != null)
+		{
+			lilGuy.Speed -= speedBoostAmount;
+			lilGuy.RemoveSpeedBoost();
+		}
 
 	}
 

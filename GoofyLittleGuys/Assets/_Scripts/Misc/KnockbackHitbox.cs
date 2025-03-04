@@ -6,7 +6,8 @@ public class KnockbackHitbox : MonoBehaviour
 {
 	[SerializeField] private float knockbackForce = 100f; // Strength of knockback
 	[SerializeField] private bool relativeToHitbox = true; // Direction relative to hitbox center
-	[SerializeField] private float knockbackDuration = 1f; 
+	[SerializeField] private float knockbackDuration = 1f;
+	private Vector3 knockbackDir = Vector3.zero;
 
 	private HashSet<LilGuyBase> wildLilGuys = new HashSet<LilGuyBase>(); // Track wild lil guys
 	private HashSet<LilGuyBase> playerLilGuys = new HashSet<LilGuyBase>(); // Track player-owned lil guys
@@ -15,6 +16,7 @@ public class KnockbackHitbox : MonoBehaviour
 	public HashSet<LilGuyBase> WildLilGuys => wildLilGuys;
 	public float KnockbackForce { set { knockbackForce = value; } }
 	public float KnockbackDuration { set { knockbackDuration = value; } }
+	public Vector3 KnockbackDir { set { knockbackDir = value; } }
 
 
 	private void OnTriggerEnter(Collider other)
@@ -25,12 +27,12 @@ public class KnockbackHitbox : MonoBehaviour
 		Debug.Log(other.gameObject);
 		if (other.gameObject.layer == LayerMask.NameToLayer("WildLilGuys"))
 		{
-			lilGuy.ApplyKnockback((other.transform.position - transform.position).normalized * knockbackForce);
+			lilGuy.ApplyKnockback((knockbackDir = (knockbackDir == Vector3.zero) ? (other.transform.position - transform.position).normalized : knockbackDir) * knockbackForce);
 			Debug.Log("The knockback is: " +  knockbackForce);
 		}
 		else if (other.gameObject.layer == LayerMask.NameToLayer("PlayerLilGuys"))
 		{
-			lilGuy.PlayerOwner.ApplyKnockback((other.transform.position - transform.position).normalized * knockbackForce);
+			lilGuy.PlayerOwner.ApplyKnockback((knockbackDir = (knockbackDir == Vector3.zero) ? (other.transform.position - transform.position).normalized : knockbackDir) * knockbackForce);
             Debug.Log("The knockback is: " + knockbackForce);
         }
 	}
