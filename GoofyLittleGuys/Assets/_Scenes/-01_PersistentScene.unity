@@ -738,6 +738,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 288199678}
   m_PrefabAsset: {fileID: 0}
+--- !u!64 &315809561 stripped
+MeshCollider:
+  m_CorrespondingSourceObject: {fileID: 3990253812162614801, guid: 3dec69a9f75608f479014b6150b68917,
+    type: 3}
+  m_PrefabInstance: {fileID: 938245212}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &346888636
 GameObject:
   m_ObjectHideFlags: 0
@@ -2434,6 +2440,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Directional Light (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 9175473888314842189, guid: 3dec69a9f75608f479014b6150b68917,
+        type: 3}
+      propertyPath: spawnArea
+      value: 
+      objectReference: {fileID: 315809561}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
