@@ -14,7 +14,7 @@ public class Hurtbox : MonoBehaviour
 	public float Health { get { return health; } }
 	private PlayerBody lastHit;                      // Player who last hit this hurtbox.
 	public PlayerBody LastHit { get { return lastHit; } set { lastHit = value; } }
-	public GameObject Owner { get { return owner; }}
+	public GameObject Owner { get { return owner; } }
 
 
 	private LilGuyBase lilGuy;
@@ -48,7 +48,7 @@ public class Hurtbox : MonoBehaviour
 		{
 			timeSinceLastHit = 0;
 		}
-		
+
 	}
 	/// <summary>
 	/// Method called when the game is started.
@@ -88,7 +88,7 @@ public class Hurtbox : MonoBehaviour
 			// Player lil guy was hit
 			LilGuyBase playerLilGuy = owner.GetComponent<LilGuyBase>();
 			if (playerLilGuy.PlayerOwner.HasImmunity) return;
-			dmg *= (1 - playerLilGuy.PlayerOwner.TeamDamageReduction);
+			dmg *= Mathf.Max((1 - playerLilGuy.PlayerOwner.TeamDamageReduction), 1);
 			dmg = Mathf.CeilToInt((float)(dmg * (1 - (playerLilGuy.Defense * 0.006))));
 			playerLilGuy.Health -= dmg;
 			health = playerLilGuy.Health;
@@ -103,12 +103,12 @@ public class Hurtbox : MonoBehaviour
 		{
 			AiController controller = owner.GetComponent<AiController>();
 			float oldHealth = controller.LilGuy.Health;         // Wild lil guy was hit
-            dmg = Mathf.CeilToInt((float)(dmg * (1 - (controller.LilGuy.Defense * 0.006))));
-            controller.LilGuy.Health = oldHealth - dmg >= 0 ? oldHealth - dmg : 0;  // Set health to health - dmg if it's greater than or equal to 0, otherwise set it to 0 so it's non-negative.
+			dmg = Mathf.CeilToInt((float)(dmg * (1 - (controller.LilGuy.Defense * 0.006))));
+			controller.LilGuy.Health = oldHealth - dmg >= 0 ? oldHealth - dmg : 0;  // Set health to health - dmg if it's greater than or equal to 0, otherwise set it to 0 so it's non-negative.
 			health = controller.LilGuy.Health;
 			controller.LilGuy.Damaged();
 			AiHealthUi enemyHealthUI = owner.GetComponentInChildren<AiHealthUi>();
-			if (enemyHealthUI != null)enemyHealthUI.SetHealth(health, oldHealth);
+			if (enemyHealthUI != null) enemyHealthUI.SetHealth(health, oldHealth);
 		}
 		else
 		{
