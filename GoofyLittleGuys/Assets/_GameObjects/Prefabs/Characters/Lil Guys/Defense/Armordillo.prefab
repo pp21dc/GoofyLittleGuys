@@ -110,8 +110,8 @@ MonoBehaviour:
   health: 90
   maxHealth: 90
   speed: 17
-  defense: 22
-  strength: 19
+  defense: 20
+  strength: 18
   specialDuration: 2
   currentCharges: 1
   maxCharges: 1
@@ -121,7 +121,7 @@ MonoBehaviour:
   knockbackResistance: 1
   knockbackDecayRate: 5
   dustSpawnInterval: 1
-  attackCooldown: 0
+  attackCooldown: 0.2
   attackEffect: {fileID: 0}
   damageReduction: 0.8
   knockbackPrefab: {fileID: 4631284653977187687, guid: 9341da0943f3c924db490a9047fb1341,

@@ -195,7 +195,7 @@ MonoBehaviour:
   maxHealth: 65
   speed: 11
   defense: 14
-  strength: 22
+  strength: 17
   specialDuration: -1
   currentCharges: 1
   maxCharges: 1
@@ -205,7 +205,7 @@ MonoBehaviour:
   knockbackResistance: 1
   knockbackDecayRate: 5
   dustSpawnInterval: 1
-  attackCooldown: 0
+  attackCooldown: 0.2
   attackEffect: {fileID: 0}
   aoeShape: {fileID: 7763503517924717934, guid: 783823e0ebd4aff4298168ab9dfa9111,
     type: 3}

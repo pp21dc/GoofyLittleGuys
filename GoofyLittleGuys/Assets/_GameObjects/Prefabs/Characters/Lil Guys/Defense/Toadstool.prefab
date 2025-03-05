@@ -107,11 +107,11 @@ MonoBehaviour:
   level: 1
   xp: 0
   max_xp: 5
-  health: 85
-  maxHealth: 85
-  speed: 14
-  defense: 20
-  strength: 16
+  health: 70
+  maxHealth: 70
+  speed: 15
+  defense: 22
+  strength: 17
   specialDuration: 3
   currentCharges: 1
   maxCharges: 1
@@ -121,7 +121,7 @@ MonoBehaviour:
   knockbackResistance: 1
   knockbackDecayRate: 5
   dustSpawnInterval: 1
-  attackCooldown: 1
+  attackCooldown: 0.2
   attackEffect: {fileID: 0}
   damageReduction: 0.7
   gasPrefab: {fileID: 0}

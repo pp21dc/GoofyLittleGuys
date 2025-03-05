@@ -110,9 +110,9 @@ MonoBehaviour:
   max_xp: 5
   health: 55
   maxHealth: 55
-  speed: 28
-  defense: 8
-  strength: 22
+  speed: 24
+  defense: 11
+  strength: 12
   specialDuration: 0
   currentCharges: 1
   maxCharges: 1
@@ -122,7 +122,7 @@ MonoBehaviour:
   knockbackResistance: 1
   knockbackDecayRate: 5
   dustSpawnInterval: 1
-  attackCooldown: 1
+  attackCooldown: 0.15
   attackEffect: {fileID: 0}
   dashTargetRange: 35
   slowAmount: -0.75
