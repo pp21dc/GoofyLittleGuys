@@ -31,7 +31,7 @@ public class Hitbox : MonoBehaviour
 	public virtual void Init(GameObject hitboxOwner)
 	{
 		this.hitboxOwner = hitboxOwner;
-		Damage = Mathf.CeilToInt(0.56f * hitboxOwner.GetComponent<LilGuyBase>().Strength);
+		Damage = Mathf.CeilToInt(0.48f * hitboxOwner.GetComponent<LilGuyBase>().Strength);
 	}
 	private bool AreEnemies(GameObject attacker, GameObject target)
 	{
