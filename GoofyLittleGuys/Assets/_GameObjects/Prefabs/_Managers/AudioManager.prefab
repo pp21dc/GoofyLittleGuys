@@ -46,5 +46,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dontDestroyOnLoad: 1
   mainMixer: {fileID: 24100000, guid: 012d1ee85f7e89d47886f642f0e916c0, type: 2}
-  testSfxObject: {fileID: 11400000, guid: b3058ffc4645f4848bde0f05563ced43, type: 2}
-  testMusicObject: {fileID: 11400000, guid: 17005b8bc603ac94196bcf739c25f220, type: 2}
+  sfxObjects:
+  - {fileID: 11400000, guid: 5ac3862abba01c84998d81ff472fdc83, type: 2}
+  - {fileID: 11400000, guid: d24e563e47c7fa0448340e77e8c66ed9, type: 2}
+  - {fileID: 11400000, guid: ab523933cb43a4d45aa9e20e221aa29d, type: 2}
+  - {fileID: 11400000, guid: 04c29b8f53ec96444ab9e62eb3ed6dd9, type: 2}
+  - {fileID: 11400000, guid: 7dd3b7bd74766584293c3710607c0a44, type: 2}
+  - {fileID: 11400000, guid: b725218637c8ff14996d05ab34acbde9, type: 2}
+  - {fileID: 11400000, guid: 99ae8708f04ca9842b27adc7da3d8617, type: 2}
+  - {fileID: 11400000, guid: b90892e275852f34593618109662464a, type: 2}
+  - {fileID: 11400000, guid: c17137fe4c7e34049affbfcbe3f20618, type: 2}
+  - {fileID: 11400000, guid: 2d2264d726c87b24f9787176bda263f5, type: 2}
+  - {fileID: 11400000, guid: 1b79b129299a4c5418ac3b760e867476, type: 2}
+  - {fileID: 11400000, guid: f5e5410f358d7ec46999912d9e644dee, type: 2}
+  - {fileID: 11400000, guid: 6e61e992b92577e45a9a11c4a94b6f23, type: 2}
+  - {fileID: 11400000, guid: 69f8f0d47759ebb4bae0c31cf7525cb5, type: 2}
+  - {fileID: 11400000, guid: 2694e04225baa324cbe88c3426994442, type: 2}
+  - {fileID: 11400000, guid: 6dce357d0133cc14487a3f4b00caa3e7, type: 2}
+  musicObjects:
+  - {fileID: 11400000, guid: b89f6b2e75c690e40bc7c69559d53036, type: 2}
+  - {fileID: 11400000, guid: 17005b8bc603ac94196bcf739c25f220, type: 2}
+  - {fileID: 11400000, guid: 9d31fa899c1d8f644a2a6816a138908d, type: 2}

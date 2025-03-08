@@ -83,8 +83,58 @@ PrefabInstance:
       propertyPath: m_Name
       value: LilyPad003
       objectReference: {fileID: 0}
+    - target: {fileID: 2732671681501481038, guid: a439e662c6456db4892eb4646a3595a1,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2732671681501481038, guid: a439e662c6456db4892eb4646a3595a1,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2732671681501481038, guid: a439e662c6456db4892eb4646a3595a1,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2732671681501481038, guid: a439e662c6456db4892eb4646a3595a1,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2732671681501481038, guid: a439e662c6456db4892eb4646a3595a1,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2732671681501481038, guid: a439e662c6456db4892eb4646a3595a1,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2732671681501481038, guid: a439e662c6456db4892eb4646a3595a1,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2732671681501481038, guid: a439e662c6456db4892eb4646a3595a1,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7200742097278188475, guid: a439e662c6456db4892eb4646a3595a1,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6b1a2e9a0b39cac4b8adf87cc7d71e46, type: 2}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 3311678820368697260, guid: a439e662c6456db4892eb4646a3595a1, type: 3}
+    - {fileID: -3270896799232283726, guid: a439e662c6456db4892eb4646a3595a1, type: 3}
+    - {fileID: -2156245297360884480, guid: a439e662c6456db4892eb4646a3595a1, type: 3}
+    - {fileID: -6125864924441972518, guid: a439e662c6456db4892eb4646a3595a1, type: 3}
+    - {fileID: -8658422279658554519, guid: a439e662c6456db4892eb4646a3595a1, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a439e662c6456db4892eb4646a3595a1,
