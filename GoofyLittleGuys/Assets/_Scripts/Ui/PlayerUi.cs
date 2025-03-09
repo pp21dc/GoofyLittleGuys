@@ -4,11 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Managers;
 
 public class PlayerUi : MonoBehaviour
 {
     List<LilGuyPopout> popouts;
 
+    [SerializeField] GameObject panel;
     [SerializeField] Slider persistentHealthBar;
     [SerializeField] Image persistentIcon;
     [SerializeField] Image persistentAbilityIcon;
@@ -18,11 +20,11 @@ public class PlayerUi : MonoBehaviour
 
     [SerializeField] PlayerBody pb;
 
-    [SerializeField] TMP_Text STR_Txt;
-    [SerializeField] TMP_Text SPD_Txt;
-    [SerializeField] TMP_Text DEF_Txt;
+    TMP_Text STR_Txt;
+    TMP_Text SPD_Txt;
+    TMP_Text DEF_Txt;
     [SerializeField] TMP_Text LVL_Txt;
-    [SerializeField] TMP_Text HP_Txt;
+    TMP_Text HP_Txt;
 
     [SerializeField] Image CurrentCharacter;
     [SerializeField] Image LBCharacter;
@@ -59,15 +61,19 @@ public class PlayerUi : MonoBehaviour
     {
         EventManager.Instance.NotifyStartAbilityCooldown += SetCooldownIndicator;
         EventManager.Instance.NotifyUiSwap += RefreshIcons;
-    }
 
-    private void Instance_NotifyStartAbilityCooldown(PlayerUi playerWhoUsedAbility, float cdLength)
-    {
-        throw new NotImplementedException();
+        if (pb.Equals(GameManager.Instance.Players[1]) || pb.Equals(GameManager.Instance.Players[3]))
+        {
+            panel.transform.localScale = new Vector3(-1, 1, 1);
+        }
     }
 
     private void Update()
     {
+        XP_Slider.maxValue = pb.LilGuyTeam[0].MaxXp;
+        XP_Slider.value = pb.LilGuyTeam[0].Xp;
+        LVL_Txt.text = pb.LilGuyTeam[0].Level.ToString();
+
         if (pb.NextBerryUseTime > 0)
         {
 			berryCooldownTime.text = pb.NextBerryUseTime.ToString("0.0");
@@ -108,6 +114,8 @@ public class PlayerUi : MonoBehaviour
                 mirroredXUi.pivot = new Vector2(1, 1); // Upper right corner
             }
         }
+
+        
     }
     private void RefreshIcons(PlayerUi playerUi, float swapDirection)
     {
@@ -172,6 +180,9 @@ public class PlayerUi : MonoBehaviour
         {
             timer -= Time.deltaTime;
             abilityCooldownTimer.fillAmount = timer / cooldownLength;
+            abilityCooldownText.text = ((int)timer+1).ToString();
+            if (timer <= 0)
+                abilityCooldownText.text = " ";
             yield return null;
         }
             
