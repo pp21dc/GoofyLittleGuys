@@ -26,6 +26,8 @@ public class PlayerUi : MonoBehaviour
     [SerializeField] TMP_Text LVL_Txt;
     TMP_Text HP_Txt;
 
+    [SerializeField] GameObject LBIcon;
+    [SerializeField] GameObject RBIcon;
     [SerializeField] Image CurrentCharacter;
     [SerializeField] Image LBCharacter;
     [SerializeField] Image RBCharacter;
@@ -64,6 +66,7 @@ public class PlayerUi : MonoBehaviour
 
         if (pb.Equals(GameManager.Instance.Players[1]) || pb.Equals(GameManager.Instance.Players[3]))
         {
+            FlipUi();
             panel.transform.localScale = new Vector3(-1, 1, 1);
         }
     }
@@ -186,6 +189,14 @@ public class PlayerUi : MonoBehaviour
             yield return null;
         }
             
+    }
+
+    private void FlipUi()
+    {
+        LVL_Txt.transform.localScale = new Vector3(-1, 1, 1);
+        abilityCooldownText.transform.localScale = new Vector3(-1, 1, 1);
+        LBIcon.transform.localScale = new Vector3((float)-0.65528, (float)0.65528, (float)0.65528);
+        RBIcon.transform.localScale = new Vector3((float)-0.65528, (float)0.65528, (float)0.65528);
     }
 }
 
