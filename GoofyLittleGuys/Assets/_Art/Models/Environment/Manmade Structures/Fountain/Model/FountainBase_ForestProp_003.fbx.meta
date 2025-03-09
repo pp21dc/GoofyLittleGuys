@@ -1,83 +1,13 @@
 fileFormatVersion: 2
-guid: 2a46347f74d684949a161c691cac431e
+guid: 4fae67fe21faa6a47a591c37fd450df9
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Handrail
-    second: {fileID: 2100000, guid: 2cc8e9973bd90a145ad4296c4e5c6a0a, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Headingall
-    second: {fileID: 2100000, guid: a129a9a1f2d5fa34ca24af278183d12c, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Pillar
-    second: {fileID: 2100000, guid: 1cc612078f9d9a8468ebf6bf3509ba40, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Pool
-    second: {fileID: 2100000, guid: e5a74c995474dd645a7db72611f9bd79, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Splash.001
-    second: {fileID: 2100000, guid: 62a7f51b98122b7408c0f6f95f99b1be, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Splash.002
-    second: {fileID: 2100000, guid: 509efe5ea222ac94bb04cc24baccf974, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Splash.003
-    second: {fileID: 2100000, guid: 1a8a2c48b5158b9479f47a5cd6ae67b6, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Splash.004
-    second: {fileID: 2100000, guid: 3b67db7c7e3199f44bd60ddfa5312eea, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Splash.005
-    second: {fileID: 2100000, guid: ac396bec508f23546afb595e8441a3eb, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: WaterFlow.01
-    second: {fileID: 2100000, guid: 7e29911f957552b4caa857d849d7d454, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: ladder.001
-    second: {fileID: 2100000, guid: 307b51c5614066e4b811e257e2698cef, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: "\u6B21\u6C34\u7EB9 001"
-    second: {fileID: 2100000, guid: 82a6e90631501b745aa438d574b3e7e6, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: "\u6C34\u9762 001"
-    second: {fileID: 2100000, guid: 25031eab787da6b4ba53c2ad14a4db0f, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: "\u6D6A\u82B1 001"
-    second: {fileID: 2100000, guid: afb4b892cbdcf2547a379cbfcbd74a71, type: 2}
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0
-    materialSearch: 2
+    materialSearch: 1
     materialLocation: 1
   animations:
     legacyGenerateAnimations: 4
@@ -107,7 +37,7 @@ ModelImporter:
     lODScreenPercentages: []
     globalScale: 1
     meshCompression: 0
-    addColliders: 1
+    addColliders: 0
     useSRGBMaterialColor: 1
     sortHierarchyByName: 1
     importPhysicalCameras: 1
