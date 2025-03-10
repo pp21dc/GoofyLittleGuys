@@ -11,6 +11,7 @@ public class CharacterSelectHandler : MonoBehaviour
 	[SerializeField] private GridLayoutGroup gridLayout;
 
 	[SerializeField] private List<GameObject> charSelectUnits;
+	[SerializeField] private GameObject tutorialUi;
 
 	private void Awake()
 	{
@@ -19,6 +20,7 @@ public class CharacterSelectHandler : MonoBehaviour
 
 	public void OnPlayerJoin(PlayerInput input)
 	{
+		tutorialUi.SetActive(false);
 		GameObject menu = Instantiate(characterSelectUnit, gridLayout.transform);
 		menu.GetComponent<CharacterSelectMenu>().SetPlayer(input);
 		charSelectUnits.Add(menu);
