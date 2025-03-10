@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-//using UnityEditor;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace _Scripts.Misc.ShaderCode
 {
@@ -23,7 +25,9 @@ namespace _Scripts.Misc.ShaderCode
 
         private void OnEnable()
         {
-            //EditorApplication.playModeStateChanged += ResetColors;
+            #if UNITY_EDITOR
+            EditorApplication.playModeStateChanged += ResetColors;
+            #endif
             
             baseWaterColor = waterMaterials[0].GetColor(WaterColor);
             baseLightFoamColor = waterMaterials[0].GetColor(LightFoamColor);
@@ -32,15 +36,17 @@ namespace _Scripts.Misc.ShaderCode
 
         private void OnDisable()
         {
-            //EditorApplication.playModeStateChanged -= ResetColors;
+            #if UNITY_EDITOR
+            EditorApplication.playModeStateChanged -= ResetColors;
+            #endif
         }
-        /*
+#if UNITY_EDITOR
         private void ResetColors(PlayModeStateChange playModeStateChange)
         {
             if (playModeStateChange == PlayModeStateChange.ExitingPlayMode)
                 SwapColors(baseWaterColor, baseLightFoamColor, baseDarkFoamColor);
         }
-        */
+#endif
 
         /// <summary>
         /// Use to change color of all water material properties, meant to be used with a lerp function but can be standalone.
