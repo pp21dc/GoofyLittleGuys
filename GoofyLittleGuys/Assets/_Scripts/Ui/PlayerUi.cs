@@ -26,6 +26,9 @@ public class PlayerUi : MonoBehaviour
     [SerializeField] TMP_Text LVL_Txt;
     TMP_Text HP_Txt;
 
+    [SerializeField] GameObject berryCountTxt;
+    [SerializeField] GameObject berryCooldownTxt;
+
     [SerializeField] GameObject LBIcon;
     [SerializeField] GameObject RBIcon;
     [SerializeField] Image CurrentCharacter;
@@ -197,6 +200,9 @@ public class PlayerUi : MonoBehaviour
         abilityCooldownText.transform.localScale = new Vector3(-1, 1, 1);
         LBIcon.transform.localScale = new Vector3((float)-0.65528, (float)0.65528, (float)0.65528);
         RBIcon.transform.localScale = new Vector3((float)-0.65528, (float)0.65528, (float)0.65528);
+        berryCooldownTxt.transform.localScale = new Vector3((float)-1, (float)1, (float)1);
+        berryCountTxt.transform.localScale = new Vector3((float)-1, (float)1, (float)1);
+
     }
 }
 
