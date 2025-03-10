@@ -67,11 +67,14 @@ public class PlayerUi : MonoBehaviour
         EventManager.Instance.NotifyStartAbilityCooldown += SetCooldownIndicator;
         EventManager.Instance.NotifyUiSwap += RefreshIcons;
 
-        if (pb.Equals(GameManager.Instance.Players[1]) || pb.Equals(GameManager.Instance.Players[3]))
+        if (GameManager.Instance.Players.Count % 2 == 0)
         {
-            FlipUi();
-            panel.transform.localScale = new Vector3(-1, 1, 1);
-        }
+			if (pb.Equals(GameManager.Instance.Players[1]) || pb.Equals(GameManager.Instance.Players[3]))
+			{
+				FlipUi();
+				panel.transform.localScale = new Vector3(-1, 1, 1);
+			}
+		}
     }
 
     private void Update()
