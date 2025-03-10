@@ -310,6 +310,8 @@ public class PlayerBody : MonoBehaviour
 			closestInteractable.StartInteraction(this); // Start the interaction process
 		}
 		nextInteractTime = Time.time + interactCooldown;
+		EventManager.Instance.RefreshUi(this.playerUi, 0);
+		SetTimer();
 	}
 
 	public void StopInteract()
@@ -466,6 +468,7 @@ public class PlayerBody : MonoBehaviour
 				rb.useGravity = false;
 			}
 		}
+		EventManager.Instance.RefreshUi(this.playerUi, 0);
 	}
 
 	/// <summary>
@@ -525,7 +528,8 @@ public class PlayerBody : MonoBehaviour
 		isSwapping = false;
 		nextSwapTime = Time.time + swapCooldown;
 		EventManager.Instance.RefreshUi(playerUi, 0);
-	}
+        SetTimer();
+    }
 
 	public void StartDash()
 	{
@@ -682,5 +686,11 @@ public class PlayerBody : MonoBehaviour
 		hasImmunity = true;
 		yield return new WaitForSeconds(invincibilityDuration);
 		hasImmunity = false;
+	}
+
+	private void SetTimer()
+	{
+		playerUi.ResetCDTimer();
+		EventManager.Instance.StartAbilityCooldown(PlayerUI, activeLilGuy.CooldownTimer);
 	}
 }

@@ -204,6 +204,15 @@ public class PlayerUi : MonoBehaviour
         berryCountTxt.transform.localScale = new Vector3((float)-1, (float)1, (float)1);
 
     }
+
+    public void ResetCDTimer()
+    {
+        Debug.LogError("ResetCDTimer");
+        StopAllCoroutines();
+        abilityCooldownText.text = " ";
+        abilityCooldownTimer.fillAmount = 0;
+        
+    }
 }
 
 
