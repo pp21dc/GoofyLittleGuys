@@ -17,7 +17,6 @@ public class PlayerBody : MonoBehaviour
 	[SerializeField] private GameObject playerMesh;                     // Reference to the player's mesh gameobject
 	[SerializeField] private PlayerInput playerInput;                   // This player's input component.
 	[SerializeField] private PlayerUi playerUi;                         // This player's input component.
-	[SerializeField] private GameObject playerHealthBar;                         // This player's input component.
 	[SerializeField] private GameObject teamFullMenu;                   // The menu shown if the player captured a lil guy but their team is full.
 	[SerializeField] private PlayerController controller;
 	[SerializeField] private GameObject invincibilityFX;
@@ -168,7 +167,6 @@ public class PlayerBody : MonoBehaviour
 		invincibilityFX.transform.rotation = lilGuyTeam[0].Mesh.transform.rotation;
 		stormHurtFX.SetActive(inStorm && !wasDefeated);
 		stormHurtFX.transform.rotation = lilGuyTeam[0].Mesh.transform.rotation;
-		playerHealthBar.SetActive(!wasDefeated);
 
 		if (isDead) return;
 		Vector3 currentPosition = transform.position;
