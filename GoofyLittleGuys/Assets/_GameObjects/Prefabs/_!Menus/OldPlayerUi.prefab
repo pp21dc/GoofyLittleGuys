@@ -192,6 +192,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d63e3678f61fde449b9ca11d4cd0048, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  panel: {fileID: 0}
   persistentHealthBar: {fileID: 0}
   persistentIcon: {fileID: 0}
   persistentAbilityIcon: {fileID: 0}
@@ -199,11 +200,11 @@ MonoBehaviour:
   berryCooldownTime: {fileID: 0}
   berryCooldownSlider: {fileID: 0}
   pb: {fileID: 0}
-  STR_Txt: {fileID: 0}
-  SPD_Txt: {fileID: 0}
-  DEF_Txt: {fileID: 0}
   LVL_Txt: {fileID: 0}
-  HP_Txt: {fileID: 0}
+  berryCountTxt: {fileID: 0}
+  berryCooldownTxt: {fileID: 0}
+  LBIcon: {fileID: 0}
+  RBIcon: {fileID: 0}
   CurrentCharacter: {fileID: 0}
   LBCharacter: {fileID: 0}
   RBCharacter: {fileID: 0}
@@ -348,7 +349,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1781,7 +1782,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
