@@ -74,7 +74,7 @@ namespace Managers
 		/// </summary>
 		public bool CanSpawnMore(string clearingID)
 		{
-			return clearingSpawnCounts.ContainsKey(clearingID) && clearingSpawnCounts[clearingID] < clearingSpawners[clearingID].Count * 3;
+			return clearingSpawnCounts.ContainsKey(clearingID) && clearingSpawnCounts[clearingID] < clearingSpawners[clearingID].Count * 1;
 		}
 
 		/// <summary>
