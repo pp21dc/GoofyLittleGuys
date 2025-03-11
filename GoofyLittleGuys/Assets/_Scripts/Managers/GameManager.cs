@@ -38,6 +38,7 @@ namespace Managers
 		[SerializeField] private WaterChangeContainer waterChangeContainer;
 		[SerializeField] private Color[] playerColours;
 		[SerializeField] private float activeLilGuyScaleFactor = 1.1f;
+		[SerializeField] private float nonActiveLilGuyScaleFactor = 0.9f;
 
 		private float timeUntilNextStorm = 0.0f;
 		private System.TimeSpan gameTime;                                       // To convert from total seconds time to a time in the format mm:ss
@@ -69,6 +70,7 @@ namespace Managers
 		public Material RegularLilGuySpriteMat => regularLilGuySpriteMat;
 		public Material OutlinedLilGuySpriteMat => outlinedLilGuySpriteMat;
 		public float ActiveLilGuyScaleFactor => activeLilGuyScaleFactor;
+		public float NonActiveLilGuyScaleFactor => nonActiveLilGuyScaleFactor;
 		public WaterChangeContainer WaterChangeContainer => waterChangeContainer;
 
 		public override void Awake()
