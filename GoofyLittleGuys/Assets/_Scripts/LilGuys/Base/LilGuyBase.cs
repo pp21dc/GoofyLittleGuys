@@ -198,7 +198,7 @@ public abstract class LilGuyBase : MonoBehaviour
 
 	private void SetWildLilGuyLevel(int level, bool randomRange = true)
 	{
-		if (randomRange) level = Mathf.Clamp(Mathf.FloorToInt(UnityEngine.Random.Range(level - 2f, level + 3f)), 1, 24); // Add a variance of ~1 level greater/less
+		if (randomRange) level = Mathf.Clamp(Mathf.FloorToInt(UnityEngine.Random.Range(level - 1f, level + 2f)), 1, 24); // Add a variance of ~1 level greater/less
 		this.level = level;
 
 		int numOfMilestonesMet = Mathf.FloorToInt(level / 5);
