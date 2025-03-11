@@ -676,9 +676,9 @@ public abstract class LilGuyBase : MonoBehaviour
 	//Changes this source to not loop and stops whatever it is currently playing
 	public void StopLoopingSound()
 	{
-		if (audioSource.loop == true) { audioSource.loop = false; }
-		if (audioSource.isPlaying)
+		if (audioSource.loop == true && audioSource.isPlaying)
 		{
+			audioSource.loop = false;
 			audioSource.Stop();
 		}
 	}

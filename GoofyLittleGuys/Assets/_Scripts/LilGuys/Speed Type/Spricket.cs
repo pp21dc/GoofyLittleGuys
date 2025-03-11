@@ -63,7 +63,7 @@ public class Spricket : SpeedType
 				chargeTime = 0;
 				chargeEffect = Instantiate(FXManager.Instance.GetEffect("ChargeUp"), transform.position, Quaternion.identity, transform);
 				chargeEffect.GetComponent<ParticleSystem>().startColor = chargeEffectColour;
-
+				PlaySound("Spricket_Special_In");
 			}
 			LockMovement = true;
 			// Decrement charges and reset cooldowns
@@ -82,6 +82,7 @@ public class Spricket : SpeedType
 	public override void StopChargingSpecial()
 	{
 		if (!isCharging) return;
+		PlaySound("Spricket_Special_Out");
 		if (chargeTime >= minChargeTime)
 		{
 			LockMovement = false;
@@ -146,11 +147,13 @@ public class Spricket : SpeedType
 
 	private IEnumerator StopDashAfterDuration(Rigidbody rb, float duration)
 	{
+		PlayLoopingSound("Spricket_Special_Soar");
 		yield return new WaitForSeconds(duration);
 
 		// Call StopDash when the dash is complete
 		if (playerOwner != null)
 		{
+			StopLoopingSound();
 			playerOwner.StopDash();
 		}
 		else isDashing = false;
