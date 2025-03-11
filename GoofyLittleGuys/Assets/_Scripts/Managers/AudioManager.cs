@@ -56,7 +56,6 @@ namespace Managers
 				source.clip = getRandomClip(sfxDictionary[key]);
 				source.volume = sfxDictionary[key].volume;
 				source.pitch = Random.Range(sfxDictionary[key].pitch.x, sfxDictionary[key].pitch.y);
-				source.spatialBlend = sfxDictionary[key].isSpatial ? 1.0f : 0.0f;
 
                 // Adjust volume and panning based on player proximity
                 if (sfxDictionary[key].isSpatial)
@@ -159,12 +158,12 @@ namespace Managers
 			if (cameraRect.x < 0.5f)  // Camera is on the left side of the screen
 			{
 				// Map sound position in the player's viewport to pan range -1 to 0
-				pan = Mathf.Lerp(-1f, 0f, soundScreenX);  // soundScreenX is from 0 to 1, so this maps it correctly
+				pan = Mathf.Lerp(-1f, -0.5f, soundScreenX);  // soundScreenX is from 0 to 1, so this maps it correctly
 			}
 			else if (cameraRect.x >= 0.5f)  // Camera is on the right side of the screen
 			{
 				// Map sound position in the player's viewport to pan range 0 to 1
-				pan = Mathf.Lerp(0f, 1f, soundScreenX);  // soundScreenX is from 0 to 1, so this maps it correctly
+				pan = Mathf.Lerp(0.5f, 1f, soundScreenX);  // soundScreenX is from 0 to 1, so this maps it correctly
 			}
 
 			// Apply the calculated pan to the audio source
