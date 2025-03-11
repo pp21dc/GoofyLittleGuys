@@ -51,6 +51,7 @@ public class Turteriam : DefenseType
 
 	protected override void OnDisable()
 	{
+		if (Managers.GameManager.Instance == null) return;
 		Managers.GameManager.Instance.StartCoroutine(EventManager.Instance.StopDamageReduction(playerOwner, teamDamageReductionDuration, this, true));
 		DeleteDome();
 		base.OnDisable();

@@ -67,16 +67,20 @@ public class PlayerUi : MonoBehaviour
         EventManager.Instance.NotifyStartAbilityCooldown += SetCooldownIndicator;
         EventManager.Instance.NotifyUiSwap += RefreshIcons;
 
-        if (pb.Equals(GameManager.Instance.Players[1]) || pb.Equals(GameManager.Instance.Players[3]))
+        if (GameManager.Instance.Players.Count % 2 == 0)
         {
-            FlipUi();
-            panel.transform.localScale = new Vector3(-1, 1, 1);
-        }
+			if (pb.Equals(GameManager.Instance.Players[1]) || pb.Equals(GameManager.Instance.Players[3]))
+			{
+				FlipUi();
+				panel.transform.localScale = new Vector3(-1, 1, 1);
+			}
+		}
     }
 
     private void Update()
-    {
-        XP_Slider.maxValue = pb.LilGuyTeam[0].MaxXp;
+	{
+		if (pb.LilGuyTeam.Count <= 0) return;
+		XP_Slider.maxValue = pb.LilGuyTeam[0].MaxXp;
         XP_Slider.value = pb.LilGuyTeam[0].Xp;
         LVL_Txt.text = pb.LilGuyTeam[0].Level.ToString();
 
@@ -91,12 +95,11 @@ public class PlayerUi : MonoBehaviour
             berryCooldownSlider.fillAmount = 0;
             berryCooldownTime.enabled = false;
         }
-        if (pb.LilGuyTeam.Count <= 0) return;
-        STR_Txt.text = "STR: " + pb.LilGuyTeam[0].Strength.ToString();
-        SPD_Txt.text = "SPD: " + pb.LilGuyTeam[0].Speed.ToString();
-        DEF_Txt.text = "DEF: " + pb.LilGuyTeam[0].Defense.ToString();
+        //  STR_Txt.text = "STR: " + pb.LilGuyTeam[0].Strength.ToString();
+        //  SPD_Txt.text = "SPD: " + pb.LilGuyTeam[0].Speed.ToString();
+        //  DEF_Txt.text = "DEF: " + pb.LilGuyTeam[0].Defense.ToString();
         LVL_Txt.text = pb.LilGuyTeam[0].Level.ToString();
-        HP_Txt.text = "HP: " + pb.LilGuyTeam[0].Health.ToString() + " / " + pb.LilGuyTeam[0].MaxHealth.ToString();
+        //  HP_Txt.text = "HP: " + pb.LilGuyTeam[0].Health.ToString() + " / " + pb.LilGuyTeam[0].MaxHealth.ToString();
         XP_Slider.maxValue = pb.LilGuyTeam[0].MaxXp;
         XP_Slider.value = pb.LilGuyTeam[0].Xp;
 

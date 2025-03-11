@@ -155,7 +155,7 @@ namespace Managers
 					legendarySpawned[0] = true;
 					currentTimerState = TimerState.LegendaryTwoApproaching;
 					SpawnLegendary(legendaryMaxScales[0], legendaryLevels[0]);
-				}				
+				}
 
 			}
 			else if (currentPhase == 2)
@@ -176,7 +176,7 @@ namespace Managers
 
 		public void QuitGame()
 		{
-			phase2CloudAnim.SetTrigger("Phase2");
+			if (currentPhase > 1) phase2CloudAnim.SetTrigger("Revert");
 			stormSets.Clear();
 			rankings.Clear();
 			for (int i = 0; i < legendarySpawned.Length; i++) { legendarySpawned[i] = false; }
@@ -261,12 +261,12 @@ namespace Managers
 			float timeElapsed = 0;
 			while (timeElapsed < fadeTime)
 			{
-				Color c1  = Color.Lerp(waterChangeContainer.baseWaterColor, waterChangeContainer.waterColor, timeElapsed / fadeTime);
-				Color c2  = Color.Lerp(waterChangeContainer.baseLightFoamColor, waterChangeContainer.lightFoamColor, timeElapsed / fadeTime);
-				Color c3  = Color.Lerp(waterChangeContainer.baseDarkFoamColor, waterChangeContainer.darkFoamColor, timeElapsed / fadeTime);
-			
+				Color c1 = Color.Lerp(waterChangeContainer.baseWaterColor, waterChangeContainer.waterColor, timeElapsed / fadeTime);
+				Color c2 = Color.Lerp(waterChangeContainer.baseLightFoamColor, waterChangeContainer.lightFoamColor, timeElapsed / fadeTime);
+				Color c3 = Color.Lerp(waterChangeContainer.baseDarkFoamColor, waterChangeContainer.darkFoamColor, timeElapsed / fadeTime);
+
 				waterChangeContainer.SwapColors(c1, c2, c3);
-				
+
 				timeElapsed += Time.deltaTime;
 				yield return null;
 			}
