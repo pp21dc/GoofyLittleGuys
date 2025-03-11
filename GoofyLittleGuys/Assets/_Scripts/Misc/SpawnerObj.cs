@@ -63,7 +63,7 @@ public class SpawnerObj : MonoBehaviour
 
 	private IEnumerator DelayInitialSpawn()
 	{
-		yield return new WaitForSeconds(spawnManager.GracePeriod);
+		yield return new WaitForSecondsRealtime(spawnManager.GracePeriod);
 		SpawnRandLilGuy();
 		initialSpawnsSpawned = true;
 	}
@@ -72,7 +72,7 @@ public class SpawnerObj : MonoBehaviour
 	/// </summary>
 	public void SpawnRandLilGuy()
 	{
-		if (currSpawnCount >= maxSpawnCount || !spawnManager.CanSpawnMore(clearingID)) return;
+		if (currSpawnCount >= maxSpawnCount || !spawnManager.CanSpawnMore(clearingID) || !initialSpawnsSpawned) return;
 
 		GameObject randLilGuy = lilGuyShuffleBag.Next();
 		SpawnLilGuy(randLilGuy);
@@ -156,10 +156,12 @@ public class SpawnerObj : MonoBehaviour
 
 			if (Physics.Raycast(spawnPos, Vector3.down, out RaycastHit hit, startHeight * 2, GroundLayer))
 			{
+				Debug.Log("Spawned with the raycast.");
 				spawnPos = hit.point + Vector3.up * 2f;
 				return spawnPos;
 			}
 		}
+		Debug.Log($"Spawned with the origin. The spawner used was {gameObject.name}.");
 		return origin + Vector3.up * 2;
 	}
 }
