@@ -246,7 +246,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	public void SetMaterial(Material material)
 	{
 		mesh.material = material;
-		mesh.transform.localScale = (material == GameManager.Instance.OutlinedLilGuySpriteMat) ? Vector3.one * GameManager.Instance.ActiveLilGuyScaleFactor : Vector3.one;
+		mesh.transform.localScale = (material == GameManager.Instance.OutlinedLilGuySpriteMat) ? Vector3.one * GameManager.Instance.ActiveLilGuyScaleFactor : Vector3.one * GameManager.Instance.NonActiveLilGuyScaleFactor;
 	}
 	private void OnApplicationFocus(bool focus)
 	{
