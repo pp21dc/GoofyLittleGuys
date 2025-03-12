@@ -29,7 +29,7 @@ public class TabGroupController : MonoBehaviour
 
         ActivateTab(currentTab);
 
-        Debug.Log(currentTab);
+		Managers.DebugManager.Log(currentTab.ToString(), Managers.DebugManager.DebugCategory.UI);
     }
 
     public void OnLB()
@@ -42,8 +42,8 @@ public class TabGroupController : MonoBehaviour
 
         ActivateTab(currentTab);
 
-        Debug.Log(currentTab);
-    }
+		Managers.DebugManager.Log(currentTab.ToString(), Managers.DebugManager.DebugCategory.UI);
+	}
 
     private void ActivateTab(int currentTab)
     {

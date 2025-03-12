@@ -26,17 +26,17 @@ public class KnockbackHitbox : MonoBehaviour
 		LilGuyBase lilGuy = other.GetComponent<LilGuyBase>();
 		if (lilGuy == null) return;
 
-		Debug.Log(other.gameObject);
+		Managers.DebugManager.Log($"Knockback Hitbox hit {other.gameObject}", Managers.DebugManager.DebugCategory.COMBAT);
 		if (other.gameObject.layer == LayerMask.NameToLayer("WildLilGuys"))
 		{
 			lilGuy.ApplyKnockback((knockbackDir = (knockbackDir == Vector3.zero) ? (other.transform.position - transform.position).normalized : knockbackDir) * knockbackForce);
-			Debug.Log("The knockback is: " +  knockbackForce);
+			Managers.DebugManager.Log("The knockback is: " +  knockbackForce, Managers.DebugManager.DebugCategory.COMBAT);
 		}
 		else if (other.gameObject.layer == LayerMask.NameToLayer("PlayerLilGuys"))
 		{
 			lilGuy.PlayerOwner.ApplyKnockback((knockbackDir = (knockbackDir == Vector3.zero) ? (other.transform.position - transform.position).normalized : knockbackDir) * knockbackForce);
 			//lilGuy.PlayerOwner.StartHitStun(hitstunForce, hitstunTime); comment out for now till its done :)
-            Debug.Log("The knockback is: " + knockbackForce);
+            Managers.DebugManager.Log("The knockback is: " + knockbackForce, Managers.DebugManager.DebugCategory.COMBAT);
         }
 	}
 

@@ -35,7 +35,7 @@ public class FXManager : SingletonBase<FXManager>
 			}
 			else
 			{
-				Debug.LogWarning($"FXManager: Duplicate effect name '{entry.name}' detected. Only the first occurrence will be used.");
+				Managers.DebugManager.Log($"FXManager: Duplicate effect name '{entry.name}' detected. Only the first occurrence will be used.", DebugManager.DebugCategory.GENERAL, DebugManager.LogLevel.WARNING);
 			}
 		}
 	}
@@ -48,7 +48,7 @@ public class FXManager : SingletonBase<FXManager>
 			return effect;
 		}
 
-		Debug.LogError($"FXManager: Effect '{effectName}' not found in the dictionary.");
+		Managers.DebugManager.Log($"FXManager: Effect '{effectName}' not found in the dictionary.", DebugManager.DebugCategory.GENERAL, DebugManager.LogLevel.ERROR);
 		return null;
 	}
 }

@@ -71,7 +71,7 @@ public class StormObj : MonoBehaviour
             }
             catch (System.OperationCanceledException)
             {
-                Debug.Log($"Storm cancelled for {playerHit.name}");
+                Managers.DebugManager.Log($"Storm cancelled for {playerHit.name}", Managers.DebugManager.DebugCategory.ENVIRONMENT);
                 if (playerHit != null)
                 {
                     playerHit.InStorm = false;

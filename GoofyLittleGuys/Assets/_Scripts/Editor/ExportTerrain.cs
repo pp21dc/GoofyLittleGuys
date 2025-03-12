@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.IO;
 using System.Text;
+using Managers;
 
 enum SaveFormat { Triangles, Quads }
 enum SaveResolution { Full = 0, Half, Quarter, Eighth, Sixteenth }
@@ -193,7 +194,7 @@ class ExportTerrain : EditorWindow
         }
         catch (Exception err)
         {
-            Debug.Log("Error saving file: " + err.Message);
+            DebugManager.Log("Error saving file: " + err.Message, DebugManager.DebugCategory.EDITOR_TOOL, DebugManager.LogLevel.ERROR);
         }
         sw.Close();
 

@@ -325,7 +325,7 @@ namespace Managers
 		public void PlayerDefeat(PlayerBody defeatedPlayer)
 		{
 			rankings.Add(defeatedPlayer);
-			Debug.Log("A player has been defeated, and placed into the rankings list!");
+			Managers.DebugManager.Log("A player has been defeated, and placed into the rankings list!", DebugManager.DebugCategory.GENERAL);
 		}
 
 		/// <summary>
@@ -335,7 +335,7 @@ namespace Managers
 		public void BrawlTimeEnd()
 		{
 
-			Debug.Log("Brawl Phase has ended, DING DING DING!!!");
+			Managers.DebugManager.Log("Brawl Phase has ended, DING DING DING!!!", DebugManager.DebugCategory.GENERAL);
 		}
 
 		/// <summary>
@@ -360,7 +360,7 @@ namespace Managers
 			{
 				player.GameplayStats.ShowMetrics(metrics);
 			}
-			Debug.Log("Brawl Phase has ended by knockout!");
+			Managers.DebugManager.Log("Brawl Phase has ended by knockout!", DebugManager.DebugCategory.GENERAL);
 		}
 
 
@@ -396,7 +396,7 @@ namespace Managers
 				{
 					stormSets.Add(child.gameObject);
 				}
-				Debug.Log("Storm sets grabbed: " + stormSets.Count);
+				Managers.DebugManager.Log("Storm sets grabbed: " + stormSets.Count, DebugManager.DebugCategory.GENERAL);
 			}
 		}
 

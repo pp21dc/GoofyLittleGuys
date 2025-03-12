@@ -27,7 +27,7 @@ public class BasicAttackFx : MonoBehaviour
         _rotation = _owner.AttackOrbit.rotation.eulerAngles.y;
 
         var convertRotation = ConvertRotation(_rotation);
-        Debug.Log($"convertRotation: {convertRotation} & _rotation: {_rotation}");
+		Managers.DebugManager.Log($"convertRotation: {convertRotation} & _rotation: {_rotation}", Managers.DebugManager.DebugCategory.COMBAT);
         switch (convertRotation)
         {
             // Upwards animation

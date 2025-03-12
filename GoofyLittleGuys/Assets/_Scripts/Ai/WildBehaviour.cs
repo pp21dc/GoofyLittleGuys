@@ -201,7 +201,7 @@ public class WildBehaviour : MonoBehaviour
 		previousState = currentState;
 		currentState = state;
 
-		Debug.Log($"[{controller.LilGuy.GuyName}]: Changed to {state} State.");
+		DebugManager.Log($"[{controller.LilGuy.GuyName}]: Changed to {state} State.", DebugManager.DebugCategory.AI, DebugManager.LogLevel.LOG);
 		OnStateEnter(state); // Call OnStateEnter when state changes
 	}
 
@@ -409,12 +409,12 @@ public class WildBehaviour : MonoBehaviour
 
 			if (stuckTimer >= stuckThreshold)
 			{
-				Debug.Log("[AI] Stuck! Searching for closest waypoint...");
+				DebugManager.Log("Stuck! Searching for closest waypoint...", DebugManager.DebugCategory.AI);
 				Waypoint closest = FindClosestWaypoint();
 
 				if (closest != null)
 				{
-					Debug.Log($"[AI] Moving to waypoint {closest.name} to escape.");
+					DebugManager.Log($"Moving to waypoint {closest.name} to escape.", DebugManager.DebugCategory.AI);
 					wanderTarget = closest.transform.position;
 				}
 
@@ -431,7 +431,7 @@ public class WildBehaviour : MonoBehaviour
 		// NEW: If AI is close enough to the waypoint, resume wandering
 		if (Vector3.Distance(transform.position, wanderTarget) < 1.0f)
 		{
-			Debug.Log("[AI] Reached waypoint. Resuming normal wandering.");
+			DebugManager.Log("Reached waypoint. Resuming normal wandering.", DebugManager.DebugCategory.AI);
 			wanderTarget = GetRandomWanderPoint(); // Switch back to normal wandering
 		}
 

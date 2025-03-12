@@ -179,7 +179,7 @@ public class StatMetrics : MonoBehaviour
 
 		outputMessage += $"\nStats\nDamage Dealt: {damageDealt}\nDamage Taken: {damageTaken}\nDamage Reduced: {damageReduced}\nSpecials Used: {specialsUsed}\nTeam Wipes: {teamWipes}\nWild Lil Guys Defeated: {wildLilGuysDefeated}\nDeath Count: {deathCount}\nSwap Count: {swapCount}\nBerries Eaten: {berriesEaten}\nFountain Uses: {fountainUses}\nDistance Traveled: {distanceTraveled}m\nLil Guys tamed: {lilGuysTamedTotal}" +
 			$"\nFavourite Lil Guy: {GetFavoriteCharacter()}\nMost Visited Location: {GetMostVisitedLocation()}";
-		Debug.Log(outputMessage);
+		Managers.DebugManager.Log(outputMessage, Managers.DebugManager.DebugCategory.STAT_METRICS, Managers.DebugManager.LogLevel.LOG);
 	}
 
 	private static float GetMax(List<StatMetrics> players, System.Func<StatMetrics, float> selector, bool excludeZero = false)

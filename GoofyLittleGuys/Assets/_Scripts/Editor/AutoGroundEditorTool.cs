@@ -97,7 +97,7 @@ public class AutoGroundEditorTool : EditorWindow
 	{
 		if (prefabToSpawn == null)
 		{
-			Debug.LogWarning("No prefab assigned to spawn.");
+			Managers.DebugManager.Log("No prefab assigned to spawn.", Managers.DebugManager.DebugCategory.EDITOR_TOOL, Managers.DebugManager.LogLevel.WARNING);
 			return;
 		}
 
@@ -105,7 +105,7 @@ public class AutoGroundEditorTool : EditorWindow
 		GameObject newObject = (GameObject)PrefabUtility.InstantiatePrefab(prefabToSpawn);
 		if (newObject == null)
 		{
-			Debug.LogError("Failed to instantiate prefab.");
+			Managers.DebugManager.Log("Failed to instantiate prefab.", Managers.DebugManager.DebugCategory.EDITOR_TOOL, Managers.DebugManager.LogLevel.ERROR);
 			return;
 		}
 

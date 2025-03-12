@@ -50,7 +50,7 @@ public class AoeHitbox : MonoBehaviour
 	{
 		if (h.Owner == hitboxOwner) return;
 		Vector3 knockbackDir = (h.transform.position - transform.position).normalized;
-		Debug.Log("HIT");
+		DebugManager.Log("HIT", DebugManager.DebugCategory.COMBAT);
 		DefenseType defenseLilGuy = h.gameObject.GetComponent<DefenseType>();
 		if (defenseLilGuy != null && defenseLilGuy.IsShieldActive)
 		{

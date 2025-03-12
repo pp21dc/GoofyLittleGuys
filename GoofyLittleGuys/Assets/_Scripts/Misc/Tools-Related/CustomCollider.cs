@@ -45,13 +45,13 @@ public class PolygonCollider3D : MonoBehaviour
 	{
 		if (points == null || points.Length < 3)
 		{
-			Debug.LogWarning("PolygonCollider3D requires at least 3 points to form a shape.");
+			Managers.DebugManager.Log("PolygonCollider3D requires at least 3 points to form a shape.", Managers.DebugManager.DebugCategory.EDITOR_TOOL, Managers.DebugManager.LogLevel.WARNING);
 			return;
 		}
 
 		if (fanCenterIndex < 0 || fanCenterIndex >= points.Length)
 		{
-			Debug.LogWarning("Invalid fanCenterIndex. It must be between 0 and the number of points - 1.");
+			Managers.DebugManager.Log("Invalid fanCenterIndex. It must be between 0 and the number of points - 1.", Managers.DebugManager.DebugCategory.EDITOR_TOOL, Managers.DebugManager.LogLevel.WARNING);
 			return;
 		}
 

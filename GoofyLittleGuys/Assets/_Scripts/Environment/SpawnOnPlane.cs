@@ -33,7 +33,7 @@ public class SpawnOnPlane : MonoBehaviour
 	{
 		if (spawnArea == null)
 		{
-			Debug.LogError("No spawn area assigned!");
+			Managers.DebugManager.Log($"{name}: No spawn area assigned!", Managers.DebugManager.DebugCategory.ENVIRONMENT, Managers.DebugManager.LogLevel.ERROR);
 			return;
 		}
 

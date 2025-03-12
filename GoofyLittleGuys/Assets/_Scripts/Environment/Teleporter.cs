@@ -97,7 +97,7 @@ public class Teleporter : InteractableBase
 		if (!onCooldown)
 		{
 			body.GetComponent<Rigidbody>().MovePosition(targetTeleporter.EndTeleportLocation.position);
-			Debug.Log("TELEPORTED " + body.name + "TO " + targetTeleporter.EndTeleportLocation.position);
+			Managers.DebugManager.Log("TELEPORTED " + body.name + "TO " + targetTeleporter.EndTeleportLocation.position, Managers.DebugManager.DebugCategory.ENVIRONMENT);
 			StartCoroutine(nameof(WaitForCooldown));
 		}
 	}

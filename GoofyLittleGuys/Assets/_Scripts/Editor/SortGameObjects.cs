@@ -55,7 +55,7 @@ public class SortGameObjects : EditorWindow
 
 		if (selectedObjects.Length == 0)
 		{
-			Debug.LogWarning("No GameObjects selected to sort.");
+			Managers.DebugManager.Log("No GameObjects selected to sort.", Managers.DebugManager.DebugCategory.EDITOR_TOOL, Managers.DebugManager.LogLevel.WARNING);
 			return;
 		}
 
@@ -80,7 +80,7 @@ public class SortGameObjects : EditorWindow
 			selectedObjects[i].transform.SetSiblingIndex(i);
 		}
 
-		Debug.Log("Selected GameObjects have been sorted.");
+		Managers.DebugManager.Log("Selected GameObjects have been sorted.", Managers.DebugManager.DebugCategory.EDITOR_TOOL);
 	}
 
 	private static void RenameSelectedGameObjectsDescending(string baseName)
@@ -90,7 +90,7 @@ public class SortGameObjects : EditorWindow
 
 		if (selectedObjects.Length == 0)
 		{
-			Debug.LogWarning("No GameObjects selected to rename.");
+			Managers.DebugManager.Log("No GameObjects selected to rename.", Managers.DebugManager.DebugCategory.EDITOR_TOOL, Managers.DebugManager.LogLevel.WARNING);
 			return;
 		}
 
@@ -100,7 +100,7 @@ public class SortGameObjects : EditorWindow
 			selectedObjects[i].name = $"{baseName} ({selectedObjects.Length - i})";
 		}
 
-		Debug.Log("Selected GameObjects have been renamed in descending order.");
+		Managers.DebugManager.Log("Selected GameObjects have been renamed in descending order.", Managers.DebugManager.DebugCategory.EDITOR_TOOL);
 	}
 	private static void RenameSelectedGameObjectsAscending(string baseName)
 	{
@@ -109,7 +109,7 @@ public class SortGameObjects : EditorWindow
 
 		if (selectedObjects.Length == 0)
 		{
-			Debug.LogWarning("No GameObjects selected to rename.");
+			Managers.DebugManager.Log("No GameObjects selected to rename.", Managers.DebugManager.DebugCategory.EDITOR_TOOL, Managers.DebugManager.LogLevel.WARNING);
 			return;
 		}
 
@@ -119,7 +119,7 @@ public class SortGameObjects : EditorWindow
 			selectedObjects[i].name = $"{baseName} ({i + 1})";
 		}
 
-		Debug.Log("Selected GameObjects have been renamed in descending order.");
+		Managers.DebugManager.Log("Selected GameObjects have been renamed in descending order.", Managers.DebugManager.DebugCategory.EDITOR_TOOL);
 	}
 
 	private static int ExtractSuffix(string name)

@@ -56,7 +56,7 @@ public class InteractableBase : MonoBehaviour
 	/// </summary>
 	protected virtual void CompleteInteraction(PlayerBody body)
 	{
-		Debug.Log($"{body.name} successfully interacted with {gameObject.name}");
+		Managers.DebugManager.Log($"{body.name} successfully interacted with {gameObject.name}", Managers.DebugManager.DebugCategory.GENERAL);
 		// Do whatever the interaction effect should be (e.g., healing, opening doors, etc.)
 	}
 }

@@ -116,7 +116,6 @@ public class Spricket : SpeedType
 		ApplySpeedBoost(spawnInterval, maxAfterimages, fadeSpeed, emissionColour);
 		LockMovement = false;
 		Rigidbody rb = (playerOwner == null) ? GetComponent<Rigidbody>() : playerOwner.GetComponent<Rigidbody>();
-		Debug.Log(rb);
 		if (rb != null)
 		{
 			instantiatedKnockback = Instantiate(knockbackPrefab, transform.position, Quaternion.identity, transform);

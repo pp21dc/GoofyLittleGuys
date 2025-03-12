@@ -261,7 +261,7 @@ public class PlayerBody : MonoBehaviour
 		{
 			timer += Time.fixedDeltaTime;
 			hitStunSlowMult = Mathf.Lerp(stunTime, 1.0f, timer/stunTime);
-            Debug.Log(hitStunSlowMult);
+			Managers.DebugManager.Log(hitStunSlowMult.ToSafeString(), DebugManager.DebugCategory.COMBAT);
             yield return null;
 		}
 	}

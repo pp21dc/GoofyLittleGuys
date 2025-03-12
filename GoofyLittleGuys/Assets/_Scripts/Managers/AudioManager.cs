@@ -26,7 +26,7 @@ namespace Managers
 			{
 				if (musicDictionary.ContainsKey(clip.key))
 				{
-					Debug.LogError($"{clip.key} already exists in SFX dictionary. Detected for {clip.name}. Changing key now");
+					Managers.DebugManager.Log($"{clip.key} already exists in SFX dictionary. Detected for {clip.name}. Changing key now", DebugManager.DebugCategory.GENERAL, DebugManager.LogLevel.ERROR);
 					clip.key += $"NAME_ERROR";
 				}
 				musicDictionary.Add(clip.key, clip);
@@ -39,7 +39,7 @@ namespace Managers
 			{
 				if (sfxDictionary.ContainsKey(clip.key))
 				{
-					Debug.LogError($"{clip.key} already exists in SFX dictionary. Detected for {clip.name}. Changing key now");
+					Managers.DebugManager.Log($"{clip.key} already exists in SFX dictionary. Detected for {clip.name}. Changing key now", DebugManager.DebugCategory.GENERAL, DebugManager.LogLevel.ERROR);
 					clip.key += $"NAME_ERROR";
 				}
 				sfxDictionary.Add(clip.key, clip);

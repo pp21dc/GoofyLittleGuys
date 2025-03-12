@@ -50,7 +50,7 @@ public class Hitbox : MonoBehaviour
 	private void OnHit(Hurtbox h)
 	{
 		if (hitboxOwner.layer == LayerMask.NameToLayer("Player")) return;
-		Debug.Log("HIT");
+		Managers.DebugManager.Log("HIT", DebugManager.DebugCategory.COMBAT);
 		Toadstool toadstool = h.GetComponent<Toadstool>();
 		PlayerBody attacker = hitboxOwner.GetComponent<LilGuyBase>().PlayerOwner;
 		if (toadstool != null && toadstool.IsShieldActive && AreEnemies(hitboxOwner, h.gameObject))

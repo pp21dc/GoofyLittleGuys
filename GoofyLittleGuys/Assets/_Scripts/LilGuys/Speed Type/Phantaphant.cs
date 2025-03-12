@@ -54,7 +54,6 @@ public class Phantaphant : SpeedType
 			// Instantly move Phant to the target’s last known position
 			rb.MovePosition(latestTargetPosition);
 			LilGuyBase targLilGuy = targetPosition.GetComponent<LilGuyBase>();
-			Debug.Log("This is a Special Effect");
 			phantEffect = Instantiate(FXManager.Instance.GetEffect("PhantaphantTeleport"), targLilGuy.transform.position, Quaternion.identity, targLilGuy.transform);
 		}
 
@@ -90,7 +89,6 @@ public class Phantaphant : SpeedType
 		currentCharges--;
 		anim.ResetTrigger("SpecialAttackEnded");
 		anim.SetTrigger("SpecialAttack");
-		Debug.Log("This is a Stop Special Effect");
 		phantEffect = Instantiate(FXManager.Instance.GetEffect("PhantaphantTeleport"), transform.position, Quaternion.identity, transform);
 		StartCoroutine(WaitForEndOfSpecial());
 	}

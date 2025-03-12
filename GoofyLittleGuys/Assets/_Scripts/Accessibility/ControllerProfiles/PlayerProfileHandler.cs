@@ -18,8 +18,8 @@ public class PlayerProfileHandler : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
         if (playerInput != null)
         {
-            Debug.LogError($"INPUT PROFILE MANAGER IS ON WRONG OBJECT! CURRENTLY ON {gameObject.name}." +
-                           $" PLEASE PUT IT ON A GAME OBJECT WITH THE PLAYER INPUT COMPONENT");
+            Managers.DebugManager.Log($"INPUT PROFILE MANAGER IS ON WRONG OBJECT! CURRENTLY ON {gameObject.name}." +
+                           $" PLEASE PUT IT ON A GAME OBJECT WITH THE PLAYER INPUT COMPONENT", Managers.DebugManager.DebugCategory.INPUT, Managers.DebugManager.LogLevel.ERROR);
         }
         ApplyProfileBinds();
     }

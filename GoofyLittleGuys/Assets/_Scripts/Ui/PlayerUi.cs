@@ -128,7 +128,7 @@ public class PlayerUi : MonoBehaviour
     }
     private void RefreshIcons(PlayerUi playerUi, float swapDirection)
     {
-        Debug.Log("Swap Direction: " + swapDirection);
+		Managers.DebugManager.Log("Swap Direction: " + swapDirection, DebugManager.DebugCategory.UI);
         if(playerUi == this)
         {
             SetIcons();
@@ -210,7 +210,7 @@ public class PlayerUi : MonoBehaviour
 
     public void ResetCDTimer()
     {
-        Debug.LogError("ResetCDTimer");
+		Managers.DebugManager.Log("ResetCDTimer", DebugManager.DebugCategory.UI);
         StopAllCoroutines();
         abilityCooldownText.text = " ";
         abilityCooldownTimer.fillAmount = 0;

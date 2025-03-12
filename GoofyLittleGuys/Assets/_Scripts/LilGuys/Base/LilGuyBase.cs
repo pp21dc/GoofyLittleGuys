@@ -548,7 +548,7 @@ public abstract class LilGuyBase : MonoBehaviour
 			// Player owned lil guy died.
 			if (h.LastHit != null)
 			{
-				Debug.Log($"{name} was a player-owned Lil Guy, and was defeated by player {h.LastHit}. Awarding bonus xp.");
+				DebugManager.Log($"{name} was a player-owned Lil Guy, and was defeated by player {h.LastHit}. Awarding bonus xp.", DebugManager.DebugCategory.COMBAT);
 				for (int i = 0; i < h.LastHit.LilGuyTeam.Count; i++)
 				{
 					h.LastHit.LilGuyTeam[i].AddXP((i == 0) ? Mathf.FloorToInt((Mathf.Pow((Level + 4), 2)) / 2) : Mathf.FloorToInt((Mathf.Pow((Level + 4), 2)) / 5));
@@ -558,7 +558,7 @@ public abstract class LilGuyBase : MonoBehaviour
 		}
 		else
 		{
-			Debug.Log($"{name} was a wild Lil Guy, and was defeated by player {GetComponent<Hurtbox>().LastHit}. Awarding XP.");
+			DebugManager.Log($"{name} was a wild Lil Guy, and was defeated by player {GetComponent<Hurtbox>().LastHit}. Awarding XP.", DebugManager.DebugCategory.COMBAT);
 			for (int i = 0; i < h.LastHit.LilGuyTeam.Count; i++)
 			{
 				h.LastHit.LilGuyTeam[i].AddXP((i == 0) ? Mathf.FloorToInt((Mathf.Pow((Level + 2), 2) / 3)) : Mathf.FloorToInt((Mathf.Pow((Level + 2), 2) / 6)));
@@ -609,7 +609,7 @@ public abstract class LilGuyBase : MonoBehaviour
 		// Ensure attack respects cooldown
 		if (Time.time - lastAttackTime < attackCooldown && playerOwner == null)
 		{
-			Debug.Log("Attack on cooldown.");
+			Managers.DebugManager.Log("Attack on cooldown.", Managers.DebugManager.DebugCategory.COMBAT);
 			return;
 		}
 		if (anim != null)
