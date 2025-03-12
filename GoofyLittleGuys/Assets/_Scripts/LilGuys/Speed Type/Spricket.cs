@@ -147,7 +147,7 @@ public class Spricket : SpeedType
 
 	private IEnumerator StopDashAfterDuration(Rigidbody rb, float duration)
 	{
-		PlayLoopingSound("Spricket_Special_Soar");
+		//PlaySound("Spricket_Special_Soar");
 		yield return new WaitForSeconds(duration);
 
 		// Call StopDash when the dash is complete
