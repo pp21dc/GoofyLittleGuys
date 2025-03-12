@@ -509,7 +509,7 @@ public class PlayerBody : MonoBehaviour
 	/// <param name="shiftDirection">The input provided by the D-Pad. Negative means they pressed left, and positive means they pressed right.</param>
 	public void SwapLilGuy(float shiftDirection)
 	{
-		if (isSwapping || lilGuyTeam.Count <= 1) return;
+		if (isSwapping || lilGuyTeam.Count <= 1 || activeLilGuy.IsInSpecialAttack) return;
 		if (Time.time < nextSwapTime) return;
 		isSwapping = true;
 		GameplayStats.SwapCount++;

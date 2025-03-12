@@ -234,6 +234,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5753528463434355124, guid: d07ec0bce66f1034b9f24166ef1df55a,
         type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5753528463434355124, guid: d07ec0bce66f1034b9f24166ef1df55a,
+        type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -566,6 +571,11 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5753528463434355124, guid: d07ec0bce66f1034b9f24166ef1df55a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6111186805670116991, guid: d07ec0bce66f1034b9f24166ef1df55a,
         type: 3}
       propertyPath: m_IsActive
@@ -824,6 +834,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PortalA1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5753528463434355124, guid: d07ec0bce66f1034b9f24166ef1df55a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6111186805670116991, guid: d07ec0bce66f1034b9f24166ef1df55a,
         type: 3}
@@ -1159,6 +1174,11 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5753528463434355124, guid: d07ec0bce66f1034b9f24166ef1df55a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6111186805670116991, guid: d07ec0bce66f1034b9f24166ef1df55a,
         type: 3}
       propertyPath: m_IsActive
@@ -1483,6 +1503,11 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5753528463434355124, guid: d07ec0bce66f1034b9f24166ef1df55a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6111186805670116991, guid: d07ec0bce66f1034b9f24166ef1df55a,
         type: 3}
       propertyPath: m_IsActive
@@ -1560,10 +1585,6 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1938532882316310610}
-    - targetCorrespondingSourceObject: {fileID: 7105402656844328128, guid: d07ec0bce66f1034b9f24166ef1df55a,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 8727305413656420097}
   m_SourcePrefab: {fileID: 100100000, guid: d07ec0bce66f1034b9f24166ef1df55a, type: 3}
 --- !u!1 &1495489266599053419 stripped
 GameObject:
@@ -1590,22 +1611,6 @@ GameObject:
   m_PrefabInstance: {fileID: 3625090819968932025}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &1938532882316310610
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5824736476391650425}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc1f44b474610634f98c48a303bc5141, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 8
-  alignmentFactor: 0
---- !u!114 &8727305413656420097
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1786,6 +1791,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5753528463434355124, guid: d07ec0bce66f1034b9f24166ef1df55a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6111186805670116991, guid: d07ec0bce66f1034b9f24166ef1df55a,
         type: 3}
@@ -2116,6 +2126,11 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5753528463434355124, guid: d07ec0bce66f1034b9f24166ef1df55a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6111186805670116991, guid: d07ec0bce66f1034b9f24166ef1df55a,
         type: 3}
       propertyPath: m_IsActive
@@ -2444,6 +2459,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5753528463434355124, guid: d07ec0bce66f1034b9f24166ef1df55a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6111186805670116991, guid: d07ec0bce66f1034b9f24166ef1df55a,
         type: 3}
