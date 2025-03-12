@@ -519,6 +519,7 @@ public abstract class LilGuyBase : MonoBehaviour
 		if (health <= 0)
 		{
 			OnDeath?.Invoke();
+			StopHitStun();
 			mesh.color = Color.white;
 			return;
 		}
@@ -919,6 +920,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	private void StopHitStun()
 	{
 		hitStunSlowMult = 1.0f;
+		Animator.speed = 1.0f;
 		StopCoroutine(hitstunCoroutine);
 	}
 
