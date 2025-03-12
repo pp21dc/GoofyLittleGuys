@@ -135,11 +135,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0cba0f4bacbae542b7cdf368e34fd66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  knockbackForce: 52
+  knockbackForce: 49
   relativeToHitbox: 1
   knockbackDuration: 1
   hitstunForce: 2
-  hitstunTime: 0.5
+  hitstunTime: 0.47
   hitstunCurve:
     serializedVersion: 2
     m_Curve:
@@ -180,19 +180,19 @@ MonoBehaviour:
       inWeight: 0.6124851
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.9669809
-      value: 0.020872425
-      inSlope: -0.022300897
-      outSlope: -0.022300897
+      time: 0.9558417
+      value: 0.10877386
+      inSlope: 1.2481177
+      outSlope: 1.2481177
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.9850165
-      value: 0.026223809
-      inSlope: 1.2481177
-      outSlope: 1.2481177
+      time: 0.9669809
+      value: 0.020872425
+      inSlope: -0.022300897
+      outSlope: -0.022300897
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
