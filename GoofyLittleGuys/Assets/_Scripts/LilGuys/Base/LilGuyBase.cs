@@ -138,6 +138,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	public bool IsInvincible { get { return isInvincible; } set { isInvincible = value; } }
 	public bool LockAttackRotation { get { return lockAttackRotation; } set { lockAttackRotation = value; } }
 	public bool LockMovement { get { return lockMovement; } set { lockMovement = value; } }
+	public Animator Animator { get { return anim; } }
 
 	public int MaxXp { get { return max_xp; } }
 
@@ -887,6 +888,7 @@ public abstract class LilGuyBase : MonoBehaviour
 		knockbackForce = force / knockbackResistance;
 	}
 
+	
 
 	public void ApplySpeedBoost(float spawnInterval, int maxAfterImages, float fadeSpeed, Color emissionColour)
 	{

@@ -32,6 +32,7 @@ public class PlayerBody : MonoBehaviour
 	[SerializeField] private float knockbackResistance = 1f;  // Reduce knockback effect
 	[SerializeField] private float knockbackDecayRate = 5f;   // Speed at which knockback fades
 	private Vector3 knockbackForce = Vector3.zero;
+	private float hitStunSlowMult = 1f;
 
 	private float teamSpeedBoost = 0f;                       // If a lil guy gives a team boost to speed, this variable will store that speed boost.
 	private float teamDamageReduction = 0f;                       // If a lil guy gives a team boost to speed, this variable will store that speed boost.
@@ -76,6 +77,7 @@ public class PlayerBody : MonoBehaviour
 	private bool isSwapping = false;            // NECESSARY FOR AUTOSWAP/PLAYER SWAP. We need a mutex-type mechanism so that that the resources in the lil guy list doesn't get mismanaged from the two swapping mechanisms accessing it at the same time.
 	private Coroutine respawnCoroutine = null;
 	private Coroutine invincibilityCoroutine = null;
+	private Coroutine hitstunCoroutine = null;	// for da hitstun
 
 	private Vector3 movementDirection = Vector3.zero;
 	private Rigidbody rb;
@@ -225,12 +227,15 @@ public class PlayerBody : MonoBehaviour
 			// Smoothly accelerate towards the target velocity
 			currentVelocity = Vector3.Lerp(currentVelocity, targetVelocity, Time.fixedDeltaTime / accelerationTime);
 
-			// Apply movement and knockback force
-			rb.velocity = new Vector3(currentVelocity.x + knockbackForce.x, rb.velocity.y, currentVelocity.z + knockbackForce.z);
+			// Apply movement scaled by hitstun slow and add knockback force
+			rb.velocity = new Vector3((currentVelocity.x / hitStunSlowMult) + knockbackForce.x, rb.velocity.y, (currentVelocity.z / hitStunSlowMult) + knockbackForce.z);
 		}
 
 		if (lilGuyTeam[0].LockMovement)
 			rb.velocity = new Vector3(0, rb.velocity.y, 0);
+
+		//HITSTUN
+		lilGuyTeam[0].Animator.speed = hitStunSlowMult;
 	}
 
 	// Method to apply knockback
@@ -239,7 +244,33 @@ public class PlayerBody : MonoBehaviour
 		knockbackForce = force / knockbackResistance; // Reduce knockback effect if resistance is higher
 	}
 
+	public void StartHitStun(float stunMult, float stunTime)
+	{
+        hitstunCoroutine = StartCoroutine(ApplyHitStun(stunMult, stunTime));
+	}
 
+	private IEnumerator ApplyHitStun(float stunMult, float stunTime)
+	{
+		//set stun mult
+		//lerp stun mult back to 1 over stuntime
+		//change animator speed
+		
+		hitStunSlowMult = stunMult;
+		float timer = 0.0f;
+		while (hitStunSlowMult != 1.0f)
+		{
+			timer += Time.fixedDeltaTime;
+			hitStunSlowMult = Mathf.Lerp(stunTime, 1.0f, timer/stunTime);
+            Debug.Log(hitStunSlowMult);
+            yield return null;
+		}
+	}
+
+	public void StopHitStun()
+	{
+		hitStunSlowMult = 1.0f;
+		StopCoroutine(hitstunCoroutine);
+	}
 
 	private bool IsGrounded()
 	{
@@ -410,6 +441,7 @@ public class PlayerBody : MonoBehaviour
 		if (activeLilGuy.Health > 0) return;
 
 		activeLilGuy.OnEndSpecial(true);
+		StopHitStun();
 
 		// Hide them from player, as to not confuse them with a living one... maybe find a better way to convey this
 		if (!activeLilGuy.IsDying) lilGuyTeam[0].PlayDeathAnim();

@@ -7,6 +7,8 @@ public class KnockbackHitbox : MonoBehaviour
 	[SerializeField] private float knockbackForce = 100f; // Strength of knockback
 	[SerializeField] private bool relativeToHitbox = true; // Direction relative to hitbox center
 	[SerializeField] private float knockbackDuration = 1f;
+	[SerializeField] private float hitstunForce = 0.2f;
+	[SerializeField] private float hitstunTime = 1.1f;
 	private Vector3 knockbackDir = Vector3.zero;
 
 	private HashSet<LilGuyBase> wildLilGuys = new HashSet<LilGuyBase>(); // Track wild lil guys
@@ -33,6 +35,7 @@ public class KnockbackHitbox : MonoBehaviour
 		else if (other.gameObject.layer == LayerMask.NameToLayer("PlayerLilGuys"))
 		{
 			lilGuy.PlayerOwner.ApplyKnockback((knockbackDir = (knockbackDir == Vector3.zero) ? (other.transform.position - transform.position).normalized : knockbackDir) * knockbackForce);
+			//lilGuy.PlayerOwner.StartHitStun(hitstunForce, hitstunTime); comment out for now till its done :)
             Debug.Log("The knockback is: " + knockbackForce);
         }
 	}
