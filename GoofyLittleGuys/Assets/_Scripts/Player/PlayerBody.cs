@@ -269,7 +269,7 @@ public class PlayerBody : MonoBehaviour
 	public void StopHitStun()
 	{
 		hitStunSlowMult = 1.0f;
-		StopCoroutine(hitstunCoroutine);
+		if (hitstunCoroutine != null) StopCoroutine(hitstunCoroutine);
 	}
 
 	private bool IsGrounded()
