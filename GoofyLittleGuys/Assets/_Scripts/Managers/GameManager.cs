@@ -183,6 +183,8 @@ namespace Managers
 			rankings.Clear();
 			for (int i = 0; i < legendarySpawned.Length; i++) { legendarySpawned[i] = false; }
 			AudioManager.Instance.PlayMusic("GLGMainMenu", phaseAudioSources[0]);
+			phaseAudioSources[2].volume = 0;
+			phaseAudioSources[3].volume = 0;
 			phaseAudioSources[1].volume = 0;
 			currentPhase = 0;
 			currentGameTime = 0;
@@ -251,6 +253,9 @@ namespace Managers
 			StartCoroutine(SpawnStorms());
 			StartCoroutine(Crossfade(phaseAudioSources[0], phaseAudioSources[1], 1f));
 			AudioManager.Instance.PlaySfx("Phase_Change", alertAudioSource);
+			AudioManager.Instance.PlaySfx("Wind", phaseAudioSources[2]);
+			AudioManager.Instance.PlaySfx("Rain", phaseAudioSources[3]);
+
 		}
 
 		/// <summary>
