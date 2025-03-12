@@ -39,44 +39,30 @@ public class SpawnerObj : MonoBehaviour
 		spawnManager = SpawnManager.Instance;
 		clearingID = transform.parent.name; // Assuming parent represents the clearing
 		spawnManager.RegisterSpawner(this, clearingID);
-		EnsureAtLeastOneSpawn();
 	}
 
-	private void Update()
+	public void RequestSpawn()
 	{
-		if (currSpawnCount < maxSpawnCount && spawnManager.CanSpawnMore(clearingID) && initialSpawnsSpawned)
-		{
-			StartSpawning();
-		}
+		if (currSpawnCount >= maxSpawnCount) return; // Still respects per-spawner cap
+
+		GameObject randLilGuy = lilGuyShuffleBag.Next();
+		SpawnLilGuy(randLilGuy);
 	}
 
-	/// <summary>
-	/// Ensures at least one Lil Guy is spawned immediately upon initialization.
-	/// </summary>
-	private void EnsureAtLeastOneSpawn()
-	{
-		if (currSpawnCount == 0)
-		{
-			StartCoroutine(DelayInitialSpawn());
-		}
-	}
 
-	private IEnumerator DelayInitialSpawn()
-	{
-		yield return new WaitForSecondsRealtime(spawnManager.GracePeriod);
-		SpawnRandLilGuy();
-		initialSpawnsSpawned = true;
-	}
 	/// <summary>
 	/// Spawns a random Lil Guy from the available list.
 	/// </summary>
 	public void SpawnRandLilGuy()
 	{
-		if (currSpawnCount >= maxSpawnCount || !spawnManager.CanSpawnMore(clearingID) || !initialSpawnsSpawned) return;
-
+		if (currSpawnCount >= maxSpawnCount || !spawnManager.CanSpawnMore(clearingID) || !initialSpawnsSpawned)
+		{
+			return;
+		}
 		GameObject randLilGuy = lilGuyShuffleBag.Next();
 		SpawnLilGuy(randLilGuy);
 	}
+
 
 	/// <summary>
 	/// Instantiates a specific Lil Guy at a valid spawn position.
@@ -107,35 +93,12 @@ public class SpawnerObj : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Initiates the delayed spawning process.
-	/// </summary>
-	private void StartSpawning()
-	{
-		if (!isSpawning)
-		{
-			StartCoroutine(DelayedSpawn());
-		}
-	}
-
-	/// <summary>
-	/// Waits for a delay before spawning a random Lil Guy.
-	/// </summary>
-	private IEnumerator DelayedSpawn()
-	{
-		isSpawning = true;
-		yield return new WaitForSeconds(spawnDelay);
-		SpawnRandLilGuy();
-		isSpawning = false;
-	}
-
-	/// <summary>
 	/// Removes a Lil Guy from this spawner's count and triggers a respawn attempt.
 	/// </summary>
 	public void RemoveLilGuyFromSpawns()
 	{
 		currSpawnCount--;
 		spawnManager.DeregisterSpawn(clearingID);
-		StartCoroutine(DelayedSpawn());
 	}
 
 	/// <summary>
@@ -156,12 +119,10 @@ public class SpawnerObj : MonoBehaviour
 
 			if (Physics.Raycast(spawnPos, Vector3.down, out RaycastHit hit, startHeight * 2, GroundLayer))
 			{
-				Debug.Log("Spawned with the raycast.");
 				spawnPos = hit.point + Vector3.up * 2f;
 				return spawnPos;
 			}
 		}
-		Debug.Log($"Spawned with the origin. The spawner used was {gameObject.name}.");
 		return origin + Vector3.up * 2;
 	}
 }

@@ -20,14 +20,59 @@ namespace Managers
 		private List<SpawnerObj> legendarySpawners = new();                     // Tracks all legendary spawners
 
 		[SerializeField] private float gracePeriod = 5f;
+		[SerializeField] private int maxLilGuysPerClearing = 3; // Default limit for wild Lil Guys per clearing
 
 		private ShuffleBag<SpawnerObj> legendarySpawnersSB = new();
 		public float GracePeriod { get => gracePeriod; set => gracePeriod = value; }
+		public int MaxLilGuysPerClearing { get => maxLilGuysPerClearing; set => maxLilGuysPerClearing = value; }
+
+		private float spawnInterval = 3f; // Time between spawn attempts
+		private Coroutine spawnLoop;
 
 		private void Start()
 		{
-
+			StartCoroutine(InitializeSpawners());
 		}
+
+		private IEnumerator InitializeSpawners()
+		{
+			yield return new WaitForSecondsRealtime(gracePeriod); // Wait for grace period
+
+			// Ensure all spawners get at least one spawn
+			foreach (var clearing in clearingSpawners.Keys)
+			{
+				foreach (var spawner in clearingSpawners[clearing])
+				{
+					spawner.RequestSpawn();
+				}
+			}
+
+			// Start normal spawn loop after initial spawns
+			spawnLoop = StartCoroutine(SpawnLoop());
+		}
+
+		private IEnumerator SpawnLoop()
+		{
+			while (true)
+			{
+				yield return new WaitForSeconds(spawnInterval);
+				AttemptSpawnInAllClearings();
+			}
+		}
+
+		private void AttemptSpawnInAllClearings()
+		{
+			foreach (var clearingID in clearingSpawners.Keys)
+			{
+				if (!CanSpawnMore(clearingID)) continue; // Respect global clearing limit
+
+				List<SpawnerObj> spawners = clearingSpawners[clearingID];
+
+				SpawnerObj selectedSpawner = spawners[Random.Range(0, spawners.Count)];
+				selectedSpawner.RequestSpawn(); // Only the chosen spawner spawns
+			}
+		}
+
 
 		/// <summary>
 		/// Registers a spawner to the appropriate clearing, or as a legendary spawner if applicable.
@@ -39,7 +84,6 @@ namespace Managers
 			{
 				legendarySpawners.Add(spawner);
 				legendarySpawnersSB.Add(spawner);
-				return;
 			}
 
 			if (!clearingSpawners.ContainsKey(clearingID))
@@ -74,8 +118,14 @@ namespace Managers
 		/// </summary>
 		public bool CanSpawnMore(string clearingID)
 		{
-			return clearingSpawnCounts.ContainsKey(clearingID) && clearingSpawnCounts[clearingID] < clearingSpawners[clearingID].Count * 1;
+			if (!clearingSpawnCounts.ContainsKey(clearingID)) return false;
+
+			int currentCount = clearingSpawnCounts[clearingID];
+			int maxAllowed = Mathf.Min(maxLilGuysPerClearing, clearingSpawners[clearingID].Count * 3); // Ensure it doesn't exceed per-spawner limits.
+
+			return currentCount < maxAllowed;
 		}
+
 
 		/// <summary>
 		/// Registers a new Lil Guy spawn within a clearing, increasing the count.
@@ -108,7 +158,7 @@ namespace Managers
 
 			SpawnerObj selectedSpawner = legendarySpawnersSB.Next();
 			selectedSpawner.SpawnLegendary(maxScale, level);
-			
+
 		}
 	}
 }
