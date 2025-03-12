@@ -11,6 +11,8 @@ public class Phantaphant : SpeedType
 	[SerializeField] private float slowDuration = 2f;
 	private Transform targetPosition;
 	private Vector3 directionToTarget;
+
+	private GameObject phantEffect = null;
 	// Start is called before the first frame update
 	protected override void Start()
 	{
@@ -52,7 +54,8 @@ public class Phantaphant : SpeedType
 			// Instantly move Phant to the target’s last known position
 			rb.MovePosition(latestTargetPosition);
 			LilGuyBase targLilGuy = targetPosition.GetComponent<LilGuyBase>();
-			Instantiate(FXManager.Instance.GetEffect("PhantaphantTeleport"), targLilGuy.transform.position, Quaternion.identity, targLilGuy.transform);
+			Debug.Log("This is a Special Effect");
+			phantEffect = Instantiate(FXManager.Instance.GetEffect("PhantaphantTeleport"), targLilGuy.transform.position, Quaternion.identity, targLilGuy.transform);
 		}
 
 		GameObject slowedEntity;
@@ -87,7 +90,8 @@ public class Phantaphant : SpeedType
 		currentCharges--;
 		anim.ResetTrigger("SpecialAttackEnded");
 		anim.SetTrigger("SpecialAttack");
-		Instantiate(FXManager.Instance.GetEffect("PhantaphantTeleport"), transform.position, Quaternion.identity, transform);
+		Debug.Log("This is a Stop Special Effect");
+		phantEffect = Instantiate(FXManager.Instance.GetEffect("PhantaphantTeleport"), transform.position, Quaternion.identity, transform);
 		StartCoroutine(WaitForEndOfSpecial());
 	}
 
@@ -148,6 +152,12 @@ public class Phantaphant : SpeedType
 
 			directionToTarget = PredictFuturePosition(closestTarget.position, closestTargetVelocity, teleportTime);
 		}
+	}
+
+	protected override void OnDisable()
+	{
+		base.OnDisable();
+		if (!ReferenceEquals(phantEffect, null)) Destroy(phantEffect);
 	}
 
 	#region Old Prediction Code (Remove in Future if Current is better)
