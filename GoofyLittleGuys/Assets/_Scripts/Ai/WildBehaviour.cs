@@ -409,13 +409,17 @@ public class WildBehaviour : MonoBehaviour
 
 			if (stuckTimer >= stuckThreshold)
 			{
-				DebugManager.Log("Stuck! Searching for closest waypoint...", DebugManager.DebugCategory.AI);
+				DebugManager.Log($"[{controller.LilGuy.GuyName}] Stuck while returning home! Searching for closest waypoint...", DebugManager.DebugCategory.AI);
+
 				Waypoint closest = FindClosestWaypoint();
 
 				if (closest != null)
 				{
-					DebugManager.Log($"Moving to waypoint {closest.name} to escape.", DebugManager.DebugCategory.AI);
+					DebugManager.Log($"[{controller.LilGuy.GuyName}] Moving to waypoint {closest.name} to escape.", DebugManager.DebugCategory.AI);
 					wanderTarget = closest.transform.position;
+
+					// 🔹 Allow waypoint movement but ensure AI returns home after reaching it
+					returnHome = true;
 				}
 
 				stuckTimer = 0f; // Reset stuck timer after adjusting
@@ -428,17 +432,24 @@ public class WildBehaviour : MonoBehaviour
 
 		lastPosition = transform.position;
 
-		// NEW: If AI is close enough to the waypoint, resume wandering
-		if (Vector3.Distance(transform.position, wanderTarget) < 1.0f)
+		// 🔹 If close to home, stop return home behavior
+		if (IsWithinCamp())
 		{
-			DebugManager.Log("Reached waypoint. Resuming normal wandering.", DebugManager.DebugCategory.AI);
-			wanderTarget = GetRandomWanderPoint(); // Switch back to normal wandering
+			DebugManager.Log($"[{controller.LilGuy.GuyName}] Successfully returned home.", DebugManager.DebugCategory.AI);
+			returnHome = false; // Exit return home state
+			ChangeState(AIState.Wander); // Resume normal wandering
+			return;
+		}
+
+		// 🔹 Prioritize moving home if no waypoint is currently set
+		if (!returnHome || Vector3.Distance(transform.position, wanderTarget) < 1.0f)
+		{
+			wanderTarget = GetRandomWanderPoint(); // Pick new target inside home
 		}
 
 		MoveLilGuyTowards(wanderTarget);
-
-		if (IsWithinCamp()) returnHome = false;
 	}
+
 
 
 	private void HandleDead()

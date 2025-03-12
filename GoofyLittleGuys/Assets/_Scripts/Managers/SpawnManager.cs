@@ -93,24 +93,6 @@ namespace Managers
 			}
 
 			clearingSpawners[clearingID].Add(spawner);
-			EnsureMinimumSpawns(clearingID);
-		}
-
-		/// <summary>
-		/// Ensures that each spawner in a clearing has spawned at least one Lil Guy.
-		/// </summary>
-		private void EnsureMinimumSpawns(string clearingID)
-		{
-			if (clearingSpawners.ContainsKey(clearingID))
-			{
-				foreach (SpawnerObj spawner in clearingSpawners[clearingID])
-				{
-					if (spawner.CurrentSpawnCount == 0)
-					{
-						spawner.SpawnRandLilGuy();
-					}
-				}
-			}
 		}
 
 		/// <summary>
