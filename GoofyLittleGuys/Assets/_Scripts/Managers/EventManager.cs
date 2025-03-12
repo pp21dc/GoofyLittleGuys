@@ -67,6 +67,8 @@ public class EventManager
 	}
 	public void CallLilGuyLockedInEvent()
 	{
+		if (GameManager.Instance.StartGame) return;
+		GameManager.Instance.StartGame = true;
 		LevelLoadManager.Instance.LoadNewLevel("TerrainWhitebox");
 		MultiplayerManager.Instance.AdjustCameraRects();
 		LevelLoadManager.Instance.StartCoroutine(WaitForLevelToLoad());

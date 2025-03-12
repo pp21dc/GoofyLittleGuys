@@ -47,6 +47,7 @@ namespace Managers
 
 		private int currentPhase = 0;
 		private bool gameOver = false;
+		private bool startGame = false;
 		private float respawnTimer = 5.0f;
 		private int activeStorms = 0;
 
@@ -63,6 +64,7 @@ namespace Managers
 		private LayerMask currentLayerMask;
 
 		public bool IsPaused { get { return isPaused; } set { isPaused = value; } }
+		public bool StartGame { get => startGame; set => startGame = value; }
 		public Transform FountainSpawnPoint { get { return fountainSpawnPoint; } set { fountainSpawnPoint = value; } }
 		public LayerMask CurrentLayerMask { get { return currentLayerMask; } }
 		public List<PlayerBody> Players { get { return players; } set { players = value; } }
@@ -178,6 +180,7 @@ namespace Managers
 
 		public void QuitGame()
 		{
+			startGame = false;
 			if (currentPhase > 1) phase2CloudAnim.SetTrigger("Revert");
 			stormSets.Clear();
 			rankings.Clear();
