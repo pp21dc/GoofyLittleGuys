@@ -11,7 +11,7 @@ public class HealingFountain : InteractableBase
 	{
 		PlayerBody playerInRange = other.GetComponent<PlayerBody>();
 		if (playerInRange == null) return;
-		interactableCanvas.SetActive(true);
+		interactableCanvas.SetActive(GameManager.Instance.CurrentPhase != 2);
 
 		if (!playersInRange.Contains(other.gameObject))
 		{
@@ -31,7 +31,7 @@ public class HealingFountain : InteractableBase
 		{
 			playersInRange.Remove(other.gameObject);
 		}
-		if (playersInRange.Count <= 0)
+		if (playersInRange.Count <= 0 || GameManager.Instance.CurrentPhase == 2)
 		{
 			interactableCanvas.SetActive(false);
 		}
