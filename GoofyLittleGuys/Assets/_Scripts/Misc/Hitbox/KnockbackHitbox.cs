@@ -7,7 +7,7 @@ public class KnockbackHitbox : MonoBehaviour
 	[SerializeField] private float knockbackForce = 100f; // Strength of knockback
 	[SerializeField] private bool relativeToHitbox = true; // Direction relative to hitbox center
 	[SerializeField] private float knockbackDuration = 1f;
-	[SerializeField] private float hitstunForce = 0.1f;
+	[SerializeField] private float hitstunForce = 2f;
 	[SerializeField] private float hitstunTime = 0.5f;
 	[SerializeField] private AnimationCurve hitstunCurve;
 	private Vector3 knockbackDir = Vector3.zero;
