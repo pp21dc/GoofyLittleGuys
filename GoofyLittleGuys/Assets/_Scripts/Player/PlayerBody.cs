@@ -233,9 +233,6 @@ public class PlayerBody : MonoBehaviour
 
 		if (lilGuyTeam[0].LockMovement)
 			rb.velocity = new Vector3(0, rb.velocity.y, 0);
-
-		//HITSTUN
-		lilGuyTeam[0].Animator.speed = hitStunSlowMult;
 	}
 
 	// Method to apply knockback
@@ -244,29 +241,33 @@ public class PlayerBody : MonoBehaviour
 		knockbackForce = force / knockbackResistance; // Reduce knockback effect if resistance is higher
 	}
 
-	public void StartHitStun(float stunMult, float stunTime)
+	public void StartHitStun(float stunMult, float stunTime, AnimationCurve stunCurve)
 	{
-        hitstunCoroutine = StartCoroutine(ApplyHitStun(stunMult, stunTime));
+        hitstunCoroutine = StartCoroutine(ApplyHitStun(stunMult, stunTime, stunCurve));
 	}
 
-	private IEnumerator ApplyHitStun(float stunMult, float stunTime)
+	private IEnumerator ApplyHitStun(float stunMult, float stunTime, AnimationCurve stunCurve)
 	{
 		//set stun mult
 		//lerp stun mult back to 1 over stuntime
 		//change animator speed
 		
 		hitStunSlowMult = stunMult;
-		float timer = 0.0f;
-		while (hitStunSlowMult != 1.0f)
+		var timer = 0.0f;
+		while (timer <  stunTime)
 		{
-			timer += Time.fixedDeltaTime;
-			hitStunSlowMult = Mathf.Lerp(stunTime, 1.0f, timer/stunTime);
-			Managers.DebugManager.Log(hitStunSlowMult.ToSafeString(), DebugManager.DebugCategory.COMBAT);
+			timer += Time.deltaTime;
+			var t = Mathf.Clamp01(timer / stunTime);
+			var curveVal = stunCurve.Evaluate(t);
+			hitStunSlowMult = Mathf.Lerp(stunMult, 1.0f, curveVal);
+			lilGuyTeam[0].Animator.speed = 0.0f;
             yield return null;
 		}
+		lilGuyTeam[0].Animator.speed = 1.0f;
+		hitStunSlowMult = 1.0f;
 	}
 
-	public void StopHitStun()
+	private void StopHitStun()
 	{
 		hitStunSlowMult = 1.0f;
 		if (hitstunCoroutine != null) StopCoroutine(hitstunCoroutine);

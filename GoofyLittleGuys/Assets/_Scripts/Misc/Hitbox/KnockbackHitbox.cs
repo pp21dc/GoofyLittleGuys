@@ -7,8 +7,9 @@ public class KnockbackHitbox : MonoBehaviour
 	[SerializeField] private float knockbackForce = 100f; // Strength of knockback
 	[SerializeField] private bool relativeToHitbox = true; // Direction relative to hitbox center
 	[SerializeField] private float knockbackDuration = 1f;
-	[SerializeField] private float hitstunForce = 0.2f;
-	[SerializeField] private float hitstunTime = 1.1f;
+	[SerializeField] private float hitstunForce = 0.1f;
+	[SerializeField] private float hitstunTime = 0.5f;
+	[SerializeField] private AnimationCurve hitstunCurve;
 	private Vector3 knockbackDir = Vector3.zero;
 
 	private HashSet<LilGuyBase> wildLilGuys = new HashSet<LilGuyBase>(); // Track wild lil guys
@@ -24,18 +25,19 @@ public class KnockbackHitbox : MonoBehaviour
 	private void OnTriggerEnter(Collider other)
 	{
 		LilGuyBase lilGuy = other.GetComponent<LilGuyBase>();
-		if (lilGuy == null) return;
+		if (!lilGuy) return;
 
 		Managers.DebugManager.Log($"Knockback Hitbox hit {other.gameObject}", Managers.DebugManager.DebugCategory.COMBAT);
 		if (other.gameObject.layer == LayerMask.NameToLayer("WildLilGuys"))
 		{
 			lilGuy.ApplyKnockback((knockbackDir = (knockbackDir == Vector3.zero) ? (other.transform.position - transform.position).normalized : knockbackDir) * knockbackForce);
+			lilGuy.StartHitStun(hitstunForce,  hitstunTime, hitstunCurve);
 			Managers.DebugManager.Log("The knockback is: " +  knockbackForce, Managers.DebugManager.DebugCategory.COMBAT);
 		}
 		else if (other.gameObject.layer == LayerMask.NameToLayer("PlayerLilGuys"))
 		{
 			lilGuy.PlayerOwner.ApplyKnockback((knockbackDir = (knockbackDir == Vector3.zero) ? (other.transform.position - transform.position).normalized : knockbackDir) * knockbackForce);
-			//lilGuy.PlayerOwner.StartHitStun(hitstunForce, hitstunTime); comment out for now till its done :)
+			lilGuy.PlayerOwner.StartHitStun(hitstunForce, hitstunTime, hitstunCurve); //comment out for now till it's done :)
             Managers.DebugManager.Log("The knockback is: " + knockbackForce, Managers.DebugManager.DebugCategory.COMBAT);
         }
 	}

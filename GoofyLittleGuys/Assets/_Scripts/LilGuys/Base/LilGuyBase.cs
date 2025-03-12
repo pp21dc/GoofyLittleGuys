@@ -68,6 +68,8 @@ public abstract class LilGuyBase : MonoBehaviour
 	[SerializeField] private float knockbackResistance = 1f;
 	[SerializeField] private float knockbackDecayRate = 5f;
 	private Vector3 knockbackForce = Vector3.zero;
+	private Coroutine hitstunCoroutine = null;	// for da hitstun
+	private float hitStunSlowMult = 1f;
 
 	private Vector3 currentVelocity = Vector3.zero;
 	protected Vector3 movementDirection = Vector3.zero;
@@ -873,7 +875,7 @@ public abstract class LilGuyBase : MonoBehaviour
 			currentVelocity = Vector3.Lerp(currentVelocity, targetVelocity, Time.fixedDeltaTime / accelerationTime);
 
 			// Apply movement and knockback force
-			rb.velocity = new Vector3(currentVelocity.x + knockbackForce.x, rb.velocity.y, currentVelocity.z + knockbackForce.z);
+			rb.velocity = new Vector3((currentVelocity.x/hitStunSlowMult) + knockbackForce.x, rb.velocity.y, (currentVelocity.z/hitStunSlowMult) + knockbackForce.z);
 		}
 		else
 		{
@@ -888,7 +890,37 @@ public abstract class LilGuyBase : MonoBehaviour
 		knockbackForce = force / knockbackResistance;
 	}
 
-	
+	public void StartHitStun(float stunMult, float stunTime, AnimationCurve stunCurve)
+	{
+		hitstunCoroutine = StartCoroutine(ApplyHitStun(stunMult, stunTime, stunCurve));
+	}
+
+	private IEnumerator ApplyHitStun(float stunMult, float stunTime, AnimationCurve stunCurve)
+	{
+		//set stun mult
+		//lerp stun mult back to 1 over stuntime
+		//change animator speed
+		
+		hitStunSlowMult = stunMult;
+		var timer = 0.0f;
+		while (timer <  stunTime)
+		{
+			timer += Time.deltaTime;
+			var t = Mathf.Clamp01(timer / stunTime);
+			var curveVal = stunCurve.Evaluate(t);
+			hitStunSlowMult = Mathf.Lerp(stunMult, 1.0f, curveVal);
+			Animator.speed = 0.0f;
+			yield return null;
+		}
+		Animator.speed = 1.0f;
+		hitStunSlowMult = 1.0f;
+	}
+
+	private void StopHitStun()
+	{
+		hitStunSlowMult = 1.0f;
+		StopCoroutine(hitstunCoroutine);
+	}
 
 	public void ApplySpeedBoost(float spawnInterval, int maxAfterImages, float fadeSpeed, Color emissionColour)
 	{
