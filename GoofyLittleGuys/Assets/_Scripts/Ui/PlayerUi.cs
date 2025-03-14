@@ -47,6 +47,8 @@ public class PlayerUi : MonoBehaviour
 
     [SerializeField] GameObject tempWinText;
 
+    [SerializeField] VictoryAnimationPlay victoryAnim;
+    [SerializeField] GameObject victoryObject;
     enum LilGuys
     {
         Teddy,
@@ -124,7 +126,8 @@ public class PlayerUi : MonoBehaviour
             }
         }
 
-        
+        if (Input.GetKeyDown("k")) { VictoryAnimPlay(); }
+                
     }
     private void RefreshIcons(PlayerUi playerUi, float swapDirection)
     {
@@ -205,6 +208,7 @@ public class PlayerUi : MonoBehaviour
         RBIcon.transform.localScale = new Vector3((float)-0.65528, (float)0.65528, (float)0.65528);
         berryCooldownTxt.transform.localScale = new Vector3((float)-1, (float)1, (float)1);
         berryCountTxt.transform.localScale = new Vector3((float)-1, (float)1, (float)1);
+        victoryObject.transform.localScale = new Vector3((float)-1, (float)1, (float)1);
 
     }
 
@@ -215,6 +219,13 @@ public class PlayerUi : MonoBehaviour
         abilityCooldownText.text = " ";
         abilityCooldownTimer.fillAmount = 0;
         
+    }
+
+    public void VictoryAnimPlay()
+    {
+        GetComponent<Canvas>().sortingOrder = pb.LilGuyTeam[0].Mesh.sortingOrder -1;
+        //victoryObject.SetActive(true);
+        victoryAnim.PlayAnimations();
     }
 }
 

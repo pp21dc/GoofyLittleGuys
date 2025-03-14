@@ -353,7 +353,7 @@ namespace Managers
 				metrics.Add(player.GameplayStats);
 			}
 
-			rankings[rankings.Count - 1].PlayerUI.TempWinText.SetActive(true);
+			rankings[rankings.Count - 1].PlayerUI.VictoryAnimPlay();
 
 
 			foreach (PlayerBody player in players)
