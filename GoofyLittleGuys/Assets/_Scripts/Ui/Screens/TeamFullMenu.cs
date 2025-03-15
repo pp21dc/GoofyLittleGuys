@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
 using TMPro;
+using Managers;
 
 public class TeamFullMenu : MonoBehaviour
 {
@@ -94,6 +95,7 @@ public class TeamFullMenu : MonoBehaviour
 		if (choice == 0)
 		{
 			body.ActiveLilGuy = lilGuyBeingCaught;
+			body.SetActiveLilGuy(lilGuyBeingCaught);
 			body.PlayerUI.SetPersistentHealthBarValue(lilGuyBeingCaught.Health, lilGuyBeingCaught.MaxHealth);
 		}
 

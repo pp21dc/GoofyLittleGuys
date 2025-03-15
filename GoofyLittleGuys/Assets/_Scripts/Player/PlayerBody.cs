@@ -441,6 +441,7 @@ public class PlayerBody : MonoBehaviour
 	{
 		if (activeLilGuy.Health > 0) return;
 
+		EventManager.Instance.UpdatePlayerHealthUI(this);
 		activeLilGuy.OnEndSpecial(true);
 		StopHitStun();
 
