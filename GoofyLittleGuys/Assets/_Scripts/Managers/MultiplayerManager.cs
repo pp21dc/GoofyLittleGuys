@@ -50,6 +50,7 @@ namespace Managers
 			if (!canJoinLeave) return;
 			// Add the player to the game and manually assign the control scheme later
 			GameManager.Instance.Players.Add(input.GetComponentInChildren<PlayerBody>());
+			input.GetComponent<PlayerController>().PlayerNumber = GameManager.Instance.Players.Count;
 			characterSelectScreen.OnPlayerJoin(input);
 
 			input.GetComponent<PlayerController>().UpdateCullLayer();
@@ -66,6 +67,7 @@ namespace Managers
 			if (!canJoinLeave) return;
 			if (PlayerInput.all.Contains(player))
 			{
+				PlayerBody playerToRemove = player.GetComponentInChildren<PlayerBody>();
 				characterSelectScreen.OnPlayerLeft(player);
 				// If this player exists in the list of players, remove them and adjust the screens.
 			}
