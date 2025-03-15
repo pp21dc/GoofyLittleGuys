@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+
 public static class HapticFeedback
 {
 	public static void PlayJoinHaptics(PlayerInput input, int playerIndex, float pulseDuration = 0.1f, float pauseDuration = 0.2f)
@@ -15,12 +16,32 @@ public static class HapticFeedback
 		}
 	}
 
+	public static void PlayHapticFeedback(PlayerInput input, float lowFrequency, float highFrequency, float duration)
+	{
+		if (input.currentControlScheme != "Gamepad") return; // Skip if not using a gamepad
+
+		Gamepad gamepad = input.devices[0] as Gamepad;
+		if (gamepad != null)
+		{
+			CoroutineRunner.Instance.StartCoroutine(HapticFeedbackRoutine(gamepad, lowFrequency, highFrequency, duration));
+		}
+	}
+
+	private static IEnumerator HapticFeedbackRoutine(Gamepad gamepad, float lowFrequency, float highFrequency, float duration)
+	{
+		gamepad.ResumeHaptics();
+		gamepad.SetMotorSpeeds(lowFrequency, highFrequency); // Custom vibration values
+		yield return new WaitForSecondsRealtime(duration);
+
+		// Ensure vibration stops after the duration
+		gamepad.ResetHaptics();
+		gamepad.SetMotorSpeeds(0, 0);
+	}
+
 	private static IEnumerator HapticPulseRoutine(Gamepad gamepad, int pulseCount, float pulseDuration, float pauseDuration)
 	{
 		for (int i = 0; i < pulseCount; i++)
 		{
-			Debug.Log($"Pulse {i + 1} for Player {pulseCount}");
-
 			gamepad.ResumeHaptics();
 			gamepad.SetMotorSpeeds(0.75f, 0.75f); // Start vibration
 			yield return new WaitForSecondsRealtime(pulseDuration);

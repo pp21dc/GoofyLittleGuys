@@ -17,6 +17,7 @@ namespace Managers
 		[SerializeField] private bool gameStartTest = true;             // TEST BOOL FOR DESIGNERS TO PLAY THE GAME WITHOUT GOING INTO PERSISTENT ALL THE TIME
 
 		[SerializeField] private List<PlayerSpawnPoint> spawnPoints;
+		[SerializeField] private List<HapticEvent> hapticEvents;
 
 		[SerializeField, Tooltip("Time in minutes that the first phase should end at.")] private float phaseOneStartTime = 7f;   // Length of Phase 1 in minutes.
 		[SerializeField, Tooltip("Time in minutes that the legendary spawns.")] private float[] legendarySpawnTimes = { 2f, 3f, 4f };   // Legendary spawn time in minutes. 
@@ -51,6 +52,8 @@ namespace Managers
 		private float respawnTimer = 5.0f;
 		private int activeStorms = 0;
 
+
+		private Dictionary<string, HapticEvent> hapticsDictionary = new Dictionary<string, HapticEvent>();
 		private List<PlayerBody> players = new List<PlayerBody>(); // for the list of REMAINING players in phase 2
 		private List<PlayerBody> rankings = new List<PlayerBody>(); // the phase 2 rankings list, ordered from last place -> first place
 		[SerializeField] private List<GameObject> stormSets = new List<GameObject>();
@@ -68,6 +71,7 @@ namespace Managers
 		public Transform FountainSpawnPoint { get { return fountainSpawnPoint; } set { fountainSpawnPoint = value; } }
 		public LayerMask CurrentLayerMask { get { return currentLayerMask; } }
 		public List<PlayerBody> Players { get { return players; } set { players = value; } }
+		public List<HapticEvent> HapticEvents { get { return hapticEvents; } set { hapticEvents = value; } }
 
 		public Material RegularLilGuySpriteMat => regularLilGuySpriteMat;
 		public Material OutlinedLilGuySpriteMat => outlinedLilGuySpriteMat;
@@ -78,6 +82,16 @@ namespace Managers
 		public override void Awake()
 		{
 			base.Awake();
+
+			foreach (HapticEvent haptic in hapticEvents)
+			{
+				if (hapticsDictionary.ContainsKey(haptic.eventName))
+				{
+					Managers.DebugManager.Log($"{haptic.eventName} already exists in Haptics dictionary. Detected for {haptic.name}. Changing key now", DebugManager.DebugCategory.GENERAL, DebugManager.LogLevel.ERROR);
+					haptic.eventName += $"NAME_ERROR";
+				}
+				hapticsDictionary.Add(haptic.eventName, haptic);
+			}
 		}
 
 		private void Start()
@@ -94,6 +108,16 @@ namespace Managers
 			EventManager.Instance.NotifyGameOver -= QuitGame;
 		}
 
+		public HapticEvent GetHapticEvent(string eventName)
+		{
+			if (hapticsDictionary.TryGetValue(eventName, out HapticEvent haptic))
+			{
+				return haptic;
+			}
+
+			Managers.DebugManager.Log($"Haptic Event: '{eventName}' not found in the dictionary.", DebugManager.DebugCategory.GENERAL, DebugManager.LogLevel.ERROR);
+			return null;
+		}
 		private void UpdateTimer()
 		{
 			if (gameTimer == null) return;
@@ -259,6 +283,14 @@ namespace Managers
 			AudioManager.Instance.PlaySfx("Wind", phaseAudioSources[2]);
 			AudioManager.Instance.PlaySfx("Rain", phaseAudioSources[3]);
 
+			HapticEvent hapticPhase2 = GetHapticEvent("Phase 2");
+			if (hapticPhase2 != null)
+			{
+				for (int i = 0; i < players.Count; i++)
+				{
+					HapticFeedback.PlayHapticFeedback(players[i].Controller.GetComponent<PlayerInput>(), hapticPhase2.lowFrequency, hapticPhase2.highFrequency, hapticPhase2.duration);
+				}
+			}
 		}
 
 		/// <summary>
@@ -310,6 +342,16 @@ namespace Managers
 		public void SpawnLegendary(float maxScale, int level)
 		{
 			AudioManager.Instance.PlaySfx("LegendarySpawned", alertAudioSource);
+
+			HapticEvent legendHaptic = GetHapticEvent("Legendary Spawned");
+			if (legendHaptic != null)
+			{
+				for (int i = 0; i < players.Count; i++)
+				{
+					HapticFeedback.PlayHapticFeedback(players[i].Controller.GetComponent<PlayerInput>(), legendHaptic.lowFrequency, legendHaptic.highFrequency, legendHaptic.duration);
+				}
+			}
+				
 			if (SpawnManager.Instance != null)
 			{
 				SpawnManager.Instance.SpawnLegendaryLilGuy(maxScale, level);

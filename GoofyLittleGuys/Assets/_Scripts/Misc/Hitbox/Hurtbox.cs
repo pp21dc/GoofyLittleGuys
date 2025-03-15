@@ -1,4 +1,6 @@
+using Managers;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 
 //Auth: Thomas Berner
@@ -80,7 +82,7 @@ public class Hurtbox : MonoBehaviour
 	/// Gets the health value of given object. To be called when a lil guy is damaged.
 	/// </summary>
 	/// <param name="dmg">The amount of damage dealt.</param>
-	public void TakeDamage(float dmg)
+	public void TakeDamage(float dmg, bool giveHapticFeedback = true)
 	{
 		if (gameObject.layer == LayerMask.NameToLayer("PlayerLilGuys"))
 		{
@@ -94,6 +96,12 @@ public class Hurtbox : MonoBehaviour
 			health = playerLilGuy.Health;
 			playerLilGuy.Damaged();
 			playerLilGuy.PlayerOwner.GameplayStats.DamageTaken += dmg;
+
+			if (giveHapticFeedback)
+			{
+				HapticEvent hapticEvent = GameManager.Instance.GetHapticEvent("Hurt");
+				if (hapticEvent != null) HapticFeedback.PlayHapticFeedback(playerLilGuy.PlayerOwner.Controller.GetComponent<PlayerInput>(), hapticEvent.lowFrequency, hapticEvent.highFrequency, hapticEvent.duration);
+			}
 
 			//Passes the new health info to the player UI
 			//Definitely needs to be rewritten for efficency

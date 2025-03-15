@@ -2,6 +2,7 @@ using Managers;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class HealingFountain : InteractableBase
 {
@@ -66,6 +67,13 @@ public class HealingFountain : InteractableBase
 		if (GameManager.Instance.CurrentPhase == 2) return;
 		if (body.IsDead) return;
 		body.GameplayStats.FountainUses++;
+
+		HapticEvent fountainHaptic = GameManager.Instance.GetHapticEvent("Fountain Used");
+		if (fountainHaptic != null)
+		{
+			HapticFeedback.PlayHapticFeedback(body.Controller.GetComponent<PlayerInput>(), fountainHaptic.lowFrequency, fountainHaptic.highFrequency, fountainHaptic.duration);
+		}
+
 		foreach (LilGuyBase lilGuy in body.LilGuyTeam)
 		{
 			if (lilGuy.Health < lilGuy.MaxHealth)

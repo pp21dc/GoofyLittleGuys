@@ -26,7 +26,7 @@ public class Poison : Debuff
 		{
 			while (currentDuration < duration)
 			{
-				h.TakeDamage(damage);
+				h.TakeDamage(damage, false);
 
 				// Wait for the interval but allow currentDuration to be reset during this period
 				float elapsed = 0;
