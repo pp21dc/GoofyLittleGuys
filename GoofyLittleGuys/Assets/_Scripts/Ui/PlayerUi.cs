@@ -49,6 +49,8 @@ public class PlayerUi : MonoBehaviour
 
     [SerializeField] VictoryAnimationPlay victoryAnim;
     [SerializeField] GameObject victoryObject;
+
+    [SerializeField] GameObject respawnScreen;
     enum LilGuys
     {
         Teddy,
@@ -147,6 +149,12 @@ public class PlayerUi : MonoBehaviour
         if (pb.LilGuyTeam.Count > 2)
             LBCharacter.sprite = pb.LilGuyTeam[2].Icon;
     }
+
+    public void ShowRespawnScreen()
+    {
+        respawnScreen.SetActive(true);
+    }
+
     public void SetBerryCount(int count)
     {
         berryCountText.text = $"{count}/3";

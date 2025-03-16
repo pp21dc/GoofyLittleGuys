@@ -130,6 +130,7 @@ public class PlayerBody : MonoBehaviour
 	public float TeamDamageReduction { get { return teamDamageReduction; } set { teamDamageReduction = value; } }
 	public PlayerUi PlayerUI => playerUi;
 	public PlayerController Controller => controller;
+	public float DeathTime => deathTime;
 
 	private float distanceTraveled = 0f; // Total distance
 	private Vector3 lastPosition; // Previous position for tracking
@@ -483,13 +484,14 @@ public class PlayerBody : MonoBehaviour
 		else
 		{
 			isDead = true;
-			if (!ReferenceEquals(lilGuyTeam[0].GetComponent<Hurtbox>().LastHit, null))
+						if (!ReferenceEquals(lilGuyTeam[0].GetComponent<Hurtbox>().LastHit, null))
 				lilGuyTeam[0].GetComponent<Hurtbox>().LastHit.GameplayStats.TeamWipes++;
 			GameplayStats.DeathCount++;
 			deathTime = GameManager.Instance.CurrentGameTime;
 			// No living lil guys, time for a respawn if possible.
 			if (deathTime < GameManager.Instance.PhaseOneDurationSeconds())
 			{
+				EventManager.Instance.ShowRespawnTimer(this);   // Show the respawn screen.
 				respawnCoroutine ??= StartCoroutine(DelayedRespawn());
 			}
 			else if (GameManager.Instance.CurrentPhase == 2 && !wasDefeated)

@@ -101,11 +101,27 @@ namespace Managers
 			if (gameStartTest) EventManager.Instance.GameStartedEvent();
 
 			EventManager.Instance.NotifyGameOver += QuitGame;
+			SceneManager.sceneLoaded += OnSceneLoaded;
 		}
 
 		private void OnDestroy()
 		{
 			EventManager.Instance.NotifyGameOver -= QuitGame;
+			SceneManager.sceneLoaded -= OnSceneLoaded;
+		}
+
+		private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+		{
+			if (scene.name == "00_MainMenu" && players.Count > 0)
+			{
+				Debug.Log("Clearing players...");
+				for (int i = players.Count - 1; i >= 0; i--)
+				{
+					PlayerBody body = players[i];
+					players.RemoveAt(i);
+					Destroy(body.transform.parent.gameObject);
+				}
+			}
 		}
 
 		public HapticEvent GetHapticEvent(string eventName)

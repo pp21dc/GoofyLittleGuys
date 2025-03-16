@@ -56,7 +56,6 @@ public class HealingFountain : InteractableBase
 	/// </summary>
 	public override void CancelInteraction(PlayerBody body)
 	{
-		if (GameManager.Instance.CurrentPhase == 2) return;
 		if (body.IsDead) return;
 		base.CancelInteraction(body);
 	}
@@ -64,7 +63,6 @@ public class HealingFountain : InteractableBase
 	protected override void CompleteInteraction(PlayerBody body)
 	{
 		base.CompleteInteraction(body);
-		if (GameManager.Instance.CurrentPhase == 2) return;
 		if (body.IsDead) return;
 		body.GameplayStats.FountainUses++;
 
