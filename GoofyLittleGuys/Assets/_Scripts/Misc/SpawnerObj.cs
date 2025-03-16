@@ -43,11 +43,12 @@ public class SpawnerObj : MonoBehaviour
 
 	public void RequestSpawn()
 	{
-		if (currSpawnCount >= maxSpawnCount) return; // Still respects per-spawner cap
+		if (currSpawnCount >= maxSpawnCount || !spawnManager.CanSpawnMore(clearingID)) return;
 
 		GameObject randLilGuy = lilGuyShuffleBag.Next();
 		SpawnLilGuy(randLilGuy);
 	}
+
 
 
 	/// <summary>
@@ -97,9 +98,13 @@ public class SpawnerObj : MonoBehaviour
 	/// </summary>
 	public void RemoveLilGuyFromSpawns()
 	{
-		currSpawnCount--;
-		spawnManager.DeregisterSpawn(clearingID);
+		if (currSpawnCount > 0)
+		{
+			currSpawnCount--;
+			spawnManager.DeregisterSpawn(clearingID);
+		}
 	}
+
 
 	/// <summary>
 	/// Finds a valid ground position within the spawner's radius for spawning.

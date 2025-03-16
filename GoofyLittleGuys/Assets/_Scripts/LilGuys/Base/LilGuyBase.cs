@@ -196,7 +196,10 @@ public abstract class LilGuyBase : MonoBehaviour
 	{
 		transform.localScale = Vector3.one * maxScale;
 		SetWildLilGuyLevel(level, false);
-		GetComponent<WildBehaviour>().IsCatchable = false;
+		WildBehaviour behaviour = GetComponent<WildBehaviour>();
+		behaviour.IsCatchable = false;
+		behaviour.AttackRange *= maxScale;
+		behaviour.ChaseRange *= maxScale;
 	}
 
 	private void SetWildLilGuyLevel(int level, bool randomRange = true)

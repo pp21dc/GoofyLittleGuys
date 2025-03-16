@@ -70,6 +70,8 @@ public class WildBehaviour : MonoBehaviour
 	public SpawnerObj HomeSpawner { get { return homeSpawner; } set { homeSpawner = value; } }
 	public float Charisma => charisma;
 	public bool IsCatchable { get => isCatchable; set => isCatchable = value; }
+	public float AttackRange { get => attackRange; set => attackRange = value; }
+	public float ChaseRange { get => chaseRange; set => chaseRange = value; }
 
 	private Vector3 lastPosition;
 	private float stuckTimer = 0f;
