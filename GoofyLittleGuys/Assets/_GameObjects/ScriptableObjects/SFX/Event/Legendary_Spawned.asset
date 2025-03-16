@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 455a8510209860a489a9ad867f112ef6, type: 3}
-  m_Name: Death_Teddy
+  m_Name: Legendary_Spawned
   m_EditorClassIdentifier: 
   clips:
-  - {fileID: 8300000, guid: 3788609a6fa266f45a9569caa3b01686, type: 3}
-  isSpatial: 1
+  - {fileID: 8300000, guid: ba44ab925f47f7f479de58b1dd8be7eb, type: 3}
+  isSpatial: 0
   playOnce: 0
   volume: 1
-  pitch: {x: 0.9, y: 1.2}
-  key: Teddy_Death
+  pitch: {x: 0.8, y: 1}
+  key: LegendarySpawned

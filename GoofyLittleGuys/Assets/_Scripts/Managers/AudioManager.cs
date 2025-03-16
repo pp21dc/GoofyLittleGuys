@@ -56,7 +56,7 @@ namespace Managers
 				source.clip = getRandomClip(sfxDictionary[key]);
 				source.volume = sfxDictionary[key].volume;
 				source.pitch = Random.Range(sfxDictionary[key].pitch.x, sfxDictionary[key].pitch.y);
-				source.loop = sfxDictionary[key].playOnce;
+				source.loop = sfxDictionary[key].loop;
 
                 // Adjust volume and panning based on player proximity
                 if (sfxDictionary[key].isSpatial)
