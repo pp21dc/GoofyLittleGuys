@@ -1,5 +1,4 @@
-using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -14,6 +13,7 @@ namespace Managers
 		[SerializeField] private List<string> currentLevelList; // The list of scenes currently loaded in (except the persistent scene)
 
 		private float bufferTime = 1.5f;
+		private bool firstLoad = true; // Track if it's the first load
 
 		private void Start()
 		{
@@ -22,19 +22,45 @@ namespace Managers
 		}
 
 		/// <summary>
-		/// Helper method that loads the given scene in
+		/// Loads a new level.
+		/// If it's the first time loading, we skip the loading screen and load instantly.
 		/// </summary>
-		/// <param name="levelName">The name of the scene we should load</param>
 		public void LoadNewLevel(string levelName)
 		{
-			StartCoroutine(LoadLevel(levelName));
+			if (firstLoad)
+			{
+				// First-time load -> No loading screen, no delay, just load the scene instantly
+				firstLoad = false; // Ensure future loads go through the normal sequence
+				InstantLoadLevel(levelName);
+			}
+			else
+			{
+				// Use normal loading process with the loading screen
+				StartCoroutine(LoadLevel(levelName));
+			}
 		}
 
 		/// <summary>
-		/// Coroutine that loads the scene of the given scene name
+		/// Loads the scene instantly without a loading screen or delay.
 		/// </summary>
-		/// <param name="levelName">The name of the scene we are loading</param>
-		/// <returns></returns>
+		private void InstantLoadLevel(string levelName)
+		{
+			// Unload previous scenes
+			if (currentLevelList.Count != 0)
+			{
+				for (int i = 0; i < currentLevelList.Count; i++)
+					SceneManager.UnloadSceneAsync(currentLevelList[i]);
+				currentLevelList.Clear();
+			}
+
+			// Load new scene immediately
+			SceneManager.LoadScene(levelName, LoadSceneMode.Additive);
+			currentLevelList.Add(levelName);
+		}
+
+		/// <summary>
+		/// Coroutine that loads the scene with a loading screen and delays.
+		/// </summary>
 		private IEnumerator LoadLevel(string levelName)
 		{
 			isLoadingLevel = true;
@@ -44,7 +70,6 @@ namespace Managers
 
 			if (levelName == "TerrainWhitebox")
 			{
-				// Change this condition to the transitions to/from tutorial screen. 
 				yield return new WaitForSecondsRealtime(bufferTime * 2);
 			}
 			else
@@ -84,8 +109,7 @@ namespace Managers
 				// If scene is fully loaded but we haven't activated it yet, wait a bit more
 				if (asyncLoad.progress >= 0.9f)
 				{
-					yield return new WaitForSecondsRealtime(levelName == "TerrainWhitebox" ? 2.5f : 1.5f ); // Artificial delay to let bar reach 100% 
-																											// Change this condition to the transitions to/from tutorial screen as well.
+					yield return new WaitForSecondsRealtime(levelName == "TerrainWhitebox" ? 2.5f : 1.5f); // Artificial delay to let bar reach 100% 
 					asyncLoad.allowSceneActivation = true; // Finally activate the scene
 				}
 
@@ -99,6 +123,5 @@ namespace Managers
 			loadingScreen.LoadProgress.text = "0%";
 			isLoadingLevel = false;
 		}
-
 	}
 }

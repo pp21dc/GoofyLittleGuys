@@ -38,6 +38,9 @@ namespace Managers
 		[SerializeField] private Material outlinedLilGuySpriteMat;
 		[SerializeField] private WaterChangeContainer waterChangeContainer;
 		[SerializeField] private Color[] playerColours;
+		[SerializeField] private Color waterColour;
+		[SerializeField] private Color foamColour;
+		[SerializeField] private Color darkFoamColour;
 		[SerializeField] private float activeLilGuyScaleFactor = 1.1f;
 		[SerializeField] private float nonActiveLilGuyScaleFactor = 0.9f;
 
@@ -96,6 +99,7 @@ namespace Managers
 
 		private void Start()
 		{
+			waterChangeContainer.SwapColors(waterColour, foamColour, darkFoamColour);
 			Time.timeScale = 0;
 			AudioManager.Instance.PlayMusic("GLGMainMenu", phaseAudioSources[0]);
 			if (gameStartTest) EventManager.Instance.GameStartedEvent();
@@ -109,6 +113,8 @@ namespace Managers
 			EventManager.Instance.NotifyGameOver -= QuitGame;
 			SceneManager.sceneLoaded -= OnSceneLoaded;
 		}
+
+		
 
 		private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
 		{
@@ -225,6 +231,7 @@ namespace Managers
 			stormSets.Clear();
 			rankings.Clear();
 			for (int i = 0; i < legendarySpawned.Length; i++) { legendarySpawned[i] = false; }
+			waterChangeContainer.SwapColors(waterColour, foamColour, darkFoamColour);
 			AudioManager.Instance.PlayMusic("GLGMainMenu", phaseAudioSources[0]);
 			phaseAudioSources[2].volume = 0;
 			phaseAudioSources[3].volume = 0;
@@ -367,7 +374,7 @@ namespace Managers
 					HapticFeedback.PlayHapticFeedback(players[i].Controller.GetComponent<PlayerInput>(), legendHaptic.lowFrequency, legendHaptic.highFrequency, legendHaptic.duration);
 				}
 			}
-				
+
 			if (SpawnManager.Instance != null)
 			{
 				SpawnManager.Instance.SpawnLegendaryLilGuy(maxScale, level);
