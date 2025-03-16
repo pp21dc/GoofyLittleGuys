@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 public class Phantaphant : SpeedType
 {
@@ -50,6 +52,17 @@ public class Phantaphant : SpeedType
 		{
 			// Get the latest position of the target right before teleporting
 			Vector3 latestTargetPosition = targetPosition.position;
+			Vector3 direction = (latestTargetPosition - transform.position).normalized;
+			float distance = Vector3.Distance(latestTargetPosition, transform.position);
+			RaycastHit hit;
+
+
+			// Raycast to check if there's an obstacle between current position and predicted position
+			if (Physics.Raycast(transform.position, direction, out hit, distance, LayerMask.GetMask("PitColliders")))
+			{
+				// If there's an obstacle, adjust the teleport position to just before the hit point
+				latestTargetPosition = hit.point - (direction * 1.5f); // Adjusts to be slightly before the wall
+			}
 
 			// Instantly move Phant to the target’s last known position
 			rb.MovePosition(latestTargetPosition);
@@ -177,11 +190,12 @@ public class Phantaphant : SpeedType
 		// No obstacles, return the predicted position
 		return predictedPosition;
 	}
+	#endregion
 
 	private Vector3 PredictFuturePosition(Vector3 currentPos, Vector3 velocity, float timeAhead)
 	{
 		Vector3 futurePos = currentPos + (velocity * timeAhead);
+
 		return futurePos;
 	}
-	#endregion
 }
