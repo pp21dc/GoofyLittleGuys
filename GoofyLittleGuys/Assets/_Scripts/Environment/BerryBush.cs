@@ -1,3 +1,4 @@
+using Managers;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,6 +15,21 @@ public class BerryBush : InteractableBase
 	private bool hasBerries = true;
 	private bool isRegrowing = false;
 
+	private bool swappedLayers = false;
+
+	private void Update()
+	{
+		if (!swappedLayers && !hasBerries)
+		{
+			UpdateLayers();
+			swappedLayers = true;
+		}
+		else if (swappedLayers && hasBerries)
+		{
+			UpdateLayers(true);
+			swappedLayers = false;
+		}
+	}
 	private void OnTriggerStay(Collider other)
 	{
 		PlayerBody playerInRange = other.GetComponent<PlayerBody>();

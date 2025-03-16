@@ -8,6 +8,18 @@ public class HealingFountain : InteractableBase
 {
 	[SerializeField] private Transform spawnPoint;				// The position players should respawn at, should all their lil guys be defeated.
 	List<GameObject> playersInRange = new List<GameObject>();
+
+	private bool swappedLayers = false;
+
+	private void Update()
+	{
+		if (!swappedLayers && GameManager.Instance.CurrentPhase > 1)
+		{
+			UpdateLayers();
+			swappedLayers = true;
+		}
+	}
+
 	private void OnTriggerStay(Collider other)
 	{
 		PlayerBody playerInRange = other.GetComponent<PlayerBody>();

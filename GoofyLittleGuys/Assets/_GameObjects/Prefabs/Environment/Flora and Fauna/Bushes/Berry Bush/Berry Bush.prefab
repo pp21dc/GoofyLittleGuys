@@ -456,7 +456,7 @@ GameObject:
   - component: {fileID: 4848249024906480803}
   - component: {fileID: 8232559997726864292}
   - component: {fileID: 7160421665837856979}
-  m_Layer: 17
+  m_Layer: 0
   m_Name: Berry.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -976,7 +976,7 @@ GameObject:
   - component: {fileID: 7069951121918092494}
   - component: {fileID: 8114760420544649930}
   - component: {fileID: 7918703737228244609}
-  m_Layer: 17
+  m_Layer: 0
   m_Name: Berry.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1508,7 +1508,7 @@ GameObject:
   - component: {fileID: 5671162793437358783}
   - component: {fileID: 5061067949165035153}
   - component: {fileID: 8666048688630221579}
-  m_Layer: 17
+  m_Layer: 0
   m_Name: Berry.008
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1591,7 +1591,7 @@ GameObject:
   - component: {fileID: 5644315207664825863}
   - component: {fileID: 4177914468891715788}
   - component: {fileID: 8571573144166273848}
-  m_Layer: 17
+  m_Layer: 0
   m_Name: Berry
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1674,7 +1674,7 @@ GameObject:
   - component: {fileID: 5812349370726981570}
   - component: {fileID: 1160680131751006188}
   - component: {fileID: 4081369144555873900}
-  m_Layer: 17
+  m_Layer: 0
   m_Name: Berry.011
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1793,7 +1793,7 @@ GameObject:
   - component: {fileID: 6454117329801965537}
   - component: {fileID: 5759140156803284703}
   - component: {fileID: 6262267783980566079}
-  m_Layer: 17
+  m_Layer: 0
   m_Name: Berry.009
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1959,7 +1959,7 @@ GameObject:
   - component: {fileID: 6202958604045629275}
   - component: {fileID: 1915449299531909578}
   - component: {fileID: 7611352541236289239}
-  m_Layer: 17
+  m_Layer: 0
   m_Name: Berry.007
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2336,6 +2336,7 @@ GameObject:
   - component: {fileID: 3437906491635656152}
   - component: {fileID: 7106390630402831499}
   - component: {fileID: 2183427764979797309}
+  - component: {fileID: 754876008029774950}
   m_Layer: 0
   m_Name: Berry Bush
   m_TagString: Untagged
@@ -2400,6 +2401,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactableCanvas: {fileID: 2578001368130528436}
   requiredHoldDuration: 0
+  outlinedObjects:
+  - {fileID: 5582188157596062403}
+  - {fileID: 1035810449843633806}
+  - {fileID: 1047195196710492764}
+  - {fileID: 4478973253158989024}
+  - {fileID: 627265182236853095}
+  - {fileID: 403407520784414351}
+  - {fileID: 3695339638321900991}
+  - {fileID: 121531095211565551}
+  - {fileID: 8755874917521202023}
+  - {fileID: 127874614778686319}
+  - {fileID: 472404114526889028}
+  - {fileID: 7260795420206509590}
+  - {fileID: 7855714562643337544}
   minBerryTime: 45
   maxBerryTime: 45
   numOfBerries: 3
@@ -2428,6 +2443,18 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 1.76
   m_Center: {x: 0, y: 0.56, z: 0}
+--- !u!210 &754876008029774950
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5409308377191545324}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
 --- !u!1 &5497195544124556827
 GameObject:
   m_ObjectHideFlags: 0
@@ -2699,7 +2726,7 @@ GameObject:
   - component: {fileID: 8556468715965000672}
   - component: {fileID: 5041960650501029240}
   - component: {fileID: 8860527410338691853}
-  m_Layer: 17
+  m_Layer: 0
   m_Name: Berry.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8020,7 +8047,7 @@ GameObject:
   - component: {fileID: 7713182459870796337}
   - component: {fileID: 743888311045855261}
   - component: {fileID: 4138300928143282580}
-  m_Layer: 17
+  m_Layer: 0
   m_Name: Berry.010
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8535,7 +8562,7 @@ GameObject:
   - component: {fileID: 6656915535313668099}
   - component: {fileID: 2485078162362465796}
   - component: {fileID: 5302312548784757465}
-  m_Layer: 17
+  m_Layer: 0
   m_Name: Berry.012
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8618,7 +8645,7 @@ GameObject:
   - component: {fileID: 9086778547021355992}
   - component: {fileID: 1648075639007395126}
   - component: {fileID: 4738790852036533586}
-  m_Layer: 17
+  m_Layer: 0
   m_Name: Berry.015
   m_TagString: Untagged
   m_Icon: {fileID: 0}

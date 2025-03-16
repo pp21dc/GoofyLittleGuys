@@ -9,6 +9,20 @@ public class InteractableBase : MonoBehaviour
 	public float requiredHoldDuration = 1f;
 	private Dictionary<PlayerBody, Coroutine> activeHolds = new Dictionary<PlayerBody, Coroutine>();
 
+	[SerializeField] private List<GameObject> outlinedObjects;
+
+
+	protected void UpdateLayers(bool makeOutlined = false)
+	{
+		if (outlinedObjects.Count > 0)
+		{
+			foreach(GameObject obj in outlinedObjects)
+			{
+				obj.layer = makeOutlined ? LayerMask.NameToLayer("OutlineObjects") : LayerMask.NameToLayer("Default");
+			}
+		}
+	}
+
 	/// <summary>
 	/// Called when a player starts interacting.
 	/// </summary>
