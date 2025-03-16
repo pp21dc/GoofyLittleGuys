@@ -32,6 +32,8 @@ public class CharacterSelectMenu : MonoBehaviour
 	[SerializeField] private Slider speedSlider;
 	[SerializeField] private GameObject lockedInPanel;
 	[SerializeField] private AnimationClip[] starterIdleAnims;
+	[SerializeField] private Image[] playerColourIndicators;
+	[SerializeField] private Image[] playerShapeIndicators;
 
 
 	public List<LilGuyBase> starters;                                   // List containing the starters the player can choose from.
@@ -44,11 +46,24 @@ public class CharacterSelectMenu : MonoBehaviour
 	public bool LockedIn { get { return lockedIn; } }
 
 
-	private void Start()
+	private void Update()
 	{
 		
 	}
 
+	public void UpdateColours()
+	{
+		foreach (Image image in playerColourIndicators)
+		{
+			image.color = GameManager.Instance.PlayerColours[player.GetComponent<PlayerController>().PlayerNumber - 1];
+		}
+		foreach (Image image in playerShapeIndicators)
+		{
+			int playerNum = player.GetComponent<PlayerController>().PlayerNumber - 1;
+			image.color = GameManager.Instance.PlayerColours[playerNum];
+			image.sprite = UiManager.Instance.shapes[playerNum];
+		}
+	}
 
 	private void OnDestroy()
 	{
@@ -72,7 +87,7 @@ public class CharacterSelectMenu : MonoBehaviour
 
 		this.player.GetComponent<PlayerController>().HasJoined = true;
 		ResetUI();
-
+		UpdateColours();
 	}
 
 	private void OnNavigated(InputAction.CallbackContext ctx)

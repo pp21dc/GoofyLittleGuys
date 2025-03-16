@@ -61,12 +61,13 @@ public class CharacterSelectHandler : MonoBehaviour
 			int playerIndex = GameManager.Instance.Players.Find(b => b == player.GetComponentInChildren<PlayerBody>()).Controller.PlayerNumber;
 			DebugManager.Log(playerIndex.ToString());
 			HapticFeedback.PlayJoinHaptics(player, playerIndex);
+			charSelectUnits[i].GetComponent<CharacterSelectMenu>().UpdateColours();
 		}
 	}
 
 	public void LeaveAllPlayers()
 	{
-		for(int i = GameManager.Instance.Players.Count - 1; i >= 0; i--)
+		for (int i = GameManager.Instance.Players.Count - 1; i >= 0; i--)
 		{
 			//Destroy(charSelectUnits[i].gameObject);
 			//Destroy(GameManager.Instance.Players[i].Controller.gameObject);

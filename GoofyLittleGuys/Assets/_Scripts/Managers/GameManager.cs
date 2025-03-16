@@ -69,6 +69,7 @@ namespace Managers
 		[SerializeField] private LayerMask phase2LayerMask;
 		private LayerMask currentLayerMask;
 
+		public Color[] PlayerColours => playerColours;
 		public bool IsPaused { get { return isPaused; } set { isPaused = value; } }
 		public bool StartGame { get => startGame; set => startGame = value; }
 		public Transform FountainSpawnPoint { get { return fountainSpawnPoint; } set { fountainSpawnPoint = value; } }
