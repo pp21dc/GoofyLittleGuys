@@ -77,6 +77,7 @@ public class WildBehaviour : MonoBehaviour
 	private float stuckTimer = 0f;
 	[SerializeField] private float stuckThreshold = 1.5f; // Seconds before considering stuck
 	[SerializeField] private float minMoveDistance = 0.5f; // Distance AI must move to not be considered stuck
+	[SerializeField] private GameObject legendaryIcon; // Distance AI must move to not be considered stuck
 
 	private void Start()
 	{
@@ -97,6 +98,7 @@ public class WildBehaviour : MonoBehaviour
 
 	private void Update()
 	{
+		legendaryIcon.SetActive(!isCatchable);
 		// Reset attack buffer on AI.
 		if (attackTime > 0) attackTime -= Time.deltaTime;
 
