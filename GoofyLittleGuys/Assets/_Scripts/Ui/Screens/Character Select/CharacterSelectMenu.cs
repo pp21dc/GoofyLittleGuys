@@ -70,7 +70,7 @@ public class CharacterSelectMenu : MonoBehaviour
 		this.player.actions["Navigate"].performed += OnNavigated;
 		this.player.actions["Submit"].performed += OnSubmitted;
 
-		this.player.GetComponent<PlayerController>().HasJoined = false;
+		this.player.GetComponent<PlayerController>().HasJoined = true;
 		ResetUI();
 
 	}
@@ -78,6 +78,7 @@ public class CharacterSelectMenu : MonoBehaviour
 	private void OnNavigated(InputAction.CallbackContext ctx)
 	{
 		if (lockedIn) return;
+		if (!ctx.performed) return;
 		Vector2 input = ctx.ReadValue<Vector2>();
 		if (input.x < 0)
 		{
@@ -100,6 +101,7 @@ public class CharacterSelectMenu : MonoBehaviour
 	/// <param name="ctx"></param>
 	private void OnSubmitted(InputAction.CallbackContext ctx)
 	{
+		if (!ctx.performed) return;
 		if (currentState == CharacterSelectState.LockedIn && CheckIfValidGameStart())
 		{
 			// If we are in the locked in state and every other player is locked in, we can start the game!
@@ -141,6 +143,10 @@ public class CharacterSelectMenu : MonoBehaviour
 						Destroy(p.Controller.gameObject);
 					}
 					GameManager.Instance.Players.Clear();
+
+					player.actions["Cancel"].performed -= OnCancelled;
+					player.actions["Navigate"].performed -= OnNavigated;
+					player.actions["Submit"].performed -= OnSubmitted;
 					LevelLoadManager.Instance.LoadNewLevel("00_MainMenu");
 				}
 				MultiplayerManager.Instance.LeavePlayer(player);
