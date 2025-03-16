@@ -48,27 +48,25 @@ namespace Managers
 		public void OnPlayerJoined(PlayerInput input)
 		{
 			if (!canJoinLeave) return;
-			// Add the player to the game and manually assign the control scheme later
+
+			// Otherwise, process the new player normally
 			GameManager.Instance.Players.Add(input.GetComponentInChildren<PlayerBody>());
 			input.GetComponent<PlayerController>().PlayerNumber = GameManager.Instance.Players.Count;
 			characterSelectScreen.OnPlayerJoin(input);
-
 			input.GetComponent<PlayerController>().UpdateCullLayer();
-			// Switch control scheme after setup to avoid conflicts
-
 		}
 
 		/// <summary>
 		/// Method called from PlayerController.cs when the player presses the leave game input.
 		/// </summary>
 		/// <param name="player">The player that pressed leave</param>
-		public void LeavePlayer(PlayerInput player)
+		public void LeavePlayer(PlayerInput player, bool faultyJoin = false)
 		{
 			if (!canJoinLeave) return;
 			if (PlayerInput.all.Contains(player))
 			{
 				PlayerBody playerToRemove = player.GetComponentInChildren<PlayerBody>();
-				characterSelectScreen.OnPlayerLeft(player);
+				characterSelectScreen.OnPlayerLeft(player, faultyJoin);
 				// If this player exists in the list of players, remove them and adjust the screens.
 			}
 

@@ -632,6 +632,16 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1079232838886079137, guid: 8fa8620f9acdebf4d9874c17dbc0f077,
         type: 3}
+      propertyPath: m_JoinBehavior
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1079232838886079137, guid: 8fa8620f9acdebf4d9874c17dbc0f077,
+        type: 3}
+      propertyPath: m_JoinAction.m_UseReference
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1079232838886079137, guid: 8fa8620f9acdebf4d9874c17dbc0f077,
+        type: 3}
       propertyPath: m_PlayerJoinedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OnPlayerJoined
       objectReference: {fileID: 0}
@@ -2027,7 +2037,7 @@ MonoBehaviour:
     enabled: 0
     logLevelFilter: 0
   - category: 6
-    enabled: 0
+    enabled: 1
     logLevelFilter: 0
   - category: 8
     enabled: 1
@@ -2374,11 +2384,6 @@ PrefabInstance:
       propertyPath: gameTimer
       value: 
       objectReference: {fileID: 7402784225320159756}
-    - target: {fileID: 1970606836446198798, guid: de1849616cf5e6e41990742051e315c8,
-        type: 3}
-      propertyPath: stormTimer
-      value: 15
-      objectReference: {fileID: 0}
     - target: {fileID: 1970606836446198798, guid: de1849616cf5e6e41990742051e315c8,
         type: 3}
       propertyPath: timerCanvas

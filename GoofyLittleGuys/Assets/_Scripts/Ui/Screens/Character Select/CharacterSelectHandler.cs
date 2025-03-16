@@ -33,7 +33,7 @@ public class CharacterSelectHandler : MonoBehaviour
 		UpdateGridLayout();
 	}
 
-	public void OnPlayerLeft(PlayerInput input)
+	public void OnPlayerLeft(PlayerInput input, bool faultyJoin = false)
 	{
 		for (int i = charSelectUnits.Count - 1; i >= 0; i--)
 		{
@@ -53,6 +53,7 @@ public class CharacterSelectHandler : MonoBehaviour
 		}
 		UpdateGridLayout();
 
+		if (faultyJoin) return;
 		// Send haptic feedback to ALL remaining players since positions shift
 		for (int i = 0; i < charSelectUnits.Count; i++)
 		{

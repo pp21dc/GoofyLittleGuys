@@ -49,6 +49,7 @@ public class CharacterSelectMenu : MonoBehaviour
 		
 	}
 
+
 	private void OnDestroy()
 	{
 		if (player == null) return;
@@ -129,15 +130,10 @@ public class CharacterSelectMenu : MonoBehaviour
 	private void OnCancelled(InputAction.CallbackContext ctx)
 	{
 		if (!ctx.performed) return;
-		if (!player.GetComponent<PlayerController>().HasJoined)
-		{
-			player.GetComponent<PlayerController>().HasJoined = true;
-			return;
-		}
 		switch (currentState)
 		{
 			case CharacterSelectState.CharacterSelect:
-				MultiplayerManager.Instance.LeavePlayer(player);
+				DebugManager.Log(player.name + "is leaving the game.", DebugManager.DebugCategory.INPUT, DebugManager.LogLevel.LOG);				
 				if (GameManager.Instance.Players.Count == 1)
 				{
 					foreach (var p in GameManager.Instance.Players)
@@ -147,6 +143,7 @@ public class CharacterSelectMenu : MonoBehaviour
 					GameManager.Instance.Players.Clear();
 					LevelLoadManager.Instance.LoadNewLevel("00_MainMenu");
 				}
+				MultiplayerManager.Instance.LeavePlayer(player);
 				break;
 
 			case CharacterSelectState.LockedIn:
