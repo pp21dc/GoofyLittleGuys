@@ -182,6 +182,11 @@ public abstract class LilGuyBase : MonoBehaviour
 		transform.localScale = scaleTo; // Ensure the final scale is applied
 	}
 	public void DetermineLevel()
+	{		
+		SetWildLilGuyLevel(GetAverageLevel());
+	}
+
+	private int GetAverageLevel()
 	{
 		int count = 0;
 		int totalLevels = 0;
@@ -194,10 +199,8 @@ public abstract class LilGuyBase : MonoBehaviour
 			}
 		}
 
-		int averageLevel = Mathf.FloorToInt(totalLevels / count);
-		SetWildLilGuyLevel(averageLevel);
+		return Mathf.FloorToInt(totalLevels / count);
 	}
-
 	public void CreateLegendary(float maxScale, int level)
 	{
 		transform.localScale = Vector3.one * maxScale;
@@ -777,14 +780,31 @@ public abstract class LilGuyBase : MonoBehaviour
 		lockMovement = false;
 	}
 
+	public void UpdateLevel()
+	{
+		int averageLevel = GetAverageLevel();
+		averageLevel -= 1;
+
+		int numLevelUps = averageLevel - level;
+		if (numLevelUps > 0)
+		{
+			for(int i = 0; i < numLevelUps; i++)
+			{
+				LevelUp(false);
+			}
+		}
+	}
 
 	/// <summary>
 	/// Add the stats of a given lil guy to this lil guy
 	/// </summary>
-	private void LevelUp()
+	private void LevelUp(bool playerLevelUp = true)
 	{
-		levelUpEffect = Instantiate(FXManager.Instance.GetEffect("LevelUp"), transform.position + Vector3.forward + Vector3.up * 0.25f, Quaternion.identity, transform);
-		PlayEffectSound(levelUpEffect, "Level_Up");
+		if (playerLevelUp)
+		{
+			levelUpEffect = Instantiate(FXManager.Instance.GetEffect("LevelUp"), transform.position + Vector3.forward + Vector3.up * 0.25f, Quaternion.identity, transform);
+			PlayEffectSound(levelUpEffect, "Level_Up");
+		}		
 		if (level % 5 == 0)
 		{
 			Strength += milestonePoints;

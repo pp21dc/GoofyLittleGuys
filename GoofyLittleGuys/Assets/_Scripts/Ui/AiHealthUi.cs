@@ -106,7 +106,7 @@ public class AiHealthUi : MonoBehaviour
 	/// <summary>
 	/// Updates the text label with the current health value
 	/// </summary>
-	private void UpdateUI()
+	public void UpdateUI()
 	{
 		healthText.text = $"{lilGuy.Health}/{lilGuy.MaxHealth}";
 		levelText.text = $"Lv. {lilGuy.Level}";

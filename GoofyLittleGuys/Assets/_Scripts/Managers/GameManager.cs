@@ -15,6 +15,9 @@ namespace Managers
 		private enum TimerState { LegendaryOneApproaching, LegendaryTwoApproaching, LegendaryThreeApproaching, StormApproaching, NextStorm }
 		[SerializeField] private TimerState currentTimerState = TimerState.LegendaryOneApproaching;
 		[SerializeField] private bool gameStartTest = true;             // TEST BOOL FOR DESIGNERS TO PLAY THE GAME WITHOUT GOING INTO PERSISTENT ALL THE TIME
+		[SerializeField] private float wildLilGuyLevelUpdateTick = 5;
+
+		public float WildLilGuyLevelUpdateTick => wildLilGuyLevelUpdateTick;
 
 		[SerializeField] private List<PlayerSpawnPoint> spawnPoints;
 		[SerializeField] private List<HapticEvent> hapticEvents;

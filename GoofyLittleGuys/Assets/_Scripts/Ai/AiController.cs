@@ -19,6 +19,8 @@ public class AiController : MonoBehaviour
 	private CanvasGroup healthUi;
 	[SerializeField] private AiHealthUi healthBars;
 
+	public AiHealthUi HealthBars => healthBars;
+
 	private Vector3 originalSpawnPosition = Vector3.zero;
 	private Transform followPosition;                           // The transform of the closest player to this AI
 	private LilGuyBase lilGuy;                          // Reference to this AI's stats

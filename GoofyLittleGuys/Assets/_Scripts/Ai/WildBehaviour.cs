@@ -66,6 +66,8 @@ public class WildBehaviour : MonoBehaviour
 	private float nextWanderTime = -1f;
 	private bool isIdle = false;
 	private bool returnHome = false;
+
+	private float levelUpdateTimer = 0;
 	GameObject faintedEffect;
 	public SpawnerObj HomeSpawner { get { return homeSpawner; } set { homeSpawner = value; } }
 	public float Charisma => charisma;
@@ -98,6 +100,15 @@ public class WildBehaviour : MonoBehaviour
 
 	private void Update()
 	{
+		if (isCatchable)
+		{
+			if (levelUpdateTimer <= GameManager.Instance.WildLilGuyLevelUpdateTick) levelUpdateTimer += Time.deltaTime;
+			else
+			{
+				controller.LilGuy.UpdateLevel();
+				controller.HealthBars.UpdateUI();
+			}
+		}
 		legendaryIcon.SetActive(!isCatchable);
 		// Reset attack buffer on AI.
 		if (attackTime > 0) attackTime -= Time.deltaTime;
@@ -150,7 +161,7 @@ public class WildBehaviour : MonoBehaviour
 
 	private void FixedUpdate()
 	{
-		
+
 
 		switch (currentState)
 		{
