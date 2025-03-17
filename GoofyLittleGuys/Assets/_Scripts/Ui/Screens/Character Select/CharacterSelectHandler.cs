@@ -48,8 +48,9 @@ public class CharacterSelectHandler : MonoBehaviour
 				GameManager.Instance.Players.RemoveAt(i);
 				for (int j = i; j < GameManager.Instance.Players.Count; j++)
 				{
+					UISelector selector = charSelectors[j].GetComponent<UISelector>();
 					GameManager.Instance.Players[j].Controller.PlayerNumber -= 1;
-					charSelectors[j].GetComponent<UISelector>().UpdateColours();
+					selector.UpdateColours();
 				}
 				charSelectors.RemoveAt(i);
 				Destroy(menuToRemove);
@@ -67,7 +68,8 @@ public class CharacterSelectHandler : MonoBehaviour
 			
 			PlayerInput player = charSelectors[i].GetComponent<UISelector>().Player;
 			int playerIndex = GameManager.Instance.Players.Find(b => b == player.GetComponentInChildren<PlayerBody>()).Controller.PlayerNumber;
-			lilGuySelectorParents[characterSelector.GetComponent<UISelector>().CurrentStarterIndex].SetSelectorContainer(charSelectors[i], playerIndex - 1);
+
+			lilGuySelectorParents[charSelectors[i].GetComponent<UISelector>().CurrentStarterIndex].SetSelectorContainer(charSelectors[i], playerIndex - 1);
 			DebugManager.Log(playerIndex.ToString());
 			HapticFeedback.PlayJoinHaptics(player, playerIndex);
 			charSelectors[i].GetComponent<UISelector>().UpdateColours();

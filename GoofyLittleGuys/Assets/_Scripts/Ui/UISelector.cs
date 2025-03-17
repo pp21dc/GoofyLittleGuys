@@ -36,6 +36,7 @@ public class UISelector : MonoBehaviour
 
 	private PlayerCard card;
 	public PlayerInput Player => player;
+	public PlayerController Controller => controller;
 
 	public int CurrentStarterIndex => currStarterIndex;
 	public bool LockedIn { get { return lockedIn; } }
