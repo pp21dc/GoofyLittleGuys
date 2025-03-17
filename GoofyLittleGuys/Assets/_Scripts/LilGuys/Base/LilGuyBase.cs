@@ -707,6 +707,9 @@ public abstract class LilGuyBase : MonoBehaviour
 	{
 		if (isDead) return;
 		if (playerOwner == null) StopChargingSpecial();
+
+		if (playerOwner)
+			EventManager.Instance.StartAbilityCooldown(playerOwner.PlayerUI, cooldownDuration);
 	}
 
 	public virtual void StopChargingSpecial()
@@ -737,12 +740,7 @@ public abstract class LilGuyBase : MonoBehaviour
 				anim.SetTrigger("SpecialAttack");
 			}
 		}
-
-		if (playerOwner != null)
-		{
-			playerOwner.GameplayStats.SpecialsUsed++; 
-			EventManager.Instance.StartAbilityCooldown(playerOwner.PlayerUI, cooldownDuration);
-		}
+		if (playerOwner != null) playerOwner.GameplayStats.SpecialsUsed++;
 		OnEndSpecial();
 	}
 
