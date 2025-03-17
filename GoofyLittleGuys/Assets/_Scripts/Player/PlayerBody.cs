@@ -271,6 +271,7 @@ public class PlayerBody : MonoBehaviour
 	private void StopHitStun()
 	{
 		hitStunSlowMult = 1.0f;
+		lilGuyTeam[0].Animator.speed = 1.0f;
 		if (hitstunCoroutine != null) StopCoroutine(hitstunCoroutine);
 	}
 
