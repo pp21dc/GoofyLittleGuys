@@ -515,6 +515,7 @@ public class PlayerBody : MonoBehaviour
 		if (isSwapping || lilGuyTeam.Count <= 1 || activeLilGuy.IsInSpecialAttack) return;
 		if (Time.time < nextSwapTime) return;
 		isSwapping = true;
+		StopHitStun();
 		GameplayStats.SwapCount++;
 		List<LilGuyBase> aliveTeam = lilGuyTeam.Where(guy => guy.Health > 0).ToList();
 		if (aliveTeam.Count <= 1)
