@@ -969,6 +969,34 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 }
             ]
+        },
+        {
+            ""name"": ""Joining"",
+            ""id"": ""d1074e37-0f10-4573-8ad0-d581e5cb0319"",
+            ""actions"": [
+                {
+                    ""name"": ""New action"",
+                    ""type"": ""Button"",
+                    ""id"": ""709b31c2-c494-46de-8336-25b32d63c99d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""b4fdcd7e-3df1-4e3b-b4fa-5f4d358bbc70"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""New action"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -1013,6 +1041,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_World_ShowTeamUI = m_World.FindAction("ShowTeamUI", throwIfNotFound: true);
         m_World_UseBerry = m_World.FindAction("UseBerry", throwIfNotFound: true);
         m_World_SpectatorUpDown = m_World.FindAction("SpectatorUpDown", throwIfNotFound: true);
+        // Joining
+        m_Joining = asset.FindActionMap("Joining", throwIfNotFound: true);
+        m_Joining_Newaction = m_Joining.FindAction("New action", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1250,6 +1281,52 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         }
     }
     public WorldActions @World => new WorldActions(this);
+
+    // Joining
+    private readonly InputActionMap m_Joining;
+    private List<IJoiningActions> m_JoiningActionsCallbackInterfaces = new List<IJoiningActions>();
+    private readonly InputAction m_Joining_Newaction;
+    public struct JoiningActions
+    {
+        private @PlayerInputActions m_Wrapper;
+        public JoiningActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Newaction => m_Wrapper.m_Joining_Newaction;
+        public InputActionMap Get() { return m_Wrapper.m_Joining; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(JoiningActions set) { return set.Get(); }
+        public void AddCallbacks(IJoiningActions instance)
+        {
+            if (instance == null || m_Wrapper.m_JoiningActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_JoiningActionsCallbackInterfaces.Add(instance);
+            @Newaction.started += instance.OnNewaction;
+            @Newaction.performed += instance.OnNewaction;
+            @Newaction.canceled += instance.OnNewaction;
+        }
+
+        private void UnregisterCallbacks(IJoiningActions instance)
+        {
+            @Newaction.started -= instance.OnNewaction;
+            @Newaction.performed -= instance.OnNewaction;
+            @Newaction.canceled -= instance.OnNewaction;
+        }
+
+        public void RemoveCallbacks(IJoiningActions instance)
+        {
+            if (m_Wrapper.m_JoiningActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IJoiningActions instance)
+        {
+            foreach (var item in m_Wrapper.m_JoiningActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_JoiningActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public JoiningActions @Joining => new JoiningActions(this);
     private int m_GamepadSchemeIndex = -1;
     public InputControlScheme GamepadScheme
     {
@@ -1286,5 +1363,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnShowTeamUI(InputAction.CallbackContext context);
         void OnUseBerry(InputAction.CallbackContext context);
         void OnSpectatorUpDown(InputAction.CallbackContext context);
+    }
+    public interface IJoiningActions
+    {
+        void OnNewaction(InputAction.CallbackContext context);
     }
 }

@@ -8,12 +8,88 @@ using UnityEngine.UI;
 
 public class CharacterSelectHandler : MonoBehaviour
 {
+	[SerializeField] private GameObject characterSelector;
+	[SerializeField] private GameObject characterSelectorParent;
+	[SerializeField] private List<GameObject> charSelectors;
+	[SerializeField] private GameObject tutorialUi;
+	[SerializeField] private Transform[] lilGuySelectorParents;
+	[SerializeField] private PlayerCard[] playerCards;
+
+	public PlayerCard[] PlayerCards => playerCards;
+	public List<LilGuyBase> starters;                                   // List containing the starters the player can choose from.
+	public Transform[] LilGuySelectorParents => lilGuySelectorParents;
+
+	private void Awake()
+	{
+		MultiplayerManager.Instance.CharacterSelectScreen = this;
+	}
+
+	public void OnPlayerJoin(PlayerInput input)
+	{
+		tutorialUi.SetActive(false);
+		GameObject charSelector = Instantiate(characterSelector, lilGuySelectorParents[0].transform);
+		charSelector.GetComponent<UISelector>().SetPlayer(input, this);
+		charSelectors.Add(charSelector);
+
+		int playerIndex = GameManager.Instance.Players.Find(b => b == input.GetComponentInChildren<PlayerBody>()).Controller.PlayerNumber;
+		DebugManager.Log(playerIndex.ToString());
+		// Send haptic feedback only to the new player
+		HapticFeedback.PlayJoinHaptics(input, playerIndex);
+	}
+
+	public void OnPlayerLeft(PlayerInput input, bool faultyJoin = false)
+	{
+		for (int i = charSelectors.Count - 1; i >= 0; i--)
+		{
+			if (charSelectors[i].GetComponent<UISelector>().Player == input)
+			{
+				GameObject menuToRemove = charSelectors[i];
+				GameManager.Instance.Players.RemoveAt(i);
+				for (int j = i; j < GameManager.Instance.Players.Count; j++)
+				{
+					GameManager.Instance.Players[j].Controller.PlayerNumber -= 1;
+					charSelectors[j].GetComponent<UISelector>().UpdateColours();
+				}
+				charSelectors.RemoveAt(i);
+				Destroy(menuToRemove);
+				Destroy(input.gameObject);
+				break;
+			}
+		}
+
+		playerCards[charSelectors.Count].UpdateState(CharacterSelectState.Disconnected);
+
+		if (faultyJoin) return;
+		// Send haptic feedback to ALL remaining players since positions shift
+		for (int i = 0; i < charSelectors.Count; i++)
+		{
+			PlayerInput player = charSelectors[i].GetComponent<UISelector>().Player;
+			int playerIndex = GameManager.Instance.Players.Find(b => b == player.GetComponentInChildren<PlayerBody>()).Controller.PlayerNumber;
+			DebugManager.Log(playerIndex.ToString());
+			HapticFeedback.PlayJoinHaptics(player, playerIndex);
+			charSelectors[i].GetComponent<UISelector>().UpdateColours();
+		}
+	}
+
+
+	public bool AllPlayersLockedIn()
+	{
+		foreach (GameObject menu in charSelectors)
+		{
+			if (!menu.GetComponent<UISelector>().LockedIn) return false;
+		}
+		return true;
+	}
+
+	#region Old Character Select
+	/*
 	[SerializeField] private GameObject characterSelectUnit;
 	[SerializeField] private GridLayoutGroup gridLayout;
 
 	[SerializeField] private List<GameObject> charSelectUnits;
 	[SerializeField] private GameObject tutorialUi;
 
+	
 	private void Awake()
 	{
 		MultiplayerManager.Instance.CharacterSelectScreen = this;
@@ -97,5 +173,6 @@ public class CharacterSelectHandler : MonoBehaviour
 				gridLayout.cellSize = new Vector2(960, 540);
 				break;
 		}
-	}
+	}*/
+	#endregion
 }

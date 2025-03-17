@@ -947,6 +947,34 @@
                     "isPartOfComposite": true
                 }
             ]
+        },
+        {
+            "name": "Joining",
+            "id": "d1074e37-0f10-4573-8ad0-d581e5cb0319",
+            "actions": [
+                {
+                    "name": "New action",
+                    "type": "Button",
+                    "id": "709b31c2-c494-46de-8336-25b32d63c99d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "b4fdcd7e-3df1-4e3b-b4fa-5f4d358bbc70",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "New action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [

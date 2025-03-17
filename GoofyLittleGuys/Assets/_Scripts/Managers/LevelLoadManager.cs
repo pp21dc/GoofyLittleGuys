@@ -15,6 +15,7 @@ namespace Managers
 		private float bufferTime = 1.5f;
 		private bool firstLoad = true; // Track if it's the first load
 
+		public bool IsLoadingLevel => isLoadingLevel;
 		private void Start()
 		{
 			LoadNewLevel("00_MainMenu");

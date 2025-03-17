@@ -8,233 +8,235 @@ using Managers;
 
 public class PlayerUi : MonoBehaviour
 {
-    List<LilGuyPopout> popouts;
+	List<LilGuyPopout> popouts;
 
-    [SerializeField] GameObject panel;
-    [SerializeField] Slider persistentHealthBar;
-    [SerializeField] Image persistentIcon;
-    [SerializeField] Image persistentAbilityIcon;
-    [SerializeField] TMP_Text berryCountText;
-    [SerializeField] TMP_Text berryCooldownTime;
-    [SerializeField] Image berryCooldownSlider;
+	[SerializeField] GameObject panel;
+	[SerializeField] Slider persistentHealthBar;
+	[SerializeField] Image persistentIcon;
+	[SerializeField] Image persistentAbilityIcon;
+	[SerializeField] TMP_Text berryCountText;
+	[SerializeField] TMP_Text berryCooldownTime;
+	[SerializeField] Image berryCooldownSlider;
 
-    [SerializeField] PlayerBody pb;
+	[SerializeField] PlayerBody pb;
 
-    TMP_Text STR_Txt;
-    TMP_Text SPD_Txt;
-    TMP_Text DEF_Txt;
-    [SerializeField] TMP_Text LVL_Txt;
-    TMP_Text HP_Txt;
+	TMP_Text STR_Txt;
+	TMP_Text SPD_Txt;
+	TMP_Text DEF_Txt;
+	[SerializeField] TMP_Text LVL_Txt;
+	TMP_Text HP_Txt;
 
-    [SerializeField] GameObject berryCountTxt;
-    [SerializeField] GameObject berryCooldownTxt;
+	[SerializeField] GameObject berryCountTxt;
+	[SerializeField] GameObject berryCooldownTxt;
 
-    [SerializeField] GameObject LBIcon;
-    [SerializeField] GameObject RBIcon;
-    [SerializeField] Image CurrentCharacter;
-    [SerializeField] Image LBCharacter;
-    [SerializeField] Image RBCharacter;
+	[SerializeField] GameObject LBIcon;
+	[SerializeField] GameObject RBIcon;
+	[SerializeField] Image CurrentCharacter;
+	[SerializeField] Image LBCharacter;
+	[SerializeField] Image RBCharacter;
 
-    [SerializeField] Image AbilityIcon;
-    [SerializeField] Image abilityCooldownTimer;
-    [SerializeField] TMP_Text abilityCooldownText;
+	[SerializeField] Image AbilityIcon;
+	[SerializeField] Image abilityCooldownTimer;
+	[SerializeField] TMP_Text abilityCooldownText;
 
-    [SerializeField] Slider XP_Slider;
-    TMP_Text levelHPBar;
+	[SerializeField] Slider XP_Slider;
+	TMP_Text levelHPBar;
 
-    [SerializeField] List<Sprite> iconSprites;
-    [SerializeField] List<Sprite> abilitySprites;
+	[SerializeField] List<Sprite> iconSprites;
+	[SerializeField] List<Sprite> abilitySprites;
 
-    [SerializeField] GameObject tempWinText;
+	[SerializeField] GameObject tempWinText;
 
-    [SerializeField] VictoryAnimationPlay victoryAnim;
-    [SerializeField] GameObject victoryObject;
+	[SerializeField] VictoryAnimationPlay victoryAnim;
+	[SerializeField] GameObject victoryObject;
 
-    [SerializeField] GameObject respawnScreen;
-    enum LilGuys
-    {
-        Teddy,
-        Spricket,
-        Armordillo,
-        Phant,
-        Fishbowl,
-        Turterium,
-        Mousecar,
-        Toadstool,
-        Tricerabox
-    }
-    public GameObject TempWinText { get => tempWinText; set => tempWinText = value; }
-    public RectTransform mirroredXUi; // Assign this in the inspector
+	[SerializeField] GameObject respawnScreen;
+	enum LilGuys
+	{
+		Teddy,
+		Spricket,
+		Armordillo,
+		Phant,
+		Fishbowl,
+		Turterium,
+		Mousecar,
+		Toadstool,
+		Tricerabox
+	}
+	public GameObject TempWinText { get => tempWinText; set => tempWinText = value; }
+	public RectTransform mirroredXUi; // Assign this in the inspector
 
-    private void Start()
-    {
-        EventManager.Instance.NotifyStartAbilityCooldown += SetCooldownIndicator;
-        EventManager.Instance.NotifyUiSwap += RefreshIcons;
+	private void Start()
+	{
+		EventManager.Instance.NotifyStartAbilityCooldown += SetCooldownIndicator;
+		EventManager.Instance.NotifyUiSwap += RefreshIcons;
+	}
 
-        if (GameManager.Instance.Players.Count % 2 == 0)
-        {
-			if (pb.Equals(GameManager.Instance.Players[1]) || pb.Equals(GameManager.Instance.Players[3]))
-			{
-				FlipUi();
-				panel.transform.localScale = new Vector3(-1, 1, 1);
-			}
+	public void MirrorUI(bool shouldMirror)
+	{
+
+		if (shouldMirror)
+		{
+			FlipUi();
+			panel.transform.localScale = new Vector3(-1, 1, 1);
 		}
-    }
 
-    private void Update()
+	}
+
+	private void Update()
 	{
 		if (pb.LilGuyTeam.Count <= 0) return;
 		XP_Slider.maxValue = pb.LilGuyTeam[0].MaxXp;
-        XP_Slider.value = pb.LilGuyTeam[0].Xp;
-        LVL_Txt.text = pb.LilGuyTeam[0].Level.ToString();
+		XP_Slider.value = pb.LilGuyTeam[0].Xp;
+		LVL_Txt.text = pb.LilGuyTeam[0].Level.ToString();
 
-        if (pb.NextBerryUseTime > 0)
-        {
+		if (pb.NextBerryUseTime > 0)
+		{
 			berryCooldownTime.text = pb.NextBerryUseTime.ToString("0.0");
 			berryCooldownSlider.fillAmount = pb.NextBerryUseTime / pb.BerryCooldown;
-            berryCooldownTime.enabled = true;
+			berryCooldownTime.enabled = true;
 		}
-        else
-        {
-            berryCooldownSlider.fillAmount = 0;
-            berryCooldownTime.enabled = false;
-        }
-        //  STR_Txt.text = "STR: " + pb.LilGuyTeam[0].Strength.ToString();
-        //  SPD_Txt.text = "SPD: " + pb.LilGuyTeam[0].Speed.ToString();
-        //  DEF_Txt.text = "DEF: " + pb.LilGuyTeam[0].Defense.ToString();
-        LVL_Txt.text = pb.LilGuyTeam[0].Level.ToString();
-        //  HP_Txt.text = "HP: " + pb.LilGuyTeam[0].Health.ToString() + " / " + pb.LilGuyTeam[0].MaxHealth.ToString();
-        XP_Slider.maxValue = pb.LilGuyTeam[0].MaxXp;
-        XP_Slider.value = pb.LilGuyTeam[0].Xp;
+		else
+		{
+			berryCooldownSlider.fillAmount = 0;
+			berryCooldownTime.enabled = false;
+		}
+		//  STR_Txt.text = "STR: " + pb.LilGuyTeam[0].Strength.ToString();
+		//  SPD_Txt.text = "SPD: " + pb.LilGuyTeam[0].Speed.ToString();
+		//  DEF_Txt.text = "DEF: " + pb.LilGuyTeam[0].Defense.ToString();
+		LVL_Txt.text = pb.LilGuyTeam[0].Level.ToString();
+		//  HP_Txt.text = "HP: " + pb.LilGuyTeam[0].Health.ToString() + " / " + pb.LilGuyTeam[0].MaxHealth.ToString();
+		XP_Slider.maxValue = pb.LilGuyTeam[0].MaxXp;
+		XP_Slider.value = pb.LilGuyTeam[0].Xp;
 
-        if (pb.Controller.PlayerCam != null && mirroredXUi != null)
-        {
-            // Check if the camera's x position in the viewport is less than 0.5
-            if (pb.Controller.PlayerCam.rect.x < 0.5f)
-            {
-                // Anchor UI to the upper left
-                mirroredXUi.anchorMin = new Vector2(0, 1); // Upper left corner
-                mirroredXUi.anchorMax = new Vector2(0, 1); // Upper left corner
-                mirroredXUi.anchoredPosition = Vector2.zero; // Position at (0,0)
-                mirroredXUi.pivot = new Vector2(0, 1); // Upper left corner
-            }
-            else
-            {
-                // Anchor UI to the upper right
-                mirroredXUi.anchorMin = new Vector2(1, 1); // Upper right corner
-                mirroredXUi.anchorMax = new Vector2(1, 1); // Upper right corner
-                mirroredXUi.anchoredPosition = Vector2.zero;
-                mirroredXUi.pivot = new Vector2(1, 1); // Upper right corner
-            }
-        }
+		if (pb.Controller.PlayerCam != null && mirroredXUi != null)
+		{
+			// Check if the camera's x position in the viewport is less than 0.5
+			if (pb.Controller.PlayerCam.rect.x < 0.5f)
+			{
+				// Anchor UI to the upper left
+				mirroredXUi.anchorMin = new Vector2(0, 1); // Upper left corner
+				mirroredXUi.anchorMax = new Vector2(0, 1); // Upper left corner
+				mirroredXUi.anchoredPosition = Vector2.zero; // Position at (0,0)
+				mirroredXUi.pivot = new Vector2(0, 1); // Upper left corner
+			}
+			else
+			{
+				// Anchor UI to the upper right
+				mirroredXUi.anchorMin = new Vector2(1, 1); // Upper right corner
+				mirroredXUi.anchorMax = new Vector2(1, 1); // Upper right corner
+				mirroredXUi.anchoredPosition = Vector2.zero;
+				mirroredXUi.pivot = new Vector2(1, 1); // Upper right corner
+			}
+		}
 
-        if (Input.GetKeyDown("k")) { VictoryAnimPlay(); }
-                
-    }
-    private void RefreshIcons(PlayerUi playerUi, float swapDirection)
-    {
+		if (Input.GetKeyDown("k")) { VictoryAnimPlay(); }
+
+	}
+	private void RefreshIcons(PlayerUi playerUi, float swapDirection)
+	{
 		Managers.DebugManager.Log("Swap Direction: " + swapDirection, DebugManager.DebugCategory.UI);
-        if(playerUi == this)
-        {
-            SetIcons();
-        }
-    }
+		if (playerUi == this)
+		{
+			SetIcons();
+		}
+	}
 
-    private void SetIcons()
-    {
-        CurrentCharacter.sprite = pb.LilGuyTeam[0].Icon;
-        AbilityIcon.sprite = pb.LilGuyTeam[0].AbilityIcon;
-        if (pb.LilGuyTeam.Count > 1)
-            RBCharacter.sprite = pb.LilGuyTeam[1].Icon;
-        if (pb.LilGuyTeam.Count > 2)
-            LBCharacter.sprite = pb.LilGuyTeam[2].Icon;
-    }
+	private void SetIcons()
+	{
+		CurrentCharacter.sprite = pb.LilGuyTeam[0].Icon;
+		AbilityIcon.sprite = pb.LilGuyTeam[0].AbilityIcon;
+		if (pb.LilGuyTeam.Count > 1)
+			RBCharacter.sprite = pb.LilGuyTeam[1].Icon;
+		if (pb.LilGuyTeam.Count > 2)
+			LBCharacter.sprite = pb.LilGuyTeam[2].Icon;
+	}
 
-    public void ShowRespawnScreen()
-    {
-        respawnScreen.SetActive(true);
-    }
+	public void ShowRespawnScreen()
+	{
+		respawnScreen.SetActive(true);
+	}
 
-    public void SetBerryCount(int count)
-    {
-        berryCountText.text = $"{count}/3";
-    }
+	public void SetBerryCount(int count)
+	{
+		berryCountText.text = $"{count}/3";
+	}
 
-    //setters
-    public void SetLilGuyStats(int index, int str, int spd, int def)
-    {
-        popouts[index].SetStr(str);
-        popouts[index].SetSpd(spd);
-        popouts[index].SetDef(def);
-    }
-    public void SetPersistentHealthBarValue(float value, float maxHealth)
-    {
-        value = value / maxHealth;                                          //sets value to the hp %                                              //Sets Value to percentage of HP Bar max
+	//setters
+	public void SetLilGuyStats(int index, int str, int spd, int def)
+	{
+		popouts[index].SetStr(str);
+		popouts[index].SetSpd(spd);
+		popouts[index].SetDef(def);
+	}
+	public void SetPersistentHealthBarValue(float value, float maxHealth)
+	{
+		value = value / maxHealth;                                          //sets value to the hp %                                              //Sets Value to percentage of HP Bar max
 
-        persistentHealthBar.value = value;
-    }
+		persistentHealthBar.value = value;
+	}
 
-    public void SetPersistentIcon(Sprite newIcon)
-    {
-        persistentIcon.sprite = newIcon;
-    }
+	public void SetPersistentIcon(Sprite newIcon)
+	{
+		persistentIcon.sprite = newIcon;
+	}
 
-    public void SetPersistentAbilityIcon(Sprite newAbilityIcon)
-    {
-        persistentAbilityIcon.sprite = newAbilityIcon;
-    }
+	public void SetPersistentAbilityIcon(Sprite newAbilityIcon)
+	{
+		persistentAbilityIcon.sprite = newAbilityIcon;
+	}
 
-    private void SetCooldownIndicator(PlayerUi playerUi, float cooldownLength)
-    {
-        if(playerUi == this)
-        {
-            StartCoroutine(AbilityCooldownTimer(cooldownLength));
-        }
-    }
+	private void SetCooldownIndicator(PlayerUi playerUi, float cooldownLength)
+	{
+		if (playerUi == this)
+		{
+			StartCoroutine(AbilityCooldownTimer(cooldownLength));
+		}
+	}
 
-    private IEnumerator AbilityCooldownTimer(float cooldownLength)
-    {
-        float timer = cooldownLength;
+	private IEnumerator AbilityCooldownTimer(float cooldownLength)
+	{
+		float timer = cooldownLength;
 
-        while(timer > 0)
-        {
-            timer -= Time.deltaTime;
-            abilityCooldownTimer.fillAmount = timer / cooldownLength;
-            abilityCooldownText.text = ((int)timer+1).ToString();
-            if (timer <= 0)
-                abilityCooldownText.text = " ";
-            yield return null;
-        }
-            
-    }
+		while (timer > 0)
+		{
+			timer -= Time.deltaTime;
+			abilityCooldownTimer.fillAmount = timer / cooldownLength;
+			abilityCooldownText.text = ((int)timer + 1).ToString();
+			if (timer <= 0)
+				abilityCooldownText.text = " ";
+			yield return null;
+		}
 
-    private void FlipUi()
-    {
-        LVL_Txt.transform.localScale = new Vector3(-1, 1, 1);
-        abilityCooldownText.transform.localScale = new Vector3(-1, 1, 1);
-        LBIcon.transform.localScale = new Vector3((float)-0.65528, (float)0.65528, (float)0.65528);
-        RBIcon.transform.localScale = new Vector3((float)-0.65528, (float)0.65528, (float)0.65528);
-        berryCooldownTxt.transform.localScale = new Vector3((float)-1, (float)1, (float)1);
-        berryCountTxt.transform.localScale = new Vector3((float)-1, (float)1, (float)1);
-        victoryObject.transform.localScale = new Vector3((float)-1, (float)1, (float)1);
+	}
 
-    }
+	private void FlipUi()
+	{
+		LVL_Txt.transform.localScale = new Vector3(-1, 1, 1);
+		abilityCooldownText.transform.localScale = new Vector3(-1, 1, 1);
+		LBIcon.transform.localScale = new Vector3((float)-0.65528, (float)0.65528, (float)0.65528);
+		RBIcon.transform.localScale = new Vector3((float)-0.65528, (float)0.65528, (float)0.65528);
+		berryCooldownTxt.transform.localScale = new Vector3((float)-1, (float)1, (float)1);
+		berryCountTxt.transform.localScale = new Vector3((float)-1, (float)1, (float)1);
+		victoryObject.transform.localScale = new Vector3((float)-1, (float)1, (float)1);
 
-    public void ResetCDTimer()
-    {
+	}
+
+	public void ResetCDTimer()
+	{
 		Managers.DebugManager.Log("ResetCDTimer", DebugManager.DebugCategory.UI);
-        StopAllCoroutines();
-        abilityCooldownText.text = " ";
-        abilityCooldownTimer.fillAmount = 0;
-        
-    }
+		StopAllCoroutines();
+		abilityCooldownText.text = " ";
+		abilityCooldownTimer.fillAmount = 0;
 
-    public void VictoryAnimPlay()
-    {
-        GetComponent<Canvas>().sortingOrder = pb.LilGuyTeam[0].Mesh.sortingOrder -1;
-        //victoryObject.SetActive(true);
-        victoryAnim.PlayAnimations();
-    }
+	}
+
+	public void VictoryAnimPlay()
+	{
+		GetComponent<Canvas>().sortingOrder = pb.LilGuyTeam[0].Mesh.sortingOrder - 1;
+		//victoryObject.SetActive(true);
+		victoryAnim.PlayAnimations();
+	}
 }
 
 

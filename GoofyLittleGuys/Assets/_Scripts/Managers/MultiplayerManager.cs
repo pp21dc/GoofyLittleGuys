@@ -49,12 +49,21 @@ namespace Managers
 		{
 			if (!canJoinLeave) return;
 
-			// Otherwise, process the new player normally
 			GameManager.Instance.Players.Add(input.GetComponentInChildren<PlayerBody>());
 			input.GetComponent<PlayerController>().PlayerNumber = GameManager.Instance.Players.Count;
+
 			characterSelectScreen.OnPlayerJoin(input);
 			input.GetComponent<PlayerController>().UpdateCullLayer();
+
 		}
+
+		private IEnumerator DisableInputForFrames(PlayerInput input, float delay)
+		{
+			input.DeactivateInput();
+			yield return new WaitForSeconds(delay);
+			input.ActivateInput();
+		}
+
 
 		/// <summary>
 		/// Method called from PlayerController.cs when the player presses the leave game input.
