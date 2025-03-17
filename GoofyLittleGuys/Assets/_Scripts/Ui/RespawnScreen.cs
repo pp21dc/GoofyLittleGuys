@@ -42,7 +42,7 @@ public class RespawnScreen : MonoBehaviour
 
     private void UpdateUI()
     {
-        respawnCircle.fillAmount = currentRespawnTime / respawnTime;
+        respawnCircle.fillAmount = currentRespawnTime / GameManager.Instance.RespawnTimer;
         respawnCounter.text = currentRespawnTime.ToString("0");
     }
 }
