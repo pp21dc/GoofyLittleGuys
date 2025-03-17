@@ -12,12 +12,12 @@ public class CharacterSelectHandler : MonoBehaviour
 	[SerializeField] private GameObject characterSelectorParent;
 	[SerializeField] private List<GameObject> charSelectors;
 	[SerializeField] private GameObject tutorialUi;
-	[SerializeField] private Transform[] lilGuySelectorParents;
+	[SerializeField] private SelectorContainer[] lilGuySelectorParents;
 	[SerializeField] private PlayerCard[] playerCards;
 
 	public PlayerCard[] PlayerCards => playerCards;
 	public List<LilGuyBase> starters;                                   // List containing the starters the player can choose from.
-	public Transform[] LilGuySelectorParents => lilGuySelectorParents;
+	public SelectorContainer[] LilGuySelectorParents => lilGuySelectorParents;
 
 	private void Awake()
 	{
@@ -32,6 +32,7 @@ public class CharacterSelectHandler : MonoBehaviour
 		charSelectors.Add(charSelector);
 
 		int playerIndex = GameManager.Instance.Players.Find(b => b == input.GetComponentInChildren<PlayerBody>()).Controller.PlayerNumber;
+		lilGuySelectorParents[0].SetSelectorContainer(charSelector, playerIndex - 1);
 		DebugManager.Log(playerIndex.ToString());
 		// Send haptic feedback only to the new player
 		HapticFeedback.PlayJoinHaptics(input, playerIndex);
@@ -63,8 +64,10 @@ public class CharacterSelectHandler : MonoBehaviour
 		// Send haptic feedback to ALL remaining players since positions shift
 		for (int i = 0; i < charSelectors.Count; i++)
 		{
+			
 			PlayerInput player = charSelectors[i].GetComponent<UISelector>().Player;
 			int playerIndex = GameManager.Instance.Players.Find(b => b == player.GetComponentInChildren<PlayerBody>()).Controller.PlayerNumber;
+			lilGuySelectorParents[characterSelector.GetComponent<UISelector>().CurrentStarterIndex].SetSelectorContainer(charSelectors[i], playerIndex - 1);
 			DebugManager.Log(playerIndex.ToString());
 			HapticFeedback.PlayJoinHaptics(player, playerIndex);
 			charSelectors[i].GetComponent<UISelector>().UpdateColours();

@@ -128,7 +128,21 @@ namespace Managers
 					players.RemoveAt(i);
 					Destroy(body.transform.parent.gameObject);
 				}
+
+				MainMenu menu = FindObjectOfType<MainMenu>();
+				if (menu != null)
+				{
+					menu.MenuEventSystem.SetActive(false);
+					CoroutineRunner.Instance.StartCoroutine(EnableMenu(menu));
+				}
 			}
+		}
+
+		private IEnumerator EnableMenu(MainMenu menu)
+		{
+			yield return new WaitForSecondsRealtime(0.5f);
+			menu.MenuEventSystem.SetActive(true);
+
 		}
 
 		public HapticEvent GetHapticEvent(string eventName)

@@ -2,12 +2,15 @@ using Managers;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
 	[SerializeField] private List<Button> buttons;
+	[SerializeField] private GameObject menuEventSystem;
 
+	public GameObject MenuEventSystem => menuEventSystem;
 
 	private void OnEnable()
 	{

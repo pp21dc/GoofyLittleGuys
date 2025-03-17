@@ -37,6 +37,7 @@ public class UISelector : MonoBehaviour
 	private PlayerCard card;
 	public PlayerInput Player => player;
 
+	public int CurrentStarterIndex => currStarterIndex;
 	public bool LockedIn { get { return lockedIn; } }
 
 	private float bufferTime = 0.5f;
@@ -88,8 +89,8 @@ public class UISelector : MonoBehaviour
 		this.player.actions["Navigate"].performed += OnNavigated;
 		this.player.actions["Submit"].performed += OnSubmitted;
 
-		StartCoroutine(Buffer());
 		this.player.SwitchCurrentActionMap("UI");
+		CoroutineRunner.Instance.StartCoroutine(Buffer());
 
 		this.player.GetComponent<PlayerController>().HasJoined = true;
 		UpdateColours();
@@ -144,7 +145,7 @@ public class UISelector : MonoBehaviour
 
 	private void MoveSelector()
 	{
-		gameObject.transform.parent = charSelectMenu.LilGuySelectorParents[currStarterIndex];
+		charSelectMenu.LilGuySelectorParents[currStarterIndex].SetSelectorContainer(gameObject, controller.PlayerNumber - 1);
 	}
 
 	/// <summary>
