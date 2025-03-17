@@ -111,6 +111,8 @@ public class Spricket : SpeedType
 		cooldownTimer = cooldownDuration;
 		chargeTimer = chargeRefreshRate;
 		currentCharges--;
+		if (playerOwner)
+			EventManager.Instance.StartAbilityCooldown(playerOwner.PlayerUI, cooldownDuration);
 		anim.SetTrigger("EndCharge");
 		anim.ResetTrigger("SpecialAttack");
 		ApplySpeedBoost(spawnInterval, maxAfterimages, fadeSpeed, emissionColour);
