@@ -23,7 +23,7 @@ public static class HapticFeedback
 		Gamepad gamepad = input.devices[0] as Gamepad;
 		if (gamepad != null)
 		{
-			CoroutineRunner.Instance.StartCoroutine(HapticFeedbackRoutine(gamepad, lowFrequency, highFrequency, duration));
+			CoroutineRunner.Instance.StartCoroutine(HapticFeedbackRoutine(gamepad, lowFrequency * SettingsManager.Instance.GetSettings().rumbleAmount, highFrequency * SettingsManager.Instance.GetSettings().rumbleAmount, duration));
 		}
 	}
 
@@ -40,10 +40,11 @@ public static class HapticFeedback
 
 	private static IEnumerator HapticPulseRoutine(Gamepad gamepad, int pulseCount, float pulseDuration, float pauseDuration)
 	{
+		float rumbleAmount = Mathf.Min(0.1f, 0.75f * SettingsManager.Instance.GetSettings().rumbleAmount);
 		for (int i = 0; i < pulseCount; i++)
 		{
 			gamepad.ResumeHaptics();
-			gamepad.SetMotorSpeeds(0.75f, 0.75f); // Start vibration
+			gamepad.SetMotorSpeeds(rumbleAmount, rumbleAmount); // Start vibration
 			yield return new WaitForSecondsRealtime(pulseDuration);
 
 			gamepad.PauseHaptics();
