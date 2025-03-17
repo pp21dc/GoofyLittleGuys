@@ -308,6 +308,7 @@ public class PlayerBody : MonoBehaviour
 			closestWildLilGuy.PlayerOwner = this;
 			closestWildLilGuy.Init(LayerMask.NameToLayer("Player"));
 			closestWildLilGuy.Health = closestWildLilGuy.MaxHealth;
+			closestWildLilGuy.ResetTimers();
 			closestWildLilGuy.GetComponent<AiController>().SetState(AiController.AIState.Tamed);
 			closestWildLilGuy.GetComponent<Hurtbox>().LastHit = null;
 			closestWildLilGuy.LeaveDeathAnim();
