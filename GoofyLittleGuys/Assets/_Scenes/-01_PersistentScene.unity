@@ -2777,6 +2777,18 @@ PrefabInstance:
       propertyPath: spawnPoints.Array.data[3]
       value: 
       objectReference: {fileID: 733882631}
+    - target: {fileID: 2149464314047068899, guid: de1849616cf5e6e41990742051e315c8,
+        type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 1216203067849787875, guid: 012d1ee85f7e89d47886f642f0e916c0,
+        type: 2}
+    - target: {fileID: 2464806404801044135, guid: de1849616cf5e6e41990742051e315c8,
+        type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 1618473229953306905, guid: 012d1ee85f7e89d47886f642f0e916c0,
+        type: 2}
     - target: {fileID: 3641037799363622999, guid: de1849616cf5e6e41990742051e315c8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2827,11 +2839,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3797017555843920288, guid: de1849616cf5e6e41990742051e315c8,
+        type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 1618473229953306905, guid: 012d1ee85f7e89d47886f642f0e916c0,
+        type: 2}
+    - target: {fileID: 3848508716183890074, guid: de1849616cf5e6e41990742051e315c8,
+        type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 1216203067849787875, guid: 012d1ee85f7e89d47886f642f0e916c0,
+        type: 2}
     - target: {fileID: 7319295468812609400, guid: de1849616cf5e6e41990742051e315c8,
         type: 3}
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
+    - target: {fileID: 7422125164557209482, guid: de1849616cf5e6e41990742051e315c8,
+        type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 1216203067849787875, guid: 012d1ee85f7e89d47886f642f0e916c0,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

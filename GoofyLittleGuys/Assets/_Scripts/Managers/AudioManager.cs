@@ -9,7 +9,7 @@ namespace Managers
 {
 	public class AudioManager : SingletonBase<AudioManager>
 	{
-		[Header("Mixer")]
+		[Header("Mixers")]
 		[SerializeField] private AudioMixer mainMixer;
 		[Header("Audio Objects")]
 		[SerializeField] private AudioObject[] sfxObjects;
@@ -22,6 +22,7 @@ namespace Managers
 		public override void Awake()
 		{
 			base.Awake();
+			GameSettings settings = SettingsManager.Instance.GetSettings();
 			foreach (AudioObject clip in musicObjects)
 			{
 				if (musicDictionary.ContainsKey(clip.key))
@@ -47,6 +48,19 @@ namespace Managers
 
 			//music
 		}
+
+		public void SetupMixerVolumes(GameSettings settings)
+		{
+			mainMixer.SetFloat("masterVolume", LinearToDecibel(settings.masterVolume));
+			mainMixer.SetFloat("musicVolume", LinearToDecibel(settings.musicVolume));
+			mainMixer.SetFloat("sfxVolume", LinearToDecibel(settings.sfxVolume));
+		}
+
+		private float LinearToDecibel(float linear)
+		{
+			return Mathf.Log10(Mathf.Max(linear, 0.0001f)) * 20f; // Avoid log(0) issues
+		}
+
 
 		public void PlaySfx(string key, AudioSource source)
 		{

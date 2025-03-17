@@ -86,7 +86,6 @@ namespace Managers
 		public override void Awake()
 		{
 			base.Awake();
-
 			foreach (HapticEvent haptic in hapticEvents)
 			{
 				if (hapticsDictionary.ContainsKey(haptic.eventName))
@@ -98,8 +97,17 @@ namespace Managers
 			}
 		}
 
+		private void LoadSettings()
+		{
+
+			SettingsManager.Instance.LoadSettings();
+			GameSettings settings = SettingsManager.Instance.GetSettings();
+			AudioManager.Instance.SetupMixerVolumes(settings);
+		}
+
 		private void Start()
 		{
+			LoadSettings();
 			waterChangeContainer.SwapColors(waterColour, foamColour, darkFoamColour);
 			Time.timeScale = 0;
 			AudioManager.Instance.PlayMusic("GLGMainMenu", phaseAudioSources[0]);
