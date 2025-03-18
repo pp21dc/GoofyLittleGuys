@@ -565,6 +565,7 @@ public class PlayerBody : MonoBehaviour
 		controller.PlayerEventSystem.firstSelectedGameObject = null;
 		controller.PlayerEventSystem.gameObject.SetActive(false);
 		playerUi.SetBerryCount(berryCount);
+		playerUi.SetColour();
 		playerUi.MirrorUI(controller.PlayerCam.rect.x >= 0.5);
 		playerMesh.SetActive(true);
 		SetIcon();

@@ -2422,6 +2422,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 344619516516229115, guid: 80afe6d6e520f2349a32985d2c70c1ed,
+        type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 344619516516229115, guid: 80afe6d6e520f2349a32985d2c70c1ed,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 0d51977e9267a39458c3b53bd377e47c,
+        type: 3}
+    - target: {fileID: 440522843368762526, guid: 80afe6d6e520f2349a32985d2c70c1ed,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 604840082176464299, guid: 80afe6d6e520f2349a32985d2c70c1ed,
         type: 3}
       propertyPath: m_margin.z
@@ -2524,6 +2540,11 @@ PrefabInstance:
       objectReference: {fileID: 9174199542077581210}
     - target: {fileID: 1910863067338394544, guid: 80afe6d6e520f2349a32985d2c70c1ed,
         type: 3}
+      propertyPath: playerShape
+      value: 
+      objectReference: {fileID: 6420454214109460846}
+    - target: {fileID: 1910863067338394544, guid: 80afe6d6e520f2349a32985d2c70c1ed,
+        type: 3}
       propertyPath: tempWinText
       value: 
       objectReference: {fileID: 2763526271034815860}
@@ -2532,6 +2553,11 @@ PrefabInstance:
       propertyPath: berryCountTxt
       value: 
       objectReference: {fileID: 3664525308777350162}
+    - target: {fileID: 1910863067338394544, guid: 80afe6d6e520f2349a32985d2c70c1ed,
+        type: 3}
+      propertyPath: healthBarFill
+      value: 
+      objectReference: {fileID: 8794780253900210}
     - target: {fileID: 1910863067338394544, guid: 80afe6d6e520f2349a32985d2c70c1ed,
         type: 3}
       propertyPath: respawnScreen
@@ -2856,6 +2882,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -54.199997
       objectReference: {fileID: 0}
+    - target: {fileID: 5657506238446199645, guid: 80afe6d6e520f2349a32985d2c70c1ed,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5971903763554971743, guid: 80afe6d6e520f2349a32985d2c70c1ed,
         type: 3}
       propertyPath: m_IsActive
@@ -2992,6 +3023,11 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8020990117315818723, guid: 80afe6d6e520f2349a32985d2c70c1ed,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8376010680471431565, guid: 80afe6d6e520f2349a32985d2c70c1ed,
         type: 3}
       propertyPath: m_Sprite
@@ -3047,6 +3083,18 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 4034881436982577293}
   m_SourcePrefab: {fileID: 100100000, guid: 80afe6d6e520f2349a32985d2c70c1ed, type: 3}
+--- !u!114 &8794780253900210 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 344619516516229115, guid: 80afe6d6e520f2349a32985d2c70c1ed,
+    type: 3}
+  m_PrefabInstance: {fileID: 348865493936149065}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &574310035341224333 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 229455701557132228, guid: 80afe6d6e520f2349a32985d2c70c1ed,
@@ -3155,6 +3203,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 348865493936149065}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6420454214109460846 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6759166671641111335, guid: 80afe6d6e520f2349a32985d2c70c1ed,
+    type: 3}
+  m_PrefabInstance: {fileID: 348865493936149065}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7173713276321983158 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7447068559380347135, guid: 80afe6d6e520f2349a32985d2c70c1ed,

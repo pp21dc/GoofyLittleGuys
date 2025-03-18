@@ -51,6 +51,9 @@ public class PlayerUi : MonoBehaviour
 	[SerializeField] GameObject victoryObject;
 
 	[SerializeField] GameObject respawnScreen;
+
+	[SerializeField] private Image healthBarFill;
+	[SerializeField] private Image playerShape;
 	enum LilGuys
 	{
 		Teddy,
@@ -71,7 +74,11 @@ public class PlayerUi : MonoBehaviour
 		EventManager.Instance.NotifyStartAbilityCooldown += SetCooldownIndicator;
 		EventManager.Instance.NotifyUiSwap += RefreshIcons;
 	}
-
+	public void SetColour()
+	{
+		healthBarFill.color = pb.PlayerColour;
+		playerShape.sprite = UiManager.Instance.shapes[pb.Controller.PlayerNumber - 1];
+	}
 	public void MirrorUI(bool shouldMirror)
 	{
 
