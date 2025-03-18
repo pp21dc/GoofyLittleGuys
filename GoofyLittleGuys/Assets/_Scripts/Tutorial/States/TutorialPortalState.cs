@@ -8,6 +8,8 @@ public class TutorialPortalState : TutorialState
     public override void Enter()
     {
         base.Enter();
+        
+        stateMachine.Island.exitPortal.SetActive(true);
     }
 
     public override void Exit()

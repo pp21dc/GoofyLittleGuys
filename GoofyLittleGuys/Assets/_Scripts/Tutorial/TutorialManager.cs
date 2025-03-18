@@ -14,6 +14,7 @@ public class TutorialManager : SingletonBase<TutorialManager>
         public Sprite sprite;
     }
 
+    [SerializeField] private List<Transform> spawnPoints = new List<Transform>();
     [SerializeField] private List<TutorialText> tutorialTexts = new List<TutorialText>();
     [SerializeField] private TMP_Text tutorialText;
     [SerializeField] private Sprite buttonSprite;
@@ -23,7 +24,7 @@ public class TutorialManager : SingletonBase<TutorialManager>
     private List<bool> islandsComplete = new List<bool>();
     public List<bool> IslandsComplete => islandsComplete;
 
-    private int currentTutorialState = 0;
+    private int _currentTutorialState = 0;
 
     public override void Awake()
     {
@@ -36,29 +37,35 @@ public class TutorialManager : SingletonBase<TutorialManager>
             tutorialStateMachines[i].ChangeState(tutorialStateMachines[i].TutorialAttackState);
             
             islandsComplete.Add(false);
+            
+            GameManager.Instance.Players[i].GetComponent<Rigidbody>().MovePosition(spawnPoints[i].position);
         }
     }
 
     public void CheckComplete()
     {
-        if (islandsComplete.All(o => o == true))
+        if (islandsComplete.All(o => o == true)) // if all elements in the list are true
         {
             ChangeAllStates();
+            for (var i = 0; i < islandsComplete.Count; i++)
+            {
+                islandsComplete[i] = false;
+            }
         }
     }
 
     private void SetTutorialText()
     {
-        tutorialText.text = tutorialTexts[currentTutorialState].text;
-        buttonSprite = tutorialTexts[currentTutorialState].sprite;
+        tutorialText.text = tutorialTexts[_currentTutorialState].text;
+        buttonSprite = tutorialTexts[_currentTutorialState].sprite;
     }
 
     private void ChangeAllStates()
     {
-        currentTutorialState++;
+        _currentTutorialState++;
         foreach (var tm in tutorialStateMachines)
         {
-            switch (currentTutorialState)
+            switch (_currentTutorialState)
             {
                 case 0:
                     tm.ChangeState(tm.TutorialAttackState);
@@ -86,6 +93,9 @@ public class TutorialManager : SingletonBase<TutorialManager>
                     break;
                 case 8:
                     tm.ChangeState(tm.TutorialPortalState);
+                    break;
+                case 9:
+                    //transition to normal game
                     break;
             }
         }

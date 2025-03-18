@@ -5,9 +5,13 @@ public class TutorialSwapState : TutorialState
     {
     }
 
+    private LilGuyBase lastFrameLilG;
+
     public override void Enter()
     {
         base.Enter();
+
+        lastFrameLilG = stateMachine.Player.LilGuyTeam[0];
     }
 
     public override void Exit()
@@ -18,6 +22,10 @@ public class TutorialSwapState : TutorialState
     public override void Update()
     {
         base.Update();
+
+        if (!complete) CheckSectionComplete();
+        
+        lastFrameLilG = stateMachine.Player.LilGuyTeam[0];
     }
 
     public override void FixedUpdate()
@@ -27,6 +35,7 @@ public class TutorialSwapState : TutorialState
 
     public override void CheckSectionComplete()
     {
-        base.CheckSectionComplete();
+        if (lastFrameLilG != stateMachine.Player.LilGuyTeam[0])
+            base.CheckSectionComplete();
     }
 }

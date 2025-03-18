@@ -7,8 +7,6 @@ public class TutorialPortal : InteractableBase
     // -- Variables --
     [SerializeField] private Teleporter targetTeleporter;
     [SerializeField] private Transform endTeleportLocation;
-    [SerializeField] private float cooldown;
-    private bool onCooldown;
     private BoxCollider teleporterCollider;
     private List<GameObject> inRange = new List<GameObject>();
 
@@ -24,26 +22,18 @@ public class TutorialPortal : InteractableBase
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("PlayerLilGuys") && !inRange.Contains(other.gameObject))
 		{
-			LilGuyBase lilGuy = other.GetComponent<LilGuyBase>();
-			if (lilGuy == null) return;
-			inRange.Add(other.gameObject);         
-           lilGuy.PlayerOwner.ClosestInteractable = this;
+			var lilGuy = other.GetComponent<LilGuyBase>();
+			if (!lilGuy) return;
+			inRange.Add(other.gameObject);
+            lilGuy.PlayerOwner.ClosestInteractable = this;
         }
     }
     
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("PlayerLilGuys"))
-		{
-            if (inRange.Count > 0 && !onCooldown)
-            {
-                interactableCanvas.SetActive(true);
-            }
-            else
-            {
-                interactableCanvas.SetActive(false);
-            }
-        }
+	    if (other.gameObject.layer != LayerMask.NameToLayer("PlayerLilGuys")) return;
+
+	    interactableCanvas.SetActive(inRange.Count > 0);
     }
 
     private void OnTriggerExit(Collider other)
@@ -51,7 +41,7 @@ public class TutorialPortal : InteractableBase
         if (other.gameObject.layer == LayerMask.NameToLayer("PlayerLilGuys") && inRange.Contains(other.gameObject))
         {
 			LilGuyBase lilGuy = other.GetComponent<LilGuyBase>();
-			if (lilGuy == null) return;
+			if (!lilGuy) return;
 			if (inRange.Contains(lilGuy.gameObject)) inRange.Remove(lilGuy.gameObject);
 			lilGuy.PlayerOwner.ClosestInteractable = null;
 		}
@@ -88,20 +78,17 @@ public class TutorialPortal : InteractableBase
 	{
 		if (body.IsDead) return;
 		base.CompleteInteraction(body);
-		if (!onCooldown)
+
+		body.GetComponent<Rigidbody>().MovePosition(targetTeleporter.EndTeleportLocation.position);
+		Managers.DebugManager.Log("TELEPORTED " + body.name + "TO " + targetTeleporter.EndTeleportLocation.position, Managers.DebugManager.DebugCategory.ENVIRONMENT);
+		
+		// exit condition for portal state in the tutorial
+		var index = TutorialManager.Instance.IslandsComplete.FindIndex(b => !b); // find the first false index
+		if (index != -1) // would return -1 in the case there isn't a false value
 		{
-			body.GetComponent<Rigidbody>().MovePosition(targetTeleporter.EndTeleportLocation.position);
-			Managers.DebugManager.Log("TELEPORTED " + body.name + "TO " + targetTeleporter.EndTeleportLocation.position, Managers.DebugManager.DebugCategory.ENVIRONMENT);
-			StartCoroutine(nameof(WaitForCooldown));
+			TutorialManager.Instance.IslandsComplete[index] = true;
 		}
+		TutorialManager.Instance.CheckComplete();
+
 	}
-    private IEnumerator WaitForCooldown()
-    {
-        yield return new WaitForEndOfFrame();
-        onCooldown = true;
-        targetTeleporter.OnCooldown = true;
-        yield return new WaitForSeconds(cooldown);
-        onCooldown = false;
-        targetTeleporter.OnCooldown = false;
-    }
 }

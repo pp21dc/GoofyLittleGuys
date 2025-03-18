@@ -23,5 +23,12 @@
         // STATES
         TutorialAttackState = new TutorialAttackState(this);
         TutorialSpecialState = new TutorialSpecialState(this);
+        TutorialDefeatState = new TutorialDefeatState(this);
+        TutorialTameState = new TutorialTameState(this);
+        TutorialStormState = new TutorialStormState(this);
+        TutorialBerryState = new TutorialBerryState(this);
+        TutorialFountainState = new TutorialFountainState(this);
+        TutorialSwapState = new TutorialSwapState(this);
+        TutorialPortalState = new TutorialPortalState(this);
     }
 }

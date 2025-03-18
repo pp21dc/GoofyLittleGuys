@@ -5,7 +5,7 @@ public class TutorialBerryState : TutorialState
     {
     }
 
-    private int lastFrameBerryCount = 0;
+    private int _lastFrameBerryCount = 0;
     
     public override void Enter()
     {
@@ -23,7 +23,7 @@ public class TutorialBerryState : TutorialState
         
         if (!complete) CheckSectionComplete();
         
-        lastFrameBerryCount = stateMachine.Player.BerryCount;
+        _lastFrameBerryCount = stateMachine.Player.BerryCount;
     }
 
     public override void FixedUpdate()
@@ -33,7 +33,7 @@ public class TutorialBerryState : TutorialState
 
     public override void CheckSectionComplete()
     {
-        if (stateMachine.Player.BerryCount < lastFrameBerryCount)
+        if (stateMachine.Player.BerryCount < _lastFrameBerryCount)
             base.CheckSectionComplete();
     }
 }

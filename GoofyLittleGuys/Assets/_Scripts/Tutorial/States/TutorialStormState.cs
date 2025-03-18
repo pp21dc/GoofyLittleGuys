@@ -32,7 +32,8 @@ public class TutorialStormState : TutorialState
 
     public override void CheckSectionComplete()
     {
-        if (stateMachine.Player.LilGuyTeam[0].IsDying)
+        // one lil g dead other took dmg
+        if (stateMachine.Player.LilGuyTeam[1].Health > 0 && stateMachine.Player.LilGuyTeam[0].Health < stateMachine.Player.LilGuyTeam[0].MaxHealth)
         {
             base.CheckSectionComplete();
             stateMachine.Island.storm.SetActive(false);

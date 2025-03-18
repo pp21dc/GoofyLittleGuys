@@ -1,5 +1,6 @@
 ﻿
 using System.Linq;
+using UnityEngine;
 
 public class TutorialFountainState : TutorialState
 {
@@ -12,6 +13,9 @@ public class TutorialFountainState : TutorialState
     public override void Enter()
     {
         base.Enter();
+        
+        //turn on the fountain component
+        stateMachine.Island.fountain.GetComponent<TutorialFountain>().enabled = true;
     }
 
     public override void Exit()
@@ -33,7 +37,7 @@ public class TutorialFountainState : TutorialState
 
     public override void CheckSectionComplete()
     {
-        if (stateMachine.Player.LilGuyTeam.All(guy => guy.Health > 0))
+        if (stateMachine.Player.LilGuyTeam.All(guy => Mathf.Approximately(guy.Health, guy.MaxHealth)))
             base.CheckSectionComplete();
     }
 }
