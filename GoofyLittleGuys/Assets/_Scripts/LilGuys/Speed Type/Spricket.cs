@@ -121,12 +121,15 @@ public class Spricket : SpeedType
 		Rigidbody rb = (playerOwner == null) ? GetComponent<Rigidbody>() : playerOwner.GetComponent<Rigidbody>();
 		if (rb != null)
 		{
-			instantiatedKnockback = Instantiate(knockbackPrefab, transform.position, Quaternion.identity, transform);
+			instantiatedKnockback = Instantiate(knockbackPrefab, transform.position, Quaternion.identity, attackOrbit.transform);
+			instantiatedKnockback.transform.localRotation = Quaternion.identity;
 			KnockbackHitbox h = instantiatedKnockback.GetComponent<KnockbackHitbox>();
+			if (h == null) h = instantiatedKnockback.GetComponentInChildren<KnockbackHitbox>();
 			h.KnockbackForce = knockbackForceAmount;
 			h.KnockbackDuration = knockbackDuration;
 
 			AoeHitbox a = instantiatedKnockback.GetComponent<AoeHitbox>();
+			if (a == null) a = instantiatedKnockback.GetComponentInChildren<AoeHitbox>();
 			a.AoeDamageMultiplier = dashDamageMultiplier;
 			a.Init(gameObject);
 			float finalDistance = (Mathf.Lerp(minDashDistance, (applySpeedStat ? maxDashDistance : baseMaxDistance), (chargeTime - minChargeTime) / (maxChargeTime - minChargeTime)));
