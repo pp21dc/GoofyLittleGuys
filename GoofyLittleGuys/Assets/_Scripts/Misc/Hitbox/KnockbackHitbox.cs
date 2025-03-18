@@ -27,16 +27,19 @@ public class KnockbackHitbox : MonoBehaviour
 		LilGuyBase lilGuy = other.GetComponent<LilGuyBase>();
 		if (!lilGuy) return;
 
+		Vector3 direction = (other.transform.position - transform.position);
+		direction.y = 0;
+
 		Managers.DebugManager.Log($"Knockback Hitbox hit {other.gameObject}", Managers.DebugManager.DebugCategory.COMBAT);
 		if (other.gameObject.layer == LayerMask.NameToLayer("WildLilGuys"))
 		{
-			lilGuy.ApplyKnockback((knockbackDir = (knockbackDir == Vector3.zero) ? (other.transform.position - transform.position).normalized : knockbackDir) * knockbackForce);
+			lilGuy.ApplyKnockback((knockbackDir = (knockbackDir == Vector3.zero) ? direction.normalized : knockbackDir) * knockbackForce);
 			lilGuy.StartHitStun(hitstunForce,  hitstunTime, hitstunCurve);
 			Managers.DebugManager.Log("The knockback is: " +  knockbackForce, Managers.DebugManager.DebugCategory.COMBAT);
 		}
 		else if (other.gameObject.layer == LayerMask.NameToLayer("PlayerLilGuys"))
 		{
-			lilGuy.PlayerOwner.ApplyKnockback((knockbackDir = (knockbackDir == Vector3.zero) ? (other.transform.position - transform.position).normalized : knockbackDir) * knockbackForce);
+			lilGuy.PlayerOwner.ApplyKnockback((knockbackDir = (knockbackDir == Vector3.zero) ? direction.normalized : knockbackDir) * knockbackForce);
 			lilGuy.PlayerOwner.StartHitStun(hitstunForce, hitstunTime, hitstunCurve); //comment out for now till it's done :)
             Managers.DebugManager.Log("The knockback is: " + knockbackForce, Managers.DebugManager.DebugCategory.COMBAT);
         }

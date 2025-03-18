@@ -212,6 +212,7 @@ public class PlayerBody : MonoBehaviour
 
 		if (!IsGrounded())
 		{
+			Debug.Log("In AIR!");
 			rb.velocity += Vector3.up * Physics.gravity.y * (maxSpeed - 1) * Time.fixedDeltaTime;
 		}
 
@@ -277,7 +278,7 @@ public class PlayerBody : MonoBehaviour
 
 	private bool IsGrounded()
 	{
-		return Physics.Raycast(rb.position + Vector3.up, Vector3.down, 3f, LayerMask.GetMask("Ground"));
+		return Physics.Raycast(rb.position + Vector3.up, Vector3.down, 1f, LayerMask.GetMask("Ground"));
 	}
 
 	/// <summary>

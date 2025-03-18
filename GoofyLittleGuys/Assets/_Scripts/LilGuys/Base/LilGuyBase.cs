@@ -878,7 +878,7 @@ public abstract class LilGuyBase : MonoBehaviour
 
 	private bool IsGrounded()
 	{
-		return Physics.Raycast(rb.position + Vector3.up, Vector3.down, 2f, LayerMask.GetMask("Ground"));
+		return Physics.Raycast(rb.position + Vector3.up, Vector3.down, 1f, LayerMask.GetMask("Ground"));
 	}
 
 	public void CalculateMoveSpeed()
