@@ -551,14 +551,21 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 0.083333336
+    functionName: SpawnHitbox
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.083333336
     functionName: PlaySound
     data: Throw_Punch
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.083333336
-    functionName: SpawnHitbox
+  - time: 0.41666666
+    functionName: DestroyHitbox
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
@@ -566,13 +573,6 @@ AnimationClip:
     messageOptions: 0
   - time: 0.41666666
     functionName: EnableChainAttack
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0.41666666
-    functionName: DestroyHitbox
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

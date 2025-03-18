@@ -173,7 +173,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxCombo: 2
-  comboBufferTime: 0.7
+  comboBufferTime: 0.65
   guyName: Tricera-box
   type: 0
   mesh: {fileID: 3759597427848749218}
@@ -217,7 +217,7 @@ MonoBehaviour:
     type: 3}
   waveAoePrefab: {fileID: 7763503517924717934, guid: cee25af8c16e11e4a806c624ad058e67,
     type: 3}
-  waveAoeDamageMultiplier: 0.35
+  waveAoeDamageMultiplier: 1
   waveAoeLifetime: 1.4
   waveSpeed: 13
   slowAmount: -0.35

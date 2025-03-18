@@ -101,6 +101,8 @@ AnimationClip:
       value: {fileID: 981188144, guid: f9c261395f43fdb408af5a10f20a7b6f, type: 3}
     - time: 0.75
       value: {fileID: -1410379451, guid: f9c261395f43fdb408af5a10f20a7b6f, type: 3}
+    - time: 0.8333333
+      value: {fileID: 1158817317, guid: 1a996eaf8a52136448445b406672be99, type: 3}
     attribute: m_Sprite
     path: Mesh
     classID: 212
@@ -142,12 +144,13 @@ AnimationClip:
     - {fileID: -447925263, guid: f9c261395f43fdb408af5a10f20a7b6f, type: 3}
     - {fileID: 981188144, guid: f9c261395f43fdb408af5a10f20a7b6f, type: 3}
     - {fileID: -1410379451, guid: f9c261395f43fdb408af5a10f20a7b6f, type: 3}
+    - {fileID: 1158817317, guid: 1a996eaf8a52136448445b406672be99, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.8333333
+    m_StopTime: 0.9166666
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -393,14 +396,14 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.6666667
+  - time: 0.75
     functionName: EnableChainAttack
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.75
+  - time: 0.8333333
     functionName: CheckCombo
     data: 
     objectReferenceParameter: {fileID: 0}
