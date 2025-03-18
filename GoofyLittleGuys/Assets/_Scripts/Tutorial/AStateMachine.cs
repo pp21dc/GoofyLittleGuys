@@ -14,10 +14,6 @@ public abstract class AStateMachine
 
         currentState.Enter();
     }
-    public void HandleInput()
-    {
-        currentState?.HandleInput();
-    }
 
     public void Update()
     {

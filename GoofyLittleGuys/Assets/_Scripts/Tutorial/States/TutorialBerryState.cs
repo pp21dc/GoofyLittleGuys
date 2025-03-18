@@ -1,0 +1,39 @@
+﻿
+public class TutorialBerryState : TutorialState
+{
+    public TutorialBerryState(TutorialStateMachine tutorialStateMachine) : base(tutorialStateMachine)
+    {
+    }
+
+    private int lastFrameBerryCount = 0;
+    
+    public override void Enter()
+    {
+        base.Enter();
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+    }
+
+    public override void Update()
+    {
+        base.Update();
+        
+        if (!complete) CheckSectionComplete();
+        
+        lastFrameBerryCount = stateMachine.Player.BerryCount;
+    }
+
+    public override void FixedUpdate()
+    {
+        base.FixedUpdate();
+    }
+
+    public override void CheckSectionComplete()
+    {
+        if (stateMachine.Player.BerryCount < lastFrameBerryCount)
+            base.CheckSectionComplete();
+    }
+}
