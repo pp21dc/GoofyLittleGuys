@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Spricket : SpeedType
@@ -203,7 +204,58 @@ public class Spricket : SpeedType
 		}
 	}
 
+	protected override IEnumerator EndSpecial(bool stopImmediate = false)
+	{
+		if (!stopImmediate)
+		{
+			if (specialDuration >= 0) yield return new WaitForSeconds(specialDuration);
+			else if (specialDuration == -1)
+			{
+				AnimationClip clip = anim.runtimeAnimatorController.animationClips.First(clip => clip.name == "Special");
+				if (clip != null) yield return new WaitForSeconds(clip.length);
+			}
+		}
+		if (anim != null)
+		{
+			anim.SetTrigger("SpecialAttackEnded");
+		}
+		LockAttackRotation = false;
+		LockMovement = false;
 
+		if (isCharging || isDashing)
+		{
+			Destroy(chargeEffect);
+			// Reset special state
+			isCharging = false;
+			isDashing = false;
+			LockMovement = false;
+
+			// Check if the Animator is in the "InSpecial" state and handle accordingly
+			if (anim.GetCurrentAnimatorStateInfo(0).IsName("InSpecial"))
+			{
+				anim.SetTrigger("EndCharge"); // Trigger EndCharge to progress the animation properly
+			}
+			// Reset animations
+			anim.SetTrigger("SpecialAttackEnded");
+
+
+			// Stop any ongoing coroutines
+			StopAllCoroutines(); // Ensure all related coroutines are stopped
+
+			// Destroy the knockback prefab if it exists
+			if (instantiatedKnockback != null)
+			{
+				Destroy(instantiatedKnockback);
+			}
+
+			// Reset Rigidbody velocity
+			Rigidbody rb = (playerOwner == null) ? GetComponent<Rigidbody>() : playerOwner.GetComponent<Rigidbody>();
+			if (rb != null)
+			{
+				rb.velocity = Vector3.zero;
+			}
+		}
+	}
 	public override void MoveLilGuy(float s = 1)
 	{
 		if (!isDashing)

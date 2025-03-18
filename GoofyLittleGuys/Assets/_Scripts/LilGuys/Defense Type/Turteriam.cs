@@ -51,9 +51,9 @@ public class Turteriam : DefenseType
 
 	protected override void OnDisable()
 	{
-		if (Managers.GameManager.Instance == null) return;
-		CoroutineRunner.Instance.StartCoroutine(EventManager.Instance.StopDamageReduction(playerOwner, teamDamageReductionDuration, this, true));
-		DeleteDome();
+		//if (Managers.GameManager.Instance == null) return;
+		//CoroutineRunner.Instance.StartCoroutine(EventManager.Instance.StopDamageReduction(playerOwner, teamDamageReductionDuration, this, true));
+		//DeleteDome();
 		base.OnDisable();
 	}
 	public override void StartChargingSpecial()
@@ -94,7 +94,7 @@ public class Turteriam : DefenseType
 		{
 			DeleteDome();
 			if (damageReductionRemoval != null) StopCoroutine(damageReductionRemoval);
-			if (playerOwner != null) damageReductionRemoval = StartCoroutine(EventManager.Instance.StopDamageReduction(playerOwner, teamDamageReductionDuration, this, true));
+			if (playerOwner != null) damageReductionRemoval = CoroutineRunner.Instance.StartCoroutine(EventManager.Instance.StopDamageReduction(playerOwner, teamDamageReductionDuration, this, true));
 		}
 		else if (!stopImmediate)
 		{
@@ -105,7 +105,7 @@ public class Turteriam : DefenseType
 				if (clip != null) yield return new WaitForSeconds(clip.length);
 			}
 
-            if (playerOwner != null) damageReductionRemoval ??= StartCoroutine(EventManager.Instance.StopDamageReduction(playerOwner, teamDamageReductionDuration, this));
+            if (playerOwner != null) damageReductionRemoval ??= CoroutineRunner.Instance.StartCoroutine(EventManager.Instance.StopDamageReduction(playerOwner, teamDamageReductionDuration, this));
 		}
 		if (anim != null)
 		{

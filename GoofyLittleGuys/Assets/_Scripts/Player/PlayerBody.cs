@@ -378,33 +378,6 @@ public class PlayerBody : MonoBehaviour
 
 	}
 
-	public void ReorganizeTeam()
-	{
-		lilGuyTeam = lilGuyTeam
-	.Where(guy => guy.Health > 0) // Filter alive lil guys
-	.Concat(lilGuyTeam.Where(guy => guy.Health <= 0)) // Append dead lil guys
-	.ToList();
-
-		for (int i = 0; i < lilGuyTeam.Count; i++)
-		{
-			lilGuyTeam[i].SetFollowGoal(lilGuyTeamSlots[i].transform); // Update follow goal
-			lilGuyTeamSlots[i].LilGuyInSlot = lilGuyTeam[i];
-			lilGuyTeam[i].IsAttacking = false;
-			lilGuyTeam[i].SetMaterial(GameManager.Instance.RegularLilGuySpriteMat);
-		}
-
-		lilGuyTeam[0].GetComponent<Rigidbody>().isKinematic = true;
-		lilGuyTeam[0].SetLayer(LayerMask.NameToLayer("PlayerLilGuys"));
-		lilGuyTeam[0].RB.interpolation = RigidbodyInterpolation.None;
-		lilGuyTeam[0].transform.localPosition = Vector3.zero;
-		activeLilGuy = lilGuyTeam[0];
-
-		activeLilGuy.SetMaterial(GameManager.Instance.OutlinedLilGuySpriteMat);
-
-		isSwapping = false;
-		SetInvincible(swapInvincibility);
-	}
-
 	public void SetActiveLilGuy(LilGuyBase newLilGuy)
 	{
 		if (activeLilGuy != null)
@@ -526,7 +499,7 @@ public class PlayerBody : MonoBehaviour
 			isSwapping = false;
 			return;
 		}
-
+		activeLilGuy.OnEndSpecial(true);
 		if (shiftDirection < 0) // Left shift
 		{
 			LilGuyBase first = aliveTeam[0];

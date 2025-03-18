@@ -126,7 +126,8 @@ public class Fishbowl : StrengthType
 			PlaySound("Fishbowl_PopOn");
 		}
         LockAttackRotation = false;
-        LockMovement = false;
+		isCharging = false;
+		LockMovement = false;
     }
     public void SpawnWaveAoe()
 	{

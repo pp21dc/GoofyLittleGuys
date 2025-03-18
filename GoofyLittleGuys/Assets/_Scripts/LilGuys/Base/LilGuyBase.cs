@@ -378,7 +378,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	/// </summary>
 	public void AttemptAttack()
 	{
-		if (isDead || ((playerOwner != null) && !isAttacking)) return;
+		if (IsInSpecialAttack || isDead || ((playerOwner != null) && !isAttacking)) return;
 
 		// If first attack in the combo, trigger immediately
 		if (currentComboCount == 0 && Time.time - lastAttackTime > comboBufferTime)
@@ -758,7 +758,7 @@ public abstract class LilGuyBase : MonoBehaviour
 
 	public virtual void OnEndSpecial(bool stopImmediate = false)
 	{
-		StartCoroutine(EndSpecial(stopImmediate));
+		CoroutineRunner.Instance.StartCoroutine(EndSpecial(stopImmediate));
 	}
 
 	protected virtual IEnumerator EndSpecial(bool stopImmediate = false)

@@ -11,6 +11,7 @@ public class Teddy : StrengthType
 	private GameObject instantiatedAoe = null;
 	protected void SpawnConeAoe()
 	{
+		Debug.LogWarning("I Actually spawned a hitbox");
 		instantiatedAoe = Instantiate(aoeShape, attackPosition);
 		AoeHitbox hitbox = instantiatedAoe.GetComponent<AoeHitbox>();
 		hitbox.AoeDamageMultiplier = aoeDamageMultiplier;
@@ -20,6 +21,10 @@ public class Teddy : StrengthType
 		Destroy(instantiatedAoe, aoeDestroyTime);
 	}
 
+	protected void DestroyConeAoe()
+	{
+		if (instantiatedAoe != null) Destroy(instantiatedAoe);
+	}
 	protected void SpawnThrustEffect()
 	{
 		Instantiate(specialFXPrefab, attackPosition.position, Quaternion.Euler(attackOrbit.rotation.eulerAngles.y, attackPosition.rotation.eulerAngles.y, 0));
@@ -30,9 +35,10 @@ public class Teddy : StrengthType
 		base.StartChargingSpecial();
 		LockAttackRotation = true;
 	}
-	public override void OnEndSpecial(bool stopImmediate = false)
+
+	protected override IEnumerator EndSpecial(bool stopImmediate = false)
 	{
-		//if (instantiatedAoe != null) Destroy(instantiatedAoe);
-		base.OnEndSpecial();
+		if (instantiatedAoe != null) Destroy(instantiatedAoe);
+		return base.EndSpecial(stopImmediate);
 	}
 }

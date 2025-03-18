@@ -88,10 +88,10 @@ public class Phantaphant : SpeedType
 		OnEndSpecial();
 	}
 
-	public override void OnEndSpecial(bool stopImmediate = false)
+	protected override IEnumerator EndSpecial(bool stopImmediate = false)
 	{
-		base.OnEndSpecial();
 		targetPosition = null;
+		return base.EndSpecial(stopImmediate);
 	}
 	public override void StopChargingSpecial()
 	{
