@@ -50,7 +50,7 @@ public class TurteriamWall : MonoBehaviour
 			yield return null;
 		}
 		outerWallCollider.enabled = true;
-		//innerWallCollider.enabled = true;
+		innerWallCollider.enabled = true;
 		Destroy(gameObject, wallLifetime);
 	}
 }
