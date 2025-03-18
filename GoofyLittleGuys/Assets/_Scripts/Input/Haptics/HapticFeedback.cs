@@ -40,7 +40,7 @@ public static class HapticFeedback
 
 	private static IEnumerator HapticPulseRoutine(Gamepad gamepad, int pulseCount, float pulseDuration, float pauseDuration)
 	{
-		float rumbleAmount = Mathf.Max(0.1f, 0.75f * SettingsManager.Instance.GetSettings().rumbleAmount);
+		float rumbleAmount = 0.75f * SettingsManager.Instance.GetSettings().rumbleAmount;
 		for (int i = 0; i < pulseCount; i++)
 		{
 			gamepad.ResumeHaptics();
