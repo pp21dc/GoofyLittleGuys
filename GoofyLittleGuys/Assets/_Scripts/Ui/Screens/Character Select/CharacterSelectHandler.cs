@@ -9,7 +9,6 @@ using UnityEngine.UI;
 public class CharacterSelectHandler : MonoBehaviour
 {
 	[SerializeField] private GameObject characterSelector;
-	[SerializeField] private GameObject characterSelectorParent;
 	[SerializeField] private List<GameObject> charSelectors;
 	[SerializeField] private GameObject tutorialUi;
 	[SerializeField] private SelectorContainer[] lilGuySelectorParents;

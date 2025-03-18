@@ -28,6 +28,7 @@ public class UISelector : MonoBehaviour
 	[SerializeField] private GameObject lockedInPanel;
 	[SerializeField] private Image[] playerColourIndicators;
 	[SerializeField] private Image[] playerShapeIndicators;
+	[SerializeField] private Sprite checkmarkSprite;
 
 	private int currStarterIndex = 0;
 	private CharacterSelectState currentState = CharacterSelectState.CharacterSelect;
@@ -60,7 +61,7 @@ public class UISelector : MonoBehaviour
 			image.color = GameManager.Instance.PlayerColours[playerNum];
 			image.sprite = UiManager.Instance.shapes[playerNum];
 		}
-
+		if (currentState == CharacterSelectState.LockedIn) playerShapeIndicators[0].sprite = checkmarkSprite;
 		selectorText.text = $"P{playerNum + 1}";
 		UpdateCard();
 	}
@@ -182,6 +183,7 @@ public class UISelector : MonoBehaviour
 				// If we're in the locked in state, go back to character select.
 				currentState = CharacterSelectState.CharacterSelect;
 				lockedIn = false;
+				UpdateColours();
 				UpdateCard();
 
 				// Grab the lil guy this player had, and delete them.
@@ -214,7 +216,8 @@ public class UISelector : MonoBehaviour
 	{
 		lockedIn = true;
 		currentState = CharacterSelectState.LockedIn;
-		UpdateCard();
+		UpdateColours();
+
 
 		// Create a new starter lil guy
 		GameObject starterGO = Instantiate(charSelectMenu.starters[currStarterIndex].gameObject);
