@@ -166,15 +166,19 @@ public class WildBehaviour : MonoBehaviour
 		switch (currentState)
 		{
 			case AIState.Wander:
+				controller.LilGuy.StopAttacking();
 				HandleWander();
 				break;
 			case AIState.Chase:
+				controller.LilGuy.StopAttacking();
 				HandleChase();
 				break;
 			case AIState.Flee:
+				controller.LilGuy.StopAttacking();
 				HandleFlee();
 				break;
 			case AIState.ReturnHome:
+				controller.LilGuy.StopAttacking();
 				HandleReturnHome();
 				break;
 		}
@@ -247,12 +251,14 @@ public class WildBehaviour : MonoBehaviour
 		switch (currentState)
 		{
 			case AIState.Idle:
+				controller.LilGuy.StopAttacking();
 				HandleIdle();
 				break;
 			case AIState.Attack:
 				HandleAttack();
 				break;
 			case AIState.Dead:
+				controller.LilGuy.StopAttacking();
 				HandleDead();
 				break;
 		}
@@ -377,11 +383,12 @@ public class WildBehaviour : MonoBehaviour
 				// AI Combo Logic
 				if (controller.LilGuy.CurrentComboCount == 0 || controller.LilGuy.CanChainAttack) // Allow chaining at the correct frames
 				{
-					controller.LilGuy.AttemptAttack();
+					controller.LilGuy.StartAttacking();
 
 					if (controller.LilGuy.CurrentComboCount >= controller.LilGuy.maxCombo)
 					{
 						attackTime = attackBuffer;
+						controller.LilGuy.StopAttacking();
 					}
 				}
 			}
