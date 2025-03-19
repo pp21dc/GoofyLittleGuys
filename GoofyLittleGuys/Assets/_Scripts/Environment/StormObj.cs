@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Threading.Tasks;
 using System.Threading;
 using UnityEngine.Rendering;
+using UnityEditor;
 
 public class StormObj : MonoBehaviour
 {
@@ -13,16 +14,21 @@ public class StormObj : MonoBehaviour
     [SerializeField] private BoxCollider damageZone;
     [SerializeField] private Volume postVol;
 
+    private float currentTickDmg;
+
     private List<PlayerBody> playersInStorm = new List<PlayerBody>();
     private bool isRunning = true;
     private Dictionary<PlayerBody, CancellationTokenSource> playerTokens = new Dictionary<PlayerBody, CancellationTokenSource>();
 
-    private  void Start()
+    private void Start()
     {
         if (damageZone == null) damageZone = GetComponent<BoxCollider>();
         if (postVol == null) postVol = GetComponent<Volume>();
         damageZone.enabled = false;
         postVol.enabled = false;
+        currentTickDmg = dmgPerInterval;
+
+        EventManager.Instance.NotifyStormSpawned += damageIncrease;
     }
 
     private async void OnEnable()
@@ -32,6 +38,11 @@ public class StormObj : MonoBehaviour
         postVol.enabled = true;
 
         _ = DamageCycleAsync();
+    }
+
+    private void damageIncrease(float dmgToAdd, int numStorms)
+    {
+        currentTickDmg = dmgPerInterval + ((dmgToAdd * numStorms) - dmgToAdd);
     }
 
     private async Task DamageCycleAsync()
@@ -44,7 +55,7 @@ public class StormObj : MonoBehaviour
                 {
                     if (player != null)
                     {
-                        player.StormDamage(dmgPerInterval);
+                        player.StormDamage(currentTickDmg);
                     }
                 }
             }

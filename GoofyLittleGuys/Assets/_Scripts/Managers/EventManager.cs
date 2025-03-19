@@ -40,6 +40,9 @@ public class EventManager
 	public delegate void UiSwapDelegate(PlayerUi playerUi, float swapDirection);
 	public event UiSwapDelegate NotifyUiSwap;
 
+	public delegate void StormSpawnedDelegate(float dmgToAdd, int numStorms);
+	public event StormSpawnedDelegate NotifyStormSpawned;
+
 	private static EventManager _instance = null;
 	public static EventManager Instance
 	{
@@ -84,6 +87,12 @@ public class EventManager
 		// Once loading is complete, invoke the GameStarted event
 		GameStartedEvent();
 	}
+
+	public void CallStormSpawnedEvent(float dmgToAdd, int numStorms)
+	{
+		NotifyStormSpawned?.Invoke(dmgToAdd, numStorms);
+	}
+
 	public void GameStartedEvent()
 	{
 		GameStarted?.Invoke();
