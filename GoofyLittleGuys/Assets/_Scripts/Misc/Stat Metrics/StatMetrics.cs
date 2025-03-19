@@ -1,3 +1,4 @@
+using Managers;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -180,6 +181,8 @@ public class StatMetrics : MonoBehaviour
 		outputMessage += $"\nStats\nDamage Dealt: {damageDealt}\nDamage Taken: {damageTaken}\nDamage Reduced: {damageReduced}\nSpecials Used: {specialsUsed}\nTeam Wipes: {teamWipes}\nWild Lil Guys Defeated: {wildLilGuysDefeated}\nDeath Count: {deathCount}\nSwap Count: {swapCount}\nBerries Eaten: {berriesEaten}\nFountain Uses: {fountainUses}\nDistance Traveled: {distanceTraveled}m\nLil Guys tamed: {lilGuysTamedTotal}" +
 			$"\nFavourite Lil Guy: {GetFavoriteCharacter()}\nMost Visited Location: {GetMostVisitedLocation()}";
 		Managers.DebugManager.Log(outputMessage, Managers.DebugManager.DebugCategory.STAT_METRICS, Managers.DebugManager.LogLevel.LOG);
+		GameManager.Instance.ssr.playerStatObjects[body.Controller.PlayerNumber - 1].stats.SetText(outputMessage);
+		GameManager.Instance.ssr.playerStatObjects[body.Controller.PlayerNumber - 1].title.SetText(titles[0]);
 	}
 
 	private static float GetMax(List<StatMetrics> players, System.Func<StatMetrics, float> selector, bool excludeZero = false)
