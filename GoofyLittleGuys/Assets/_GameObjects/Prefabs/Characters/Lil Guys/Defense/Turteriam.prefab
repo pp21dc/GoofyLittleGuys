@@ -173,7 +173,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxCombo: 2
-  comboBufferTime: 0.65
+  comboBufferTime: 0.6
   guyName: Turteriam
   type: 1
   mesh: {fileID: 2263210829898551102}
@@ -196,12 +196,12 @@ MonoBehaviour:
   maxHealth: 100
   speed: 10
   defense: 25
-  strength: 22
+  strength: 20
   specialDuration: -1
   currentCharges: 1
   maxCharges: 1
-  cooldownDuration: 16
-  chargeRefreshRate: 20
+  cooldownDuration: 14
+  chargeRefreshRate: 14
   accelerationTime: 0.1
   knockbackResistance: 1
   knockbackDecayRate: 5
