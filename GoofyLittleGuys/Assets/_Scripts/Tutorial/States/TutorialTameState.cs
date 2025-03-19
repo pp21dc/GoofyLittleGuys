@@ -19,6 +19,8 @@ public class TutorialTameState : TutorialState
             stateMachine.Island.enemies.Add(lilG);
             targetLilG = lilG.GetComponent<LilGuyBase>();
         }
+
+        targetLilG.GetComponent<TutorialBehaviour>().TimeBeforeDestroyed = 9999f;
     }
 
     public override void Exit()
@@ -41,6 +43,7 @@ public class TutorialTameState : TutorialState
                 stateMachine.Island.enemies.Add(lilG);
                 targetLilG = lilG.GetComponent<LilGuyBase>();
             }
+            targetLilG.GetComponent<TutorialBehaviour>().TimeBeforeDestroyed = 9999f;
         }
         
         if (!complete) CheckSectionComplete();

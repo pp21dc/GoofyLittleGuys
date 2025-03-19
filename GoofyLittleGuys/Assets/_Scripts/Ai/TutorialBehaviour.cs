@@ -16,7 +16,8 @@ public class TutorialBehaviour : MonoBehaviour
 	[Tooltip("How long this lil guy can stay outside of their home camp before they return back to it.")]
 	[SerializeField] private float maxTimeOutsideHomeSpawner = 3f;
 
-	[SerializeField] private float timeBeforeDestroyed = 5f;  // Time until the gameobject is destroyed
+	[SerializeField] private float timeBeforeDestroyed = 0f;  // Time until the gameobject is destroyed
+	public float TimeBeforeDestroyed { get { return timeBeforeDestroyed; } set { timeBeforeDestroyed = value; } }
 
 	[Header("Hostility Settings")]
 	[SerializeField] private float initialHostility = 1;
@@ -157,8 +158,6 @@ public class TutorialBehaviour : MonoBehaviour
 
 	private void FixedUpdate()
 	{
-
-
 		switch (currentState)
 		{
 			case AIState.Wander:
