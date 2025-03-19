@@ -201,8 +201,8 @@ MonoBehaviour:
   specialDuration: 0
   currentCharges: 1
   maxCharges: 1
-  cooldownDuration: 6
-  chargeRefreshRate: 6
+  cooldownDuration: 8
+  chargeRefreshRate: 8
   accelerationTime: 0.1
   knockbackResistance: 1
   knockbackDecayRate: 5
@@ -211,7 +211,7 @@ MonoBehaviour:
   attackEffect: {fileID: 0}
   dashTargetRange: 35
   slowAmount: -0.75
-  slowDuration: 1.6
+  slowDuration: 1.4
 --- !u!136 &3370327291423806742
 CapsuleCollider:
   m_ObjectHideFlags: 0

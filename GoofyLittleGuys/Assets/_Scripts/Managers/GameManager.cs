@@ -33,6 +33,8 @@ namespace Managers
 		[SerializeField] private TMP_Text gameTimer;             // The Timer textbox itself
 		[SerializeField] private TMP_Text timerContext;             // The Timer textbox itself
 		[SerializeField] private float stormTimer = 20.0f; // how long between spawning new storms in phase 2
+		[Tooltip("How much a storms damage should increase each time another storm is spawned"),
+			SerializeField] private float stormDmgIncrease = 2f;		// How much a storm 
 		[SerializeField] private AudioSource[] phaseAudioSources; // how long between spawning new storms in phase 2
 		[SerializeField] private AudioSource alertAudioSource; // a central audio source for sounds such as alerts, events etc.
 		[SerializeField] private Animator phase2CloudAnim;
@@ -518,6 +520,9 @@ namespace Managers
 				if (stormToActivate != null && !stormToActivate.activeSelf) // activate a new storm
 				{
 					stormToActivate.SetActive(true);
+					activeStorms++;
+					yield return new WaitForEndOfFrame();
+					EventManager.Instance.CallStormSpawnedEvent(stormDmgIncrease, activeStorms);
 					stormThisLoop = true;
 				}
 				if (stormThisLoop) // if there has been a storm in this loop, wait for timer
