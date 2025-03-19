@@ -1,7 +1,9 @@
 using Managers;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class StatMetrics : MonoBehaviour
 {
@@ -23,6 +25,8 @@ public class StatMetrics : MonoBehaviour
 	private float lowestHPDuringBattle;
 	private bool isInCombat = false;
 	private bool survivedWithLowHP = false;
+
+	[SerializeField] private List<LilGuyBase> lilGuys;
 
 	public float DamageDealt { get => damageDealt; set => damageDealt = value; }
 	public float DamageTaken { get => damageTaken; set => damageTaken = value; }
@@ -114,9 +118,11 @@ public class StatMetrics : MonoBehaviour
 		if (body.LilGuyTeam.Exists(lilGuy => lilGuy.GuyName.Equals("Armordillo")) && body.LilGuyTeam.Exists(lilGuy => lilGuy.GuyName.Equals("Turteriam"))) titles.Add("Defensive Offense");
 
 		if (body.LilGuyTeam.Exists(lilGuy => lilGuy.Type == LilGuyBase.PrimaryType.Strength) && body.LilGuyTeam.Exists(lilGuy => lilGuy.Type == LilGuyBase.PrimaryType.Defense) && body.LilGuyTeam.Exists(lilGuy => lilGuy.Type == LilGuyBase.PrimaryType.Speed)) titles.Add("All-Rounder");
+        
+		else if (body.LilGuyTeam.Count == 3) titles.Add("Dream Team");
 
 
-		return titles;
+        return titles;
 	}
 
 	// Start is called before the first frame update
@@ -174,12 +180,22 @@ public class StatMetrics : MonoBehaviour
 
 	public void ShowMetrics(List<StatMetrics> allPlayers)
 	{
-		string outputMessage = "Titles\n";
+		string favourite = GetFavoriteCharacter();
+		foreach (LilGuyBase lilguy in lilGuys)
+		{
+			if(lilguy.name == favourite)
+			{
+				GameManager.Instance.ssr.playerStatObjects[body.Controller.PlayerNumber - 1].image.sprite = lilguy.Icon;
+				break;
+            }
+		}
+		GameManager.Instance.ssr.playerStatObjects[body.Controller.PlayerNumber - 1].gameObject.SetActive(true);
+        GameManager.Instance.ssr.playerStatObjects[body.Controller.PlayerNumber - 1].image.sprite
+        string outputMessage = "Titles\n";
 		List<string> titles = GetTitles(allPlayers);
 		foreach (string title in titles) outputMessage += title + "\n";
 
-		outputMessage += $"\nStats\nDamage Dealt: {damageDealt}\nDamage Taken: {damageTaken}\nDamage Reduced: {damageReduced}\nSpecials Used: {specialsUsed}\nTeam Wipes: {teamWipes}\nWild Lil Guys Defeated: {wildLilGuysDefeated}\nDeath Count: {deathCount}\nSwap Count: {swapCount}\nBerries Eaten: {berriesEaten}\nFountain Uses: {fountainUses}\nDistance Traveled: {distanceTraveled}m\nLil Guys tamed: {lilGuysTamedTotal}" +
-			$"\nFavourite Lil Guy: {GetFavoriteCharacter()}\nMost Visited Location: {GetMostVisitedLocation()}";
+		outputMessage += $"\nStats\nDamage Dealt: {damageDealt}\nDamage Taken: {damageTaken}\nDamage Reduced: {damageReduced}\nSpecials Used: {specialsUsed}\nTeam Wipes: {teamWipes}\nWild Lil Guys Defeated: {wildLilGuysDefeated}\nDeath Count: {deathCount}\nSwap Count: {swapCount}\nBerries Eaten: {berriesEaten}\nFountain Uses: {fountainUses}\nDistance Traveled: {distanceTraveled}m\nLil Guys tamed: {lilGuysTamedTotal}";
 		Managers.DebugManager.Log(outputMessage, Managers.DebugManager.DebugCategory.STAT_METRICS, Managers.DebugManager.LogLevel.LOG);
 		GameManager.Instance.ssr.playerStatObjects[body.Controller.PlayerNumber - 1].stats.SetText(outputMessage);
 		GameManager.Instance.ssr.playerStatObjects[body.Controller.PlayerNumber - 1].title.SetText(titles[0]);
