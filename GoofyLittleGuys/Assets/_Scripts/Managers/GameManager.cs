@@ -86,6 +86,9 @@ namespace Managers
 		public float NonActiveLilGuyScaleFactor => nonActiveLilGuyScaleFactor;
 		public WaterChangeContainer WaterChangeContainer => waterChangeContainer;
 
+		[SerializeField] private GameObject statScreenObject;
+		public StatscreenReferences ssr;
+		
 		public override void Awake()
 		{
 			base.Awake();
