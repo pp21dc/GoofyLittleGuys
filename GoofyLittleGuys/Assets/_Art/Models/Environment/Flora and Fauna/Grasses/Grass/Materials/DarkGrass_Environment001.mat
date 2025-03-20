@@ -61,7 +61,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Normal:
-        m_Texture: {fileID: 2800000, guid: 060011e9f2316dd47bb57bb60aa2227f, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -123,8 +123,8 @@ Material:
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
-    - _WindDensity: 0.22
-    - _WindStrength: 0.52
+    - _WindDensity: 0.3
+    - _WindStrength: 1.5
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
