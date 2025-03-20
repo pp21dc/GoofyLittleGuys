@@ -60,6 +60,7 @@ public class Hitbox : MonoBehaviour
 			h.LastHit = hitboxOwner.GetComponent<LilGuyBase>().PlayerOwner;
 
 			EventManager.Instance.ApplyDebuff(hitboxOwner, toadstool.PoisonDamage, toadstool.PoisonDuration, DebuffType.Poison, toadstool.PoisonDamageApplicationInterval);
+			toadstool.PlaySound("Poison_Spray");
 		}
 		DefenseType defenseLilGuy = h.gameObject.GetComponent<DefenseType>();
 		if (defenseLilGuy != null && defenseLilGuy.IsShieldActive)

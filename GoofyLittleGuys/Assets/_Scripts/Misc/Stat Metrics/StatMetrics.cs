@@ -190,7 +190,7 @@ public class StatMetrics : MonoBehaviour
             }
 		}
 		GameManager.Instance.ssr.playerStatObjects[body.Controller.PlayerNumber - 1].gameObject.SetActive(true);
-        GameManager.Instance.ssr.playerStatObjects[body.Controller.PlayerNumber - 1].image.sprite
+        //GameManager.Instance.ssr.playerStatObjects[body.Controller.PlayerNumber - 1].image.sprite
         string outputMessage = "Titles\n";
 		List<string> titles = GetTitles(allPlayers);
 		foreach (string title in titles) outputMessage += title + "\n";
