@@ -119,6 +119,7 @@ namespace Managers
 
 			currentLevelList.Add(levelName);
 
+			GameManager.Instance.ssr.gameObject.SetActive(false);
 			loadingScreen.gameObject.SetActive(false);
 			loadingScreen.LoadingBarOption2.value = 0;
 			loadingScreen.LoadProgress.text = "0%";

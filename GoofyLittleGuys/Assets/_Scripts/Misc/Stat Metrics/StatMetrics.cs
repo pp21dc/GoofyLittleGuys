@@ -189,8 +189,9 @@ public class StatMetrics : MonoBehaviour
 				break;
             }
 		}
-		GameManager.Instance.ssr.playerStatObjects[body.Controller.PlayerNumber - 1].gameObject.SetActive(true);
-        //GameManager.Instance.ssr.playerStatObjects[body.Controller.PlayerNumber - 1].image.sprite
+		GameManager.Instance.ssr.playerStatObjects[body.Controller.PlayerNumber - 1].background.color = GameManager.Instance.PlayerColours[body.Controller.PlayerNumber];
+		GameManager.Instance.ssr.playerStatObjects[body.Controller.PlayerNumber - 1].shape.sprite = UiManager.Instance.shapes[body.Controller.PlayerNumber];
+        GameManager.Instance.ssr.playerStatObjects[body.Controller.PlayerNumber - 1].gameObject.SetActive(true);
         string outputMessage = "Titles\n";
 		List<string> titles = GetTitles(allPlayers);
 		foreach (string title in titles) outputMessage += title + "\n";

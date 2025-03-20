@@ -9,4 +9,6 @@ public class StatCard : MonoBehaviour
     public TMP_Text title;
     public TMP_Text stats;
     public Image image;
+    public Image shape;
+    public Image background;
 }
