@@ -28,6 +28,7 @@ public class TutorialDefeatState : TutorialState
 
     public override void Update()
     {
+        base.Update();
         if (!targetLilG)
         {
             if (stateMachine.Island.enemies.Count > 0 && stateMachine.Island.enemies[0].GetComponent<LilGuyBase>() != null)

@@ -149,8 +149,8 @@ public class UISelector : MonoBehaviour
 		charSelectMenu.TutorialPrompt.SetActive(true);
 		controller.PlayerEventSystem.SetSelectedGameObject(null);
 		StartCoroutine(DelayButtonSelect());
-		
-		//player.actions["Navigate"].performed -= OnNavigated;
+
+		//controller.PlayerEventSystem.enabled = false;
 		player.actions["Submit"].performed -= OnSubmitted;
 	}
 	
@@ -211,6 +211,7 @@ public class UISelector : MonoBehaviour
 			case CharacterSelectState.Tutorial:
 				charSelectMenu.TutorialPrompt.SetActive(false);
 				//player.actions["Navigate"].performed += OnNavigated;
+				//controller.PlayerEventSystem.enabled = true;
 				player.actions["Submit"].performed += OnSubmitted;
 				currentState = CharacterSelectState.LockedIn;
 				break;
