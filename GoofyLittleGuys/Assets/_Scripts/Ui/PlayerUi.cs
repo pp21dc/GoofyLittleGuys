@@ -151,7 +151,7 @@ public class PlayerUi : MonoBehaviour
 
 	private void SetIcons()
 	{
-		CurrentCharacter.sprite = pb.LilGuyTeam[0].Icon;
+		//CurrentCharacter.sprite = pb.LilGuyTeam[0].Icon;
 		AbilityIcon.sprite = pb.LilGuyTeam[0].AbilityIcon;
 		if (pb.LilGuyTeam.Count > 1)
 			RBCharacter.sprite = pb.LilGuyTeam[1].Icon;
