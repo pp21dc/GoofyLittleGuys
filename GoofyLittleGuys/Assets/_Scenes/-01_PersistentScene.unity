@@ -728,6 +728,7 @@ MonoBehaviour:
   stats: {fileID: 988206141}
   image: {fileID: 210858715}
   shape: {fileID: 0}
+  background: {fileID: 0}
 --- !u!114 &287334781
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1374,6 +1375,7 @@ MonoBehaviour:
   stats: {fileID: 958638658}
   image: {fileID: 0}
   shape: {fileID: 0}
+  background: {fileID: 0}
 --- !u!114 &499621702
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4992,6 +4994,16 @@ PrefabInstance:
       propertyPath: spawnPoints.Array.data[3]
       value: 
       objectReference: {fileID: 733882631}
+    - target: {fileID: 1970606836446198798, guid: de1849616cf5e6e41990742051e315c8,
+        type: 3}
+      propertyPath: legendaryLevels.Array.data[0]
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 1970606836446198798, guid: de1849616cf5e6e41990742051e315c8,
+        type: 3}
+      propertyPath: legendaryLevels.Array.data[1]
+      value: 18
+      objectReference: {fileID: 0}
     - target: {fileID: 2149464314047068899, guid: de1849616cf5e6e41990742051e315c8,
         type: 3}
       propertyPath: OutputAudioMixerGroup
@@ -6306,6 +6318,7 @@ MonoBehaviour:
   stats: {fileID: 1773980091}
   image: {fileID: 0}
   shape: {fileID: 0}
+  background: {fileID: 0}
 --- !u!114 &1502497040
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7815,6 +7828,7 @@ MonoBehaviour:
   stats: {fileID: 613791245}
   image: {fileID: 0}
   shape: {fileID: 0}
+  background: {fileID: 0}
 --- !u!114 &1777122129
 MonoBehaviour:
   m_ObjectHideFlags: 0
