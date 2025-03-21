@@ -107,7 +107,6 @@ namespace Managers
 
 		private void LoadSettings()
 		{
-
 			SettingsManager.Instance.LoadSettings();
 			GameSettings settings = SettingsManager.Instance.GetSettings();
 			AudioManager.Instance.SetupMixerVolumes(settings);
@@ -130,8 +129,6 @@ namespace Managers
 			EventManager.Instance.NotifyGameOver -= QuitGame;
 			SceneManager.sceneLoaded -= OnSceneLoaded;
 		}
-
-		
 
 		private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
 		{
@@ -458,9 +455,7 @@ namespace Managers
 			}
 			Managers.DebugManager.Log("Brawl Phase has ended by knockout!", DebugManager.DebugCategory.GENERAL);
 		}
-
-
-		//TODO: DELETE THIS AFTER WHITEBOX AS THIS IS A TEMP SOLVE FOR ENDING GAME
+		
 		private IEnumerator endGame()
 		{
 			yield return new WaitForSeconds(6);
@@ -477,7 +472,7 @@ namespace Managers
 			currentGameTime = 0;
 			Time.timeScale = 0;
 			gameOver = false;
-			StopAllCoroutines(); // this stop the game from fucking destroying itself when restarting TODO: FIND THE FUCKING LEAK
+			StopAllCoroutines();
 		}
 
 		/// <summary>

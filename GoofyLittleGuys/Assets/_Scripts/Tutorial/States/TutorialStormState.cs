@@ -16,6 +16,8 @@ public class TutorialStormState : TutorialState
     public override void Exit()
     {
         base.Exit();
+        stateMachine.Player.StormHurtFx.SetActive(false);
+        stateMachine.Player.InStorm = false;
     }
 
     public override void Update()
@@ -33,7 +35,7 @@ public class TutorialStormState : TutorialState
     public override void CheckSectionComplete()
     {
         // one lil g dead other took dmg
-        if (stateMachine.Player.LilGuyTeam[1].Health > 0 && stateMachine.Player.LilGuyTeam[0].Health < stateMachine.Player.LilGuyTeam[0].MaxHealth)
+        if (stateMachine.Player.LilGuyTeam[1].IsDead && stateMachine.Player.LilGuyTeam[0].Health < stateMachine.Player.LilGuyTeam[0].MaxHealth)
         {
             base.CheckSectionComplete();
             stateMachine.Island.storm.SetActive(false);

@@ -45,13 +45,13 @@ public class TutorialBehaviour : MonoBehaviour
 	[SerializeField] private float wanderIntervalMax = 10f;
 	[SerializeField] private float minWanderRadius = 2f; // Radius within which to pick a random point to wander
 	[SerializeField] private float maxWanderRadius = 5f; // Radius within which to pick a random point to wander
+	[SerializeField] private Transform home;
 
 	[SerializeField] private bool isCatchable = true;
 
 	private GameObject instantiatedPlayerRangeIndicator;
-	private AiController controller;
+	private TutorialAiController controller;
 	private Coroutine deathCoroutine = null;
-	private SpawnerObj homeSpawner = null;
 	private Collider lilGuyCollider;
 
 	Vector3 wanderTarget = Vector3.zero;
@@ -67,7 +67,7 @@ public class TutorialBehaviour : MonoBehaviour
 
 	private float levelUpdateTimer = 0;
 	GameObject faintedEffect;
-	public SpawnerObj HomeSpawner { get { return homeSpawner; } set { homeSpawner = value; } }
+	public Transform Home { get { return home; } set { home = value; } }
 	public float Charisma => charisma;
 	public bool IsCatchable { get => isCatchable; set => isCatchable = value; }
 	public float AttackRange { get => attackRange; set => attackRange = value; }
@@ -81,7 +81,7 @@ public class TutorialBehaviour : MonoBehaviour
 
 	private void Start()
 	{
-		controller = GetComponent<AiController>();
+		controller = GetComponent<TutorialAiController>();
 		lilGuyCollider = GetComponent<Collider>();
 	}
 
@@ -106,11 +106,11 @@ public class TutorialBehaviour : MonoBehaviour
 				controller.HealthBars.UpdateUI();
 			}
 		}
-		legendaryIcon.SetActive(!isCatchable);
+		if (legendaryIcon) legendaryIcon.SetActive(!isCatchable);
 		// Reset attack buffer on AI.
 		if (attackTime > 0) attackTime -= Time.deltaTime;
 
-		if (!IsWithinCamp()) timeSpentFromHome += Time.deltaTime;
+		if (home && !IsWithinCamp()) timeSpentFromHome += Time.deltaTime;
 		else timeSpentFromHome = 0f;
 
 		if (timeSpentFromHome >= maxTimeOutsideHomeSpawner)
@@ -276,10 +276,7 @@ public class TutorialBehaviour : MonoBehaviour
 
 	private Vector3 GetRandomWanderPoint()
 	{
-		float angle = Random.Range(0f, Mathf.PI * 2f);
-		Vector3 offset = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * Random.Range(minWanderRadius, Mathf.Min(homeSpawner.SpawnArea.radius, maxWanderRadius));
-
-		return homeSpawner.transform.position + offset;
+		return home.position;
 	}
 
 	private void MoveLilGuyTowards(Vector3 target, float moveSpeedAdjustment = 1.0f)
@@ -459,12 +456,13 @@ public class TutorialBehaviour : MonoBehaviour
 
 		MoveLilGuyTowards(wanderTarget);
 	}
-
-
-
+	
 	private void HandleDead()
 	{
-		deathCoroutine ??= StartCoroutine(Dead());
+		if (deathCoroutine == null)
+		{
+			deathCoroutine = StartCoroutine(Dead());
+		}
 	}
 
 	/// <summary>
@@ -498,12 +496,11 @@ public class TutorialBehaviour : MonoBehaviour
 		controller.LilGuy.PlayDeathAnim(true);
 		controller.LilGuy.RB.velocity = Vector3.zero;
 		controller.LilGuy.RB.isKinematic = true;
-		homeSpawner.RemoveLilGuyFromSpawns();
 		faintedEffect = Instantiate(FXManager.Instance.GetEffect("Fainted"), transform.position, Quaternion.identity, transform);
 		controller.HealthUi.gameObject.SetActive(false);
 		if (isCatchable)
 		{
-			instantiatedPlayerRangeIndicator = Instantiate(capturingPlayerRange, transform.position, Quaternion.identity, Managers.SpawnManager.Instance.transform);
+			instantiatedPlayerRangeIndicator = Instantiate(capturingPlayerRange, transform.position, Quaternion.identity, TutorialManager.Instance.transform);
 			instantiatedPlayerRangeIndicator.GetComponent<CaptureZone>().Init(controller.LilGuy);
 			float currTime = 0;
 			while (currTime < timeBeforeDestroyed)
@@ -526,7 +523,7 @@ public class TutorialBehaviour : MonoBehaviour
 
 	private bool IsWithinCamp()
 	{
-		return Physics.OverlapSphere(homeSpawner.transform.position + homeSpawner.SpawnArea.center, homeSpawner.SpawnArea.radius).Contains(lilGuyCollider);
+		return Physics.OverlapSphere(home.position, 1f).Contains(lilGuyCollider);
 	}
 
 	private void OnDestroy()

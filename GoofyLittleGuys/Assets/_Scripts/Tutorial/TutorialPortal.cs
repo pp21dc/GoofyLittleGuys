@@ -5,10 +5,12 @@ using UnityEngine;
 public class TutorialPortal : InteractableBase
 {
     // -- Variables --
-    [SerializeField] private Teleporter targetTeleporter;
+    [SerializeField] private TutorialPortal targetTeleporter;
     [SerializeField] private Transform endTeleportLocation;
     private BoxCollider teleporterCollider;
     private List<GameObject> inRange = new List<GameObject>();
+    
+    public Transform EndTeleportLocation { get { return endTeleportLocation; } }
 
     #region Event Functions
     private void Start()

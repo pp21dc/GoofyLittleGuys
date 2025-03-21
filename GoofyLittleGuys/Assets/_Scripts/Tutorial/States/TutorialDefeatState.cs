@@ -30,7 +30,7 @@ public class TutorialDefeatState : TutorialState
     {
         if (!targetLilG)
         {
-            if (stateMachine.Island.enemies.Count > 0)
+            if (stateMachine.Island.enemies.Count > 0 && stateMachine.Island.enemies[0].GetComponent<LilGuyBase>() != null)
                 targetLilG = stateMachine.Island.enemies[0].GetComponent<LilGuyBase>();
             else
             {
@@ -51,7 +51,7 @@ public class TutorialDefeatState : TutorialState
 
     public override void CheckSectionComplete()
     {
-        if (targetLilG.IsDying)
+        if (targetLilG.IsDead || stateMachine.Player.LilGuyTeam.Count > 1)
             base.CheckSectionComplete();
     }
 }

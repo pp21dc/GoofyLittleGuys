@@ -57,6 +57,7 @@ public class PlayerBody : MonoBehaviour
 	private Color playerColour = Color.white;
 
 	private InteractableBase closestInteractable = null;
+	private GameObject starter = null;
 	private int berryCount = 0;
 	private bool isDead = false;
 	private bool inStorm = false;               // used by storm objects to determine if the player is currently in the storm
@@ -107,11 +108,13 @@ public class PlayerBody : MonoBehaviour
 	public bool InStorm { get { return inStorm; } set { inStorm = value; } }
 	public bool StormDmg { get { return stormDmg; } set { stormDmg = value; } }
 	public bool StormCoroutine { get { return stormCoroutine; } set { stormCoroutine = value; } }
+	public GameObject StormHurtFx { get { return stormHurtFX; } set { stormHurtFX = value; } }
 	public bool IsDashing { get { return isDashing; } set { isDashing = value; } }
 	public bool IsInteracting { get { return isInteracting; } set { isInteracting = value; } }
 	public bool KnockedBack { get { return knockedBack; } set { knockedBack = value; } }
 	public LilGuyBase ActiveLilGuy { get { return activeLilGuy; } set { activeLilGuy = value; } }
 	public GameObject TeamFullMenu { get { return teamFullMenu; } set { teamFullMenu = value; } }
+	public GameObject Starter { get {return starter; } set { starter = value; } }
 	public bool Flip { get { return flip; } set { flip = value; } }
 	public bool IsDead => isDead;
 	public int BerryCount { get { return berryCount; } set { berryCount = value; } }
@@ -164,7 +167,7 @@ public class PlayerBody : MonoBehaviour
 			// Calculate the angle using Atan2 (for XZ plane rotation)
 			Quaternion finalRotation = surfaceRotation * lilGuyTeam[0].AttackOrbit.rotation;          // Combine with the pivot's rotation
 
-			directionIndicator.transform.rotation = Quaternion.Slerp(directionIndicator.transform.rotation, finalRotation, smoothFactor); ;
+			directionIndicator.transform.rotation = Quaternion.Slerp(directionIndicator.transform.rotation, finalRotation, smoothFactor);
 		}
 		invincibilityFX.SetActive(hasImmunity && !wasDefeated);
 		invincibilityFX.transform.rotation = lilGuyTeam[0].Mesh.transform.rotation;
@@ -215,7 +218,7 @@ public class PlayerBody : MonoBehaviour
 			Debug.Log("In AIR!");
 			rb.velocity += Vector3.up * Physics.gravity.y * (maxSpeed - 1) * Time.fixedDeltaTime;
 		}
-
+		
 		// Apply movement
 		if (!isDashing && canMove && !lilGuyTeam[0].LockMovement)
 		{
@@ -305,12 +308,15 @@ public class PlayerBody : MonoBehaviour
 		if (closestWildLilGuy != null)
 		{
 			GameplayStats.LilGuysTamedTotal++;
-			closestWildLilGuy.GetComponent<WildBehaviour>().HomeSpawner.RemoveLilGuyFromSpawns();
+			var wBehave = closestWildLilGuy.GetComponent<WildBehaviour>();
+			if (wBehave.enabled)
+				wBehave.HomeSpawner.RemoveLilGuyFromSpawns();
 			closestWildLilGuy.PlayerOwner = this;
 			closestWildLilGuy.Init(LayerMask.NameToLayer("Player"));
 			closestWildLilGuy.Health = closestWildLilGuy.MaxHealth;
 			closestWildLilGuy.ResetTimers();
 			closestWildLilGuy.GetComponent<AiController>().SetState(AiController.AIState.Tamed);
+			closestWildLilGuy.GetComponent<TutorialAiController>()?.SetState(TutorialAiController.AIState.Tamed);
 			closestWildLilGuy.GetComponent<Hurtbox>().LastHit = null;
 			closestWildLilGuy.LeaveDeathAnim();
 			closestWildLilGuy.CalculateMoveSpeed();
@@ -557,7 +563,6 @@ public class PlayerBody : MonoBehaviour
 	/// </summary>
 	private void Init()
 	{
-
 		DisableUIControl();
 		rb.isKinematic = false;
 		controller.PlayerCam.gameObject.SetActive(true);

@@ -1,4 +1,7 @@
-﻿public class TutorialState : IState
+﻿using Managers;
+using UnityEngine;
+
+public class TutorialState : IState
 {
     protected TutorialStateMachine stateMachine;
     
@@ -19,6 +22,17 @@
 
     public virtual void Update()
     {
+        if (Input.GetKeyDown(KeyCode.P)) //TODO: remove later when tutorial is tested a lot more
+        {
+            var index = TutorialManager.Instance.IslandsComplete.FindIndex(b => !b); // find the first false index
+            if (index != -1) // would return -1 in the case there isn't a false value
+            {
+                DebugManager.Log("Tutorial Stage Complete");
+                TutorialManager.Instance.IslandsComplete[index] = true;
+                complete = true;
+            }
+            TutorialManager.Instance.CheckComplete();
+        }
     }
 
     public virtual void FixedUpdate()
@@ -27,11 +41,12 @@
 
     public virtual void CheckSectionComplete()
     {
-        complete = true;
         var index = TutorialManager.Instance.IslandsComplete.FindIndex(b => !b); // find the first false index
         if (index != -1) // would return -1 in the case there isn't a false value
         {
+            DebugManager.Log("Tutorial Stage Complete");
             TutorialManager.Instance.IslandsComplete[index] = true;
+            complete = true;
         }
         TutorialManager.Instance.CheckComplete();
     }

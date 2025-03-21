@@ -137,6 +137,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	public int MaxStat => max_stat;
 	public int Xp { get => xp; set => xp = value; }
 	public bool IsDying { get { return isDying; } set { isDying = value; } }
+	public bool IsDead => isDead;
 	public bool IsInvincible { get { return isInvincible; } set { isInvincible = value; } }
 	public bool LockAttackRotation { get { return lockAttackRotation; } set { lockAttackRotation = value; } }
 	public bool LockMovement { get { return lockMovement; } set { lockMovement = value; } }

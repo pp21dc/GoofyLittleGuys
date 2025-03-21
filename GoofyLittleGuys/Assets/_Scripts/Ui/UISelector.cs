@@ -2,6 +2,7 @@ using Managers;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
@@ -10,7 +11,8 @@ public enum CharacterSelectState
 {
 	Disconnected,
 	CharacterSelect,
-	LockedIn
+	LockedIn,
+	Tutorial
 }
 
 public class UISelector : MonoBehaviour
@@ -43,11 +45,6 @@ public class UISelector : MonoBehaviour
 	public bool LockedIn { get { return lockedIn; } }
 
 	private float bufferTime = 0.5f;
-
-	private void Update()
-	{
-
-	}
 
 	public void UpdateColours()
 	{
@@ -136,13 +133,31 @@ public class UISelector : MonoBehaviour
 		if (!ctx.performed || bufferTime > 0) return;
 		if (currentState == CharacterSelectState.LockedIn && CheckIfValidGameStart())
 		{
-			// If we are in the locked in state and every other player is locked in, we can start the game!
-			EventManager.Instance.CallLilGuyLockedInEvent();
+			// If we are in the locked in state and every other player is locked in, we prompt if they want the tutorial
+			InTutorialPrompt();
 		}
 		else if (currentState == CharacterSelectState.CharacterSelect)
 		{
 			OnLockedIn();
 		}
+	}
+
+	private void InTutorialPrompt()
+	{
+		currentState = CharacterSelectState.Tutorial;
+		
+		charSelectMenu.TutorialPrompt.SetActive(true);
+		controller.PlayerEventSystem.SetSelectedGameObject(null);
+		StartCoroutine(DelayButtonSelect());
+		
+		//player.actions["Navigate"].performed -= OnNavigated;
+		player.actions["Submit"].performed -= OnSubmitted;
+	}
+	
+	private IEnumerator DelayButtonSelect()
+	{
+		yield return null;
+		controller.PlayerEventSystem.SetSelectedGameObject(charSelectMenu.TutorialPromptButton);
 	}
 
 	private void MoveSelector()
@@ -191,7 +206,13 @@ public class UISelector : MonoBehaviour
 				controller.Body.LilGuyTeam.RemoveAt(0);
 				controller.Body.UnsubscribeActiveLilGuy();
 				Destroy(lilGuyToRemove);
-
+				break;
+			
+			case CharacterSelectState.Tutorial:
+				charSelectMenu.TutorialPrompt.SetActive(false);
+				//player.actions["Navigate"].performed += OnNavigated;
+				player.actions["Submit"].performed += OnSubmitted;
+				currentState = CharacterSelectState.LockedIn;
 				break;
 
 		}

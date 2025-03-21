@@ -20,7 +20,7 @@ public class TutorialTameState : TutorialState
             targetLilG = lilG.GetComponent<LilGuyBase>();
         }
 
-        targetLilG.GetComponent<TutorialBehaviour>().TimeBeforeDestroyed = 9999f;
+        targetLilG.GetComponent<TutorialBehaviour>().IsCatchable = true;
     }
 
     public override void Exit()

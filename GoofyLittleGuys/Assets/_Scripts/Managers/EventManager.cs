@@ -80,6 +80,13 @@ public class EventManager
 		MultiplayerManager.Instance.AdjustCameraRects();
 		LevelLoadManager.Instance.StartCoroutine(WaitForLevelToLoad());
 	}
+	
+	public void CallTutorialEvent()
+	{
+		if (GameManager.Instance.StartGame) return;
+		LevelLoadManager.Instance.LoadNewLevel("TutorialScene");
+		MultiplayerManager.Instance.AdjustCameraRects();
+	}
 	private IEnumerator WaitForLevelToLoad()
 	{
 		yield return new WaitUntil(() => SceneManager.GetSceneByName("TerrainWhitebox").isLoaded);

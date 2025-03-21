@@ -13,10 +13,16 @@ public class CharacterSelectHandler : MonoBehaviour
 	[SerializeField] private GameObject tutorialUi;
 	[SerializeField] private SelectorContainer[] lilGuySelectorParents;
 	[SerializeField] private PlayerCard[] playerCards;
+	[SerializeField] private GameObject charSelectPanel;
+	[SerializeField] private GameObject tutorialPrompt;
+	[SerializeField] private GameObject tutorialPromptButton;
 
 	public PlayerCard[] PlayerCards => playerCards;
 	public List<LilGuyBase> starters;                                   // List containing the starters the player can choose from.
 	public SelectorContainer[] LilGuySelectorParents => lilGuySelectorParents;
+	public GameObject TutorialPrompt => tutorialPrompt;
+	public GameObject TutorialPromptButton => tutorialPromptButton;
+	public GameObject CharSelectPanel => charSelectPanel;
 
 	private void Awake()
 	{

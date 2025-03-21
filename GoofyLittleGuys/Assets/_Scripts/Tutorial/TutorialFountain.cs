@@ -9,6 +9,7 @@ public class TutorialFountain : InteractableBase
     
     [SerializeField] private Transform spawnPoint;				// The position players should respawn at, should all their lil guys be defeated.
 	List<GameObject> playersInRange = new List<GameObject>();
+	[SerializeField] public SphereCollider interactArea;
 
 	private void OnTriggerStay(Collider other)
 	{

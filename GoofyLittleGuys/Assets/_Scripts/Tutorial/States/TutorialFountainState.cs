@@ -15,12 +15,13 @@ public class TutorialFountainState : TutorialState
         base.Enter();
         
         //turn on the fountain component
-        stateMachine.Island.fountain.GetComponent<TutorialFountain>().enabled = true;
+        stateMachine.Island.fountain.GetComponent<TutorialFountain>().interactArea.enabled = true;
     }
 
     public override void Exit()
     {
         base.Exit();
+        stateMachine.Island.fountain.GetComponent<TutorialFountain>().interactArea.enabled = false;
     }
 
     public override void Update()

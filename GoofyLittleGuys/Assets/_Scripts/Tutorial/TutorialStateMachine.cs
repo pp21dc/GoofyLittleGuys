@@ -1,4 +1,6 @@
-﻿public class TutorialStateMachine : AStateMachine
+﻿using Unity.VisualScripting;
+
+public class TutorialStateMachine : AStateMachine
 {
     public PlayerBody Player { get; }
     public TutorialIsland Island { get; }
