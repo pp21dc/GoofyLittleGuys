@@ -86,6 +86,7 @@ public class EventManager
 		if (GameManager.Instance.StartGame) return;
 		LevelLoadManager.Instance.LoadNewLevel("TutorialScene");
 		MultiplayerManager.Instance.AdjustCameraRects();
+
 	}
 	private IEnumerator WaitForLevelToLoad()
 	{

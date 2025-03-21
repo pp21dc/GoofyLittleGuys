@@ -115,12 +115,11 @@ public class TutorialManager : SingletonBase<TutorialManager>
                 case 8:
                     tm.ChangeState(tm.TutorialPortalState);
                     break;
-                case 9:
+                default:
                     DebugManager.Log("B.. B.. B... BOOOOOOM!");
                     GameManager.Instance.StartGame = false;
                     ResetPlayers();
                     EventManager.Instance.CallLilGuyLockedInEvent();
-                    
                     break;
             }
         }
