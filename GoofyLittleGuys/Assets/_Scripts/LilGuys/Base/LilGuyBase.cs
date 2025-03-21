@@ -201,7 +201,7 @@ public abstract class LilGuyBase : MonoBehaviour
 			}
 		}
 
-		return Mathf.FloorToInt(totalLevels / count);
+		return count > 0 ? Mathf.FloorToInt(totalLevels / count) : 1;
 	}
 	public void CreateLegendary(float maxScale, int level)
 	{
@@ -218,7 +218,6 @@ public abstract class LilGuyBase : MonoBehaviour
 		if (randomRange) level = Mathf.Clamp(Mathf.FloorToInt(UnityEngine.Random.Range(level - 1f, level + 2f)), 1, 24); // Add a variance of ~1 level greater/less
 		this.level = level;
 
-		float healthRatio = health / maxHealth;
 		int numOfMilestonesMet = Mathf.FloorToInt(level / 5);
 		Strength += (milestonePoints * numOfMilestonesMet);
 		Speed += (milestonePoints * numOfMilestonesMet);
@@ -246,7 +245,7 @@ public abstract class LilGuyBase : MonoBehaviour
 				throw new ArgumentOutOfRangeException();
 		}
 		MaxHealth += primaryPoints * (level - 1);   // Exclude first level.
-		health = Mathf.CeilToInt(healthRatio * maxHealth);
+		health = maxHealth;
 	}
 	/// <summary>
 	/// Method to be called on lil guy instantiation.

@@ -18,7 +18,7 @@ public class RespawnScreen : MonoBehaviour
 	private void OnEnable()
 	{
         respawnTime = player.DeathTime + GameManager.Instance.RespawnTimer;
-        currentRespawnTime = respawnTime - GameManager.Instance.CurrentGameTime;
+        currentRespawnTime = respawnTime - Time.time;
 
         UpdateUI();
 	}
@@ -31,7 +31,7 @@ public class RespawnScreen : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-		currentRespawnTime = respawnTime - GameManager.Instance.CurrentGameTime;
+		currentRespawnTime = respawnTime - Time.time;
         UpdateUI();
 
 		if (currentRespawnTime <= 0)

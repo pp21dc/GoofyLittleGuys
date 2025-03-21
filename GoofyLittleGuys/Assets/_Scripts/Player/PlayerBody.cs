@@ -484,12 +484,12 @@ public class PlayerBody : MonoBehaviour
 						if (!ReferenceEquals(lilGuyTeam[0].GetComponent<Hurtbox>().LastHit, null))
 				lilGuyTeam[0].GetComponent<Hurtbox>().LastHit.GameplayStats.TeamWipes++;
 			GameplayStats.DeathCount++;
-			deathTime = GameManager.Instance.CurrentGameTime;
+			deathTime = Time.time;
 			// No living lil guys, time for a respawn if possible.
-			if (deathTime < GameManager.Instance.PhaseOneDurationSeconds())
+			if (GameManager.Instance.CurrentPhase == 1)
 			{
 				EventManager.Instance.ShowRespawnTimer(this);   // Show the respawn screen.
-				respawnCoroutine ??= StartCoroutine(DelayedRespawn());
+				respawnCoroutine ??= StartCoroutine(DelayedRespawn(true));
 			}
 			else if (GameManager.Instance.CurrentPhase == 2 && !wasDefeated)
 			{
@@ -646,16 +646,16 @@ public class PlayerBody : MonoBehaviour
 	/// This coroutine simply waits respawnTimer, then respawns the given player
 	/// </summary>
 	/// <returns></returns>
-	private IEnumerator DelayedRespawn()
+	private IEnumerator DelayedRespawn(bool isPhase1)
 	{
 		canMove = false;
 		rb.velocity = Vector3.zero;
-		if (deathTime > GameManager.Instance.PhaseOneDurationSeconds())
+		if (!isPhase1)
 		{
 			rb.useGravity = false;
 		}
 		yield return new WaitForSeconds(Managers.GameManager.Instance.RespawnTimer);
-		if (deathTime <= GameManager.Instance.PhaseOneDurationSeconds())
+		if (isPhase1)
 		{
 			rb.useGravity = true;
 			Respawn();
