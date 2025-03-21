@@ -9,6 +9,7 @@ public abstract class LilGuyBase : MonoBehaviour
 {
 	public int maxCombo = 3; // Max number of attacks in a chain
 	public float comboBufferTime = 0.5f; // Time before combo resets
+	public float pauseBufferTime = 1f; // Time before combo resets
 	private int currentComboCount = 0;
 	private bool canChainAttack = false;
 	public bool CanChainAttack { get => canChainAttack; }
@@ -68,7 +69,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	[SerializeField] private float knockbackResistance = 1f;
 	[SerializeField] private float knockbackDecayRate = 5f;
 	private Vector3 knockbackForce = Vector3.zero;
-	private Coroutine hitstunCoroutine = null;	// for da hitstun
+	private Coroutine hitstunCoroutine = null;  // for da hitstun
 	private float hitStunSlowMult = 1f;
 
 	private Vector3 currentVelocity = Vector3.zero;
@@ -183,7 +184,7 @@ public abstract class LilGuyBase : MonoBehaviour
 		transform.localScale = scaleTo; // Ensure the final scale is applied
 	}
 	public void DetermineLevel()
-	{		
+	{
 		SetWildLilGuyLevel(GetAverageLevel());
 	}
 
@@ -357,9 +358,13 @@ public abstract class LilGuyBase : MonoBehaviour
 
 		if (isAttacking) AttemptAttack();
 		// Reset combo if buffer time is exceeded
-		if (Time.time - lastAttackTime > comboBufferTime && currentComboCount > 0)
+		if (currentComboCount > 0 && currentComboCount < maxCombo)
 		{
-			ResetCombo();
+			if (Time.time - lastAttackTime > comboBufferTime) ResetCombo();
+		}
+		else if (currentComboCount >= maxCombo)
+		{
+			if (Time.time - lastAttackTime > pauseBufferTime) ResetCombo();
 		}
 	}
 
@@ -386,7 +391,7 @@ public abstract class LilGuyBase : MonoBehaviour
 		{
 			PerformAttack();
 		}
-		else if (currentComboCount > 0) 
+		else if (currentComboCount > 0)
 		{
 			// Otherwise, queue attack to execute when animation allows it
 			attackQueued = true;
@@ -751,7 +756,7 @@ public abstract class LilGuyBase : MonoBehaviour
 
 		if (playerOwner != null)
 		{
-			playerOwner.GameplayStats.SpecialsUsed++; 
+			playerOwner.GameplayStats.SpecialsUsed++;
 			EventManager.Instance.StartAbilityCooldown(playerOwner.PlayerUI, cooldownDuration);
 		}
 		OnEndSpecial();
@@ -789,7 +794,7 @@ public abstract class LilGuyBase : MonoBehaviour
 		int numLevelUps = averageLevel - level;
 		if (numLevelUps > 0)
 		{
-			for(int i = 0; i < numLevelUps; i++)
+			for (int i = 0; i < numLevelUps; i++)
 			{
 				LevelUp(false);
 			}
@@ -805,7 +810,7 @@ public abstract class LilGuyBase : MonoBehaviour
 		{
 			levelUpEffect = Instantiate(FXManager.Instance.GetEffect("LevelUp"), transform.position + Vector3.forward + Vector3.up * 0.25f, Quaternion.identity, transform);
 			PlayEffectSound(levelUpEffect, "Level_Up");
-		}		
+		}
 		if (level % 5 == 0)
 		{
 			Strength += milestonePoints;
@@ -909,7 +914,7 @@ public abstract class LilGuyBase : MonoBehaviour
 			currentVelocity = Vector3.Lerp(currentVelocity, targetVelocity, Time.fixedDeltaTime / accelerationTime);
 
 			// Apply movement and knockback force
-			rb.velocity = new Vector3((currentVelocity.x/hitStunSlowMult) + knockbackForce.x, rb.velocity.y, (currentVelocity.z/hitStunSlowMult) + knockbackForce.z);
+			rb.velocity = new Vector3((currentVelocity.x / hitStunSlowMult) + knockbackForce.x, rb.velocity.y, (currentVelocity.z / hitStunSlowMult) + knockbackForce.z);
 		}
 		else
 		{
@@ -934,10 +939,10 @@ public abstract class LilGuyBase : MonoBehaviour
 		//set stun mult
 		//lerp stun mult back to 1 over stuntime
 		//change animator speed
-		
+
 		hitStunSlowMult = stunMult;
 		var timer = 0.0f;
-		while (timer <  stunTime)
+		while (timer < stunTime)
 		{
 			timer += Time.deltaTime;
 			var t = Mathf.Clamp01(timer / stunTime);
