@@ -74,7 +74,9 @@ public class UISelector : MonoBehaviour
 		if (player == null) return;
 		player.actions["Cancel"].performed -= OnCancelled;
 		player.actions["Navigate"].performed -= OnNavigated;
+		player.actions["Navigate"].performed -= OnNavigateTutorialPrompt;
 		player.actions["Submit"].performed -= OnSubmitted;
+		controller.PlayerEventSystem.enabled = true;
 	}
 
 	public void SetPlayer(PlayerInput player, CharacterSelectHandler menu)
@@ -82,6 +84,7 @@ public class UISelector : MonoBehaviour
 		this.player = player;
 		charSelectMenu = menu;
 		controller = player.GetComponent<PlayerController>();
+		controller.PlayerEventSystem.enabled = false;
 
 
 		this.player.actions["Cancel"].performed += OnCancelled;
@@ -124,11 +127,27 @@ public class UISelector : MonoBehaviour
 		MoveSelector();
 	}
 
-	/// <summary>
-	/// Called when the submit button is pressed.
-	/// </summary>
-	/// <param name="ctx"></param>
-	private void OnSubmitted(InputAction.CallbackContext ctx)
+    private void OnNavigateTutorialPrompt(InputAction.CallbackContext ctx)
+	{
+		var input = ctx.ReadValue<Vector2>();
+		if (input.x < 0) //left
+		{
+            controller.PlayerEventSystem.SetSelectedGameObject(null);
+			controller.PlayerEventSystem.SetSelectedGameObject(charSelectMenu.TutorialPromptButtons[0]);
+        }
+		else if (input.x > 0) //right
+		{
+            controller.PlayerEventSystem.SetSelectedGameObject(null);
+            controller.PlayerEventSystem.SetSelectedGameObject(charSelectMenu.TutorialPromptButtons[1]);
+        }
+			
+	}
+
+    /// <summary>
+    /// Called when the submit button is pressed.
+    /// </summary>
+    /// <param name="ctx"></param>
+    private void OnSubmitted(InputAction.CallbackContext ctx)
 	{
 		if (!ctx.performed || bufferTime > 0) return;
 		if (currentState == CharacterSelectState.LockedIn && CheckIfValidGameStart())
@@ -140,6 +159,10 @@ public class UISelector : MonoBehaviour
 		{
 			OnLockedIn();
 		}
+		else if (currentState == CharacterSelectState.Tutorial)
+		{
+			controller.PlayerEventSystem.currentSelectedGameObject.GetComponent<Button>().onClick.Invoke();
+		}
 	}
 
 	private void InTutorialPrompt()
@@ -150,14 +173,15 @@ public class UISelector : MonoBehaviour
 		controller.PlayerEventSystem.SetSelectedGameObject(null);
 		StartCoroutine(DelayButtonSelect());
 
-		//controller.PlayerEventSystem.enabled = false;
-		player.actions["Submit"].performed -= OnSubmitted;
+		//player.actions["Submit"].performed -= OnSubmitted;
+		player.actions["Navigate"].performed -= OnNavigated;
+		player.actions["Navigate"].performed += OnNavigateTutorialPrompt;
 	}
 	
 	private IEnumerator DelayButtonSelect()
 	{
 		yield return null;
-		controller.PlayerEventSystem.SetSelectedGameObject(charSelectMenu.TutorialPromptButton);
+		controller.PlayerEventSystem.SetSelectedGameObject(charSelectMenu.TutorialPromptButtons[0]);
 	}
 
 	private void MoveSelector()
@@ -210,9 +234,10 @@ public class UISelector : MonoBehaviour
 			
 			case CharacterSelectState.Tutorial:
 				charSelectMenu.TutorialPrompt.SetActive(false);
-				//player.actions["Navigate"].performed += OnNavigated;
-				//controller.PlayerEventSystem.enabled = true;
-				player.actions["Submit"].performed += OnSubmitted;
+
+				//player.actions["Submit"].performed += OnSubmitted;
+				player.actions["Navigate"].performed += OnNavigated;
+				player.actions["Navigate"].performed -= OnNavigateTutorialPrompt;
 				currentState = CharacterSelectState.LockedIn;
 				break;
 
