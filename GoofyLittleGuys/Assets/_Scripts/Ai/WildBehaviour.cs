@@ -238,6 +238,12 @@ public class WildBehaviour : MonoBehaviour
 				if (Physics.Raycast(wanderTarget + Vector3.up * 10f, Vector3.down, out hit, 20f, LayerMask.GetMask("Ground")))
 				{
 					wanderTarget = hit.point;
+					Vector3 inDirection = (wanderTarget - transform.position).normalized;
+					if (Physics.SphereCast(wanderTarget, 2f, inDirection.normalized, out hit, 0, LayerMask.GetMask("Obstacle", "PitColliders")))
+					{
+						Vector3 adjustmentPosition = new Vector3(hit.normal.x, wanderTarget.y, hit.normal.z).normalized;
+						wanderTarget += adjustmentPosition * 3;
+					}
 				}
 				break;
 			case AIState.ReturnHome:
@@ -288,9 +294,22 @@ public class WildBehaviour : MonoBehaviour
 	private Vector3 GetRandomWanderPoint()
 	{
 		float angle = Random.Range(0f, Mathf.PI * 2f);
-		Vector3 offset = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * Random.Range(minWanderRadius, Mathf.Min(homeSpawner.SpawnArea.radius, maxWanderRadius));
+		Vector3 offset = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * Random.Range(homeSpawner.SpawnArea.radius * 0.5f, Mathf.Min(homeSpawner.SpawnArea.radius, maxWanderRadius));
 
 		return homeSpawner.transform.position + offset;
+	}
+
+	private Vector3 CheckForObstacles(Vector3 inDirection)
+	{
+		RaycastHit hit;
+		if (Physics.SphereCast(transform.position, 2f, inDirection.normalized, out hit, 3, LayerMask.GetMask("Obstacle", "PitColliders")))
+		{
+			Vector3 newDir;
+			if (inDirection.x > 0f) newDir = Vector3.Cross(hit.normal, transform.up);
+			else newDir = Vector3.Cross(transform.up, hit.normal);
+			return Vector3.Lerp(inDirection, newDir, 1);
+		}
+		return inDirection;
 	}
 
 	private void MoveLilGuyTowards(Vector3 target, float moveSpeedAdjustment = 1.0f)
@@ -298,6 +317,7 @@ public class WildBehaviour : MonoBehaviour
 		Vector3 direction = (target - transform.position);
 		float distance = direction.magnitude;
 
+		direction = CheckForObstacles(direction);
 		// Stop moving if within a small range
 		if (distance < 0.5f)
 		{
@@ -425,32 +445,6 @@ public class WildBehaviour : MonoBehaviour
 
 	private void HandleReturnHome()
 	{
-		if (Vector3.Distance(transform.position, lastPosition) < minMoveDistance && controller.LilGuy.IsMoving)
-		{
-			stuckTimer += Time.fixedDeltaTime;
-
-			if (stuckTimer >= stuckThreshold)
-			{
-				DebugManager.Log($"[{controller.LilGuy.GuyName}] Stuck while returning home! Searching for closest waypoint...", DebugManager.DebugCategory.AI);
-
-				Waypoint closest = FindClosestWaypoint();
-
-				if (closest != null)
-				{
-					DebugManager.Log($"[{controller.LilGuy.GuyName}] Moving to waypoint {closest.name} to escape.", DebugManager.DebugCategory.AI);
-					wanderTarget = closest.transform.position;
-
-					// 🔹 Allow waypoint movement but ensure AI returns home after reaching it
-					returnHome = true;
-				}
-
-				stuckTimer = 0f; // Reset stuck timer after adjusting
-			}
-		}
-		else
-		{
-			stuckTimer = 0f; // Reset timer if AI is moving normally
-		}
 
 		lastPosition = transform.position;
 
