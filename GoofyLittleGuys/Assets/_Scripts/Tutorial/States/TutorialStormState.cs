@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Unity.VisualScripting;
+using UnityEngine;
 
 public class TutorialStormState : TutorialState
 {
@@ -35,6 +36,7 @@ public class TutorialStormState : TutorialState
     public override void CheckSectionComplete()
     {
         // one lil g dead other took dmg
+        if (stateMachine.Player.LilGuyTeam.Count <= 1) return;
         if (stateMachine.Player.LilGuyTeam[1].IsDead && stateMachine.Player.LilGuyTeam[0].Health < stateMachine.Player.LilGuyTeam[0].MaxHealth)
         {
             base.CheckSectionComplete();

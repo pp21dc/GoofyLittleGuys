@@ -131,11 +131,14 @@ public class TutorialManager : SingletonBase<TutorialManager>
     {
         foreach (var player in GameManager.Instance.Players)
         {
-            var demoTeddy = player.LilGuyTeam.Find(lg => lg.MaxHealth == 30);
+            if (player.LilGuyTeam.Count > 1)
+            {
+                var demoTeddy = player.LilGuyTeam.Find(lg => lg.MaxHealth == 30);
             player.LilGuyTeam.Remove(demoTeddy);
             Destroy(demoTeddy.gameObject);
             player.InStorm = false;
             player.StormHurtFx.SetActive(false);
+            }
             
             
             foreach (var lg in player.LilGuyTeam)

@@ -219,7 +219,7 @@ public class PlayerUi : MonoBehaviour
 
 	private void FlipUi()
 	{
-		LVL_Txt.transform.localScale = new Vector3(-1, 1, 1);
+		//LVL_Txt.transform.localScale = new Vector3(-1, 1, 1);
 		abilityCooldownText.transform.localScale = new Vector3(-1, 1, 1);
 		LBIcon.transform.localScale = new Vector3((float)-0.65528, (float)0.65528, (float)0.65528);
 		RBIcon.transform.localScale = new Vector3((float)-0.65528, (float)0.65528, (float)0.65528);
