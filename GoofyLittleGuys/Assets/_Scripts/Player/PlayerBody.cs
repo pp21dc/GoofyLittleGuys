@@ -388,26 +388,41 @@ public class PlayerBody : MonoBehaviour
 	{
 		if (activeLilGuy != null)
 		{
-			activeLilGuy.OnDeath -= HandleLilGuyDeath; // Unsubscribe from old Lil Guy
+			activeLilGuy.OnDeath -= HandleLilGuyDeath; // Unsubscribe old
 		}
 
 		activeLilGuy = newLilGuy;
 		activeLilGuy.IsAttacking = false;
-		// Configure active LilGuy's Rigidbody
-		activeLilGuy.GetComponent<Rigidbody>().isKinematic = true;
-		activeLilGuy.GetComponent<Rigidbody>().interpolation = RigidbodyInterpolation.None;
 
-		// Reset active LilGuy's position
-		activeLilGuy.transform.localPosition = Vector3.zero;
+		// Sanitize the list: remove ALL duplicates of newLilGuy
+		lilGuyTeam = lilGuyTeam.Distinct().ToList();
+		lilGuyTeam.RemoveAll(lg => lg == newLilGuy);
+		lilGuyTeam.Insert(0, newLilGuy);
 
-		// Set layers to ensure only active LilGuy takes damage
-		activeLilGuy.gameObject.layer = LayerMask.NameToLayer("PlayerLilGuys");
-		if (activeLilGuy != null)
+		// Move dead Lil Guys to the end
+		var alive = lilGuyTeam.Where(lg => lg.Health > 0).ToList();
+		var dead = lilGuyTeam.Where(lg => lg.Health <= 0 && lg != activeLilGuy).ToList();
+		lilGuyTeam = new List<LilGuyBase> { activeLilGuy };
+		lilGuyTeam.AddRange(alive.Where(lg => lg != activeLilGuy));
+		lilGuyTeam.AddRange(dead);
+
+		// Update follow goals
+		for (int i = 0; i < lilGuyTeam.Count; i++)
 		{
-			activeLilGuy.OnDeath += HandleLilGuyDeath; // Subscribe to new Lil Guy
-			activeLilGuy.SetMaterial(GameManager.Instance.OutlinedLilGuySpriteMat);
+			lilGuyTeam[i].SetFollowGoal(lilGuyTeamSlots[i].transform);
 		}
+
+		// Rigidbody and visuals
+		var rb = activeLilGuy.GetComponent<Rigidbody>();
+		rb.isKinematic = true;
+		rb.interpolation = RigidbodyInterpolation.None;
+		activeLilGuy.transform.localPosition = Vector3.zero;
+		activeLilGuy.gameObject.layer = LayerMask.NameToLayer("PlayerLilGuys");
+
+		activeLilGuy.OnDeath += HandleLilGuyDeath;
+		activeLilGuy.SetMaterial(GameManager.Instance.OutlinedLilGuySpriteMat);
 	}
+
 
 	/// <summary>
 	/// Only use this in Character Select Menu for now
