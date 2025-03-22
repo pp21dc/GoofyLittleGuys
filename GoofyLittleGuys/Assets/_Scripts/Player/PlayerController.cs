@@ -17,7 +17,8 @@ public class PlayerController : MonoBehaviour
 	private bool inTeamFullMenu = false;
 	private int playerNumber = 0;
 
-	[SerializeField] [Tooltip("Buffer time for special attack cancellation.")] private float specialBufferTime = 0.75f; // Time before the special can be canceled
+	[SerializeField] [Tooltip("Buffer time for special attack cancellation.")] private float turteriamSpecialBufferTime = 0.75f; // Time before the special can be canceled
+	[SerializeField] [Tooltip("Buffer time for special attack cancellation.")] private float toadstoolSpecialBufferTime = 1.5f; // Time before the special can be canceled
 	private float lastSpecialTime = -1f; // Tracks when the last special started
 	public int PlayerNumber { get { return playerNumber; } set => playerNumber = value; }
 	public bool InTeamFullMenu { get { return inTeamFullMenu; } set { inTeamFullMenu = value; } }
@@ -134,15 +135,17 @@ public class PlayerController : MonoBehaviour
 		if (ctx.started)
 		{
 			// Prevent canceling the special too quickly
-			if (Time.time - lastSpecialTime < specialBufferTime) return;
+			
 
 			if (character is Turteriam turt && turt.InstantiatedDome != null)
 			{
-				turt.OnEndSpecial(true); // Remove the dome when canceling special
+                if (Time.time - lastSpecialTime < turteriamSpecialBufferTime) return;
+                turt.OnEndSpecial(true); // Remove the dome when canceling special
 			}
 			else if (character is Toadstool defenseCharacter && defenseCharacter.IsInSpecialAttack)
-			{				
-				defenseCharacter.OnEndSpecial(true); // End the special
+            {
+                if (Time.time - lastSpecialTime < toadstoolSpecialBufferTime) return;
+                defenseCharacter.OnEndSpecial(true); // End the special
 			}
 			else
 			{
