@@ -23,6 +23,8 @@ public class PlayerBody : MonoBehaviour
 	[SerializeField] private GameObject stormHurtFX;
 	[SerializeField] private GameObject directionIndicator;
 	[SerializeField] private StatMetrics gameplayStats;
+	public BuffHandler Buffs { get; private set; } = new BuffHandler();
+
 
 	[Header("Movement Parameters")]
 	[SerializeField] private float maxSpeed = 25f;           // This turns into the speed of the active lil guy's. Used for the AI follow behaviours so they all keep the same speed in following the player.
@@ -34,8 +36,12 @@ public class PlayerBody : MonoBehaviour
 	private Vector3 knockbackForce = Vector3.zero;
 	private float hitStunSlowMult = 1f;
 
-	private float teamSpeedBoost = 0f;                       // If a lil guy gives a team boost to speed, this variable will store that speed boost.
-	private float teamDamageReduction = 0f;                       // If a lil guy gives a team boost to speed, this variable will store that speed boost.
+	[Header("DEBUG - Buffs (Read-Only)")]
+	[SerializeField] private float debugTeamSpeedBoost;
+	[SerializeField] private float debugTeamDamageReduction;
+
+	public float TeamSpeedBoost => Buffs.GetTotalValue(BuffType.TeamSpeedBoost);
+	public float TeamDamageReduction => Buffs.GetTotalValue(BuffType.TeamDamageReduction);
 
 	[Header("Berry Inventory Parameters")]
 	[SerializeField] private int maxBerryCount = 3;
@@ -129,8 +135,6 @@ public class PlayerBody : MonoBehaviour
 	public Vector3 MovementDirection => movementDirection;
 	public int MaxBerryCount => maxBerryCount;
 	public float MaxSpeed { get { return maxSpeed; } set { maxSpeed = value; } }
-	public float TeamSpeedBoost { get { return teamSpeedBoost; } set { teamSpeedBoost = value; } }
-	public float TeamDamageReduction { get { return teamDamageReduction; } set { teamDamageReduction = value; } }
 	public PlayerUi PlayerUI => playerUi;
 	public PlayerController Controller => controller;
 	public float DeathTime => deathTime;
@@ -143,13 +147,18 @@ public class PlayerBody : MonoBehaviour
 		EventManager.Instance.GameStarted += Init;
 		lastPosition = transform.position; // Initialize position
 	}
+	
 
 	private void OnDestroy()
 	{
 		EventManager.Instance.GameStarted -= Init;
+		Buffs.OnBuffExpired -= HandleBuffExpired;
 	}
 	private void Update()
 	{
+		Buffs.Update();
+		debugTeamSpeedBoost = Buffs.GetTotalValue(BuffType.TeamSpeedBoost);
+		debugTeamDamageReduction = Buffs.GetTotalValue(BuffType.TeamDamageReduction);
 		if (nextBerryUseTime > 0) nextBerryUseTime -= Time.deltaTime;
 		hasInteracted = false;
 		if (GameManager.Instance.IsPaused)
@@ -185,6 +194,7 @@ public class PlayerBody : MonoBehaviour
 	private void Awake()
 	{
 		//lilGuyTeam = new List<LilGuyBase>();
+		Buffs.OnBuffExpired += HandleBuffExpired;
 	}
 	private void OnApplicationFocus(bool focus)
 	{
@@ -211,7 +221,7 @@ public class PlayerBody : MonoBehaviour
 		else playerMesh.transform.rotation = new Quaternion(0, 0, 0, 1);
 
 		if (lilGuyTeam.Count > 0 && lilGuyTeam[0] != null)
-			maxSpeed = (lilGuyTeam[0].MovementSpeed + teamSpeedBoost);
+			maxSpeed = (lilGuyTeam[0].MovementSpeed + TeamSpeedBoost);
 
 		if (!IsGrounded())
 		{
@@ -227,7 +237,7 @@ public class PlayerBody : MonoBehaviour
 
 			Vector3 targetVelocity = movementDirection.magnitude < 0.1f
 				? Vector3.zero
-				: movementDirection.normalized * (lilGuyTeam[0].MovementSpeed * lilGuyTeam[0].MoveSpeedModifier + teamSpeedBoost);
+				: movementDirection.normalized * (lilGuyTeam[0].MovementSpeed * lilGuyTeam[0].MoveSpeedModifier + TeamSpeedBoost);
 
 			// Smoothly accelerate towards the target velocity
 			currentVelocity = Vector3.Lerp(currentVelocity, targetVelocity, Time.fixedDeltaTime / accelerationTime);
@@ -238,6 +248,20 @@ public class PlayerBody : MonoBehaviour
 
 		if (lilGuyTeam[0].LockMovement)
 			rb.velocity = new Vector3(0, rb.velocity.y, 0);
+	}
+
+	private void HandleBuffExpired(BuffType type, object source)
+	{
+		if (type == BuffType.TeamSpeedBoost)
+		{
+			foreach (LilGuyBase lilGuy in LilGuyTeam)
+			{
+				if (lilGuy != null && lilGuy.isActiveAndEnabled)
+				{
+					lilGuy.RemoveSpeedBoost();
+				}
+			}
+		}
 	}
 
 	// Method to apply knockback

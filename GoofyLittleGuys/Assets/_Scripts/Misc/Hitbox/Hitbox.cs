@@ -59,7 +59,7 @@ public class Hitbox : MonoBehaviour
 			h.TakeDamage(damageDealt);    // Ceil because we don't want them to be completely immune to damage.
 			h.LastHit = hitboxOwner.GetComponent<LilGuyBase>().PlayerOwner;
 
-			EventManager.Instance.ApplyDebuff(hitboxOwner, toadstool.PoisonDamage, toadstool.PoisonDuration, DebuffType.Poison, toadstool.PoisonDamageApplicationInterval);
+			EventManager.Instance.ApplyDebuff(hitboxOwner, toadstool.PoisonDamage, toadstool.PoisonDuration, BuffType.Poison, toadstool, toadstool.PoisonDamageApplicationInterval);
 			toadstool.PlaySound("Poison_Spray");
 		}
 		DefenseType defenseLilGuy = h.gameObject.GetComponent<DefenseType>();

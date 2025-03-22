@@ -32,19 +32,9 @@ public class Turteriam : DefenseType
 		if (instantiatedDome != null) Destroy(instantiatedDome);
 	}
 
-	// Update is called once per frame
-	protected override void Update()
+	protected override void OnDestroy()
 	{
-		base.Update();
-		if (!damageReductionActive && damageReductionRemoval != null)
-		{
-			StopCoroutine(damageReductionRemoval);
-			damageReductionRemoval = null;
-		}
-	}
-
-	private void OnDestroy()
-	{
+		base.OnDestroy();
 		DeleteDome();
 		OnDeath -= DeleteDome;
 	}
@@ -75,7 +65,7 @@ public class Turteriam : DefenseType
 
 	protected override void Special()
 	{
-		if (playerOwner != null) EventManager.Instance.ApplyTeamDamageReduction(playerOwner, teamDamageReductionDuration, this);
+		if (playerOwner != null) playerOwner?.Buffs.AddBuff(BuffType.TeamDamageReduction, DamageReduction, domeLifetime, this);
 		else isShieldActive = true;
 		damageReductionActive = true;
 		instantiatedDome = Instantiate(domePrefab, transform.position, Quaternion.identity);
@@ -93,8 +83,7 @@ public class Turteriam : DefenseType
 		if (stopImmediate)
 		{
 			DeleteDome();
-			if (damageReductionRemoval != null) StopCoroutine(damageReductionRemoval);
-			if (playerOwner != null) damageReductionRemoval = CoroutineRunner.Instance.StartCoroutine(EventManager.Instance.StopDamageReduction(playerOwner, teamDamageReductionDuration, this, true));
+			playerOwner?.Buffs.RemoveBuffFromSource(BuffType.TeamDamageReduction, this);
 		}
 		else if (!stopImmediate)
 		{
@@ -104,8 +93,6 @@ public class Turteriam : DefenseType
 				AnimationClip clip = anim.runtimeAnimatorController.animationClips.First(clip => clip.name == "Special");
 				if (clip != null) yield return new WaitForSeconds(clip.length);
 			}
-
-            if (playerOwner != null) damageReductionRemoval ??= CoroutineRunner.Instance.StartCoroutine(EventManager.Instance.StopDamageReduction(playerOwner, teamDamageReductionDuration, this));
 		}
 		if (anim != null)
 		{
@@ -117,6 +104,6 @@ public class Turteriam : DefenseType
 		isShieldActive = false;
 		damageReductionActive = false;
 
-		if (playerOwner != null) yield break;
+		yield break;
 	}
 }

@@ -138,7 +138,7 @@ public class PlayerController : MonoBehaviour
 
 			if (character is Turteriam turt && turt.InstantiatedDome != null)
 			{
-				turt.DeleteDome(); // Remove the dome when canceling special
+				turt.OnEndSpecial(true); // Remove the dome when canceling special
 			}
 			else if (character is Toadstool defenseCharacter && defenseCharacter.IsInSpecialAttack)
 			{				

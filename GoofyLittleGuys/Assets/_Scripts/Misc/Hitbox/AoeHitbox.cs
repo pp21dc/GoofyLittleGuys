@@ -82,7 +82,7 @@ public class AoeHitbox : MonoBehaviour
 				slowedEntity = h.Owner;
 			}
 			else return;
-			EventManager.Instance.ApplyDebuff(slowedEntity, slowAmount, slowDuration, DebuffType.Slow);
+			EventManager.Instance.ApplyDebuff(slowedEntity, slowAmount, slowDuration, BuffType.Slow, hitboxOwner);
 		}
 	}
 }

@@ -23,16 +23,28 @@ public class Mousecar : SpeedType
     {
         base.StopChargingSpecial();
     }
-    protected override void Special()
-    {
-        if (playerOwner != null)
-        {
-            EventManager.Instance.ApplySpeedBoost(playerOwner, speedBoostAmount, spawnInterval, maxAfterimages, fadeSpeed, emissionColour, speedBoostDuration);
-        }
-        else
-        {
-            EventManager.Instance.ApplySpeedBoost(this, speedBoostAmount, spawnInterval, maxAfterimages, fadeSpeed, emissionColour, speedBoostDuration);
-        }
-        base.Special();
-    }
+	protected override void Special()
+	{
+		if (playerOwner != null)
+		{
+			// Teammate Mousecar - apply to player team
+			playerOwner.Buffs.AddBuff(BuffType.TeamSpeedBoost, speedBoostAmount, speedBoostDuration, this);
+
+			// Apply visuals to all teammates
+			foreach (LilGuyBase lilGuy in playerOwner.LilGuyTeam)
+			{
+				if (!lilGuy.isActiveAndEnabled) continue;
+				lilGuy.ApplySpeedBoost(spawnInterval, maxAfterimages, fadeSpeed, emissionColour);
+			}
+		}
+		else
+		{
+			// Wild Mousecar - apply to self only
+			Buffs.AddBuff(BuffType.TeamSpeedBoost, speedBoostAmount, speedBoostDuration, this);
+			ApplySpeedBoost(spawnInterval, maxAfterimages, fadeSpeed, emissionColour);
+		}
+
+		base.Special();
+	}
+
 }

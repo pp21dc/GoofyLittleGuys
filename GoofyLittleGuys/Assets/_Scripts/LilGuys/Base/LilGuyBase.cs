@@ -17,6 +17,7 @@ public abstract class LilGuyBase : MonoBehaviour
 
 	private bool attackQueued = false; // For buffering attack inputs
 
+	public BuffHandler Buffs { get; private set; } = new BuffHandler();
 
 	//VARIABLES//
 	[Header("Lil Guy Information")]
@@ -65,6 +66,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	[SerializeField] private float accelerationTime = 0.1f;  // Time to reach target speed
 	private Rigidbody rb;
 	private float movementSpeed;
+	public float CurrentSpeed => MovementSpeed + Buffs.GetTotalValue(BuffType.TeamSpeedBoost); // Or whatever base speed prop you're using
 	protected float moveSpeedModifier = 1;
 	[SerializeField] private float knockbackResistance = 1f;
 	[SerializeField] private float knockbackDecayRate = 5f;
@@ -164,6 +166,8 @@ public abstract class LilGuyBase : MonoBehaviour
 		Vector3 initialScale = gameObject.transform.localScale;
 		StartCoroutine(ScaleUp(initialScale));
 		CalculateMoveSpeed();
+
+		if (Buffs != null) Buffs.OnBuffExpired += HandleBuffExpired;
 	}
 
 	public void ResetTimers()
@@ -211,6 +215,19 @@ public abstract class LilGuyBase : MonoBehaviour
 		behaviour.IsCatchable = false;
 		behaviour.AttackRange *= maxScale;
 		behaviour.ChaseRange *= maxScale;
+	}
+
+	protected virtual void OnDestroy()
+	{
+		if (Buffs != null) Buffs.OnBuffExpired -= HandleBuffExpired;
+	}
+	private void HandleBuffExpired(BuffType type, object source)
+	{
+		if (type == BuffType.TeamSpeedBoost)
+		{
+			RemoveSpeedBoost();
+		}
+		// You could also handle poison visuals, slow resets, etc. here later.
 	}
 
 	private void SetWildLilGuyLevel(int level, bool randomRange = true)
@@ -276,6 +293,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	}
 	protected virtual void Update()
 	{
+		Buffs.Update();
 
 		// Flip character
 		mesh.sortingOrder = (int)-transform.position.z;
@@ -908,7 +926,7 @@ public abstract class LilGuyBase : MonoBehaviour
 
 			Vector3 targetVelocity = movementDirection.magnitude < 0.1f
 				? Vector3.zero
-				: movementDirection.normalized * movementSpeed * speedAdjustment * moveSpeedModifier;
+				: movementDirection.normalized * CurrentSpeed * speedAdjustment;
 			// Smoothly accelerate towards the target velocity
 			currentVelocity = Vector3.Lerp(currentVelocity, targetVelocity, Time.fixedDeltaTime / accelerationTime);
 

@@ -83,7 +83,7 @@ public class Phantaphant : SpeedType
 		}
 		else return;
 
-		EventManager.Instance.ApplyDebuff(slowedEntity, slowAmount, slowDuration, DebuffType.Slow);
+		EventManager.Instance.ApplyDebuff(slowedEntity, slowAmount, slowDuration, BuffType.Slow, this);
 		OnEndSpecial();
 	}
 
