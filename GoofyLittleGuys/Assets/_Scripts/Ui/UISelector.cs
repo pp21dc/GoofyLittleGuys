@@ -279,8 +279,6 @@ public class UISelector : MonoBehaviour
 		starterGO.transform.localPosition = Vector3.zero;
 		controller.Body.SetActiveLilGuy(starter);
 
-		// Add the lil guy to the player's party.
-		controller.Body.LilGuyTeam.Add(starter);
 		controller.Body.LilGuyTeam[0].PlayerOwner = controller.Body;
 		controller.Body.LilGuyTeamSlots[0].LilGuyInSlot = starter;
 
