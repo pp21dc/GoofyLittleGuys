@@ -5022,6 +5022,61 @@ PrefabInstance:
       propertyPath: legendaryLevels.Array.data[1]
       value: 18
       objectReference: {fileID: 0}
+    - target: {fileID: 1970606836446198798, guid: de1849616cf5e6e41990742051e315c8,
+        type: 3}
+      propertyPath: playerColours.Array.data[0].g
+      value: 0.34117648
+      objectReference: {fileID: 0}
+    - target: {fileID: 1970606836446198798, guid: de1849616cf5e6e41990742051e315c8,
+        type: 3}
+      propertyPath: playerColours.Array.data[0].r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1970606836446198798, guid: de1849616cf5e6e41990742051e315c8,
+        type: 3}
+      propertyPath: playerColours.Array.data[1].b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1970606836446198798, guid: de1849616cf5e6e41990742051e315c8,
+        type: 3}
+      propertyPath: playerColours.Array.data[1].g
+      value: 0.36078432
+      objectReference: {fileID: 0}
+    - target: {fileID: 1970606836446198798, guid: de1849616cf5e6e41990742051e315c8,
+        type: 3}
+      propertyPath: playerColours.Array.data[1].r
+      value: 0.8666667
+      objectReference: {fileID: 0}
+    - target: {fileID: 1970606836446198798, guid: de1849616cf5e6e41990742051e315c8,
+        type: 3}
+      propertyPath: playerColours.Array.data[2].b
+      value: 0.32941177
+      objectReference: {fileID: 0}
+    - target: {fileID: 1970606836446198798, guid: de1849616cf5e6e41990742051e315c8,
+        type: 3}
+      propertyPath: playerColours.Array.data[2].g
+      value: 0.7294118
+      objectReference: {fileID: 0}
+    - target: {fileID: 1970606836446198798, guid: de1849616cf5e6e41990742051e315c8,
+        type: 3}
+      propertyPath: playerColours.Array.data[2].r
+      value: 0.12941177
+      objectReference: {fileID: 0}
+    - target: {fileID: 1970606836446198798, guid: de1849616cf5e6e41990742051e315c8,
+        type: 3}
+      propertyPath: playerColours.Array.data[3].b
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1970606836446198798, guid: de1849616cf5e6e41990742051e315c8,
+        type: 3}
+      propertyPath: playerColours.Array.data[3].g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1970606836446198798, guid: de1849616cf5e6e41990742051e315c8,
+        type: 3}
+      propertyPath: playerColours.Array.data[3].r
+      value: 0.5686275
+      objectReference: {fileID: 0}
     - target: {fileID: 2149464314047068899, guid: de1849616cf5e6e41990742051e315c8,
         type: 3}
       propertyPath: OutputAudioMixerGroup
@@ -8965,6 +9020,119 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2085866615}
   m_CullTransparentMesh: 1
+--- !u!1 &2092581754
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2092581756}
+  - component: {fileID: 2092581755}
+  - component: {fileID: 2092581757}
+  - component: {fileID: 2092581758}
+  m_Layer: 10
+  m_Name: Colourblind Simulator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2092581755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2092581754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IsGlobal: 1
+  priority: 0
+  blendDistance: 0
+  weight: 1
+  sharedProfile: {fileID: 0}
+--- !u!4 &2092581756
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2092581754}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 145.36127, y: 40.3274, z: 169.16208}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2092581757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2092581754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0e2dd2a44c72f240bfa4cd1adf82b51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  note: "Switch the Profile to whatever colourblind simulation filter you want to
+    see the world as. It'll render only on UI with \"Render Screen Space - Camera\"
+    on as it doesn't work on Overlay cams.\n\n "
+  fontSize: 6
+  fontColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  labelAnchor: 4
+  wordWrap: 1
+  renderInEditor: 0
+  labelRectSize: {x: 100, y: 100}
+--- !u!114 &2092581758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2092581754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0e2dd2a44c72f240bfa4cd1adf82b51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  note: '~8-10% of males are colourblind
+
+    ~0.5% of females are colourblind
+
+    ~4.63%
+    of males have deuteranomaly
+
+    ~1.27% of males have deuteranopia
+
+    ~1.08%
+    of males have protanomaly
+
+    ~1.01% of males have protanopia
+
+    ~0.02% of
+    the population have tritanomaly
+
+    ~0.03% of the population have tritanopia
+
+    About
+    1 in 33000 people have achromatopsia (complete absense of colour vision)
+
+'
+  fontSize: 6
+  fontColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  labelAnchor: 4
+  wordWrap: 1
+  renderInEditor: 0
+  labelRectSize: {x: 100, y: 100}
 --- !u!1 &2095018392
 GameObject:
   m_ObjectHideFlags: 0
@@ -9757,6 +9925,7 @@ CanvasRenderer:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 2092581756}
   - {fileID: 273621188}
   - {fileID: 1755001982}
   - {fileID: 733882628}
