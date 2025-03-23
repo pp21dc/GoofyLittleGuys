@@ -822,7 +822,8 @@ MonoBehaviour:
   playerEventSystem: {fileID: 5499870760211805877}
   playerCam: {fileID: 7801862985928928391}
   spectatorCam: {fileID: 0}
-  specialBufferTime: 0.75
+  turteriamSpecialBufferTime: 0.75
+  toadstoolSpecialBufferTime: 1.5
 --- !u!1 &1172655192903034848
 GameObject:
   m_ObjectHideFlags: 0
@@ -2229,11 +2230,22 @@ PrefabInstance:
       propertyPath: persistentHealthBar
       value: 
       objectReference: {fileID: 4560209875258957209}
+    - target: {fileID: 6465952918001721208, guid: 80afe6d6e520f2349a32985d2c70c1ed,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 831
+      objectReference: {fileID: 0}
     - target: {fileID: 6745604416419571827, guid: 80afe6d6e520f2349a32985d2c70c1ed,
         type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 7801862985928928391}
+    - target: {fileID: 8281119129143414077, guid: 80afe6d6e520f2349a32985d2c70c1ed,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 6ca3d5b937ccd2c42bc70c3267f8b58f,
+        type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
