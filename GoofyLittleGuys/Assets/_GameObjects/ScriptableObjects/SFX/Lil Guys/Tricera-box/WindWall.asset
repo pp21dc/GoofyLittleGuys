@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 455a8510209860a489a9ad867f112ef6, type: 3}
-  m_Name: Death_Armordillo
+  m_Name: WindWall
   m_EditorClassIdentifier: 
   clips:
-  - {fileID: 8300000, guid: 0b547df40242250479a7fcb161dcfb10, type: 3}
+  - {fileID: 8300000, guid: df4b73e9510005145a4acda11a932d41, type: 3}
+  - {fileID: 8300000, guid: 25416f2309b087149a68f489a0f7ab5e, type: 3}
   isSpatial: 1
   loop: 0
   volume: 1
-  pitch: {x: 0.9, y: 1.2}
-  key: Armordillo_Death
+  pitch: {x: 1, y: 1}
+  key: WindWall

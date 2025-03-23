@@ -45,6 +45,7 @@ public class Tricerabox : StrengthType
 	protected void SpawnThrustEffect()
 	{
 		Instantiate(specialFXPrefab, attackPosition.position, Quaternion.Euler(attackOrbit.rotation.eulerAngles.y, attackPosition.rotation.eulerAngles.y, 0));
+		PlayEffectSound(specialFXPrefab,"WindWall");
 	}
 
 	public override void StartChargingSpecial()
