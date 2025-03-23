@@ -330,7 +330,7 @@ namespace Managers
 			StartCoroutine(FadeWater(4));
 			StartCoroutine(SpawnStorms());
 			StartCoroutine(Crossfade(phaseAudioSources[0], phaseAudioSources[1], 1f));
-			AudioManager.Instance.PlaySfx("Phase_Change", alertAudioSource);
+			//AudioManager.Instance.PlaySfx("Phase_Change", alertAudioSource);
 			AudioManager.Instance.PlaySfx("Wind", phaseAudioSources[2]);
 			AudioManager.Instance.PlaySfx("Rain", phaseAudioSources[3]);
 
@@ -514,6 +514,7 @@ namespace Managers
 				GameObject stormToActivate = RandFromList(stormSets);
 				if (stormToActivate != null && !stormToActivate.activeSelf) // activate a new storm
 				{
+					AudioManager.Instance.PlaySfx("Thunder", alertAudioSource);
 					stormToActivate.SetActive(true);
 					activeStorms++;
 					yield return new WaitForEndOfFrame();

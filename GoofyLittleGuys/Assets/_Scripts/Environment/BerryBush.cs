@@ -92,6 +92,7 @@ public class BerryBush : InteractableBase
 		{
 			body.BerryCount++;
 			body.PlayerUI.SetBerryCount(body.BerryCount);
+			body.ActiveLilGuy.PlaySound("Pick_Berry");
 			berryAmountOnBush--;
 		}
 
