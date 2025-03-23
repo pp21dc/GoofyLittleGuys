@@ -54,6 +54,9 @@ namespace Managers
 		private bool isPaused = false;
 		private bool[] legendarySpawned = { false, false };
 
+		[SerializeField] private List<LilGuyBase> lilGuys;
+		public List<LilGuyBase> LilGuys => lilGuys;
+
 		private int currentPhase = 0;
 		private bool gameOver = false;
 		private bool startGame = false;
@@ -64,6 +67,7 @@ namespace Managers
 		private Dictionary<string, HapticEvent> hapticsDictionary = new Dictionary<string, HapticEvent>();
 		private List<PlayerBody> players = new List<PlayerBody>(); // for the list of REMAINING players in phase 2
 		private List<PlayerBody> rankings = new List<PlayerBody>(); // the phase 2 rankings list, ordered from last place -> first place
+		public List<PlayerBody> Rankings => rankings;
 		[SerializeField] private List<GameObject> stormSets = new List<GameObject>();
 		public int CurrentPhase => currentPhase; // Getter for current phase
 		public float RespawnTimer => respawnTimer; // Getter for respawn timer
@@ -105,6 +109,10 @@ namespace Managers
 			}
 		}
 
+		public void PlayMainMenuMusic()
+		{
+			AudioManager.Instance.PlayMusic("GLGMainMenu", phaseAudioSources[0]);
+		}
 		private void LoadSettings()
 		{
 			SettingsManager.Instance.LoadSettings();
@@ -116,8 +124,8 @@ namespace Managers
 		{
 			LoadSettings();
 			waterChangeContainer.SwapColors(waterColour, foamColour, darkFoamColour);
+			PlayMainMenuMusic();
 			Time.timeScale = 0;
-			AudioManager.Instance.PlayMusic("GLGMainMenu", phaseAudioSources[0]);
 			if (gameStartTest) EventManager.Instance.GameStartedEvent();
 
 			EventManager.Instance.NotifyGameOver += QuitGame;
@@ -257,10 +265,10 @@ namespace Managers
 			startGame = false;
 			if (currentPhase > 1) phase2CloudAnim.SetTrigger("Revert");
 			stormSets.Clear();
-			rankings.Clear();
+			//rankings.Clear();
 			for (int i = 0; i < legendarySpawned.Length; i++) { legendarySpawned[i] = false; }
 			waterChangeContainer.SwapColors(waterColour, foamColour, darkFoamColour);
-			AudioManager.Instance.PlayMusic("GLGMainMenu", phaseAudioSources[0]);
+			phaseAudioSources[0].volume = 0;
 			phaseAudioSources[2].volume = 0;
 			phaseAudioSources[3].volume = 0;
 			phaseAudioSources[1].volume = 0;
@@ -443,36 +451,25 @@ namespace Managers
 			foreach (PlayerBody player in players)
 			{
 				if (!rankings.Contains(player)) rankings.Add(player);
-				metrics.Add(player.GameplayStats);
 			}
 
 			rankings[rankings.Count - 1].PlayerUI.VictoryAnimPlay();
 
-
-			foreach (PlayerBody player in players)
-			{
-				player.GameplayStats.ShowMetrics(metrics);
-			}
 			Managers.DebugManager.Log("Brawl Phase has ended by knockout!", DebugManager.DebugCategory.GENERAL);
 		}
-		
+
 		private IEnumerator endGame()
 		{
 			yield return new WaitForSeconds(6);
-			waterChangeContainer.SwapColors(waterChangeContainer.baseWaterColor, waterChangeContainer.baseLightFoamColor, waterChangeContainer.baseDarkFoamColor);
+
+			waterChangeContainer.SwapColors(
+				waterChangeContainer.baseWaterColor,
+				waterChangeContainer.baseLightFoamColor,
+				waterChangeContainer.baseDarkFoamColor
+			);
+
 			EventManager.Instance.CallGameOverEvent();
-			LevelLoadManager.Instance.LoadNewLevel("00_MainMenu");
-			for (int i = Players.Count - 1; i >= 0; i--)
-			{
-				Players[i].InMenu = true;
-				Destroy(Players[i].Controller.gameObject);
-			}
-			players.Clear();
-			currentPhase = 0;
-			currentGameTime = 0;
-			Time.timeScale = 0;
-			gameOver = false;
-			StopAllCoroutines();
+			LevelLoadManager.Instance.LoadNewLevel("03_VictoryScreen");
 		}
 
 		/// <summary>

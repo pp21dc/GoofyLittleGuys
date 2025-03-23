@@ -3,10 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class StatMetrics : MonoBehaviour
 {
+	[SerializeField] private PlayerInput player;
 	// General metrics
 	private float damageDealt = 0;
 	private float damageTaken = 0;
@@ -26,7 +28,6 @@ public class StatMetrics : MonoBehaviour
 	private bool isInCombat = false;
 	private bool survivedWithLowHP = false;
 
-	[SerializeField] private List<LilGuyBase> lilGuys;
 
 	public float DamageDealt { get => damageDealt; set => damageDealt = value; }
 	public float DamageTaken { get => damageTaken; set => damageTaken = value; }
@@ -118,11 +119,11 @@ public class StatMetrics : MonoBehaviour
 		if (body.LilGuyTeam.Exists(lilGuy => lilGuy.GuyName.Equals("Armordillo")) && body.LilGuyTeam.Exists(lilGuy => lilGuy.GuyName.Equals("Turteriam"))) titles.Add("Defensive Offense");
 
 		if (body.LilGuyTeam.Exists(lilGuy => lilGuy.Type == LilGuyBase.PrimaryType.Strength) && body.LilGuyTeam.Exists(lilGuy => lilGuy.Type == LilGuyBase.PrimaryType.Defense) && body.LilGuyTeam.Exists(lilGuy => lilGuy.Type == LilGuyBase.PrimaryType.Speed)) titles.Add("All-Rounder");
-        
+
 		else if (body.LilGuyTeam.Count == 3) titles.Add("Dream Team");
 
 
-        return titles;
+		return titles;
 	}
 
 	// Start is called before the first frame update
@@ -178,29 +179,62 @@ public class StatMetrics : MonoBehaviour
 		}
 	}
 
-	public void ShowMetrics(List<StatMetrics> allPlayers)
+	public void ShowMetrics(List<StatMetrics> allPlayers, StatCard card, int playerIndex, int rank)
 	{
 		string favourite = GetFavoriteCharacter();
-		foreach (LilGuyBase lilguy in lilGuys)
-		{
-			if(lilguy.name == favourite)
-			{
-				GameManager.Instance.ssr.playerStatObjects[body.Controller.PlayerNumber - 1].image.sprite = lilguy.Icon;
-				break;
-            }
-		}
-		GameManager.Instance.ssr.playerStatObjects[body.Controller.PlayerNumber - 1].background.color = GameManager.Instance.PlayerColours[body.Controller.PlayerNumber];
-		GameManager.Instance.ssr.playerStatObjects[body.Controller.PlayerNumber - 1].shape.sprite = UiManager.Instance.shapes[body.Controller.PlayerNumber];
-        GameManager.Instance.ssr.playerStatObjects[body.Controller.PlayerNumber - 1].gameObject.SetActive(true);
-        string outputMessage = "Titles\n";
-		List<string> titles = GetTitles(allPlayers);
-		foreach (string title in titles) outputMessage += title + "\n";
 
-		outputMessage += $"\nStats\nDamage Dealt: {damageDealt}\nDamage Taken: {damageTaken}\nDamage Reduced: {damageReduced}\nSpecials Used: {specialsUsed}\nTeam Wipes: {teamWipes}\nWild Lil Guys Defeated: {wildLilGuysDefeated}\nDeath Count: {deathCount}\nSwap Count: {swapCount}\nBerries Eaten: {berriesEaten}\nFountain Uses: {fountainUses}\nDistance Traveled: {distanceTraveled}m\nLil Guys tamed: {lilGuysTamedTotal}";
+		// Most Used Icon
+		foreach (LilGuyBase lilguy in GameManager.Instance.LilGuys)
+		{
+			if (lilguy.name == favourite)
+			{
+				card.mostUsedIcon.sprite = lilguy.Icon;
+				break;
+			}
+		}
+
+		card.playerNum.text = $"Player {playerIndex + 1}";
+		// Background & shape colors
+		card.background.color = GameManager.Instance.PlayerColours[playerIndex];
+		foreach (Image i in card.playerShapes)
+		{
+			i.sprite = UiManager.Instance.shapes[playerIndex];
+			i.color = GameManager.Instance.PlayerColours[playerIndex];
+		}
+
+		card.gameObject.SetActive(true);
+
+		// Titles
+		List<string> titles = GetTitles(allPlayers);
+		string titleOutput = "";
+		for (int i = 0; i < Mathf.Min(3, titles.Count); i++)
+		{
+			titleOutput += titles[i] + "\n";
+		}
+		card.titles.text = titleOutput;
+
+		// Rank display
+		card.ranking.text = GetRankString(rank);
+
+		// Stats
+		string outputMessage = "";
+		outputMessage += $"{damageDealt}\n{damageTaken}\n{distanceTraveled}m\n{specialsUsed}\n{teamWipes}\n{wildLilGuysDefeated}\n{deathCount}\n{swapCount}\n{berriesEaten}\n{fountainUses}\n{lilGuysTamedTotal}";
 		Managers.DebugManager.Log(outputMessage, Managers.DebugManager.DebugCategory.STAT_METRICS, Managers.DebugManager.LogLevel.LOG);
-		GameManager.Instance.ssr.playerStatObjects[body.Controller.PlayerNumber - 1].stats.SetText(outputMessage);
-		GameManager.Instance.ssr.playerStatObjects[body.Controller.PlayerNumber - 1].title.SetText(titles[0]);
+		card.stats.text = outputMessage;
 	}
+
+	private string GetRankString(int rank)
+	{
+		switch (rank)
+		{
+			case 0: return "1st";
+			case 1: return "2nd";
+			case 2: return "3rd";
+			case 3: return "4th";
+			default: return (rank + 1) + "th";
+		}
+	}
+
 
 	private static float GetMax(List<StatMetrics> players, System.Func<StatMetrics, float> selector, bool excludeZero = false)
 	{

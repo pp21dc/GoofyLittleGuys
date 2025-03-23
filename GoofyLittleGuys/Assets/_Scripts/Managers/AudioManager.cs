@@ -61,6 +61,14 @@ namespace Managers
 			return Mathf.Log10(Mathf.Max(linear, 0.0001f)) * 20f; // Avoid log(0) issues
 		}
 
+		public AudioClip GetClip(string key)
+		{
+			if (musicDictionary[key] != null)
+			{
+				return musicDictionary[key].clips[0];
+			}
+			else return null;
+		}
 
 		public void PlaySfx(string key, AudioSource source)
 		{
