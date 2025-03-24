@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using Util;
 
 public class StatMetrics : MonoBehaviour
 {
@@ -62,11 +63,14 @@ public class StatMetrics : MonoBehaviour
 	{
 		List<string> titles = new List<string>();
 
-		if (distanceTraveled >= GetMax(allPlayers, p => p.distanceTraveled))
-			titles.Add("True Explorer");
+		if (survivedWithLowHP)
+			titles.Add("Tis But a Scratch");
 
 		if (killedLegendary)
 			titles.Add("Legendary Slayer");
+
+		if (distanceTraveled >= GetMax(allPlayers, p => p.distanceTraveled))
+			titles.Add("True Explorer");
 
 		if (lilGuysTamedTotal > 0 && lilGuysTamedTotal >= GetMax(allPlayers, p => p.lilGuysTamedTotal, true))
 			titles.Add("The Befriender");
@@ -74,8 +78,7 @@ public class StatMetrics : MonoBehaviour
 		if (deathCount == GetMin(allPlayers, p => p.deathCount))
 			titles.Add("Not Even Close");
 
-		if (survivedWithLowHP)
-			titles.Add("Tis But a Scratch");
+		
 
 
 		PlayerBody body = GetComponent<PlayerBody>();
@@ -206,11 +209,31 @@ public class StatMetrics : MonoBehaviour
 
 		// Titles
 		List<string> titles = GetTitles(allPlayers);
-		string titleOutput = "";
-		for (int i = 0; i < Mathf.Min(3, titles.Count); i++)
+		List<string> featuredTitles = new List<string>();
+		ShuffleBag<string> shuffleBag = new ShuffleBag<string>();
+
+		// Check and add guaranteed titles
+		if (titles.Contains("Tis But a Scratch")) featuredTitles.Add("Tis But a Scratch");
+		if (titles.Contains("Legendary Slayer")) featuredTitles.Add("Legendary Slayer");
+
+		// Remove guaranteed titles from the pool
+		foreach (var title in featuredTitles)
 		{
-			titleOutput += titles[i] + "\n";
+			titles.Remove(title);
 		}
+
+		shuffleBag.AddRange(titles);
+
+		// Add random title(s) until we have 3 or run out
+		while (featuredTitles.Count < 3 && shuffleBag.Count > 0)
+		{
+			string randomTitle = shuffleBag.Next();
+			if (!featuredTitles.Contains(randomTitle))
+				featuredTitles.Add(randomTitle);
+		}
+
+		// Build title display string
+		string titleOutput = string.Join("\n", featuredTitles);
 		card.titles.text = titleOutput;
 
 		// Rank display
