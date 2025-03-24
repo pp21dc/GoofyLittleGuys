@@ -7,10 +7,9 @@ using UnityEngine.InputSystem;
 // - add as a component to detect any damage and keep track of health, keeps all combat collisions on a single layer
 public class Hurtbox : MonoBehaviour
 {
-	[SerializeField] private float health;
 	[SerializeField] private GameObject owner;
-	private bool player;
-	private bool Ai;
+	[SerializeField] private float health;
+
 	private float timeSinceLastHit = 0;
 
 	public float Health { get { return health; } }
@@ -62,19 +61,10 @@ public class Hurtbox : MonoBehaviour
 		if (body != null)
 		{
 			health = body.LilGuyTeam[0].Health;
-			player = true;
-			Ai = false;
 		}
 		else if (controller != null)
 		{
 			health = controller.LilGuy.Health;
-			Ai = true;
-			player = false;
-		}
-		else
-		{
-			player = false;
-			Ai = false;
 		}
 	}
 

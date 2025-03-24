@@ -1,14 +1,16 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
 
 public class Teddy : StrengthType
 {
-	[SerializeField] private GameObject specialFXPrefab;
-	[SerializeField] private float slowAmount = 3f;
-	[SerializeField] private float slowDuration = 1f;
+	[Header("Teddy Specific")]
+	[HorizontalRule]
+	[ColoredGroup][SerializeField] private GameObject specialFXPrefab;
+	[ColoredGroup][SerializeField] private float slowAmount = 3f;
+	[ColoredGroup][SerializeField] private float slowDuration = 1f;
+
 	private GameObject instantiatedAoe = null;
+
 	protected void SpawnConeAoe()
 	{
 		Debug.LogWarning("I Actually spawned a hitbox");

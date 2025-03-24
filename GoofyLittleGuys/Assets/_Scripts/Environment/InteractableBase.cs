@@ -5,13 +5,16 @@ using UnityEngine.UI;
 
 public class InteractableBase : MonoBehaviour
 {
-	[SerializeField] protected GameObject interactableCanvas;
-	public float requiredHoldDuration = 1f;
-	private Dictionary<PlayerBody, Coroutine> activeHolds = new Dictionary<PlayerBody, Coroutine>();
-
+	[Header("References")]
+	[HorizontalRule]
 	[SerializeField] private List<GameObject> outlinedObjects;
+	[ColoredGroup][SerializeField] protected GameObject interactableCanvas;
 
+	[Header("Interact Settings")]
+	[HorizontalRule]
+	[ColoredGroup] public float requiredHoldDuration = 1f;
 
+	private Dictionary<PlayerBody, Coroutine> activeHolds = new Dictionary<PlayerBody, Coroutine>();
 	protected void UpdateLayers(bool makeOutlined = false)
 	{
 		if (outlinedObjects.Count > 0)

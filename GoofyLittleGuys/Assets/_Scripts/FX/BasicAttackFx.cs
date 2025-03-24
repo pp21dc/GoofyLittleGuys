@@ -2,12 +2,14 @@
 
 public class BasicAttackFx : MonoBehaviour
 {
-    private static readonly int Attack = Animator.StringToHash("Attack");
-    [SerializeField] private Animator centerAttack;
-    [SerializeField] private Animator upwardsAttack;
-    [SerializeField] private Animator downwardsAttack;
+    [Header("References")]
+	[HorizontalRule]
+	[ColoredGroup][SerializeField] private Animator centerAttack;
+	[ColoredGroup][SerializeField] private Animator upwardsAttack;
+	[ColoredGroup][SerializeField] private Animator downwardsAttack;
 
-    private LilGuyBase _owner;
+	private static readonly int Attack = Animator.StringToHash("Attack");
+	private LilGuyBase _owner;
     private float _rotation;
     private bool _flip;
     

@@ -6,15 +6,16 @@ using UnityEngine;
 public class Fishbowl : StrengthType
 {
 	[Header("Fishbowl Specific")]
-	[SerializeField] private float minChargeTime = 0.5f;
-	[SerializeField] private float maxChargeTime = 1.5f;
-	[SerializeField] private float aoeMaxSize = 5f;
-	[SerializeField] private float waveDestroyTime = 2f;
-	[SerializeField] private float waveMoveSpeed = 10f;
-	[SerializeField] private float minKnockback = 10f;
-	[SerializeField] private float maxKnockback = 25f;
-	[SerializeField] private float knockbackDuration = 1f;
-	[SerializeField] private Color chargeEffectColour;
+	[HorizontalRule]
+	[ColoredGroup][SerializeField] private Color chargeEffectColour;
+	[ColoredGroup][SerializeField] private float minChargeTime = 0.5f;
+	[ColoredGroup][SerializeField] private float maxChargeTime = 1.5f;
+	[ColoredGroup][SerializeField] private float aoeMinSize = 0.25f;
+	[ColoredGroup][SerializeField] private float aoeMaxSize = 1f;
+	[ColoredGroup][SerializeField] private float waveMoveSpeed = 10f;
+	[ColoredGroup][SerializeField] private float minKnockback = 10f;
+	[ColoredGroup][SerializeField] private float maxKnockback = 25f;
+	[ColoredGroup][SerializeField] private float knockbackDuration = 1f;
 
 	bool isCharging = false;
 	private float chargeTime = 0f;
@@ -132,7 +133,7 @@ public class Fishbowl : StrengthType
     public void SpawnWaveAoe()
 	{
 		instantiatedAoe = Instantiate(aoeShape, transform.position, Quaternion.identity);
-		instantiatedAoe.GetComponent<FishbowlWaves>().Init(specialDuration, chargeTime, maxChargeTime, minChargeTime);
+		instantiatedAoe.GetComponent<FishbowlWaves>().Init(specialDuration, chargeTime, maxChargeTime, minChargeTime, aoeMinSize, aoeMaxSize);
 		foreach(Transform child in  instantiatedAoe.transform)
 		{
 			AoeHitbox hitbox = child.GetComponent<AoeHitbox>();

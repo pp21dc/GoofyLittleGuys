@@ -5,15 +5,16 @@ using UnityEngine.Rendering;
 
 public class Shield : MonoBehaviour
 {
-	private float shieldUptime = 5;                   // How long the shield will last for before it is destroyed
-	private DefenseType shieldOwner;                    // The owner of this shield
 	[SerializeField] private SpriteRenderer shieldSprite;  // How fast this shield will reach its max size in seconds.
 	[SerializeField] private float maxSize = 1;         // The maximum size this shield will reach
 	[SerializeField] private float expansionSpeed = 1;  // How fast this shield will reach its max size in seconds.
+
+	private DefenseType shieldOwner;                    // The owner of this shield
 	private SortingGroup sortingGroup;
 
 	private Color startColour;
 	private Color endColour;
+	private float shieldUptime = 5;                   // How long the shield will last for before it is destroyed
 	private bool isFading = false;
 
 	private void Start()

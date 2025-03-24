@@ -4,11 +4,16 @@ using UnityEngine;
 
 public class RainCollisionHandler : MonoBehaviour
 {
+	[Header("References")]
+	[HorizontalRule]
 	public ParticleSystem rainParticles;
 	public ParticleSystem splashParticlesPrefab;
 
+	[Header("Rain Settings")]
+	[HorizontalRule]
 	[SerializeField] private LayerMask splashCollisionMask; // Restrict splashes to specific layers
 	[SerializeField] private int maxSplashes = 50; // Max number of splashes allowed at a time
+
 	private int currentSplashCount = 0; // Tracks active splashes
 	private List<ParticleCollisionEvent> collisionEvents = new List<ParticleCollisionEvent>();
 

@@ -4,20 +4,28 @@ using UnityEngine;
 
 public class AfterimageEffect : MonoBehaviour
 {
-	[SerializeField] private float spawnInterval = 0.01f;
-	[SerializeField] private int maxAfterimages = 12;
-	[SerializeField] private float fadeSpeed = 0.5f;
+	#region Public Variables & Serialize Fields
+	[Header("Afterimage Settings")]
+	[HorizontalRule]
+	[ColoredGroup][SerializeField] private float spawnInterval = 0.01f;
+	[ColoredGroup][SerializeField] private float fadeSpeed = 0.5f;
+	[ColoredGroup][SerializeField] private int maxAfterimages = 12;
+	#endregion
 
+	#region Private Variables
 	private SpriteRenderer characterSprite;
-    private Color emissionColour = new Color(1.00f, 0.82f, 0.25f, 1.0f);   // The yellow used for speed lil guys
-    private Coroutine afterimageCoroutine;
+	private Color emissionColour = new Color(1.00f, 0.82f, 0.25f, 1.0f);   // The yellow used for speed lil guys
+	private Coroutine afterimageCoroutine;
 	private Queue<GameObject> afterimageQueue = new Queue<GameObject>();
+	#endregion
 
+	#region Getters & Setters
 	public SpriteRenderer CharacterSprite { set { characterSprite = value; } }
+	public Color EmissionColour { set { emissionColour = value; } }
+	public float FadeSpeed { set { fadeSpeed = value; } }
 	public float SpawnInterval { set { spawnInterval = value; } }
 	public int MaxAfterimages { set { maxAfterimages = value; } }
-	public float FadeSpeed { set { fadeSpeed = value; } }
-	public Color EmissionColour { set {  emissionColour = value; } }
+	#endregion
 
 	public void StartAfterimages()
 	{

@@ -6,6 +6,9 @@ using UnityEngine;
 [RequireComponent (typeof(Collider))]
 public class AoeHitbox : MonoBehaviour
 {
+	public GameObject hitboxOwner;
+	public LayerMask layerMask;
+
 	protected float damage;
 	protected float aoeDamageMultiplier = 1;
 	protected float knockbackForce = 0f;
@@ -15,8 +18,6 @@ public class AoeHitbox : MonoBehaviour
 	public float KnockbackForce { get { return knockbackForce; } set { knockbackForce = value; } }
 	public float SlowDuration { set { slowDuration = value; } }
 	public float SlowAmount { set { slowAmount = value; } }
-	public GameObject hitboxOwner;
-	public LayerMask layerMask;
 
 	private void Update()
 	{

@@ -15,19 +15,20 @@ namespace Managers
 	/// </summary>
 	public class SpawnManager : SingletonBase<SpawnManager>
 	{
-		private Dictionary<string, List<SpawnerObj>> clearingSpawners = new();  // Tracks spawners per clearing
-		private Dictionary<string, int> clearingSpawnCounts = new();            // Tracks active Lil Guys per clearing
-		private List<SpawnerObj> legendarySpawners = new();                     // Tracks all legendary spawners
-
 		[SerializeField] private float gracePeriod = 5f;
 		[SerializeField] private int maxLilGuysPerClearing = 3; // Default limit for wild Lil Guys per clearing
 
+		private Dictionary<string, List<SpawnerObj>> clearingSpawners = new();  // Tracks spawners per clearing
+		private Dictionary<string, int> clearingSpawnCounts = new();            // Tracks active Lil Guys per clearing
+
 		private ShuffleBag<SpawnerObj> legendarySpawnersSB = new();
+		private List<SpawnerObj> legendarySpawners = new();                     // Tracks all legendary spawners
+
+		private Coroutine spawnLoop;
+		private float spawnInterval = 3f; // Time between spawn attempts
+
 		public float GracePeriod { get => gracePeriod; set => gracePeriod = value; }
 		public int MaxLilGuysPerClearing { get => maxLilGuysPerClearing; set => maxLilGuysPerClearing = value; }
-
-		private float spawnInterval = 3f; // Time between spawn attempts
-		private Coroutine spawnLoop;
 
 		private void Start()
 		{

@@ -3,32 +3,42 @@ using UnityEngine;
 
 public class TutorialAiController : MonoBehaviour
 {
-    //purpose: pretty much same thing as AiController, just fitted to use tutorialBehaviour instead of wildBehaviour
+	//purpose: pretty much same thing as AiController, just fitted to use tutorialBehaviour instead of wildBehaviour
 
-    public enum AIState { Wild, Tamed }
-    private AIState state = AIState.Wild;               // The current state of the AI (either wild or one caught by a player)
-    public AIState State => state;
-    [SerializeField] private LayerMask groundLayer;
-    [SerializeField] private GameObject interactCanvas;
+	public enum AIState { Wild, Tamed }
 
-    private TutorialBehaviour wildBehaviour;                // Defines Wild AI behaviour (Idle, Chase, Attack, Death)
-    private TamedBehaviour tamedBehaviour;              // Defines Tamed AI behaviour (Follow Player)
+	#region Public Variables & Serialize Fields
+	[SerializeField] private LayerMask groundLayer;
+	[Header("References")]
+	[HorizontalRule]
+	[ColoredGroup][SerializeField] private GameObject interactCanvas;
+	[ColoredGroup][SerializeField] private AiHealthUi healthBars;
+	#endregion
 
-    private CanvasGroup healthUi;
-    [SerializeField] private AiHealthUi healthBars;
+	#region Private Variables
+	private LilGuyBase lilGuy;                          // Reference to this AI's stats
+	private AIState state = AIState.Wild;               // The current state of the AI (either wild or one caught by a player)
+	private TutorialBehaviour wildBehaviour;                // Defines Wild AI behaviour (Idle, Chase, Attack, Death)
+	private TamedBehaviour tamedBehaviour;              // Defines Tamed AI behaviour (Follow Player)
 
-    public AiHealthUi HealthBars => healthBars;
+	private CanvasGroup healthUi;
 
-    private Vector3 originalSpawnPosition = Vector3.zero;
-    private Transform followPosition;                           // The transform of the closest player to this AI
-    private LilGuyBase lilGuy;                          // Reference to this AI's stats
-    public Transform FollowPosition => followPosition;
-    public LilGuyBase LilGuy => lilGuy;
-    public CanvasGroup HealthUi => healthUi;
-    private Transform currClosestPlayer;
-    public Vector3 OriginalSpawnPosition => originalSpawnPosition;
+	private Vector3 originalSpawnPosition = Vector3.zero;
+	private Transform followPosition;                           // The transform of the closest player to this AI
+	private Transform currClosestPlayer;
+	#endregion
 
-    private void Awake()
+	#region Getters & Setters
+	public AIState State => state;
+	public AiHealthUi HealthBars => healthBars;
+	public Transform FollowPosition => followPosition;
+	public LilGuyBase LilGuy => lilGuy;
+	public CanvasGroup HealthUi => healthUi;
+	public Vector3 OriginalSpawnPosition => originalSpawnPosition;
+	#endregion
+
+
+	private void Awake()
     {
         wildBehaviour = GetComponent<TutorialBehaviour>();
         tamedBehaviour = GetComponent<TamedBehaviour>();

@@ -6,12 +6,14 @@ using UnityEngine.UI;
 
 public class LoadingScreen : MonoBehaviour
 {
-    [SerializeField] private Image loadingBar;
-    [SerializeField] private Image loadingBackground;
-    [SerializeField] private Slider loadingBarOption2;
-    [SerializeField] private TMP_Text loadProgress;
+    [Header("References")]
+    [HorizontalRule]
+	[SerializeField] private Sprite[] loadingScreenBackgrounds;
+	[ColoredGroup][SerializeField] private Image loadingBar;
+	[ColoredGroup][SerializeField] private Image loadingBackground;
+	[ColoredGroup][SerializeField] private Slider loadingBarOption2;
+	[ColoredGroup][SerializeField] private TMP_Text loadProgress;
 
-    [SerializeField] private Sprite[] loadingScreenBackgrounds;
 
     public Image LoadingBar => loadingBar;
     public Slider LoadingBarOption2 => loadingBarOption2;

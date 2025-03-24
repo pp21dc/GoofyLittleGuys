@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class SortGameObjects : EditorWindow
 {
-	private bool sortDescending = false;
 	private string baseName = "Object";
 
 	[MenuItem("Tools/Sort Selected GameObjects")]

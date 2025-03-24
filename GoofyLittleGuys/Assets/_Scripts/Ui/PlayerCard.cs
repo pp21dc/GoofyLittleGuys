@@ -7,13 +7,13 @@ using UnityEngine.UI;
 
 public class PlayerCard : MonoBehaviour
 {
-	private CharacterSelectState currentState = CharacterSelectState.Disconnected;
+	[Header("References")]
+	[HorizontalRule]
 	[SerializeField] private GameObject[] playerCardStates;
-
-
 	[SerializeField] private Image[] playerColourIndicators;
 	[SerializeField] private Image[] playerShapeIndicators;
 
+	private CharacterSelectState currentState = CharacterSelectState.Disconnected;
 	private void Awake()
 	{
 		UpdateState(currentState);

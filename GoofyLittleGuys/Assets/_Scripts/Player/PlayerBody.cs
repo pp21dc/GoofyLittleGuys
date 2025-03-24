@@ -10,89 +10,110 @@ using UnityEngine.UI;
 
 public class PlayerBody : MonoBehaviour
 {
+	#region Public Variables & Serialize Fields
 	[Header("References")]
-	[SerializeField] private LilGuyBase activeLilGuy;
+	[HorizontalRule]
+	[ColoredGroup][SerializeField] private PlayerInput playerInput;                   // This player's input component.
+	[ColoredGroup][SerializeField] private PlayerController controller;
+	[ColoredGroup][SerializeField] private StatMetrics gameplayStats;
+	[ColoredGroup][SerializeField] private GameObject playerMesh;                     // Reference to the player's mesh gameobject
+
+	[Header("UI")]
+	[HorizontalRule]
+	[ColoredGroup][SerializeField] private GameObject directionIndicator;
+	[ColoredGroup][SerializeField] private PlayerUi playerUi;                         // This player's input component.
+	[ColoredGroup] public GameObject miniMapIcon;
+	[ColoredGroup][SerializeField] private GameObject teamFullMenu;                   // The menu shown if the player captured a lil guy but their team is full.
+
+
+	[Header("Effects")]
+	[HorizontalRule]
+	[ColoredGroup][SerializeField] private GameObject invincibilityFX;
+	[ColoredGroup][SerializeField] private GameObject stormHurtFX;
+
+	[Header("Lil Guy Team")]
+	[HorizontalRule]
 	[SerializeField] private List<LilGuyBase> lilGuyTeam = new List<LilGuyBase>();               // The lil guys in the player's team.
 	[SerializeField] private List<LilGuySlot> lilGuyTeamSlots;          // The physical positions on the player prefab that the lil guys are children of.
-	[SerializeField] private GameObject playerMesh;                     // Reference to the player's mesh gameobject
-	[SerializeField] private PlayerInput playerInput;                   // This player's input component.
-	[SerializeField] private PlayerUi playerUi;                         // This player's input component.
-	[SerializeField] private GameObject teamFullMenu;                   // The menu shown if the player captured a lil guy but their team is full.
-	[SerializeField] private PlayerController controller;
-	[SerializeField] private GameObject invincibilityFX;
-	[SerializeField] private GameObject stormHurtFX;
-	[SerializeField] private GameObject directionIndicator;
-	[SerializeField] private StatMetrics gameplayStats;
-	public BuffHandler Buffs { get; private set; } = new BuffHandler();
-
+	[ColoredGroup][SerializeField] private LilGuyBase activeLilGuy;
 
 	[Header("Movement Parameters")]
-	[SerializeField] private float maxSpeed = 25f;           // This turns into the speed of the active lil guy's. Used for the AI follow behaviours so they all keep the same speed in following the player.
-	[SerializeField] private float accelerationTime = 0.1f;  // Time to reach target speed
-	[SerializeField] private float decelerationTime = 0.2f;  // Time to stop
-	[SerializeField] private float fallMultiplier = 4f;
-	[SerializeField] private float knockbackResistance = 1f;  // Reduce knockback effect
-	[SerializeField] private float knockbackDecayRate = 5f;   // Speed at which knockback fades
-	private Vector3 knockbackForce = Vector3.zero;
-	private float hitStunSlowMult = 1f;
+	[HorizontalRule]
+	[ColoredGroup][SerializeField] private float maxSpeed = 25f;           // This turns into the speed of the active lil guy's. Used for the AI follow behaviours so they all keep the same speed in following the player.
+	[ColoredGroup][SerializeField] private float accelerationTime = 0.1f;  // Time to reach target speed
 
-	[Header("DEBUG - Buffs (Read-Only)")]
-	[SerializeField] private float debugTeamSpeedBoost;
-	[SerializeField] private float debugTeamDamageReduction;
+	[Header("Berry Parameters")]
+	[HorizontalRule]
+	[ColoredGroup][SerializeField] private int maxBerryCount = 3;
+	[ColoredGroup][SerializeField, Range(0f, 1f)] private float berryHealPercentage = 0.33f;
 
-	public float TeamSpeedBoost => Buffs.GetTotalValue(BuffType.TeamSpeedBoost);
-	public float TeamDamageReduction => Buffs.GetTotalValue(BuffType.TeamDamageReduction);
-
-	[Header("Berry Inventory Parameters")]
-	[SerializeField] private int maxBerryCount = 3;
-	[SerializeField, Range(0f, 1f)] private float berryHealPercentage = 0.33f;
+	[Header("Combat Settings")]
+	[HorizontalRule]
+	[ColoredGroup][SerializeField, DebugOnly] private float debugTeamSpeedBoost;
+	[ColoredGroup][SerializeField, DebugOnly] private float debugTeamDamageReduction;
+	[ColoredGroup][SerializeField] private float knockbackResistance = 1f;  // Reduce knockback effect
+	[ColoredGroup][SerializeField] private float knockbackDecayRate = 5f;   // Speed at which knockback fades
 
 	[Header("Cooldown Parameters")]
-	[SerializeField] private float berryUsageCooldown = 1f;
-	[SerializeField] private float interactCooldown = 0.2f;
-	[SerializeField] private float swapCooldown = 0.25f;
-	[SerializeField] private float respawnInvincibility = 3f;
-	[SerializeField] private float swapInvincibility = 0.05f;
+	[HorizontalRule]
+	[ColoredGroup][SerializeField] private float berryUsageCooldown = 1f;
+	[ColoredGroup][SerializeField] private float interactCooldown = 0.2f;
+	[ColoredGroup][SerializeField] private float swapCooldown = 0.25f;
+	[ColoredGroup][SerializeField] private float respawnInvincibility = 3f;
+	[ColoredGroup][SerializeField] private float swapInvincibility = 0.05f;
+	#endregion
 
+	#region Private Variables
+	// PLAYER
+	private Rigidbody rb;
+	private Color playerColour = Color.white;
 	private float nextBerryUseTime = 0;
-	private float nextInteractTime = -Mathf.Infinity;
 	private float nextSwapTime = -Mathf.Infinity;
 	private float deathTime = -Mathf.Infinity;
-	private float smoothFactor = 10;
-
-	private Color playerColour = Color.white;
-
-	private InteractableBase closestInteractable = null;
-	private GameObject starter = null;
-	private int berryCount = 0;
-	private bool isDead = false;
-	private bool inStorm = false;               // used by storm objects to determine if the player is currently in the storm
-	private bool stormDmg = false;              // used by storm objects to determine if the player should take storm damage this frame.
-	private bool stormCoroutine = false;        // used by storm objects to determine if this player has already started a damage coroutine.
-	private bool isDashing = false;             // When the dash action is pressed for speed lil guy. Note this is in here because if the player swaps mid dash, they will get stuck in dash UNLESS this bool is here and is adjusted here.
 	private bool flip = false;
-	private bool hasInteracted = false;
-	private bool isInteracting = false;
+	private bool isSwapping = false;            
 	private bool hasSwappedRecently = false;    // If the player is in swap cooldown (feel free to delete cmnt)
 	private bool hasImmunity = false;           // If the player is in swap I-frames (feel free to delete cmnt)
-	private bool canMove = true;                // Whether or not the player can move, set it to false when you want to halt movement
-	private bool knockedBack = false;
+	private bool isDead = false;
 	private bool wasDefeated = false;           // Only true if this player has been defeated in phase 2
-	private Vector3 currentVelocity;            // Internal tracking for velocity smoothing
-	private bool inMenu = true;
 
-	private bool isSwapping = false;            // NECESSARY FOR AUTOSWAP/PLAYER SWAP. We need a mutex-type mechanism so that that the resources in the lil guy list doesn't get mismanaged from the two swapping mechanisms accessing it at the same time.
+	// TUTORIAL
+	private GameObject starter = null;
+
+	// MOVEMENT
+	private Vector3 movementDirection = Vector3.zero;
+	private Vector3 currentVelocity;            // Internal tracking for velocity smoothing
+	private Vector3 lastPosition; // Previous position for tracking
+	private float smoothFactor = 10;
+	private bool canMove = true;                // Whether or not the player can move, set it to false when you want to halt movement
+	private bool isDashing = false;             // When the dash action is pressed for speed lil guy. Note this is in here because if the player swaps mid dash, they will get stuck in dash UNLESS this bool is here and is adjusted here.
+
+	// COMBAT
+	private Coroutine hitstunCoroutine = null;  // for da hitstun
+	private Vector3 knockbackForce = Vector3.zero;
+	private float hitStunSlowMult = 1f;
+	private bool knockedBack = false;
+
+	// INTERACTABLE & WORLD
+	private LilGuyBase closestWildLilGuy = null;
+	private InteractableBase closestInteractable = null;
+	private float nextInteractTime = -Mathf.Infinity;
+	private int berryCount = 0; 
+	private bool hasInteracted = false;
+	private bool isInteracting = false;
+
+	// WORLD
 	private Coroutine respawnCoroutine = null;
 	private Coroutine invincibilityCoroutine = null;
-	private Coroutine hitstunCoroutine = null;	// for da hitstun
+	private bool inStorm = false;               // used by storm objects to determine if the player is currently in the storm
 
-	private Vector3 movementDirection = Vector3.zero;
-	private Rigidbody rb;
-	private LilGuyBase closestWildLilGuy = null;
 
-	public GameObject miniMapIcon;
+	// UI
+	private bool inMenu = true;
 
-	public Vector3 CurrentVelocity => currentVelocity;
+	#endregion
+
+	#region Getters & Setters
 	public Color PlayerColour
 	{
 		get { return playerColour; }
@@ -106,30 +127,30 @@ public class PlayerBody : MonoBehaviour
 			miniMapIcon.GetComponent<Renderer>().material.color = playerColour;
 		}
 	}
+	public BuffHandler Buffs { get; private set; } = new BuffHandler();
+	public float TeamSpeedBoost => Buffs.GetTotalValue(BuffType.TeamSpeedBoost);
+	public float TeamDamageReduction => Buffs.GetTotalValue(BuffType.TeamDamageReduction);
+	public Vector3 CurrentVelocity => currentVelocity;
 	public StatMetrics GameplayStats => gameplayStats;
 	public LilGuyBase ClosestWildLilGuy { get { return closestWildLilGuy; } set { closestWildLilGuy = value; } }
 	public bool HasInteracted { get { return hasInteracted; } set { hasInteracted = value; } }
 	public bool HasSwappedRecently { get { return hasSwappedRecently; } set { hasSwappedRecently = value; } }
 	public bool HasImmunity { get { return hasImmunity; } set { hasImmunity = value; } }
 	public bool InStorm { get { return inStorm; } set { inStorm = value; } }
-	public bool StormDmg { get { return stormDmg; } set { stormDmg = value; } }
-	public bool StormCoroutine { get { return stormCoroutine; } set { stormCoroutine = value; } }
 	public GameObject StormHurtFx { get { return stormHurtFX; } set { stormHurtFX = value; } }
 	public bool IsDashing { get { return isDashing; } set { isDashing = value; } }
 	public bool IsInteracting { get { return isInteracting; } set { isInteracting = value; } }
 	public bool KnockedBack { get { return knockedBack; } set { knockedBack = value; } }
 	public LilGuyBase ActiveLilGuy { get { return activeLilGuy; } set { activeLilGuy = value; } }
 	public GameObject TeamFullMenu { get { return teamFullMenu; } set { teamFullMenu = value; } }
-	public GameObject Starter { get {return starter; } set { starter = value; } }
+	public GameObject Starter { get { return starter; } set { starter = value; } }
 	public bool Flip { get { return flip; } set { flip = value; } }
 	public bool IsDead => isDead;
 	public int BerryCount { get { return berryCount; } set { berryCount = value; } }
 	public bool InMenu { get { return inMenu; } set { inMenu = value; } }
 	public float NextBerryUseTime => nextBerryUseTime;
 	public float BerryCooldown => berryUsageCooldown;
-
 	public InteractableBase ClosestInteractable { get { return closestInteractable; } set { closestInteractable = value; } }
-
 	public List<LilGuyBase> LilGuyTeam => lilGuyTeam;
 	public List<LilGuySlot> LilGuyTeamSlots => lilGuyTeamSlots;
 	public Vector3 MovementDirection => movementDirection;
@@ -138,16 +159,15 @@ public class PlayerBody : MonoBehaviour
 	public PlayerUi PlayerUI => playerUi;
 	public PlayerController Controller => controller;
 	public float DeathTime => deathTime;
+	#endregion
 
-	private float distanceTraveled = 0f; // Total distance
-	private Vector3 lastPosition; // Previous position for tracking
 	private void Start()
 	{
 		rb = GetComponent<Rigidbody>();
 		EventManager.Instance.GameStarted += Init;
 		lastPosition = transform.position; // Initialize position
 	}
-	
+
 
 	private void OnDestroy()
 	{
@@ -228,7 +248,7 @@ public class PlayerBody : MonoBehaviour
 			Debug.Log("In AIR!");
 			rb.velocity += Vector3.up * Physics.gravity.y * (maxSpeed - 1) * Time.fixedDeltaTime;
 		}
-		
+
 		// Apply movement
 		if (!isDashing && canMove && !lilGuyTeam[0].LockMovement)
 		{
@@ -272,7 +292,7 @@ public class PlayerBody : MonoBehaviour
 
 	public void StartHitStun(float stunMult, float stunTime, AnimationCurve stunCurve)
 	{
-        hitstunCoroutine = StartCoroutine(ApplyHitStun(stunMult, stunTime, stunCurve));
+		hitstunCoroutine = StartCoroutine(ApplyHitStun(stunMult, stunTime, stunCurve));
 	}
 
 	private IEnumerator ApplyHitStun(float stunMult, float stunTime, AnimationCurve stunCurve)
@@ -280,17 +300,17 @@ public class PlayerBody : MonoBehaviour
 		//set stun mult
 		//lerp stun mult back to 1 over stuntime
 		//change animator speed
-		
+
 		hitStunSlowMult = stunMult;
 		var timer = 0.0f;
-		while (timer <  stunTime)
+		while (timer < stunTime)
 		{
 			timer += Time.deltaTime;
 			var t = Mathf.Clamp01(timer / stunTime);
 			var curveVal = stunCurve.Evaluate(t);
 			hitStunSlowMult = Mathf.Lerp(stunMult, 1.0f, curveVal);
 			lilGuyTeam[0].Animator.speed = 0.0f;
-            yield return null;
+			yield return null;
 		}
 		lilGuyTeam[0].Animator.speed = 1.0f;
 		hitStunSlowMult = 1.0f;
@@ -390,7 +410,7 @@ public class PlayerBody : MonoBehaviour
 	public void UseBerry()
 	{
 		if (IsDead || LilGuyTeam[0].IsDying) return;
-		
+
 		if (lilGuyTeam[0].Health < lilGuyTeam[0].MaxHealth && nextBerryUseTime <= 0 && berryCount > 0)
 		{
 			int healthRestored = Mathf.CeilToInt(lilGuyTeam[0].MaxHealth * berryHealPercentage);
@@ -505,7 +525,7 @@ public class PlayerBody : MonoBehaviour
 		else
 		{
 			isDead = true;
-						if (!ReferenceEquals(lilGuyTeam[0].GetComponent<Hurtbox>().LastHit, null))
+			if (!ReferenceEquals(lilGuyTeam[0].GetComponent<Hurtbox>().LastHit, null))
 				lilGuyTeam[0].GetComponent<Hurtbox>().LastHit.GameplayStats.TeamWipes++;
 			GameplayStats.DeathCount++;
 			deathTime = Time.time;
@@ -584,8 +604,8 @@ public class PlayerBody : MonoBehaviour
 		isSwapping = false;
 		nextSwapTime = Time.time + swapCooldown;
 		EventManager.Instance.RefreshUi(playerUi, 0);
-        SetTimer();
-    }
+		SetTimer();
+	}
 
 	public void StartDash()
 	{

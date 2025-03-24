@@ -9,25 +9,27 @@ using UnityEngine.UI;
 namespace Managers
 {
     public class UiManager : SingletonBase<UiManager>
-    {
-        [SerializeField] private GameObject pauseScreen;        // The pause menu.
-        [SerializeField] private EventSystem pauseEventSystem;  // The event system tied specifically to the pause menu.
-        [SerializeField] private GameObject firstSelected;      // The first button in the menu to be selected on default
-        [SerializeField] private GameObject playerUiPrefab;     // Prefab for ingame player UI
+	{
+		public enum Shapes
+		{
+			Circle,
+			Hexagon,
+			Diamond,
+			Square
+		};
+        [Header("Pause Menu")]
+		[HorizontalRule]
+		[ColoredGroup][SerializeField] private GameObject pauseScreen;        // The pause menu.
+		[ColoredGroup][SerializeField] private EventSystem pauseEventSystem;  // The event system tied specifically to the pause menu.
+		[ColoredGroup][SerializeField] private GameObject firstSelected;      // The first button in the menu to be selected on default
+		[ColoredGroup][SerializeField] private GameObject settingsInitButton;
 
-        public enum Shapes
-        {
-            Circle,
-            Hexagon,
-            Diamond,
-            Square
-        };
+		[Header("Player UI")]
+		[HorizontalRule]
+		[SerializeField] public List<Sprite> shapes = new List<Sprite>();
+		[SerializeField] List<PlayerUi> playerUis;              //List of PlayerUi prefab canvases 
+		[ColoredGroup][SerializeField] private GameObject playerUiPrefab;     // Prefab for ingame player UI
 
-        [SerializeField] private GameObject settingsInitButton;
-
-        [SerializeField] public List<Sprite> shapes = new List<Sprite>();
-
-        [SerializeField] List<PlayerUi> playerUis;              //List of PlayerUi prefab canvases 
         private void Start()
         {
             EventManager.Instance.NotifyGamePaused += GamePaused;

@@ -7,14 +7,14 @@ public class TutorialIsland : MonoBehaviour
     /// <summary>
     /// this is just a ref holder for all GO's on a specific island, reference-able by each state
     /// </summary>
-    
-    public GameObject lilGuyPref;
-    public Transform enemySpawnPoint;
-    public GameObject storm;
-    public GameObject fountain;
-    public GameObject exitPortal;
-    
-    public List<GameObject> enemies;
+    [Header("References")]
+    [HorizontalRule]
+	public List<GameObject> enemies;
+	[ColoredGroup] public GameObject lilGuyPref;
+	[ColoredGroup] public Transform enemySpawnPoint;
+	[ColoredGroup] public GameObject storm;
+	[ColoredGroup] public GameObject fountain;
+	[ColoredGroup] public GameObject exitPortal;
 
     private void Start()
     {

@@ -5,20 +5,30 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider))]
 public class Teleporter : InteractableBase
 {
-    // -- Variables --
-    [SerializeField] private Teleporter targetTeleporter;
-    [SerializeField] private Transform endTeleportLocation;
-    [SerializeField] private float cooldown;
-    private bool onCooldown;
-    private BoxCollider teleporterCollider;
-    private List<GameObject> inRange = new List<GameObject>();
+	#region Public Variables & Serialize Fields
+	[Header("References")]
+	[HorizontalRule]
+	[ColoredGroup][SerializeField] private Teleporter targetTeleporter;
+	[ColoredGroup][SerializeField] private Transform endTeleportLocation;
 
-    // -- Getters --
-    public Transform EndTeleportLocation { get { return endTeleportLocation; } }
-    public bool OnCooldown { get { return onCooldown; } set { onCooldown = value; } }
+	[Header("Portal Settings")]
+	[HorizontalRule]
+	[ColoredGroup][SerializeField] private float cooldown;
+	#endregion
 
-    #region Event Functions
-    private void Start()
+	#region Private Variables
+	private bool onCooldown;
+	private BoxCollider teleporterCollider;
+	private List<GameObject> inRange = new List<GameObject>();
+	#endregion
+
+	#region Getters & Setters
+	public Transform EndTeleportLocation { get { return endTeleportLocation; } }
+	public bool OnCooldown { get { return onCooldown; } set { onCooldown = value; } }
+	#endregion
+
+	#region Event Functions
+	private void Start()
     {
         teleporterCollider = GetComponent<BoxCollider>();
         teleporterCollider.isTrigger = true;

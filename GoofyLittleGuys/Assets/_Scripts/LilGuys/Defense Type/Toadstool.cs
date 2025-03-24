@@ -5,14 +5,14 @@ using UnityEngine;
 public class Toadstool : DefenseType
 {
 	[Header("Toadstool Specific")]
-	[SerializeField] private GameObject gasPrefab;
-	[SerializeField] private float shieldTime = 4f;
-	[SerializeField] private float poisonDamage = 3;
-	[SerializeField] private float poisonDuration = 2;
-	[SerializeField] private float poisonDamageApplicationInterval = 0.5f;
+	[HorizontalRule]
+	[ColoredGroup][SerializeField] private GameObject gasPrefab;
+	[ColoredGroup][SerializeField] private float poisonDamage = 3;
+	[ColoredGroup][SerializeField] private float poisonDuration = 2;
+	[ColoredGroup][SerializeField] private float poisonDamageApplicationInterval = 0.5f;
 
+	private Rigidbody affectedRB;
 
-	Rigidbody affectedRB;
 	public float PoisonDamage => poisonDamage;
 	public float PoisonDuration => poisonDuration;
 	public float PoisonDamageApplicationInterval => poisonDamageApplicationInterval;

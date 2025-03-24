@@ -8,52 +8,6 @@ using Managers;
 
 public class PlayerUi : MonoBehaviour
 {
-	List<LilGuyPopout> popouts;
-
-	[SerializeField] GameObject panel;
-	[SerializeField] Slider persistentHealthBar;
-	[SerializeField] Image persistentIcon;
-	[SerializeField] Image persistentAbilityIcon;
-	[SerializeField] TMP_Text berryCountText;
-	[SerializeField] TMP_Text berryCooldownTime;
-	[SerializeField] Image berryCooldownSlider;
-
-	[SerializeField] PlayerBody pb;
-
-	TMP_Text STR_Txt;
-	TMP_Text SPD_Txt;
-	TMP_Text DEF_Txt;
-	[SerializeField] TMP_Text LVL_Txt;
-	TMP_Text HP_Txt;
-
-	[SerializeField] GameObject berryCountTxt;
-	[SerializeField] GameObject berryCooldownTxt;
-
-	[SerializeField] GameObject LBIcon;
-	[SerializeField] GameObject RBIcon;
-	[SerializeField] Image CurrentCharacter;
-	[SerializeField] Image LBCharacter;
-	[SerializeField] Image RBCharacter;
-
-	[SerializeField] Image AbilityIcon;
-	[SerializeField] Image abilityCooldownTimer;
-	[SerializeField] TMP_Text abilityCooldownText;
-
-	[SerializeField] Slider XP_Slider;
-	TMP_Text levelHPBar;
-
-	[SerializeField] List<Sprite> iconSprites;
-	[SerializeField] List<Sprite> abilitySprites;
-
-	[SerializeField] GameObject tempWinText;
-
-	[SerializeField] VictoryAnimationPlay victoryAnim;
-	[SerializeField] GameObject victoryObject;
-
-	[SerializeField] GameObject respawnScreen;
-
-	[SerializeField] private Image healthBarFill;
-	[SerializeField] private Image playerShape;
 	enum LilGuys
 	{
 		Teddy,
@@ -66,8 +20,62 @@ public class PlayerUi : MonoBehaviour
 		Toadstool,
 		Tricerabox
 	}
+
+	[Header("General References")]
+	[HorizontalRule]
+	[ColoredGroup][SerializeField] PlayerBody pb;
+	[ColoredGroup] public RectTransform mirroredXUi; // Assign this in the inspector
+	[ColoredGroup][SerializeField] GameObject panel;
+
+	[Header("Player Health UI References")]
+	[HorizontalRule]
+	[ColoredGroup][SerializeField] private Image healthBarFill;
+	[ColoredGroup][SerializeField] private Image playerShape;
+	[ColoredGroup][SerializeField] TMP_Text LVL_Txt;
+	[ColoredGroup][SerializeField] Slider persistentHealthBar;
+	[ColoredGroup][SerializeField] Slider XP_Slider;
+
+	[Header("Ability & Swap UI References")]
+	[HorizontalRule]
+	[SerializeField] List<Sprite> iconSprites;
+	[SerializeField] List<Sprite> abilitySprites;
+	[ColoredGroup][SerializeField] Image AbilityIcon;
+	[ColoredGroup][SerializeField] Image abilityCooldownTimer;
+	[ColoredGroup][SerializeField] TMP_Text abilityCooldownText;
+	[ColoredGroup][SerializeField] GameObject LBIcon;
+	[ColoredGroup][SerializeField] GameObject RBIcon;
+	[ColoredGroup][SerializeField] Image CurrentCharacter;
+	[ColoredGroup][SerializeField] Image LBCharacter;
+	[ColoredGroup][SerializeField] Image RBCharacter;
+	[ColoredGroup][SerializeField] Image persistentIcon;
+	[ColoredGroup][SerializeField] Image persistentAbilityIcon;
+
+	[Header("Berry UI References")]
+	[HorizontalRule]
+	[ColoredGroup][SerializeField] TMP_Text berryCountText;
+	[ColoredGroup][SerializeField] TMP_Text berryCooldownTime;
+	[ColoredGroup][SerializeField] Image berryCooldownSlider;
+	[ColoredGroup][SerializeField] GameObject berryCountTxt;
+	[ColoredGroup][SerializeField] GameObject berryCooldownTxt;
+
+	[Header("Victory UI References")]
+	[HorizontalRule]
+	[ColoredGroup][SerializeField] GameObject tempWinText;
+	[ColoredGroup][SerializeField] VictoryAnimationPlay victoryAnim;
+	[ColoredGroup][SerializeField] GameObject victoryObject;
+	[ColoredGroup][SerializeField] GameObject respawnScreen;
+
+
+	List<LilGuyPopout> popouts;
+	TMP_Text STR_Txt;
+	TMP_Text SPD_Txt;
+	TMP_Text DEF_Txt;
+	TMP_Text HP_Txt;	
+	TMP_Text levelHPBar;
+
+	
+	
 	public GameObject TempWinText { get => tempWinText; set => tempWinText = value; }
-	public RectTransform mirroredXUi; // Assign this in the inspector
 
 	private void Start()
 	{

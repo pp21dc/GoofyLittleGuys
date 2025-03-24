@@ -15,12 +15,14 @@ public class TutorialManager : SingletonBase<TutorialManager>
         public Sprite image;
     }
 
+    [Header("References")]
+    [HorizontalRule]
     [SerializeField] private List<Transform> spawnPoints = new List<Transform>();
     [SerializeField] private List<TutorialIsland> tutorialIslands = new List<TutorialIsland>();
     [SerializeField] private List<TutorialText> tutorialTexts = new List<TutorialText>();
-    [SerializeField] private TMP_Text tutorialText;
-    [SerializeField] private Image buttonImage;
-    [SerializeField] private AudioSource musicSource;
+	[ColoredGroup][SerializeField] private TMP_Text tutorialText;
+	[ColoredGroup][SerializeField] private Image buttonImage;
+	[ColoredGroup][SerializeField] private AudioSource musicSource;
     
     private List<TutorialStateMachine> tutorialStateMachines = new List<TutorialStateMachine>();
     private List<bool> islandsComplete = new List<bool>();

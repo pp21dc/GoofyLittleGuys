@@ -3,11 +3,21 @@ using UnityEngine;
 using System.Linq;
 public class BuffHandler
 {
+	#region Public Variables & Serialize Fields
+	#endregion
+
+	#region Private Variables
 	private List<TimedBuff> activeBuffs = new List<TimedBuff>();
-	
+	#endregion
+
+	#region Getters & Setters
+	#endregion
+
+	#region Events & Delegates
 	// Callback when a buff expires
 	public delegate void BuffExpiredDelegate(BuffType type, object source);
 	public event BuffExpiredDelegate OnBuffExpired;
+	#endregion
 
 	public void AddBuff(BuffType type, float amount, float duration, object source)
 	{

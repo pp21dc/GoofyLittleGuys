@@ -13,11 +13,12 @@ namespace Managers
 	{
 		[SerializeField] private GameObject blackoutCam;
 		[SerializeField] private int characterSelectSceneIndex = 1; // Change to the build index of the char select screen.
-		private CharacterSelectHandler characterSelectScreen;
-		public CharacterSelectHandler CharacterSelectScreen { get { return characterSelectScreen; } set { characterSelectScreen = value; } }
 
+		private CharacterSelectHandler characterSelectScreen;
 		private GameObject instantiatedBlackoutCam = null;
 		private bool canJoinLeave = false;
+
+		public CharacterSelectHandler CharacterSelectScreen { get { return characterSelectScreen; } set { characterSelectScreen = value; } }
 		public bool CanJoinLeave => canJoinLeave;
 
 		// Start is called before the first frame update

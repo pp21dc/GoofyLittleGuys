@@ -4,15 +4,21 @@ using UnityEngine;
 
 public class AoeMovement : MonoBehaviour
 {
-	[SerializeField] private float speed = 5f;
-	[SerializeField] private float raycastHeightOffset = 1f; // How high above to start the raycast
-	[SerializeField] private LayerMask groundLayer; // LayerMask to identify terrain or ground
-	[SerializeField] private float smoothTime = 0.1f; // For smoothing position adjustments
+	[Header("References")]
+	[HorizontalRule]
+	[ColoredGroup][SerializeField] private LayerMask groundLayer; // LayerMask to identify terrain or ground
 
+	[Header("Movement Settings")]
+	[HorizontalRule]
+	[ColoredGroup][SerializeField] private float speed = 5f;
+	[ColoredGroup][SerializeField] private float raycastHeightOffset = 1f; // How high above to start the raycast
+	[ColoredGroup][SerializeField] private float smoothTime = 0.1f; // For smoothing position adjustments
+
+
+	private Rigidbody rb;
 	private Vector3 velocity = Vector3.zero;
 	private Vector3 forwardDir;
 
-	Rigidbody rb;
 	public float Speed { set {  speed = value; } }
 
 	private void Awake()

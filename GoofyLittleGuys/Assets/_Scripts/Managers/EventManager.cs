@@ -9,11 +9,9 @@ using static UnityEngine.GraphicsBuffer;
 
 public class EventManager
 {
+	#region Events & Delegates
 	public delegate void LilGuyLastHitDelegate(PlayerBody body);
 	public event LilGuyLastHitDelegate NotifyLastHit;
-
-	public delegate void UpdatePlayerUIHealthDelegate(PlayerBody body);
-	public event UpdatePlayerUIHealthDelegate NotifyPlayerUIHealthUpdate;
 
 	public delegate void LegendarySpawnedDelegate();
 	public event LegendarySpawnedDelegate NotifyLegendarySpawned;
@@ -44,6 +42,7 @@ public class EventManager
 
 	public delegate void StormSpawnedDelegate(float dmgToAdd, int numStorms);
 	public event StormSpawnedDelegate NotifyStormSpawned;
+	#endregion
 
 	private static EventManager _instance = null;
 	public static EventManager Instance

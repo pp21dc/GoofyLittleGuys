@@ -6,12 +6,11 @@ using UnityEngine.InputSystem;
 
 public class VictoryScreenManager : MonoBehaviour
 {
+	[SerializeField] private VictoryScreen screen;
 	public static VictoryScreenManager Instance;
-
 	private HashSet<PlayerInput> readyPlayers = new HashSet<PlayerInput>();
 	private List<PlayerInput> allPlayers = new List<PlayerInput>();
 
-	[SerializeField] private VictoryScreen screen;
 
 	private void Awake()
 	{

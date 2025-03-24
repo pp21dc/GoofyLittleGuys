@@ -10,8 +10,11 @@ namespace Managers
 	public class AudioManager : SingletonBase<AudioManager>
 	{
 		[Header("Mixers")]
-		[SerializeField] private AudioMixer mainMixer;
+		[HorizontalRule]
+		[ColoredGroup][SerializeField] private AudioMixer mainMixer;
+
 		[Header("Audio Objects")]
+		[HorizontalRule]
 		[SerializeField] private AudioObject[] sfxObjects;
 		[SerializeField] private AudioObject[] musicObjects;
 

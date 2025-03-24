@@ -7,9 +7,11 @@ using UnityEngine;
 public class Phantaphant : SpeedType
 {
 	[Header("Phant-a-phant Specific")]
-	[SerializeField, Tooltip("The maximum range that a target to dash to can be picked.")] private float dashTargetRange;
-	[SerializeField] private float slowAmount = 20f;
-	[SerializeField] private float slowDuration = 2f;
+	[HorizontalRule]
+	[ColoredGroup][SerializeField, Tooltip("The maximum range that a target to dash to can be picked.")] private float dashTargetRange;
+	[ColoredGroup][SerializeField] private float slowAmount = 20f;
+	[ColoredGroup][SerializeField] private float slowDuration = 2f;
+
 	private Transform targetPosition;
 	private Vector3 directionToTarget;
 

@@ -7,15 +7,15 @@ namespace Managers
 {
 	public class LevelLoadManager : SingletonBase<LevelLoadManager>
 	{
-		public static LevelLoadManager _Instance;
+		[SerializeField, DebugOnly] private List<string> currentLevelList; // The list of scenes currently loaded in (except the persistent scene)
 		[SerializeField] private LoadingScreen loadingScreen;
 		[SerializeField] private bool isLoadingLevel = false;
-		[SerializeField] private List<string> currentLevelList; // The list of scenes currently loaded in (except the persistent scene)
 
 		private float bufferTime = 1.5f;
 		private bool firstLoad = true; // Track if it's the first load
 
 		public bool IsLoadingLevel => isLoadingLevel;
+
 		private void Start()
 		{
 			LoadNewLevel("00_MainMenu");

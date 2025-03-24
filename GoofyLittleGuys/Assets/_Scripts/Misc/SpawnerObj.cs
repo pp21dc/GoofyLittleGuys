@@ -12,22 +12,16 @@ public class SpawnerObj : MonoBehaviour
 {
 	[SerializeField] private List<GameObject> campLilGuys; // List of possible Lil Guys to spawn
 	[SerializeField] private GameObject legendaryLilGuy; // Legendary Lil Guy prefab
+	public LayerMask GroundLayer; // Layer mask for valid ground placement
 	[SerializeField] private int maxSpawnCount = 3; // Max Lil Guys per spawner (updated from 2 to 3)
-	[SerializeField] private int spawnDelay = 5; // Delay between spawns
 	[SerializeField] public bool legendarySpawned = false; // If legendary Lil Guy has spawned
 
-	private int currSpawnCount = 0; // Current count of spawned Lil Guys
-	private bool isSpawning = false; // If a spawn is currently in progress
-	private bool initialSpawnsSpawned = false; // If a spawn is currently in progress
 	private SpawnManager spawnManager; // Reference to the SpawnManager
+	private ShuffleBag<GameObject> lilGuyShuffleBag; // Shuffle Bag to random select lil Guys, but ensure each in the list appears once before repeats occur.
 	private SphereCollider spawnArea; // Collider representing the spawn area
 	private string clearingID; // ID representing the clearing this spawner belongs to
-	private ShuffleBag<GameObject> lilGuyShuffleBag; // Shuffle Bag to random select lil Guys, but ensure each in the list appears once before repeats occur.
-
-
-	public LayerMask GroundLayer; // Layer mask for valid ground placement
-
-	public int CurrentSpawnCount => currSpawnCount;
+	private int currSpawnCount = 0; // Current count of spawned Lil Guys
+	private bool initialSpawnsSpawned = false; // If a spawn is currently in progress
 
 	public SphereCollider SpawnArea => spawnArea;
 

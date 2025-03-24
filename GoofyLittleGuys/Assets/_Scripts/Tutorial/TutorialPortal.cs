@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class TutorialPortal : InteractableBase
 {
-    // -- Variables --
-    [SerializeField] private TutorialPortal targetTeleporter;
-    [SerializeField] private Transform endTeleportLocation;
+	// -- Variables --
+	[Header("References")]
+	[HorizontalRule]
+	[ColoredGroup][SerializeField] private TutorialPortal targetTeleporter;
+	[ColoredGroup][SerializeField] private Transform endTeleportLocation;
+
     private BoxCollider teleporterCollider;
     private List<GameObject> inRange = new List<GameObject>();
     

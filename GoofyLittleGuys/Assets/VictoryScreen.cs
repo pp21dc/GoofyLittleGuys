@@ -5,9 +5,11 @@ using UnityEngine;
 
 public class VictoryScreen : MonoBehaviour
 {
-	[SerializeField] private StatscreenReferences screenReferences;
-	[SerializeField] private AudioSource introSource;
-	[SerializeField] private AudioSource musicSource;
+	[Header("References")]
+	[HorizontalRule]
+	[ColoredGroup][SerializeField] private StatscreenReferences screenReferences;
+	[ColoredGroup][SerializeField] private AudioSource introSource;
+	[ColoredGroup][SerializeField] private AudioSource musicSource;
 
 	private bool introPlaying = false;
 

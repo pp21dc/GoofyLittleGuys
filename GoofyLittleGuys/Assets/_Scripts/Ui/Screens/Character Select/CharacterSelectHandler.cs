@@ -8,14 +8,16 @@ using UnityEngine.UI;
 
 public class CharacterSelectHandler : MonoBehaviour
 {
-	[SerializeField] private GameObject characterSelector;
+	[Header("References")]
+	[HorizontalRule]
+	[SerializeField] private List<GameObject> tutorialPromptButtons;
 	[SerializeField] private List<GameObject> charSelectors;
-	[SerializeField] private GameObject tutorialUi;
 	[SerializeField] private SelectorContainer[] lilGuySelectorParents;
 	[SerializeField] private PlayerCard[] playerCards;
-	[SerializeField] private GameObject charSelectPanel;
-	[SerializeField] private GameObject tutorialPrompt;
-	[SerializeField] private List<GameObject> tutorialPromptButtons;
+	[ColoredGroup][SerializeField] private GameObject characterSelector;
+	[ColoredGroup][SerializeField] private GameObject tutorialUi;
+	[ColoredGroup][SerializeField] private GameObject charSelectPanel;
+	[ColoredGroup][SerializeField] private GameObject tutorialPrompt;
 
 	public PlayerCard[] PlayerCards => playerCards;
 	public List<LilGuyBase> starters;                                   // List containing the starters the player can choose from.

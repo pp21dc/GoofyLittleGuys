@@ -2,10 +2,13 @@ using UnityEngine;
 
 public class DefenseType : LilGuyBase
 {
+	[Header("Defense Type Specific")]
+	[HorizontalRule]
+	[ColoredGroup][SerializeField] private float damageReduction = 0.5f;     // Change to damageReduction
+
 	protected GameObject spawnedShieldObj = null;    // The actual instantiated shield object on the lil guy
 	protected bool isShieldActive = false;
-	[SerializeField] private float damageReduction = 0.5f;     // Change to damageReduction
-															   // Insert variable 3 that can vary between lil guys
+
 	public GameObject SpawnedShieldObj { get { return spawnedShieldObj; } set { spawnedShieldObj = value; } }
 	public bool IsShieldActive { get { return isShieldActive; } set { isShieldActive = value; } }
 	public float DamageReduction { get { return damageReduction; } }

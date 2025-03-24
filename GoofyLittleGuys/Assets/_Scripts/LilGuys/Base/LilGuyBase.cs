@@ -6,158 +6,183 @@ using System.Linq;
 using UnityEngine;
 
 public abstract class LilGuyBase : MonoBehaviour
-{
-	public int maxCombo = 3; // Max number of attacks in a chain
-	public float comboBufferTime = 0.5f; // Time before combo resets
-	public float pauseBufferTime = 1f; // Time before combo resets
-	private int currentComboCount = 0;
-	private bool canChainAttack = false;
-	public bool CanChainAttack { get => canChainAttack; }
-	public int CurrentComboCount { get => currentComboCount; set => currentComboCount = value; }
+{	public enum PrimaryType
+	{
+		Strength,
+		Defense,
+		Speed
+	}
 
-	private bool attackQueued = false; // For buffering attack inputs
-
-	public BuffHandler Buffs { get; private set; } = new BuffHandler();
-
-	//VARIABLES//
-	[Header("Lil Guy Information")]
-	[SerializeField] protected string guyName;
-	[SerializeField] protected PrimaryType type;
-	[SerializeField] protected SpriteRenderer mesh;
-	[SerializeField] protected GameObject hitboxPrefab;
-	[SerializeField] protected GameObject basicFxPrefab;
-	[SerializeField] protected Animator anim;
-	[SerializeField] protected Transform attackPosition;
-	[SerializeField] protected Transform attackOrbit;
-	[SerializeField] private GameObject healFXPrefab;
-	[SerializeField] private AudioSource audioSource;
-	[SerializeField] private Sprite uiIcon;
-	[SerializeField] private Sprite abilityIcon;
+	#region Public Variables & Serialize Fields
+	[Header("Lil Guy Info and Refs")]
+	[HorizontalRule]
+	[ColoredGroup][SerializeField] protected string guyName;
+	[ColoredGroup][SerializeField] protected PrimaryType type;
+	[ColoredGroup][SerializeField] protected SpriteRenderer mesh;
+	[ColoredGroup][SerializeField] protected GameObject hitboxPrefab;
+	[ColoredGroup][SerializeField] protected GameObject basicFxPrefab;
+	[ColoredGroup][SerializeField] protected Animator anim;
+	[ColoredGroup][SerializeField] protected Transform attackPosition;
+	[ColoredGroup][SerializeField] protected Transform attackOrbit;
+	[ColoredGroup][SerializeField] private AudioSource audioSource;
+	[ColoredGroup][SerializeField] private Sprite uiIcon;
+	[ColoredGroup][SerializeField] private Sprite abilityIcon;
 
 	[Header("Lil Guy Stats")]
-	[SerializeField] private int baseSpeed = 13;
-	[SerializeField] protected int level = 1;
-	[SerializeField] protected int xp = 0;
-	[SerializeField] protected int max_xp = 5;
-	[SerializeField] protected float health = 50;
-	[SerializeField] protected float maxHealth;
-	[SerializeField] protected float speed;
-	[SerializeField] protected float defense;
-	[SerializeField] protected float strength;
+	[HorizontalRule]
+	[ColoredGroup][SerializeField] private int baseSpeed = 13;
+	[ColoredGroup][SerializeField] protected int level = 1;
+	[ColoredGroup][SerializeField] protected int xp = 0;
+	[ColoredGroup][SerializeField] protected int max_xp = 5;
+	[ColoredGroup][SerializeField] protected float health = 50;
+	[ColoredGroup][SerializeField] protected float maxHealth;
+	[ColoredGroup][SerializeField] protected float speed;
+	[ColoredGroup][SerializeField] protected float defense;
+	[ColoredGroup][SerializeField] protected float strength;
+
+	[Header("Movement Parameters")]
+	[HorizontalRule]
+	[ColoredGroup][SerializeField] private float accelerationTime = 0.1f;  // Time to reach target speed
+
+	[Header("Combat Parameters")]
+	[HorizontalRule]
+	[ColoredGroup][SerializeField] private float knockbackResistance = 1f;
+	[ColoredGroup][SerializeField] private float knockbackDecayRate = 5f;
+	[ColoredGroup] public int maxCombo = 3; // Max number of attacks in a chain
+	[ColoredGroup] public float comboBufferTime = 0.5f; // Time before combo resets
+	[ColoredGroup] public float pauseBufferTime = 1f; // Time before combo resets
+
+	[Header("Special Attack Parameters")]
+	[HorizontalRule]
+	[Tooltip("The length (in seconds) that the special attack should last for.\n(A value of -1 defaults the length to be the same as the special attack animation).")]
+	[ColoredGroup][SerializeField] protected float specialDuration = -1;
+	[ColoredGroup][SerializeField] protected int currentCharges = 1;
+	[ColoredGroup][SerializeField] protected int maxCharges = 1;
+	[ColoredGroup][SerializeField] protected float cooldownDuration = 1;
+	[ColoredGroup][SerializeField] protected float chargeRefreshRate = 1;
+
+	#endregion
+
+	#region Private Variables
+
+	// REFERENCES
+	private Rigidbody rb;
+	public BuffHandler Buffs { get; private set; } = new BuffHandler();
+
+	// AI
+	protected Transform goalPosition;
+	protected PlayerBody playerOwner = null;
+
+	// ANIMATION
+	private bool isAttacking = false;
+	private bool isInBasicAttack = false;
+	private bool isInSpecialAttack = false;
+
+	private bool isDying = false;
+	private bool isDead = false;
+	private bool isInvincible = false;
+
+	// MOVEMENT
+	private Vector3 currentVelocity = Vector3.zero;
+	protected Vector3 movementDirection = Vector3.zero;
+	protected float moveSpeedModifier = 1;
+	private float movementSpeed;
+	private bool isMoving = false;
+
+	// LEVELING
 	protected const int max_stat = 50;
 	private int milestonePoints = 4;
 	private int primaryPoints = 2;
 	private int secondaryPoints = 1;
 
+	// COMBAT
+	private Coroutine hitstunCoroutine = null;  // for da hitstun
+	private Vector3 knockbackForce = Vector3.zero;
+	private float hitStunSlowMult = 1f;
+	private float lastAttackTime = -999f; // Tracks the last time an attack occurred
+	private int currentComboCount = 0;
+	private bool canChainAttack = false;
+	private bool attackQueued = false; // For buffering attack inputs
 
-	[Header("Special Attack Specific")]
-	[Tooltip("The length (in seconds) that the special attack should last for.\n(A value of -1 defaults the length to be the same as the special attack animation).")]
-	[SerializeField] protected float specialDuration = -1;
-	[SerializeField] protected int currentCharges = 1;
-	[SerializeField] protected int maxCharges = 1;
-	[SerializeField] protected float cooldownDuration = 1;
-	[SerializeField] protected float chargeRefreshRate = 1;
-
+	// SPECIAL ATTACK
 	protected float cooldownTimer = 0;
 	protected float chargeTimer = 0;
-
-
-	[Header("Movement Specific")]
-	[SerializeField] private float accelerationTime = 0.1f;  // Time to reach target speed
-	private Rigidbody rb;
-	private float movementSpeed;
-	public float CurrentSpeed => MovementSpeed + Buffs.GetTotalValue(BuffType.TeamSpeedBoost); // Or whatever base speed prop you're using
-	protected float moveSpeedModifier = 1;
-	[SerializeField] private float knockbackResistance = 1f;
-	[SerializeField] private float knockbackDecayRate = 5f;
-	private Vector3 knockbackForce = Vector3.zero;
-	private Coroutine hitstunCoroutine = null;  // for da hitstun
-	private float hitStunSlowMult = 1f;
-
-	private Vector3 currentVelocity = Vector3.zero;
-	protected Vector3 movementDirection = Vector3.zero;
-
-	[Header("FX")]
-	[SerializeField] private float dustSpawnInterval = 1f;
-	private Coroutine dustSpawnCoroutine;
-
-	// AI Specific
-	protected Transform goalPosition;
-	protected PlayerBody playerOwner = null;
-	private bool isMoving = false;
 	private bool lockMovement = false;
 	private bool lockAttackRotation = false;
 
-
-	// ANIMATION RELATED
-	private bool isAttacking = false;
-	private bool isInBasicAttack = false;
-	private bool isInSpecialAttack = false;
-
-
-	// Variables for attack speed and cooldown
-	[SerializeField] private float attackCooldown = 1f; // Cooldown duration in seconds
-	[SerializeField] private GameObject attackEffect;  // Optional VFX prefab for hit feedback
-	GameObject levelUpEffect;
-	public GameObject LevelUpEffect => levelUpEffect;
+	// INSTANTIATED OBJECTS AND FX
+	private GameObject instantiatedLevelUpEffect;
 	private GameObject instantiatedHitbox;
 	private GameObject instantiatedBasicFx;
-	private float lastAttackTime = -999f; // Tracks the last time an attack occurred
-
-	private bool isDead = false;
-	private bool isInvincible = false;
-	private bool isDying = false;
 	private bool spawnedDustParticle = false;
 
-	public event Action OnDeath;
+	#endregion
 
-	#region Getters and Setters
-	public Transform AttackOrbit => attackOrbit;
+	#region Getters & Setters
+
+	// REFERENCES
 	public SpriteRenderer Mesh => mesh;
-	public int BaseSpeed { get { return baseSpeed; } set { baseSpeed = value; } }
+	public Animator Animator { get { return anim; } }
+	public PlayerBody PlayerOwner { get => playerOwner; set => playerOwner = value; }
+	public Rigidbody RB => rb;
+	public Transform AttackOrbit => attackOrbit;
+	public Transform GoalPosition => goalPosition;
+
+	// STATS
+	public string GuyName { get => guyName; set => guyName = value; }
+	public PrimaryType Type { get => type; set => type = value; }
 	public int Level { get => level; set => level = value; }
 	public float Health { get => health; set => health = value; }
 	public float MaxHealth { get => maxHealth; set => maxHealth = value; }
 	public float Speed { get => speed; set => speed = value; }
 	public float Defense { get => defense; set => defense = value; }
 	public float Strength { get => strength; set => strength = value; }
-	public string GuyName { get => guyName; set => guyName = value; }
-	public PlayerBody PlayerOwner { get => playerOwner; set => playerOwner = value; }
-	public Rigidbody RB => rb;
-	public Vector3 MovementDirection { get { return movementDirection; } set { movementDirection = value; } }
-	public float MovementSpeed { get { return movementSpeed; } set => movementSpeed = value; }
-	public float MoveSpeedModifier { get { return moveSpeedModifier; } set => moveSpeedModifier = value; }
-	public Vector3 CurrentVelocity => currentVelocity;
-	public PrimaryType Type { get => type; set => type = value; }
-	public bool IsMoving { get { return isMoving; } set { isMoving = value; } }
+	public int MaxXp { get { return max_xp; } }
+
+	// AI
+
+	// ANIMATION
 	public bool IsAttacking { get { return isAttacking; } set { isAttacking = value; } }
 	public bool IsInBasicAttack { get { return isInBasicAttack; } set { isInBasicAttack = value; } }
 	public bool IsInSpecialAttack { get { return isInSpecialAttack; } set { isInSpecialAttack = value; } }
-	public float CooldownTimer => cooldownTimer;
-	public float CooldownDuration => CooldownDuration;
-	public int CurrentCharges => currentCharges;
-	public Transform GoalPosition => goalPosition;
-	public int MaxStat => max_stat;
-	public int Xp { get => xp; set => xp = value; }
 	public bool IsDying { get { return isDying; } set { isDying = value; } }
 	public bool IsDead => isDead;
 	public bool IsInvincible { get { return isInvincible; } set { isInvincible = value; } }
+
+	// MOVEMENT
+	public Vector3 MovementDirection { get { return movementDirection; } set { movementDirection = value; } }
+	public Vector3 CurrentVelocity => currentVelocity;
+	public int BaseSpeed { get { return baseSpeed; } set { baseSpeed = value; } }
+	public float MovementSpeed { get { return movementSpeed; } set => movementSpeed = value; }
+	public float MoveSpeedModifier { get { return moveSpeedModifier; } set => moveSpeedModifier = value; }
+	public float CurrentSpeed => MovementSpeed + Buffs.GetTotalValue(BuffType.TeamSpeedBoost); // Or whatever base speed prop you're using
+	public bool IsMoving { get { return isMoving; } set { isMoving = value; } }
+
+	// LEVELING
+	public int MaxStat => max_stat;
+	public int Xp { get => xp; set => xp = value; }
+
+	// COMBAT
+	public bool CanChainAttack { get => canChainAttack; }
+	public int CurrentComboCount { get => currentComboCount; set => currentComboCount = value; }
+
+	// SPECIAL ATTACK
+	public float CooldownTimer => cooldownTimer;
+	public float CooldownDuration => CooldownDuration;
+	public int CurrentCharges => currentCharges;
 	public bool LockAttackRotation { get { return lockAttackRotation; } set { lockAttackRotation = value; } }
 	public bool LockMovement { get { return lockMovement; } set { lockMovement = value; } }
-	public Animator Animator { get { return anim; } }
 
-	public int MaxXp { get { return max_xp; } }
-
+	// UI
 	public Sprite Icon { get { return uiIcon; } }
 	public Sprite AbilityIcon { get { return abilityIcon; } }
+
 	#endregion
 
-	public enum PrimaryType
-	{
-		Strength,
-		Defense,
-		Speed
-	}
+	#region Events & Delegates
+	public event Action OnDeath;
+	#endregion
+
 	protected virtual void Start()
 	{
 		rb = GetComponent<Rigidbody>();
@@ -227,7 +252,6 @@ public abstract class LilGuyBase : MonoBehaviour
 		{
 			RemoveSpeedBoost();
 		}
-		// You could also handle poison visuals, slow resets, etc. here later.
 	}
 
 	private void SetWildLilGuyLevel(int level, bool randomRange = true)
@@ -637,34 +661,6 @@ public abstract class LilGuyBase : MonoBehaviour
 	{
 		GameObject instantiatedFX = Instantiate(FXManager.Instance.GetEffect("DeathCloud"), transform.position + Vector3.up + Vector3.back, Quaternion.identity);
 	}
-	/// <summary>
-	/// This is the basic attack across all lil guys
-	/// it uses a hitbox prefab to detect other ai within it and deal damage from that script
-	/// </summary>
-	public void Attack()
-	{
-		if (isDead) return;
-		// Check if the target is in range
-		// Ensure attack respects cooldown
-		if (Time.time - lastAttackTime < attackCooldown && playerOwner == null)
-		{
-			Managers.DebugManager.Log("Attack on cooldown.", Managers.DebugManager.DebugCategory.COMBAT);
-			return;
-		}
-		if (anim != null)
-		{
-			// There are animations made for this lil guy, so set the trigger
-			if (!isInBasicAttack && !isInSpecialAttack)
-			{
-				anim.SetTrigger("BasicAttack");
-			}
-		}
-		else SpawnHitbox(); // Animations for this lil guy not done yet, so just spawn hitbox.
-
-		// Update attack time
-		lastAttackTime = Time.time;
-	}
-
 	public void SpawnHitbox()
 	{
 		// Create the hitbox (snappy, instant feedback)
@@ -825,8 +821,8 @@ public abstract class LilGuyBase : MonoBehaviour
 	{
 		if (playerLevelUp)
 		{
-			levelUpEffect = Instantiate(FXManager.Instance.GetEffect("LevelUp"), transform.position + Vector3.forward + Vector3.up * 0.25f, Quaternion.identity, transform);
-			PlayEffectSound(levelUpEffect, "Level_Up");
+			instantiatedLevelUpEffect = Instantiate(FXManager.Instance.GetEffect("LevelUp"), transform.position + Vector3.forward + Vector3.up * 0.25f, Quaternion.identity, transform);
+			PlayEffectSound(instantiatedLevelUpEffect, "Level_Up");
 		}
 		if (level % 5 == 0)
 		{

@@ -8,17 +8,21 @@ using UnityEditor;
 
 public class StormObj : MonoBehaviour
 {
-    [SerializeField] private float dmgPerInterval = 10f;
-    [SerializeField] private float interval = 1f;
-    [SerializeField] private float passiveTime = 15f;
-    [SerializeField] private BoxCollider damageZone;
-    [SerializeField] private Volume postVol;
+    [Header("References")]
+	[HorizontalRule]
+	[ColoredGroup][SerializeField] private BoxCollider damageZone;
+	[ColoredGroup][SerializeField] private Volume postVol;
 
-    private float currentTickDmg;
+    [Header("Storm Settings")]
+	[HorizontalRule]
+	[ColoredGroup][SerializeField] private float dmgPerInterval = 10f;
+	[ColoredGroup][SerializeField] private float interval = 1f;
+	[ColoredGroup][SerializeField] private float passiveTime = 15f;
 
-    private List<PlayerBody> playersInStorm = new List<PlayerBody>();
+	private Dictionary<PlayerBody, CancellationTokenSource> playerTokens = new Dictionary<PlayerBody, CancellationTokenSource>();
+	private List<PlayerBody> playersInStorm = new List<PlayerBody>();
+	private float currentTickDmg;
     private bool isRunning = true;
-    private Dictionary<PlayerBody, CancellationTokenSource> playerTokens = new Dictionary<PlayerBody, CancellationTokenSource>();
 
     private void Start()
     {

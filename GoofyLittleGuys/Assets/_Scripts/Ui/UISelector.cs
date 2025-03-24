@@ -20,17 +20,16 @@ public class UISelector : MonoBehaviour
 	/// <summary>
 	/// Enumeration type that defines what the current state of a player's Character Select is in.
 	/// </summary>
-	
 
-	[SerializeField] private PlayerInput player;                        // The input of the player in control of this menu.
-	[SerializeField] private PlayerController controller;               // Reference to the player body of the player in control of this menu instance.
-	[SerializeField] private TMP_Text selectorText;
-
-
-	[SerializeField] private GameObject lockedInPanel;
+	[Header("References")]
+	[HorizontalRule]
 	[SerializeField] private Image[] playerColourIndicators;
 	[SerializeField] private Image[] playerShapeIndicators;
-	[SerializeField] private Sprite checkmarkSprite;
+	[ColoredGroup][SerializeField] private PlayerInput player;                        // The input of the player in control of this menu.
+	[ColoredGroup][SerializeField] private PlayerController controller;               // Reference to the player body of the player in control of this menu instance.
+	[ColoredGroup][SerializeField] private TMP_Text selectorText;
+	[ColoredGroup][SerializeField] private GameObject lockedInPanel;
+	[ColoredGroup][SerializeField] private Sprite checkmarkSprite;
 
 	private int currStarterIndex = 0;
 	private CharacterSelectState currentState = CharacterSelectState.CharacterSelect;

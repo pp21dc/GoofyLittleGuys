@@ -9,11 +9,14 @@ using Managers;
 
 public class TeamFullMenu : MonoBehaviour
 {
-	[SerializeField] private PlayerInput player;                         // Reference to the player owner of this menu.
+	[Header("References")]
+	[HorizontalRule]
 	[SerializeField] private List<Button> buttons;                        // The first button to be selected on default.
-	[SerializeField] private MultiplayerEventSystem playerEventSystem;  // Reference to the player's event system.
-
 	[SerializeField] private List<Image> images;
+	[ColoredGroup][SerializeField] private PlayerInput player;                         // Reference to the player owner of this menu.
+	[ColoredGroup][SerializeField] private MultiplayerEventSystem playerEventSystem;  // Reference to the player's event system.
+
+	
 	private LilGuyBase lilGuyBeingCaught;                                 // Thi lil guy we are trying to capture... or not.
 	private PlayerBody body;
 

@@ -10,7 +10,10 @@ using Util;
 public class StatMetrics : MonoBehaviour
 {
 	[SerializeField] private PlayerInput player;
-	// General metrics
+
+	#region Private Variables
+	private PlayerBody body;
+
 	private float damageDealt = 0;
 	private float damageTaken = 0;
 	private float damageReduced = 0;
@@ -29,7 +32,18 @@ public class StatMetrics : MonoBehaviour
 	private bool isInCombat = false;
 	private bool survivedWithLowHP = false;
 
+	// Time spent per character in seconds
+	private Dictionary<string, float> characterUsage = new Dictionary<string, float>();
+	private string currentCharacter;
+	private float characterStartTime;
 
+	// Most visited location tracking
+	private Dictionary<string, int> locationVisits = new Dictionary<string, int>();
+	private string mostVisitedLocation;
+
+	#endregion
+
+	#region Getters & Setters
 	public float DamageDealt { get => damageDealt; set => damageDealt = value; }
 	public float DamageTaken { get => damageTaken; set => damageTaken = value; }
 	public float DamageReduced { get => damageReduced; set => damageReduced = value; }
@@ -45,19 +59,8 @@ public class StatMetrics : MonoBehaviour
 
 	public bool SurvivedWithLowHP { get => survivedWithLowHP; set => survivedWithLowHP = value; }
 	public bool KilledLegendary { get => killedLegendary; set => killedLegendary = value; }
-	// Time spent per character in seconds
-	private Dictionary<string, float> characterUsage = new Dictionary<string, float>();
-
-	private string currentCharacter;
 	public string CurrentCharacter { get => currentCharacter; set => currentCharacter = value; }
-
-	private float characterStartTime;
-
-	// Most visited location tracking
-	private Dictionary<string, int> locationVisits = new Dictionary<string, int>();
-	private string mostVisitedLocation;
-
-	private PlayerBody body;
+	#endregion
 
 	public List<string> GetTitles(List<StatMetrics> allPlayers)
 	{
@@ -210,27 +213,29 @@ public class StatMetrics : MonoBehaviour
 		// Titles
 		List<string> titles = GetTitles(allPlayers);
 		List<string> featuredTitles = new List<string>();
-		ShuffleBag<string> shuffleBag = new ShuffleBag<string>();
 
 		// Check and add guaranteed titles
 		if (titles.Contains("Tis But a Scratch")) featuredTitles.Add("Tis But a Scratch");
 		if (titles.Contains("Legendary Slayer")) featuredTitles.Add("Legendary Slayer");
 
 		// Remove guaranteed titles from the pool
-		foreach (var title in featuredTitles)
+		titles.RemoveAll(t => featuredTitles.Contains(t));
+
+		// Shuffle remaining titles manually
+		List<string> shuffledRemaining = new List<string>(titles);
+		for (int i = 0; i < shuffledRemaining.Count; i++)
 		{
-			titles.Remove(title);
+			int swapIndex = Random.Range(i, shuffledRemaining.Count);
+			(shuffledRemaining[i], shuffledRemaining[swapIndex]) = (shuffledRemaining[swapIndex], shuffledRemaining[i]);
 		}
 
-		shuffleBag.AddRange(titles);
-
-		// Add random title(s) until we have 3 or run out
-		while (featuredTitles.Count < 3 && shuffleBag.Count > 0)
+		// Add random titles from shuffled list
+		foreach (var title in shuffledRemaining)
 		{
-			string randomTitle = shuffleBag.Next();
-			if (!featuredTitles.Contains(randomTitle))
-				featuredTitles.Add(randomTitle);
+			if (featuredTitles.Count >= 3) break;
+			featuredTitles.Add(title);
 		}
+
 
 		// Build title display string
 		string titleOutput = string.Join("\n", featuredTitles);

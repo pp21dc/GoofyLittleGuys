@@ -6,56 +6,72 @@ using System.ComponentModel;
 
 public class TutorialBehaviour : MonoBehaviour
 {
-    [SerializeField] private GameObject capturingPlayerRange;
-	[SerializeField] private float chaseRange = 10f;
-	[SerializeField] private float attackRange = 1f;
-	[SerializeField] private float attackBuffer = 2f;
-	[SerializeField] private AIState currentState = AIState.Idle;
-	private AIState previousState;
+	#region Public Variables & Serialize Fields
+	[Header("References")]
+	[HorizontalRule]
+	[ColoredGroup][SerializeField] private GameObject capturingPlayerRange;
+	[ColoredGroup][SerializeField] private GameObject legendaryIcon; // Distance AI must move to not be considered stuck
+	[ColoredGroup][SerializeField] private Transform home;
+
+	[Header("AI Settings")]
+	[HorizontalRule]
+	[ColoredGroup][SerializeField] private AIState currentState = AIState.Idle;
+	[ColoredGroup][SerializeField] private bool isCatchable = true;
+	[ColoredGroup][SerializeField] private float chaseRange = 10f;
+	[ColoredGroup][SerializeField] private float attackRange = 1f;
+	[ColoredGroup][SerializeField] private float attackBuffer = 2f;
+
+	[Tooltip("Time in seconds after death until the lil guy despawns.")]
+	[ColoredGroup][SerializeField] private float timeBeforeDestroyed = 5f;  // Time until the gameobject is destroyed
 
 	[Tooltip("How long this lil guy can stay outside of their home camp before they return back to it.")]
-	[SerializeField] private float maxTimeOutsideHomeSpawner = 3f;
-
-	[SerializeField] private float timeBeforeDestroyed = 0f;  // Time until the gameobject is destroyed
-	public float TimeBeforeDestroyed { get { return timeBeforeDestroyed; } set { timeBeforeDestroyed = value; } }
+	[ColoredGroup][SerializeField] private float maxTimeOutsideHomeSpawner = 3f;
 
 	[Header("Hostility Settings")]
-	[SerializeField] private float initialHostility = 1;
-	[SerializeField] private float maxHostility = 2f;
-	[SerializeField] private float hostilityDecayRate = 0.5f; // Hostility points lost per second while idle
-	[SerializeField] private float fleeHealthThreshold = 0.5f; // Health % threshold to trigger flee when hostility < 5
-	[SerializeField] private float minAggroRadius = 2f; // Health % threshold to trigger flee when hostility < 5
-	[SerializeField] private float maxAggroRadius = 20f; // Health % threshold to trigger flee when hostility < 5
+	[HorizontalRule]
+	[ColoredGroup][SerializeField] private float initialHostility = -1;
+	[ColoredGroup][SerializeField] private float maxHostility = 10f;
+	[ColoredGroup][SerializeField] private float hostilityDecayRate = 0.5f; // Hostility points lost per second while idle
+	[ColoredGroup][SerializeField] private float minAggroRadius = 2f; // Health % threshold to trigger flee when hostility < 5
+	[ColoredGroup][SerializeField] private float maxAggroRadius = 20f; // Health % threshold to trigger flee when hostility < 5
 
-	[Header("Personality Stats (DO NOT EDIT)")]
-	[SerializeField, ReadOnly(true), Tooltip("How likely they'll flee. Timid values < 5 won't flee, >= 5 will.")]
+	[Header("Personality Stats")]
+	[HorizontalRule]
+	[ColoredGroup]
+	[SerializeField, DebugOnly, Tooltip("How likely they'll flee. Timid values < 5 won't flee, >= 5 will.")]
 	private float timid;    // Timid value determines likelihood and threshold of fleeing
 
-	[SerializeField, ReadOnly(true), Tooltip("How far in the future lil guys plan their chase routes. Higher intelligence means higher likelihood for them to try to cut off the player's escape route.")]
+	[ColoredGroup]
+	[SerializeField, DebugOnly, Tooltip("How far in the future lil guys plan their chase routes. Higher intelligence means higher likelihood for them to try to cut off the player's escape route.")]
 	private float intelligence; // intelligence value determines how far in the future they'll plan their chase routes
-	[SerializeField, ReadOnly(true), Tooltip("How likely this Lil Guy will aggro other lil guys in range. Charisma > 5 will broadcast aggression to others, and the charisma value will determine it's range.")]
-	private float charisma = 1;
+	
+	[ColoredGroup]
+	[SerializeField, DebugOnly, Tooltip("How likely this Lil Guy will aggro other lil guys in range. Charisma > 5 will broadcast aggression to others, and the charisma value will determine it's range.")]
+	private float charisma;
 
 
-	[SerializeField, Tooltip("How fast in the future (seconds) will the AI predict player movement.")] private float fastestThinkSpeed = 0.25f;
-	[SerializeField, Tooltip("How far in the future (seconds) will the AI predict player movement.")] private float slowestThinkSpeed = 2f;
+	[ColoredGroup][SerializeField, Tooltip("How fast in the future (seconds) will the AI predict player movement.")] private float fastestThinkSpeed = 0.25f;
+	[ColoredGroup][SerializeField, Tooltip("How far in the future (seconds) will the AI predict player movement.")] private float slowestThinkSpeed = 2f;
 
 	[Header("Wander Settings")]
-	[SerializeField] private float wanderIntervalMin = 5f;
-	[SerializeField] private float wanderIntervalMax = 10f;
-	[SerializeField] private float minWanderRadius = 2f; // Radius within which to pick a random point to wander
-	[SerializeField] private float maxWanderRadius = 5f; // Radius within which to pick a random point to wander
-	[SerializeField] private Transform home;
+	[HorizontalRule]
+	[ColoredGroup][SerializeField] private float wanderIntervalMin = 5f;
+	[ColoredGroup][SerializeField] private float wanderIntervalMax = 10f;
+	[ColoredGroup][SerializeField] private float maxWanderRadius = 5f; // Radius within which to pick a random point to wander
+	#endregion
 
-	[SerializeField] private bool isCatchable = true;
-
-	private GameObject instantiatedPlayerRangeIndicator;
+	#region Private Variables
+	private AIState previousState;
 	private TutorialAiController controller;
-	private Coroutine deathCoroutine = null;
+	private SpawnerObj homeSpawner = null;
+	private GameObject faintedEffect;
+	private GameObject instantiatedPlayerRangeIndicator;
 	private Collider lilGuyCollider;
+	private Coroutine deathCoroutine = null;
 
-	Vector3 wanderTarget = Vector3.zero;
-	bool pickedLocation = false;
+	private Vector3 wanderTarget = Vector3.zero;
+	private Vector3 lastPosition;
+	private float levelUpdateTimer = 0;
 	private float attackTime = 0;
 	private float timeSpentFromHome = 0f;
 	private float hostility;
@@ -64,21 +80,19 @@ public class TutorialBehaviour : MonoBehaviour
 	private float nextWanderTime = -1f;
 	private bool isIdle = false;
 	private bool returnHome = false;
+	private bool pickedLocation = false;
 
-	private float levelUpdateTimer = 0;
-	GameObject faintedEffect;
-	public Transform Home { get { return home; } set { home = value; } }
+	#endregion
+
+	#region Getters & Setters
+	public SpawnerObj HomeSpawner { get { return homeSpawner; } set { homeSpawner = value; } }
 	public float Charisma => charisma;
 	public bool IsCatchable { get => isCatchable; set => isCatchable = value; }
 	public float AttackRange { get => attackRange; set => attackRange = value; }
 	public float ChaseRange { get => chaseRange; set => chaseRange = value; }
-
-	private Vector3 lastPosition;
-	private float stuckTimer = 0f;
-	[SerializeField] private float stuckThreshold = 1.5f; // Seconds before considering stuck
-	[SerializeField] private float minMoveDistance = 0.5f; // Distance AI must move to not be considered stuck
-	[SerializeField] private GameObject legendaryIcon; // Distance AI must move to not be considered stuck
-
+	public Transform Home { get => home; set => home = value; }
+	public float TimeBeforeDestroyed { get => timeBeforeDestroyed; set => timeBeforeDestroyed = value; }
+	#endregion
 	private void Start()
 	{
 		controller = GetComponent<TutorialAiController>();
@@ -284,6 +298,7 @@ public class TutorialBehaviour : MonoBehaviour
 		Vector3 direction = (target - transform.position);
 		float distance = direction.magnitude;
 
+		direction = CheckForObstacles(direction);
 		// Stop moving if within a small range
 		if (distance < 0.5f)
 		{
@@ -407,36 +422,21 @@ public class TutorialBehaviour : MonoBehaviour
 
 		return fleeTarget;
 	}
+	private Vector3 CheckForObstacles(Vector3 inDirection)
+	{
+		RaycastHit hit;
+		if (Physics.SphereCast(transform.position, 2f, inDirection.normalized, out hit, 3, LayerMask.GetMask("Obstacle", "PitColliders")))
+		{
+			Vector3 newDir;
+			if (inDirection.x > 0f) newDir = Vector3.Cross(hit.normal, transform.up);
+			else newDir = Vector3.Cross(transform.up, hit.normal);
+			return Vector3.Lerp(inDirection, newDir, 1);
+		}
+		return inDirection;
+	}
 
 	private void HandleReturnHome()
 	{
-		if (Vector3.Distance(transform.position, lastPosition) < minMoveDistance && controller.LilGuy.IsMoving)
-		{
-			stuckTimer += Time.fixedDeltaTime;
-
-			if (stuckTimer >= stuckThreshold)
-			{
-				DebugManager.Log($"[{controller.LilGuy.GuyName}] Stuck while returning home! Searching for closest waypoint...", DebugManager.DebugCategory.AI);
-
-				Waypoint closest = FindClosestWaypoint();
-
-				if (closest != null)
-				{
-					DebugManager.Log($"[{controller.LilGuy.GuyName}] Moving to waypoint {closest.name} to escape.", DebugManager.DebugCategory.AI);
-					wanderTarget = closest.transform.position;
-
-					// 🔹 Allow waypoint movement but ensure AI returns home after reaching it
-					returnHome = true;
-				}
-
-				stuckTimer = 0f; // Reset stuck timer after adjusting
-			}
-		}
-		else
-		{
-			stuckTimer = 0f; // Reset timer if AI is moving normally
-		}
-
 		lastPosition = transform.position;
 
 		// 🔹 If close to home, stop return home behavior

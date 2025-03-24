@@ -8,9 +8,10 @@ using UnityEngine;
 // -> can be derrived from for other attacks which provide knockback or other effects onHit
 public class Hitbox : MonoBehaviour
 {
-	protected float Damage;
 	public GameObject hitboxOwner;
 	public LayerMask layerMask;
+
+	protected float Damage;
 
 	private void Update()
 	{

@@ -7,7 +7,6 @@ public class TurteriamWall : MonoBehaviour
 {
 	[SerializeField] private Transform innerSortingGroupPoint;
 	[SerializeField] private Transform outerSortingGroupPoint;
-
 	[SerializeField] private SortingGroup innerSortingGroup;
 	[SerializeField] private SortingGroup outerSortingGroup;
 	[SerializeField] private Collider outerWallCollider;

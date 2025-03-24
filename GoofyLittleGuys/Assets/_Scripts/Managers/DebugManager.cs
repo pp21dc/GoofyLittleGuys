@@ -13,7 +13,6 @@ namespace Managers
 		public LogLevel logLevelFilter = LogLevel.LOG;
 	}
 
-
 	public class DebugManager : SingletonBase<DebugManager>
 	{
 
@@ -22,9 +21,11 @@ namespace Managers
 		public enum LogLevel { LOG, WARNING, ERROR }
 
 		[Header("Global Debug Settings")]
-		[SerializeField] private bool enableAllLogs = true;
+		[HorizontalRule]
+		[ColoredGroup][SerializeField] private bool enableAllLogs = true;
 
 		[Header("Per-Category Debug Settings")]
+		[HorizontalRule]
 		[SerializeField] private List<DebugCategorySettings> debugCategories = new();
 
 		private Dictionary<DebugCategory, DebugCategorySettings> debugSettings = new();

@@ -5,10 +5,12 @@ using UnityEngine;
 
 public class StrengthType : LilGuyBase
 {
-	[SerializeField] protected GameObject aoeShape;  // Only visible in editor and only used when aoeType is set to "Custom". 
-	[SerializeField] public float aoeDamageMultiplier = 1;
-	[SerializeField] private float frameToDestroyAoe = 15;
-	[SerializeField] private float specialTotalFrames = 17;
+	[Header("Strength Type Specific")]
+	[HorizontalRule]
+	[ColoredGroup][SerializeField] protected GameObject aoeShape;  // Only visible in editor and only used when aoeType is set to "Custom". 
+	[ColoredGroup][SerializeField] public float aoeDamageMultiplier = 1;
+	[ColoredGroup][SerializeField] private float frameToDestroyAoe = 15;
+	[ColoredGroup][SerializeField] private float specialTotalFrames = 17;
 
 	protected float aoeDestroyTime;
 

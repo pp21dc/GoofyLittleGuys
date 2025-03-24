@@ -1,34 +1,39 @@
 using Managers;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class AiController : MonoBehaviour
 {
 	public enum AIState { Wild, Tamed }
-	private AIState state = AIState.Wild;               // The current state of the AI (either wild or one caught by a player)
-	public AIState State => state;
-	[SerializeField] private LayerMask groundLayer;
-	[SerializeField] private GameObject interactCanvas;
 
+	#region Public Variables & Serialize Fields
+	[SerializeField] private LayerMask groundLayer;
+	[Header("References")]
+	[HorizontalRule]
+	[ColoredGroup][SerializeField] private GameObject interactCanvas;
+	[ColoredGroup][SerializeField] private AiHealthUi healthBars;
+	#endregion
+
+	#region Private Variables
+	private LilGuyBase lilGuy;                          // Reference to this AI's stats
+	private AIState state = AIState.Wild;               // The current state of the AI (either wild or one caught by a player)
 	private WildBehaviour wildBehaviour;                // Defines Wild AI behaviour (Idle, Chase, Attack, Death)
 	private TamedBehaviour tamedBehaviour;              // Defines Tamed AI behaviour (Follow Player)
 
 	private CanvasGroup healthUi;
-	[SerializeField] private AiHealthUi healthBars;
-
-	public AiHealthUi HealthBars => healthBars;
 
 	private Vector3 originalSpawnPosition = Vector3.zero;
 	private Transform followPosition;                           // The transform of the closest player to this AI
-	private LilGuyBase lilGuy;                          // Reference to this AI's stats
+	private Transform currClosestPlayer;
+	#endregion
+
+	#region Getters & Setters
+	public AIState State => state;
+	public AiHealthUi HealthBars => healthBars;
 	public Transform FollowPosition => followPosition;
 	public LilGuyBase LilGuy => lilGuy;
 	public CanvasGroup HealthUi => healthUi;
-	private Transform currClosestPlayer;
 	public Vector3 OriginalSpawnPosition => originalSpawnPosition;
+	#endregion
 
 	private void Awake()
 	{

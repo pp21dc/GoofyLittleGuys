@@ -5,17 +5,25 @@ using UnityEngine;
 
 public class BerryBush : InteractableBase
 {
-	[SerializeField] private int minBerryTime = 3;
-	[SerializeField] private int maxBerryTime = 5;
-	[SerializeField] private int numOfBerries = 3;
-	private int berryAmountOnBush = 3;
+	#region Public Variables & Serialize Fields
+	[Header("References")]
+	[HorizontalRule]
 	[SerializeField] private List<GameObject> berryMeshes;
 
+	[Header("Growth Settings")]
+	[HorizontalRule]
+	[ColoredGroup][SerializeField] private int minBerryTime = 3;
+	[ColoredGroup][SerializeField] private int maxBerryTime = 5;
+	[ColoredGroup][SerializeField] private int numOfBerries = 3;
+	#endregion
+
+	#region Private Variables
 	List<GameObject> playersInRange = new List<GameObject>();
+	private int berryAmountOnBush = 3;
 	private bool hasBerries = true;
 	private bool isRegrowing = false;
-
 	private bool swappedLayers = false;
+	#endregion
 
 	private void Update()
 	{

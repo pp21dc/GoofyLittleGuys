@@ -4,16 +4,20 @@ using UnityEngine;
 
 public class KnockbackHitbox : MonoBehaviour
 {
-	[SerializeField] private float knockbackForce = 100f; // Strength of knockback
-	[SerializeField] private bool relativeToHitbox = true; // Direction relative to hitbox center
-	[SerializeField] private float knockbackDuration = 1f;
-	[SerializeField] private float hitstunForce = 2f;
-	[SerializeField] private float hitstunTime = 0.5f;
-	[SerializeField] private AnimationCurve hitstunCurve;
-	private Vector3 knockbackDir = Vector3.zero;
+	[Header("Knockback Settings")]
+	[HorizontalRule]
+	[ColoredGroup][SerializeField] private float knockbackForce = 100f; // Strength of knockback
+	[ColoredGroup][SerializeField] private float knockbackDuration = 1f;
+
+	[Header("Hit Stun Settings")]
+	[HorizontalRule]
+	[ColoredGroup][SerializeField] private float hitstunForce = 2f;
+	[ColoredGroup][SerializeField] private float hitstunTime = 0.5f;
+	[ColoredGroup][SerializeField] private AnimationCurve hitstunCurve;
 
 	private HashSet<LilGuyBase> wildLilGuys = new HashSet<LilGuyBase>(); // Track wild lil guys
 	private HashSet<LilGuyBase> playerLilGuys = new HashSet<LilGuyBase>(); // Track player-owned lil guys
+	private Vector3 knockbackDir = Vector3.zero;
 
 	public HashSet<LilGuyBase> PlayerLilGuys => playerLilGuys;
 	public HashSet<LilGuyBase> WildLilGuys => wildLilGuys;

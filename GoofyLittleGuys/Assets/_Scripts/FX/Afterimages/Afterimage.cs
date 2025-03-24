@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class Afterimage : MonoBehaviour
 {
-	[SerializeField] private Color emissionColour = new Color(1.00f, 0.82f, 0.25f, 1.0f);   // The yellow used for speed lil guys
-	[SerializeField] private float initialIntensity = 2f;
-	[SerializeField] private float fadeSpeed;
+	[Header("Afterimage Settings")]
+	[HorizontalRule]
+	[ColoredGroup][SerializeField] private Color emissionColour = new Color(1.00f, 0.82f, 0.25f, 1.0f);   // The yellow used for speed lil guys
+	[ColoredGroup][SerializeField] private float initialIntensity = 2f;
+	[ColoredGroup][SerializeField] private float fadeSpeed;
 
 	private SpriteRenderer spriteRenderer;
 	private ColorMutator emissionEditor;

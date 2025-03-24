@@ -1,20 +1,28 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(AiController))]
 public class TamedBehaviour : MonoBehaviour
 {
-	[SerializeField] private float teleportRange = 30f; // Range to teleport if too far
-	[SerializeField] private float accelerationTime = 0.02f;  // Time to reach target speed
-	[SerializeField] private float followRange = 2f;
-	private Vector3 currentVelocity = Vector3.zero;
+	#region Public Variables & Serialize Fields
+	[Header("Movement Parameters")]
+	[HorizontalRule]
+	[ColoredGroup][SerializeField] private float accelerationTime = 0.02f;  // Time to reach target speed
 
-	private bool flip = false;
-	public bool Flip { get { return flip; } set { flip = value; } }
+	[Header("AI Parameters")]
+	[HorizontalRule]
+	[ColoredGroup][SerializeField] private float teleportRange = 30f; // Range to teleport if too far
+	[ColoredGroup][SerializeField] private float followRange = 2f;
+	#endregion
 
-
+	#region Private Variables
 	private AiController controller;
+	private Vector3 currentVelocity = Vector3.zero;
+	private bool flip = false;
+	#endregion
+
+	#region Getters & Setters
+	public bool Flip { get { return flip; } set { flip = value; } }
+	#endregion
 
 	private void UpdateAnimation()
 	{

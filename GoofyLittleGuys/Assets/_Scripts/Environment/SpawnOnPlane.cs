@@ -4,10 +4,15 @@ using UnityEngine;
 
 public class SpawnOnPlane : MonoBehaviour
 {
-	public GameObject prefab; // The prefab to spawn
-	public int spawnCount = 10; // Number of prefabs to spawn
-	public Collider spawnArea; // The plane's collider
-	public Vector2 spawnInterval = new Vector2(0.5f, 1.5f);
+	[Header("References")]
+	[HorizontalRule]
+	[ColoredGroup] public GameObject prefab; // The prefab to spawn
+	[ColoredGroup] public Collider spawnArea; // The plane's collider
+
+	[Header("Rain Spawn Settings")]
+	[HorizontalRule]
+	[ColoredGroup] public int spawnCount = 10; // Number of prefabs to spawn
+	[ColoredGroup] public Vector2 spawnInterval = new Vector2(0.5f, 1.5f);
 
 	private Coroutine lightningCoroutine = null;
 	public void StartLightning()

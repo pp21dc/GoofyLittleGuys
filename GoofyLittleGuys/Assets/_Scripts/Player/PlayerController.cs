@@ -6,20 +6,26 @@ using UnityEngine.InputSystem.UI;
 
 public class PlayerController : MonoBehaviour
 {
-	[SerializeField] private PlayerBody playerBody;
-	[SerializeField] private MultiplayerEventSystem playerEventSystem;
-	[SerializeField] private Camera playerCam;
-	[SerializeField] private Camera spectatorCam;
+	[Header("References")]
+	[HorizontalRule]
+	[ColoredGroup][SerializeField] private PlayerBody playerBody;
+	[ColoredGroup][SerializeField] private MultiplayerEventSystem playerEventSystem;
+	[ColoredGroup][SerializeField] private Camera playerCam;
+	[ColoredGroup][SerializeField] private Camera spectatorCam;
 
+	[Header("Special Cancel Buffers")]
+	[HorizontalRule]
+	[ColoredGroup][SerializeField][Tooltip("Buffer time for special attack cancellation.")] private float turteriamSpecialBufferTime = 0.75f; // Time before the special can be canceled
+	[ColoredGroup][SerializeField][Tooltip("Buffer time for special attack cancellation.")] private float toadstoolSpecialBufferTime = 1.5f; // Time before the special can be canceled
+
+
+	private float lastSpecialTime = -1f; // Tracks when the last special started
+	private int playerNumber = 0;
 	private bool showTeamUI = true;
 	private bool showMinimap = true;
 	private bool hasJoined = false;
 	private bool inTeamFullMenu = false;
-	private int playerNumber = 0;
 
-	[SerializeField] [Tooltip("Buffer time for special attack cancellation.")] private float turteriamSpecialBufferTime = 0.75f; // Time before the special can be canceled
-	[SerializeField] [Tooltip("Buffer time for special attack cancellation.")] private float toadstoolSpecialBufferTime = 1.5f; // Time before the special can be canceled
-	private float lastSpecialTime = -1f; // Tracks when the last special started
 	public int PlayerNumber { get { return playerNumber; } set => playerNumber = value; }
 	public bool InTeamFullMenu { get { return inTeamFullMenu; } set { inTeamFullMenu = value; } }
 

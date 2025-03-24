@@ -11,90 +11,109 @@ using Unity.VisualScripting;
 namespace Managers
 {
 	public class GameManager : SingletonBase<GameManager>
-	{
+	{		
 		private enum TimerState { LegendaryOneApproaching, LegendaryTwoApproaching, LegendaryThreeApproaching, StormApproaching, NextStorm }
-		[SerializeField] private TimerState currentTimerState = TimerState.LegendaryOneApproaching;
-		[SerializeField] private bool gameStartTest = true;             // TEST BOOL FOR DESIGNERS TO PLAY THE GAME WITHOUT GOING INTO PERSISTENT ALL THE TIME
-		[SerializeField] private float wildLilGuyLevelUpdateTick = 5;
 
-		public float WildLilGuyLevelUpdateTick => wildLilGuyLevelUpdateTick;
-
+		#region Public Variables & Serialize Fields
+		[Header("References")]
+		[HorizontalRule]
 		[SerializeField] private List<PlayerSpawnPoint> spawnPoints;
 		[SerializeField] private List<HapticEvent> hapticEvents;
+		[SerializeField] private List<LilGuyBase> lilGuys;
+		[SerializeField] private List<GameObject> stormSets = new List<GameObject>();
+		[SerializeField] private AudioSource[] phaseAudioSources; // how long between spawning new storms in phase 2
+		[ColoredGroup][SerializeField] private AudioSource alertAudioSource; // a central audio source for sounds such as alerts, events etc.
+		[ColoredGroup][SerializeField] private WaterChangeContainer waterChangeContainer;
+		[ColoredGroup][SerializeField] private Animator phase2CloudAnim;
+		[ColoredGroup][SerializeField] private Transform fountainSpawnPoint;          // The spawn point that players are respawned to in the main game, set by the HealingFountain.cs
+		[ColoredGroup][SerializeField] private Material regularLilGuySpriteMat;
+		[ColoredGroup][SerializeField] private Material outlinedLilGuySpriteMat;
 
-		[SerializeField, Tooltip("Time in minutes that the first phase should end at.")] private float phaseOneStartTime = 7f;   // Length of Phase 1 in minutes.
+		[Header("UI")]
+		[HorizontalRule]
+		[ColoredGroup][SerializeField] private GameObject timerCanvas;                // The Timer UI displayed in between all the split screeens
+		[ColoredGroup][SerializeField] private TMP_Text gameTimer;             // The Timer textbox itself
+		[ColoredGroup][SerializeField] private TMP_Text timerContext;             // The Timer textbox itself
+
+		[Header("Phase Settings")]
+		[HorizontalRule]
+		[ColoredGroup][SerializeField] private TimerState currentTimerState = TimerState.LegendaryOneApproaching;
+		[ColoredGroup][SerializeField] private Color waterColour;
+		[ColoredGroup][SerializeField] private Color foamColour;
+		[ColoredGroup][SerializeField] private Color darkFoamColour;
+		[ColoredGroup][SerializeField, DebugOnly] private float currentGameTime = 0;             // Current game time in seconds.
+		[ColoredGroup][SerializeField, Tooltip("Time in minutes that the first phase should end at.")] private float phaseOneStartTime = 7f;   // Length of Phase 1 in minutes.
+
+		[Header("Storm Settings")]
+		[HorizontalRule]
+		[ColoredGroup][SerializeField] private float stormTimer = 20.0f; // how long between spawning new storms in phase 2
+		[ColoredGroup][Tooltip("How much a storms damage should increase each time another storm is spawned"), SerializeField] private float stormDmgIncrease = 2f;       // How much a storm 
+
+		[Header("Player Settings")]
+		[HorizontalRule]
+		[SerializeField] private Color[] playerColours;
+		[ColoredGroup][SerializeField] private float activeLilGuyScaleFactor = 1.1f;
+		[ColoredGroup][SerializeField] private float nonActiveLilGuyScaleFactor = 0.9f;
+
+		[Header("Global AI Settings")]
+		[HorizontalRule]
+		[ColoredGroup][SerializeField] private float wildLilGuyLevelUpdateTick = 5;
+
+		[Header("Legendary Settings")]
+		[HorizontalRule]
 		[SerializeField, Tooltip("Time in minutes that the legendary spawns.")] private float[] legendarySpawnTimes = { 2f, 3f, 4f };   // Legendary spawn time in minutes. 
 		[SerializeField] private float[] legendaryMaxScales = { 2f, 2.5f, 3f };   // Legendary spawn time in minutes. 
 		[SerializeField] private int[] legendaryLevels = { 10, 15, 20 };   // Legendary spawn time in minutes. 
-		[SerializeField] private const float phaseTwoDuration = 180f;   // Length of Phase 2 in seconds. (This amounts to 3 minutes)180f
-		[SerializeField] private float currentGameTime = 0;             // Current game time in seconds.
-		[SerializeField] private Transform fountainSpawnPoint;          // The spawn point that players are respawned to in the main game, set by the HealingFountain.cs
-		[SerializeField] private GameObject timerCanvas;                // The Timer UI displayed in between all the split screeens
-		[SerializeField] private TMP_Text gameTimer;             // The Timer textbox itself
-		[SerializeField] private TMP_Text timerContext;             // The Timer textbox itself
-		[SerializeField] private float stormTimer = 20.0f; // how long between spawning new storms in phase 2
-		[Tooltip("How much a storms damage should increase each time another storm is spawned"),
-			SerializeField] private float stormDmgIncrease = 2f;		// How much a storm 
-		[SerializeField] private AudioSource[] phaseAudioSources; // how long between spawning new storms in phase 2
-		[SerializeField] private AudioSource alertAudioSource; // a central audio source for sounds such as alerts, events etc.
-		[SerializeField] private Animator phase2CloudAnim;
 
-		[SerializeField] private Material regularLilGuySpriteMat;
-		[SerializeField] private Material outlinedLilGuySpriteMat;
-		[SerializeField] private WaterChangeContainer waterChangeContainer;
-		[SerializeField] private Color[] playerColours;
-		[SerializeField] private Color waterColour;
-		[SerializeField] private Color foamColour;
-		[SerializeField] private Color darkFoamColour;
-		[SerializeField] private float activeLilGuyScaleFactor = 1.1f;
-		[SerializeField] private float nonActiveLilGuyScaleFactor = 0.9f;
+		#endregion
 
-		private float timeUntilNextStorm = 0.0f;
+		#region Private Variables
+		// UI
 		private System.TimeSpan gameTime;                                       // To convert from total seconds time to a time in the format mm:ss
-		private bool isPaused = false;
-		private bool[] legendarySpawned = { false, false };
 
-		[SerializeField] private List<LilGuyBase> lilGuys;
-		public List<LilGuyBase> LilGuys => lilGuys;
-
-		private int currentPhase = 0;
-		private bool gameOver = false;
-		private bool startGame = false;
+		// PLAYER
 		private float respawnTimer = 5.0f;
+
+		// STORM
 		private int activeStorms = 0;
+		private float timeUntilNextStorm = 0.0f;
 
+		// PHASE
+		private int currentPhase = 0;
 
+		// GAME
 		private Dictionary<string, HapticEvent> hapticsDictionary = new Dictionary<string, HapticEvent>();
 		private List<PlayerBody> players = new List<PlayerBody>(); // for the list of REMAINING players in phase 2
 		private List<PlayerBody> rankings = new List<PlayerBody>(); // the phase 2 rankings list, ordered from last place -> first place
+		private bool gameOver = false;
+		private bool startGame = false;
+		private bool isPaused = false;
+
+		// LEGENDARY
+		private bool[] legendarySpawned = { false, false };
+		#endregion
+
+		#region Getters & Setters
+		public List<LilGuyBase> LilGuys => lilGuys;
 		public List<PlayerBody> Rankings => rankings;
-		[SerializeField] private List<GameObject> stormSets = new List<GameObject>();
-		public int CurrentPhase => currentPhase; // Getter for current phase
-		public float RespawnTimer => respawnTimer; // Getter for respawn timer
-		public float CurrentGameTime => currentGameTime;
-
-		[Header("Hitbox LayerMasks")]
-		[SerializeField] private LayerMask phase1LayerMask;
-		[SerializeField] private LayerMask phase2LayerMask;
-		private LayerMask currentLayerMask;
-
-		public Color[] PlayerColours => playerColours;
-		public bool IsPaused { get { return isPaused; } set { isPaused = value; } }
-		public bool StartGame { get => startGame; set => startGame = value; }
-		public Transform FountainSpawnPoint { get { return fountainSpawnPoint; } set { fountainSpawnPoint = value; } }
-		public LayerMask CurrentLayerMask { get { return currentLayerMask; } }
 		public List<PlayerBody> Players { get { return players; } set { players = value; } }
 		public List<HapticEvent> HapticEvents { get { return hapticEvents; } set { hapticEvents = value; } }
-
+		public Color[] PlayerColours => playerColours;
+		public WaterChangeContainer WaterChangeContainer => waterChangeContainer;
+		public Transform FountainSpawnPoint { get { return fountainSpawnPoint; } set { fountainSpawnPoint = value; } }
 		public Material RegularLilGuySpriteMat => regularLilGuySpriteMat;
 		public Material OutlinedLilGuySpriteMat => outlinedLilGuySpriteMat;
 		public float ActiveLilGuyScaleFactor => activeLilGuyScaleFactor;
 		public float NonActiveLilGuyScaleFactor => nonActiveLilGuyScaleFactor;
-		public WaterChangeContainer WaterChangeContainer => waterChangeContainer;
 
-		[SerializeField] private GameObject statScreenObject;
-		public StatscreenReferences ssr;
-		
+		public int CurrentPhase => currentPhase; // Getter for current phase
+		public float RespawnTimer => respawnTimer; // Getter for respawn timer
+		public float CurrentGameTime => currentGameTime;
+		public float WildLilGuyLevelUpdateTick => wildLilGuyLevelUpdateTick;
+		public bool IsPaused { get { return isPaused; } set { isPaused = value; } }
+		public bool StartGame { get => startGame; set => startGame = value; }
+		#endregion
+
 		public override void Awake()
 		{
 			base.Awake();
@@ -126,7 +145,6 @@ namespace Managers
 			waterChangeContainer.SwapColors(waterColour, foamColour, darkFoamColour);
 			PlayMainMenuMusic();
 			Time.timeScale = 0;
-			if (gameStartTest) EventManager.Instance.GameStartedEvent();
 
 			EventManager.Instance.NotifyGameOver += QuitGame;
 			SceneManager.sceneLoaded += OnSceneLoaded;
@@ -247,10 +265,6 @@ namespace Managers
 			else if (currentPhase == 2)
 			{
 				currentTimerState = TimerState.NextStorm;
-				if (currentGameTime >= ((phaseOneStartTime * 60f) + phaseTwoDuration))
-				{
-					//BrawlTimeEnd();
-				}
 
 				if (rankings.Count >= (players.Count - 1) && !gameOver)
 				{
@@ -321,7 +335,6 @@ namespace Managers
 		public void StartPhaseOne()
 		{
 			currentPhase++;
-			currentLayerMask = phase1LayerMask;
 			AudioManager.Instance.PlayMusic("GLGPhase1", "GLGPhase2", phaseAudioSources[1], phaseAudioSources[0]);
 			StartCoroutine(InitialUiLoad());
 		}
@@ -331,7 +344,6 @@ namespace Managers
 		/// </summary>
 		public void StartPhaseTwo()
 		{
-			currentLayerMask = phase2LayerMask;
 
 			// Start grand brawl challenge
 			GetStormSets();

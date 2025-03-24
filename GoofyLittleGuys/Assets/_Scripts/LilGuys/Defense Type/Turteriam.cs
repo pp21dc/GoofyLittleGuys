@@ -6,16 +6,15 @@ using UnityEngine;
 public class Turteriam : DefenseType
 {
 	[Header("Turteriam Specific")]
-	[SerializeField] private GameObject domePrefab;
-	[SerializeField] private float teamDamageReductionDuration = 6f;
-	[SerializeField] private float domeLifetime = 6f;
-	[SerializeField] private float domeMaxSize = 6f;
-	[SerializeField] private float domeExpansionSpeed = 6f;
+	[HorizontalRule]
+	[ColoredGroup][SerializeField] private GameObject domePrefab;
+	[ColoredGroup][SerializeField] private float domeLifetime = 6f;
+	[ColoredGroup][SerializeField] private float domeMaxSize = 6f;
+	[ColoredGroup][SerializeField] private float domeExpansionSpeed = 6f;
 
 
-	private bool damageReductionActive = false;
-	private Coroutine damageReductionRemoval = null;
 	private GameObject instantiatedDome = null;
+	private bool damageReductionActive = false;
 
 	public GameObject InstantiatedDome { set { instantiatedDome = value; } get { return instantiatedDome; } }
 	public bool DamageReductionActive { set { damageReductionActive = value; } }

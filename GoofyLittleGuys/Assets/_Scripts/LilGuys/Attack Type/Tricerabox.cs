@@ -5,17 +5,18 @@ using UnityEngine;
 
 public class Tricerabox : StrengthType
 {
-	[Header("Tricerabox Specific")]
-	[SerializeField] private GameObject specialFXPrefab;
-	[SerializeField] private GameObject waveAoePrefab;
-	[SerializeField] private float waveAoeDamageMultiplier;
-	[SerializeField] private float waveAoeLifetime;
-	[SerializeField] private float waveSpeed;
-	[SerializeField] private float slowAmount = 10f;
-	[SerializeField] private float slowDuration = 1f;
+	[Header("Tricera-box Specific")]
+	[HorizontalRule]
+	[ColoredGroup][SerializeField] private GameObject specialFXPrefab;
+	[ColoredGroup][SerializeField] private GameObject waveAoePrefab;
+	[ColoredGroup][SerializeField] private float waveAoeDamageMultiplier;
+	[ColoredGroup][SerializeField] private float waveAoeLifetime;
+	[ColoredGroup][SerializeField] private float waveSpeed;
+	[ColoredGroup][SerializeField] private float slowAmount = 10f;
+	[ColoredGroup][SerializeField] private float slowDuration = 1f;
 
-	GameObject aoe;
-	GameObject waveAoe;
+	private GameObject aoe;
+	private GameObject waveAoe;
 
 	public void SpawnPunchAoe()
 	{

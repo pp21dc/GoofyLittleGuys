@@ -2,10 +2,12 @@ using UnityEngine;
 
 public class TimedBuff
 {
+	#region Public Variables
 	public BuffType Type;
+	public object Source;
 	public float Amount;
 	public float EndTime;
-	public object Source;
+	#endregion
 
 	public TimedBuff(BuffType type, float amount, float duration, object source)
 	{

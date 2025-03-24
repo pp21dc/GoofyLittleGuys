@@ -6,18 +6,18 @@ using UnityEngine;
 public class Armordillo : DefenseType
 {
 	[Header("Armordillo Specific")]
-	[SerializeField] private GameObject knockbackPrefab;
-	[SerializeField] private float knockbackForceAmount = 60f;
-	[SerializeField] private float knockbackDuration = 1f;
-	[SerializeField] private GameObject shieldPrefab; // The shield prefab to instantiate
-	[SerializeField] private float shieldUptime = 5;
-	[SerializeField] private float speedBoost = 30f;
-	[SerializeField] private Color startColour = new Color(0, 0.9647058823529412f, 1);
-	[SerializeField] private Color endColour = new Color(0.9450980392156862f, 0.615686274509804f, 0.615686274509804f);
+	[HorizontalRule]
+	[ColoredGroup][SerializeField] private GameObject knockbackPrefab;
+	[ColoredGroup][SerializeField] private GameObject shieldPrefab; // The shield prefab to instantiate
+	[ColoredGroup][SerializeField] private Color startColour = new Color(0, 0.9647058823529412f, 1);
+	[ColoredGroup][SerializeField] private Color endColour = new Color(0.9450980392156862f, 0.615686274509804f, 0.615686274509804f);
+	[ColoredGroup][SerializeField] private float knockbackForceAmount = 60f;
+	[ColoredGroup][SerializeField] private float knockbackDuration = 1f;
+	[ColoredGroup][SerializeField] private float shieldUptime = 5;
+	[ColoredGroup][SerializeField] private float speedBoost = 30f;
 
-	private float speedBoostTime;
 	private GameObject instantiatedKnockback;
-	bool speedBoostActive = false;
+	private bool speedBoostActive = false;
 	public override void StartChargingSpecial()
 	{
 		if (currentCharges <= 0 && cooldownTimer > 0) return;

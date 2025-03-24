@@ -7,8 +7,8 @@ using UnityEngine.InputSystem;
 public class HealingFountain : InteractableBase
 {
 	[SerializeField] private Transform spawnPoint;				// The position players should respawn at, should all their lil guys be defeated.
+	
 	List<GameObject> playersInRange = new List<GameObject>();
-
 	private bool swappedLayers = false;
 
 	private void Update()

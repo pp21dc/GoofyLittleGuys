@@ -7,10 +7,11 @@ using Managers;
 
 public class RespawnScreen : MonoBehaviour
 {
-    [SerializeField] private PlayerBody player;
-
-    [SerializeField] private Image respawnCircle;
-    [SerializeField] private TMP_Text respawnCounter;
+    [Header("References")]
+    [HorizontalRule]
+	[ColoredGroup][SerializeField] private PlayerBody player;
+	[ColoredGroup][SerializeField] private Image respawnCircle;
+	[ColoredGroup][SerializeField] private TMP_Text respawnCounter;
 
     private float respawnTime;
     private float currentRespawnTime;

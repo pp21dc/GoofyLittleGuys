@@ -6,14 +6,18 @@ using TMPro;
 
 public class AiHealthUi : MonoBehaviour
 {
-	[SerializeField] private Slider redBar;					// Current health (instant)
-	[SerializeField] private Slider yellowBar;				// Aggravated health (lags behind)
-	[SerializeField] private TMP_Text healthText;			// Health label
-	[SerializeField] private TMP_Text levelText;			// Level label
-	[SerializeField] private LilGuyBase lilGuy;				// Reference to the lil guy
+	[Header("References")]
+	[HorizontalRule]
+	[ColoredGroup][SerializeField] private Slider redBar;                   // Current health (instant)
+	[ColoredGroup][SerializeField] private Slider yellowBar;                // Aggravated health (lags behind)
+	[ColoredGroup][SerializeField] private TMP_Text healthText;         // Health label
+	[ColoredGroup][SerializeField] private TMP_Text levelText;          // Level label
+	[ColoredGroup][SerializeField] private LilGuyBase lilGuy;               // Reference to the lil guy
 
-	[SerializeField] private float yellowLerpSpeed = 1f;  // Speed at which yellow bar catches up
-	[SerializeField] private float redLerpSpeed = 2.0f;						// Speed for red bar to catch up when healing
+	[Header("Health Bar Settings")]
+	[HorizontalRule]
+	[ColoredGroup][SerializeField] private float yellowLerpSpeed = 1f;  // Speed at which yellow bar catches up
+	[ColoredGroup][SerializeField] private float redLerpSpeed = 2.0f;						// Speed for red bar to catch up when healing
 
 	private Coroutine yellowLerpCoroutine;
 

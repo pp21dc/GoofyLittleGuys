@@ -7,14 +7,16 @@ using UnityEngine.UI;
 
 public class StatCard : MonoBehaviour
 {
-	public TMP_Text playerNum;
-	public TMP_Text titles;
-	public TMP_Text stats;
-	public TMP_Text ranking;
-	public Image mostUsedIcon;
+	[Header("References")]
+	[HorizontalRule]
 	public Image[] playerShapes;
-	public Image background;
-	public Sprite readyCheckmark;
+	[ColoredGroup] public TMP_Text playerNum;
+	[ColoredGroup] public TMP_Text titles;
+	[ColoredGroup] public TMP_Text stats;
+	[ColoredGroup] public TMP_Text ranking;
+	[ColoredGroup] public Image mostUsedIcon;
+	[ColoredGroup] public Image background;
+	[ColoredGroup] public Sprite readyCheckmark;
 
 	private PlayerInput playerInput;
 	private bool isReady = false;

@@ -5,15 +5,17 @@ using UnityEngine;
 public class Mousecar : SpeedType
 {
     [Header("Mousecar Specific")]
-    [SerializeField] private float speedBoostAmount = 10f;
+	[HorizontalRule]
+	[SerializeField] private float speedBoostAmount = 10f;
     [SerializeField] private float speedBoostDuration = 7f;
 
 
     [Header("Special FX Specific")]
-    [SerializeField] private float spawnInterval = 0.2f;
-    [SerializeField] private int maxAfterimages = 12;
-    [SerializeField] private float fadeSpeed = 0.5f;
-    [SerializeField] private Color emissionColour = new Color(1.00f, 0.82f, 0.25f, 1.0f);   // The yellow used for speed lil guys
+	[HorizontalRule]
+	[SerializeField] private Color emissionColour = new Color(1.00f, 0.82f, 0.25f, 1.0f);   // The yellow used for speed lil guys
+	[SerializeField] private float spawnInterval = 0.2f;
+	[SerializeField] private float fadeSpeed = 0.5f;
+	[SerializeField] private int maxAfterimages = 12;
 
     public override void StartChargingSpecial()
     {
