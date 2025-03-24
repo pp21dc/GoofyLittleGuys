@@ -158,17 +158,15 @@ public class TutorialManager : SingletonBase<TutorialManager>
             starterGo.GetComponent<Rigidbody>().isKinematic = true;
             starterGo.transform.localPosition = Vector3.zero;
             player.SetActiveLilGuy(starter);
-            player.LilGuyTeam.Add(starter);
-            player.LilGuyTeam[0].PlayerOwner = player;
-            player.LilGuyTeamSlots[0].LilGuyInSlot = starter;
+            player.ActiveLilGuy.PlayerOwner = player;
 
             //enable all components cause we need to do that for some reason??
-            player.LilGuyTeam[0].enabled = true;
-            player.LilGuyTeam[0].Animator.enabled = true;
-            player.LilGuyTeam[0].GetComponent<AudioSource>().enabled = true;
-            player.LilGuyTeam[0].GetComponent<AiController>().enabled = true;
-            player.LilGuyTeam[0].GetComponent<TamedBehaviour>().enabled = true;
-            player.LilGuyTeam[0].GetComponent<Hurtbox>().enabled = true;
+            player.ActiveLilGuy.enabled = true;
+            player.ActiveLilGuy.Animator.enabled = true;
+            player.ActiveLilGuy.GetComponent<AudioSource>().enabled = true;
+            player.ActiveLilGuy.GetComponent<AiController>().enabled = true;
+            player.ActiveLilGuy.GetComponent<TamedBehaviour>().enabled = true;
+            player.ActiveLilGuy.GetComponent<Hurtbox>().enabled = true;
         }
     }
     
