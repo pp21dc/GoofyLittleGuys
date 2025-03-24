@@ -688,9 +688,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dontDestroyOnLoad: 1
+  currentLevelList: []
   loadingScreen: {fileID: 2056655879}
   isLoadingLevel: 0
-  currentLevelList: []
 --- !u!1 &478591067
 GameObject:
   m_ObjectHideFlags: 0
@@ -3011,7 +3011,7 @@ PrefabInstance:
     - target: {fileID: 1970606836446198798, guid: de1849616cf5e6e41990742051e315c8,
         type: 3}
       propertyPath: phaseOneStartTime
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1970606836446198798, guid: de1849616cf5e6e41990742051e315c8,
         type: 3}
@@ -3812,8 +3812,6 @@ MonoBehaviour:
   pauseScreen: {fileID: 1158062337}
   pauseEventSystem: {fileID: 641635813}
   firstSelected: {fileID: 1509036602}
-  playerUiPrefab: {fileID: 215629813024410895, guid: 110c20c757e90874fad83a63fb1d8c6e,
-    type: 3}
   settingsInitButton: {fileID: 5454020}
   shapes:
   - {fileID: 21300000, guid: 77f41b49894df0b4b9b6e7cf6a4477cb, type: 3}
@@ -3821,6 +3819,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 8d3b73f23179aad42ac34add92076d10, type: 3}
   - {fileID: 21300000, guid: d79c1e9cf01c6ac4484cbaeab49bbe91, type: 3}
   playerUis: []
+  playerUiPrefab: {fileID: 215629813024410895, guid: 110c20c757e90874fad83a63fb1d8c6e,
+    type: 3}
 --- !u!1 &1426464766
 GameObject:
   m_ObjectHideFlags: 0
@@ -5044,13 +5044,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6af8f43a5ba60843ad0fce7df189094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  loadingScreenBackgrounds:
+  - {fileID: 21300000, guid: 6139b7878bd390b4fb589155cdab11dd, type: 3}
+  - {fileID: 21300000, guid: 439d779013dc7524d9a6be862d302ab8, type: 3}
   loadingBar: {fileID: 2007745424}
   loadingBackground: {fileID: 520753655}
   loadingBarOption2: {fileID: 1182331802}
   loadProgress: {fileID: 639361665}
-  loadingScreenBackgrounds:
-  - {fileID: 21300000, guid: 6139b7878bd390b4fb589155cdab11dd, type: 3}
-  - {fileID: 21300000, guid: 439d779013dc7524d9a6be862d302ab8, type: 3}
 --- !u!114 &2056655880
 MonoBehaviour:
   m_ObjectHideFlags: 0
