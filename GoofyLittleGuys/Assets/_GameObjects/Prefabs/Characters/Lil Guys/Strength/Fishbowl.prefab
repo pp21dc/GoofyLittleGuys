@@ -172,9 +172,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 163631e9c1e533f47a8390e77aa1c49d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxCombo: 3
-  comboBufferTime: 1
-  pauseBufferTime: 0.65
   guyName: Fishbowl
   type: 0
   mesh: {fileID: 3759597427848749218}
@@ -185,7 +182,6 @@ MonoBehaviour:
   anim: {fileID: 2276666689441862867}
   attackPosition: {fileID: 631468313354302470}
   attackOrbit: {fileID: 7739735529090914365}
-  healFXPrefab: {fileID: 0}
   audioSource: {fileID: 8851497340996581704}
   uiIcon: {fileID: 21300000, guid: c74655e9c7d4242459800df3d8c075fc, type: 3}
   abilityIcon: {fileID: 21300000, guid: c1a98331d68b93c428d22812052c87d7, type: 3}
@@ -198,31 +194,31 @@ MonoBehaviour:
   speed: 13
   defense: 24
   strength: 18
+  accelerationTime: 0.1
+  knockbackResistance: 1
+  knockbackDecayRate: 5
+  maxCombo: 3
+  comboBufferTime: 1
+  pauseBufferTime: 0.65
   specialDuration: 1
   currentCharges: 1
   maxCharges: 1
   cooldownDuration: 11
   chargeRefreshRate: 11
-  accelerationTime: 0.1
-  knockbackResistance: 1
-  knockbackDecayRate: 5
-  dustSpawnInterval: 1.5
-  attackCooldown: 1
-  attackEffect: {fileID: 0}
   aoeShape: {fileID: 3002048726699763566, guid: 42eafbd32610d954eaa3c0cc605b89bc,
     type: 3}
   aoeDamageMultiplier: 1.15
   frameToDestroyAoe: 15
   specialTotalFrames: 17
+  chargeEffectColour: {r: 1, g: 0, b: 0.09832716, a: 0.41568628}
   minChargeTime: 0.5
   maxChargeTime: 1.15
-  aoeMaxSize: 8
-  waveDestroyTime: 2.5
+  aoeMinSize: 0.5
+  aoeMaxSize: 6
   waveMoveSpeed: 12
-  minKnockback: 11
-  maxKnockback: 27
+  minKnockback: 35
+  maxKnockback: 70
   knockbackDuration: 1
-  chargeEffectColour: {r: 1, g: 0, b: 0.09832716, a: 0.41568628}
 --- !u!54 &-2568253581838256164
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -285,8 +281,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6c10490257e446bc815758816a8a7e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 0
   owner: {fileID: 6573903925891364681}
+  health: 0
 --- !u!114 &2836014551602687782
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -316,8 +312,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0aeba23e1ef2eb4780e2a4591b66136, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teleportRange: 30
   accelerationTime: 0.1
+  teleportRange: 30
   followRange: 2
 --- !u!114 &9121363788417893756
 MonoBehaviour:
@@ -333,16 +329,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   capturingPlayerRange: {fileID: 1077468314875122021, guid: 081d1ff4c291f5d43b44c86f1d39e953,
     type: 3}
+  legendaryIcon: {fileID: 8774539750430294249}
+  currentState: 0
+  isCatchable: 1
   chaseRange: 10
   attackRange: 3.25
   attackBuffer: 2
-  currentState: 0
-  maxTimeOutsideHomeSpawner: 3
   timeBeforeDestroyed: 5
+  maxTimeOutsideHomeSpawner: 3
   initialHostility: -1
   maxHostility: 10
   hostilityDecayRate: 0.5
-  fleeHealthThreshold: 0.5
   minAggroRadius: 2
   maxAggroRadius: 20
   timid: 0
@@ -352,12 +349,7 @@ MonoBehaviour:
   slowestThinkSpeed: 1
   wanderIntervalMin: 5
   wanderIntervalMax: 10
-  minWanderRadius: 5
   maxWanderRadius: 10
-  isCatchable: 1
-  stuckThreshold: 1.5
-  minMoveDistance: 0.5
-  legendaryIcon: {fileID: 8774539750430294249}
 --- !u!95 &2276666689441862867
 Animator:
   serializedVersion: 5
