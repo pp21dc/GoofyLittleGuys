@@ -39,6 +39,7 @@ public class PlayerUi : MonoBehaviour
 	[HorizontalRule]
 	[SerializeField] List<Sprite> iconSprites;
 	[SerializeField] List<Sprite> abilitySprites;
+	[ColoredGroup][SerializeField] Sprite transparentSprite;
 	[ColoredGroup][SerializeField] Image AbilityIcon;
 	[ColoredGroup][SerializeField] Image abilityCooldownTimer;
 	[ColoredGroup][SerializeField] TMP_Text abilityCooldownText;
@@ -70,11 +71,11 @@ public class PlayerUi : MonoBehaviour
 	TMP_Text STR_Txt;
 	TMP_Text SPD_Txt;
 	TMP_Text DEF_Txt;
-	TMP_Text HP_Txt;	
+	TMP_Text HP_Txt;
 	TMP_Text levelHPBar;
 
-	
-	
+
+
 	public GameObject TempWinText { get => tempWinText; set => tempWinText = value; }
 
 	private void Start()
@@ -161,10 +162,11 @@ public class PlayerUi : MonoBehaviour
 	{
 		//CurrentCharacter.sprite = pb.LilGuyTeam[0].Icon;
 		AbilityIcon.sprite = pb.LilGuyTeam[0].AbilityIcon;
-		if (pb.LilGuyTeam.Count > 1)
-			RBCharacter.sprite = pb.LilGuyTeam[1].Icon;
-		if (pb.LilGuyTeam.Count > 2)
-			LBCharacter.sprite = pb.LilGuyTeam[2].Icon;
+		if (pb.LilGuyTeam.Count > 1) RBCharacter.sprite = pb.LilGuyTeam[1].Icon;
+		else RBCharacter.sprite = transparentSprite;
+
+		if (pb.LilGuyTeam.Count > 2) LBCharacter.sprite = pb.LilGuyTeam[2].Icon;
+		else LBCharacter.sprite = transparentSprite;
 	}
 
 	public void ShowRespawnScreen()

@@ -1698,37 +1698,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1540396f2527fd1459bb02605a166dd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeLilGuy: {fileID: 0}
+  playerInput: {fileID: 674771134529610598}
+  controller: {fileID: 3641373110718538541}
+  gameplayStats: {fileID: 4539726413739708141}
+  playerMesh: {fileID: 1987567868551127171}
+  directionIndicator: {fileID: 2406372175181913216}
+  playerUi: {fileID: 2185323909340649977}
+  miniMapIcon: {fileID: 895126645767414481}
+  teamFullMenu: {fileID: 1280155277074193209}
+  invincibilityFX: {fileID: 1172655192903034848}
+  stormHurtFX: {fileID: 8541868705519709291}
   lilGuyTeam: []
   lilGuyTeamSlots:
   - {fileID: 4078281670971485286}
   - {fileID: 3921438024293013949}
   - {fileID: 8416668730258656303}
-  playerMesh: {fileID: 1987567868551127171}
-  playerInput: {fileID: 674771134529610598}
-  playerUi: {fileID: 2185323909340649977}
-  teamFullMenu: {fileID: 1280155277074193209}
-  controller: {fileID: 3641373110718538541}
-  invincibilityFX: {fileID: 1172655192903034848}
-  stormHurtFX: {fileID: 8541868705519709291}
-  directionIndicator: {fileID: 2406372175181913216}
-  gameplayStats: {fileID: 4539726413739708141}
+  activeLilGuy: {fileID: 0}
   maxSpeed: 15
   accelerationTime: 0.1
-  decelerationTime: 0.2
-  fallMultiplier: 4
-  knockbackResistance: 1
-  knockbackDecayRate: 5
-  debugTeamSpeedBoost: 0
-  debugTeamDamageReduction: 0
   maxBerryCount: 3
   berryHealPercentage: 0.33
+  debugTeamSpeedBoost: 0
+  debugTeamDamageReduction: 0
+  knockbackResistance: 1
+  knockbackDecayRate: 5
   berryUsageCooldown: 3
   interactCooldown: 0.2
   swapCooldown: 0.75
   respawnInvincibility: 3
   swapInvincibility: 0.2
-  miniMapIcon: {fileID: 895126645767414481}
 --- !u!54 &8216949787665781932
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1901,16 +1899,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a84e3210cae97f44912874cc0567769, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lilGuys:
-  - {fileID: 7462937212347508129, guid: 2c1bf7c1eb40c134c82954cef849512d, type: 3}
-  - {fileID: 3334407532617332349, guid: eedd809568cd9834e91395f1e2f42726, type: 3}
-  - {fileID: 3815921599392353586, guid: 5b5793b15f293b649b5326ade596dd3b, type: 3}
-  - {fileID: 8156442279735623292, guid: 9aa1b886f496e3a45ab0e081b5788f5c, type: 3}
-  - {fileID: -8834704042108889593, guid: 854926ce130a86340b6cc690a7fc6d8d, type: 3}
-  - {fileID: 8560500225971180568, guid: 6737b0716e801e44886d5738d6ff455b, type: 3}
-  - {fileID: 4522273571620802230, guid: 0f0e55332a84fc2458fb32190dac47b4, type: 3}
-  - {fileID: 5619163176932738922, guid: b435832a316c2424d9a7c25833f9a27b, type: 3}
-  - {fileID: 459557506846872373, guid: 6b4f9b850a96a7f408dd29d2ab50e2ab, type: 3}
+  player: {fileID: 0}
 --- !u!1 &8541868705519709291
 GameObject:
   m_ObjectHideFlags: 0
@@ -2225,6 +2214,12 @@ PrefabInstance:
       propertyPath: respawnScreen
       value: 
       objectReference: {fileID: 97617897492838636}
+    - target: {fileID: 1910863067338394544, guid: 80afe6d6e520f2349a32985d2c70c1ed,
+        type: 3}
+      propertyPath: transparentSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 6ca3d5b937ccd2c42bc70c3267f8b58f,
+        type: 3}
     - target: {fileID: 1910863067338394544, guid: 80afe6d6e520f2349a32985d2c70c1ed,
         type: 3}
       propertyPath: persistentHealthBar

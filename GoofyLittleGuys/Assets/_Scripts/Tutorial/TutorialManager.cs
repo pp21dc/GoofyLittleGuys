@@ -167,7 +167,10 @@ public class TutorialManager : SingletonBase<TutorialManager>
             player.ActiveLilGuy.GetComponent<AiController>().enabled = true;
             player.ActiveLilGuy.GetComponent<TamedBehaviour>().enabled = true;
             player.ActiveLilGuy.GetComponent<Hurtbox>().enabled = true;
-        }
+
+			EventManager.Instance.UpdatePlayerHealthUI(player);
+			EventManager.Instance.RefreshUi(player.PlayerUI, 0);
+		}
     }
     
 }
