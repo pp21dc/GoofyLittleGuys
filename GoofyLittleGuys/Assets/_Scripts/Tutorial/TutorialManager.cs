@@ -45,7 +45,6 @@ public class TutorialManager : SingletonBase<TutorialManager>
         }
         Time.timeScale = 1.0f;
         EventManager.Instance.GameStartedEvent();
-        GameManager.Instance.StartGame = true;
         ChangeAllStates();
     }
 
@@ -119,7 +118,6 @@ public class TutorialManager : SingletonBase<TutorialManager>
                     break;
                 default:
                     DebugManager.Log("B.. B.. B... BOOOOOOM!");
-                    GameManager.Instance.StartGame = false;
                     ResetPlayers();
                     EventManager.Instance.CallLilGuyLockedInEvent();
                     break;
