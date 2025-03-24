@@ -172,9 +172,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1be22aa157992d748b5cea9d67f2ff5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxCombo: 2
-  comboBufferTime: 1
-  pauseBufferTime: 0.6
   guyName: Tricera-box
   type: 0
   mesh: {fileID: 3759597427848749218}
@@ -185,7 +182,6 @@ MonoBehaviour:
   anim: {fileID: 5725646759183813981}
   attackPosition: {fileID: 631468313354302470}
   attackOrbit: {fileID: 3489712333121984478}
-  healFXPrefab: {fileID: 0}
   audioSource: {fileID: 8239659243666975592}
   uiIcon: {fileID: 21300000, guid: 374eae1a7bc87bc44a782f8846e20e6d, type: 3}
   abilityIcon: {fileID: 21300000, guid: 4b30639c1759efb489215a1a0dac941f, type: 3}
@@ -198,17 +194,17 @@ MonoBehaviour:
   speed: 14
   defense: 8
   strength: 27
+  accelerationTime: 0.1
+  knockbackResistance: 1
+  knockbackDecayRate: 5
+  maxCombo: 2
+  comboBufferTime: 1
+  pauseBufferTime: 0.55
   specialDuration: -1
   currentCharges: 1
   maxCharges: 1
   cooldownDuration: 9
   chargeRefreshRate: 9
-  accelerationTime: 0.1
-  knockbackResistance: 1
-  knockbackDecayRate: 5
-  dustSpawnInterval: 1
-  attackCooldown: 0.3
-  attackEffect: {fileID: 0}
   aoeShape: {fileID: 7763503517924717934, guid: 783823e0ebd4aff4298168ab9dfa9111,
     type: 3}
   aoeDamageMultiplier: 1
@@ -285,8 +281,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6c10490257e446bc815758816a8a7e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 0
   owner: {fileID: 6573903925891364681}
+  health: 0
 --- !u!114 &2836014551602687782
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -316,8 +312,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0aeba23e1ef2eb4780e2a4591b66136, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teleportRange: 30
   accelerationTime: 0.1
+  teleportRange: 30
   followRange: 2
 --- !u!114 &8901250931437216870
 MonoBehaviour:
@@ -333,16 +329,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   capturingPlayerRange: {fileID: 1077468314875122021, guid: 081d1ff4c291f5d43b44c86f1d39e953,
     type: 3}
+  legendaryIcon: {fileID: 8816524175800876545}
+  currentState: 0
+  isCatchable: 1
   chaseRange: 10
   attackRange: 3.25
   attackBuffer: 2
-  currentState: 0
-  maxTimeOutsideHomeSpawner: 3
   timeBeforeDestroyed: 5
+  maxTimeOutsideHomeSpawner: 3
   initialHostility: -1
   maxHostility: 10
   hostilityDecayRate: 0.5
-  fleeHealthThreshold: 0.5
   minAggroRadius: 2
   maxAggroRadius: 20
   timid: 0
@@ -352,12 +349,7 @@ MonoBehaviour:
   slowestThinkSpeed: 1
   wanderIntervalMin: 5
   wanderIntervalMax: 10
-  minWanderRadius: 5
   maxWanderRadius: 10
-  isCatchable: 1
-  stuckThreshold: 1.5
-  minMoveDistance: 0.5
-  legendaryIcon: {fileID: 8816524175800876545}
 --- !u!95 &5725646759183813981
 Animator:
   serializedVersion: 5

@@ -199,7 +199,7 @@ MonoBehaviour:
   knockbackDecayRate: 5
   maxCombo: 3
   comboBufferTime: 1
-  pauseBufferTime: 0.65
+  pauseBufferTime: 0.6
   specialDuration: 1
   currentCharges: 1
   maxCharges: 1
@@ -213,8 +213,8 @@ MonoBehaviour:
   chargeEffectColour: {r: 1, g: 0, b: 0.09832716, a: 0.41568628}
   minChargeTime: 0.5
   maxChargeTime: 1.15
-  aoeMinSize: 0.5
-  aoeMaxSize: 6
+  aoeMinSize: 1
+  aoeMaxSize: 4.5
   waveMoveSpeed: 12
   minKnockback: 35
   maxKnockback: 70

@@ -88,9 +88,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6400cbf5d6cfbaf48a4f53c6380af89b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxCombo: 3
-  comboBufferTime: 1
-  pauseBufferTime: 0.65
   guyName: Toadstool
   type: 1
   mesh: {fileID: 2263210829898551102}
@@ -101,7 +98,6 @@ MonoBehaviour:
   anim: {fileID: 2852710274394337051}
   attackPosition: {fileID: 6391458775545658944}
   attackOrbit: {fileID: 122990110928241992}
-  healFXPrefab: {fileID: 0}
   audioSource: {fileID: -3431712670881202305}
   uiIcon: {fileID: 21300000, guid: 46041d608e653ab49afcdf9cd6c7e63a, type: 3}
   abilityIcon: {fileID: 21300000, guid: 9dfe6ec82d8399a4a92f4304376ce7e3, type: 3}
@@ -114,20 +110,19 @@ MonoBehaviour:
   speed: 14
   defense: 22
   strength: 17
+  accelerationTime: 0.1
+  knockbackResistance: 1
+  knockbackDecayRate: 5
+  maxCombo: 3
+  comboBufferTime: 1
+  pauseBufferTime: 0.6
   specialDuration: 3
   currentCharges: 1
   maxCharges: 1
   cooldownDuration: 10
   chargeRefreshRate: 10
-  accelerationTime: 0.1
-  knockbackResistance: 1
-  knockbackDecayRate: 5
-  dustSpawnInterval: 1
-  attackCooldown: 0.2
-  attackEffect: {fileID: 0}
   damageReduction: 0.7
   gasPrefab: {fileID: 0}
-  shieldTime: 3
   poisonDamage: 7
   poisonDuration: 3
   poisonDamageApplicationInterval: 0.5
@@ -193,8 +188,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6c10490257e446bc815758816a8a7e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 0
   owner: {fileID: 6573903925891364681}
+  health: 0
 --- !u!114 &1975696606978852400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,8 +219,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0aeba23e1ef2eb4780e2a4591b66136, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teleportRange: 30
   accelerationTime: 0.1
+  teleportRange: 30
   followRange: 2
 --- !u!114 &-3799891229910610430
 MonoBehaviour:
@@ -241,16 +236,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   capturingPlayerRange: {fileID: 1077468314875122021, guid: 081d1ff4c291f5d43b44c86f1d39e953,
     type: 3}
+  legendaryIcon: {fileID: 7800192704785098976}
+  currentState: 0
+  isCatchable: 1
   chaseRange: 10
   attackRange: 3.25
   attackBuffer: 2
-  currentState: 0
-  maxTimeOutsideHomeSpawner: 3
   timeBeforeDestroyed: 5
+  maxTimeOutsideHomeSpawner: 3
   initialHostility: -1
   maxHostility: 10
   hostilityDecayRate: 0.5
-  fleeHealthThreshold: 0.5
   minAggroRadius: 2
   maxAggroRadius: 20
   timid: 0
@@ -260,12 +256,7 @@ MonoBehaviour:
   slowestThinkSpeed: 1
   wanderIntervalMin: 5
   wanderIntervalMax: 10
-  minWanderRadius: 5
   maxWanderRadius: 10
-  isCatchable: 1
-  stuckThreshold: 1.5
-  minMoveDistance: 0.5
-  legendaryIcon: {fileID: 7800192704785098976}
 --- !u!95 &2852710274394337051
 Animator:
   serializedVersion: 5

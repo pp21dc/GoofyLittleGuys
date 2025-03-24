@@ -173,9 +173,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f74e7ffde571de4da69b6e64c0a6a8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxCombo: 4
-  comboBufferTime: 1
-  pauseBufferTime: 0.55
   guyName: Spricket
   type: 2
   mesh: {fileID: 7390400495179750000}
@@ -186,7 +183,6 @@ MonoBehaviour:
   anim: {fileID: 1192768599668502933}
   attackPosition: {fileID: 8713776750063718060}
   attackOrbit: {fileID: 4626071153617329930}
-  healFXPrefab: {fileID: 0}
   audioSource: {fileID: 6589101933699398008}
   uiIcon: {fileID: 21300000, guid: 1eb5c85d5afedf34986ca7d877ee7051, type: 3}
   abilityIcon: {fileID: 21300000, guid: 771a9f0a186d64a479de574870795380, type: 3}
@@ -199,27 +195,27 @@ MonoBehaviour:
   speed: 25
   defense: 15
   strength: 15
+  accelerationTime: 0.1
+  knockbackResistance: 1
+  knockbackDecayRate: 5
+  maxCombo: 4
+  comboBufferTime: 1
+  pauseBufferTime: 0.5
   specialDuration: -1
   currentCharges: 1
   maxCharges: 1
   cooldownDuration: 8
   chargeRefreshRate: 8
-  accelerationTime: 0.1
-  knockbackResistance: 1
-  knockbackDecayRate: 5
-  dustSpawnInterval: 1
-  attackCooldown: 0.15
-  attackEffect: {fileID: 0}
   knockbackPrefab: {fileID: 8183314260541929530, guid: 551a7c71512e5d44ca3e4e5580b83f4b,
     type: 3}
+  chargeEffectColour: {r: 1, g: 0.81960785, b: 0.2509804, a: 0.4}
+  applySpeedStat: 1
   minChargeTime: 0.25
   maxChargeTime: 1
   minDashDistance: 10
   dashSpeed: 100
-  applySpeedStat: 1
   knockbackForceAmount: 65
   knockbackDuration: 1
-  chargeEffectColour: {r: 1, g: 0.81960785, b: 0.2509804, a: 0.4}
   baseMaxDistance: 40
   distanceThreshold: 100
   speedStatInfluence: 1
@@ -290,8 +286,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6c10490257e446bc815758816a8a7e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 0
   owner: {fileID: 6573903925891364681}
+  health: 0
 --- !u!114 &8019565656019957017
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -321,8 +317,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0aeba23e1ef2eb4780e2a4591b66136, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teleportRange: 30
   accelerationTime: 0.1
+  teleportRange: 30
   followRange: 2
 --- !u!114 &-7936797645494185066
 MonoBehaviour:
@@ -338,16 +334,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   capturingPlayerRange: {fileID: 1077468314875122021, guid: 081d1ff4c291f5d43b44c86f1d39e953,
     type: 3}
+  legendaryIcon: {fileID: 5655814921010335805}
+  currentState: 0
+  isCatchable: 1
   chaseRange: 10
   attackRange: 3.25
   attackBuffer: 2
-  currentState: 0
-  maxTimeOutsideHomeSpawner: 3
   timeBeforeDestroyed: 5
+  maxTimeOutsideHomeSpawner: 3
   initialHostility: -1
   maxHostility: 10
   hostilityDecayRate: 0.5
-  fleeHealthThreshold: 0.5
   minAggroRadius: 2
   maxAggroRadius: 20
   timid: 0
@@ -357,12 +354,7 @@ MonoBehaviour:
   slowestThinkSpeed: 1
   wanderIntervalMin: 5
   wanderIntervalMax: 10
-  minWanderRadius: 5
   maxWanderRadius: 10
-  isCatchable: 1
-  stuckThreshold: 1.5
-  minMoveDistance: 0.5
-  legendaryIcon: {fileID: 5655814921010335805}
 --- !u!95 &1192768599668502933
 Animator:
   serializedVersion: 5

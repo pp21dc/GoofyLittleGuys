@@ -173,9 +173,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17026a092a3596b4eb04065f05a6c018, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxCombo: 4
-  comboBufferTime: 1
-  pauseBufferTime: 0.55
   guyName: Phant-a-phant
   type: 2
   mesh: {fileID: 7390400495179750000}
@@ -186,7 +183,6 @@ MonoBehaviour:
   anim: {fileID: 1192768599668502933}
   attackPosition: {fileID: 8713776750063718060}
   attackOrbit: {fileID: 6803299782080446287}
-  healFXPrefab: {fileID: 0}
   audioSource: {fileID: 1617152161610404814}
   uiIcon: {fileID: 21300000, guid: f5e2a70283dc266458c9feeffb209b5c, type: 3}
   abilityIcon: {fileID: 21300000, guid: 434131e8502f46140a4fbf8e34710a90, type: 3}
@@ -199,17 +195,17 @@ MonoBehaviour:
   speed: 24
   defense: 11
   strength: 13
+  accelerationTime: 0.1
+  knockbackResistance: 1
+  knockbackDecayRate: 5
+  maxCombo: 4
+  comboBufferTime: 1
+  pauseBufferTime: 0.5
   specialDuration: 0
   currentCharges: 1
   maxCharges: 1
   cooldownDuration: 8
   chargeRefreshRate: 8
-  accelerationTime: 0.1
-  knockbackResistance: 1
-  knockbackDecayRate: 5
-  dustSpawnInterval: 1
-  attackCooldown: 0.15
-  attackEffect: {fileID: 0}
   dashTargetRange: 35
   slowAmount: -0.75
   slowDuration: 1.4
@@ -275,8 +271,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6c10490257e446bc815758816a8a7e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 0
   owner: {fileID: 6573903925891364681}
+  health: 0
 --- !u!114 &8019565656019957017
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -306,8 +302,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0aeba23e1ef2eb4780e2a4591b66136, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teleportRange: 30
   accelerationTime: 0.1
+  teleportRange: 30
   followRange: 2
 --- !u!114 &-7936797645494185066
 MonoBehaviour:
@@ -323,16 +319,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   capturingPlayerRange: {fileID: 1077468314875122021, guid: 081d1ff4c291f5d43b44c86f1d39e953,
     type: 3}
+  legendaryIcon: {fileID: 6140556223780821109}
+  currentState: 0
+  isCatchable: 1
   chaseRange: 10
   attackRange: 3.25
   attackBuffer: 2
-  currentState: 0
-  maxTimeOutsideHomeSpawner: 3
   timeBeforeDestroyed: 5
+  maxTimeOutsideHomeSpawner: 3
   initialHostility: -1
   maxHostility: 10
   hostilityDecayRate: 0.5
-  fleeHealthThreshold: 0.5
   minAggroRadius: 2
   maxAggroRadius: 20
   timid: 0
@@ -342,12 +339,7 @@ MonoBehaviour:
   slowestThinkSpeed: 1
   wanderIntervalMin: 5
   wanderIntervalMax: 10
-  minWanderRadius: 5
   maxWanderRadius: 10
-  isCatchable: 1
-  stuckThreshold: 1.5
-  minMoveDistance: 0.5
-  legendaryIcon: {fileID: 6140556223780821109}
 --- !u!95 &1192768599668502933
 Animator:
   serializedVersion: 5

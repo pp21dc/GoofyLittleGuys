@@ -172,9 +172,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2ecb69dd2b908c48aaa672ee55c8c2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxCombo: 3
-  comboBufferTime: 1
-  pauseBufferTime: 0.65
   guyName: Armordillo
   type: 1
   mesh: {fileID: 2263210829898551102}
@@ -185,7 +182,6 @@ MonoBehaviour:
   anim: {fileID: 2852710274394337051}
   attackPosition: {fileID: 6391458775545658944}
   attackOrbit: {fileID: 122990110928241992}
-  healFXPrefab: {fileID: 0}
   audioSource: {fileID: 6896375284712466425}
   uiIcon: {fileID: 21300000, guid: 524383d6a3752d84db0ce11b7b4404ee, type: 3}
   abilityIcon: {fileID: 21300000, guid: bb26a4d319e426640866b35d4d8672a0, type: 3}
@@ -198,28 +194,28 @@ MonoBehaviour:
   speed: 16
   defense: 20
   strength: 14
+  accelerationTime: 0.1
+  knockbackResistance: 1
+  knockbackDecayRate: 5
+  maxCombo: 3
+  comboBufferTime: 1
+  pauseBufferTime: 0.6
   specialDuration: 1.75
   currentCharges: 1
   maxCharges: 1
   cooldownDuration: 12
   chargeRefreshRate: 12
-  accelerationTime: 0.1
-  knockbackResistance: 1
-  knockbackDecayRate: 5
-  dustSpawnInterval: 1
-  attackCooldown: 0.2
-  attackEffect: {fileID: 0}
   damageReduction: 0.8
   knockbackPrefab: {fileID: 4631284653977187687, guid: 9341da0943f3c924db490a9047fb1341,
     type: 3}
-  knockbackForceAmount: 60
-  knockbackDuration: 1
   shieldPrefab: {fileID: 2008765747768666474, guid: 0b6f276f11794084db7a6f88d2820118,
     type: 3}
-  shieldUptime: 5
-  speedBoost: 55
   startColour: {r: 0, g: 0.9647059, b: 1, a: 1}
   endColour: {r: 0.94509804, g: 0.6156863, b: 0.6156863, a: 1}
+  knockbackForceAmount: 60
+  knockbackDuration: 1
+  shieldUptime: 5
+  speedBoost: 55
 --- !u!54 &4146728097653182592
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -282,8 +278,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6c10490257e446bc815758816a8a7e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 0
   owner: {fileID: 6573903925891364681}
+  health: 0
 --- !u!114 &1975696606978852400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -313,8 +309,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0aeba23e1ef2eb4780e2a4591b66136, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teleportRange: 30
   accelerationTime: 0.1
+  teleportRange: 30
   followRange: 2
 --- !u!114 &-3799891229910610430
 MonoBehaviour:
@@ -330,16 +326,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   capturingPlayerRange: {fileID: 1077468314875122021, guid: 081d1ff4c291f5d43b44c86f1d39e953,
     type: 3}
+  legendaryIcon: {fileID: 347795310128571297}
+  currentState: 0
+  isCatchable: 1
   chaseRange: 10
   attackRange: 3.25
   attackBuffer: 2
-  currentState: 0
-  maxTimeOutsideHomeSpawner: 3
   timeBeforeDestroyed: 5
+  maxTimeOutsideHomeSpawner: 3
   initialHostility: -1
   maxHostility: 10
   hostilityDecayRate: 0.5
-  fleeHealthThreshold: 0.5
   minAggroRadius: 2
   maxAggroRadius: 20
   timid: 0
@@ -349,12 +346,7 @@ MonoBehaviour:
   slowestThinkSpeed: 1
   wanderIntervalMin: 5
   wanderIntervalMax: 10
-  minWanderRadius: 5
   maxWanderRadius: 10
-  isCatchable: 1
-  stuckThreshold: 1.5
-  minMoveDistance: 0.5
-  legendaryIcon: {fileID: 347795310128571297}
 --- !u!95 &2852710274394337051
 Animator:
   serializedVersion: 5
