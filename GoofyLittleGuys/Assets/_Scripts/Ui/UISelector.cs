@@ -280,6 +280,8 @@ public class UISelector : MonoBehaviour
 
 		controller.Body.LilGuyTeam[0].PlayerOwner = controller.Body;
 		controller.Body.LilGuyTeamSlots[0].LilGuyInSlot = starter;
+		controller.Body.Starter = charSelectMenu.starters[currStarterIndex].gameObject;
+
 
 	}
 }
