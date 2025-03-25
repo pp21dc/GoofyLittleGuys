@@ -97,13 +97,14 @@ GameObject:
   - component: {fileID: 6969608165971931428}
   - component: {fileID: 2606278801562883453}
   - component: {fileID: 4680719175231126113}
-  - component: {fileID: 3148351832186809337}
-  - component: {fileID: 7161871899557198643}
-  - component: {fileID: 102471509565771964}
   - component: {fileID: 4956128567053476836}
   - component: {fileID: 3279809607784078730}
   - component: {fileID: 3056921089053021689}
   - component: {fileID: 3214805675292361098}
+  - component: {fileID: 6777996469625124844}
+  - component: {fileID: 507561185475131690}
+  - component: {fileID: 4802187055690410628}
+  - component: {fileID: 7749833065782777140}
   m_Layer: 9
   m_Name: TutorialTeddy
   m_TagString: Untagged
@@ -143,8 +144,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1f72f19f8a859c44834bd52497ab846, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxCombo: 3
-  comboBufferTime: 0.65
   guyName: Teddy
   type: 0
   mesh: {fileID: 1761042715674752397}
@@ -155,7 +154,6 @@ MonoBehaviour:
   anim: {fileID: 4956128567053476836}
   attackPosition: {fileID: 3656798203535261655}
   attackOrbit: {fileID: 4715062524941824653}
-  healFXPrefab: {fileID: 0}
   audioSource: {fileID: 3279809607784078730}
   uiIcon: {fileID: 982053239, guid: dbd36cbf2296ff4458633473bc255154, type: 3}
   abilityIcon: {fileID: 21300000, guid: ac10007a749b5314c824763b0cf726b4, type: 3}
@@ -168,17 +166,17 @@ MonoBehaviour:
   speed: 13
   defense: 14
   strength: 20
+  accelerationTime: 0.1
+  knockbackResistance: 1
+  knockbackDecayRate: 5
+  maxCombo: 3
+  comboBufferTime: 0.65
+  pauseBufferTime: 1
   specialDuration: -1
   currentCharges: 1
   maxCharges: 1
   cooldownDuration: 10
   chargeRefreshRate: 10
-  accelerationTime: 0.1
-  knockbackResistance: 1
-  knockbackDecayRate: 5
-  dustSpawnInterval: 1
-  attackCooldown: 0.2
-  attackEffect: {fileID: 0}
   aoeShape: {fileID: 7763503517924717934, guid: 783823e0ebd4aff4298168ab9dfa9111,
     type: 3}
   aoeDamageMultiplier: 1.05
@@ -250,79 +248,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6c10490257e446bc815758816a8a7e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 0
   owner: {fileID: 728551997401506931}
---- !u!114 &3148351832186809337
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 728551997401506931}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 308ddd121c6fe6f43b327338f6e61128, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 8
-  interactCanvas: {fileID: 6475964278729731106}
-  healthBars: {fileID: 7420381194810486154}
---- !u!114 &7161871899557198643
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 728551997401506931}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0aeba23e1ef2eb4780e2a4591b66136, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  teleportRange: 30
-  accelerationTime: 0.1
-  followRange: 2
---- !u!114 &102471509565771964
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 728551997401506931}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3adbf3419812e4649bb2db09d02d00fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  capturingPlayerRange: {fileID: 1077468314875122021, guid: 081d1ff4c291f5d43b44c86f1d39e953,
-    type: 3}
-  chaseRange: 10
-  attackRange: 3.25
-  attackBuffer: 2
-  currentState: 0
-  maxTimeOutsideHomeSpawner: 3
-  timeBeforeDestroyed: 5
-  initialHostility: -1
-  maxHostility: 10
-  hostilityDecayRate: 0.5
-  fleeHealthThreshold: 0.5
-  minAggroRadius: 2
-  maxAggroRadius: 20
-  timid: 0
-  intelligence: 0.03
-  charisma: 0
-  fastestThinkSpeed: 0.16
-  slowestThinkSpeed: 1
-  wanderIntervalMin: 5
-  wanderIntervalMax: 10
-  minWanderRadius: 5
-  maxWanderRadius: 10
-  isCatchable: 1
-  stuckThreshold: 1.5
-  minMoveDistance: 0.5
-  legendaryIcon: {fileID: 8320869453601606502}
+  health: 0
 --- !u!95 &4956128567053476836
 Animator:
   serializedVersion: 5
@@ -472,16 +399,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   capturingPlayerRange: {fileID: 1077468314875122021, guid: 081d1ff4c291f5d43b44c86f1d39e953,
     type: 3}
+  legendaryIcon: {fileID: 0}
+  home: {fileID: 0}
+  currentState: 0
+  isCatchable: 1
   chaseRange: 10
   attackRange: 3.25
   attackBuffer: 2
-  currentState: 0
-  maxTimeOutsideHomeSpawner: 3
   timeBeforeDestroyed: 99999
+  maxTimeOutsideHomeSpawner: 3
   initialHostility: 1
   maxHostility: 2
   hostilityDecayRate: 0.5
-  fleeHealthThreshold: 0.5
   minAggroRadius: 2
   maxAggroRadius: 20
   timid: 0
@@ -491,13 +420,88 @@ MonoBehaviour:
   slowestThinkSpeed: 2
   wanderIntervalMin: 5
   wanderIntervalMax: 10
-  minWanderRadius: 2
   maxWanderRadius: 5
-  home: {fileID: 0}
-  isCatchable: 1
-  stuckThreshold: 1.5
-  minMoveDistance: 0.5
+--- !u!114 &6777996469625124844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 728551997401506931}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54edd3f3d374454691e9e684951a3bbc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  accelerationTime: 0.1
+  teleportRange: 30
+  followRange: 2
+--- !u!114 &507561185475131690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 728551997401506931}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 308ddd121c6fe6f43b327338f6e61128, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  interactCanvas: {fileID: 0}
+  healthBars: {fileID: 0}
+--- !u!114 &4802187055690410628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 728551997401506931}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0aeba23e1ef2eb4780e2a4591b66136, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  accelerationTime: 0.02
+  teleportRange: 30
+  followRange: 2
+--- !u!114 &7749833065782777140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 728551997401506931}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3adbf3419812e4649bb2db09d02d00fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  capturingPlayerRange: {fileID: 0}
   legendaryIcon: {fileID: 0}
+  currentState: 0
+  isCatchable: 1
+  chaseRange: 10
+  attackRange: 1
+  attackBuffer: 2
+  timeBeforeDestroyed: 5
+  maxTimeOutsideHomeSpawner: 3
+  initialHostility: -1
+  maxHostility: 10
+  hostilityDecayRate: 0.5
+  minAggroRadius: 2
+  maxAggroRadius: 20
+  timid: 0
+  intelligence: 0
+  charisma: 0
+  fastestThinkSpeed: 0.25
+  slowestThinkSpeed: 2
+  wanderIntervalMin: 5
+  wanderIntervalMax: 10
+  maxWanderRadius: 5
 --- !u!1 &3232484918713786144
 GameObject:
   m_ObjectHideFlags: 0

@@ -19,7 +19,7 @@ public class TutorialAiController : MonoBehaviour
 	private LilGuyBase lilGuy;                          // Reference to this AI's stats
 	private AIState state = AIState.Wild;               // The current state of the AI (either wild or one caught by a player)
 	private TutorialBehaviour wildBehaviour;                // Defines Wild AI behaviour (Idle, Chase, Attack, Death)
-	private TamedBehaviour tamedBehaviour;              // Defines Tamed AI behaviour (Follow Player)
+	private TutorialTamedBehaviour tamedBehaviour;              // Defines Tamed AI behaviour (Follow Player)
 
 	private CanvasGroup healthUi;
 
@@ -41,7 +41,7 @@ public class TutorialAiController : MonoBehaviour
 	private void Awake()
     {
         wildBehaviour = GetComponent<TutorialBehaviour>();
-        tamedBehaviour = GetComponent<TamedBehaviour>();
+        tamedBehaviour = GetComponent<TutorialTamedBehaviour>();
     }
 
     private void Start()
