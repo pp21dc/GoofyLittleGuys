@@ -65,6 +65,8 @@ namespace Managers
 		[ColoredGroup][SerializeField, Tooltip("Time in minutes that the legendary spawns.")] private float[] legendarySpawnTimes = { 2f, 3f, 4f };   // Legendary spawn time in minutes. 
 		[ColoredGroup][SerializeField] private float[] legendaryMaxScales = { 2f, 2.5f, 3f };   // Legendary spawn time in minutes. 
 		[ColoredGroup][SerializeField] private int[] legendaryLevels = { 10, 15, 20 };   // Legendary spawn time in minutes. 
+		[ColoredGroup][SerializeField, Tooltip("Number of levels subtracted from legendary level to scale legendary XP amount.")] private int legendaryLevelSubtractor = 2;
+		[ColoredGroup][SerializeField, Tooltip("Multiplier value to scale legendary XP amount by (leave as 0 if you want no multiplier scaling).")][Min(0)] private float legendaryXpPercentageMultiplier = 0;
 
 		[Header("Leader Settings")]
 		[HorizontalRule]
