@@ -125,7 +125,7 @@ namespace Managers
 		public bool IsPaused { get { return isPaused; } set { isPaused = value; } }
 		public bool StartGame { get => startGame; set => startGame = value; }
 		public int LegendaryLevelSubtractor => legendaryLevelSubtractor;
-		public float LegendaryXpPercentageMultiplier => legendaryXpPercentageMultiplier
+		public float LegendaryXpPercentageMultiplier => legendaryXpPercentageMultiplier;
 		#endregion
 
 		public override void Awake()
