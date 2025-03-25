@@ -53,8 +53,14 @@ public class VictoryScreen : MonoBehaviour
 		for (int i = 0; i < players.Count; i++)
 		{
 			PlayerBody body = players[i];
+			inputs.Add(body.Controller.GetComponent<PlayerInput>());
 			metrics.Add(body.GameplayStats);
 
+		}
+
+		for (int i = 0; i < players.Count; i++)
+		{
+			PlayerBody body = players[i];
 			// Find their ranking from GameManager.Instance.rankings
 			int rank = GameManager.Instance.Rankings.IndexOf(body); // Lower index = worse rank, higher = better
 
@@ -62,8 +68,6 @@ public class VictoryScreen : MonoBehaviour
 			StatCard card = screenReferences.playerStatObjects[playerIndex];
 
 			card.Initialize(body.Controller.GetComponent<PlayerInput>());
-			inputs.Add(body.Controller.GetComponent<PlayerInput>());
-
 			body.GameplayStats.ShowMetrics(metrics, card, playerIndex, players.Count - 1 - rank); // Reverse for proper "1st" logic
 		}
 
