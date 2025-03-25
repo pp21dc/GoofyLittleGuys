@@ -6,7 +6,8 @@ using System.Linq;
 using UnityEngine;
 
 public abstract class LilGuyBase : MonoBehaviour
-{	public enum PrimaryType
+{
+	public enum PrimaryType
 	{
 		Strength,
 		Defense,
@@ -608,13 +609,22 @@ public abstract class LilGuyBase : MonoBehaviour
 		Hurtbox h = GetComponent<Hurtbox>();
 		if (!isWild)
 		{
-			// Player owned lil guy died.
 			if (h.LastHit != null)
 			{
-				DebugManager.Log($"{name} was a player-owned Lil Guy, and was defeated by player {h.LastHit}. Awarding bonus xp.", DebugManager.DebugCategory.COMBAT);
+				bool isLeader = playerOwner.IsLeader;
+				bool teamWiped = playerOwner.IsDead;
+				int baseXp = Mathf.FloorToInt((Mathf.Pow((Level + 4), 2)) / 2);
+				int finalXp = baseXp;
+
+				if (teamWiped)
+				{
+					if (isLeader) finalXp = Mathf.FloorToInt(baseXp * (1 + GameManager.Instance.LeaderBonusXpPercentage));
+					else finalXp = Mathf.FloorToInt(baseXp * (1 + GameManager.Instance.TeamWipeBonusXpPercentage));
+					DebugManager.Log($"{playerOwner.name} was the Leader and got wiped! Bonus XP awarded to {h.LastHit.name}.", DebugManager.DebugCategory.COMBAT);
+				}
 				for (int i = 0; i < h.LastHit.LilGuyTeam.Count; i++)
 				{
-					h.LastHit.LilGuyTeam[i].AddXP((i == 0) ? Mathf.FloorToInt((Mathf.Pow((Level + 4), 2)) / 2) : Mathf.FloorToInt((Mathf.Pow((Level + 4), 2)) / 5));
+					h.LastHit.LilGuyTeam[i].AddXP((i == 0) ? finalXp : Mathf.FloorToInt(finalXp * 0.25f));
 				}
 			}
 			StartCoroutine(Disappear());

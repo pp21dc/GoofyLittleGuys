@@ -21,6 +21,7 @@ public class PlayerBody : MonoBehaviour
 	[Header("UI")]
 	[HorizontalRule]
 	[ColoredGroup][SerializeField] private GameObject directionIndicator;
+	[ColoredGroup][SerializeField] private GameObject leaderCrown;
 	[ColoredGroup][SerializeField] private PlayerUi playerUi;                         // This player's input component.
 	[ColoredGroup] public GameObject miniMapIcon;
 	[ColoredGroup][SerializeField] private GameObject teamFullMenu;                   // The menu shown if the player captured a lil guy but their team is full.
@@ -76,6 +77,7 @@ public class PlayerBody : MonoBehaviour
 	private bool hasImmunity = false;           // If the player is in swap I-frames (feel free to delete cmnt)
 	private bool isDead = false;
 	private bool wasDefeated = false;           // Only true if this player has been defeated in phase 2
+	private bool isLeader;
 
 	// TUTORIAL
 	private GameObject starter = null;
@@ -159,6 +161,7 @@ public class PlayerBody : MonoBehaviour
 	public PlayerUi PlayerUI => playerUi;
 	public PlayerController Controller => controller;
 	public float DeathTime => deathTime;
+	public bool IsLeader => isLeader;
 	#endregion
 
 	private void Start()
@@ -269,6 +272,12 @@ public class PlayerBody : MonoBehaviour
 		if (lilGuyTeam[0].LockMovement)
 			rb.velocity = new Vector3(0, rb.velocity.y, 0);
 	}
+	public void SetLeader(bool state)
+	{
+		isLeader = state;
+		if (leaderCrown != null)
+			leaderCrown.SetActive(state);
+	}
 
 	private void HandleBuffExpired(BuffType type, object source)
 	{
@@ -339,7 +348,7 @@ public class PlayerBody : MonoBehaviour
 		if (dir.x < 0) flip = false;
 
 		activeLilGuy.IsMoving = Mathf.Abs(movementDirection.magnitude) > 0;
-		activeLilGuy.MovementDirection = movementDirection;
+		activeLilGuy.MovementDirection = movementDirection.magnitude > 0 ? movementDirection : Vector3.zero;
 	}
 
 	public void UpdateUpDown(float dir)

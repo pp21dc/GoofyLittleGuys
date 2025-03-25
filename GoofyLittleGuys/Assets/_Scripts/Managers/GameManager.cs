@@ -54,6 +54,7 @@ namespace Managers
 		[SerializeField] private Color[] playerColours;
 		[ColoredGroup][SerializeField] private float activeLilGuyScaleFactor = 1.1f;
 		[ColoredGroup][SerializeField] private float nonActiveLilGuyScaleFactor = 0.9f;
+		[ColoredGroup][SerializeField] private float teamWipeBonusXpPercentage = 0.2f;
 
 		[Header("Global AI Settings")]
 		[HorizontalRule]
@@ -61,10 +62,15 @@ namespace Managers
 
 		[Header("Legendary Settings")]
 		[HorizontalRule]
-		[SerializeField, Tooltip("Time in minutes that the legendary spawns.")] private float[] legendarySpawnTimes = { 2f, 3f, 4f };   // Legendary spawn time in minutes. 
-		[SerializeField] private float[] legendaryMaxScales = { 2f, 2.5f, 3f };   // Legendary spawn time in minutes. 
-		[SerializeField] private int[] legendaryLevels = { 10, 15, 20 };   // Legendary spawn time in minutes. 
+		[ColoredGroup][SerializeField, Tooltip("Time in minutes that the legendary spawns.")] private float[] legendarySpawnTimes = { 2f, 3f, 4f };   // Legendary spawn time in minutes. 
+		[ColoredGroup][SerializeField] private float[] legendaryMaxScales = { 2f, 2.5f, 3f };   // Legendary spawn time in minutes. 
+		[ColoredGroup][SerializeField] private int[] legendaryLevels = { 10, 15, 20 };   // Legendary spawn time in minutes. 
 
+		[Header("Leader Settings")]
+		[HorizontalRule]
+		[ColoredGroup][SerializeField, Tooltip("Game time in seconds that the leader system should start running.")][Min(0)] private float leaderCheckStartTime = 60f; // Time in seconds before checking leader
+		[ColoredGroup][SerializeField, Tooltip("The minimum team level lead before someone is considered 'in the lead'.")][Min(0)] private int leaderLevelThreshold = 2; // Minimum lead in team level
+		[ColoredGroup][SerializeField, Tooltip("Percentage of bonus xp to award to someone who defeats the leader.")][Min(0)] private float leaderBonusXpPercentage = 0.5f;
 		#endregion
 
 		#region Private Variables
@@ -72,6 +78,7 @@ namespace Managers
 		private System.TimeSpan gameTime;                                       // To convert from total seconds time to a time in the format mm:ss
 
 		// PLAYER
+		private PlayerBody currentLeader;
 		private float respawnTimer = 5.0f;
 
 		// STORM
@@ -94,6 +101,7 @@ namespace Managers
 		#endregion
 
 		#region Getters & Setters
+		public PlayerBody CurrentLeader { get => currentLeader; set => currentLeader = value; }
 		public List<LilGuyBase> LilGuys => lilGuys;
 		public List<PlayerBody> Rankings => rankings;
 		public List<PlayerBody> Players { get { return players; } set { players = value; } }
@@ -110,6 +118,8 @@ namespace Managers
 		public float RespawnTimer => respawnTimer; // Getter for respawn timer
 		public float CurrentGameTime => currentGameTime;
 		public float WildLilGuyLevelUpdateTick => wildLilGuyLevelUpdateTick;
+		public float LeaderBonusXpPercentage => leaderBonusXpPercentage;
+		public float TeamWipeBonusXpPercentage => teamWipeBonusXpPercentage;
 		public bool IsPaused { get { return isPaused; } set { isPaused = value; } }
 		public bool StartGame { get => startGame; set => startGame = value; }
 		#endregion
@@ -271,6 +281,63 @@ namespace Managers
 					gameOver = true;
 					BrawlKnockoutEnd();
 				}
+			}
+
+			if (CurrentGameTime >= leaderCheckStartTime)
+			{
+				CheckLeader();
+			}
+		}
+
+		/// <summary>
+		/// Checks all players and determines who the leader is, if any.
+		/// </summary>
+		private void CheckLeader()
+		{
+			PlayerBody newLeader = null;
+			int highestTeamLevel = -1;
+			int highestTeamXP = -1;
+
+			foreach (var player in players)
+			{
+				int teamLevel = 0;
+				int totalXP = 0;
+
+				foreach (var lilGuy in player.LilGuyTeam)
+				{
+					teamLevel += lilGuy.Level;
+					totalXP += lilGuy.Xp;
+				}
+
+				// If the level gap is not enough, skip
+				if (teamLevel <= highestTeamLevel + leaderLevelThreshold - 1) continue;
+
+				// New highest found
+				if (teamLevel > highestTeamLevel)
+				{
+					newLeader = player;
+					highestTeamLevel = teamLevel;
+					highestTeamXP = totalXP;
+				}
+				else if (teamLevel == highestTeamLevel)
+				{
+					// Tie-breaker: Compare XP
+					if (totalXP > highestTeamXP)
+					{
+						newLeader = player;
+						highestTeamXP = totalXP;
+					}
+					// If XP is also equal, retain the existing leader
+				}
+			}
+
+			if (newLeader != null && newLeader != currentLeader)
+			{
+				if (currentLeader != null)
+					currentLeader.SetLeader(false); // Disable crown on previous leader
+
+				newLeader.SetLeader(true); // Enable crown on new leader
+				currentLeader = newLeader;
 			}
 		}
 
