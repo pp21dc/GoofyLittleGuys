@@ -8,15 +8,15 @@ public class Fishbowl : StrengthType
 {
 	[Header("Fishbowl Specific")]
 	[HorizontalRule]
-	[ColoredGroup][SerializeField] private Color chargeEffectColour;
-	[ColoredGroup][SerializeField] private float minChargeTime = 0.5f;
-	[ColoredGroup][SerializeField] private float maxChargeTime = 1.5f;
-	[ColoredGroup][SerializeField] private float aoeMinSize = 0.25f;
-	[ColoredGroup][SerializeField] private float aoeMaxSize = 1f;
-	[ColoredGroup][SerializeField] private float waveMoveSpeed = 10f;
-	[ColoredGroup][SerializeField] private float minKnockback = 10f;
-	[ColoredGroup][SerializeField] private float maxKnockback = 25f;
-	[ColoredGroup][SerializeField] private float knockbackDuration = 1f;
+	[ColoredGroup(0.363f, 0.0904f, 0.1455f)][SerializeField] private Color chargeEffectColour;
+	[ColoredGroup(0.363f, 0.0904f, 0.1455f)][SerializeField] private float minChargeTime = 0.5f;
+	[ColoredGroup(0.363f, 0.0904f, 0.1455f)][SerializeField] private float maxChargeTime = 1.5f;
+	[ColoredGroup(0.363f, 0.0904f, 0.1455f)][SerializeField] private float aoeMinSize = 0.25f;
+	[ColoredGroup(0.363f, 0.0904f, 0.1455f)][SerializeField] private float aoeMaxSize = 1f;
+	[ColoredGroup(0.363f, 0.0904f, 0.1455f)][SerializeField] private float waveMoveSpeed = 10f;
+	[ColoredGroup(0.363f, 0.0904f, 0.1455f)][SerializeField] private float minKnockback = 10f;
+	[ColoredGroup(0.363f, 0.0904f, 0.1455f)][SerializeField] private float maxKnockback = 25f;
+	[ColoredGroup(0.363f, 0.0904f, 0.1455f)][SerializeField] private float knockbackDuration = 1f;
 
 	bool isCharging = false;
 	private float chargeTime = 0f;

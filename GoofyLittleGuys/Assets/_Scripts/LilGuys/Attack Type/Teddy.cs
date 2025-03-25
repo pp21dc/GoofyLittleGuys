@@ -5,9 +5,9 @@ public class Teddy : StrengthType
 {
 	[Header("Teddy Specific")]
 	[HorizontalRule]
-	[ColoredGroup][SerializeField] private GameObject specialFXPrefab;
-	[ColoredGroup][SerializeField] private float slowAmount = 3f;
-	[ColoredGroup][SerializeField] private float slowDuration = 1f;
+	[ColoredGroup(0.363f, 0.0904f, 0.1455f)][SerializeField] private GameObject specialFXPrefab;
+	[ColoredGroup(0.363f, 0.0904f, 0.1455f)][SerializeField] private float slowAmount = 3f;
+	[ColoredGroup(0.363f, 0.0904f, 0.1455f)][SerializeField] private float slowDuration = 1f;
 
 	private GameObject instantiatedAoe = null;
 

@@ -8,9 +8,9 @@ public class Phantaphant : SpeedType
 {
 	[Header("Phant-a-phant Specific")]
 	[HorizontalRule]
-	[ColoredGroup][SerializeField, Tooltip("The maximum range that a target to dash to can be picked.")] private float dashTargetRange;
-	[ColoredGroup][SerializeField] private float slowAmount = 20f;
-	[ColoredGroup][SerializeField] private float slowDuration = 2f;
+	[ColoredGroup(0.37f, 0.28089f, 0)][SerializeField, Tooltip("The maximum range that a target to dash to can be picked.")] private float dashTargetRange;
+	[ColoredGroup(0.37f, 0.28089f, 0)][SerializeField] private float slowAmount = 20f;
+	[ColoredGroup(0.37f, 0.28089f, 0)][SerializeField] private float slowDuration = 2f;
 
 	private Transform targetPosition;
 	private Vector3 directionToTarget;

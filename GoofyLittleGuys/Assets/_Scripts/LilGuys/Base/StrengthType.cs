@@ -7,10 +7,10 @@ public class StrengthType : LilGuyBase
 {
 	[Header("Strength Type Specific")]
 	[HorizontalRule]
-	[ColoredGroup][SerializeField] protected GameObject aoeShape;  // Only visible in editor and only used when aoeType is set to "Custom". 
-	[ColoredGroup][SerializeField] public float aoeDamageMultiplier = 1;
-	[ColoredGroup][SerializeField] private float frameToDestroyAoe = 15;
-	[ColoredGroup][SerializeField] private float specialTotalFrames = 17;
+	[ColoredGroup(0.363f, 0.0904f, 0.1455f)][SerializeField] protected GameObject aoeShape;  // Only visible in editor and only used when aoeType is set to "Custom". 
+	[ColoredGroup(0.363f, 0.0904f, 0.1455f)][SerializeField] public float aoeDamageMultiplier = 1;
+	[ColoredGroup(0.363f, 0.0904f, 0.1455f)][SerializeField] private float frameToDestroyAoe = 15;
+	[ColoredGroup(0.363f, 0.0904f, 0.1455f)][SerializeField] private float specialTotalFrames = 17;
 
 	protected float aoeDestroyTime;
 

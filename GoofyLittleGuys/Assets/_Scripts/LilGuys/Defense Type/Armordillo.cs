@@ -7,14 +7,14 @@ public class Armordillo : DefenseType
 {
 	[Header("Armordillo Specific")]
 	[HorizontalRule]
-	[ColoredGroup][SerializeField] private GameObject knockbackPrefab;
-	[ColoredGroup][SerializeField] private GameObject shieldPrefab; // The shield prefab to instantiate
-	[ColoredGroup][SerializeField] private Color startColour = new Color(0, 0.9647058823529412f, 1);
-	[ColoredGroup][SerializeField] private Color endColour = new Color(0.9450980392156862f, 0.615686274509804f, 0.615686274509804f);
-	[ColoredGroup][SerializeField] private float knockbackForceAmount = 60f;
-	[ColoredGroup][SerializeField] private float knockbackDuration = 1f;
-	[ColoredGroup][SerializeField] private float shieldUptime = 5;
-	[ColoredGroup][SerializeField] private float speedBoost = 30f;
+	[ColoredGroup(0.1865f, 0.3124f, 0.373f)][SerializeField] private GameObject knockbackPrefab;
+	[ColoredGroup(0.1865f, 0.3124f, 0.373f)][SerializeField] private GameObject shieldPrefab; // The shield prefab to instantiate
+	[ColoredGroup(0.1865f, 0.3124f, 0.373f)][SerializeField] private Color startColour = new Color(0, 0.9647058823529412f, 1);
+	[ColoredGroup(0.1865f, 0.3124f, 0.373f)][SerializeField] private Color endColour = new Color(0.9450980392156862f, 0.615686274509804f, 0.615686274509804f);
+	[ColoredGroup(0.1865f, 0.3124f, 0.373f)][SerializeField] private float knockbackForceAmount = 60f;
+	[ColoredGroup(0.1865f, 0.3124f, 0.373f)][SerializeField] private float knockbackDuration = 1f;
+	[ColoredGroup(0.1865f, 0.3124f, 0.373f)][SerializeField] private float shieldUptime = 5;
+	[ColoredGroup(0.1865f, 0.3124f, 0.373f)][SerializeField] private float speedBoost = 30f;
 
 	private GameObject instantiatedKnockback;
 	private bool speedBoostActive = false;

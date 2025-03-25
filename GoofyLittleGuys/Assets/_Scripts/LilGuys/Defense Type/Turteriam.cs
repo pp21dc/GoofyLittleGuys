@@ -7,10 +7,10 @@ public class Turteriam : DefenseType
 {
 	[Header("Turteriam Specific")]
 	[HorizontalRule]
-	[ColoredGroup][SerializeField] private GameObject domePrefab;
-	[ColoredGroup][SerializeField] private float domeLifetime = 6f;
-	[ColoredGroup][SerializeField] private float domeMaxSize = 6f;
-	[ColoredGroup][SerializeField] private float domeExpansionSpeed = 6f;
+	[ColoredGroup(0.1865f, 0.3124f, 0.373f)][SerializeField] private GameObject domePrefab;
+	[ColoredGroup(0.1865f, 0.3124f, 0.373f)][SerializeField] private float domeLifetime = 6f;
+	[ColoredGroup(0.1865f, 0.3124f, 0.373f)][SerializeField] private float domeMaxSize = 6f;
+	[ColoredGroup(0.1865f, 0.3124f, 0.373f)][SerializeField] private float domeExpansionSpeed = 6f;
 
 
 	private GameObject instantiatedDome = null;

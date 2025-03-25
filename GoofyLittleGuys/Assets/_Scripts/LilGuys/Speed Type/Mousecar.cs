@@ -6,16 +6,16 @@ public class Mousecar : SpeedType
 {
     [Header("Mousecar Specific")]
 	[HorizontalRule]
-	[SerializeField] private float speedBoostAmount = 10f;
-    [SerializeField] private float speedBoostDuration = 7f;
+	[ColoredGroup(0.37f, 0.28089f, 0)][SerializeField] private float speedBoostAmount = 10f;
+	[ColoredGroup(0.37f, 0.28089f, 0)][SerializeField] private float speedBoostDuration = 7f;
 
 
     [Header("Special FX Specific")]
 	[HorizontalRule]
-	[SerializeField] private Color emissionColour = new Color(1.00f, 0.82f, 0.25f, 1.0f);   // The yellow used for speed lil guys
-	[SerializeField] private float spawnInterval = 0.2f;
-	[SerializeField] private float fadeSpeed = 0.5f;
-	[SerializeField] private int maxAfterimages = 12;
+	[ColoredGroup(0.37f, 0.28089f, 0)][SerializeField] private Color emissionColour = new Color(1.00f, 0.82f, 0.25f, 1.0f);   // The yellow used for speed lil guys
+	[ColoredGroup(0.37f, 0.28089f, 0)][SerializeField] private float spawnInterval = 0.2f;
+	[ColoredGroup(0.37f, 0.28089f, 0)][SerializeField] private float fadeSpeed = 0.5f;
+	[ColoredGroup(0.37f, 0.28089f, 0)][SerializeField] private int maxAfterimages = 12;
 
     public override void StartChargingSpecial()
     {

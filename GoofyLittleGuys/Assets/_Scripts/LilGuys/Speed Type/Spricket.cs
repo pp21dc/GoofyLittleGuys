@@ -7,29 +7,29 @@ public class Spricket : SpeedType
 {
 	[Header("Spricket Specific")]
 	[HorizontalRule]
-	[ColoredGroup][SerializeField] private GameObject knockbackPrefab;
-	[ColoredGroup][SerializeField] private Color chargeEffectColour;
-	[ColoredGroup][SerializeField, Tooltip("Should the speed stat affect max distance?")] private bool applySpeedStat = false;
-	[ColoredGroup][SerializeField] private float minChargeTime = 0.5f;
-	[ColoredGroup][SerializeField] private float maxChargeTime = 1.5f;
-	[ColoredGroup][SerializeField, Tooltip("Minimum distance Spricket dash can travel.")] private float minDashDistance = 10f;
-	[ColoredGroup][SerializeField, Tooltip("Speed of which Spricket travels x distance.")] private float dashSpeed = 10f;
-	[ColoredGroup][SerializeField] private float knockbackForceAmount = 60f;
-	[ColoredGroup][SerializeField] private float knockbackDuration = 1f;
+	[ColoredGroup(0.37f, 0.28089f, 0)][SerializeField] private GameObject knockbackPrefab;
+	[ColoredGroup(0.37f, 0.28089f, 0)][SerializeField] private Color chargeEffectColour;
+	[ColoredGroup(0.37f, 0.28089f, 0)][SerializeField, Tooltip("Should the speed stat affect max distance?")] private bool applySpeedStat = false;
+	[ColoredGroup(0.37f, 0.28089f, 0)][SerializeField] private float minChargeTime = 0.5f;
+	[ColoredGroup(0.37f, 0.28089f, 0)][SerializeField] private float maxChargeTime = 1.5f;
+	[ColoredGroup(0.37f, 0.28089f, 0)][SerializeField, Tooltip("Minimum distance Spricket dash can travel.")] private float minDashDistance = 10f;
+	[ColoredGroup(0.37f, 0.28089f, 0)][SerializeField, Tooltip("Speed of which Spricket travels x distance.")] private float dashSpeed = 10f;
+	[ColoredGroup(0.37f, 0.28089f, 0)][SerializeField] private float knockbackForceAmount = 60f;
+	[ColoredGroup(0.37f, 0.28089f, 0)][SerializeField] private float knockbackDuration = 1f;
 
 	[Header("Dash/Speed Curve Settings")]
 	[HorizontalRule]
-	[ColoredGroup][SerializeField, Tooltip("Base max distance Spricket dash can travel.")] private float baseMaxDistance = 40f;
-	[ColoredGroup][SerializeField, Tooltip("Maximum distance Spricket dash can travel after speed stat is applied.")] private float distanceThreshold = 100f;
-	[ColoredGroup][SerializeField, Tooltip("How much the speed stat influences max distance.")] private float speedStatInfluence = 1;
-	[ColoredGroup][SerializeField, Tooltip("Speed stat number for when distance gained per point in speed starts to fall off.")] private float maxDistanceFalloff = 20;
+	[ColoredGroup(0.37f, 0.28089f, 0)][SerializeField, Tooltip("Base max distance Spricket dash can travel.")] private float baseMaxDistance = 40f;
+	[ColoredGroup(0.37f, 0.28089f, 0)][SerializeField, Tooltip("Maximum distance Spricket dash can travel after speed stat is applied.")] private float distanceThreshold = 100f;
+	[ColoredGroup(0.37f, 0.28089f, 0)][SerializeField, Tooltip("How much the speed stat influences max distance.")] private float speedStatInfluence = 1;
+	[ColoredGroup(0.37f, 0.28089f, 0)][SerializeField, Tooltip("Speed stat number for when distance gained per point in speed starts to fall off.")] private float maxDistanceFalloff = 20;
 
 	[Header("Special FX Specific")]
 	[HorizontalRule]
-	[ColoredGroup][SerializeField] private float spawnInterval = 0.01f;
-	[ColoredGroup][SerializeField] private int maxAfterimages = 12;
-	[ColoredGroup][SerializeField] private float fadeSpeed = 0.5f;
-	[ColoredGroup][SerializeField] private Color emissionColour = new Color(1.00f, 0.82f, 0.25f, 1.0f);   // The yellow used for speed lil guys
+	[ColoredGroup(0.37f, 0.28089f, 0)][SerializeField] private float spawnInterval = 0.01f;
+	[ColoredGroup(0.37f, 0.28089f, 0)][SerializeField] private int maxAfterimages = 12;
+	[ColoredGroup(0.37f, 0.28089f, 0)][SerializeField] private float fadeSpeed = 0.5f;
+	[ColoredGroup(0.37f, 0.28089f, 0)][SerializeField] private Color emissionColour = new Color(1.00f, 0.82f, 0.25f, 1.0f);   // The yellow used for speed lil guys
 
 
 	private GameObject instantiatedKnockback;

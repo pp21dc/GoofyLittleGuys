@@ -4,7 +4,7 @@ public class DefenseType : LilGuyBase
 {
 	[Header("Defense Type Specific")]
 	[HorizontalRule]
-	[ColoredGroup][SerializeField] private float damageReduction = 0.5f;     // Change to damageReduction
+	[ColoredGroup(0.1865f, 0.3124f, 0.373f)][SerializeField] private float damageReduction = 0.5f;     // Change to damageReduction
 
 	protected GameObject spawnedShieldObj = null;    // The actual instantiated shield object on the lil guy
 	protected bool isShieldActive = false;

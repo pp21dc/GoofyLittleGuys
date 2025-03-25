@@ -7,13 +7,13 @@ public class Tricerabox : StrengthType
 {
 	[Header("Tricera-box Specific")]
 	[HorizontalRule]
-	[ColoredGroup][SerializeField] private GameObject specialFXPrefab;
-	[ColoredGroup][SerializeField] private GameObject waveAoePrefab;
-	[ColoredGroup][SerializeField] private float waveAoeDamageMultiplier;
-	[ColoredGroup][SerializeField] private float waveAoeLifetime;
-	[ColoredGroup][SerializeField] private float waveSpeed;
-	[ColoredGroup][SerializeField] private float slowAmount = 10f;
-	[ColoredGroup][SerializeField] private float slowDuration = 1f;
+	[ColoredGroup(0.363f, 0.0904f, 0.1455f)][SerializeField] private GameObject specialFXPrefab;
+	[ColoredGroup(0.363f, 0.0904f, 0.1455f)][SerializeField] private GameObject waveAoePrefab;
+	[ColoredGroup(0.363f, 0.0904f, 0.1455f)][SerializeField] private float waveAoeDamageMultiplier;
+	[ColoredGroup(0.363f, 0.0904f, 0.1455f)][SerializeField] private float waveAoeLifetime;
+	[ColoredGroup(0.363f, 0.0904f, 0.1455f)][SerializeField] private float waveSpeed;
+	[ColoredGroup(0.363f, 0.0904f, 0.1455f)][SerializeField] private float slowAmount = 10f;
+	[ColoredGroup(0.363f, 0.0904f, 0.1455f)][SerializeField] private float slowDuration = 1f;
 
 	private GameObject aoe;
 	private GameObject waveAoe;

@@ -6,10 +6,10 @@ public class Toadstool : DefenseType
 {
 	[Header("Toadstool Specific")]
 	[HorizontalRule]
-	[ColoredGroup][SerializeField] private GameObject gasPrefab;
-	[ColoredGroup][SerializeField] private float poisonDamage = 3;
-	[ColoredGroup][SerializeField] private float poisonDuration = 2;
-	[ColoredGroup][SerializeField] private float poisonDamageApplicationInterval = 0.5f;
+	[ColoredGroup(0.1865f, 0.3124f, 0.373f)][SerializeField] private GameObject gasPrefab;
+	[ColoredGroup(0.1865f, 0.3124f, 0.373f)][SerializeField] private float poisonDamage = 3;
+	[ColoredGroup(0.1865f, 0.3124f, 0.373f)][SerializeField] private float poisonDuration = 2;
+	[ColoredGroup(0.1865f, 0.3124f, 0.373f)][SerializeField] private float poisonDamageApplicationInterval = 0.5f;
 
 	private Rigidbody affectedRB;
 
