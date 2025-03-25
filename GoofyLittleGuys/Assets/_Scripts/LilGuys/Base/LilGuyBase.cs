@@ -28,7 +28,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	[ColoredGroup][SerializeField] private AudioSource audioSource;
 	[ColoredGroup][SerializeField] private Sprite uiIcon;
 	[ColoredGroup][SerializeField] private Sprite abilityIcon;
-	[ColoredGroup][SerializeField] private Animation uiAnimation;
+	[ColoredGroup][SerializeField] private AnimationClip uiAnimation;
 
 
 	[Header("Lil Guy Stats")]
