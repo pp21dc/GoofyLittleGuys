@@ -185,6 +185,7 @@ MonoBehaviour:
   audioSource: {fileID: 6896375284712466425}
   uiIcon: {fileID: 21300000, guid: 524383d6a3752d84db0ce11b7b4404ee, type: 3}
   abilityIcon: {fileID: 21300000, guid: bb26a4d319e426640866b35d4d8672a0, type: 3}
+  uiAnimation: {fileID: 7400000, guid: 5b4b5aedb33055843ac739db68bbc5d7, type: 2}
   baseSpeed: 13
   level: 1
   xp: 0
@@ -198,7 +199,7 @@ MonoBehaviour:
   knockbackResistance: 1
   knockbackDecayRate: 5
   maxCombo: 3
-  comboBufferTime: 0.92
+  comboBufferTime: 1
   pauseBufferTime: 0.55
   specialDuration: 1.75
   currentCharges: 1
