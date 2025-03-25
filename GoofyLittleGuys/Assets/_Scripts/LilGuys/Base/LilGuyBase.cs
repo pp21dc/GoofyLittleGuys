@@ -982,7 +982,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	{
 		hitStunSlowMult = 1.0f;
 		Animator.speed = 1.0f;
-		StopCoroutine(hitstunCoroutine);
+		if (hitstunCoroutine != null) StopCoroutine(hitstunCoroutine);
 	}
 
 	public void ApplySpeedBoost(float spawnInterval, int maxAfterImages, float fadeSpeed, Color emissionColour)
