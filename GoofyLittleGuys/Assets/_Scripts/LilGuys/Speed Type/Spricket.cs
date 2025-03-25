@@ -39,6 +39,7 @@ public class Spricket : SpeedType
 	private float dashDamageMultiplier = 1f;
 	private float maxDashDistance;
 	private float chargeTime = 0f;
+	private float targetChargeTime = -1f;
 	private bool isCharging = false;
 
 	public bool IsCharging => isCharging;
@@ -52,7 +53,7 @@ public class Spricket : SpeedType
 			chargeTime += Time.deltaTime;
 			chargeTime = Mathf.Clamp(chargeTime, 0, maxChargeTime);
 			if (chargeEffect != null) chargeEffect.transform.localScale = Vector3.one * (0.5f + 2 * chargeTime);
-			if (chargeTime >= maxChargeTime)
+			if (chargeTime >= targetChargeTime)
 			{
 				StopChargingSpecial();
 			}
@@ -84,7 +85,17 @@ public class Spricket : SpeedType
 			anim.ResetTrigger("EndCharge");
 			anim.ResetTrigger("SpecialAttack");
 			anim.SetTrigger("SpecialAttack");
-			if (playerOwner == null) StopChargingSpecial();
+			if (playerOwner == null)
+			{
+				float healthPercent = Mathf.Clamp01(Health / MaxHealth);
+				float t = 1f - healthPercent;
+				targetChargeTime = Mathf.Lerp(minChargeTime, maxChargeTime, Mathf.Pow(Random.Range(0f, 1f), 1 - t));
+			}
+			else
+			{
+				targetChargeTime = maxChargeTime;
+			}
+
 		}
 	}
 	public override void StopChargingSpecial()

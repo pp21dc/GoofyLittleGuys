@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem.XR;
 
 public class Fishbowl : StrengthType
 {
@@ -19,6 +20,7 @@ public class Fishbowl : StrengthType
 
 	bool isCharging = false;
 	private float chargeTime = 0f;
+	private float targetChargeTime = -1f;
 	private GameObject instantiatedAoe = null;
 	private GameObject chargeEffect;
 
@@ -30,7 +32,7 @@ public class Fishbowl : StrengthType
 			chargeTime += Time.deltaTime;
 			chargeTime = Mathf.Clamp(chargeTime, 0, maxChargeTime);
 			if (chargeEffect != null) chargeEffect.transform.localScale = Vector3.one * (0.5f + 2 * chargeTime);
-			if (chargeTime >= maxChargeTime)
+			if (chargeTime >= targetChargeTime)
 			{
 				StopChargingSpecial();
 			}
@@ -59,9 +61,20 @@ public class Fishbowl : StrengthType
             anim.ResetTrigger("EndCharge");
             anim.ResetTrigger("SpecialAttack");
             anim.SetTrigger("SpecialAttack");
-            if (playerOwner == null) StopChargingSpecial();
+
+			if (playerOwner == null)
+			{
+				WildBehaviour wild = GetComponent<WildBehaviour>();
+				float t = wild != null ? Mathf.Clamp01(Mathf.InverseLerp(7f, 10f, wild.Hostility)) : 0f;
+				targetChargeTime = Mathf.Lerp(minChargeTime, maxChargeTime, Mathf.Pow(Random.Range(0f, 1f), 1 - t));
+			}
+			else
+			{
+				targetChargeTime = maxChargeTime;
+			}
+
 		}
-			
+
 	}
 
 	public override void StopChargingSpecial()

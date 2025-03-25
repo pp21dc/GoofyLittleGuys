@@ -90,6 +90,7 @@ public class WildBehaviour : MonoBehaviour
 	public bool IsCatchable { get => isCatchable; set => isCatchable = value; }
 	public float AttackRange { get => attackRange; set => attackRange = value; }
 	public float ChaseRange { get => chaseRange; set => chaseRange = value; }
+	public float Hostility => hostility;
 	#endregion
 
 	private void Start()
@@ -140,30 +141,37 @@ public class WildBehaviour : MonoBehaviour
 		// AI behaviours
 		if (controller.LilGuy.Health <= 0)
 		{
+			isIdle = false;
 			ChangeState(AIState.Dead);
 		}
 		else if (returnHome)
 		{
+			isIdle = false;
 			ChangeState(AIState.ReturnHome);
 		}
 		else if (isCatchable && controller.DistanceToPlayer() <= chaseRange && controller.LilGuy.Health <= controller.LilGuy.MaxHealth * Mathf.Lerp(0.125f, 0.5f, timid / 10f) && timid > 5)
 		{
+			isIdle = false;
 			ChangeState(AIState.Flee);
 		}
 		else if (controller.DistanceToPlayer() <= attackRange && hostility > 3f)
 		{
+			isIdle = false;
 			ChangeState(AIState.Attack);
 		}
 		else if (controller.DistanceToPlayer() <= chaseRange && hostility > 3f)
 		{
+			isIdle = false;
 			ChangeState(AIState.Chase);
 		}
 		else if (isCatchable && Time.time >= nextWanderTime)
 		{
+			isIdle = true;
 			ChangeState(AIState.Wander);
 		}
 		else
 		{
+			isIdle = true;
 			ChangeState(AIState.Idle);
 		}
 
@@ -323,7 +331,11 @@ public class WildBehaviour : MonoBehaviour
 		controller.LilGuy.MovementDirection = direction;
 		controller.LilGuy.IsMoving = true;
 
-		if (hostility >= 7f && controller.LilGuy is SpeedType && controller.LilGuy.CurrentCharges > 0 && controller.LilGuy.CooldownTimer <= 0)
+		if (hostility >= 7f && controller.LilGuy is Phantaphant && controller.LilGuy.CurrentCharges > 0 && controller.LilGuy.CooldownTimer <= 0)
+		{
+			controller.LilGuy.StartChargingSpecial();
+		}
+		else if (controller.LilGuy is SpeedType && controller.LilGuy.CurrentCharges > 0 && controller.LilGuy.CooldownTimer <= 0 && currentState == AIState.Flee)
 		{
 			controller.LilGuy.StartChargingSpecial();
 		}
