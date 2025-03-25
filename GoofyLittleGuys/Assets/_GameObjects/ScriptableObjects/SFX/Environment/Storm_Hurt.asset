@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 455a8510209860a489a9ad867f112ef6, type: 3}
-  m_Name: Level_Up
+  m_Name: Storm_Hurt
   m_EditorClassIdentifier: 
   clips:
-  - {fileID: 8300000, guid: a0588f3741bd47346820614d8cbbbd00, type: 3}
-  isSpatial: 1
+  - {fileID: 8300000, guid: ef19fff332d37974183ce6e94396ad26, type: 3}
+  - {fileID: 8300000, guid: 937783656ce223540950124cfb0e66ba, type: 3}
+  isSpatial: 0
   loop: 0
   volume: 1
-  pitch: {x: 1.25, y: 1.3}
-  key: Level_Up
+  pitch: {x: 0.9, y: 1.2}
+  key: Storm_Hurt

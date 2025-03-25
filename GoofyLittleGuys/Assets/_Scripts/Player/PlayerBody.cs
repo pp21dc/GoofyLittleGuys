@@ -733,6 +733,7 @@ public class PlayerBody : MonoBehaviour
 		{
 			inStorm = true;
 			h.TakeDamage(dmg);
+			lilGuyTeam[0].PlaySound("Storm_Hurt");
 		}
 	}
 
