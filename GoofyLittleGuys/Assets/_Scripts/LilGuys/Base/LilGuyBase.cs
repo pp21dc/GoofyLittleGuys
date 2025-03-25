@@ -179,6 +179,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	// UI
 	public Sprite Icon { get { return uiIcon; } }
 	public Sprite AbilityIcon { get { return abilityIcon; } }
+	public AnimationClip UiAnimation { get { return uiAnimation; } }
 
 	#endregion
 

@@ -911,12 +911,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 137afeeb0e902254c80c745b57fc0c15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerShapes: []
   playerNum: {fileID: 1739599330517565537}
-  title: {fileID: 2234250733623020205}
+  titles: {fileID: 0}
   stats: {fileID: 3302139087124774872}
-  image: {fileID: 0}
-  shape: {fileID: 0}
+  ranking: {fileID: 0}
+  mostUsedIcon: {fileID: 0}
   background: {fileID: 0}
+  readyCheckmark: {fileID: 0}
 --- !u!1 &3084896652172786167
 GameObject:
   m_ObjectHideFlags: 0
@@ -1086,12 +1088,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 137afeeb0e902254c80c745b57fc0c15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerShapes: []
   playerNum: {fileID: 3205267404312805189}
-  title: {fileID: 8598996222922985695}
+  titles: {fileID: 0}
   stats: {fileID: 6210076198929793216}
-  image: {fileID: 0}
-  shape: {fileID: 0}
+  ranking: {fileID: 0}
+  mostUsedIcon: {fileID: 0}
   background: {fileID: 0}
+  readyCheckmark: {fileID: 0}
 --- !u!1 &3422633361883380002
 GameObject:
   m_ObjectHideFlags: 0
@@ -3379,6 +3383,7 @@ GameObject:
   - component: {fileID: 26557648150147659}
   - component: {fileID: 4748793040472144940}
   - component: {fileID: 4849530221616435522}
+  - component: {fileID: 2222874059823878161}
   m_Layer: 5
   m_Name: P1
   m_TagString: Untagged
@@ -3461,12 +3466,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 137afeeb0e902254c80c745b57fc0c15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerShapes: []
   playerNum: {fileID: 5648280210599347545}
-  title: {fileID: 2529258885760716473}
+  titles: {fileID: 0}
   stats: {fileID: 7202944565791064277}
-  image: {fileID: 8768129599901508113}
-  shape: {fileID: 0}
+  ranking: {fileID: 0}
+  mostUsedIcon: {fileID: 0}
   background: {fileID: 0}
+  readyCheckmark: {fileID: 0}
+--- !u!111 &2222874059823878161
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7372151238940979491}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations: []
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &7667064581563852889
 GameObject:
   m_ObjectHideFlags: 0
@@ -3933,12 +3955,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 137afeeb0e902254c80c745b57fc0c15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerShapes: []
   playerNum: {fileID: 2793026150320966472}
-  title: {fileID: 4143593544602685088}
+  titles: {fileID: 0}
   stats: {fileID: 5946650565663930990}
-  image: {fileID: 0}
-  shape: {fileID: 0}
+  ranking: {fileID: 0}
+  mostUsedIcon: {fileID: 0}
   background: {fileID: 0}
+  readyCheckmark: {fileID: 0}
 --- !u!1 &8167026665512916098
 GameObject:
   m_ObjectHideFlags: 0
