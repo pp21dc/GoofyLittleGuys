@@ -194,7 +194,7 @@ public class StatMetrics : MonoBehaviour
 		{
 			if (lilguy.name == favourite)
 			{
-				card.mostUsedIcon.sprite = lilguy.Icon;
+				card.mostUsedIcon.;
 				break;
 			}
 		}
