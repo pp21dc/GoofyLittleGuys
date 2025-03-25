@@ -40,6 +40,11 @@ public class BuffHandler
 		return activeBuffs.Any(b => b.Type == type && b.Source == source && Time.time < b.EndTime);
 	}
 
+	public bool HasBuff(BuffType type)
+	{
+		return activeBuffs.Any(b => b.Type == type);
+	}
+
 	public void Update()
 	{
 		// Find expired buffs
@@ -49,7 +54,12 @@ public class BuffHandler
 		foreach (var buff in expiredBuffs)
 		{
 			activeBuffs.Remove(buff);
-			OnBuffExpired?.Invoke(buff.Type, buff.Source);
+
+			bool anyOthers = activeBuffs.Any(b => b.Type == buff.Type);
+			if (!anyOthers)
+			{
+				OnBuffExpired?.Invoke(buff.Type, buff.Source);
+			}
 		}
 	}
 

@@ -251,7 +251,21 @@ public abstract class LilGuyBase : MonoBehaviour
 	{
 		if (type == BuffType.TeamSpeedBoost)
 		{
-			RemoveSpeedBoost();
+			// Check if LilGuy itself has the buff still
+			bool hasOwnSpeedBoost = Buffs.HasBuff(BuffType.TeamSpeedBoost);
+
+			// Check if PlayerOwner (if they exist) still has the buff
+			bool playerHasSpeedBoost = false;
+			if (PlayerOwner != null)
+			{
+				playerHasSpeedBoost = PlayerOwner.Buffs.HasBuff(BuffType.TeamSpeedBoost);
+			}
+
+			// Only remove the visual if *nobody* has it active anymore
+			if (!hasOwnSpeedBoost && !playerHasSpeedBoost)
+			{
+				RemoveSpeedBoost();
+			}
 		}
 	}
 
