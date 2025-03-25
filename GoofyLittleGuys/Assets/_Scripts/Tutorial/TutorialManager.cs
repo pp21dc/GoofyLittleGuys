@@ -39,7 +39,7 @@ public class TutorialManager : SingletonBase<TutorialManager>
             islandsComplete.Add(false);
 
             GameManager.Instance.Players[i].InMenu = false;
-            GameManager.Instance.Players[i].Starter = GameManager.Instance.Players[i].LilGuyTeam[0].gameObject;
+            //GameManager.Instance.Players[i].Starter = GameManager.Instance.Players[i].LilGuyTeam[0].gameObject;
             GameManager.Instance.Players[i].GetComponent<Rigidbody>().MovePosition(spawnPoints[i].position);
             EventManager.Instance.RefreshUi(GameManager.Instance.Players[i].PlayerUI, 0);
             GameManager.Instance.Players[i].PlayerColour = GameManager.Instance.PlayerColours[i];
@@ -135,15 +135,16 @@ public class TutorialManager : SingletonBase<TutorialManager>
             if (player.LilGuyTeam.Count > 1)
             {
                 var demoTeddy = player.LilGuyTeam.Find(lg => lg.MaxHealth == 30);
-            player.LilGuyTeam.Remove(demoTeddy);
-            Destroy(demoTeddy.gameObject);
-            player.InStorm = false;
-            player.StormHurtFx.SetActive(false);
+                player.LilGuyTeam.Remove(demoTeddy);
+                Destroy(demoTeddy.gameObject);
+                player.InStorm = false;
+                player.StormHurtFx.SetActive(false);
+                player.BerryCount = 0;
             }
             
             
-            foreach (var lg in player.LilGuyTeam)
-                Destroy(lg.gameObject);
+            for (int i = 0; i < player.LilGuyTeam.Count; i++)
+                Destroy(player.LilGuyTeam[i].gameObject);
 
             player.LilGuyTeam.Clear();
             //add back starter
