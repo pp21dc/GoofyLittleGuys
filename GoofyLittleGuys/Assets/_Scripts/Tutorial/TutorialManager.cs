@@ -42,8 +42,9 @@ public class TutorialManager : SingletonBase<TutorialManager>
             GameManager.Instance.Players[i].Starter = GameManager.Instance.Players[i].LilGuyTeam[0].gameObject;
             GameManager.Instance.Players[i].GetComponent<Rigidbody>().MovePosition(spawnPoints[i].position);
             EventManager.Instance.RefreshUi(GameManager.Instance.Players[i].PlayerUI, 0);
+            GameManager.Instance.Players[i].PlayerColour = GameManager.Instance.PlayerColours[i];
             GameManager.Instance.Players[i].PlayerUI.SetColour();
-        }
+		}
         Time.timeScale = 1.0f;
         EventManager.Instance.GameStartedEvent();
         ChangeAllStates();
