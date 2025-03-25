@@ -106,6 +106,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	private int currentComboCount = 0;
 	private bool canChainAttack = false;
 	private bool attackQueued = false; // For buffering attack inputs
+	private bool defaultHurt = true; // Only false when Storm Hurt sound plays
 
 	// SPECIAL ATTACK
 	protected float cooldownTimer = 0;
@@ -168,6 +169,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	// COMBAT
 	public bool CanChainAttack { get => canChainAttack; }
 	public int CurrentComboCount { get => currentComboCount; set => currentComboCount = value; }
+	public bool DefaultHurt { get => defaultHurt; set => defaultHurt = value; }
 
 	// SPECIAL ATTACK
 	public float CooldownTimer => cooldownTimer;
@@ -602,6 +604,10 @@ public abstract class LilGuyBase : MonoBehaviour
 			return;
 		}
 		if (isDead) return;
+		if (defaultHurt) 
+		{
+			PlaySound("Hurt");
+		}
 		StartCoroutine(FlashRed());
 		if (anim != null && !isInBasicAttack && !isInSpecialAttack) anim.SetTrigger("Hurt");
 	}

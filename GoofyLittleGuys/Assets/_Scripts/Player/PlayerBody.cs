@@ -732,8 +732,10 @@ public class PlayerBody : MonoBehaviour
 		if (h != null)
 		{
 			inStorm = true;
-			h.TakeDamage(dmg);
 			lilGuyTeam[0].PlaySound("Storm_Hurt");
+			lilGuyTeam[0].DefaultHurt = false;
+			h.TakeDamage(dmg);
+			lilGuyTeam[0].DefaultHurt = true;
 		}
 	}
 
