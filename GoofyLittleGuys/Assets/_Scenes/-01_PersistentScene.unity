@@ -3095,6 +3095,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1970606836446198798, guid: de1849616cf5e6e41990742051e315c8,
         type: 3}
+      propertyPath: legendaryLevelSubtractor
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1970606836446198798, guid: de1849616cf5e6e41990742051e315c8,
+        type: 3}
       propertyPath: spawnPoints.Array.data[0]
       value: 
       objectReference: {fileID: 733882634}
@@ -3187,6 +3192,11 @@ PrefabInstance:
         type: 3}
       propertyPath: playerColours.Array.data[3].r
       value: 0.5686275
+      objectReference: {fileID: 0}
+    - target: {fileID: 1970606836446198798, guid: de1849616cf5e6e41990742051e315c8,
+        type: 3}
+      propertyPath: legendaryXpPercentageMultiplier
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 2149464314047068899, guid: de1849616cf5e6e41990742051e315c8,
         type: 3}
