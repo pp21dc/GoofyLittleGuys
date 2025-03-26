@@ -53,6 +53,7 @@ public class Tricerabox : StrengthType
 	{
 		if (currentCharges <= 0 && cooldownTimer > 0) return;
 		LockAttackRotation = true;
+		CanStun = false;
 		base.StartChargingSpecial();
 	}
 	public override void PlayDeathAnim(bool isWild = false)
@@ -65,6 +66,7 @@ public class Tricerabox : StrengthType
 	{
 		if (aoe != null) Destroy(aoe);
 		if (waveAoe != null) Destroy(waveAoe);
+		CanStun = true;
 		return base.EndSpecial(stopImmediate);
 	}
 }

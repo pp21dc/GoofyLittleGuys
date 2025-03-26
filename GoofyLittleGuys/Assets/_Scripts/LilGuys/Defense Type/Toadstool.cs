@@ -26,6 +26,7 @@ public class Toadstool : DefenseType
 	protected override void Special()
 	{
 		base.Special();
+		CanStun = false;
 		affectedRB = (playerOwner == null) ? GetComponent<Rigidbody>() : playerOwner.GetComponent<Rigidbody>();
 		affectedRB.velocity = Vector3.zero;
 		affectedRB.isKinematic = true;
@@ -63,6 +64,7 @@ public class Toadstool : DefenseType
 		isShieldActive = false;
 		LockAttackRotation = false;
 		LockMovement = false;
+		CanStun = true;
 	}
 
 	protected override void OnDisable()

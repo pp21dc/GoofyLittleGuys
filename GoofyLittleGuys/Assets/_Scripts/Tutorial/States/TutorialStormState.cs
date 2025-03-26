@@ -41,6 +41,7 @@ public class TutorialStormState : TutorialState
         {
             base.CheckSectionComplete();
             stateMachine.Island.storm.SetActive(false);
+            stateMachine.Player.InStorm = false;
         }
     }
 }

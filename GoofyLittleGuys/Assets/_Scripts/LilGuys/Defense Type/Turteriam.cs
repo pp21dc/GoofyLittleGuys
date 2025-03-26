@@ -49,6 +49,7 @@ public class Turteriam : DefenseType
 	{
 		if (currentCharges <= 0 && cooldownTimer > 0) return;
 		if (damageReductionActive) return;
+		CanStun = false;
 		base.StartChargingSpecial();
 	}
 
@@ -69,6 +70,7 @@ public class Turteriam : DefenseType
 		damageReductionActive = true;
 		instantiatedDome = Instantiate(domePrefab, transform.position, Quaternion.identity);
 		instantiatedDome.GetComponent<TurteriamWall>().Init(domeMaxSize, domeExpansionSpeed, domeLifetime);
+		CanStun = true;
 		base.Special();
 	}
 

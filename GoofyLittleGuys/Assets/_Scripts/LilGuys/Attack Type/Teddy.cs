@@ -35,12 +35,14 @@ public class Teddy : StrengthType
 	{
 		if (currentCharges <= 0 && cooldownTimer > 0) return;
 		base.StartChargingSpecial();
+		CanStun = false;
 		LockAttackRotation = true;
 	}
 
 	protected override IEnumerator EndSpecial(bool stopImmediate = false)
 	{
 		if (instantiatedAoe != null) Destroy(instantiatedAoe);
+		CanStun = true;
 		return base.EndSpecial(stopImmediate);
 	}
 }
