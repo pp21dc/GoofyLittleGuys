@@ -29,6 +29,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	[ColoredGroup][SerializeField] private Sprite uiIcon;
 	[ColoredGroup][SerializeField] private Sprite abilityIcon;
 	[ColoredGroup][SerializeField] private AnimationClip uiAnimation;
+	[ColoredGroup][SerializeField] private InteractCanvasController tameCanvas;
 
 
 	[Header("Lil Guy Stats")]
@@ -131,6 +132,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	public Animator Animator { get { return anim; } }
 	public PlayerBody PlayerOwner { get => playerOwner; set => playerOwner = value; }
 	public Rigidbody RB => rb;
+	public InteractCanvasController TameCanvas => tameCanvas;
 	public Transform AttackOrbit => attackOrbit;
 	public Transform GoalPosition => goalPosition;
 
