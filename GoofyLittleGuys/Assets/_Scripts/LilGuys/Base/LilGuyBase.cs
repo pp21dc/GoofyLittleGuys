@@ -84,6 +84,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	private bool isDying = false;
 	private bool isDead = false;
 	private bool isInvincible = false;
+	private bool isLegendary = false;
 
 	// MOVEMENT
 	private Vector3 currentVelocity = Vector3.zero;
@@ -152,6 +153,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	public bool IsDying { get { return isDying; } set { isDying = value; } }
 	public bool IsDead => isDead;
 	public bool IsInvincible { get { return isInvincible; } set { isInvincible = value; } }
+	public bool IsLegendary { get => isLegendary; set => isLegendary = value; }
 
 	// MOVEMENT
 	public Vector3 MovementDirection { get { return movementDirection; } set { movementDirection = value; } }
@@ -242,6 +244,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	{
 		transform.localScale = Vector3.one * maxScale;
 		SetWildLilGuyLevel(level, false);
+		isLegendary = true;
 		WildBehaviour behaviour = GetComponent<WildBehaviour>();
 		behaviour.IsCatchable = false;
 		behaviour.AttackRange *= maxScale;
@@ -604,7 +607,7 @@ public abstract class LilGuyBase : MonoBehaviour
 			return;
 		}
 		if (isDead) return;
-		if (defaultHurt) 
+		if (defaultHurt)
 		{
 			PlaySound("Hurt");
 		}
@@ -655,32 +658,29 @@ public abstract class LilGuyBase : MonoBehaviour
 		else
 		{
 			DebugManager.Log($"{name} was a wild Lil Guy, and was defeated by player {GetComponent<Hurtbox>().LastHit}. Awarding XP.", DebugManager.DebugCategory.COMBAT);
-			WildBehaviour wild = GetComponent<WildBehaviour>();
-			if (wild != null)
+			if (isLegendary)
 			{
-				if (!wild.IsCatchable)
+
+				for (int i = 0; i < h.LastHit.LilGuyTeam.Count; i++)
 				{
-					
-					for (int i = 0; i < h.LastHit.LilGuyTeam.Count; i++)
-					{
-						int finalXp = (i == 0) ? Mathf.FloorToInt((Mathf.Pow(((Level - GameManager.Instance.LegendaryLevelSubtractor) + 2), 2) / 2)) : Mathf.FloorToInt((Mathf.Pow(((Level - GameManager.Instance.LegendaryLevelSubtractor) + 2), 2) / 4));
-						h.LastHit.LilGuyTeam[i].AddXP(Mathf.CeilToInt(finalXp * GameManager.Instance.LegendaryXpPercentageMultiplier));
-					}
-				}
-				else
-				{
-					for (int i = 0; i < h.LastHit.LilGuyTeam.Count; i++)
-					{
-						h.LastHit.LilGuyTeam[i].AddXP((i == 0) ? Mathf.FloorToInt((Mathf.Pow((Level + 2), 2) / 2)) : Mathf.FloorToInt((Mathf.Pow((Level + 2), 2) / 4)));
-					}
+					int finalXp = (i == 0) ? Mathf.FloorToInt((Mathf.Pow(((Level - GameManager.Instance.LegendaryLevelSubtractor) + 2), 2) / 2)) : Mathf.FloorToInt((Mathf.Pow(((Level - GameManager.Instance.LegendaryLevelSubtractor) + 2), 2) / 4));
+					h.LastHit.LilGuyTeam[i].AddXP(Mathf.CeilToInt(finalXp * GameManager.Instance.LegendaryXpPercentageMultiplier));
 				}
 			}
-			
+			else
+			{
+				for (int i = 0; i < h.LastHit.LilGuyTeam.Count; i++)
+				{
+					h.LastHit.LilGuyTeam[i].AddXP((i == 0) ? Mathf.FloorToInt((Mathf.Pow((Level + 2), 2) / 2)) : Mathf.FloorToInt((Mathf.Pow((Level + 2), 2) / 4)));
+				}
+			}
+
 			h.LastHit.GameplayStats.WildLilGuysDefeated++;
 			isDying = false;
 		}
-	}
 
+
+	}
 	GameObject[] GetAllChildren(Transform parent)
 	{
 		List<GameObject> children = new List<GameObject>();
