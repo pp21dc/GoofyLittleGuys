@@ -14,7 +14,7 @@ public class StatCard : MonoBehaviour
 	[ColoredGroup] public TMP_Text titles;
 	[ColoredGroup] public TMP_Text stats;
 	[ColoredGroup] public TMP_Text ranking;
-	[ColoredGroup] public Animation mostUsedIcon;
+	[ColoredGroup] public Animator mostUsedIcon;
 	[ColoredGroup] public Image background;
 	[ColoredGroup] public Sprite readyCheckmark;
 	

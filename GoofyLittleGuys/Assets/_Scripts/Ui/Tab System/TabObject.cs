@@ -8,7 +8,7 @@ public class TabObject : MonoBehaviour
     private bool isHovered = false;
 
     [SerializeField] private GameObject tabIndicator;
-    [SerializeField] private GameObject tabInformation;
+    [SerializeField] private GameObject tabContainer;
     [SerializeField] private GameObject tabNavigationStart;
 
     [SerializeField] private GameObject selectedTabImage;
@@ -18,10 +18,10 @@ public class TabObject : MonoBehaviour
 
     public void DeactivateTab()
     {
-        tabInformation.SetActive(false);
+        tabContainer.SetActive(false);
     }
     public void ActivateTab()
     {
-        tabInformation.SetActive(true);
+        tabContainer.SetActive(true);
     }
 }

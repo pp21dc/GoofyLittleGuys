@@ -6,19 +6,30 @@ public class TabGroupController : MonoBehaviour
 {
     [SerializeField] private List<TabObject> tabs;
 
+    [SerializeField] private GameObject ribbonButton; //Generic Button/icon for the top ribbon
+
     private int currentTab = 0;
 
+    //Should convert most of this to event based
+
+    private void Start()
+    {
+        
+    }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q)) //Convert to real input
             OnLB();
-        else if (Input.GetKeyDown(KeyCode.E))
+        else if (Input.GetKeyDown(KeyCode.E)) //Convert to real input
             OnRB();
     }
     private void OnEnable()
     {
         currentTab = 0;
     }
+
+
+    //Swapping Active Tab
     public void OnRB()
     {
         DeactivateTab(currentTab);

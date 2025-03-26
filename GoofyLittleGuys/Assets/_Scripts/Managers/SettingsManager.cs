@@ -3,7 +3,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System;
 using UnityEngine;
 using Managers;
-
+using UnityEngine.Audio;
 public class SettingsManager
 {
 	private static SettingsManager instance;
