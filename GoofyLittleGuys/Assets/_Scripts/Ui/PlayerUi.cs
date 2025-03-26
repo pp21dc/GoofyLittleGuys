@@ -250,9 +250,23 @@ public class PlayerUi : MonoBehaviour
 
 	public void VictoryAnimPlay()
 	{
-		GetComponent<Canvas>().sortingOrder = pb.LilGuyTeam[0].Mesh.sortingOrder - 1;
+		StartCoroutine(VictoryAnimHoldSortingOrder());
 		//victoryObject.SetActive(true);
 		victoryAnim.PlayAnimations();
+	}
+
+	IEnumerator VictoryAnimHoldSortingOrder()
+	{
+		Canvas canvas = GetComponent<Canvas>();
+
+        float timer = 10;
+		float i = 0;
+		while(i < timer)
+		{ 
+            canvas.sortingOrder = pb.LilGuyTeam[0].Mesh.sortingOrder - 1;
+            i += Time.deltaTime;
+			yield return null;
+		}
 	}
 }
 
