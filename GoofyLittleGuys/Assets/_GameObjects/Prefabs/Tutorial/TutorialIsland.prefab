@@ -8021,6 +8021,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outlinedObjects: []
+  canvasController: {fileID: 0}
   interactableCanvas: {fileID: 9077980616753699939}
   requiredHoldDuration: 0
   targetTeleporter: {fileID: 0}
@@ -14283,7 +14284,8 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7771373680746668682, guid: d07ec0bce66f1034b9f24166ef1df55a, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -14311,6 +14313,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outlinedObjects: []
+  canvasController: {fileID: 6974494548975202051}
   interactableCanvas: {fileID: 4005789317343451729}
   requiredHoldDuration: 0
   targetTeleporter: {fileID: 4823723261448309406}
@@ -14333,6 +14336,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7158506982889677870}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6974494548975202051 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 257340673174948653, guid: d07ec0bce66f1034b9f24166ef1df55a,
+    type: 3}
+  m_PrefabInstance: {fileID: 7158506982889677870}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4005789317343451729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b9aebbe95b63e3469ca09b0e97dda30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7190179072683482542
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16665,6 +16680,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  canvasController: {fileID: 0}
   interactableCanvas: {fileID: 5127358345680667344}
   requiredHoldDuration: 1
   spawnPoint: {fileID: 6696913408414224488}

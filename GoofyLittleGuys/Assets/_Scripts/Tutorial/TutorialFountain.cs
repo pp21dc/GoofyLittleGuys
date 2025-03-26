@@ -8,7 +8,6 @@ public class TutorialFountain : InteractableBase
     // purpose: fountain without some of the single instance stuff setting in the game manager
     
     [SerializeField] private Transform spawnPoint;				// The position players should respawn at, should all their lil guys be defeated.
-	List<GameObject> playersInRange = new List<GameObject>();
 	[SerializeField] public SphereCollider interactArea;
 
 	private void OnTriggerStay(Collider other)
@@ -17,10 +16,10 @@ public class TutorialFountain : InteractableBase
 		if (playerInRange == null) return;
 		interactableCanvas.SetActive(GameManager.Instance.CurrentPhase != 2);
 
-		if (!playersInRange.Contains(other.gameObject))
+		if (!playersInRange.Contains(playerInRange))
 		{
 			// Add any players in range to the in range list.
-			playersInRange.Add(other.gameObject);
+			playersInRange.Add(playerInRange);
 		}
 
 		playerInRange.ClosestInteractable = this;
@@ -31,9 +30,9 @@ public class TutorialFountain : InteractableBase
 		PlayerBody playerInRange = other.GetComponent<PlayerBody>();
 		if (playerInRange == null) return;
 		// Removing players from in range list if they go outside of the fountain's range/
-		if (playersInRange.Contains(other.gameObject))
+		if (playersInRange.Contains(playerInRange))
 		{
-			playersInRange.Remove(other.gameObject);
+			playersInRange.Remove(playerInRange);
 		}
 		if (playersInRange.Count <= 0 || GameManager.Instance.CurrentPhase == 2)
 		{
