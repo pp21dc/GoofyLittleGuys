@@ -137,9 +137,9 @@ public class TutorialManager : SingletonBase<TutorialManager>
         {
             if (player.LilGuyTeam.Count > 1)
             {
-                var demoTeddy = player.LilGuyTeam.Find(lg => lg.MaxHealth == 30);
-                player.LilGuyTeam.Remove(demoTeddy);
-                Destroy(demoTeddy.gameObject);
+                var demoLilG = player.LilGuyTeam.Find(lg => lg.MaxXp == 5000);
+                player.LilGuyTeam.Remove(demoLilG);
+                Destroy(demoLilG.gameObject);
                 player.InStorm = false;
                 player.StormHurtFx.SetActive(false);
                 player.BerryCount = 0;
