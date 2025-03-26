@@ -13,8 +13,10 @@ public class StatCard : MonoBehaviour
 	[ColoredGroup] public TMP_Text playerNum;
 	[ColoredGroup] public TMP_Text titles;
 	[ColoredGroup] public TMP_Text stats;
+	[ColoredGroup] public GameObject crownImage;
 	[ColoredGroup] public TMP_Text ranking;
 	[ColoredGroup] public Animator mostUsedIcon;
+	[ColoredGroup] public AnimatorOverrideController aocTemplate;
 	[ColoredGroup] public Image background;
 	[ColoredGroup] public Sprite readyCheckmark;
 	

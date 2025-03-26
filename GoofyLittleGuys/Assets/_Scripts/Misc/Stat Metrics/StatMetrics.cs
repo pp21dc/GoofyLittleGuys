@@ -194,7 +194,9 @@ public class StatMetrics : MonoBehaviour
 		{
 			if (lilguy.name == favourite)
 			{
-				//card.mostUsedIcon.;
+				AnimatorOverrideController aoc = new AnimatorOverrideController(card.aocTemplate);
+				aoc["Idle"] = lilguy.UiAnimation;
+				card.mostUsedIcon.runtimeAnimatorController = aoc;
 				break;
 			}
 		}
@@ -242,11 +244,23 @@ public class StatMetrics : MonoBehaviour
 		card.titles.text = titleOutput;
 
 		// Rank display
+		if (rank == 0)
+		{
+			card.crownImage.SetActive(true);
+			card.ranking.verticalAlignment = TMPro.VerticalAlignmentOptions.Bottom;
+			card.GetComponent<RectTransform>().localScale = Vector3.one;
+		}
+		else
+		{
+			card.crownImage.SetActive(false);
+			card.ranking.verticalAlignment = TMPro.VerticalAlignmentOptions.Middle;
+			card.GetComponent<RectTransform>().localScale = Vector3.one * 0.9f;
+		}
 		card.ranking.text = GetRankString(rank);
 
 		// Stats
 		string outputMessage = "";
-		outputMessage += $"{damageDealt}\n{damageTaken}\n{distanceTraveled}m\n{specialsUsed}\n{teamWipes}\n{wildLilGuysDefeated}\n{deathCount}\n{swapCount}\n{berriesEaten}\n{fountainUses}\n{lilGuysTamedTotal}";
+		outputMessage += $"{damageDealt}\n{damageTaken}\n{Mathf.CeilToInt(distanceTraveled)}m\n{specialsUsed}\n{teamWipes}\n{wildLilGuysDefeated}\n{lilGuysTamedTotal}\n{deathCount}\n{swapCount}\n{berriesEaten}\n{fountainUses}";
 		Managers.DebugManager.Log(outputMessage, Managers.DebugManager.DebugCategory.STAT_METRICS, Managers.DebugManager.LogLevel.LOG);
 		card.stats.text = outputMessage;
 	}

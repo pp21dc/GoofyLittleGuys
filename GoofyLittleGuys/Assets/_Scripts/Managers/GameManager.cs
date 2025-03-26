@@ -7,6 +7,7 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using Util;
 using Unity.VisualScripting;
+using System.Linq;
 
 namespace Managers
 {
@@ -299,39 +300,53 @@ namespace Managers
 		private void CheckLeader()
 		{
 			PlayerBody newLeader = null;
-			int highestTeamLevel = -1;
-			int highestTeamXP = -1;
 
-			foreach (var player in players)
+			foreach (var candidate in players)
 			{
-				int teamLevel = 0;
-				int totalXP = 0;
+				int candidateLevel = 0;
+				int candidateXP = 0;
 
-				foreach (var lilGuy in player.LilGuyTeam)
+				foreach (var lilGuy in candidate.LilGuyTeam)
 				{
-					teamLevel += lilGuy.Level;
-					totalXP += lilGuy.Xp;
+					candidateLevel += lilGuy.Level;
+					candidateXP += lilGuy.Xp;
 				}
 
-				// If the level gap is not enough, skip
-				if (teamLevel <= highestTeamLevel + leaderLevelThreshold - 1) continue;
+				bool qualifies = true;
 
-				// New highest found
-				if (teamLevel > highestTeamLevel)
+				foreach (var other in players)
 				{
-					newLeader = player;
-					highestTeamLevel = teamLevel;
-					highestTeamXP = totalXP;
-				}
-				else if (teamLevel == highestTeamLevel)
-				{
-					// Tie-breaker: Compare XP
-					if (totalXP > highestTeamXP)
+					if (other == candidate) continue;
+
+					int otherLevel = 0;
+
+					foreach (var lilGuy in other.LilGuyTeam)
 					{
-						newLeader = player;
-						highestTeamXP = totalXP;
+						otherLevel += lilGuy.Level;
 					}
-					// If XP is also equal, retain the existing leader
+
+					if (candidateLevel < otherLevel + leaderLevelThreshold)
+					{
+						qualifies = false;
+						break;
+					}
+				}
+
+				if (!qualifies) continue;
+
+				if (newLeader == null)
+				{
+					newLeader = candidate;
+				}
+				else
+				{
+					// Tie-breaker by total XP
+					if (candidateLevel > newLeader.LilGuyTeam.Sum(l => l.Level) ||
+						(candidateLevel == newLeader.LilGuyTeam.Sum(l => l.Level) &&
+						 candidateXP > newLeader.LilGuyTeam.Sum(l => l.Xp)))
+					{
+						newLeader = candidate;
+					}
 				}
 			}
 
@@ -344,6 +359,7 @@ namespace Managers
 				currentLeader = newLeader;
 			}
 		}
+
 
 		public void QuitGame()
 		{
