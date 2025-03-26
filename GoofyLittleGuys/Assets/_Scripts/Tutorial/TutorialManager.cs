@@ -110,12 +110,15 @@ public class TutorialManager : SingletonBase<TutorialManager>
                     tm.ChangeState(tm.TutorialStormState);
                     break;
                 case 6:
-                    tm.ChangeState(tm.TutorialBerryState);
+                    tm.ChangeState(tm.TutorialGetBerryState);
                     break;
                 case 7:
-                    tm.ChangeState(tm.TutorialFountainState);
+                    tm.ChangeState(tm.TutorialBerryState);
                     break;
                 case 8:
+                    tm.ChangeState(tm.TutorialFountainState);
+                    break;
+                case 9:
                     tm.ChangeState(tm.TutorialPortalState);
                     break;
                 default:

@@ -1,4 +1,6 @@
 ﻿
+using UnityEngine;
+
 public class TutorialBerryState : TutorialState
 {
     public TutorialBerryState(TutorialStateMachine tutorialStateMachine) : base(tutorialStateMachine)
@@ -33,7 +35,7 @@ public class TutorialBerryState : TutorialState
 
     public override void CheckSectionComplete()
     {
-        if (stateMachine.Player.BerryCount < _lastFrameBerryCount)
+        if (stateMachine.Player.BerryCount < _lastFrameBerryCount || Mathf.Approximately(stateMachine.Player.ActiveLilGuy.Health, stateMachine.Player.ActiveLilGuy.MaxHealth))
             base.CheckSectionComplete();
     }
 }
