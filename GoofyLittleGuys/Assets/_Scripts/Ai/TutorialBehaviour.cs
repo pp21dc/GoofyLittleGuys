@@ -503,7 +503,7 @@ public class TutorialBehaviour : MonoBehaviour
 			instantiatedPlayerRangeIndicator = Instantiate(capturingPlayerRange, transform.position, Quaternion.identity, TutorialManager.Instance.transform);
 			instantiatedPlayerRangeIndicator.GetComponent<CaptureZone>().Init(controller.LilGuy);
 			float currTime = 0;
-			while (currTime < timeBeforeDestroyed)
+			while (currTime < timeBeforeDestroyed || controller.State != TutorialAiController.AIState.Tamed)
 			{
 				currTime += Time.deltaTime;
 				yield return null;
