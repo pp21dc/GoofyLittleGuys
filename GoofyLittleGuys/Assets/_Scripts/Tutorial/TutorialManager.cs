@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Managers;
@@ -20,26 +21,34 @@ public class TutorialManager : SingletonBase<TutorialManager>
     [SerializeField] private List<Transform> spawnPoints = new List<Transform>();
     [SerializeField] private List<TutorialIsland> tutorialIslands = new List<TutorialIsland>();
     [SerializeField] private List<TutorialText> tutorialTexts = new List<TutorialText>();
+    [SerializeField] private List<GameObject> playerCheckboxes = new List<GameObject>();
+    private List<Image> playerCheckmarks = new List<Image>();
 	[ColoredGroup][SerializeField] private TMP_Text tutorialText;
 	[ColoredGroup][SerializeField] private Image buttonImage;
-	[ColoredGroup][SerializeField] private AudioSource musicSource;
     
     private List<TutorialStateMachine> tutorialStateMachines = new List<TutorialStateMachine>();
     private List<bool> islandsComplete = new List<bool>();
     public List<bool> IslandsComplete => islandsComplete;
 
     private int _currentTutorialState = -1;
+    private Coroutine changeStateCoroutine;
 
     private void Start()
     {
         for (var i = 0; i < GameManager.Instance.Players.Count; i++)
         {
-            tutorialStateMachines.Add(new TutorialStateMachine(GameManager.Instance.Players[i], tutorialIslands[i]));
+            tutorialStateMachines.Add(new TutorialStateMachine(GameManager.Instance.Players[i], tutorialIslands[i], i));
             
             islandsComplete.Add(false);
+            playerCheckboxes[i].gameObject.SetActive(true);
+            playerCheckmarks.Add(playerCheckboxes[i].transform.GetChild(0).GetComponent<Image>());
+            playerCheckmarks[i].color = GameManager.Instance.PlayerColours[i];
+            playerCheckmarks[i].enabled = false;
+            
+            //this is evil dont look here
+            tutorialIslands[i].exitPortal.transform.GetChild(2).GetComponent<TutorialPortal>().Tsm = tutorialStateMachines[i];
 
             GameManager.Instance.Players[i].InMenu = false;
-            //GameManager.Instance.Players[i].Starter = GameManager.Instance.Players[i].LilGuyTeam[0].gameObject;
             GameManager.Instance.Players[i].GetComponent<Rigidbody>().MovePosition(spawnPoints[i].position);
             EventManager.Instance.RefreshUi(GameManager.Instance.Players[i].PlayerUI, 0);
             GameManager.Instance.Players[i].PlayerColour = GameManager.Instance.PlayerColours[i];
@@ -70,7 +79,8 @@ public class TutorialManager : SingletonBase<TutorialManager>
     {
         if (islandsComplete.All(o => o == true)) // if all elements in the list are true
         {
-            ChangeAllStates();
+            changeStateCoroutine ??= StartCoroutine(nameof(DelayStateChange));
+
             for (var i = 0; i < islandsComplete.Count; i++)
             {
                 islandsComplete[i] = false;
@@ -82,6 +92,13 @@ public class TutorialManager : SingletonBase<TutorialManager>
     {
         tutorialText.text = tutorialTexts[_currentTutorialState].text;
         buttonImage.sprite = tutorialTexts[_currentTutorialState].image ? tutorialTexts[_currentTutorialState].image : null; // image is from list otherwise null
+    }
+
+    private IEnumerator DelayStateChange()
+    {
+        yield return new WaitForSeconds(1.25f);
+        ChangeAllStates();
+        changeStateCoroutine = null;
     }
 
     private void ChangeAllStates()
@@ -129,6 +146,20 @@ public class TutorialManager : SingletonBase<TutorialManager>
             }
         }
         SetTutorialText();
+        ResetChecks();
+    }
+
+    public void EnableCheckmark(int num)
+    {
+        playerCheckmarks[num].enabled = true;
+    }
+    
+    private void ResetChecks()
+    {
+        foreach (var check in playerCheckmarks)
+        {
+            check.enabled = false;
+        }
     }
 
     private void ResetPlayers()

@@ -10,10 +10,12 @@ public class TutorialPortal : InteractableBase
 	[ColoredGroup][SerializeField] private TutorialPortal targetTeleporter;
 	[ColoredGroup][SerializeField] private Transform endTeleportLocation;
 
+	private TutorialStateMachine tsm;
     private BoxCollider teleporterCollider;
     private List<GameObject> inRange = new List<GameObject>();
     
     public Transform EndTeleportLocation { get { return endTeleportLocation; } }
+    public TutorialStateMachine Tsm { get { return tsm; } set { tsm = value; } }
 
     #region Event Functions
     private void Start()
@@ -88,10 +90,10 @@ public class TutorialPortal : InteractableBase
 		Managers.DebugManager.Log("TELEPORTED " + body.name + "TO " + targetTeleporter.EndTeleportLocation.position, Managers.DebugManager.DebugCategory.ENVIRONMENT);
 		
 		// exit condition for portal state in the tutorial
-		var index = TutorialManager.Instance.IslandsComplete.FindIndex(b => !b); // find the first false index
-		if (index != -1) // would return -1 in the case there isn't a false value
+		if (tsm.IslandNumber != null)
 		{
-			TutorialManager.Instance.IslandsComplete[index] = true;
+			TutorialManager.Instance.IslandsComplete[tsm.IslandNumber] = true;
+			TutorialManager.Instance.EnableCheckmark(tsm.IslandNumber);
 		}
 		TutorialManager.Instance.CheckComplete();
 

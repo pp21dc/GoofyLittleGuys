@@ -4,6 +4,7 @@ public class TutorialStateMachine : AStateMachine
 {
     public PlayerBody Player { get; }
     public TutorialIsland Island { get; }
+    public int IslandNumber { get; }
     public bool CurrentStateComplete { get; private set; } = false;
 
     public TutorialAttackState TutorialAttackState { get; private set; }
@@ -17,11 +18,12 @@ public class TutorialStateMachine : AStateMachine
     public TutorialSwapState TutorialSwapState { get; private set; }
     public TutorialPortalState TutorialPortalState { get; private set; }
 
-    public TutorialStateMachine(PlayerBody player, TutorialIsland island)
+    public TutorialStateMachine(PlayerBody player, TutorialIsland island, int islandNumber)
     {
         //REFERENCES
         Player = player;
         Island = island;
+        IslandNumber = islandNumber;
         
         // STATES
         TutorialAttackState = new TutorialAttackState(this);
