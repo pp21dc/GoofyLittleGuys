@@ -300,9 +300,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 014bbe25c184747f287ab2fc8cde48f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  outlinedObjects: []
+  canvasController: {fileID: 257340673174948653}
   interactableCanvas: {fileID: 6111186805670116991}
   requiredHoldDuration: 0
-  outlinedObjects: []
   targetTeleporter: {fileID: 0}
   endTeleportLocation: {fileID: 1796257504877488108}
   cooldown: 0.6
@@ -398,6 +399,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5479631813316828510}
     m_Modifications:
+    - target: {fileID: 42643792300997851, guid: 7e3a7a97aa7d0034eae017909400a2dc,
+        type: 3}
+      propertyPath: m_text
+      value: INTERACT
+      objectReference: {fileID: 0}
+    - target: {fileID: 2017469483531610151, guid: 7e3a7a97aa7d0034eae017909400a2dc,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2017469483531610151, guid: 7e3a7a97aa7d0034eae017909400a2dc,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2017469483531610151, guid: 7e3a7a97aa7d0034eae017909400a2dc,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2017469483531610151, guid: 7e3a7a97aa7d0034eae017909400a2dc,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -448,12 +469,32 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6352311604488425506, guid: 7e3a7a97aa7d0034eae017909400a2dc,
+        type: 3}
+      propertyPath: m_text
+      value: INTERACT
+      objectReference: {fileID: 0}
     - target: {fileID: 7471314525585045839, guid: 7e3a7a97aa7d0034eae017909400a2dc,
         type: 3}
       propertyPath: m_Name
       value: InteractCanvas
       objectReference: {fileID: 0}
     - target: {fileID: 7471314525585045839, guid: 7e3a7a97aa7d0034eae017909400a2dc,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8262974772202146868, guid: 7e3a7a97aa7d0034eae017909400a2dc,
+        type: 3}
+      propertyPath: m_text
+      value: INTERACT
+      objectReference: {fileID: 0}
+    - target: {fileID: 8317815658981189021, guid: 7e3a7a97aa7d0034eae017909400a2dc,
+        type: 3}
+      propertyPath: m_text
+      value: INTERACT
+      objectReference: {fileID: 0}
+    - target: {fileID: 9206249424097514155, guid: 7e3a7a97aa7d0034eae017909400a2dc,
         type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -463,6 +504,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7e3a7a97aa7d0034eae017909400a2dc, type: 3}
+--- !u!114 &257340673174948653 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3527018923048913949, guid: 7e3a7a97aa7d0034eae017909400a2dc,
+    type: 3}
+  m_PrefabInstance: {fileID: 3702025949323396912}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6111186805670116991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b9aebbe95b63e3469ca09b0e97dda30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &2927129970073710359 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2017469483531610151, guid: 7e3a7a97aa7d0034eae017909400a2dc,

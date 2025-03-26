@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class BerryBush : InteractableBase
 {
-	#region Public Variables & Serialize Fields
 	[Header("References")]
 	[HorizontalRule]
 	[SerializeField] private List<GameObject> berryMeshes;
@@ -15,15 +14,11 @@ public class BerryBush : InteractableBase
 	[ColoredGroup][SerializeField] private int minBerryTime = 3;
 	[ColoredGroup][SerializeField] private int maxBerryTime = 5;
 	[ColoredGroup][SerializeField] private int numOfBerries = 3;
-	#endregion
 
-	#region Private Variables
-	List<GameObject> playersInRange = new List<GameObject>();
 	private int berryAmountOnBush = 3;
 	private bool hasBerries = true;
 	private bool isRegrowing = false;
 	private bool swappedLayers = false;
-	#endregion
 
 	private void Update()
 	{
@@ -38,64 +33,23 @@ public class BerryBush : InteractableBase
 			swappedLayers = false;
 		}
 	}
-	private void OnTriggerStay(Collider other)
-	{
-		PlayerBody playerInRange = other.GetComponent<PlayerBody>();
-		if (playerInRange == null) return;   // Ignore non-player colliders
-		interactableCanvas.SetActive(hasBerries);
-		if (!hasBerries) return;                                // If there's no berries on this bush, don't go to the interact behaviour.
 
-		if (!playersInRange.Contains(other.gameObject))
-		{
-			// Add any players in range of this berry bush to the in range list.
-			playersInRange.Add(other.gameObject);
-		}
-
-		playerInRange.ClosestInteractable = this;
-	}
-
-	private void OnTriggerExit(Collider other)
-	{
-		PlayerBody playerInRange = other.GetComponent<PlayerBody>();
-		if (playerInRange == null) return;
-		if (playersInRange.Contains(other.gameObject))
-		{
-			playersInRange.Remove(other.gameObject);
-		}
-		if (playersInRange.Count <= 0)
-		{
-			interactableCanvas.SetActive(false);
-		}
-
-		playerInRange.ClosestInteractable = null;
-	}
-
-	/// <summary>
-	/// Called when a player starts interacting.
-	/// </summary>
 	public override void StartInteraction(PlayerBody body)
 	{
-		if (body.IsDead) return;
+		if (body.IsDead || !hasBerries) return;
 		base.StartInteraction(body);
 	}
 
-	/// <summary>
-	/// Called when a player stops interacting (releasing the button).
-	/// </summary>
 	public override void CancelInteraction(PlayerBody body)
 	{
 		if (body.IsDead) return;
 		base.CancelInteraction(body);
 	}
 
-	/// <summary>
-	/// Called when a player interacts with this interactable object.
-	/// </summary>
-	/// <param name="body">PlayerBody: The player that interacted with this object.</param>
 	protected override void CompleteInteraction(PlayerBody body)
 	{
-		if (body.IsDead) return;
 		base.CompleteInteraction(body);
+
 		if (berryAmountOnBush > 0 && body.BerryCount < body.MaxBerryCount)
 		{
 			body.BerryCount++;
@@ -104,51 +58,24 @@ public class BerryBush : InteractableBase
 			berryAmountOnBush--;
 		}
 
-		// Remove the berries frm the bush as they are consumed.
-		// Start Berry Regrowth timer.
-		if (berryAmountOnBush <= 0) hasBerries = false;
-		else hasBerries = true;
+		hasBerries = berryAmountOnBush > 0;
 		UpdateVisuals(berryAmountOnBush);
-		if (berryAmountOnBush <= 0 && !isRegrowing)
-		{
+
+		if (!hasBerries && !isRegrowing)
 			StartCoroutine(BerryRegrowth(Random.Range(minBerryTime, maxBerryTime + 1)));
-		}
 	}
 
-	/// <summary>
-	/// Helper method that hides the berries mesh.
-	/// </summary>
 	private void UpdateVisuals(int berryCount)
 	{
-		if (berryCount <= 0)
+		for (int i = 0; i < berryMeshes.Count; i++)
 		{
-			foreach (GameObject berryMesh in berryMeshes)
-			{
-				berryMesh.SetActive(false);
-			}
-			return;
-		}
-		else
-		{
-			for (int i = 0; i < berryCount; i++)
-			{
-				berryMeshes[i].SetActive(true);
-			}
-			for (int i = berryMeshes.Count - 1; i >= berryCount; i--)
-			{
-				berryMeshes[i].SetActive(false);
-			}
+			berryMeshes[i].SetActive(i < berryCount);
 		}
 	}
 
-	/// <summary>
-	/// Coroutine that handles the regeneration of berries on a berry bush.
-	/// </summary>
-	/// <param name="timeUntilBerries">float: The time in seconds until the berries grow back.</param>
-	/// <returns></returns>
 	private IEnumerator BerryRegrowth(float timeUntilBerries)
 	{
-		if (isRegrowing) yield break; // Prevent multiple coroutines
+		if (isRegrowing) yield break;
 		isRegrowing = true;
 
 		while (berryAmountOnBush < numOfBerries)
@@ -162,4 +89,17 @@ public class BerryBush : InteractableBase
 		isRegrowing = false;
 	}
 
+	/// <summary>
+	/// Only show canvases if berries are available.
+	/// </summary>
+	protected override void UpdateInteractCanvases()
+	{
+		if (!hasBerries || canvasController == null)
+		{
+			canvasController.SetCanvasStates(new bool[canvasController.Canvases.Length]);
+			return;
+		}
+
+		base.UpdateInteractCanvases();
+	}
 }

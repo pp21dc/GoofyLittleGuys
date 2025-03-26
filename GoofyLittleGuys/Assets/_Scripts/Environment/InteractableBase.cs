@@ -5,16 +5,61 @@ using UnityEngine.UI;
 
 public class InteractableBase : MonoBehaviour
 {
+	protected List<PlayerBody> playersInRange = new List<PlayerBody>();
+
 	[Header("References")]
 	[HorizontalRule]
 	[SerializeField] private List<GameObject> outlinedObjects;
+	[ColoredGroup][SerializeField] protected InteractCanvasController canvasController;
 	[ColoredGroup][SerializeField] protected GameObject interactableCanvas;
 
 	[Header("Interact Settings")]
 	[HorizontalRule]
 	[ColoredGroup] public float requiredHoldDuration = 1f;
 
-	private Dictionary<PlayerBody, Coroutine> activeHolds = new Dictionary<PlayerBody, Coroutine>();
+	protected Dictionary<PlayerBody, Coroutine> activeHolds = new Dictionary<PlayerBody, Coroutine>();
+
+
+	protected virtual void OnTriggerStay(Collider other)
+	{
+		PlayerBody player = other.GetComponent<PlayerBody>();
+		if (player == null || player.IsDead) return;
+
+		if (!playersInRange.Contains(player))
+			playersInRange.Add(player);
+
+		player.ClosestInteractable = this;
+
+		UpdateInteractCanvases();
+	}
+
+	protected virtual void OnTriggerExit(Collider other)
+	{
+		PlayerBody player = other.GetComponent<PlayerBody>();
+		if (player == null) return;
+
+		if (playersInRange.Contains(player))
+			playersInRange.Remove(player);
+
+		player.ClosestInteractable = null;
+
+		UpdateInteractCanvases();
+	}
+
+	protected virtual void UpdateInteractCanvases()
+	{
+		if (canvasController == null) return;
+
+		bool[] activeArray = new bool[canvasController.Canvases.Length];
+		foreach (var player in playersInRange)
+		{
+			int index = Mathf.Clamp(player.Controller.PlayerNumber - 1, 0, canvasController.Canvases.Length - 1);
+			activeArray[index] = true;
+		}
+
+		canvasController.SetCanvasStates(activeArray);
+	}
+
 	protected void UpdateLayers(bool makeOutlined = false)
 	{
 		if (outlinedObjects.Count > 0)
@@ -55,7 +100,7 @@ public class InteractableBase : MonoBehaviour
 		}
 	}
 
-	private IEnumerator HoldInteraction(PlayerBody body)
+	protected virtual IEnumerator HoldInteraction(PlayerBody body)
 	{
 		float holdTime = 0f;
 		while (holdTime < requiredHoldDuration)

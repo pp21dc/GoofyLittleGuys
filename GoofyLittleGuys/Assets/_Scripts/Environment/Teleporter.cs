@@ -19,105 +19,111 @@ public class Teleporter : InteractableBase
 	#region Private Variables
 	private bool onCooldown;
 	private BoxCollider teleporterCollider;
-	private List<GameObject> inRange = new List<GameObject>();
 	#endregion
 
-	#region Getters & Setters
-	public Transform EndTeleportLocation { get { return endTeleportLocation; } }
-	public bool OnCooldown { get { return onCooldown; } set { onCooldown = value; } }
+	#region Getters
+	public Transform EndTeleportLocation => endTeleportLocation;
+	public bool OnCooldown
+	{
+		get => onCooldown;
+		set => onCooldown = value;
+	}
 	#endregion
 
-	#region Event Functions
+	#region Unity Events
 	private void Start()
-    {
-        teleporterCollider = GetComponent<BoxCollider>();
-        teleporterCollider.isTrigger = true;
-        interactableCanvas.SetActive(false);
-    }
+	{
+		teleporterCollider = GetComponent<BoxCollider>();
+		teleporterCollider.isTrigger = true;
+	}
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.layer == LayerMask.NameToLayer("PlayerLilGuys") && !inRange.Contains(other.gameObject))
-		{
-			LilGuyBase lilGuy = other.GetComponent<LilGuyBase>();
-			if (lilGuy == null) return;
-			inRange.Add(other.gameObject);         
-           lilGuy.PlayerOwner.ClosestInteractable = this;
-        }
-    }
+	protected override void OnTriggerStay(Collider other)
+	{
+		LilGuyBase lilGuy = other.GetComponent<LilGuyBase>();
+		if (lilGuy == null || lilGuy.PlayerOwner == null) return;
 
-    // Using this as a cheaper update loop
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.gameObject.layer == LayerMask.NameToLayer("PlayerLilGuys"))
-		{
-            if (inRange.Count > 0 && !onCooldown)
-            {
-                interactableCanvas.SetActive(true);
-            }
-            else
-            {
-                interactableCanvas.SetActive(false);
-            }
-        }
-    }
+		PlayerBody body = lilGuy.PlayerOwner;
+		if (body.IsDead) return;
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.layer == LayerMask.NameToLayer("PlayerLilGuys") && inRange.Contains(other.gameObject))
-        {
-			LilGuyBase lilGuy = other.GetComponent<LilGuyBase>();
-			if (lilGuy == null) return;
-			if (inRange.Contains(lilGuy.gameObject)) inRange.Remove(lilGuy.gameObject);
-			lilGuy.PlayerOwner.ClosestInteractable = null;
-		}
-        if (inRange.Count == 0)
-        {
-            interactableCanvas.SetActive(false);
-        }
-    }
+		if (!playersInRange.Contains(body))
+			playersInRange.Add(body);
+
+		body.ClosestInteractable = this;
+
+		// Only show canvas if not on cooldown
+		if (!onCooldown)
+			UpdateInteractCanvases();
+	}
+
+	protected override void OnTriggerExit(Collider other)
+	{
+		LilGuyBase lilGuy = other.GetComponent<LilGuyBase>();
+		if (lilGuy == null || lilGuy.PlayerOwner == null) return;
+
+		PlayerBody body = lilGuy.PlayerOwner;
+
+		if (playersInRange.Contains(body))
+			playersInRange.Remove(body);
+
+		body.ClosestInteractable = null;
+
+		UpdateInteractCanvases(); // Will hide canvases when no players are in range
+	}
 	#endregion
 
-	/// <summary>
-	/// Called when a player starts interacting.
-	/// </summary>
+	#region Interaction Overrides
 	public override void StartInteraction(PlayerBody body)
 	{
-		if (body.IsDead) return;
+		if (body.IsDead || onCooldown) return;
 		base.StartInteraction(body);
 	}
 
-	/// <summary>
-	/// Called when a player stops interacting (releasing the button).
-	/// </summary>
 	public override void CancelInteraction(PlayerBody body)
 	{
 		if (body.IsDead) return;
 		base.CancelInteraction(body);
 	}
 
-	/// <summary>
-	/// Called when a player interacts with this interactable object.
-	/// </summary>
-	/// <param name="body">PlayerBody: The player that interacted with this object.</param>
 	protected override void CompleteInteraction(PlayerBody body)
 	{
-		if (body.IsDead) return;
+		if (body.IsDead || onCooldown) return;
+
 		base.CompleteInteraction(body);
-		if (!onCooldown)
-		{
-			body.GetComponent<Rigidbody>().MovePosition(targetTeleporter.EndTeleportLocation.position);
-			Managers.DebugManager.Log("TELEPORTED " + body.name + "TO " + targetTeleporter.EndTeleportLocation.position, Managers.DebugManager.DebugCategory.ENVIRONMENT);
-			StartCoroutine(nameof(WaitForCooldown));
-		}
+
+		// Teleport logic
+		body.GetComponent<Rigidbody>().MovePosition(targetTeleporter.EndTeleportLocation.position);
+		Managers.DebugManager.Log("TELEPORTED " + body.name + " TO " + targetTeleporter.EndTeleportLocation.position, Managers.DebugManager.DebugCategory.ENVIRONMENT);
+		StartCoroutine(WaitForCooldown());
 	}
-    private IEnumerator WaitForCooldown()
-    {
-        yield return new WaitForEndOfFrame();
-        onCooldown = true;
-        targetTeleporter.OnCooldown = true;
-        yield return new WaitForSeconds(cooldown);
-        onCooldown = false;
-        targetTeleporter.OnCooldown = false;
-    }
+
+	private IEnumerator WaitForCooldown()
+	{
+		yield return new WaitForEndOfFrame();
+		onCooldown = true;
+		targetTeleporter.OnCooldown = true;
+
+		yield return new WaitForSeconds(cooldown);
+
+		onCooldown = false;
+		targetTeleporter.OnCooldown = false;
+
+		// Refresh canvases if anyone is still in range
+		UpdateInteractCanvases();
+	}
+	#endregion
+
+	#region Canvas Logic
+	protected override void UpdateInteractCanvases()
+	{
+		if (canvasController == null) return;
+
+		if (onCooldown)
+		{
+			canvasController.SetCanvasStates(new bool[canvasController.Canvases.Length]); // disable all
+			return;
+		}
+
+		base.UpdateInteractCanvases(); // Enables only correct players
+	}
+	#endregion
 }

@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fefcc5d6bace77749bc84f758103f234, type: 3}
+  m_Name: Default
+  m_EditorClassIdentifier: 
+  entries:
+  - actionName: Interact
+    gamepadIcon: {fileID: 21300000, guid: b85964ffde41db44da79ac19d4f33bff, type: 3}
+    keyboardIcon: {fileID: 21300000, guid: c5845568bebcb964fa534dc08d8378b1, type: 3}
+    keyboardKeyName: F

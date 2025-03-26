@@ -6,8 +6,10 @@ using UnityEngine.InputSystem.UI;
 
 public class PlayerController : MonoBehaviour
 {
+	public enum ControllerType { Gamepad, Keyboard }
 	[Header("References")]
 	[HorizontalRule]
+	[ColoredGroup][SerializeField] private InputDisplayMap inputDisplayMap;
 	[ColoredGroup][SerializeField] private PlayerBody playerBody;
 	[ColoredGroup][SerializeField] private MultiplayerEventSystem playerEventSystem;
 	[ColoredGroup][SerializeField] private Camera playerCam;
@@ -19,6 +21,7 @@ public class PlayerController : MonoBehaviour
 	[ColoredGroup][SerializeField][Tooltip("Buffer time for special attack cancellation.")] private float toadstoolSpecialBufferTime = 1.5f; // Time before the special can be canceled
 
 
+	private ControllerType controllerType;
 	private float lastSpecialTime = -1f; // Tracks when the last special started
 	private int playerNumber = 0;
 	private bool showTeamUI = true;
@@ -31,6 +34,8 @@ public class PlayerController : MonoBehaviour
 
 	public bool HasJoined { get { return hasJoined; } set { hasJoined = value; } }
 
+	public InputDisplayMap UIMappings => inputDisplayMap;
+	public ControllerType ControlSchemeType => controllerType;
 	public Camera PlayerCam => playerCam;
 	public Camera SpectatorCam => spectatorCam;
 	public PlayerBody Body => playerBody;
@@ -40,14 +45,52 @@ public class PlayerController : MonoBehaviour
 	{
 		UpdateCullLayer();
 	}
+
+	private void OnEnable()
+	{
+		GetComponent<PlayerInput>().onControlsChanged += OnControlsChanged;
+		UpdateControlScheme(); // Initialize it immediately on load
+	}
+
+	private void OnDisable()
+	{
+		GetComponent<PlayerInput>().onControlsChanged -= OnControlsChanged;
+	}
+	private void OnControlsChanged(PlayerInput input)
+	{
+		UpdateControlScheme();
+	}
+
+	private void UpdateControlScheme()
+	{
+		var input = GetComponent<PlayerInput>();
+		string scheme = input.currentControlScheme;
+
+		// Update the ControllerType enum
+		switch (scheme)
+		{
+			case "Gamepad":
+				controllerType = ControllerType.Gamepad;
+				break;
+			case "Keyboard":
+			default:
+				controllerType = ControllerType.Keyboard;
+				break;
+		}
+
+	}
+
+
 	public void UpdateCullLayer()
 	{
 		LayerMask uiCullLayer;
+		uiCullLayer = LayerMask.NameToLayer($"UI_P{playerNumber}");
+		playerCam.cullingMask |= 1 << uiCullLayer; // Add layer to culling mask
 		switch (GetComponent<PlayerInput>().currentControlScheme)
 		{
 			case "Gamepad":
 				uiCullLayer = LayerMask.NameToLayer("UI_Gamepad");
-				playerCam.cullingMask |= 1 << uiCullLayer; // Add layer to culling mask
+				playerCam.cullingMask |= 1 << uiCullLayer; // Add layer to culling mask				
 				break;
 			case "Keyboard":
 				uiCullLayer = LayerMask.NameToLayer("UI_LeftKeyboard");
@@ -68,7 +111,7 @@ public class PlayerController : MonoBehaviour
 		if (GameManager.Instance.IsPaused) return;
 		playerBody.UpdateMovementVector(ctx.ReadValue<Vector2>());
 	}
-	
+
 	public void OnSpectatorUpDown(InputAction.CallbackContext ctx)
 	{
 		if (GameManager.Instance.IsPaused) return;
@@ -119,8 +162,8 @@ public class PlayerController : MonoBehaviour
 		if (GameManager.Instance.IsPaused) return;
 		if (playerBody.LilGuyTeam[0].Health <= 0) return;
 		if (GetComponent<PlayerInput>().currentControlScheme == "Keyboard" && Keyboard.current.shiftKey.isPressed) return;
-		
-		
+
+
 		if (ctx.performed) // Button Pressed (Start Holding)
 		{
 			playerBody.LilGuyTeam[0].StartAttacking();
@@ -141,17 +184,17 @@ public class PlayerController : MonoBehaviour
 		if (ctx.started)
 		{
 			// Prevent canceling the special too quickly
-			
+
 
 			if (character is Turteriam turt && turt.InstantiatedDome != null)
 			{
-                if (Time.time - lastSpecialTime < turteriamSpecialBufferTime) return;
-                turt.OnEndSpecial(true); // Remove the dome when canceling special
+				if (Time.time - lastSpecialTime < turteriamSpecialBufferTime) return;
+				turt.OnEndSpecial(true); // Remove the dome when canceling special
 			}
 			else if (character is Toadstool defenseCharacter && defenseCharacter.IsInSpecialAttack)
-            {
-                if (Time.time - lastSpecialTime < toadstoolSpecialBufferTime) return;
-                defenseCharacter.OnEndSpecial(true); // End the special
+			{
+				if (Time.time - lastSpecialTime < toadstoolSpecialBufferTime) return;
+				defenseCharacter.OnEndSpecial(true); // End the special
 			}
 			else
 			{
