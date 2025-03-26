@@ -364,6 +364,7 @@ namespace Managers
 		public void QuitGame()
 		{
 			startGame = false;
+			gameOver = false;
 			if (currentPhase > 1) phase2CloudAnim.SetTrigger("Revert");
 			stormSets.Clear();
 			//rankings.Clear();
