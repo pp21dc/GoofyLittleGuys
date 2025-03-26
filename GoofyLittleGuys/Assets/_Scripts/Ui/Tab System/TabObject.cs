@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class TabObject : MonoBehaviour
 {
     private bool isActive = false;
@@ -19,9 +19,11 @@ public class TabObject : MonoBehaviour
     public void DeactivateTab()
     {
         tabContainer.SetActive(false);
+        this.GetComponent<Image>().color = Color.white;
     }
     public void ActivateTab()
     {
         tabContainer.SetActive(true);
+        this.GetComponent<Image>().color = Color.white;
     }
 }
