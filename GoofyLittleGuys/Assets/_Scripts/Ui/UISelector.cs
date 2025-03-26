@@ -12,6 +12,7 @@ public enum CharacterSelectState
 	Disconnected,
 	CharacterSelect,
 	LockedIn,
+	OtherInTutorial,
 	Tutorial
 }
 
@@ -41,6 +42,7 @@ public class UISelector : MonoBehaviour
 	public PlayerController Controller => controller;
 
 	public int CurrentStarterIndex => currStarterIndex;
+	public CharacterSelectState CurrentState { get => currentState; set => currentState = value; }
 	public bool LockedIn { get { return lockedIn; } }
 
 	private float bufferTime = 0.5f;
@@ -108,6 +110,7 @@ public class UISelector : MonoBehaviour
 	private void OnNavigated(InputAction.CallbackContext ctx)
 	{
 		if (lockedIn) return;
+		if (currentState == CharacterSelectState.OtherInTutorial) return;
 		if (!ctx.performed || bufferTime > 0) return;
 		Vector2 input = ctx.ReadValue<Vector2>();
 		if (input.x < 0)
@@ -171,6 +174,7 @@ public class UISelector : MonoBehaviour
 		charSelectMenu.TutorialPrompt.SetActive(true);
 		controller.PlayerEventSystem.SetSelectedGameObject(null);
 		StartCoroutine(DelayButtonSelect());
+		charSelectMenu.TutorialPromptLock(true);
 
 		//player.actions["Submit"].performed -= OnSubmitted;
 		player.actions["Navigate"].performed -= OnNavigated;
@@ -195,6 +199,7 @@ public class UISelector : MonoBehaviour
 	private void OnCancelled(InputAction.CallbackContext ctx)
 	{
 		if (!ctx.performed || bufferTime > 0) return;
+		if (currentState == CharacterSelectState.OtherInTutorial) return;
 		switch (currentState)
 		{
 			case CharacterSelectState.CharacterSelect:
@@ -238,6 +243,7 @@ public class UISelector : MonoBehaviour
 				player.actions["Navigate"].performed += OnNavigated;
 				player.actions["Navigate"].performed -= OnNavigateTutorialPrompt;
 				currentState = CharacterSelectState.LockedIn;
+				charSelectMenu.TutorialPromptLock(false);
 				break;
 
 		}

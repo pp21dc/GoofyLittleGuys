@@ -1638,10 +1638,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93353009e430df04783d2a1f5f8cf432, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterSelector: {fileID: 6368061074533969141, guid: 37f1f8f22fb99a0439f61d7d3bef5d44,
-    type: 3}
+  tutorialPromptButtons:
+  - {fileID: 419350126}
+  - {fileID: 1048206609}
   charSelectors: []
-  tutorialUi: {fileID: 1489093913}
   lilGuySelectorParents:
   - {fileID: 1513836584}
   - {fileID: 1656051493}
@@ -1651,11 +1651,11 @@ MonoBehaviour:
   - {fileID: 1479134451}
   - {fileID: 1451434026}
   - {fileID: 104459129}
+  characterSelector: {fileID: 6368061074533969141, guid: 37f1f8f22fb99a0439f61d7d3bef5d44,
+    type: 3}
+  tutorialUi: {fileID: 1489093913}
   charSelectPanel: {fileID: 1012039074}
   tutorialPrompt: {fileID: 115630897}
-  tutorialPromptButtons:
-  - {fileID: 419350126}
-  - {fileID: 1048206609}
   starters:
   - {fileID: 5619163176932738922, guid: b435832a316c2424d9a7c25833f9a27b, type: 3}
   - {fileID: 7462937212347508129, guid: 2c1bf7c1eb40c134c82954cef849512d, type: 3}

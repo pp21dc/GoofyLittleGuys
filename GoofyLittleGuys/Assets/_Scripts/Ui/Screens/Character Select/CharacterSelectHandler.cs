@@ -93,6 +93,20 @@ public class CharacterSelectHandler : MonoBehaviour
 		return true;
 	}
 
+	public void TutorialPromptLock(bool locked)
+	{
+		foreach (var s in charSelectors)
+		{
+			var uiSelector = s.GetComponent<UISelector>();
+			if (uiSelector.CurrentState != CharacterSelectState.Tutorial)
+			{
+				// if in tutorial, lock players in un usable state,
+				// else (player backs out of tutorial prompt), return them to locked in
+				uiSelector.CurrentState = locked ? CharacterSelectState.OtherInTutorial : CharacterSelectState.LockedIn;
+			}
+		}
+	}
+
 	#region Old Character Select
 	/*
 	[SerializeField] private GameObject characterSelectUnit;
