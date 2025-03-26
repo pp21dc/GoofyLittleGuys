@@ -13,7 +13,7 @@ public class HealingFountain : InteractableBase
 
 	private bool swappedLayers = false;
 
-	private void Awake()
+	private void OnEnable()
 	{
 		GameManager.Instance.FountainSpawnPoint = spawnPoint;
 
