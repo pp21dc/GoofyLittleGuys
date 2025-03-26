@@ -18,9 +18,9 @@ public class TabGroupController : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q)) //Convert to real input
+        if (Input.GetKeyDown(KeyCode.E)) //Convert to real input
             OnLB();
-        else if (Input.GetKeyDown(KeyCode.E)) //Convert to real input
+        else if (Input.GetKeyDown(KeyCode.Q)) //Convert to real input
             OnRB();
     }
     private void OnEnable()
