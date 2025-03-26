@@ -116,7 +116,7 @@ namespace Managers
 		public Material OutlinedLilGuySpriteMat => outlinedLilGuySpriteMat;
 		public float ActiveLilGuyScaleFactor => activeLilGuyScaleFactor;
 		public float NonActiveLilGuyScaleFactor => nonActiveLilGuyScaleFactor;
-
+		
 		public int CurrentPhase => currentPhase; // Getter for current phase
 		public float RespawnTimer => respawnTimer; // Getter for respawn timer
 		public float CurrentGameTime => currentGameTime;
