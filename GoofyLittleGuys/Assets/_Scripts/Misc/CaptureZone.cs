@@ -2,54 +2,55 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CaptureZone : MonoBehaviour
+public class CaptureZone : InteractableBase
 {
-    private List<PlayerBody> playersInRange = new List<PlayerBody>();
-    private LilGuyBase lilGuyToCapture;
-    private AiController controller;
+	private LilGuyBase lilGuyToCapture;
+	private AiController controller;
 
-    public void Init(LilGuyBase lilGuy)
-    {
-        lilGuyToCapture = lilGuy;
-        controller = lilGuyToCapture.GetComponent<AiController>();
-    }
-
-	private void OnTriggerStay(Collider other)
+	public void Init(LilGuyBase lilGuy)
 	{
-        PlayerBody playerInRange = other.GetComponent<PlayerBody>();
-        if (playerInRange == null) return;
-        if (playersInRange.Count > 0 && playersInRange.Contains(playerInRange)) return;    
+		lilGuyToCapture = lilGuy;
+		canvasController = lilGuyToCapture.TameCanvas;
+		controller = lilGuyToCapture.GetComponent<AiController>();
+	}
+	private void Update()
+	{
+		lilGuyToCapture.TameCanvas.gameObject.SetActive(true);
+	}
+	protected override void OnTriggerStay(Collider other)
+	{
+		PlayerBody player = other.GetComponent<PlayerBody>();
+		if (player == null) return;
 
-        playersInRange.Add(playerInRange);
-        playerInRange.ClosestWildLilGuy = lilGuyToCapture;
+		if (!playersInRange.Contains(player))
+			playersInRange.Add(player);
+
+		player.ClosestWildLilGuy = lilGuyToCapture;
+
+		UpdateInteractCanvases();
 	}
 
-	private void OnTriggerExit(Collider other)
+	protected override void OnTriggerExit(Collider other)
 	{
-		PlayerBody playerInRange = other.GetComponent<PlayerBody>();
-		if (playerInRange == null) return;
-		if (playersInRange.Count <= 0 || !playersInRange.Contains(playerInRange)) return;
+		PlayerBody player = other.GetComponent<PlayerBody>();
+		if (player == null) return;
 
-		playersInRange.Remove(playerInRange);
-		playerInRange.ClosestWildLilGuy = null;
+		if (playersInRange.Contains(player))
+			playersInRange.Remove(player);
+
+		if (player.ClosestWildLilGuy == lilGuyToCapture)
+			player.ClosestWildLilGuy = null;
+
+		UpdateInteractCanvases();
 	}
-
-	// Start is called before the first frame update
-	void Start()
-    {
-        
-    }
 
 	private void OnDestroy()
 	{
-		foreach(PlayerBody body in playersInRange)
+		lilGuyToCapture.TameCanvas.gameObject.SetActive(false);
+		foreach (var body in playersInRange)
 		{
-			if (body.ClosestWildLilGuy == lilGuyToCapture) body.ClosestWildLilGuy = null;
+			if (body.ClosestWildLilGuy == lilGuyToCapture)
+				body.ClosestWildLilGuy = null;
 		}
 	}
-	// Update is called once per frame
-	void Update()
-    {
-        controller.ToggleInteractCanvas(playersInRange.Count > 0);
-    }
 }
