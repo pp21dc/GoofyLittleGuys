@@ -15,7 +15,6 @@ public class CharacterSelectHandler : MonoBehaviour
 	[SerializeField] private SelectorContainer[] lilGuySelectorParents;
 	[SerializeField] private PlayerCard[] playerCards;
 	[ColoredGroup][SerializeField] private GameObject characterSelector;
-	[ColoredGroup][SerializeField] private GameObject tutorialUi;
 	[ColoredGroup][SerializeField] private GameObject charSelectPanel;
 	[ColoredGroup][SerializeField] private GameObject tutorialPrompt;
 
@@ -33,7 +32,6 @@ public class CharacterSelectHandler : MonoBehaviour
 
 	public void OnPlayerJoin(PlayerInput input)
 	{
-		tutorialUi.SetActive(false);
 		GameObject charSelector = Instantiate(characterSelector, lilGuySelectorParents[0].transform);
 		charSelector.GetComponent<UISelector>().SetPlayer(input, this);
 		charSelectors.Add(charSelector);
