@@ -3118,6 +3118,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1970606836446198798, guid: de1849616cf5e6e41990742051e315c8,
         type: 3}
+      propertyPath: hapticEvents.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1970606836446198798, guid: de1849616cf5e6e41990742051e315c8,
+        type: 3}
       propertyPath: leaderBonusXpPercentage
       value: 0.55
       objectReference: {fileID: 0}
@@ -3151,6 +3156,12 @@ PrefabInstance:
       propertyPath: teamWipeBonusXpPercentage
       value: 0.4
       objectReference: {fileID: 0}
+    - target: {fileID: 1970606836446198798, guid: de1849616cf5e6e41990742051e315c8,
+        type: 3}
+      propertyPath: hapticEvents.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: 0dbd43f22847c8643832eea3c1364c6e,
+        type: 2}
     - target: {fileID: 1970606836446198798, guid: de1849616cf5e6e41990742051e315c8,
         type: 3}
       propertyPath: nonActiveLilGuyScaleFactor

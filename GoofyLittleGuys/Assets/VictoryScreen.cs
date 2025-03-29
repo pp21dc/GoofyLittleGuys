@@ -2,6 +2,7 @@ using Managers;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine;
+using System.Collections;
 
 public class VictoryScreen : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class VictoryScreen : MonoBehaviour
 	private void Awake()
 	{
 		ShowVictoryScreen();
+		StartCoroutine(AnimateStatCards());
 
 		double startTime = AudioSettings.dspTime + 0.2f; // Slight buffer to ensure sync
 		introSource.clip = AudioManager.Instance.GetClip("GLGVictoryIntro");
@@ -26,6 +28,36 @@ public class VictoryScreen : MonoBehaviour
 		musicSource.loop = true;
 
 		introPlaying = true;
+	}
+
+	private IEnumerator AnimateStatCards()
+	{
+		List<PlayerBody> players = GameManager.Instance.Players;
+		List<StatCardAnimator> animators = new List<StatCardAnimator>();
+
+		// 1. Animate scale-ins sequentially
+		for (int i = players.Count - 1; i >= 0; i--)
+		{
+			int playerIndex = players[i].Controller.PlayerNumber - 1;
+			StatCard card = screenReferences.playerStatObjects[playerIndex];
+			bool isWinner = (i == 0);
+
+			StatCardAnimator animator = card.GetComponent<StatCardAnimator>();
+			if (animator != null)
+			{
+				animators.Add(animator);
+				animator.BeginScaleIn((players.Count - 1 - i) * 0.5f, isWinner);
+				yield return new WaitForSeconds(0.5f);
+			}
+		}
+
+		// 2. Trigger post-scale effects all at once
+		yield return new WaitForSeconds(0.5f);
+
+		foreach (var anim in animators)
+		{
+			anim.TriggerPostScaleEffects();
+		}
 	}
 
 

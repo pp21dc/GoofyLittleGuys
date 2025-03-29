@@ -11,7 +11,7 @@ public class StatCard : MonoBehaviour
 	[HorizontalRule]
 	public Image[] playerShapes;
 	[ColoredGroup] public TMP_Text playerNum;
-	[ColoredGroup] public TMP_Text titles;
+	[ColoredGroup] public TMP_Text[] titleTextBoxes;
 	[ColoredGroup] public TMP_Text stats;
 	[ColoredGroup] public GameObject crownImage;
 	[ColoredGroup] public TMP_Text ranking;
@@ -24,6 +24,7 @@ public class StatCard : MonoBehaviour
 	private PlayerInput playerInput;
 	private bool isReady = false;
 
+	public PlayerInput PlayerInput => playerInput;
 	public void Initialize(PlayerInput input)
 	{
 		playerInput = input;

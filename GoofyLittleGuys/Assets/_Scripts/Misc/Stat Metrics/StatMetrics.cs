@@ -211,6 +211,7 @@ public class StatMetrics : MonoBehaviour
 		}
 
 		card.gameObject.SetActive(true);
+		card.GetComponent<RectTransform>().localScale = Vector3.zero;
 
 		// Titles
 		List<string> titles = GetTitles(allPlayers);
@@ -240,21 +241,31 @@ public class StatMetrics : MonoBehaviour
 
 
 		// Build title display string
-		string titleOutput = string.Join("\n", featuredTitles);
-		card.titles.text = titleOutput;
+		for (int i = 0; i < card.titleTextBoxes.Length; i++)
+		{
+			if (i < featuredTitles.Count)
+			{
+				card.titleTextBoxes[i].text = featuredTitles[i];
+				card.titleTextBoxes[i].gameObject.SetActive(true);
+			}
+			else
+			{
+				card.titleTextBoxes[i].text = "";
+				card.titleTextBoxes[i].gameObject.SetActive(false); // Hide unused slots
+			}
+		}
+
 
 		// Rank display
 		if (rank == 0)
 		{
 			card.crownImage.SetActive(true);
 			card.ranking.verticalAlignment = TMPro.VerticalAlignmentOptions.Bottom;
-			card.GetComponent<RectTransform>().localScale = Vector3.one;
 		}
 		else
 		{
 			card.crownImage.SetActive(false);
 			card.ranking.verticalAlignment = TMPro.VerticalAlignmentOptions.Middle;
-			card.GetComponent<RectTransform>().localScale = Vector3.one * 0.9f;
 		}
 		card.ranking.text = GetRankString(rank);
 
