@@ -906,7 +906,7 @@ public abstract class LilGuyBase : MonoBehaviour
 		if (playerLevelUp)
 		{
 			instantiatedLevelUpEffect = Instantiate(FXManager.Instance.GetEffect("LevelUp"), transform.position + Vector3.forward + Vector3.up * 0.25f, Quaternion.identity, transform);
-			PlayEffectSound(instantiatedLevelUpEffect, "Level_Up");
+			AudioManager.Instance.PlaySfx("Level_Up", playerOwner.GetComponent<AudioSource>());
 		}
 		if (level % 5 == 0)
 		{
