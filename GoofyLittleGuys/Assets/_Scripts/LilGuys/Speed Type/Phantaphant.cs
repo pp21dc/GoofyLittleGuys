@@ -69,6 +69,10 @@ public class Phantaphant : SpeedType
 			rb.MovePosition(latestTargetPosition);
 			LilGuyBase targLilGuy = targetPosition.GetComponent<LilGuyBase>();
 			phantEffect = Instantiate(FXManager.Instance.GetEffect("PhantaphantTeleport"), targLilGuy.transform.position, Quaternion.identity, targLilGuy.transform);
+
+
+			if (playerOwner)
+				EventManager.Instance.StartAbilityCooldown(playerOwner.PlayerUI, cooldownDuration);
 		}
 
 		GameObject slowedEntity;
