@@ -23,8 +23,8 @@ public class PlayerUi : MonoBehaviour
 
 	[Header("General References")]
 	[HorizontalRule]
+	[SerializeField] List<GameObject> livingUI; // All the UI GOs that should get disabled on DEATH
 	[ColoredGroup][SerializeField] PlayerBody pb;
-	[ColoredGroup] public RectTransform mirroredXUi; // Assign this in the inspector
 	[ColoredGroup][SerializeField] GameObject panel;
 
 	[Header("Player Health UI References")]
@@ -45,11 +45,8 @@ public class PlayerUi : MonoBehaviour
 	[ColoredGroup][SerializeField] TMP_Text abilityCooldownText;
 	[ColoredGroup][SerializeField] GameObject LBIcon;
 	[ColoredGroup][SerializeField] GameObject RBIcon;
-	[ColoredGroup][SerializeField] Image CurrentCharacter;
 	[ColoredGroup][SerializeField] Image LBCharacter;
 	[ColoredGroup][SerializeField] Image RBCharacter;
-	[ColoredGroup][SerializeField] Image persistentIcon;
-	[ColoredGroup][SerializeField] Image persistentAbilityIcon;
 
 	[Header("Berry UI References")]
 	[HorizontalRule]
@@ -65,6 +62,7 @@ public class PlayerUi : MonoBehaviour
 	[ColoredGroup][SerializeField] VictoryAnimationPlay victoryAnim;
 	[ColoredGroup][SerializeField] GameObject victoryObject;
 	[ColoredGroup][SerializeField] GameObject respawnScreen;
+	[ColoredGroup][SerializeField] GameObject defeatedScreen;
 
 
 	List<LilGuyPopout> popouts;
@@ -83,11 +81,22 @@ public class PlayerUi : MonoBehaviour
 		EventManager.Instance.NotifyStartAbilityCooldown += SetCooldownIndicator;
 		EventManager.Instance.NotifyUiSwap += RefreshIcons;
 	}
+
+	public void DisablePlayerUI()
+	{
+		foreach (GameObject g in livingUI)
+		{
+			g.SetActive(false);
+		}
+		defeatedScreen.SetActive(true);
+	}
+
 	public void SetColour()
 	{
 		healthBarFill.color = pb.PlayerColour;
 		playerShape.sprite = UiManager.Instance.shapes[pb.Controller.PlayerNumber - 1];
 	}
+
 	public void MirrorUI(bool shouldMirror)
 	{
 
@@ -124,28 +133,6 @@ public class PlayerUi : MonoBehaviour
 		//  HP_Txt.text = "HP: " + pb.LilGuyTeam[0].Health.ToString() + " / " + pb.LilGuyTeam[0].MaxHealth.ToString();
 		XP_Slider.maxValue = pb.LilGuyTeam[0].MaxXp;
 		XP_Slider.value = pb.LilGuyTeam[0].Xp;
-
-		if (pb.Controller.PlayerCam != null && mirroredXUi != null)
-		{
-			// Check if the camera's x position in the viewport is less than 0.5
-			if (pb.Controller.PlayerCam.rect.x < 0.5f)
-			{
-				// Anchor UI to the upper left
-				mirroredXUi.anchorMin = new Vector2(0, 1); // Upper left corner
-				mirroredXUi.anchorMax = new Vector2(0, 1); // Upper left corner
-				mirroredXUi.anchoredPosition = Vector2.zero; // Position at (0,0)
-				mirroredXUi.pivot = new Vector2(0, 1); // Upper left corner
-			}
-			else
-			{
-				// Anchor UI to the upper right
-				mirroredXUi.anchorMin = new Vector2(1, 1); // Upper right corner
-				mirroredXUi.anchorMax = new Vector2(1, 1); // Upper right corner
-				mirroredXUi.anchoredPosition = Vector2.zero;
-				mirroredXUi.pivot = new Vector2(1, 1); // Upper right corner
-			}
-		}
-
 		if (Input.GetKeyDown("k")) { VictoryAnimPlay(); }
 
 	}
@@ -191,16 +178,6 @@ public class PlayerUi : MonoBehaviour
 		value = value / maxHealth;                                          //sets value to the hp %                                              //Sets Value to percentage of HP Bar max
 
 		persistentHealthBar.value = value;
-	}
-
-	public void SetPersistentIcon(Sprite newIcon)
-	{
-		persistentIcon.sprite = newIcon;
-	}
-
-	public void SetPersistentAbilityIcon(Sprite newAbilityIcon)
-	{
-		persistentAbilityIcon.sprite = newAbilityIcon;
 	}
 
 	private void SetCooldownIndicator(PlayerUi playerUi, float cooldownLength)
@@ -259,12 +236,12 @@ public class PlayerUi : MonoBehaviour
 	{
 		Canvas canvas = GetComponent<Canvas>();
 
-        float timer = 10;
+		float timer = 10;
 		float i = 0;
-		while(i < timer)
-		{ 
-            canvas.sortingOrder = pb.LilGuyTeam[0].Mesh.sortingOrder - 1;
-            i += Time.deltaTime;
+		while (i < timer)
+		{
+			canvas.sortingOrder = pb.LilGuyTeam[0].Mesh.sortingOrder - 1;
+			i += Time.deltaTime;
 			yield return null;
 		}
 	}

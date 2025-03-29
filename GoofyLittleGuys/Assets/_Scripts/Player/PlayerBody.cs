@@ -550,6 +550,7 @@ public class PlayerBody : MonoBehaviour
 				wasDefeated = true;
 				canMove = true;
 				rb.useGravity = false;
+				playerUi.DisablePlayerUI();
 			}
 		}
 		EventManager.Instance.RefreshUi(this.playerUi, 0);
