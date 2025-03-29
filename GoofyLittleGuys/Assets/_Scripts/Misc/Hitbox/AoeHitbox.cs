@@ -39,7 +39,7 @@ public class AoeHitbox : MonoBehaviour
 	{
 		this.hitboxOwner = hitboxOwner;
 		gameObject.layer = hitboxOwner.layer;
-		damage = Mathf.CeilToInt(0.56f * hitboxOwner.GetComponent<LilGuyBase>().Strength) * aoeDamageMultiplier;
+		damage = Mathf.CeilToInt(0.56f * hitboxOwner.GetComponent<LilGuyBase>().Strength * aoeDamageMultiplier);
 		gameObject.SetActive(true);
 	}
 
@@ -53,15 +53,22 @@ public class AoeHitbox : MonoBehaviour
 		Vector3 knockbackDir = (h.transform.position - transform.position).normalized;
 		DebugManager.Log("HIT", DebugManager.DebugCategory.COMBAT);
 		DefenseType defenseLilGuy = h.gameObject.GetComponent<DefenseType>();
+		PlayerBody attacker = hitboxOwner.GetComponent<LilGuyBase>().PlayerOwner;
 		if (defenseLilGuy != null && defenseLilGuy.IsShieldActive)
 		{
+			float damageDealt = Mathf.CeilToInt(damage * Mathf.Max((1 - defenseLilGuy.DamageReduction), 0.01f));
 			// Specifically if we hit a lil guy whose shield is up, we have to apply damage reduction
-			h.TakeDamage(Mathf.CeilToInt(damage * (1 - defenseLilGuy.DamageReduction)));    // Ceil because we don't want them to be completely immune to damage.
+			h.TakeDamage(damageDealt);    // Ceil because we don't want them to be completely immune to damage.
+
+			if (attacker != null)
+				attacker.GameplayStats.DamageDealt += damageDealt;
 		}
 		else
 		{
 			// Regular damage taken.
 			if (gameObject.layer != LayerMask.NameToLayer("Player")) h.TakeDamage(damage);
+			if (attacker != null)
+				attacker.GameplayStats.DamageDealt += damage;
 		}
 
 		if (h.Health <= 0 && h.gameObject.layer == LayerMask.NameToLayer("WildLilGuys"))
