@@ -762,7 +762,7 @@ MonoBehaviour:
   statMode: 2
   statRevealDuration: 3
   statsGroup: {fileID: 2136832215}
-  confettiEffect: {fileID: 0}
+  confettiEffect: {fileID: 1239260183}
   statNames: {fileID: 866492064}
   statValues: {fileID: 1118634602}
   statsScaleDuration: 0.25
@@ -6926,6 +6926,12 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1239260181}
   m_PrefabAsset: {fileID: 0}
+--- !u!198 &1239260183 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 5499209739437283098, guid: 5f6c849f4de7c4c4187aa350ed165623,
+    type: 3}
+  m_PrefabInstance: {fileID: 1239260181}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1256813516
 GameObject:
   m_ObjectHideFlags: 0
@@ -9390,7 +9396,7 @@ MonoBehaviour:
   statMode: 2
   statRevealDuration: 3
   statsGroup: {fileID: 1127299985}
-  confettiEffect: {fileID: 0}
+  confettiEffect: {fileID: 1072052568514845474}
   statNames: {fileID: 1592335048}
   statValues: {fileID: 1337686043}
   statsScaleDuration: 0.25
@@ -9596,7 +9602,7 @@ MonoBehaviour:
   statMode: 2
   statRevealDuration: 3
   statsGroup: {fileID: 1108629316}
-  confettiEffect: {fileID: 0}
+  confettiEffect: {fileID: 1942285901}
   statNames: {fileID: 437772898}
   statValues: {fileID: 1767895279}
   statsScaleDuration: 0.25
@@ -10611,6 +10617,12 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1942285899}
   m_PrefabAsset: {fileID: 0}
+--- !u!198 &1942285901 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 5499209739437283098, guid: 5f6c849f4de7c4c4187aa350ed165623,
+    type: 3}
+  m_PrefabInstance: {fileID: 1942285899}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1958136522
 GameObject:
   m_ObjectHideFlags: 0
@@ -11489,6 +11501,12 @@ PrefabInstance:
 --- !u!224 &1072052568514845473 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5146589791908860829, guid: 5f6c849f4de7c4c4187aa350ed165623,
+    type: 3}
+  m_PrefabInstance: {fileID: 1072052568514845472}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &1072052568514845474 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 5499209739437283098, guid: 5f6c849f4de7c4c4187aa350ed165623,
     type: 3}
   m_PrefabInstance: {fileID: 1072052568514845472}
   m_PrefabAsset: {fileID: 0}
