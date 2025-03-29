@@ -275,6 +275,9 @@ public class UISelector : MonoBehaviour
 		GameObject starterGO = Instantiate(charSelectMenu.starters[currStarterIndex].gameObject);
 		LilGuyBase starter = starterGO.GetComponent<LilGuyBase>();
 
+		// Disable scale up since this is a starter
+		starter.SkipScaleUp = true;
+
 		starter.GetComponent<Rigidbody>().interpolation = RigidbodyInterpolation.None;
 		starter.SetFollowGoal(controller.Body.LilGuyTeamSlots[0].transform);
 		starter.Init(LayerMask.NameToLayer("PlayerLilGuys"));

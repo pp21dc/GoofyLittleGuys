@@ -365,13 +365,13 @@ public class PlayerBody : MonoBehaviour
 			if (wBehave.enabled)
 				wBehave.HomeSpawner.RemoveLilGuyFromSpawns();
 			closestWildLilGuy.PlayerOwner = this;
+			closestWildLilGuy.ShouldRestoreKinematic = false;
 			closestWildLilGuy.Init(LayerMask.NameToLayer("Player"));
 			closestWildLilGuy.Health = closestWildLilGuy.MaxHealth;
 			closestWildLilGuy.ResetTimers();
 			closestWildLilGuy.GetComponent<AiController>().SetState(AiController.AIState.Tamed);
 			closestWildLilGuy.GetComponent<TutorialAiController>()?.SetState(TutorialAiController.AIState.Tamed);
 			closestWildLilGuy.GetComponent<Hurtbox>().LastHit = null;
-			closestWildLilGuy.LeaveDeathAnim();
 			closestWildLilGuy.CalculateMoveSpeed();
 			if (LilGuyTeam.Count < 3)
 			{

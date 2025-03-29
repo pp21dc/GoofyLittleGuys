@@ -6,6 +6,7 @@ using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
 using TMPro;
 using Managers;
+using UnityEngine.EventSystems;
 
 public class TeamFullMenu : MonoBehaviour
 {
@@ -16,7 +17,7 @@ public class TeamFullMenu : MonoBehaviour
 	[ColoredGroup][SerializeField] private PlayerInput player;                         // Reference to the player owner of this menu.
 	[ColoredGroup][SerializeField] private MultiplayerEventSystem playerEventSystem;  // Reference to the player's event system.
 
-	
+
 	private LilGuyBase lilGuyBeingCaught;                                 // Thi lil guy we are trying to capture... or not.
 	private PlayerBody body;
 
@@ -36,6 +37,15 @@ public class TeamFullMenu : MonoBehaviour
 
 		for (int i = 0; i < buttons.Count - 1; i++)
 		{
+			buttons[i].interactable = true;
+
+			Animator anim = buttons[i].GetComponent<Animator>();
+			if (anim != null)
+			{
+				anim.Rebind(); // Resets to default values from the AnimatorController
+				anim.Update(0f); // Forces the update to happen immediately
+			}
+
 			TextMeshProUGUI label = buttons[i].GetComponentInChildren<TextMeshProUGUI>();
 			if (label != null)
 			{
@@ -50,7 +60,7 @@ public class TeamFullMenu : MonoBehaviour
 		body = player.GetComponentInChildren<PlayerBody>();
 		player.GetComponent<PlayerController>().InTeamFullMenu = false;
 		player.SwitchCurrentActionMap("World");             // Switch back to world action map
-		// Set the first selected button to "Yes"
+															// Set the first selected button to "Yes"
 		playerEventSystem.gameObject.SetActive(false);
 		body.SetInvincible(0);
 	}
@@ -70,6 +80,18 @@ public class TeamFullMenu : MonoBehaviour
 	/// <param name="choice">Which team index the player has chosen to remove from their team.</param>
 	public void OnLilGuyChosenToRelease(int choice)
 	{
+		EventSystem.current.SetSelectedGameObject(null);
+		foreach (Button button in buttons)
+		{
+			button.interactable = false;
+			Animator anim = button.GetComponent<Animator>();
+			if (anim != null)
+			{
+				anim.Rebind(); // Resets to default values from the AnimatorController
+				anim.Update(0f); // Forces the update to happen immediately
+			}
+		}
+
 		if (choice == 3)
 		{
 			buttons[3].interactable = false;
@@ -97,9 +119,10 @@ public class TeamFullMenu : MonoBehaviour
 
 		if (choice == 0)
 		{
-			body.ActiveLilGuy = lilGuyBeingCaught;
 			body.SetActiveLilGuy(lilGuyBeingCaught);
 			body.PlayerUI.SetPersistentHealthBarValue(lilGuyBeingCaught.Health, lilGuyBeingCaught.MaxHealth);
+			EventManager.Instance.RefreshUi(body.PlayerUI, 0);
+			body.PlayerUI.ResetCDTimer();
 		}
 
 		// Remove the lil guy being released.

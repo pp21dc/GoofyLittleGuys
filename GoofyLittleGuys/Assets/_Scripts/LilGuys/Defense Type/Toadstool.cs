@@ -41,7 +41,7 @@ public class Toadstool : DefenseType
 	public override void StopChargingSpecial()
 	{
 		base.StopChargingSpecial();
-	
+
 	}
 
 	protected override IEnumerator EndSpecial(bool stopImmediate = false)
@@ -59,8 +59,10 @@ public class Toadstool : DefenseType
 		{
 			anim.SetTrigger("SpecialAttackEnded");
 		}
+		if (!ReferenceEquals(affectedRB, null) && ShouldRestoreKinematic) affectedRB.isKinematic = false;
 
-		if (!ReferenceEquals(affectedRB, null)) affectedRB.isKinematic = false;
+
+		IsInSpecialAttack = false;
 		isShieldActive = false;
 		LockAttackRotation = false;
 		LockMovement = false;

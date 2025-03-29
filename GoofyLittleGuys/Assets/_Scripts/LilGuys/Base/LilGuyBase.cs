@@ -46,6 +46,7 @@ public abstract class LilGuyBase : MonoBehaviour
 
 	[Header("Movement Parameters")]
 	[HorizontalRule]
+	[ColoredGroup][SerializeField] private bool skipScaleUp = false;	// For starters so they skip the spawning process.
 	[ColoredGroup][SerializeField] private float accelerationTime = 0.1f;  // Time to reach target speed
 
 	[Header("Combat Parameters")]
@@ -64,7 +65,6 @@ public abstract class LilGuyBase : MonoBehaviour
 	[ColoredGroup][SerializeField] protected int maxCharges = 1;
 	[ColoredGroup][SerializeField] protected float cooldownDuration = 1;
 	[ColoredGroup][SerializeField] protected float chargeRefreshRate = 1;
-
 	#endregion
 
 	#region Private Variables
@@ -116,6 +116,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	protected float chargeTimer = 0;
 	private bool lockMovement = false;
 	private bool lockAttackRotation = false;
+	private bool shouldRestoreKinematic = true;
 
 	// INSTANTIATED OBJECTS AND FX
 	private GameObject instantiatedLevelUpEffect;
@@ -166,6 +167,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	public float MoveSpeedModifier { get { return moveSpeedModifier; } set => moveSpeedModifier = value; }
 	public float CurrentSpeed => MovementSpeed + Buffs.GetTotalValue(BuffType.TeamSpeedBoost); // Or whatever base speed prop you're using
 	public bool IsMoving { get { return isMoving; } set { isMoving = value; } }
+	public bool SkipScaleUp { set =>  skipScaleUp = value; }
 
 	// LEVELING
 	public int MaxStat => max_stat;
@@ -183,6 +185,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	public int CurrentCharges => currentCharges;
 	public bool LockAttackRotation { get { return lockAttackRotation; } set { lockAttackRotation = value; } }
 	public bool LockMovement { get { return lockMovement; } set { lockMovement = value; } }
+	public bool ShouldRestoreKinematic { get => shouldRestoreKinematic; set => shouldRestoreKinematic = value; }
 
 	// UI
 	public Sprite Icon { get { return uiIcon; } }
@@ -198,14 +201,31 @@ public abstract class LilGuyBase : MonoBehaviour
 	protected virtual void Start()
 	{
 		rb = GetComponent<Rigidbody>();
-		GameObject instantiantedFX = Instantiate(FXManager.Instance.GetEffect("Spawn"), transform.position, Quaternion.identity);
-		instantiantedFX.GetComponent<SpriteRenderer>().sortingOrder = (int)-transform.position.z - 1;
-		Vector3 initialScale = gameObject.transform.localScale;
-		StartCoroutine(ScaleUp(initialScale));
+		rb.isKinematic = true;
+
+		if (!skipScaleUp)
+		{
+			Collider col = GetComponent<Collider>();
+			if (col != null) col.enabled = false;
+
+			Vector3 initialScale = gameObject.transform.localScale;
+			StartCoroutine(ScaleUp(initialScale));
+
+			GameObject instantiantedFX = Instantiate(FXManager.Instance.GetEffect("Spawn"), transform.position, Quaternion.identity);
+			instantiantedFX.GetComponent<SpriteRenderer>().sortingOrder = (int)-transform.position.z - 1;
+		}
+		else
+		{
+			// Skip scale up, ensure everything starts normally
+			Collider col = GetComponent<Collider>();
+			if (col != null) col.enabled = true;
+		}
+
 		CalculateMoveSpeed();
 
 		if (Buffs != null) Buffs.OnBuffExpired += HandleBuffExpired;
 	}
+
 
 	public void ResetTimers()
 	{
@@ -213,6 +233,7 @@ public abstract class LilGuyBase : MonoBehaviour
 		currentCharges = maxCharges;
 		chargeTimer = 0;
 	}
+
 	private IEnumerator ScaleUp(Vector3 scaleTo)
 	{
 		float elapsedTime = 0;
@@ -222,8 +243,14 @@ public abstract class LilGuyBase : MonoBehaviour
 			elapsedTime += Time.unscaledDeltaTime;
 			yield return null;
 		}
-		transform.localScale = scaleTo; // Ensure the final scale is applied
+		transform.localScale = scaleTo;
+
+		// Re-enable physics AFTER scaling
+		rb.isKinematic = false;
+		Collider col = GetComponent<Collider>();
+		if (col != null) col.enabled = true;
 	}
+
 	public void DetermineLevel()
 	{
 		SetWildLilGuyLevel(GetAverageLevel());
@@ -315,6 +342,7 @@ public abstract class LilGuyBase : MonoBehaviour
 		MaxHealth += primaryPoints * (level - 1);   // Exclude first level.
 		health = maxHealth;
 	}
+
 	/// <summary>
 	/// Method to be called on lil guy instantiation.
 	/// </summary>
@@ -322,6 +350,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	public void Init(LayerMask layer)
 	{
 		SetLayer(layer);
+		EndSpecial(true);
 		AiHealthUi enemyHealthUI = GetComponentInChildren<AiHealthUi>();
 		if (enemyHealthUI != null) enemyHealthUI.gameObject.SetActive(false);
 
@@ -826,6 +855,7 @@ public abstract class LilGuyBase : MonoBehaviour
 			playerOwner.GameplayStats.SpecialsUsed++;
 			EventManager.Instance.StartAbilityCooldown(playerOwner.PlayerUI, cooldownDuration);
 		}
+		shouldRestoreKinematic = true;
 		OnEndSpecial();
 	}
 
@@ -918,20 +948,6 @@ public abstract class LilGuyBase : MonoBehaviour
 	public void AddXP(int xpToAdd)
 	{
 		Xp += xpToAdd;
-	}
-
-	public void LeaveDeathAnim()
-	{
-	}
-
-	public GameObject GetHitboxPrefab()
-	{
-		return hitboxPrefab;
-	}
-
-	public Transform GetAttackPosition()
-	{
-		return attackPosition;
 	}
 
 	/// <summary>

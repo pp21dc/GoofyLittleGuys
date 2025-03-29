@@ -12,6 +12,11 @@ public class Poison : MonoBehaviour
 		affectedGuy = GetComponent<LilGuyBase>();
 	}
 
+	private void OnDestroy()
+	{
+		if (instantiatedFX != null) Destroy(instantiatedFX);
+	}
+
 	public void ApplyPoison(float damagePerTick, float duration, float interval, object source)
 	{
 		// Add or refresh the poison buff
