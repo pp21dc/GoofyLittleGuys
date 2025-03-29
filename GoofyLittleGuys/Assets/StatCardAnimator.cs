@@ -34,12 +34,10 @@ public class StatCardAnimator : MonoBehaviour
 	[ColoredGroup][SerializeField] private StatRevealMode statMode = StatRevealMode.FadeIn;
 	[ColoredGroup][SerializeField] private float statRevealDuration = 0.75f;
 	[ColoredGroup][SerializeField] private CanvasGroup statsGroup;
-
-	[Header("Stats Elements")]
-	[HorizontalRule]
-	[SerializeField] private RectTransform statNames;
-	[SerializeField] private RectTransform statValues;
-	[SerializeField] private float statsScaleDuration = 0.25f;
+	[ColoredGroup][SerializeField] private ParticleSystem confettiEffect;
+	[ColoredGroup][SerializeField] private RectTransform statNames;
+	[ColoredGroup][SerializeField] private RectTransform statValues;
+	[ColoredGroup][SerializeField] private float statsScaleDuration = 0.25f;
 
 	private RectTransform rect;
 	private Vector3 initialScale = Vector3.zero;
@@ -67,6 +65,10 @@ public class StatCardAnimator : MonoBehaviour
 
 	public void TriggerPostScaleEffects()
 	{
+		if (isWinner && confettiEffect != null)
+		{
+			confettiEffect.Play();
+		}
 		StartCoroutine(PostScaleEffectsCoroutine());
 	}
 

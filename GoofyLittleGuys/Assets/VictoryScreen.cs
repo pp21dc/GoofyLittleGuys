@@ -32,33 +32,33 @@ public class VictoryScreen : MonoBehaviour
 
 	private IEnumerator AnimateStatCards()
 	{
-		List<PlayerBody> players = GameManager.Instance.Players;
+		List<PlayerBody> rankedPlayers = GameManager.Instance.Rankings; // Rankings[0] = last place, Rankings[^1] = winner
 		List<StatCardAnimator> animators = new List<StatCardAnimator>();
 
-		// 1. Animate scale-ins sequentially
-		for (int i = players.Count - 1; i >= 0; i--)
+		for (int i = 0; i < rankedPlayers.Count; i++) // Animate from last to first
 		{
-			int playerIndex = players[i].Controller.PlayerNumber - 1;
+			PlayerBody body = rankedPlayers[i];
+			int playerIndex = body.Controller.PlayerNumber - 1;
 			StatCard card = screenReferences.playerStatObjects[playerIndex];
-			bool isWinner = (i == 0);
+			bool isWinner = (i == rankedPlayers.Count - 1); // Last in the list = winner
 
 			StatCardAnimator animator = card.GetComponent<StatCardAnimator>();
 			if (animator != null)
 			{
 				animators.Add(animator);
-				animator.BeginScaleIn((players.Count - 1 - i) * 0.5f, isWinner);
+				animator.BeginScaleIn(i * 0.5f, isWinner);
 				yield return new WaitForSeconds(0.5f);
 			}
 		}
 
-		// 2. Trigger post-scale effects all at once
-		yield return new WaitForSeconds(0.5f);
+		yield return new WaitForSeconds(0.5f); // Final buffer before post-effects
 
 		foreach (var anim in animators)
 		{
 			anim.TriggerPostScaleEffects();
 		}
 	}
+
 
 
 	private void Update()
@@ -84,6 +84,7 @@ public class VictoryScreen : MonoBehaviour
 
 		for (int i = 0; i < players.Count; i++)
 		{
+			players[i].Controller.PlayerCam.gameObject.SetActive(false);
 			PlayerBody body = players[i];
 			inputs.Add(body.Controller.GetComponent<PlayerInput>());
 			metrics.Add(body.GameplayStats);
