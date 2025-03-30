@@ -553,7 +553,7 @@ namespace Managers
 				if (!rankings.Contains(player)) rankings.Add(player);
 			}
 
-			rankings[rankings.Count - 1].PlayerUI.VictoryAnimPlay();
+			rankings[^1].PlayerUI.VictoryAnimPlay();
 
 			Managers.DebugManager.Log("Brawl Phase has ended by knockout!", DebugManager.DebugCategory.GENERAL);
 		}

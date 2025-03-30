@@ -382,7 +382,7 @@ public class PlayerBody : MonoBehaviour
 
 				// Setting layer to Player Lil Guys, and putting the lil guy into the first empty slot available.
 				closestWildLilGuy.transform.SetParent(transform, false);
-				closestWildLilGuy.SetFollowGoal(LilGuyTeamSlots[LilGuyTeam.Count - 1].transform);
+				closestWildLilGuy.SetFollowGoal(LilGuyTeamSlots[^1].transform);
 				closestWildLilGuy.GetComponent<Rigidbody>().isKinematic = false;
 				closestWildLilGuy.transform.localPosition = Vector3.zero;
 				closestWildLilGuy.transform.localRotation = Quaternion.identity;
@@ -583,7 +583,7 @@ public class PlayerBody : MonoBehaviour
 		}
 		else if (shiftDirection > 0) // Right shift
 		{
-			LilGuyBase last = aliveTeam[aliveTeam.Count - 1];
+			LilGuyBase last = aliveTeam[^1];
 			aliveTeam.RemoveAt(aliveTeam.Count - 1);
 			aliveTeam.Insert(0, last);
 		}
