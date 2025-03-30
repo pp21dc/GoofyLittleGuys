@@ -113,7 +113,7 @@ public class AiHealthUi : MonoBehaviour
 	public void UpdateUI()
 	{
 		healthText.text = $"{lilGuy.Health}/{lilGuy.MaxHealth}";
-		levelText.text = $"Lv. {lilGuy.Level}";
+		levelText.text = $"{lilGuy.Level}";
 	}
 
 }

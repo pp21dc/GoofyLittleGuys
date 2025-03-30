@@ -506,7 +506,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1492760040082179729
 Transform:
   m_ObjectHideFlags: 0
@@ -2603,17 +2603,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2743772861996590287, guid: 0ed03362164b40c4c801c51f821efc57,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3234618999776625233, guid: 0ed03362164b40c4c801c51f821efc57,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 7a524d735bce7d049981763bda16c764,
-        type: 3}
     - target: {fileID: 3440502594328298653, guid: 0ed03362164b40c4c801c51f821efc57,
         type: 3}
       propertyPath: m_Pivot.x
@@ -2647,7 +2636,7 @@ PrefabInstance:
     - target: {fileID: 3440502594328298653, guid: 0ed03362164b40c4c801c51f821efc57,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 200
+      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: 3440502594328298653, guid: 0ed03362164b40c4c801c51f821efc57,
         type: 3}
