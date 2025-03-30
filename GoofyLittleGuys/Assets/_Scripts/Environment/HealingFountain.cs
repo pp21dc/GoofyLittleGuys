@@ -123,6 +123,7 @@ public class HealingFountain : InteractableBase
 		}
 
 		EventManager.Instance.UpdatePlayerHealthUI(body);
+		EventManager.Instance.RefreshUi(body.PlayerUI, 0);
 	}
 
 	private bool PlayerNeedsHealing(PlayerBody body)

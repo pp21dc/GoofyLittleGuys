@@ -32,8 +32,18 @@ public class Hitbox : MonoBehaviour
 	public virtual void Init(GameObject hitboxOwner)
 	{
 		this.hitboxOwner = hitboxOwner;
-		Damage = Mathf.CeilToInt(0.536f * hitboxOwner.GetComponent<LilGuyBase>().Strength);
+		Damage = CalculateDamage();
 	}
+	protected float CalculateDamage()
+	{
+		LilGuyBase lilGuy = hitboxOwner.GetComponent<LilGuyBase>();
+		float baseDamage = Mathf.CeilToInt(0.56f * lilGuy.Strength);
+
+		// Add subtle damage variation (random bonus from 0 to 5)
+		float variableDamage = Random.Range(0, 6); // max is exclusive, so 6 gives up to +5
+		return Mathf.CeilToInt(baseDamage + variableDamage);
+	}
+
 	private bool AreEnemies(GameObject attacker, GameObject target)
 	{
 		LilGuyBase attackerLilGuy = attacker.GetComponent<LilGuyBase>();

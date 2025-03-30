@@ -693,6 +693,7 @@ public class PlayerBody : MonoBehaviour
 		canMove = true;
 		lilGuyTeam[0].SetLayer(LayerMask.NameToLayer("PlayerLilGuys"));
 		EventManager.Instance.UpdatePlayerHealthUI(this);
+		EventManager.Instance.RefreshUi(playerUi, 0);
 		SetInvincible(respawnInvincibility);
 	}
 

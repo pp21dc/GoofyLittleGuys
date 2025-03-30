@@ -149,10 +149,10 @@ public class PlayerUi : MonoBehaviour
 	{
 		//CurrentCharacter.sprite = pb.LilGuyTeam[0].Icon;
 		AbilityIcon.sprite = pb.LilGuyTeam[0].AbilityIcon;
-		if (pb.LilGuyTeam.Count > 1) RBCharacter.sprite = pb.LilGuyTeam[1].Icon;
+		if (pb.LilGuyTeam.Count > 1) RBCharacter.sprite = pb.LilGuyTeam[1].Health > 0 ? pb.LilGuyTeam[1].Icon : pb.LilGuyTeam[1].MonochromeIcon;
 		else RBCharacter.sprite = transparentSprite;
 
-		if (pb.LilGuyTeam.Count > 2) LBCharacter.sprite = pb.LilGuyTeam[2].Icon;
+		if (pb.LilGuyTeam.Count > 2) LBCharacter.sprite = pb.LilGuyTeam[2].Health > 0 ? pb.LilGuyTeam[2].Icon : pb.LilGuyTeam[2].MonochromeIcon;
 		else LBCharacter.sprite = transparentSprite;
 	}
 

@@ -27,6 +27,7 @@ public abstract class LilGuyBase : MonoBehaviour
 	[ColoredGroup][SerializeField] protected Transform attackOrbit;
 	[ColoredGroup][SerializeField] private AudioSource audioSource;
 	[ColoredGroup][SerializeField] private Sprite uiIcon;
+	[ColoredGroup][SerializeField] private Sprite monochromeUiIcon;
 	[ColoredGroup][SerializeField] private Sprite abilityIcon;
 	[ColoredGroup][SerializeField] private AnimationClip uiAnimation;
 	[ColoredGroup][SerializeField] private InteractCanvasController tameCanvas;
@@ -189,6 +190,7 @@ public abstract class LilGuyBase : MonoBehaviour
 
 	// UI
 	public Sprite Icon { get { return uiIcon; } }
+	public Sprite MonochromeIcon { get { return monochromeUiIcon; } }
 	public Sprite AbilityIcon { get { return abilityIcon; } }
 	public AnimationClip UiAnimation { get { return uiAnimation; } }
 

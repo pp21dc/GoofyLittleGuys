@@ -39,8 +39,17 @@ public class AoeHitbox : MonoBehaviour
 	{
 		this.hitboxOwner = hitboxOwner;
 		gameObject.layer = hitboxOwner.layer;
-		damage = Mathf.CeilToInt(0.56f * hitboxOwner.GetComponent<LilGuyBase>().Strength * aoeDamageMultiplier);
+		damage = CalculateDamage();
 		gameObject.SetActive(true);
+	}
+	protected float CalculateDamage()
+	{
+		LilGuyBase lilGuy = hitboxOwner.GetComponent<LilGuyBase>();
+		float baseDamage = Mathf.CeilToInt(0.56f * lilGuy.Strength * aoeDamageMultiplier);
+
+		// Add subtle damage variation (random bonus from 0 to 5)
+		float variableDamage = Random.Range(0, 6); // max is exclusive, so 6 gives up to +5
+		return Mathf.CeilToInt(baseDamage + variableDamage);
 	}
 
 	/// <summary>

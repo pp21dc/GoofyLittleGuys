@@ -121,10 +121,10 @@ public class TeamFullMenu : MonoBehaviour
 		{
 			body.SetActiveLilGuy(lilGuyBeingCaught);
 			body.PlayerUI.SetPersistentHealthBarValue(lilGuyBeingCaught.Health, lilGuyBeingCaught.MaxHealth);
-			EventManager.Instance.RefreshUi(body.PlayerUI, 0);
 			body.PlayerUI.ResetCDTimer();
 		}
 
+		EventManager.Instance.RefreshUi(body.PlayerUI, 0);
 		// Remove the lil guy being released.
 		Destroy(lilGuyBeingReleased.gameObject);
 
