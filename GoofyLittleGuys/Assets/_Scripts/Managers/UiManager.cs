@@ -29,6 +29,7 @@ namespace Managers
 		[SerializeField] public List<Sprite> shapes = new List<Sprite>();
 		[SerializeField] List<PlayerUi> playerUis;              //List of PlayerUi prefab canvases 
 		[ColoredGroup][SerializeField] private GameObject playerUiPrefab;     // Prefab for ingame player UI
+        [SerializeField] private AudioSource uiAudioSource;
 
         private void Start()
         {
@@ -40,6 +41,7 @@ namespace Managers
         /// </summary>
         public void OnResumePressed()
         {
+            PlayButtonPressSfx();
             GameManager.Instance.IsPaused = false;
 			Time.timeScale = 1;
 			foreach (PlayerBody body in GameManager.Instance.Players)
@@ -55,6 +57,7 @@ namespace Managers
         /// </summary>
         public void OnQuitToMainMenuPressed()
         {
+            PlayButtonPressSfx();
             GameManager.Instance.IsPaused = false;
             pauseScreen.SetActive(GameManager.Instance.IsPaused);
             EventManager.Instance.CallGameOverEvent();
@@ -154,6 +157,16 @@ namespace Managers
         public void OpenSettingsMenu()
         {
             EventSystem.current.SetSelectedGameObject(settingsInitButton);
+        }
+
+        public void PlayButtonHighlightSfx() 
+        {
+            Managers.AudioManager.Instance.PlaySfx("Button_Highlight", uiAudioSource);
+        }
+
+        public void PlayButtonPressSfx()
+        {
+            Managers.AudioManager.Instance.PlaySfx("Button_Press", uiAudioSource);
         }
     }
 }

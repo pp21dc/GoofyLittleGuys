@@ -9,6 +9,8 @@ public class MainMenu : MonoBehaviour
 {
 	[SerializeField] private List<Button> buttons;
 	[SerializeField] private GameObject menuEventSystem;
+	
+    
 
 	public GameObject MenuEventSystem => menuEventSystem;
 
@@ -21,6 +23,7 @@ public class MainMenu : MonoBehaviour
 	/// </summary>
 	public void OnPlayButtonPressed()
 	{
+		Managers.UiManager.Instance.PlayButtonPressSfx();
 		ToggleButtons(false);
 		LevelLoadManager.Instance.LoadNewLevel("01_CharacterSelectMenu");
 	}
@@ -37,6 +40,7 @@ public class MainMenu : MonoBehaviour
 	/// </summary>
 	public void OnQuitButtonPressed()
 	{
+		Managers.UiManager.Instance.PlayButtonPressSfx();
 #if UNITY_EDITOR
 		UnityEditor.EditorApplication.isPlaying = false;
 #endif
