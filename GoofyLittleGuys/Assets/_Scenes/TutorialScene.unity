@@ -17318,19 +17318,19 @@ MonoBehaviour:
   - {fileID: 2010683631}
   - {fileID: 674591680}
   tutorialTexts:
-  - text: Attack the Fishbowl!
+  - text: Attack Fishbowl!
     image: {fileID: 21300000, guid: ff596881126ae3b459f7cfd2324ddb94, type: 3}
   - text: Use your Ability!
     image: {fileID: 21300000, guid: 72536ea7b5b71ea4b8b8be5bfd8af7ba, type: 3}
-  - text: Defeat the Fishbowl to tame it!
+  - text: Defeat Fishbowl!
     image: {fileID: 21300000, guid: 99490ab76010f5141a81117f98504336, type: 3}
-  - text: You can Tame 3 Lil Guys, Tame Fishbowl!
+  - text: Add Fishbowl to your team!
     image: {fileID: 21300000, guid: b85964ffde41db44da79ac19d4f33bff, type: 3}
-  - text: Swap Lil Guys with LB or RB!
+  - text: Swap out Lil Guys!
     image: {fileID: 21300000, guid: 99490ab76010f5141a81117f98504336, type: 3}
   - text: Beware the Storm!
-    image: {fileID: -1034671459, guid: d64112556d8bd694282b96b98a294666, type: 3}
-  - text: Use Bushes to Get Berries
+    image: {fileID: 21300000, guid: 75961c74bbf34374b8706b8ff159a6c3, type: 3}
+  - text: Pick up to 3 Berries from Bushes!
     image: {fileID: 21300000, guid: 420b277daaa92184a8dcd9a7f5b8fe77, type: 3}
   - text: Eat a Berry to Heal!
     image: {fileID: 21300000, guid: 652d653db6e61f54e9716fe15b428dd0, type: 3}
@@ -21941,7 +21941,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1100344365
 RectTransform:
   m_ObjectHideFlags: 0
@@ -21975,7 +21975,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.6039216}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -22111,7 +22111,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1102761369
 RectTransform:
   m_ObjectHideFlags: 0
@@ -22145,7 +22145,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.6039216}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -24246,7 +24246,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1215011205
 RectTransform:
   m_ObjectHideFlags: 0
@@ -24280,7 +24280,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.6039216}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -38787,7 +38787,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1613930384
 RectTransform:
   m_ObjectHideFlags: 0
@@ -40082,7 +40082,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1734041509
 RectTransform:
   m_ObjectHideFlags: 0
@@ -40116,7 +40116,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.6039216}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
