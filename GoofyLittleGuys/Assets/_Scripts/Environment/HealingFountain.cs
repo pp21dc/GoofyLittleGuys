@@ -10,6 +10,7 @@ public class HealingFountain : InteractableBase
 	[HorizontalRule]
 	[SerializeField] private GameObject[] radialCanvases;
 	[ColoredGroup][SerializeField] private Transform spawnPoint;
+	[SerializeField] private AudioSource fountainAudioSource;
 
 	private bool swappedLayers = false;
 
@@ -38,6 +39,8 @@ public class HealingFountain : InteractableBase
 	{
 		if (GameManager.Instance.CurrentPhase == 2 || body.IsDead) return;
 		if (!PlayerNeedsHealing(body)) return;
+
+		Managers.AudioManager.Instance.PlaySfx("Use_Fountain", fountainAudioSource);
 
 		base.StartInteraction(body);
 
