@@ -70,6 +70,7 @@ namespace Managers
                 Destroy(GameManager.Instance.Players[i].Controller.gameObject);
             }
 			LevelLoadManager.Instance.LoadNewLevel("00_MainMenu");
+            GameManager.Instance.PlayMainMenuMusic();
             GameManager.Instance.Players.Clear();
 		}
 

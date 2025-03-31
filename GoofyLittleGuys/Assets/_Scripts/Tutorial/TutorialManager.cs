@@ -185,7 +185,8 @@ public class TutorialManager : SingletonBase<TutorialManager>
             GameObject starterGo = Instantiate(player.Starter);
             LilGuyBase starter = starterGo.GetComponent<LilGuyBase>();
 
-            starter.GetComponent<Rigidbody>().interpolation = RigidbodyInterpolation.None;
+			starter.SkipScaleUp = true;
+			starter.GetComponent<Rigidbody>().interpolation = RigidbodyInterpolation.None;
             starter.SetFollowGoal(player.LilGuyTeamSlots[0].transform);
             starter.Init(LayerMask.NameToLayer("PlayerLilGuys"));
             starter.SetMaterial(GameManager.Instance.OutlinedLilGuySpriteMat);
