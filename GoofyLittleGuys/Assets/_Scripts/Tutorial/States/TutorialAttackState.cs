@@ -14,7 +14,7 @@ public class TutorialAttackState : TutorialState
     {
         base.Enter();
 
-        var lilG = Object.Instantiate(stateMachine.Island.lilGuyPref, stateMachine.Island.enemySpawnPoint.position, Quaternion.identity);
+        var lilG = Object.Instantiate(stateMachine.Island.lilGuyPref, stateMachine.Island.enemySpawnPoint.position, Quaternion.identity, stateMachine.Island.transform);
         stateMachine.Island.enemies.Add(lilG);
         targetLilG = lilG.GetComponent<LilGuyBase>();
         targetLilG.GetComponent<TutorialBehaviour>().Home = stateMachine.Island.enemySpawnPoint;

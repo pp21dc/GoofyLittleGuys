@@ -15,7 +15,7 @@ public class TutorialTameState : TutorialState
             targetLilG = stateMachine.Island.enemies[0].GetComponent<LilGuyBase>();
         else
         {
-            var lilG = Object.Instantiate(stateMachine.Island.lilGuyPref, stateMachine.Island.enemySpawnPoint.position, Quaternion.identity);
+            var lilG = Object.Instantiate(stateMachine.Island.lilGuyPref, stateMachine.Island.enemySpawnPoint.position, Quaternion.identity, stateMachine.Island.transform);
             stateMachine.Island.enemies.Add(lilG);
             targetLilG = lilG.GetComponent<LilGuyBase>();
         }
