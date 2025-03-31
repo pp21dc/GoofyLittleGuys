@@ -45,6 +45,8 @@ public class PlayerUi : MonoBehaviour
 	[ColoredGroup][SerializeField] TMP_Text abilityCooldownText;
 	[ColoredGroup][SerializeField] GameObject LBIcon;
 	[ColoredGroup][SerializeField] GameObject RBIcon;
+	[ColoredGroup][SerializeField] RectTransform LB;
+	[ColoredGroup][SerializeField] RectTransform RB;
 	[ColoredGroup][SerializeField] Image LBCharacter;
 	[ColoredGroup][SerializeField] Image RBCharacter;
 
@@ -149,11 +151,13 @@ public class PlayerUi : MonoBehaviour
 	{
 		//CurrentCharacter.sprite = pb.LilGuyTeam[0].Icon;
 		AbilityIcon.sprite = pb.LilGuyTeam[0].AbilityIcon;
-		if (pb.LilGuyTeam.Count > 1) RBCharacter.sprite = pb.LilGuyTeam[1].Health > 0 ? pb.LilGuyTeam[1].Icon : pb.LilGuyTeam[1].MonochromeIcon;
+
+		if (pb.LilGuyTeam.Count > 1) LBCharacter.sprite = pb.LilGuyTeam[1].Health > 0 ? pb.LilGuyTeam[1].Icon : pb.LilGuyTeam[1].MonochromeIcon;
+		else LBCharacter.sprite = transparentSprite;
+
+		if (pb.LilGuyTeam.Count > 2) RBCharacter.sprite = pb.LilGuyTeam[2].Health > 0 ? pb.LilGuyTeam[2].Icon : pb.LilGuyTeam[2].MonochromeIcon;
 		else RBCharacter.sprite = transparentSprite;
 
-		if (pb.LilGuyTeam.Count > 2) LBCharacter.sprite = pb.LilGuyTeam[2].Health > 0 ? pb.LilGuyTeam[2].Icon : pb.LilGuyTeam[2].MonochromeIcon;
-		else LBCharacter.sprite = transparentSprite;
 	}
 
 	public void ShowRespawnScreen()
@@ -214,6 +218,9 @@ public class PlayerUi : MonoBehaviour
 		berryCountTxt.transform.localScale = new Vector3((float)-1, (float)1, (float)1);
 		victoryObject.transform.localScale = new Vector3((float)-1, (float)1, (float)1);
 
+		// Swap their anchored positions
+		LB.SetSiblingIndex(2);
+		RB.SetSiblingIndex(1);
 	}
 
 	public void ResetCDTimer()
