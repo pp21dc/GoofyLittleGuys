@@ -934,12 +934,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerShapes: []
+  checkmarkShapes: []
   playerNum: {fileID: 1739599330517565537}
-  titles: {fileID: 0}
+  titleTextBoxes: []
   stats: {fileID: 3302139087124774872}
+  crownImage: {fileID: 0}
   ranking: {fileID: 0}
   mostUsedIcon: {fileID: 0}
+  aocTemplate: {fileID: 0}
   background: {fileID: 0}
+  submitIcon: {fileID: 0}
+  submitText: {fileID: 0}
+  statViewPanel: {fileID: 0}
+  lockedInPanel: {fileID: 0}
   readyCheckmark: {fileID: 0}
 --- !u!1 &3084896652172786167
 GameObject:
@@ -1057,7 +1064,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 227.005, y: -259.5}
+  m_AnchoredPosition: {x: 2880, y: -1080}
   m_SizeDelta: {x: 454.01, y: 878.3234}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6873730484335397321
@@ -1111,12 +1118,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerShapes: []
+  checkmarkShapes: []
   playerNum: {fileID: 3205267404312805189}
-  titles: {fileID: 0}
+  titleTextBoxes: []
   stats: {fileID: 6210076198929793216}
+  crownImage: {fileID: 0}
   ranking: {fileID: 0}
   mostUsedIcon: {fileID: 0}
+  aocTemplate: {fileID: 0}
   background: {fileID: 0}
+  submitIcon: {fileID: 0}
+  submitText: {fileID: 0}
+  statViewPanel: {fileID: 0}
+  lockedInPanel: {fileID: 0}
   readyCheckmark: {fileID: 0}
 --- !u!1 &3422633361883380002
 GameObject:
@@ -3489,12 +3503,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerShapes: []
+  checkmarkShapes: []
   playerNum: {fileID: 5648280210599347545}
-  titles: {fileID: 0}
+  titleTextBoxes: []
   stats: {fileID: 7202944565791064277}
+  crownImage: {fileID: 0}
   ranking: {fileID: 0}
   mostUsedIcon: {fileID: 0}
+  aocTemplate: {fileID: 0}
   background: {fileID: 0}
+  submitIcon: {fileID: 0}
+  submitText: {fileID: 0}
+  statViewPanel: {fileID: 0}
+  lockedInPanel: {fileID: 0}
   readyCheckmark: {fileID: 0}
 --- !u!95 &678131134831017621
 Animator:
@@ -3984,12 +4005,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerShapes: []
+  checkmarkShapes: []
   playerNum: {fileID: 2793026150320966472}
-  titles: {fileID: 0}
+  titleTextBoxes: []
   stats: {fileID: 5946650565663930990}
+  crownImage: {fileID: 0}
   ranking: {fileID: 0}
   mostUsedIcon: {fileID: 0}
+  aocTemplate: {fileID: 0}
   background: {fileID: 0}
+  submitIcon: {fileID: 0}
+  submitText: {fileID: 0}
+  statViewPanel: {fileID: 0}
+  lockedInPanel: {fileID: 0}
   readyCheckmark: {fileID: 0}
 --- !u!1 &8167026665512916098
 GameObject:
