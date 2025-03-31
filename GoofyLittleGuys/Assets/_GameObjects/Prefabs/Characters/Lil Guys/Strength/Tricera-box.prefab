@@ -207,18 +207,18 @@ MonoBehaviour:
   specialDuration: -1
   currentCharges: 1
   maxCharges: 1
-  cooldownDuration: 9
-  chargeRefreshRate: 9
+  cooldownDuration: 10
+  chargeRefreshRate: 10
   aoeShape: {fileID: 7763503517924717934, guid: 783823e0ebd4aff4298168ab9dfa9111,
     type: 3}
-  aoeDamageMultiplier: 1
+  aoeDamageMultiplier: 1.025
   frameToDestroyAoe: 12
   specialTotalFrames: 14
   specialFXPrefab: {fileID: 125122912735167046, guid: 55fabaf05f6ae3348b9d481e8cb3875b,
     type: 3}
   waveAoePrefab: {fileID: 7763503517924717934, guid: cee25af8c16e11e4a806c624ad058e67,
     type: 3}
-  waveAoeDamageMultiplier: 1
+  waveAoeDamageMultiplier: 1.025
   waveAoeLifetime: 1.4
   waveSpeed: 13
   slowAmount: -0.35

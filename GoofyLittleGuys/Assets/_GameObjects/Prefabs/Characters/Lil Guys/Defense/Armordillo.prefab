@@ -195,7 +195,7 @@ MonoBehaviour:
   health: 80
   maxHealth: 80
   speed: 16
-  defense: 20
+  defense: 21
   strength: 15
   skipScaleUp: 0
   accelerationTime: 0.1
@@ -207,19 +207,19 @@ MonoBehaviour:
   specialDuration: 1.75
   currentCharges: 1
   maxCharges: 1
-  cooldownDuration: 12
-  chargeRefreshRate: 12
-  damageReduction: 0.8
+  cooldownDuration: 11
+  chargeRefreshRate: 11
+  damageReduction: 0.7
   knockbackPrefab: {fileID: 4631284653977187687, guid: 9341da0943f3c924db490a9047fb1341,
     type: 3}
   shieldPrefab: {fileID: 2008765747768666474, guid: 0b6f276f11794084db7a6f88d2820118,
     type: 3}
   startColour: {r: 0, g: 0.9647059, b: 1, a: 1}
   endColour: {r: 0.94509804, g: 0.6156863, b: 0.6156863, a: 1}
-  knockbackForceAmount: 60
+  knockbackForceAmount: 55
   knockbackDuration: 1
   shieldUptime: 5
-  speedBoost: 55
+  speedBoost: 60
 --- !u!54 &4146728097653182592
 Rigidbody:
   m_ObjectHideFlags: 0

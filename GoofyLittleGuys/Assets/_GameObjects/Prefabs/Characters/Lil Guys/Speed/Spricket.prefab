@@ -208,8 +208,8 @@ MonoBehaviour:
   specialDuration: -1
   currentCharges: 1
   maxCharges: 1
-  cooldownDuration: 8
-  chargeRefreshRate: 8
+  cooldownDuration: 9
+  chargeRefreshRate: 9
   knockbackPrefab: {fileID: 8183314260541929530, guid: 551a7c71512e5d44ca3e4e5580b83f4b,
     type: 3}
   chargeEffectColour: {r: 1, g: 0.81960785, b: 0.2509804, a: 0.4}
@@ -217,10 +217,10 @@ MonoBehaviour:
   minChargeTime: 0.25
   maxChargeTime: 1
   minDashDistance: 10
-  dashSpeed: 100
-  knockbackForceAmount: 65
+  dashSpeed: 85
+  knockbackForceAmount: 70
   knockbackDuration: 1
-  baseMaxDistance: 40
+  baseMaxDistance: 36
   distanceThreshold: 100
   speedStatInfluence: 1
   maxDistanceFalloff: 40

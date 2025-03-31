@@ -207,8 +207,8 @@ MonoBehaviour:
   specialDuration: 1
   currentCharges: 1
   maxCharges: 1
-  cooldownDuration: 11
-  chargeRefreshRate: 11
+  cooldownDuration: 9
+  chargeRefreshRate: 9
   aoeShape: {fileID: 3002048726699763566, guid: 42eafbd32610d954eaa3c0cc605b89bc,
     type: 3}
   aoeDamageMultiplier: 1.15
@@ -216,7 +216,7 @@ MonoBehaviour:
   specialTotalFrames: 17
   chargeEffectColour: {r: 0.802, g: 0.19965398, b: 0.32147673, a: 0.41568628}
   minChargeTime: 0.5
-  maxChargeTime: 1.15
+  maxChargeTime: 1.1
   aoeMinSize: 0.95
   aoeMaxSize: 2.5
   waveMoveSpeed: 12
