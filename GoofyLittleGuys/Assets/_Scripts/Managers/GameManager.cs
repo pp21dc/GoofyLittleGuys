@@ -53,6 +53,10 @@ namespace Managers
 		[Header("Player Settings")]
 		[HorizontalRule]
 		[SerializeField] private Color[] playerColours;
+		[SerializeField] private Color[] protanopia;
+		[SerializeField] private Color[] deuteranopia;
+		[SerializeField] private Color[] tritanopia;
+
 		[ColoredGroup][SerializeField] private float activeLilGuyScaleFactor = 1.1f;
 		[ColoredGroup][SerializeField] private float nonActiveLilGuyScaleFactor = 0.9f;
 		[ColoredGroup][SerializeField] private float teamWipeBonusXpPercentage = 0.2f;
