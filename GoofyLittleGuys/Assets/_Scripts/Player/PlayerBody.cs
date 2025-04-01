@@ -367,6 +367,7 @@ public class PlayerBody : MonoBehaviour
 			closestWildLilGuy.PlayerOwner = this;
 			closestWildLilGuy.ShouldRestoreKinematic = false;
 			closestWildLilGuy.Init(LayerMask.NameToLayer("Player"));
+			closestWildLilGuy.SetMaterial(GameManager.Instance.RegularLilGuySpriteMat);
 			closestWildLilGuy.Health = closestWildLilGuy.MaxHealth;
 			closestWildLilGuy.ResetTimers();
 			closestWildLilGuy.GetComponent<AiController>().SetState(AiController.AIState.Tamed);

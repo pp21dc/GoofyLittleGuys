@@ -114,6 +114,7 @@ public class TeamFullMenu : MonoBehaviour
 		lilGuyBeingCaught.gameObject.transform.SetParent(body.transform, true);
 		lilGuyBeingCaught.gameObject.GetComponent<Rigidbody>().isKinematic = (choice == 0);
 		lilGuyBeingCaught.SetLayer((choice == 0) ? LayerMask.NameToLayer("PlayerLilGuys") : LayerMask.NameToLayer("Player"));
+		lilGuyBeingCaught.SetMaterial((choice != 0) ? GameManager.Instance.RegularLilGuySpriteMat : GameManager.Instance.OutlinedLilGuySpriteMat);
 		lilGuyBeingCaught.gameObject.transform.localPosition = Vector3.zero;
 		lilGuyBeingCaught.SetFollowGoal(body.LilGuyTeamSlots[choice].transform);
 
