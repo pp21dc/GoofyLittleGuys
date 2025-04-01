@@ -7,15 +7,17 @@ using UnityEngine.UI;
 using TMPro;
 using Managers;
 using UnityEngine.EventSystems;
+using UnityEditor.Rendering.Universal.ShaderGUI;
 
 public class TeamFullMenu : MonoBehaviour
 {
 	[Header("References")]
 	[HorizontalRule]
 	[SerializeField] private List<Button> buttons;                        // The first button to be selected on default.
-	[SerializeField] private List<Image> images;
+	[SerializeField] private List<Animator> icons;
 	[ColoredGroup][SerializeField] private PlayerInput player;                         // Reference to the player owner of this menu.
 	[ColoredGroup][SerializeField] private MultiplayerEventSystem playerEventSystem;  // Reference to the player's event system.
+	[ColoredGroup][SerializeField] private AnimatorOverrideController aocTemplate;
 
 
 	private LilGuyBase lilGuyBeingCaught;                                 // Thi lil guy we are trying to capture... or not.
@@ -30,6 +32,7 @@ public class TeamFullMenu : MonoBehaviour
 		playerEventSystem.firstSelectedGameObject = buttons[0].gameObject;
 		playerEventSystem.SetSelectedGameObject(buttons[0].gameObject);
 
+		player.actions["Cancel"].performed += OnCancelled;
 		player.GetComponent<PlayerController>().InTeamFullMenu = true;
 
 		body = player.GetComponent<PlayerController>().Body;
@@ -50,13 +53,20 @@ public class TeamFullMenu : MonoBehaviour
 			if (label != null)
 			{
 				label.text = "Lvl: " + body.LilGuyTeam[i].Level + "\n HP: " + body.LilGuyTeam[i].Health;
-				images[i].sprite = body.LilGuyTeam[i].Icon;
+				AnimatorOverrideController aoc = new AnimatorOverrideController(aocTemplate);
+				aoc["Idle"] = body.LilGuyTeam[i].UiAnimation;
+				icons[i].runtimeAnimatorController = aoc;
 			}
 		}
 	}
 
+	private void OnCancelled(InputAction.CallbackContext ctx)
+	{
+		if (ctx.performed) OnLilGuyChosenToRelease(3);
+	}
 	private void OnDisable()
 	{
+		player.actions["Cancel"].performed -= OnCancelled;
 		body = player.GetComponentInChildren<PlayerBody>();
 		player.GetComponent<PlayerController>().InTeamFullMenu = false;
 		player.SwitchCurrentActionMap("World");             // Switch back to world action map
