@@ -32,6 +32,7 @@ public class TeamFullMenu : MonoBehaviour
 		playerEventSystem.firstSelectedGameObject = buttons[0].gameObject;
 		playerEventSystem.SetSelectedGameObject(buttons[0].gameObject);
 
+		player.actions["Cancel"].performed += OnCancelled;
 		player.GetComponent<PlayerController>().InTeamFullMenu = true;
 
 		body = player.GetComponent<PlayerController>().Body;
@@ -59,8 +60,13 @@ public class TeamFullMenu : MonoBehaviour
 		}
 	}
 
+	private void OnCancelled(InputAction.CallbackContext ctx)
+	{
+		if (ctx.performed) OnLilGuyChosenToRelease(3);
+	}
 	private void OnDisable()
 	{
+		player.actions["Cancel"].performed -= OnCancelled;
 		body = player.GetComponentInChildren<PlayerBody>();
 		player.GetComponent<PlayerController>().InTeamFullMenu = false;
 		player.SwitchCurrentActionMap("World");             // Switch back to world action map
