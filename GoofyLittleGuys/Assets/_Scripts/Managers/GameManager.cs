@@ -131,6 +131,7 @@ namespace Managers
 		public bool StartGame { get => startGame; set => startGame = value; }
 		public int LegendaryLevelSubtractor => legendaryLevelSubtractor;
 		public float LegendaryXpPercentageMultiplier => legendaryXpPercentageMultiplier;
+		public Animator Phase2CloudAnim { set => phase2CloudAnim = value; }
 		#endregion
 
 		public override void Awake()
