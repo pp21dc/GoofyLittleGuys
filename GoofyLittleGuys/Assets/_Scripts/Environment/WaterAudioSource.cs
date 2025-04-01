@@ -8,7 +8,7 @@ public class WaterAudioSource : MonoBehaviour
     [SerializeField] private AudioSource waterAudioSource;
 
     // Start is called before the first frame update
-    void Update()
+    void Start()
     {
         if (!isPlaying)
         {

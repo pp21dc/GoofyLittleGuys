@@ -39,8 +39,7 @@ public class HealingFountain : InteractableBase
 	{
 		if (GameManager.Instance.CurrentPhase == 2 || body.IsDead) return;
 		if (!PlayerNeedsHealing(body)) return;
-
-		Managers.AudioManager.Instance.PlaySfx("Use_Fountain", fountainAudioSource);
+		FountainSound();
 
 		base.StartInteraction(body);
 
@@ -86,6 +85,7 @@ public class HealingFountain : InteractableBase
 			yield return null;
 		}
 
+		Managers.AudioManager.Instance.PlaySfx("Use_Fountain", fountainAudioSource);
 		CompleteInteraction(body);
 		activeHolds.Remove(body);
 	}
@@ -139,6 +139,10 @@ public class HealingFountain : InteractableBase
 		return false;
 	}
 
+	private void FountainSound() 
+	{
+		Managers.AudioManager.Instance.PlaySfx("Use_Fountain", fountainAudioSource);
+	}
 
 	/// <summary>
 	/// Only show interact canvases if not in Phase 2.
