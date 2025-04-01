@@ -1446,7 +1446,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6579914690573709972
 Transform:
   m_ObjectHideFlags: 0
@@ -2514,6 +2514,11 @@ PrefabInstance:
       propertyPath: livingUI.Array.data[2]
       value: 
       objectReference: {fileID: 2406372175181913216}
+    - target: {fileID: 4101071911775153380, guid: 80afe6d6e520f2349a32985d2c70c1ed,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -31.899994
+      objectReference: {fileID: 0}
     - target: {fileID: 4187371607142167556, guid: 80afe6d6e520f2349a32985d2c70c1ed,
         type: 3}
       propertyPath: m_AnchorMax.y
