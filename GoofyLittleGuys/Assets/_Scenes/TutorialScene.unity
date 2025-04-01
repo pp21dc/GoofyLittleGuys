@@ -1257,7 +1257,7 @@ Light:
   m_Type: 3
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 0.6
+  m_Intensity: 1.5
   m_Range: 0.5
   m_SpotAngle: 87.09042
   m_InnerSpotAngle: 50
@@ -1302,7 +1302,7 @@ Light:
   m_BounceIntensity: 8
   m_ColorTemperature: 5420
   m_UseColorTemperature: 1
-  m_BoundingSphereOverride: {x: 1.02e-43, y: 1e-45, z: 3.7216e-41, w: -1.3306963e-37}
+  m_BoundingSphereOverride: {x: 1.8393144e+25, y: 7.69e-42, z: 0, w: 8.623742e+30}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -2891,7 +2891,7 @@ Light:
   m_Type: 3
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 0.6
+  m_Intensity: 1.5
   m_Range: 0.5
   m_SpotAngle: 87.09042
   m_InnerSpotAngle: 50
@@ -17054,7 +17054,7 @@ Light:
   m_Type: 3
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 0.6
+  m_Intensity: 1.5
   m_Range: 0.5
   m_SpotAngle: 87.09042
   m_InnerSpotAngle: 50
@@ -18957,6 +18957,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5733344928800903477, guid: 3dec69a9f75608f479014b6150b68917,
         type: 3}
+      propertyPath: m_Intensity
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 5733344928800903477, guid: 3dec69a9f75608f479014b6150b68917,
+        type: 3}
       propertyPath: m_Shadows.m_Type
       value: 2
       objectReference: {fileID: 0}
@@ -19034,6 +19039,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Intensity
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8236459307440653219, guid: 3dec69a9f75608f479014b6150b68917,
+        type: 3}
+      propertyPath: m_BounceIntensity
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9175473888314842189, guid: 3dec69a9f75608f479014b6150b68917,
         type: 3}
@@ -24006,7 +24016,7 @@ Light:
   m_Type: 3
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 0.6
+  m_Intensity: 1.5
   m_Range: 0.5
   m_SpotAngle: 87.09042
   m_InnerSpotAngle: 50
