@@ -301,6 +301,7 @@ public class PlayerBody : MonoBehaviour
 
 	public void StartHitStun(float stunMult, float stunTime, AnimationCurve stunCurve)
 	{
+		if (!activeLilGuy.CanStun) return;
 		hitstunCoroutine = StartCoroutine(ApplyHitStun(stunMult, stunTime, stunCurve));
 	}
 
