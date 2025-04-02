@@ -9,6 +9,6 @@ public class TextToSpeech : SingletonBase<TextToSpeech>
 
     public void TTS()
     {
-        
+
     }
 }
