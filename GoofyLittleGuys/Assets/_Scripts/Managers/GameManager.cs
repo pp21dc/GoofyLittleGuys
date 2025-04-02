@@ -221,28 +221,28 @@ namespace Managers
 			{
 				case TimerState.LegendaryOneApproaching:
 					timerContext.color = Color.white;
-					timerContext.text = "Legendary Approaching";
+					timerContext.text = "Legendary Approaches";
 					gameTimer.color = Color.white;
 					gameTime = System.TimeSpan.FromSeconds((legendarySpawnTimes[0] * 60) - currentGameTime);
 					gameTimer.text = gameTime.ToString("mm':'ss");
 					break;
 				case TimerState.LegendaryTwoApproaching:
 					timerContext.color = Color.white;
-					timerContext.text = "Legendary Approaching";
+					timerContext.text = "Legendary Approaches";
 					gameTimer.color = Color.white;
 					gameTime = System.TimeSpan.FromSeconds((legendarySpawnTimes[1] * 60) - currentGameTime);
 					gameTimer.text = gameTime.ToString("mm':'ss");
 					break;
 				case TimerState.StormApproaching:
 					timerContext.color = Color.white;
-					timerContext.text = "Storm Approaching";
+					timerContext.text = "Storm Approaches";
 					gameTimer.color = Color.white;
 					gameTime = System.TimeSpan.FromSeconds((phaseOneStartTime * 60) - currentGameTime);
 					gameTimer.text = gameTime.ToString("mm':'ss");
 					break;
 				case TimerState.NextStorm:
 					timerContext.color = Color.red;
-					timerContext.text = "Next Storm Approaching";
+					timerContext.text = "Storm Approaches";
 					gameTimer.color = Color.red;
 					gameTime = System.TimeSpan.FromSeconds((legendarySpawnTimes[1] * 60) - currentGameTime);
 					gameTimer.text = $"0:{timeUntilNextStorm.ToString("00")}";

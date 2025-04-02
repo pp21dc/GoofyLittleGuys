@@ -384,7 +384,7 @@ public class PlayerBody : MonoBehaviour
 
 				// Setting layer to Player Lil Guys, and putting the lil guy into the first empty slot available.
 				closestWildLilGuy.transform.SetParent(transform, false);
-				closestWildLilGuy.SetFollowGoal(LilGuyTeamSlots[^1].transform);
+				closestWildLilGuy.SetFollowGoal(LilGuyTeamSlots[LilGuyTeam.Count - 1].transform);
 				closestWildLilGuy.GetComponent<Rigidbody>().isKinematic = false;
 				closestWildLilGuy.transform.localPosition = Vector3.zero;
 				closestWildLilGuy.transform.localRotation = Quaternion.identity;
