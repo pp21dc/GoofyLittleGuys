@@ -632,9 +632,14 @@ public class PlayerBody : MonoBehaviour
 	/// <summary>
 	/// Called when the GameStarted event is invoked (occurs after character select, and phase one is loaded).
 	/// </summary>
-	private void Init()
+	private void Init(bool isTutorial = false)
 	{
 		DisableUIControl();
+		if (!isTutorial)
+		{
+			controller.GetComponent<PlayerInput>().DeactivateInput();
+			CoroutineRunner.Instance.StartCoroutine(ReactivateInput());
+		}
 		rb.isKinematic = false;
 		controller.PlayerCam.gameObject.SetActive(true);
 		playerInput.camera.clearFlags = CameraClearFlags.Skybox;
@@ -649,6 +654,11 @@ public class PlayerBody : MonoBehaviour
 		//EventManager.Instance.RefreshUi(playerUi, 0);
 	}
 
+	private IEnumerator ReactivateInput()
+	{
+		yield return new WaitForSeconds(3);
+		controller.GetComponent<PlayerInput>().ActivateInput();
+	}
 	private void SetIcon()
 	{
 		miniMapIcon.GetComponent<SpriteRenderer>().sprite = UiManager.Instance.shapes[(controller.PlayerNumber) - 1];

@@ -28,7 +28,7 @@ public class EventManager
 	public delegate void MicrogameFailedDelegate(PlayerBody body);
 	public event MicrogameFailedDelegate NotifyMicrogameFailed;
 
-	public delegate void GameStartedDelegate();
+	public delegate void GameStartedDelegate(bool isTutorial = false);
 	public event GameStartedDelegate GameStarted;
 
 	public delegate void GamePausedDelegate(PlayerInput playerWhoPaused);
@@ -102,9 +102,9 @@ public class EventManager
 		NotifyStormSpawned?.Invoke(dmgToAdd, numStorms);
 	}
 
-	public void GameStartedEvent()
+	public void GameStartedEvent(bool isTutorial = false)
 	{
-		GameStarted?.Invoke();
+		GameStarted?.Invoke(isTutorial);
 	}
 
 	public void CallLilGuyLastHitEvent(PlayerBody body)

@@ -54,7 +54,7 @@ public class Hurtbox : MonoBehaviour
 	/// <summary>
 	/// Method called when the game is started.
 	/// </summary>
-	private void Init()
+	private void Init(bool isTutorial = false)
 	{
 		PlayerBody body = owner.GetComponent<PlayerBody>();
 		AiController controller = owner.GetComponent<AiController>();
