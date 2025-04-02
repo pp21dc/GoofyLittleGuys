@@ -60,6 +60,7 @@ namespace Managers
 		[ColoredGroup][SerializeField] private float activeLilGuyScaleFactor = 1.1f;
 		[ColoredGroup][SerializeField] private float nonActiveLilGuyScaleFactor = 0.9f;
 		[ColoredGroup][SerializeField] private float teamWipeBonusXpPercentage = 0.2f;
+		[ColoredGroup][SerializeField] private float gameplayStartTime = 3f;
 
 		[Header("Global AI Settings")]
 		[HorizontalRule]
@@ -127,6 +128,7 @@ namespace Managers
 		public float WildLilGuyLevelUpdateTick => wildLilGuyLevelUpdateTick;
 		public float LeaderBonusXpPercentage => leaderBonusXpPercentage;
 		public float TeamWipeBonusXpPercentage => teamWipeBonusXpPercentage;
+		public float GameplayStartTime => gameplayStartTime;
 		public bool IsPaused { get { return isPaused; } set { isPaused = value; } }
 		public bool StartGame { get => startGame; set => startGame = value; }
 		public int LegendaryLevelSubtractor => legendaryLevelSubtractor;

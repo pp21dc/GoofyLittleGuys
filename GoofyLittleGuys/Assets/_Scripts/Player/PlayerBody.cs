@@ -656,7 +656,18 @@ public class PlayerBody : MonoBehaviour
 
 	private IEnumerator ReactivateInput()
 	{
-		yield return new WaitForSeconds(3);
+		Time.timeScale = 0;
+		playerUi.StartGameScreen.gameObject.SetActive(true);
+		float timeRemaining = GameManager.Instance.GameplayStartTime;
+		while (timeRemaining > 0)
+		{
+			timeRemaining -= Time.unscaledDeltaTime;
+			playerUi.StartGameScreen.TimerImage.fillAmount = timeRemaining / GameManager.Instance.GameplayStartTime;
+			playerUi.StartGameScreen.TimerText.text = timeRemaining.ToString("0.0");
+			yield return null;
+		}
+		Time.timeScale = 1;
+		playerUi.StartGameScreen.gameObject.SetActive(false);
 		controller.GetComponent<PlayerInput>().ActivateInput();
 	}
 	private void SetIcon()
