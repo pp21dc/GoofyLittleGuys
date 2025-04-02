@@ -41,7 +41,8 @@ AudioSource:
   m_GameObject: {fileID: 127685133966115079}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 1216203067849787875, guid: 012d1ee85f7e89d47886f642f0e916c0,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -169,7 +170,8 @@ AudioSource:
   m_GameObject: {fileID: 2373234195771406454}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 1216203067849787875, guid: 012d1ee85f7e89d47886f642f0e916c0,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -178,7 +180,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 59
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -297,7 +299,8 @@ AudioSource:
   m_GameObject: {fileID: 2873195748726553728}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 1618473229953306905, guid: 012d1ee85f7e89d47886f642f0e916c0,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -425,7 +428,8 @@ AudioSource:
   m_GameObject: {fileID: 5559969142567798558}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 1216203067849787875, guid: 012d1ee85f7e89d47886f642f0e916c0,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -563,8 +567,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dontDestroyOnLoad: 1
-  currentTimerState: 0
-  gameStartTest: 0
   spawnPoints:
   - {fileID: 0}
   - {fileID: 0}
@@ -575,7 +577,46 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 220572b0cabdf30429a67eeb6d530571, type: 2}
   - {fileID: 11400000, guid: 5e804e059726706498b967e3c491b779, type: 2}
   - {fileID: 11400000, guid: 3738e7ddd8cef5a458220692eef40c66, type: 2}
+  lilGuys: []
+  stormSets: []
+  phaseAudioSources:
+  - {fileID: 2464806404801044135}
+  - {fileID: 3797017555843920288}
+  - {fileID: 2149464314047068899}
+  - {fileID: 7422125164557209482}
+  alertAudioSource: {fileID: 3848508716183890074}
+  waterChangeContainer: {fileID: 11400000, guid: 51a9deb714809ad408f01a36ddfcd7e5,
+    type: 2}
+  phase2CloudAnim: {fileID: 0}
+  fountainSpawnPoint: {fileID: 0}
+  regularLilGuySpriteMat: {fileID: 2100000, guid: 98f6ac7211c776543ab77ca212154ae1,
+    type: 2}
+  outlinedLilGuySpriteMat: {fileID: 2100000, guid: ef163e33c1c51ce46a3b3ebfca4b585f,
+    type: 2}
+  timerCanvas: {fileID: 0}
+  gameTimer: {fileID: 0}
+  timerContext: {fileID: 0}
+  currentTimerState: 0
+  waterColour: {r: 0, g: 0, b: 0, a: 0}
+  foamColour: {r: 0, g: 0, b: 0, a: 0}
+  darkFoamColour: {r: 0, g: 0, b: 0, a: 0}
+  currentGameTime: 0
   phaseOneStartTime: 4
+  stormTimer: 20
+  stormDmgIncrease: 2
+  playerColours:
+  - {r: 0.3679244, g: 0.5833246, b: 1, a: 1}
+  - {r: 1, g: 0.36862743, b: 0.40534493, a: 1}
+  - {r: 0.9906141, g: 1, b: 0.36862743, a: 1}
+  - {r: 1, g: 0.36862743, b: 0.7510369, a: 1}
+  protanopia: []
+  deuteranopia: []
+  tritanopia: []
+  activeLilGuyScaleFactor: 1.25
+  nonActiveLilGuyScaleFactor: 0.9
+  teamWipeBonusXpPercentage: 0.2
+  gameplayStartTime: 3
+  wildLilGuyLevelUpdateTick: 5
   legendarySpawnTimes:
   - 1.5
   - 3
@@ -583,39 +624,11 @@ MonoBehaviour:
   - 2.25
   - 2.5
   legendaryLevels: 1100000016000000
-  currentGameTime: 0
-  fountainSpawnPoint: {fileID: 0}
-  timerCanvas: {fileID: 0}
-  gameTimer: {fileID: 0}
-  timerContext: {fileID: 0}
-  stormTimer: 20
-  phaseAudioSources:
-  - {fileID: 2464806404801044135}
-  - {fileID: 3797017555843920288}
-  - {fileID: 2149464314047068899}
-  - {fileID: 7422125164557209482}
-  alertAudioSource: {fileID: 3848508716183890074}
-  phase2CloudAnim: {fileID: 0}
-  regularLilGuySpriteMat: {fileID: 2100000, guid: 98f6ac7211c776543ab77ca212154ae1,
-    type: 2}
-  outlinedLilGuySpriteMat: {fileID: 2100000, guid: ef163e33c1c51ce46a3b3ebfca4b585f,
-    type: 2}
-  waterChangeContainer: {fileID: 11400000, guid: 51a9deb714809ad408f01a36ddfcd7e5,
-    type: 2}
-  playerColours:
-  - {r: 0.3679244, g: 0.5833246, b: 1, a: 1}
-  - {r: 1, g: 0.36862743, b: 0.40534493, a: 1}
-  - {r: 0.9906141, g: 1, b: 0.36862743, a: 1}
-  - {r: 1, g: 0.36862743, b: 0.7510369, a: 1}
-  activeLilGuyScaleFactor: 1.25
-  nonActiveLilGuyScaleFactor: 0.9
-  stormSets: []
-  phase1LayerMask:
-    serializedVersion: 2
-    m_Bits: 256
-  phase2LayerMask:
-    serializedVersion: 2
-    m_Bits: 384
+  legendaryLevelSubtractor: 2
+  legendaryXpPercentageMultiplier: 0
+  leaderCheckStartTime: 60
+  leaderLevelThreshold: 2
+  leaderBonusXpPercentage: 0.5
 --- !u!82 &5750794430041679078
 AudioSource:
   m_ObjectHideFlags: 0
@@ -625,7 +638,8 @@ AudioSource:
   m_GameObject: {fileID: 7319295468812609400}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 1216203067849787875, guid: 012d1ee85f7e89d47886f642f0e916c0,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -753,7 +767,8 @@ AudioSource:
   m_GameObject: {fileID: 7834611047829362680}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 1618473229953306905, guid: 012d1ee85f7e89d47886f642f0e916c0,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
