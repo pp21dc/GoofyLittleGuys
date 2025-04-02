@@ -42,7 +42,7 @@ public class Teddy : StrengthType
 	protected override IEnumerator EndSpecial(bool stopImmediate = false)
 	{
 		if (instantiatedAoe != null) Destroy(instantiatedAoe);
+		yield return base.EndSpecial(stopImmediate);
 		CanStun = true;
-		return base.EndSpecial(stopImmediate);
 	}
 }

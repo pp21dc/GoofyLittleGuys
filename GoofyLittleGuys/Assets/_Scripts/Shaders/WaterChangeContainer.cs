@@ -15,10 +15,12 @@ namespace _Scripts.Misc.ShaderCode
         private static readonly int DarkFoamColor = Shader.PropertyToID("_DarkFoamColor");
         public List<Material> waterMaterials = new List<Material>();
         
-        [HideInInspector] public Color baseWaterColor = Color.white;
-        [HideInInspector] public Color baseLightFoamColor = Color.white;
-        [HideInInspector] public Color baseDarkFoamColor = Color.white;
+        [Header("Base Colors"), Space(5)]
+        public Color baseWaterColor;
+        public Color baseLightFoamColor;
+        public Color baseDarkFoamColor;
         
+        [Header("Lava Colors"), Space(5)]
         public Color waterColor = new Color(0.8f, 0.8f, 0.8f);
         public Color lightFoamColor = new Color(0.8f, 0.8f, 0.8f);
         public Color darkFoamColor = new Color(0.8f, 0.8f, 0.8f);
@@ -28,10 +30,6 @@ namespace _Scripts.Misc.ShaderCode
             #if UNITY_EDITOR
             EditorApplication.playModeStateChanged += ResetColors;
             #endif
-            
-            baseWaterColor = waterMaterials[0].GetColor(WaterColor);
-            baseLightFoamColor = waterMaterials[0].GetColor(LightFoamColor);
-            baseDarkFoamColor = waterMaterials[0].GetColor(DarkFoamColor);
         }
 
         private void OnDisable()
@@ -47,6 +45,11 @@ namespace _Scripts.Misc.ShaderCode
                 SwapColors(baseWaterColor, baseLightFoamColor, baseDarkFoamColor);
         }
 #endif
+        
+        public void ResetColors()
+        {
+            SwapColors(baseWaterColor, baseLightFoamColor, baseDarkFoamColor);
+        }
 
         /// <summary>
         /// Use to change color of all water material properties, meant to be used with a lerp function but can be standalone.

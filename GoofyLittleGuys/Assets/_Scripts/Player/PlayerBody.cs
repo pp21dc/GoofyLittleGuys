@@ -301,6 +301,7 @@ public class PlayerBody : MonoBehaviour
 
 	public void StartHitStun(float stunMult, float stunTime, AnimationCurve stunCurve)
 	{
+		if (!lilGuyTeam[0].CanStun) return;
 		hitstunCoroutine = StartCoroutine(ApplyHitStun(stunMult, stunTime, stunCurve));
 	}
 
@@ -383,7 +384,7 @@ public class PlayerBody : MonoBehaviour
 
 				// Setting layer to Player Lil Guys, and putting the lil guy into the first empty slot available.
 				closestWildLilGuy.transform.SetParent(transform, false);
-				closestWildLilGuy.SetFollowGoal(LilGuyTeamSlots[^1].transform);
+				closestWildLilGuy.SetFollowGoal(LilGuyTeamSlots[LilGuyTeam.Count - 1].transform);
 				closestWildLilGuy.GetComponent<Rigidbody>().isKinematic = false;
 				closestWildLilGuy.transform.localPosition = Vector3.zero;
 				closestWildLilGuy.transform.localRotation = Quaternion.identity;
@@ -631,9 +632,14 @@ public class PlayerBody : MonoBehaviour
 	/// <summary>
 	/// Called when the GameStarted event is invoked (occurs after character select, and phase one is loaded).
 	/// </summary>
-	private void Init()
+	private void Init(bool isTutorial = false)
 	{
 		DisableUIControl();
+		if (!isTutorial)
+		{
+			controller.GetComponent<PlayerInput>().DeactivateInput();
+			CoroutineRunner.Instance.StartCoroutine(ReactivateInput());
+		}
 		rb.isKinematic = false;
 		controller.PlayerCam.gameObject.SetActive(true);
 		playerInput.camera.clearFlags = CameraClearFlags.Skybox;
@@ -648,6 +654,22 @@ public class PlayerBody : MonoBehaviour
 		//EventManager.Instance.RefreshUi(playerUi, 0);
 	}
 
+	private IEnumerator ReactivateInput()
+	{
+		Time.timeScale = 0;
+		playerUi.StartGameScreen.gameObject.SetActive(true);
+		float timeRemaining = GameManager.Instance.GameplayStartTime;
+		while (timeRemaining > 0)
+		{
+			timeRemaining -= Time.unscaledDeltaTime;
+			playerUi.StartGameScreen.TimerImage.fillAmount = timeRemaining / GameManager.Instance.GameplayStartTime;
+			playerUi.StartGameScreen.TimerText.text = timeRemaining.ToString("0.0");
+			yield return null;
+		}
+		Time.timeScale = 1;
+		playerUi.StartGameScreen.gameObject.SetActive(false);
+		controller.GetComponent<PlayerInput>().ActivateInput();
+	}
 	private void SetIcon()
 	{
 		miniMapIcon.GetComponent<SpriteRenderer>().sprite = UiManager.Instance.shapes[(controller.PlayerNumber) - 1];

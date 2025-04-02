@@ -28,7 +28,7 @@ public class EventManager
 	public delegate void MicrogameFailedDelegate(PlayerBody body);
 	public event MicrogameFailedDelegate NotifyMicrogameFailed;
 
-	public delegate void GameStartedDelegate();
+	public delegate void GameStartedDelegate(bool isTutorial = false);
 	public event GameStartedDelegate GameStarted;
 
 	public delegate void GamePausedDelegate(PlayerInput playerWhoPaused);
@@ -85,6 +85,7 @@ public class EventManager
 	public void CallTutorialEvent()
 	{
 		if (GameManager.Instance.StartGame) return;
+		GameManager.Instance.StartGame = true;
 		LevelLoadManager.Instance.LoadNewLevel("TutorialScene");
 		MultiplayerManager.Instance.AdjustCameraRects();
 
@@ -102,9 +103,9 @@ public class EventManager
 		NotifyStormSpawned?.Invoke(dmgToAdd, numStorms);
 	}
 
-	public void GameStartedEvent()
+	public void GameStartedEvent(bool isTutorial = false)
 	{
-		GameStarted?.Invoke();
+		GameStarted?.Invoke(isTutorial);
 	}
 
 	public void CallLilGuyLastHitEvent(PlayerBody body)

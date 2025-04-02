@@ -69,9 +69,9 @@ namespace Managers
 
 			float fakeProgress = 0f; // Fake progress value to control visual loading speed
 
-			if (levelName == "TerrainWhitebox")
+			if (levelName == "TerrainWhitebox" || levelName == "TutorialScene")
 			{
-				yield return new WaitForSecondsRealtime(bufferTime * 2);
+				yield return new WaitForSecondsRealtime(bufferTime * 3);
 			}
 			else
 			{
@@ -110,8 +110,10 @@ namespace Managers
 				// If scene is fully loaded but we haven't activated it yet, wait a bit more
 				if (asyncLoad.progress >= 0.9f)
 				{
-					yield return new WaitForSecondsRealtime(levelName == "TerrainWhitebox" ? 2.5f : 1.5f); // Artificial delay to let bar reach 100% 
+					yield return new WaitForSecondsRealtime((levelName == "TerrainWhitebox" || levelName == "TutorialScene" ) ? 4f : 2f); // Artificial delay to let bar reach 100% 
 					asyncLoad.allowSceneActivation = true; // Finally activate the scene
+
+					GameManager.Instance.StartGame = false;
 				}
 
 				yield return null;

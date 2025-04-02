@@ -55,7 +55,7 @@ public class TutorialManager : SingletonBase<TutorialManager>
             GameManager.Instance.Players[i].PlayerUI.SetColour();
 		}
         Time.timeScale = 1.0f;
-        EventManager.Instance.GameStartedEvent();
+        EventManager.Instance.GameStartedEvent(true);
         ChangeAllStates();
     }
 

@@ -65,6 +65,7 @@ public class PlayerUi : MonoBehaviour
 	[ColoredGroup][SerializeField] GameObject victoryObject;
 	[ColoredGroup][SerializeField] GameObject respawnScreen;
 	[ColoredGroup][SerializeField] GameObject defeatedScreen;
+	[ColoredGroup][SerializeField] StartGameScreen startGameScreen;
 
 
 	List<LilGuyPopout> popouts;
@@ -77,6 +78,7 @@ public class PlayerUi : MonoBehaviour
 
 
 	public GameObject TempWinText { get => tempWinText; set => tempWinText = value; }
+	public StartGameScreen StartGameScreen => startGameScreen;
 
 	private void Start()
 	{

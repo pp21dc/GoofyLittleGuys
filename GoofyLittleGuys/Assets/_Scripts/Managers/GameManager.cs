@@ -60,6 +60,7 @@ namespace Managers
 		[ColoredGroup][SerializeField] private float activeLilGuyScaleFactor = 1.1f;
 		[ColoredGroup][SerializeField] private float nonActiveLilGuyScaleFactor = 0.9f;
 		[ColoredGroup][SerializeField] private float teamWipeBonusXpPercentage = 0.2f;
+		[ColoredGroup][SerializeField] private float gameplayStartTime = 3f;
 
 		[Header("Global AI Settings")]
 		[HorizontalRule]
@@ -127,10 +128,12 @@ namespace Managers
 		public float WildLilGuyLevelUpdateTick => wildLilGuyLevelUpdateTick;
 		public float LeaderBonusXpPercentage => leaderBonusXpPercentage;
 		public float TeamWipeBonusXpPercentage => teamWipeBonusXpPercentage;
+		public float GameplayStartTime => gameplayStartTime;
 		public bool IsPaused { get { return isPaused; } set { isPaused = value; } }
 		public bool StartGame { get => startGame; set => startGame = value; }
 		public int LegendaryLevelSubtractor => legendaryLevelSubtractor;
 		public float LegendaryXpPercentageMultiplier => legendaryXpPercentageMultiplier;
+		public Animator Phase2CloudAnim { set => phase2CloudAnim = value; get => phase2CloudAnim; }
 		#endregion
 
 		public override void Awake()
@@ -220,28 +223,28 @@ namespace Managers
 			{
 				case TimerState.LegendaryOneApproaching:
 					timerContext.color = Color.white;
-					timerContext.text = "Legendary Approaching";
+					timerContext.text = "Legendary Approaches";
 					gameTimer.color = Color.white;
 					gameTime = System.TimeSpan.FromSeconds((legendarySpawnTimes[0] * 60) - currentGameTime);
 					gameTimer.text = gameTime.ToString("mm':'ss");
 					break;
 				case TimerState.LegendaryTwoApproaching:
 					timerContext.color = Color.white;
-					timerContext.text = "Legendary Approaching";
+					timerContext.text = "Legendary Approaches";
 					gameTimer.color = Color.white;
 					gameTime = System.TimeSpan.FromSeconds((legendarySpawnTimes[1] * 60) - currentGameTime);
 					gameTimer.text = gameTime.ToString("mm':'ss");
 					break;
 				case TimerState.StormApproaching:
 					timerContext.color = Color.white;
-					timerContext.text = "Storm Approaching";
+					timerContext.text = "Storm Approaches";
 					gameTimer.color = Color.white;
 					gameTime = System.TimeSpan.FromSeconds((phaseOneStartTime * 60) - currentGameTime);
 					gameTimer.text = gameTime.ToString("mm':'ss");
 					break;
 				case TimerState.NextStorm:
 					timerContext.color = Color.red;
-					timerContext.text = "Next Storm Approaching";
+					timerContext.text = "Storm Approaches";
 					gameTimer.color = Color.red;
 					gameTime = System.TimeSpan.FromSeconds((legendarySpawnTimes[1] * 60) - currentGameTime);
 					gameTimer.text = $"0:{timeUntilNextStorm.ToString("00")}";

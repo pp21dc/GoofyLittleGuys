@@ -1,3 +1,4 @@
+using Managers;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,6 +16,11 @@ public class SpawnOnPlane : MonoBehaviour
 	[ColoredGroup] public Vector2 spawnInterval = new Vector2(0.5f, 1.5f);
 
 	private Coroutine lightningCoroutine = null;
+
+	private void OnEnable()
+	{
+		GameManager.Instance.Phase2CloudAnim = this.GetComponent<Animator>();
+	}
 	public void StartLightning()
 	{
 		lightningCoroutine = StartCoroutine(SpawnLightning());

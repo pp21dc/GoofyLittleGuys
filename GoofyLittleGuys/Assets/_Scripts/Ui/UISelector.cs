@@ -164,6 +164,7 @@ public class UISelector : MonoBehaviour
 		else if (currentState == CharacterSelectState.Tutorial)
 		{
 			controller.PlayerEventSystem.currentSelectedGameObject.GetComponent<Button>().onClick.Invoke();
+			player.actions["Submit"].performed -= OnSubmitted;
 		}
 	}
 
