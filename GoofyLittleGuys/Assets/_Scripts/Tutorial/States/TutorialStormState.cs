@@ -1,4 +1,5 @@
-﻿using Unity.VisualScripting;
+﻿using Managers;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class TutorialStormState : TutorialState
@@ -12,6 +13,7 @@ public class TutorialStormState : TutorialState
         base.Enter();
         
         stateMachine.Island.storm.SetActive(true);
+        GameManager.Instance.Phase2CloudAnim.SetTrigger("Phase2");
     }
 
     public override void Exit()
@@ -19,7 +21,8 @@ public class TutorialStormState : TutorialState
         base.Exit();
         stateMachine.Player.StormHurtFx.SetActive(false);
         stateMachine.Player.InStorm = false;
-    }
+		GameManager.Instance.Phase2CloudAnim.SetTrigger("Revert");
+	}
 
     public override void Update()
     {
