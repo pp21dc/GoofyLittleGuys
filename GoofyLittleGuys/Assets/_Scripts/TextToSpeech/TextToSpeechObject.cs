@@ -8,6 +8,6 @@ public class TextToSpeechObject : MonoBehaviour
 
     public void Read(AudioClip clip)
     {
-        TextToSpeech.Instance.TTS(clip);
+        //TextToSpeech.Instance.TTS(clip);
     }
 }
