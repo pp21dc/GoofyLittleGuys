@@ -112,6 +112,8 @@ namespace Managers
 				{
 					yield return new WaitForSecondsRealtime((levelName == "TerrainWhitebox" || levelName == "TutorialScene" ) ? 4f : 2f); // Artificial delay to let bar reach 100% 
 					asyncLoad.allowSceneActivation = true; // Finally activate the scene
+
+					GameManager.Instance.StartGame = false;
 				}
 
 				yield return null;

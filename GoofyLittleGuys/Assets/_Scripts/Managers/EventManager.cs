@@ -85,6 +85,7 @@ public class EventManager
 	public void CallTutorialEvent()
 	{
 		if (GameManager.Instance.StartGame) return;
+		GameManager.Instance.StartGame = true;
 		LevelLoadManager.Instance.LoadNewLevel("TutorialScene");
 		MultiplayerManager.Instance.AdjustCameraRects();
 
