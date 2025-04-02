@@ -62,10 +62,7 @@ namespace Managers
             pauseScreen.SetActive(GameManager.Instance.IsPaused);
             EventManager.Instance.CallGameOverEvent();
             // Reset water color for next game :3
-            GameManager.Instance.WaterChangeContainer.SwapColors( 
-                GameManager.Instance.WaterChangeContainer.baseWaterColor,
-                GameManager.Instance.WaterChangeContainer.baseLightFoamColor,
-                GameManager.Instance.WaterChangeContainer.baseDarkFoamColor);
+            GameManager.Instance.WaterChangeContainer.ResetColors();
             
             for (int i = GameManager.Instance.Players.Count - 1; i >= 0; i--)
             {
