@@ -9,8 +9,6 @@ public class MainMenu : MonoBehaviour
 {
 	[SerializeField] private List<Button> buttons;
 	[SerializeField] private GameObject menuEventSystem;
-	
-    
 
 	public GameObject MenuEventSystem => menuEventSystem;
 
@@ -28,7 +26,29 @@ public class MainMenu : MonoBehaviour
 		LevelLoadManager.Instance.LoadNewLevel("01_CharacterSelectMenu");
 	}
 
-	void ToggleButtons(bool active)
+	public void OnSettingsButtonPressed()
+	{
+		ToggleButtons(false);
+		UiManager.Instance.SettingsMenu.SetActive(true);
+		UiManager.Instance.SettingsMenu.GetComponentInChildren<SettingsController>().PreviousMenu = gameObject;
+		menuEventSystem.SetActive(false);
+	}
+
+	public void ReinitializeMenu()
+	{
+		ToggleButtons(true);
+		menuEventSystem.SetActive(true);
+
+		EventSystem eventSystem = menuEventSystem.GetComponent<EventSystem>();
+		if (eventSystem != null && buttons.Count > 0)
+		{
+			eventSystem.SetSelectedGameObject(null); // Clear selection first
+			eventSystem.SetSelectedGameObject(buttons[0].gameObject); // Actually reselect it
+		}
+	}
+
+
+	public void ToggleButtons(bool active)
 	{
 		foreach (var button in buttons)
 		{

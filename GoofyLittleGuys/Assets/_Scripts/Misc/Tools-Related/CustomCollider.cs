@@ -10,7 +10,7 @@ public class PolygonCollider3D : MonoBehaviour
 
 	protected void OnValidate()
 	{
-		UpdateCollider();
+		//UpdateCollider();
 	}
 
 	private void OnDrawGizmos()

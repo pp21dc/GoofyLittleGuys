@@ -62,6 +62,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""NavigateRibbon"",
+                    ""type"": ""Button"",
+                    ""id"": ""3e940d3d-48c4-4bda-a890-add6e28a0c10"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -262,6 +271,72 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Cancel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Bumpers"",
+                    ""id"": ""2f255c7f-1129-455c-a952-5e69f8689e84"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""NavigateRibbon"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""1571bed9-1a4a-4043-ae09-da793c9eec45"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""NavigateRibbon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""d6252efa-3bf3-423c-a6a9-0c97224a4440"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""NavigateRibbon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""QE"",
+                    ""id"": ""8c13dd90-cba6-4424-b09b-44415546c676"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""NavigateRibbon"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""099c5382-47d1-46bd-ae58-76b354f05b7f"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""NavigateRibbon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""b7bad774-dc94-4c12-a048-7a28ba6e30f0"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""NavigateRibbon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -903,34 +978,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 }
             ]
-        },
-        {
-            ""name"": ""Joining"",
-            ""id"": ""d1074e37-0f10-4573-8ad0-d581e5cb0319"",
-            ""actions"": [
-                {
-                    ""name"": ""New action"",
-                    ""type"": ""Button"",
-                    ""id"": ""709b31c2-c494-46de-8336-25b32d63c99d"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                }
-            ],
-            ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""b4fdcd7e-3df1-4e3b-b4fa-5f4d358bbc70"",
-                    ""path"": """",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""New action"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                }
-            ]
         }
     ],
     ""controlSchemes"": [
@@ -964,6 +1011,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_UI_Submit = m_UI.FindAction("Submit", throwIfNotFound: true);
         m_UI_Cancel = m_UI.FindAction("Cancel", throwIfNotFound: true);
         m_UI_Click = m_UI.FindAction("Click", throwIfNotFound: true);
+        m_UI_NavigateRibbon = m_UI.FindAction("NavigateRibbon", throwIfNotFound: true);
         // World
         m_World = asset.FindActionMap("World", throwIfNotFound: true);
         m_World_Movement = m_World.FindAction("Movement", throwIfNotFound: true);
@@ -975,9 +1023,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_World_ShowTeamUI = m_World.FindAction("ShowTeamUI", throwIfNotFound: true);
         m_World_UseBerry = m_World.FindAction("UseBerry", throwIfNotFound: true);
         m_World_SpectatorUpDown = m_World.FindAction("SpectatorUpDown", throwIfNotFound: true);
-        // Joining
-        m_Joining = asset.FindActionMap("Joining", throwIfNotFound: true);
-        m_Joining_Newaction = m_Joining.FindAction("New action", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1043,6 +1088,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_Submit;
     private readonly InputAction m_UI_Cancel;
     private readonly InputAction m_UI_Click;
+    private readonly InputAction m_UI_NavigateRibbon;
     public struct UIActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -1051,6 +1097,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @Submit => m_Wrapper.m_UI_Submit;
         public InputAction @Cancel => m_Wrapper.m_UI_Cancel;
         public InputAction @Click => m_Wrapper.m_UI_Click;
+        public InputAction @NavigateRibbon => m_Wrapper.m_UI_NavigateRibbon;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1072,6 +1119,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Click.started += instance.OnClick;
             @Click.performed += instance.OnClick;
             @Click.canceled += instance.OnClick;
+            @NavigateRibbon.started += instance.OnNavigateRibbon;
+            @NavigateRibbon.performed += instance.OnNavigateRibbon;
+            @NavigateRibbon.canceled += instance.OnNavigateRibbon;
         }
 
         private void UnregisterCallbacks(IUIActions instance)
@@ -1088,6 +1138,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Click.started -= instance.OnClick;
             @Click.performed -= instance.OnClick;
             @Click.canceled -= instance.OnClick;
+            @NavigateRibbon.started -= instance.OnNavigateRibbon;
+            @NavigateRibbon.performed -= instance.OnNavigateRibbon;
+            @NavigateRibbon.canceled -= instance.OnNavigateRibbon;
         }
 
         public void RemoveCallbacks(IUIActions instance)
@@ -1215,52 +1268,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         }
     }
     public WorldActions @World => new WorldActions(this);
-
-    // Joining
-    private readonly InputActionMap m_Joining;
-    private List<IJoiningActions> m_JoiningActionsCallbackInterfaces = new List<IJoiningActions>();
-    private readonly InputAction m_Joining_Newaction;
-    public struct JoiningActions
-    {
-        private @PlayerInputActions m_Wrapper;
-        public JoiningActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Newaction => m_Wrapper.m_Joining_Newaction;
-        public InputActionMap Get() { return m_Wrapper.m_Joining; }
-        public void Enable() { Get().Enable(); }
-        public void Disable() { Get().Disable(); }
-        public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(JoiningActions set) { return set.Get(); }
-        public void AddCallbacks(IJoiningActions instance)
-        {
-            if (instance == null || m_Wrapper.m_JoiningActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_JoiningActionsCallbackInterfaces.Add(instance);
-            @Newaction.started += instance.OnNewaction;
-            @Newaction.performed += instance.OnNewaction;
-            @Newaction.canceled += instance.OnNewaction;
-        }
-
-        private void UnregisterCallbacks(IJoiningActions instance)
-        {
-            @Newaction.started -= instance.OnNewaction;
-            @Newaction.performed -= instance.OnNewaction;
-            @Newaction.canceled -= instance.OnNewaction;
-        }
-
-        public void RemoveCallbacks(IJoiningActions instance)
-        {
-            if (m_Wrapper.m_JoiningActionsCallbackInterfaces.Remove(instance))
-                UnregisterCallbacks(instance);
-        }
-
-        public void SetCallbacks(IJoiningActions instance)
-        {
-            foreach (var item in m_Wrapper.m_JoiningActionsCallbackInterfaces)
-                UnregisterCallbacks(item);
-            m_Wrapper.m_JoiningActionsCallbackInterfaces.Clear();
-            AddCallbacks(instance);
-        }
-    }
-    public JoiningActions @Joining => new JoiningActions(this);
     private int m_GamepadSchemeIndex = -1;
     public InputControlScheme GamepadScheme
     {
@@ -1285,6 +1292,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnSubmit(InputAction.CallbackContext context);
         void OnCancel(InputAction.CallbackContext context);
         void OnClick(InputAction.CallbackContext context);
+        void OnNavigateRibbon(InputAction.CallbackContext context);
     }
     public interface IWorldActions
     {
@@ -1297,9 +1305,5 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnShowTeamUI(InputAction.CallbackContext context);
         void OnUseBerry(InputAction.CallbackContext context);
         void OnSpectatorUpDown(InputAction.CallbackContext context);
-    }
-    public interface IJoiningActions
-    {
-        void OnNewaction(InputAction.CallbackContext context);
     }
 }

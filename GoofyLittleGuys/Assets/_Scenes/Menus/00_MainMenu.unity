@@ -825,7 +825,8 @@ AudioSource:
   m_GameObject: {fileID: 906977465}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 1216203067849787875, guid: 012d1ee85f7e89d47886f642f0e916c0,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -1416,7 +1417,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1119304577}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 906977466}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: OnSettingsButtonPressed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1119304577
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2887,7 +2900,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'SETTINGS
 
-    [NOT IMPLEMENTED]'
+    [WIP]'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: da39bebedbfa5594abb0a1b7ec204d00, type: 2}
   m_sharedMaterial: {fileID: 8611349815577459977, guid: da39bebedbfa5594abb0a1b7ec204d00,

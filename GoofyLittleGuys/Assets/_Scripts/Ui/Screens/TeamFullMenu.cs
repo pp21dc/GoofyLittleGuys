@@ -7,7 +7,6 @@ using UnityEngine.UI;
 using TMPro;
 using Managers;
 using UnityEngine.EventSystems;
-using UnityEditor.Rendering.Universal.ShaderGUI;
 
 public class TeamFullMenu : MonoBehaviour
 {

@@ -27,10 +27,17 @@ public static class HapticFeedback
 		}
 	}
 
+	public static void PlayHapticFeedbackDirect(Gamepad input, float lowFrequency, float highFrequency, float duration)
+	{
+
+		CoroutineRunner.Instance.StartCoroutine(HapticFeedbackRoutine(input, lowFrequency * SettingsManager.Instance.GetSettings().rumbleAmount, highFrequency * SettingsManager.Instance.GetSettings().rumbleAmount, duration));
+
+	}
+
 	private static IEnumerator HapticFeedbackRoutine(Gamepad gamepad, float lowFrequency, float highFrequency, float duration)
 	{
 		gamepad.ResumeHaptics();
-		gamepad.SetMotorSpeeds(lowFrequency, highFrequency); // Custom vibration values
+		gamepad.SetMotorSpeeds(lowFrequency * SettingsManager.Instance.GetSettings().rumbleAmount, highFrequency * SettingsManager.Instance.GetSettings().rumbleAmount); // Custom vibration values
 		yield return new WaitForSecondsRealtime(duration);
 
 		// Ensure vibration stops after the duration
