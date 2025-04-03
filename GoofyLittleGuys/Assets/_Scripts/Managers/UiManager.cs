@@ -160,10 +160,12 @@ namespace Managers
 		{
 			SettingsMenu.SetActive(true);
 			SettingsMenu.GetComponentInChildren<SettingsController>().PreviousMenu = gameObject;
+			pauseScreen.SetActive(false);
 			pauseEventSystem.gameObject.SetActive(false);
 		}
 		public void ReinitializeMenu()
 		{
+			pauseScreen.SetActive(true);
 			pauseEventSystem.gameObject.SetActive(true);
 
 			pauseEventSystem.SetSelectedGameObject(null); // Clear selection first
