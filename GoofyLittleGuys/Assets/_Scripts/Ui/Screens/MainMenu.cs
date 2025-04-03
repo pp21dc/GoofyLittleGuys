@@ -9,6 +9,7 @@ public class MainMenu : MonoBehaviour
 {
 	[SerializeField] private List<Button> buttons;
 	[SerializeField] private GameObject menuEventSystem;
+	[SerializeField] private GameObject mainMenu;
 
 	public GameObject MenuEventSystem => menuEventSystem;
 
@@ -29,6 +30,7 @@ public class MainMenu : MonoBehaviour
 	public void OnSettingsButtonPressed()
 	{
 		ToggleButtons(false);
+		mainMenu.SetActive(false);
 		UiManager.Instance.SettingsMenu.SetActive(true);
 		UiManager.Instance.SettingsMenu.GetComponentInChildren<SettingsController>().PreviousMenu = gameObject;
 		menuEventSystem.SetActive(false);
@@ -37,6 +39,7 @@ public class MainMenu : MonoBehaviour
 	public void ReinitializeMenu()
 	{
 		ToggleButtons(true);
+		mainMenu.SetActive(true);
 		menuEventSystem.SetActive(true);
 
 		EventSystem eventSystem = menuEventSystem.GetComponent<EventSystem>();

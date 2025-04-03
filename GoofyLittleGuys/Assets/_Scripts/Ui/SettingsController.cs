@@ -1,13 +1,16 @@
 using Managers;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class SettingsController : MonoBehaviour
 {
+	public GameObject firstSelected;
 	[SerializeField] private AudioMixer MasterMixer;
 	[SerializeField, DebugOnly] private GameObject previousMenu;
 
@@ -37,7 +40,17 @@ public class SettingsController : MonoBehaviour
 		{ SettingType.SFX, "sfxVolume" }
 	};
 
+	private void OnEnable()
+	{
+		StartCoroutine(DelayedSelect());
+	}
 
+	private IEnumerator DelayedSelect()
+	{
+		yield return null; // wait one frame
+		EventSystem.current.SetSelectedGameObject(null);
+		EventSystem.current.SetSelectedGameObject(firstSelected);
+	}
 	private void Start()
 	{
 		ApplyAllFromSettings();
