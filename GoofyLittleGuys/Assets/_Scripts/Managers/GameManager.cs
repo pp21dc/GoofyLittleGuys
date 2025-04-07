@@ -561,6 +561,7 @@ namespace Managers
 			}
 
 			rankings[^1].PlayerUI.VictoryAnimPlay();
+			AudioManager.Instance.PlaySfx("Victory!", alertAudioSource);
 
 			Managers.DebugManager.Log("Brawl Phase has ended by knockout!", DebugManager.DebugCategory.GENERAL);
 		}
