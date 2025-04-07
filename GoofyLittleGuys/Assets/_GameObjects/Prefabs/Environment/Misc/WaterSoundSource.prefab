@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 9072202349848045286}
   - component: {fileID: 4838670552881983485}
   - component: {fileID: 7899925445372544559}
+  - component: {fileID: 1842075998424595396}
   m_Layer: 0
   m_Name: WaterSoundSource
   m_TagString: Untagged
@@ -44,11 +45,11 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 1216203067849787875, guid: 012d1ee85f7e89d47886f642f0e916c0,
     type: 2}
-  m_audioClip: {fileID: 8300000, guid: 9bfb8296cb26b6a4ca9e0bec997ee748, type: 3}
-  m_PlayOnAwake: 1
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -137,9 +138,31 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4219895445859182116}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aea68438abf4fd6429ef662195ccae4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   waterAudioSource: {fileID: 4838670552881983485}
+  loudZone: {fileID: 1842075998424595396}
+--- !u!65 &1842075998424595396
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4219895445859182116}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 125, y: 5, z: 125}
+  m_Center: {x: 0, y: 0, z: 0}
