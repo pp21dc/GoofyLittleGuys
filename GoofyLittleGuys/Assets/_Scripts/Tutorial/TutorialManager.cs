@@ -22,6 +22,7 @@ public class TutorialManager : SingletonBase<TutorialManager>
     [SerializeField] private List<TutorialIsland> tutorialIslands = new List<TutorialIsland>();
     [SerializeField] private List<TutorialText> tutorialTexts = new List<TutorialText>();
     [SerializeField] private List<GameObject> playerCheckboxes = new List<GameObject>();
+    [SerializeField] private AudioSource tutAudioSource;
     private List<Image> playerCheckmarks = new List<Image>();
 	[ColoredGroup][SerializeField] private TMP_Text tutorialText;
 	[ColoredGroup][SerializeField] private Image buttonImage;
@@ -32,6 +33,7 @@ public class TutorialManager : SingletonBase<TutorialManager>
 
     private int _currentTutorialState = -1;
     private Coroutine changeStateCoroutine;
+    
 
     private void Start()
     {
@@ -208,5 +210,10 @@ public class TutorialManager : SingletonBase<TutorialManager>
 			EventManager.Instance.RefreshUi(player.PlayerUI, 0);
 		}
     }
-    
+
+    public void PlaySectionCompleteSound() 
+    {
+        AudioManager.Instance.PlaySfx("Tutorial_Advance", tutAudioSource);
+    }
+
 }

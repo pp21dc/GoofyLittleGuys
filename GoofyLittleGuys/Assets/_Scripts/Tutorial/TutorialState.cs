@@ -47,6 +47,7 @@ public class TutorialState : IState
             TutorialManager.Instance.IslandsComplete[stateMachine.IslandNumber] = true;
             complete = true;
             TutorialManager.Instance.EnableCheckmark(stateMachine.IslandNumber);
+            TutorialManager.Instance.PlaySectionCompleteSound();
         }
         TutorialManager.Instance.CheckComplete();
     }
