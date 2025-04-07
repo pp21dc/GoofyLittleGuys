@@ -7,6 +7,7 @@ public class SpawnOnPlane : MonoBehaviour
 {
 	[Header("References")]
 	[HorizontalRule]
+	[ColoredGroup] public ParticleSystem[] godRay;
 	[ColoredGroup] public GameObject prefab; // The prefab to spawn
 	[ColoredGroup] public Collider spawnArea; // The plane's collider
 
@@ -24,11 +25,21 @@ public class SpawnOnPlane : MonoBehaviour
 	public void StartLightning()
 	{
 		lightningCoroutine = StartCoroutine(SpawnLightning());
+		if (godRay.Length <= 0) return;
+		foreach (ParticleSystem p in godRay)
+		{
+			p.Stop();
+		}
 	}
 	public void StopLightning()
 	{
 		if (lightningCoroutine != null) StopCoroutine(lightningCoroutine);
-	}
+        if (godRay.Length <= 0) return;
+        foreach (ParticleSystem p in godRay)
+        {
+            p.Play();
+        }
+    }
 
 	private IEnumerator SpawnLightning()
 	{
