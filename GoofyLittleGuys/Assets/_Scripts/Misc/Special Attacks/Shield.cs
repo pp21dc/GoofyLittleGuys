@@ -8,6 +8,7 @@ public class Shield : MonoBehaviour
 	[SerializeField] private SpriteRenderer shieldSprite;  // How fast this shield will reach its max size in seconds.
 	[SerializeField] private float maxSize = 1;         // The maximum size this shield will reach
 	[SerializeField] private float expansionSpeed = 1;  // How fast this shield will reach its max size in seconds.
+	[SerializeField] private AudioSource shieldAudioSource;
 
 	private DefenseType shieldOwner;                    // The owner of this shield
 	private SortingGroup sortingGroup;
@@ -16,6 +17,7 @@ public class Shield : MonoBehaviour
 	private Color endColour;
 	private float shieldUptime = 5;                   // How long the shield will last for before it is destroyed
 	private bool isFading = false;
+	private bool soundPlaying = false;               // Whether or not the hum sound is playing
 
 	private void Start()
 	{
@@ -40,6 +42,7 @@ public class Shield : MonoBehaviour
 		startColour = start;
 		endColour = end;
 		shieldSprite.color = startColour;
+		PlayLoopingSound("Shield_Hum");
 	}
 
 	/// <summary>
@@ -93,5 +96,26 @@ public class Shield : MonoBehaviour
 	{
 		shieldOwner.SpawnedShieldObj = null;
 		shieldOwner.IsShieldActive = false;
+		StopLoopingSound();
+	}
+
+	//Changes this source to loop and plays a sound until StopLoopingSound is called
+	private void PlayLoopingSound(string key)
+	{
+		if (shieldAudioSource.loop == false)
+		{
+			shieldAudioSource.loop = true;
+		}
+		Managers.AudioManager.Instance.PlaySfx(key, shieldAudioSource);
+	}
+
+	//Changes this source to not loop and stops whatever it is currently playing
+	private void StopLoopingSound()
+	{
+		if (shieldAudioSource.loop == true && shieldAudioSource.isPlaying)
+		{
+			shieldAudioSource.loop = false;
+			shieldAudioSource.Stop();
+		}
 	}
 }
