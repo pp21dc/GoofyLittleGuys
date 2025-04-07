@@ -50,7 +50,7 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
+  m_RenderingLayerMask: 5
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 98f6ac7211c776543ab77ca212154ae1, type: 2}
@@ -222,7 +222,7 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
+  m_RenderingLayerMask: 5
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 6eb4b42a43c124f4ba762403a9bf6d8a, type: 2}
@@ -320,7 +320,7 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
+  m_RenderingLayerMask: 5
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 98f6ac7211c776543ab77ca212154ae1, type: 2}
@@ -418,7 +418,7 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
+  m_RenderingLayerMask: 5
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 98f6ac7211c776543ab77ca212154ae1, type: 2}
@@ -486,6 +486,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1221785381948155648, guid: 4b53c665f4a26b443acae7ef8819cedf,
         type: 3}
+      propertyPath: m_RenderingLayerMask
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1221785381948155648, guid: 4b53c665f4a26b443acae7ef8819cedf,
+        type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 98f6ac7211c776543ab77ca212154ae1, type: 2}
@@ -508,6 +513,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456250660644200975, guid: 4b53c665f4a26b443acae7ef8819cedf,
+        type: 3}
+      propertyPath: m_RenderingLayerMask
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4456250660644200975, guid: 4b53c665f4a26b443acae7ef8819cedf,
         type: 3}
@@ -681,8 +691,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   knockbackForce: 25
-  relativeToHitbox: 1
   knockbackDuration: 0.5
+  hitstunForce: 2
+  hitstunTime: 0.5
+  hitstunCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &5175655964302369493 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7656555431618056746, guid: 4b53c665f4a26b443acae7ef8819cedf,
@@ -861,8 +878,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   knockbackForce: 25
-  relativeToHitbox: 1
   knockbackDuration: 0.5
+  hitstunForce: 2
+  hitstunTime: 0.5
+  hitstunCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!4 &7606933331554563519 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6076494633963378259, guid: 4b53c665f4a26b443acae7ef8819cedf,
@@ -1024,8 +1048,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   knockbackForce: 25
-  relativeToHitbox: 1
   knockbackDuration: 0.5
+  hitstunForce: 2
+  hitstunTime: 0.5
+  hitstunCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1001 &7240422519247928812
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1175,8 +1206,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   knockbackForce: 25
-  relativeToHitbox: 1
   knockbackDuration: 0.5
+  hitstunForce: 2
+  hitstunTime: 0.5
+  hitstunCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!4 &3472044723214396351 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6076494633963378259, guid: 4b53c665f4a26b443acae7ef8819cedf,
