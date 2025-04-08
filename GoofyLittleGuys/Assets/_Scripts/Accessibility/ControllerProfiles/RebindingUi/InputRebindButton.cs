@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,12 +6,18 @@ using UnityEngine.InputSystem;
 
 public class InputRebindButton : MonoBehaviour
 {
-    [SerializeField] private InputAction inputAction;
-    private InputActionRebindingExtensions.RebindingOperation _rebindingOperation;
+    [SerializeField] private InputActionReference actionReference;
+    private InputAction inputAction;
+    private InputActionRebindingExtensions.RebindingOperation rebindingOperation;
+
+    private void Awake()
+    {
+        inputAction = actionReference.action;
+    }
 
     private void StartInteractiveRebind()
     {
-        _rebindingOperation = inputAction.PerformInteractiveRebinding()
+        rebindingOperation = inputAction.PerformInteractiveRebinding()
             .WithControlsExcluding("<Mouse>/position")
             .WithControlsExcluding("<Mouse>/delta")
             .WithControlsExcluding("<Gamepad>/Start")
@@ -19,11 +26,11 @@ public class InputRebindButton : MonoBehaviour
             .WithControlsExcluding("<Keyboard>/tab")
             .OnComplete(operation => RebindComplete());
         
-        _rebindingOperation.Start();
+        rebindingOperation.Start();
     }
 
     private void RebindComplete()
     {
-        _rebindingOperation.Dispose();
+        rebindingOperation.Dispose();
     }
 }
