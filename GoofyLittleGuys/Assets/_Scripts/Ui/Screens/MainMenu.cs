@@ -10,7 +10,8 @@ public class MainMenu : MonoBehaviour
 	[SerializeField] private List<Button> buttons;
 	[SerializeField] private GameObject menuEventSystem;
 	[SerializeField] private GameObject mainMenu;
-
+	[SerializeField] private GameObject credits;
+	[SerializeField] private GameObject creditsInitButton;
 	public GameObject MenuEventSystem => menuEventSystem;
 
 	private void OnEnable()
@@ -36,6 +37,12 @@ public class MainMenu : MonoBehaviour
 		menuEventSystem.SetActive(false);
 	}
 
+	public void OnCreditsButtonPressed()
+	{
+		credits.SetActive(true);
+		mainMenu.SetActive(false);
+		menuEventSystem.GetComponent<EventSystem>().SetSelectedGameObject(creditsInitButton);
+	}
 	public void ReinitializeMenu()
 	{
 		ToggleButtons(true);
