@@ -399,15 +399,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""ShowTeamUI"",
-                    ""type"": ""Button"",
-                    ""id"": ""d7ccf3eb-bca2-47de-a12b-b9de97e73bb5"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""UseBerry"",
                     ""type"": ""Button"",
                     ""id"": ""fe37d735-7fdf-46b4-8875-74b397259d4d"",
@@ -562,7 +553,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""94d52a14-0a27-481e-b25c-56349a5f0f82"",
-                    ""path"": ""<Keyboard>/tab"",
+                    ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
@@ -584,7 +575,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""3b5e5c8d-0815-44c9-a0ec-c27e3d648f2c"",
-                    ""path"": ""<Keyboard>/space"",
+                    ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
@@ -605,6 +596,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""8f0da366-944c-4ab1-8966-29082686e05b"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""PrimarySkill"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""57f04238-e2c7-4c5a-8734-27f2af6a8c4e"",
                     ""path"": ""<Gamepad>/buttonNorth"",
                     ""interactions"": """",
@@ -615,42 +617,31 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""Space"",
-                    ""id"": ""d5a80231-0d2f-4560-97b4-f8230dda0c68"",
-                    ""path"": ""OneModifier"",
+                    ""name"": """",
+                    ""id"": ""08e7e7e5-a8ee-441e-8c2b-b771077eaf0e"",
+                    ""path"": ""<Mouse>/rightButton"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""SecondarySkill"",
-                    ""isComposite"": true,
+                    ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""modifier"",
-                    ""id"": ""3ff05def-ba21-413d-b596-21499e65c8e4"",
-                    ""path"": ""<Keyboard>/shift"",
+                    ""name"": """",
+                    ""id"": ""addd3d0d-926b-419a-b3d4-246708103a79"",
+                    ""path"": ""<Keyboard>/leftShift"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
                     ""action"": ""SecondarySkill"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""binding"",
-                    ""id"": ""038be39b-c077-49c7-aeb9-14b58a721014"",
-                    ""path"": ""<Keyboard>/space"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""SecondarySkill"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
+                    ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
                     ""id"": ""bbe9a32c-df70-4f60-9580-7c15c8fc9c06"",
-                    ""path"": ""<Keyboard>/f"",
+                    ""path"": ""<Keyboard>/r"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
@@ -671,28 +662,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""3046f86c-6e1d-438b-86b3-5b8b440614aa"",
-                    ""path"": ""<Gamepad>/dpad/left"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""ShowTeamUI"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""610128ee-2c8a-4f24-9179-40ba2838b1bd"",
-                    ""path"": ""<Keyboard>/capsLock"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""ShowTeamUI"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""e9934e58-152f-4ad6-881e-12d5cef008cf"",
                     ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
@@ -705,7 +674,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""e590cc6f-f061-42fb-88bd-558c71957f67"",
-                    ""path"": ""<Keyboard>/r"",
+                    ""path"": ""<Keyboard>/1"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
@@ -714,7 +683,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""CV"",
+                    ""name"": ""ZX"",
                     ""id"": ""c21f2060-4f25-4bef-a614-810684cc9760"",
                     ""path"": ""1DAxis"",
                     ""interactions"": """",
@@ -727,7 +696,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""negative"",
                     ""id"": ""73b05d63-9575-44a7-ab62-ae5e5fdf20da"",
-                    ""path"": ""<Keyboard>/c"",
+                    ""path"": ""<Keyboard>/z"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
@@ -738,7 +707,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""positive"",
                     ""id"": ""80de18be-8f8a-420c-aa91-ea1fa0898695"",
-                    ""path"": ""<Keyboard>/v"",
+                    ""path"": ""<Keyboard>/x"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
@@ -780,28 +749,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""IJKL"",
-                    ""id"": ""a791458c-2554-4a86-a7b2-22c5edc022cb"",
-                    ""path"": ""2DVector"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""UO"",
-                    ""id"": ""17590ba8-b482-4561-ad9a-fcb8abdada65"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""SwapCharacter"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
                     ""name"": ""NM"",
                     ""id"": ""529ec1de-6f78-4695-925e-8574ba6eca72"",
                     ""path"": ""1DAxis"",
@@ -811,171 +758,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""SpectatorUpDown"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""IJKL"",
-                    ""id"": ""75526ce7-8387-47d6-b10e-30e37760e3f7"",
-                    ""path"": ""2DVector"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""up"",
-                    ""id"": ""278063f5-a392-4aef-beff-5e4dabef343d"",
-                    ""path"": ""<Keyboard>/i"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""0ee87d09-2fef-4ca0-95f5-55dbe893ca54"",
-                    ""path"": ""<Keyboard>/k"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""54b8b6fc-989e-42e7-a195-7edeb5a2adb0"",
-                    ""path"": ""<Keyboard>/j"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""b2f24c01-8001-42f5-ab83-d1d205ba9493"",
-                    ""path"": ""<Keyboard>/l"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""UO"",
-                    ""id"": ""d01410c5-ace6-4af9-b01b-8f1f19bb76b5"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""SwapCharacter"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""negative"",
-                    ""id"": ""57d73c77-3c33-42f0-98cb-0eb24bf3939a"",
-                    ""path"": ""<Keyboard>/u"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""SwapCharacter"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""positive"",
-                    ""id"": ""883dc8b1-3e4e-45ed-b6d5-baf00cf4dcb7"",
-                    ""path"": ""<Keyboard>/o"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""SwapCharacter"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""839f32c8-0f14-46fb-98a2-4b874c01c326"",
-                    ""path"": ""<Keyboard>/backslash"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""Pause"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""609e4097-1b23-477c-adf8-ccce492486ff"",
-                    ""path"": ""<Keyboard>/h"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""Interact"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""a8367351-ff0a-4f68-8f13-2ff4185d43d0"",
-                    ""path"": ""<Keyboard>/enter"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""ShowTeamUI"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""1e371b86-5cf8-4a47-a43a-983f036e276a"",
-                    ""path"": ""<Keyboard>/y"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""UseBerry"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""NM"",
-                    ""id"": ""81d5410d-f77c-45eb-ab9c-df7f2e29c5c2"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""SpectatorUpDown"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""negative"",
-                    ""id"": ""5117635a-30e5-4a71-a18d-9f8bcd066c94"",
-                    ""path"": ""<Keyboard>/n"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""SpectatorUpDown"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""positive"",
-                    ""id"": ""aeb64731-428f-4d3c-8d8c-d92caed8066e"",
-                    ""path"": ""<Keyboard>/m"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""SpectatorUpDown"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -1000,6 +782,11 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""devicePath"": ""<Keyboard>"",
                     ""isOptional"": false,
                     ""isOR"": false
+                },
+                {
+                    ""devicePath"": ""<Mouse>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
                 }
             ]
         }
@@ -1020,7 +807,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_World_PrimarySkill = m_World.FindAction("PrimarySkill", throwIfNotFound: true);
         m_World_SecondarySkill = m_World.FindAction("SecondarySkill", throwIfNotFound: true);
         m_World_Interact = m_World.FindAction("Interact", throwIfNotFound: true);
-        m_World_ShowTeamUI = m_World.FindAction("ShowTeamUI", throwIfNotFound: true);
         m_World_UseBerry = m_World.FindAction("UseBerry", throwIfNotFound: true);
         m_World_SpectatorUpDown = m_World.FindAction("SpectatorUpDown", throwIfNotFound: true);
     }
@@ -1168,7 +954,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_World_PrimarySkill;
     private readonly InputAction m_World_SecondarySkill;
     private readonly InputAction m_World_Interact;
-    private readonly InputAction m_World_ShowTeamUI;
     private readonly InputAction m_World_UseBerry;
     private readonly InputAction m_World_SpectatorUpDown;
     public struct WorldActions
@@ -1181,7 +966,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @PrimarySkill => m_Wrapper.m_World_PrimarySkill;
         public InputAction @SecondarySkill => m_Wrapper.m_World_SecondarySkill;
         public InputAction @Interact => m_Wrapper.m_World_Interact;
-        public InputAction @ShowTeamUI => m_Wrapper.m_World_ShowTeamUI;
         public InputAction @UseBerry => m_Wrapper.m_World_UseBerry;
         public InputAction @SpectatorUpDown => m_Wrapper.m_World_SpectatorUpDown;
         public InputActionMap Get() { return m_Wrapper.m_World; }
@@ -1211,9 +995,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Interact.started += instance.OnInteract;
             @Interact.performed += instance.OnInteract;
             @Interact.canceled += instance.OnInteract;
-            @ShowTeamUI.started += instance.OnShowTeamUI;
-            @ShowTeamUI.performed += instance.OnShowTeamUI;
-            @ShowTeamUI.canceled += instance.OnShowTeamUI;
             @UseBerry.started += instance.OnUseBerry;
             @UseBerry.performed += instance.OnUseBerry;
             @UseBerry.canceled += instance.OnUseBerry;
@@ -1242,9 +1023,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Interact.started -= instance.OnInteract;
             @Interact.performed -= instance.OnInteract;
             @Interact.canceled -= instance.OnInteract;
-            @ShowTeamUI.started -= instance.OnShowTeamUI;
-            @ShowTeamUI.performed -= instance.OnShowTeamUI;
-            @ShowTeamUI.canceled -= instance.OnShowTeamUI;
             @UseBerry.started -= instance.OnUseBerry;
             @UseBerry.performed -= instance.OnUseBerry;
             @UseBerry.canceled -= instance.OnUseBerry;
@@ -1302,7 +1080,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnPrimarySkill(InputAction.CallbackContext context);
         void OnSecondarySkill(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
-        void OnShowTeamUI(InputAction.CallbackContext context);
         void OnUseBerry(InputAction.CallbackContext context);
         void OnSpectatorUpDown(InputAction.CallbackContext context);
     }
