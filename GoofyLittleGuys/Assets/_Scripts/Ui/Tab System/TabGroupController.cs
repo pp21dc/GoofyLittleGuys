@@ -45,15 +45,18 @@ public class TabGroupController : MonoBehaviour
 
 	public void OnRB()
 	{
+		Managers.UiManager.Instance.PlayButtonHighlightSfx();
 		DeactivateTab(currentTab);
 		currentTab = (currentTab + 1) % tabs.Count;
 		ActivateTab(currentTab);
 
 		Managers.DebugManager.Log($"Tab switched to: {currentTab}", Managers.DebugManager.DebugCategory.UI);
+		
 	}
 
 	public void OnLB()
 	{
+		Managers.UiManager.Instance.PlayButtonHighlightSfx();
 		DeactivateTab(currentTab);
 		currentTab = (currentTab - 1 + tabs.Count) % tabs.Count;
 		ActivateTab(currentTab);

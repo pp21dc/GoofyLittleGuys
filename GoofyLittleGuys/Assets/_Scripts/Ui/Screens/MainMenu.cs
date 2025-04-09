@@ -30,6 +30,7 @@ public class MainMenu : MonoBehaviour
 
 	public void OnSettingsButtonPressed()
 	{
+		Managers.UiManager.Instance.PlayButtonPressSfx();
 		ToggleButtons(false);
 		mainMenu.SetActive(false);
 		UiManager.Instance.SettingsMenu.SetActive(true);

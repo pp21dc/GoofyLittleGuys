@@ -80,6 +80,7 @@ public class SettingsController : MonoBehaviour
 
 	public void OnFrameCapChanged()
 	{
+		Managers.UiManager.Instance.PlayButtonPressSfx();
 		int index = Mathf.RoundToInt(frameCapSlider.value);
 		int selectedCap = frameCapSteps[Mathf.Clamp(index, 0, frameCapSteps.Count - 1)];
 
@@ -140,6 +141,7 @@ public class SettingsController : MonoBehaviour
 
 	private void OnResolutionChanged(int index)
 	{
+		Managers.UiManager.Instance.PlayButtonPressSfx();
 		if (index < 0 || index >= supportedResolutions.Count) return;
 
 		var settings = SettingsManager.Instance.GetSettings();
@@ -228,6 +230,7 @@ public class SettingsController : MonoBehaviour
 
 	public void OnExitButtonPressed()
 	{
+		Managers.UiManager.Instance.PlayButtonPressSfx();
 		MainMenu mainMenu = previousMenu.GetComponent<MainMenu>();
 		if (mainMenu != null)
 		{
