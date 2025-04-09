@@ -65,7 +65,7 @@ public class Armordillo : DefenseType
 		h.KnockbackDuration = knockbackDuration;
 	}
 
-	protected override IEnumerator EndSpecial(bool stopImmediate = false)
+	protected override IEnumerator EndSpecial(bool stopImmediate = false, bool isTurt = false)
 	{
 
 		if (!stopImmediate)

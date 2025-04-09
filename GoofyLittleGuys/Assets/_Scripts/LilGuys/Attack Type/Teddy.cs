@@ -39,7 +39,7 @@ public class Teddy : StrengthType
 		LockAttackRotation = true;
 	}
 
-	protected override IEnumerator EndSpecial(bool stopImmediate = false)
+	protected override IEnumerator EndSpecial(bool stopImmediate = false, bool isTurt = false)
 	{
 		if (instantiatedAoe != null) Destroy(instantiatedAoe);
 		yield return base.EndSpecial(stopImmediate);

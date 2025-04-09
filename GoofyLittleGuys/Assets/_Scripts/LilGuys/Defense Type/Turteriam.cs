@@ -74,14 +74,14 @@ public class Turteriam : DefenseType
 		base.Special();
 	}
 
-	public override void OnEndSpecial(bool stopImmediate = false)
+	public override void OnEndSpecial(bool stopImmediate = false, bool isTurt = false)
 	{
-		base.OnEndSpecial(stopImmediate);
+		base.OnEndSpecial(stopImmediate, isTurt);
 
 	}
-	protected override IEnumerator EndSpecial(bool stopImmediate = false)
+	protected override IEnumerator EndSpecial(bool stopImmediate = false, bool isTurt = false)
 	{
-		if (stopImmediate)
+		if (stopImmediate && !isTurt)
 		{
 			DeleteDome();
 			playerOwner?.Buffs.RemoveBuffFromSource(BuffType.TeamDamageReduction, this);

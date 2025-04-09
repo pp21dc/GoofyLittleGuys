@@ -160,6 +160,7 @@ namespace Managers
 		{
 			SettingsMenu.SetActive(true);
 			SettingsMenu.GetComponentInChildren<SettingsController>().PreviousMenu = gameObject;
+			SettingsMenu.GetComponentInChildren<InputSystemUIInputModule>().actionsAsset = pauseEventSystem.GetComponent<InputSystemUIInputModule>().actionsAsset;
 			pauseScreen.SetActive(false);
 			pauseEventSystem.gameObject.SetActive(false);
 		}

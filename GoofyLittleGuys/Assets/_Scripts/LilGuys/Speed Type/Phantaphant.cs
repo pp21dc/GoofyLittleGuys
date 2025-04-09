@@ -93,7 +93,7 @@ public class Phantaphant : SpeedType
 		OnEndSpecial();
 	}
 
-	protected override IEnumerator EndSpecial(bool stopImmediate = false)
+	protected override IEnumerator EndSpecial(bool stopImmediate = false, bool isTurt = false)
 	{
 		targetPosition = null;
 		return base.EndSpecial(stopImmediate);

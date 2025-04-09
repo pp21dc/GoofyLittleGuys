@@ -576,7 +576,7 @@ public class PlayerBody : MonoBehaviour
 			isSwapping = false;
 			return;
 		}
-		activeLilGuy.OnEndSpecial(true);
+		activeLilGuy.OnEndSpecial(true, activeLilGuy.GuyName.Equals("Turteriam"));
 		if (shiftDirection < 0) // Left shift
 		{
 			LilGuyBase first = aliveTeam[0];

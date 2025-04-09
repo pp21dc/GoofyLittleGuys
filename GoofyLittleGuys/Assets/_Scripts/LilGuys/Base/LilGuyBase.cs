@@ -861,12 +861,12 @@ public abstract class LilGuyBase : MonoBehaviour
 		OnEndSpecial();
 	}
 
-	public virtual void OnEndSpecial(bool stopImmediate = false)
+	public virtual void OnEndSpecial(bool stopImmediate = false, bool isTurt = false)
 	{
-		CoroutineRunner.Instance.StartCoroutine(EndSpecial(stopImmediate));
+		CoroutineRunner.Instance.StartCoroutine(EndSpecial(stopImmediate, isTurt));
 	}
 
-	protected virtual IEnumerator EndSpecial(bool stopImmediate = false)
+	protected virtual IEnumerator EndSpecial(bool stopImmediate = false, bool isTurt = false)
 	{
 		if (!stopImmediate)
 		{

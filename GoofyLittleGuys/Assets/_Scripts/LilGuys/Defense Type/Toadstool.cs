@@ -17,7 +17,7 @@ public class Toadstool : DefenseType
 	public float PoisonDuration => poisonDuration;
 	public float PoisonDamageApplicationInterval => poisonDamageApplicationInterval;
 
-	public override void OnEndSpecial(bool stopImmediate = false)
+	public override void OnEndSpecial(bool stopImmediate = false, bool isTurt = false)
 	{
 		isShieldActive = false;
 		base.OnEndSpecial(stopImmediate);
@@ -44,7 +44,7 @@ public class Toadstool : DefenseType
 
 	}
 
-	protected override IEnumerator EndSpecial(bool stopImmediate = false)
+	protected override IEnumerator EndSpecial(bool stopImmediate = false, bool isTurt = false)
 	{
 		if (!stopImmediate)
 		{
