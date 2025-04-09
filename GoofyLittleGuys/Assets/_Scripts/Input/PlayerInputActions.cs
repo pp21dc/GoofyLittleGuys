@@ -586,7 +586,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""e590cc6f-f061-42fb-88bd-558c71957f67"",
-                    ""path"": ""<Keyboard>/1"",
+                    ""path"": ""<Keyboard>/leftShift"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
@@ -659,17 +659,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""SpectatorUpDown"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""NM"",
-                    ""id"": ""529ec1de-6f78-4695-925e-8574ba6eca72"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""SpectatorUpDown"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
                 }
             ]
         }
