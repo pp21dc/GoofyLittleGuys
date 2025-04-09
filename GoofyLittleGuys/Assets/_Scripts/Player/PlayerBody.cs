@@ -246,7 +246,7 @@ public class PlayerBody : MonoBehaviour
 		if (lilGuyTeam.Count > 0 && lilGuyTeam[0] != null)
 			maxSpeed = (lilGuyTeam[0].MovementSpeed + TeamSpeedBoost);
 
-		if (!IsGrounded())
+		if (!wasDefeated && !IsGrounded())
 		{
 			Debug.Log("In AIR!");
 			rb.velocity += Vector3.up * Physics.gravity.y * (maxSpeed - 1) * Time.fixedDeltaTime;
@@ -266,7 +266,7 @@ public class PlayerBody : MonoBehaviour
 			currentVelocity = Vector3.Lerp(currentVelocity, targetVelocity, Time.fixedDeltaTime / accelerationTime);
 
 			// Apply movement scaled by hitstun slow and add knockback force
-			rb.velocity = new Vector3((currentVelocity.x / hitStunSlowMult) + knockbackForce.x, rb.velocity.y, (currentVelocity.z / hitStunSlowMult) + knockbackForce.z);
+			rb.velocity = new Vector3((currentVelocity.x / hitStunSlowMult) + knockbackForce.x, !wasDefeated ? rb.velocity.y : (currentVelocity.y / hitStunSlowMult) + knockbackForce.y, (currentVelocity.z / hitStunSlowMult) + knockbackForce.z);
 		}
 
 		if (lilGuyTeam[0].LockMovement)
