@@ -81,7 +81,7 @@ public class StatMetrics : MonoBehaviour
 		if (deathCount == GetMin(allPlayers, p => p.deathCount))
 			titles.Add("Not Even Close");
 
-		
+
 
 
 		PlayerBody body = GetComponent<PlayerBody>();
@@ -271,7 +271,7 @@ public class StatMetrics : MonoBehaviour
 
 		// Stats
 		string outputMessage = "";
-		outputMessage += $"{damageDealt}\n{damageTaken}\n{Mathf.CeilToInt(distanceTraveled)}m\n{specialsUsed}\n{teamWipes}\n{wildLilGuysDefeated}\n{lilGuysTamedTotal}\n{deathCount}\n{swapCount}\n{berriesEaten}\n{fountainUses}";
+		outputMessage += $"{damageDealt}\n{damageTaken}\n{(((distanceTraveled / 1000f) < 10) ? (distanceTraveled / 1000f).ToString("0.0") : Mathf.RoundToInt(distanceTraveled / 1000f))}km\n{specialsUsed}\n{teamWipes}\n{wildLilGuysDefeated}\n{lilGuysTamedTotal}\n{deathCount}\n{swapCount}";
 		Managers.DebugManager.Log(outputMessage, Managers.DebugManager.DebugCategory.STAT_METRICS, Managers.DebugManager.LogLevel.LOG);
 		card.stats.text = outputMessage;
 	}

@@ -37,7 +37,7 @@ public class TeamFullMenu : MonoBehaviour
 		body = player.GetComponent<PlayerController>().Body;
 		body.SetInvincible(-1);
 
-		for (int i = 0; i < buttons.Count - 1; i++)
+		for (int i = 0; i < buttons.Count ; i++)
 		{
 			buttons[i].interactable = true;
 
@@ -48,15 +48,22 @@ public class TeamFullMenu : MonoBehaviour
 				anim.Update(0f); // Forces the update to happen immediately
 			}
 
+			if (i > 2) continue;
 			TextMeshProUGUI label = buttons[i].GetComponentInChildren<TextMeshProUGUI>();
 			if (label != null)
 			{
 				label.text = "Lvl: " + body.LilGuyTeam[i].Level + "\n HP: " + body.LilGuyTeam[i].Health;
 				AnimatorOverrideController aoc = new AnimatorOverrideController(aocTemplate);
 				aoc["Idle"] = body.LilGuyTeam[i].UiAnimation;
-				icons[i].runtimeAnimatorController = aoc;
+				CoroutineRunner.Instance.StartCoroutine(AssignAnimatorNextFrame(i, aoc));
 			}
 		}
+	}
+
+	IEnumerator AssignAnimatorNextFrame(int index, RuntimeAnimatorController aoc)
+	{
+		yield return null; // Wait 1 frame to let Unity initialize components
+		icons[index].runtimeAnimatorController = aoc;
 	}
 
 	private void OnCancelled(InputAction.CallbackContext ctx)
