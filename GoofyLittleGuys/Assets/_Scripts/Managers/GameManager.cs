@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 using Util;
 using Unity.VisualScripting;
 using System.Linq;
+using UnityEngine.Rendering;
 
 namespace Managers
 {
@@ -29,6 +30,7 @@ namespace Managers
 		[ColoredGroup][SerializeField] private Transform fountainSpawnPoint;          // The spawn point that players are respawned to in the main game, set by the HealingFountain.cs
 		[ColoredGroup][SerializeField] private Material regularLilGuySpriteMat;
 		[ColoredGroup][SerializeField] private Material outlinedLilGuySpriteMat;
+		[ColoredGroup][SerializeField] private Volume mainMenuVolume;
 
 		[Header("UI")]
 		[HorizontalRule]
@@ -134,6 +136,8 @@ namespace Managers
 		public int LegendaryLevelSubtractor => legendaryLevelSubtractor;
 		public float LegendaryXpPercentageMultiplier => legendaryXpPercentageMultiplier;
 		public Animator Phase2CloudAnim { set => phase2CloudAnim = value; get => phase2CloudAnim; }
+
+		public Volume MainMenuVolume => mainMenuVolume;
 		#endregion
 
 		public override void Awake()

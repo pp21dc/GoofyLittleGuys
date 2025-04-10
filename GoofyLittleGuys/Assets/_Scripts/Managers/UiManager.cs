@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 namespace Managers
@@ -34,6 +35,7 @@ namespace Managers
 		[ColoredGroup][SerializeField] private GameObject playerUiPrefab;     // Prefab for ingame player UI
 		[SerializeField] private AudioSource uiAudioSource;
 
+		private PlayerInput playerWhoPaused;
 
 		public GameObject SettingsMenu => settingsMenu;
 		private void Start()
@@ -109,9 +111,11 @@ namespace Managers
 		/// <param name="player">The player who paused the game</param>
 		private void GamePaused(PlayerInput player)
 		{
+			
 			pauseScreen.SetActive(GameManager.Instance.IsPaused);
 			if (GameManager.Instance.IsPaused)
 			{
+				playerWhoPaused = player;
 				Time.timeScale = 0;
 				foreach (PlayerBody body in GameManager.Instance.Players)
 				{
@@ -121,6 +125,7 @@ namespace Managers
 			}
 			else
 			{
+				playerWhoPaused = null;
 				Time.timeScale = 1;
 				foreach (PlayerBody body in GameManager.Instance.Players)
 				{
@@ -159,11 +164,30 @@ namespace Managers
 		public void OnSettingsButtonPressed()
 		{
 			SettingsMenu.SetActive(true);
-			SettingsMenu.GetComponentInChildren<SettingsController>().PreviousMenu = gameObject;
-			SettingsMenu.GetComponentInChildren<InputSystemUIInputModule>().actionsAsset = pauseEventSystem.GetComponent<InputSystemUIInputModule>().actionsAsset;
+
+			var settingsController = SettingsMenu.GetComponentInChildren<SettingsController>();
+			settingsController.PreviousMenu = gameObject;
+
+			var inputModule = SettingsMenu.GetComponentInChildren<InputSystemUIInputModule>();
+			var pauseInputModule = pauseEventSystem.GetComponent<InputSystemUIInputModule>();
+
+			inputModule.actionsAsset = pauseInputModule.actionsAsset;
+
+			var tabGroup = SettingsMenu.GetComponentInChildren<TabGroupController>();
+			var navigateRibbonAction = pauseInputModule.actionsAsset.FindAction("NavigateRibbon", true);
+			if (tabGroup != null && navigateRibbonAction != null)
+			{
+				tabGroup.SetNavigateRibbonAction(navigateRibbonAction);
+			}
+
+			var playerVolume = playerWhoPaused.GetComponentInChildren<Volume>(); // however you get it
+			settingsController.InitializeAsPlayer(playerVolume);
+
+
 			pauseScreen.SetActive(false);
 			pauseEventSystem.gameObject.SetActive(false);
 		}
+
 		public void ReinitializeMenu()
 		{
 			pauseScreen.SetActive(true);

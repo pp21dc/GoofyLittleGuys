@@ -42,6 +42,19 @@ public class TabGroupController : MonoBehaviour
 		else if (dir < 0f)
 			OnLB();
 	}
+	public void SetNavigateRibbonAction(InputAction action)
+	{
+		if (navigateRibbon != null)
+		{
+			navigateRibbon.action.performed -= OnNavigateRibbon;
+			navigateRibbon.action.Disable();
+		}
+
+		navigateRibbon = InputActionReference.Create(action);
+
+		navigateRibbon.action.performed += OnNavigateRibbon;
+		navigateRibbon.action.Enable();
+	}
 
 	public void OnRB()
 	{

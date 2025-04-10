@@ -5,6 +5,7 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 
@@ -31,6 +32,7 @@ public class PlayerBody : MonoBehaviour
 	[HorizontalRule]
 	[ColoredGroup][SerializeField] private GameObject invincibilityFX;
 	[ColoredGroup][SerializeField] private GameObject stormHurtFX;
+	[ColoredGroup][SerializeField] private Volume playerVolume;
 
 	[Header("Lil Guy Team")]
 	[HorizontalRule]
@@ -651,6 +653,14 @@ public class PlayerBody : MonoBehaviour
 		playerMesh.SetActive(true);
 		SetIcon();
 		GameplayStats.CurrentCharacter = lilGuyTeam[0].GuyName;
+
+		var settings = SettingsManager.Instance.GetSettings();
+		if (playerVolume.profile.TryGet(out ColorAdjustments colorAdjust))
+		{
+			colorAdjust.contrast.value = settings.contrast;
+			colorAdjust.postExposure.value = settings.brightness;
+		}
+
 		//EventManager.Instance.RefreshUi(playerUi, 0);
 	}
 

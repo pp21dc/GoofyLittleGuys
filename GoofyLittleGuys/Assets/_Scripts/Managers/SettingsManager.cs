@@ -17,6 +17,13 @@ public class SettingsManager
 		LoadSettings();  // Automatically load settings when created
 	}
 
+	public float GetBrightness() => settings.brightness;
+	public void SetBrightness(float value) => settings.brightness = value;
+
+	public float GetContrast() => settings.contrast;
+	public void SetContrast(float value) => settings.contrast = value;
+
+
 	public GameSettings GetSettings()
 	{
 		return settings;

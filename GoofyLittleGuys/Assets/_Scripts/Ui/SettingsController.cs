@@ -6,6 +6,8 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 
 public class SettingsController : MonoBehaviour
@@ -20,6 +22,8 @@ public class SettingsController : MonoBehaviour
 	[ColoredGroup][SerializeField] private Slider musicSlider;
 	[ColoredGroup][SerializeField] private Slider sfxSlider;
 	[ColoredGroup][SerializeField] private Slider rumbleSlider;
+	[ColoredGroup][SerializeField] private Slider brightnessSlider;
+	[ColoredGroup][SerializeField] private Slider contrastSlider;
 
 	[Header("Display Settings")]
 	[HorizontalRule]
@@ -27,6 +31,16 @@ public class SettingsController : MonoBehaviour
 	[ColoredGroup][SerializeField] private ScrollableDropdown windowModeDropdown;
 	[ColoredGroup][SerializeField] private Slider frameCapSlider;
 	[ColoredGroup][SerializeField] private TMP_Text frameCapLabel; // Optional label to show value
+
+	public enum SettingsContext
+	{
+		Global,
+		Player
+	}
+
+	private SettingsContext currentContext = SettingsContext.Global;
+	private Volume targetPlayerVolume;
+	private Volume previewVolume;
 
 	private List<Resolution> supportedResolutions = new();
 	private readonly List<int> frameCapSteps = new() { 30, 60, 120, 144, 165, 240, -1 }; // -1 = Unlimited
@@ -43,6 +57,32 @@ public class SettingsController : MonoBehaviour
 	private void OnEnable()
 	{
 		StartCoroutine(DelayedSelect());
+
+		if (currentContext == SettingsContext.Global)
+		{
+			brightnessSlider.value = MapSliderFromBrightness(SettingsManager.Instance.GetBrightness());
+			contrastSlider.value = MapSliderFromContrast(SettingsManager.Instance.GetContrast());
+
+
+			float mappedValue = MapBrightnessSlider(brightnessSlider.value);
+			if (GameManager.Instance.MainMenuVolume && GameManager.Instance.MainMenuVolume.profile.TryGet(out ColorAdjustments colorAdjust))
+				colorAdjust.postExposure.value = mappedValue;
+
+			mappedValue = MapContrastSlider(contrastSlider.value);
+			if (GameManager.Instance.MainMenuVolume && GameManager.Instance.MainMenuVolume.profile.TryGet(out ColorAdjustments colorAdjust2))
+				colorAdjust2.contrast.value = mappedValue;
+
+		}
+		else if (currentContext == SettingsContext.Player)
+		{
+			// Read from targetPlayerVolume and set sliders accordingly
+			if (targetPlayerVolume.profile.TryGet(out ColorAdjustments colorAdjust))
+			{
+				contrastSlider.value = MapSliderFromContrast(colorAdjust.contrast.value);
+				brightnessSlider.value = MapSliderFromBrightness(colorAdjust.postExposure.value);
+			}
+		}
+
 	}
 
 	private IEnumerator DelayedSelect()
@@ -57,6 +97,74 @@ public class SettingsController : MonoBehaviour
 		SetupResolutionDropdown();
 		SetupWindowModeDropdown();
 	}
+
+
+	public void InitializeAsGlobal(Volume preview)
+	{
+		currentContext = SettingsContext.Global;
+		previewVolume = preview;
+	}
+
+	public void InitializeAsPlayer(Volume playerVolume)
+	{
+		currentContext = SettingsContext.Player;
+		targetPlayerVolume = playerVolume;
+	}
+
+	public void OnBrightnessSliderChanged(float normalizedValue)
+	{
+		float mappedValue = MapBrightnessSlider(normalizedValue);
+
+		if (currentContext == SettingsContext.Global)
+		{
+			SettingsManager.Instance.SetBrightness(mappedValue);
+			if (previewVolume && previewVolume.profile.TryGet(out ColorAdjustments ca))
+				ca.postExposure.value = mappedValue;
+		}
+		else if (currentContext == SettingsContext.Player)
+		{
+			if (targetPlayerVolume && targetPlayerVolume.profile.TryGet(out ColorAdjustments ca))
+				ca.postExposure.value = mappedValue;
+		}
+	}
+
+
+	public void OnContrastSliderChanged(float normalizedValue)
+	{
+		float mappedValue = MapContrastSlider(normalizedValue);
+		if (currentContext == SettingsContext.Global)
+		{
+			SettingsManager.Instance.SetContrast(mappedValue);
+			if (previewVolume && previewVolume.profile.TryGet(out ColorAdjustments colorAdjust))
+				colorAdjust.contrast.value = mappedValue;
+		}
+		else if (currentContext == SettingsContext.Player)
+		{
+			if (targetPlayerVolume && targetPlayerVolume.profile.TryGet(out ColorAdjustments colorAdjust))
+				colorAdjust.contrast.value = mappedValue;
+		}
+	}
+
+	float MapBrightnessSlider(float sliderValue)
+	{
+		return Mathf.Lerp(-2f, 2f, sliderValue);
+	}
+
+	float MapSliderFromBrightness(float value)
+	{
+		return Mathf.InverseLerp(-2f, 2f, value);
+	}
+
+	float MapContrastSlider(float sliderValue)
+	{
+		return Mathf.Lerp(-50f, 50f, sliderValue);
+	}
+
+	float MapSliderFromContrast(float value)
+	{
+		return Mathf.InverseLerp(-50f, 50f, value);
+	}
+
 
 	public void OnMasterChanged() => ApplySetting(SettingType.Master, masterSlider.value);
 	public void OnMusicChanged() => ApplySetting(SettingType.Music, musicSlider.value);

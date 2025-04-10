@@ -8,10 +8,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 42643792300997851, guid: 7e3a7a97aa7d0034eae017909400a2dc,
+        type: 3}
+      propertyPath: m_text
+      value: TAME
+      objectReference: {fileID: 0}
     - target: {fileID: 585573869129423840, guid: 7e3a7a97aa7d0034eae017909400a2dc,
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2017469483531610151, guid: 7e3a7a97aa7d0034eae017909400a2dc,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2017469483531610151, guid: 7e3a7a97aa7d0034eae017909400a2dc,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2017469483531610151, guid: 7e3a7a97aa7d0034eae017909400a2dc,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2017469483531610151, guid: 7e3a7a97aa7d0034eae017909400a2dc,
         type: 3}
@@ -21,7 +41,7 @@ PrefabInstance:
     - target: {fileID: 2017469483531610151, guid: 7e3a7a97aa7d0034eae017909400a2dc,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 3.25
       objectReference: {fileID: 0}
     - target: {fileID: 2017469483531610151, guid: 7e3a7a97aa7d0034eae017909400a2dc,
         type: 3}
@@ -94,6 +114,11 @@ PrefabInstance:
       propertyPath: m_text
       value: F
       objectReference: {fileID: 0}
+    - target: {fileID: 6352311604488425506, guid: 7e3a7a97aa7d0034eae017909400a2dc,
+        type: 3}
+      propertyPath: m_text
+      value: TAME
+      objectReference: {fileID: 0}
     - target: {fileID: 7272874449890854826, guid: 7e3a7a97aa7d0034eae017909400a2dc,
         type: 3}
       propertyPath: m_text
@@ -112,6 +137,21 @@ PrefabInstance:
     - target: {fileID: 7471314525585045839, guid: 7e3a7a97aa7d0034eae017909400a2dc,
         type: 3}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8262974772202146868, guid: 7e3a7a97aa7d0034eae017909400a2dc,
+        type: 3}
+      propertyPath: m_text
+      value: TAME
+      objectReference: {fileID: 0}
+    - target: {fileID: 8317815658981189021, guid: 7e3a7a97aa7d0034eae017909400a2dc,
+        type: 3}
+      propertyPath: m_text
+      value: TAME
+      objectReference: {fileID: 0}
+    - target: {fileID: 8317815658981189021, guid: 7e3a7a97aa7d0034eae017909400a2dc,
+        type: 3}
+      propertyPath: m_hasFontAssetChanged
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

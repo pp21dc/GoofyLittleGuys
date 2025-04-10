@@ -193,29 +193,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d63e3678f61fde449b9ca11d4cd0048, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  persistentHealthBar: {fileID: 0}
-  persistentIcon: {fileID: 0}
-  persistentAbilityIcon: {fileID: 0}
-  berryCountText: {fileID: 0}
-  berryCooldownTime: {fileID: 0}
-  berryCooldownSlider: {fileID: 0}
+  livingUI: []
   pb: {fileID: 0}
-  STR_Txt: {fileID: 0}
-  SPD_Txt: {fileID: 0}
-  DEF_Txt: {fileID: 0}
+  panel: {fileID: 0}
+  healthBarFill: {fileID: 0}
+  playerShape: {fileID: 0}
   LVL_Txt: {fileID: 0}
-  HP_Txt: {fileID: 0}
-  CurrentCharacter: {fileID: 0}
-  LBCharacter: {fileID: 0}
-  RBCharacter: {fileID: 0}
-  AbilityIcon: {fileID: 0}
-  abilityCooldownTimer: {fileID: 0}
-  abilityCooldownText: {fileID: 0}
+  persistentHealthBar: {fileID: 0}
   XP_Slider: {fileID: 0}
   iconSprites: []
   abilitySprites: []
+  transparentSprite: {fileID: 0}
+  AbilityIcon: {fileID: 0}
+  abilityCooldownTimer: {fileID: 0}
+  abilityCooldownText: {fileID: 0}
+  LBIcon: {fileID: 0}
+  RBIcon: {fileID: 0}
+  LB: {fileID: 0}
+  RB: {fileID: 0}
+  LBCharacter: {fileID: 0}
+  RBCharacter: {fileID: 0}
+  berryCountText: {fileID: 0}
+  berryCooldownTime: {fileID: 0}
+  berryCooldownSlider: {fileID: 0}
+  berryCountTxt: {fileID: 0}
+  berryCooldownTxt: {fileID: 0}
   tempWinText: {fileID: 0}
-  mirroredXUi: {fileID: 0}
+  victoryAnim: {fileID: 0}
+  victoryObject: {fileID: 0}
+  respawnScreen: {fileID: 0}
+  defeatedScreen: {fileID: 0}
+  startGameScreen: {fileID: 0}
 --- !u!1 &319714900583688254
 GameObject:
   m_ObjectHideFlags: 0
@@ -1316,8 +1324,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'DEF: XXX'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 9ccf2f69da4abbd4dbc95da07dfb02e7, type: 2}
+  m_sharedMaterial: {fileID: -211496194612788782, guid: 9ccf2f69da4abbd4dbc95da07dfb02e7,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1452,7 +1461,7 @@ MonoBehaviour:
 
     CONGRATS!'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 9ccf2f69da4abbd4dbc95da07dfb02e7, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -1513,10 +1522,10 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: -49.033222, z: 0, w: -61.06866}
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &2549997240481785375
@@ -1926,8 +1935,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'SPD: XXX'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 9ccf2f69da4abbd4dbc95da07dfb02e7, type: 2}
+  m_sharedMaterial: {fileID: -211496194612788782, guid: 9ccf2f69da4abbd4dbc95da07dfb02e7,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2060,8 +2070,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'LVL: XX'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 9ccf2f69da4abbd4dbc95da07dfb02e7, type: 2}
+  m_sharedMaterial: {fileID: -211496194612788782, guid: 9ccf2f69da4abbd4dbc95da07dfb02e7,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2307,8 +2318,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'HP: XXX'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 9ccf2f69da4abbd4dbc95da07dfb02e7, type: 2}
+  m_sharedMaterial: {fileID: -211496194612788782, guid: 9ccf2f69da4abbd4dbc95da07dfb02e7,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2684,29 +2696,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d63e3678f61fde449b9ca11d4cd0048, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  persistentHealthBar: {fileID: 0}
-  persistentIcon: {fileID: 0}
-  persistentAbilityIcon: {fileID: 0}
-  berryCountText: {fileID: 0}
-  berryCooldownTime: {fileID: 0}
-  berryCooldownSlider: {fileID: 0}
+  livingUI: []
   pb: {fileID: 0}
-  STR_Txt: {fileID: 0}
-  SPD_Txt: {fileID: 0}
-  DEF_Txt: {fileID: 0}
+  panel: {fileID: 0}
+  healthBarFill: {fileID: 0}
+  playerShape: {fileID: 0}
   LVL_Txt: {fileID: 0}
-  HP_Txt: {fileID: 0}
-  CurrentCharacter: {fileID: 0}
-  LBCharacter: {fileID: 0}
-  RBCharacter: {fileID: 0}
-  AbilityIcon: {fileID: 0}
-  abilityCooldownTimer: {fileID: 0}
-  abilityCooldownText: {fileID: 0}
+  persistentHealthBar: {fileID: 0}
   XP_Slider: {fileID: 0}
   iconSprites: []
   abilitySprites: []
+  transparentSprite: {fileID: 0}
+  AbilityIcon: {fileID: 0}
+  abilityCooldownTimer: {fileID: 0}
+  abilityCooldownText: {fileID: 0}
+  LBIcon: {fileID: 0}
+  RBIcon: {fileID: 0}
+  LB: {fileID: 0}
+  RB: {fileID: 0}
+  LBCharacter: {fileID: 0}
+  RBCharacter: {fileID: 0}
+  berryCountText: {fileID: 0}
+  berryCooldownTime: {fileID: 0}
+  berryCooldownSlider: {fileID: 0}
+  berryCountTxt: {fileID: 0}
+  berryCooldownTxt: {fileID: 0}
   tempWinText: {fileID: 0}
-  mirroredXUi: {fileID: 0}
+  victoryAnim: {fileID: 0}
+  victoryObject: {fileID: 0}
+  respawnScreen: {fileID: 0}
+  defeatedScreen: {fileID: 0}
+  startGameScreen: {fileID: 0}
 --- !u!1 &3756385444646750117
 GameObject:
   m_ObjectHideFlags: 0
@@ -2885,8 +2905,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'LVL: XX'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 9ccf2f69da4abbd4dbc95da07dfb02e7, type: 2}
+  m_sharedMaterial: {fileID: -211496194612788782, guid: 9ccf2f69da4abbd4dbc95da07dfb02e7,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3094,8 +3115,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'STR: XXX'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 9ccf2f69da4abbd4dbc95da07dfb02e7, type: 2}
+  m_sharedMaterial: {fileID: -211496194612788782, guid: 9ccf2f69da4abbd4dbc95da07dfb02e7,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3378,7 +3400,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: Lv. 9999
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 9ccf2f69da4abbd4dbc95da07dfb02e7, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -3442,7 +3464,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &4978435751363728277
@@ -4252,8 +4274,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'SPD: XXX'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 9ccf2f69da4abbd4dbc95da07dfb02e7, type: 2}
+  m_sharedMaterial: {fileID: -211496194612788782, guid: 9ccf2f69da4abbd4dbc95da07dfb02e7,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -4964,8 +4987,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'STR: XXX'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 9ccf2f69da4abbd4dbc95da07dfb02e7, type: 2}
+  m_sharedMaterial: {fileID: -211496194612788782, guid: 9ccf2f69da4abbd4dbc95da07dfb02e7,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -5100,7 +5124,7 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 9ccf2f69da4abbd4dbc95da07dfb02e7, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -5164,7 +5188,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &6564271105230745446
@@ -5234,8 +5258,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 20
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: da39bebedbfa5594abb0a1b7ec204d00, type: 2}
-  m_sharedMaterial: {fileID: 8611349815577459977, guid: da39bebedbfa5594abb0a1b7ec204d00,
+  m_fontAsset: {fileID: 11400000, guid: 9ccf2f69da4abbd4dbc95da07dfb02e7, type: 2}
+  m_sharedMaterial: {fileID: -211496194612788782, guid: 9ccf2f69da4abbd4dbc95da07dfb02e7,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -5446,7 +5470,7 @@ MonoBehaviour:
 
     CONGRATS!'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 9ccf2f69da4abbd4dbc95da07dfb02e7, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -5507,10 +5531,10 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: -49.033222, z: 0, w: -61.06866}
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &6945884025088879764
@@ -5932,8 +5956,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'HP: XXX'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 9ccf2f69da4abbd4dbc95da07dfb02e7, type: 2}
+  m_sharedMaterial: {fileID: -211496194612788782, guid: 9ccf2f69da4abbd4dbc95da07dfb02e7,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -6066,8 +6091,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'DEF: XXX'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 9ccf2f69da4abbd4dbc95da07dfb02e7, type: 2}
+  m_sharedMaterial: {fileID: -211496194612788782, guid: 9ccf2f69da4abbd4dbc95da07dfb02e7,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

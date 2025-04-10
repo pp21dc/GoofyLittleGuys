@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
@@ -12,6 +13,7 @@ public class MainMenu : MonoBehaviour
 	[SerializeField] private GameObject mainMenu;
 	[SerializeField] private GameObject credits;
 	[SerializeField] private GameObject creditsInitButton;
+	[SerializeField] private Volume mainMenuVolume;
 	public GameObject MenuEventSystem => menuEventSystem;
 
 	private void OnEnable()
@@ -35,6 +37,8 @@ public class MainMenu : MonoBehaviour
 		mainMenu.SetActive(false);
 		UiManager.Instance.SettingsMenu.SetActive(true);
 		UiManager.Instance.SettingsMenu.GetComponentInChildren<SettingsController>().PreviousMenu = gameObject;
+		UiManager.Instance.SettingsMenu.GetComponentInChildren<SettingsController>().InitializeAsGlobal(GameManager.Instance.MainMenuVolume); // mainMenuVolume is the global volume object
+
 		menuEventSystem.SetActive(false);
 	}
 

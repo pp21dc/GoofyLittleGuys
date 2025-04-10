@@ -44,6 +44,7 @@ namespace Managers
 			{
 				Destroy(instantiatedBlackoutCam);
 			}
+			instantiatedBlackoutCam = null;
 		}
 
 		public void OnPlayerJoined(PlayerInput input)
