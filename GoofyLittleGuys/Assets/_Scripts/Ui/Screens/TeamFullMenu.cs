@@ -37,14 +37,13 @@ public class TeamFullMenu : MonoBehaviour
 		body = player.GetComponent<PlayerController>().Body;
 		body.SetInvincible(-1);
 
-		for (int i = 0; i < buttons.Count ; i++)
+		for (int i = 0; i < buttons.Count; i++)
 		{
 			buttons[i].interactable = true;
 
 			Animator anim = buttons[i].GetComponent<Animator>();
 			if (anim != null)
 			{
-				anim.Rebind(); // Resets to default values from the AnimatorController
 				anim.Update(0f); // Forces the update to happen immediately
 			}
 

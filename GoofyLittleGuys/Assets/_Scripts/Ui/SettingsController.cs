@@ -57,32 +57,6 @@ public class SettingsController : MonoBehaviour
 	private void OnEnable()
 	{
 		StartCoroutine(DelayedSelect());
-
-		if (currentContext == SettingsContext.Global)
-		{
-			brightnessSlider.value = MapSliderFromBrightness(SettingsManager.Instance.GetBrightness());
-			contrastSlider.value = MapSliderFromContrast(SettingsManager.Instance.GetContrast());
-
-
-			float mappedValue = MapBrightnessSlider(brightnessSlider.value);
-			if (GameManager.Instance.MainMenuVolume && GameManager.Instance.MainMenuVolume.profile.TryGet(out ColorAdjustments colorAdjust))
-				colorAdjust.postExposure.value = mappedValue;
-
-			mappedValue = MapContrastSlider(contrastSlider.value);
-			if (GameManager.Instance.MainMenuVolume && GameManager.Instance.MainMenuVolume.profile.TryGet(out ColorAdjustments colorAdjust2))
-				colorAdjust2.contrast.value = mappedValue;
-
-		}
-		else if (currentContext == SettingsContext.Player)
-		{
-			// Read from targetPlayerVolume and set sliders accordingly
-			if (targetPlayerVolume.profile.TryGet(out ColorAdjustments colorAdjust))
-			{
-				contrastSlider.value = MapSliderFromContrast(colorAdjust.contrast.value);
-				brightnessSlider.value = MapSliderFromBrightness(colorAdjust.postExposure.value);
-			}
-		}
-
 	}
 
 	private IEnumerator DelayedSelect()
@@ -103,18 +77,27 @@ public class SettingsController : MonoBehaviour
 	{
 		currentContext = SettingsContext.Global;
 		previewVolume = preview;
+
+		brightnessSlider.value = MapSliderFromBrightness(SettingsManager.Instance.GetBrightness());
+		contrastSlider.value = MapSliderFromContrast(SettingsManager.Instance.GetContrast());
 	}
 
 	public void InitializeAsPlayer(Volume playerVolume)
 	{
 		currentContext = SettingsContext.Player;
 		targetPlayerVolume = playerVolume;
+
+		if (targetPlayerVolume.profile.TryGet(out ColorAdjustments colorAdjust))
+		{
+			contrastSlider.value = MapSliderFromContrast(colorAdjust.contrast.value);
+			brightnessSlider.value = MapSliderFromBrightness(colorAdjust.postExposure.value);
+		}
 	}
 
 	public void OnBrightnessSliderChanged(float normalizedValue)
 	{
 		float mappedValue = MapBrightnessSlider(normalizedValue);
-
+		Debug.LogError(currentContext.ToString());
 		if (currentContext == SettingsContext.Global)
 		{
 			SettingsManager.Instance.SetBrightness(mappedValue);

@@ -33,6 +33,7 @@ public class PlayerBody : MonoBehaviour
 	[ColoredGroup][SerializeField] private GameObject invincibilityFX;
 	[ColoredGroup][SerializeField] private GameObject stormHurtFX;
 	[ColoredGroup][SerializeField] private Volume playerVolume;
+	[ColoredGroup][SerializeField] private VolumeProfile basePlayerProfile;
 
 	[Header("Lil Guy Team")]
 	[HorizontalRule]
@@ -74,7 +75,7 @@ public class PlayerBody : MonoBehaviour
 	private float nextSwapTime = -Mathf.Infinity;
 	private float deathTime = -Mathf.Infinity;
 	private bool flip = false;
-	private bool isSwapping = false;            
+	private bool isSwapping = false;
 	private bool hasSwappedRecently = false;    // If the player is in swap cooldown (feel free to delete cmnt)
 	private bool hasImmunity = false;           // If the player is in swap I-frames (feel free to delete cmnt)
 	private bool isDead = false;
@@ -102,7 +103,7 @@ public class PlayerBody : MonoBehaviour
 	private LilGuyBase closestWildLilGuy = null;
 	private InteractableBase closestInteractable = null;
 	private float nextInteractTime = -Mathf.Infinity;
-	private int berryCount = 0; 
+	private int berryCount = 0;
 	private bool hasInteracted = false;
 	private bool isInteracting = false;
 
@@ -164,6 +165,7 @@ public class PlayerBody : MonoBehaviour
 	public PlayerController Controller => controller;
 	public float DeathTime => deathTime;
 	public bool IsLeader => isLeader;
+	public Volume PlayerVolume => playerVolume;
 	#endregion
 
 	private void Start()
@@ -171,6 +173,16 @@ public class PlayerBody : MonoBehaviour
 		rb = GetComponent<Rigidbody>();
 		EventManager.Instance.GameStarted += Init;
 		lastPosition = transform.position; // Initialize position
+
+		VolumeProfile newProfile = CloneProfileDeep(basePlayerProfile);
+		playerVolume.profile = newProfile;
+
+		var settings = SettingsManager.Instance.GetSettings();
+		if (playerVolume.profile.TryGet(out ColorAdjustments colorAdjust))
+		{
+			colorAdjust.contrast.value = settings.contrast;
+			colorAdjust.postExposure.value = settings.brightness;
+		}
 	}
 
 
@@ -643,6 +655,9 @@ public class PlayerBody : MonoBehaviour
 			CoroutineRunner.Instance.StartCoroutine(ReactivateInput());
 		}
 		rb.isKinematic = false;
+
+		playerVolume.gameObject.SetActive(true);
+		
 		controller.PlayerCam.gameObject.SetActive(true);
 		playerInput.camera.clearFlags = CameraClearFlags.Skybox;
 		controller.PlayerEventSystem.firstSelectedGameObject = null;
@@ -654,14 +669,24 @@ public class PlayerBody : MonoBehaviour
 		SetIcon();
 		GameplayStats.CurrentCharacter = lilGuyTeam[0].GuyName;
 
-		var settings = SettingsManager.Instance.GetSettings();
-		if (playerVolume.profile.TryGet(out ColorAdjustments colorAdjust))
-		{
-			colorAdjust.contrast.value = settings.contrast;
-			colorAdjust.postExposure.value = settings.brightness;
-		}
+		
 
 		//EventManager.Instance.RefreshUi(playerUi, 0);
+	}
+
+	public VolumeProfile CloneProfileDeep(VolumeProfile original)
+	{
+		// Create a new profile instance
+		var newProfile = ScriptableObject.CreateInstance<VolumeProfile>();
+
+		// Clone each override manually
+		foreach (var setting in original.components)
+		{
+			var settingCopy = Instantiate(setting);
+			newProfile.components.Add(settingCopy);
+		}
+
+		return newProfile;
 	}
 
 	private IEnumerator ReactivateInput()

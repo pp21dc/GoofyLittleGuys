@@ -9,6 +9,7 @@ using Util;
 using Unity.VisualScripting;
 using System.Linq;
 using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 namespace Managers
 {
@@ -163,6 +164,12 @@ namespace Managers
 			SettingsManager.Instance.LoadSettings();
 			GameSettings settings = SettingsManager.Instance.GetSettings();
 			AudioManager.Instance.SetupMixerVolumes(settings);
+
+			if (MainMenuVolume && MainMenuVolume.profile.TryGet(out ColorAdjustments colorAdjust))
+			{
+				colorAdjust.postExposure.value = settings.brightness;
+				colorAdjust.contrast.value = settings.contrast;
+			}
 		}
 
 		private void Start()
@@ -374,6 +381,7 @@ namespace Managers
 
 		public void QuitGame()
 		{
+			mainMenuVolume.gameObject.SetActive(true);
 			startGame = false;
 			gameOver = false;
 			if (currentPhase > 1) phase2CloudAnim.SetTrigger("Revert");
@@ -399,6 +407,7 @@ namespace Managers
 		/// </summary>
 		public bool GameStarted()
 		{
+			mainMenuVolume.gameObject.SetActive(false);
 			currentGameTime = 0;
 			currentPhase = 0;
 			currentTimerState = TimerState.LegendaryOneApproaching;
@@ -561,6 +570,7 @@ namespace Managers
 			List<StatMetrics> metrics = new List<StatMetrics>();
 			foreach (PlayerBody player in players)
 			{
+				player.PlayerVolume.gameObject.SetActive(false);
 				if (!rankings.Contains(player)) rankings.Add(player);
 			}
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
+using UnityEngine.Rendering.Universal;
 
 public class PlayerController : MonoBehaviour
 {
@@ -84,7 +85,11 @@ public class PlayerController : MonoBehaviour
 	public void UpdateCullLayer()
 	{
 		LayerMask uiCullLayer;
+		LayerMask ppCullLayer;
 		uiCullLayer = LayerMask.NameToLayer($"UI_P{playerNumber}");
+		ppCullLayer = LayerMask.NameToLayer($"PP_P{playerNumber}");
+		playerCam.GetComponent<UniversalAdditionalCameraData>().volumeLayerMask |= 1 << ppCullLayer;
+		playerBody.PlayerVolume.gameObject.layer = ppCullLayer;
 		playerCam.cullingMask |= 1 << uiCullLayer; // Add layer to culling mask
 		switch (GetComponent<PlayerInput>().currentControlScheme)
 		{
