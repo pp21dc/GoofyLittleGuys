@@ -9,8 +9,10 @@ public class HealingFountain : InteractableBase
 	[Header("References")]
 	[HorizontalRule]
 	[SerializeField] private GameObject[] radialCanvases;
+	[SerializeField] private GameObject[] disabledCanvases;
 	[ColoredGroup][SerializeField] private Transform spawnPoint;
 	[SerializeField] private AudioSource fountainAudioSource;
+	[SerializeField] private GameObject disabledIcon;
 
 	private bool swappedLayers = false;
 
@@ -152,6 +154,17 @@ public class HealingFountain : InteractableBase
 		if (GameManager.Instance.CurrentPhase == 2 || canvasController == null)
 		{
 			canvasController.SetCanvasStates(new bool[canvasController.Canvases.Length]);
+			disabledIcon.gameObject.SetActive(true);
+
+
+			bool[] active = new bool[canvasController.Canvases.Length];
+
+			foreach (var player in playersInRange)
+			{
+				int index = Mathf.Clamp(player.Controller.PlayerNumber - 1, 0, canvasController.Canvases.Length - 1);
+				active[index] = true;
+			}
+			SetCanvasStates(active);
 			return;
 		}
 
@@ -169,4 +182,12 @@ public class HealingFountain : InteractableBase
 		canvasController.SetCanvasStates(activeArray);
 	}
 
+	public void SetCanvasStates(bool[] activeStates)
+	{
+		for (int i = 0; i < disabledCanvases.Length; i++)
+		{
+			if (disabledCanvases[i] != null)
+				disabledCanvases[i].gameObject.SetActive(activeStates[i]);
+		}
+	}
 }
