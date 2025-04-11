@@ -165,7 +165,18 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
         {
             bindingIndex = -1;
 
-            action = m_Action?.action;
+            //test area
+            
+            if (m_PlayerInput != null && m_Action != null)
+            {
+                var instanceMap = m_PlayerInput.actions.FindActionMap(m_Action.action.actionMap.name);
+                action = instanceMap?.FindAction(m_Action.action.name);
+            }
+            else
+            {
+                action = m_Action?.action;
+            }
+            
             if (action == null)
                 return false;
 
@@ -449,6 +460,9 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
 
         [SerializeField]
         private string m_BindingId;
+        
+        [SerializeField]
+        public PlayerInput m_PlayerInput;
 
         [SerializeField]
         private InputBinding.DisplayStringOptions m_DisplayStringOptions;
