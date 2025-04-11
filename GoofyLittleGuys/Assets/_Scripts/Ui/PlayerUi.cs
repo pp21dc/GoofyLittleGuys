@@ -80,7 +80,7 @@ public class PlayerUi : MonoBehaviour
 	public GameObject TempWinText { get => tempWinText; set => tempWinText = value; }
 	public StartGameScreen StartGameScreen => startGameScreen;
 
-	private void Awake()
+	private void Start()
 	{
 		EventManager.Instance.NotifyStartAbilityCooldown += SetCooldownIndicator;
 		EventManager.Instance.NotifyUiSwap += RefreshIcons;
