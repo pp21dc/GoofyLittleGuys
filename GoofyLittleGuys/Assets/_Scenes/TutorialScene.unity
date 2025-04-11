@@ -15316,6 +15316,11 @@ PrefabInstance:
       propertyPath: m_hasFontAssetChanged
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7612875857266229040, guid: e1827f3385a176b40bf40c7411547eb4,
+        type: 3}
+      propertyPath: dmgPerInterval
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 7701544576433408515, guid: e1827f3385a176b40bf40c7411547eb4,
         type: 3}
       propertyPath: m_Name
@@ -17602,7 +17607,7 @@ MonoBehaviour:
     image: {fileID: 21300000, guid: b85964ffde41db44da79ac19d4f33bff, type: 3}
   - text: Swap out Lil Guys!
     image: {fileID: 21300000, guid: 99490ab76010f5141a81117f98504336, type: 3}
-  - text: Beware the Storm!
+  - text: Storms Deal Damage!
     image: {fileID: 21300000, guid: ffa99c2e8b899c34a93402a89077522f, type: 3}
   - text: Pick up to 3 Berries from Bushes!
     image: {fileID: 21300000, guid: 420b277daaa92184a8dcd9a7f5b8fe77, type: 3}
@@ -36719,6 +36724,11 @@ PrefabInstance:
       propertyPath: m_hasFontAssetChanged
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7612875857266229040, guid: e1827f3385a176b40bf40c7411547eb4,
+        type: 3}
+      propertyPath: dmgPerInterval
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 7701544576433408515, guid: e1827f3385a176b40bf40c7411547eb4,
         type: 3}
       propertyPath: m_Name
@@ -52093,6 +52103,11 @@ PrefabInstance:
       propertyPath: m_hasFontAssetChanged
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7612875857266229040, guid: e1827f3385a176b40bf40c7411547eb4,
+        type: 3}
+      propertyPath: dmgPerInterval
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 7701544576433408515, guid: e1827f3385a176b40bf40c7411547eb4,
         type: 3}
       propertyPath: m_Name
@@ -63280,6 +63295,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_hasFontAssetChanged
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7612875857266229040, guid: e1827f3385a176b40bf40c7411547eb4,
+        type: 3}
+      propertyPath: dmgPerInterval
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 7701544576433408515, guid: e1827f3385a176b40bf40c7411547eb4,
         type: 3}
