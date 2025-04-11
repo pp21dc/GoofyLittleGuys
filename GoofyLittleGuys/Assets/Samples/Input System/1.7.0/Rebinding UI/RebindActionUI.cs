@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Managers;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
@@ -205,7 +206,18 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
             var controlPath = default(string);
 
             // Get display string from action.
-            var action = m_Action?.action;
+            var action = default(InputAction);
+            m_PlayerInput = UiManager.Instance.PlayerWhoPaused;
+            if (m_PlayerInput != null && m_Action != null)
+            {
+                var instanceMap = m_PlayerInput.actions.FindActionMap(m_Action.action.actionMap.name);
+                action = instanceMap?.FindAction(m_Action.action.name);
+            }
+            else
+            {
+                action = m_Action?.action;
+            }
+            
             if (action != null)
             {
                 var bindingIndex = action.bindings.IndexOf(x => x.id.ToString() == m_BindingId);
