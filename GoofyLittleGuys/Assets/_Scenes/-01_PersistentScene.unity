@@ -2391,6 +2391,16 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -82.445465
       objectReference: {fileID: 0}
+    - target: {fileID: 2036107262299615119, guid: f45e6ab4c906b804da75fdfc1c9464b7,
+        type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1356844171}
+    - target: {fileID: 2036107262299615119, guid: f45e6ab4c906b804da75fdfc1c9464b7,
+        type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: toggleTTS
+      objectReference: {fileID: 0}
     - target: {fileID: 2113418620772468340, guid: f45e6ab4c906b804da75fdfc1c9464b7,
         type: 3}
       propertyPath: m_SizeDelta.x
