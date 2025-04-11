@@ -597,6 +597,7 @@ namespace Managers
 			);
 
 			EventManager.Instance.CallGameOverEvent();
+			timerCanvas.SetActive(false);
 			LevelLoadManager.Instance.LoadNewLevel("03_VictoryScreen");
 		}
 

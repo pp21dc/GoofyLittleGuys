@@ -60,7 +60,7 @@ namespace Managers
 				body.Controller.PlayerEventSystem.gameObject.SetActive(true);
 			}
 			pauseScreen.SetActive(GameManager.Instance.IsPaused);
-			GameManager.Instance.TimerCanvas.SetActive(true);
+			if (GameManager.Instance.CurrentPhase > 0) GameManager.Instance.TimerCanvas.SetActive(true);
 			EnableAllPlayerInputs();
 		}
 
@@ -137,7 +137,7 @@ namespace Managers
 			}
 			else
 			{
-				GameManager.Instance.TimerCanvas.SetActive(true);
+				if (GameManager.Instance.CurrentPhase > 0) GameManager.Instance.TimerCanvas.SetActive(true);
 				playerWhoPaused = null;
 				Time.timeScale = 1;
 				foreach (PlayerBody body in GameManager.Instance.Players)
