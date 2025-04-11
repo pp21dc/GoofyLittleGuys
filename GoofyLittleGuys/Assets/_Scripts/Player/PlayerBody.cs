@@ -669,7 +669,7 @@ public class PlayerBody : MonoBehaviour
 		SetIcon();
 		GameplayStats.CurrentCharacter = lilGuyTeam[0].GuyName;
 
-		
+
 
 		//EventManager.Instance.RefreshUi(playerUi, 0);
 	}
@@ -703,6 +703,7 @@ public class PlayerBody : MonoBehaviour
 		}
 		Time.timeScale = 1;
 		playerUi.StartGameScreen.gameObject.SetActive(false);
+		if (GameManager.Instance.TimerCanvas != null) GameManager.Instance.TimerCanvas.SetActive(true);   // Show the timer canvas if one exists.
 		controller.GetComponent<PlayerInput>().ActivateInput();
 	}
 	private void SetIcon()

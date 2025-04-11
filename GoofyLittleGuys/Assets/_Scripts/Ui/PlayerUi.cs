@@ -57,6 +57,7 @@ public class PlayerUi : MonoBehaviour
 	[ColoredGroup][SerializeField] Image berryCooldownSlider;
 	[ColoredGroup][SerializeField] GameObject berryCountTxt;
 	[ColoredGroup][SerializeField] GameObject berryCooldownTxt;
+	[ColoredGroup][SerializeField] GameObject berryIcon;
 
 	[Header("Victory UI References")]
 	[HorizontalRule]
@@ -216,6 +217,7 @@ public class PlayerUi : MonoBehaviour
 		abilityCooldownText.transform.localScale = new Vector3(-1, 1, 1);
 		LBIcon.transform.localScale = new Vector3((float)-0.65528, (float)0.65528, (float)0.65528);
 		RBIcon.transform.localScale = new Vector3((float)-0.65528, (float)0.65528, (float)0.65528);
+		berryIcon.transform.localScale = new Vector3(-0.6696f, 0.6696f, 0.6696f);
 		berryCooldownTxt.transform.localScale = new Vector3((float)-1, (float)1, (float)1);
 		berryCountTxt.transform.localScale = new Vector3((float)-1, (float)1, (float)1);
 		victoryObject.transform.localScale = new Vector3((float)-1, (float)1, (float)1);

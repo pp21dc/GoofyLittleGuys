@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -24,6 +25,9 @@ namespace Managers
 		[ColoredGroup][SerializeField] private EventSystem pauseEventSystem;  // The event system tied specifically to the pause menu.
 		[ColoredGroup][SerializeField] private GameObject firstSelected;      // The first button in the menu to be selected on default
 		[ColoredGroup][SerializeField] private GameObject settingsInitButton;
+		[ColoredGroup][SerializeField] private TMP_Text playerNumText;
+		[ColoredGroup][SerializeField] private Image[] playerShapes;
+		[ColoredGroup][SerializeField] private TMP_Text pauseTitle;
 
 		[Header("Settings Menu")]
 		[ColoredGroup][SerializeField] private GameObject settingsMenu;        // The pause menu.
@@ -56,6 +60,7 @@ namespace Managers
 				body.Controller.PlayerEventSystem.gameObject.SetActive(true);
 			}
 			pauseScreen.SetActive(GameManager.Instance.IsPaused);
+			GameManager.Instance.TimerCanvas.SetActive(true);
 			EnableAllPlayerInputs();
 		}
 
@@ -110,13 +115,20 @@ namespace Managers
 		/// </summary>
 		/// <param name="player">The player who paused the game</param>
 		private void GamePaused(PlayerInput player)
-		{
-			
+		{			
 			pauseScreen.SetActive(GameManager.Instance.IsPaused);
 			if (GameManager.Instance.IsPaused)
 			{
+				GameManager.Instance.TimerCanvas.SetActive(false);
 				playerWhoPaused = player;
+				PlayerController pausedPlayerController = player.GetComponent<PlayerController>();
 				Time.timeScale = 0;
+				foreach(Image s in playerShapes)
+				{
+					s.sprite = shapes[pausedPlayerController.PlayerNumber - 1];
+					s.color = pausedPlayerController.Body.PlayerColour;
+				}
+				playerNumText.text = $"Player {pausedPlayerController.PlayerNumber}";
 				foreach (PlayerBody body in GameManager.Instance.Players)
 				{
 					body.Controller.PlayerEventSystem.gameObject.SetActive(false);
@@ -125,6 +137,7 @@ namespace Managers
 			}
 			else
 			{
+				GameManager.Instance.TimerCanvas.SetActive(true);
 				playerWhoPaused = null;
 				Time.timeScale = 1;
 				foreach (PlayerBody body in GameManager.Instance.Players)

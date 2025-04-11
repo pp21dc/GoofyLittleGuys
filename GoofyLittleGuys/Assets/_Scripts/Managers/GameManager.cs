@@ -5,11 +5,11 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
 using UnityEngine.SceneManagement;
-using Util;
 using Unity.VisualScripting;
 using System.Linq;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.UI;
 
 namespace Managers
 {
@@ -38,6 +38,8 @@ namespace Managers
 		[ColoredGroup][SerializeField] private GameObject timerCanvas;                // The Timer UI displayed in between all the split screeens
 		[ColoredGroup][SerializeField] private TMP_Text gameTimer;             // The Timer textbox itself
 		[ColoredGroup][SerializeField] private TMP_Text timerContext;             // The Timer textbox itself
+		[ColoredGroup][SerializeField] private Image timerIcon;             // The Timer textbox itself
+		[ColoredGroup][SerializeField] private Sprite[] timerContextSprites;             // The Timer textbox itself
 
 		[Header("Phase Settings")]
 		[HorizontalRule]
@@ -138,6 +140,7 @@ namespace Managers
 		public float LegendaryXpPercentageMultiplier => legendaryXpPercentageMultiplier;
 		public Animator Phase2CloudAnim { set => phase2CloudAnim = value; get => phase2CloudAnim; }
 
+		public GameObject TimerCanvas => timerCanvas;
 		public Volume MainMenuVolume => mainMenuVolume;
 		#endregion
 
@@ -237,21 +240,24 @@ namespace Managers
 					timerContext.text = "Legendary Approaches";
 					gameTimer.color = Color.white;
 					gameTime = System.TimeSpan.FromSeconds((legendarySpawnTimes[0] * 60) - currentGameTime);
-					gameTimer.text = gameTime.ToString("mm':'ss");
+					gameTimer.text = gameTime.ToString("m':'ss");
+					timerIcon.sprite = timerContextSprites[0];
 					break;
 				case TimerState.LegendaryTwoApproaching:
 					timerContext.color = Color.white;
 					timerContext.text = "Legendary Approaches";
 					gameTimer.color = Color.white;
 					gameTime = System.TimeSpan.FromSeconds((legendarySpawnTimes[1] * 60) - currentGameTime);
-					gameTimer.text = gameTime.ToString("mm':'ss");
+					gameTimer.text = gameTime.ToString("m':'ss");
+					timerIcon.sprite = timerContextSprites[0];
 					break;
 				case TimerState.StormApproaching:
 					timerContext.color = Color.white;
 					timerContext.text = "Storm Approaches";
 					gameTimer.color = Color.white;
 					gameTime = System.TimeSpan.FromSeconds((phaseOneStartTime * 60) - currentGameTime);
-					gameTimer.text = gameTime.ToString("mm':'ss");
+					gameTimer.text = gameTime.ToString("m':'ss");
+					timerIcon.sprite = timerContextSprites[1];
 					break;
 				case TimerState.NextStorm:
 					timerContext.color = Color.red;
@@ -259,6 +265,7 @@ namespace Managers
 					gameTimer.color = Color.red;
 					gameTime = System.TimeSpan.FromSeconds((legendarySpawnTimes[1] * 60) - currentGameTime);
 					gameTimer.text = $"0:{timeUntilNextStorm.ToString("00")}";
+					timerIcon.sprite = timerContextSprites[1];
 					break;
 
 			}
@@ -431,7 +438,6 @@ namespace Managers
 			// Unpause time, and begin phase one!
 			Time.timeScale = 1;
 			StartPhaseOne();
-			if (timerCanvas != null) timerCanvas.SetActive(true);   // Show the timer canvas if one exists.
 
 
 			return true;
