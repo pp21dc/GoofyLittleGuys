@@ -207,7 +207,8 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
 
             // Get display string from action.
             var action = default(InputAction);
-            m_PlayerInput = UiManager.Instance.PlayerWhoPaused;
+            if (UiManager.Instance.PlayerWhoPaused is not null) m_PlayerInput = UiManager.Instance.PlayerWhoPaused;
+            
             if (m_PlayerInput != null && m_Action != null)
             {
                 var instanceMap = m_PlayerInput.actions.FindActionMap(m_Action.action.actionMap.name);
