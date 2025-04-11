@@ -40,6 +40,7 @@ namespace Managers
 		[SerializeField] private AudioSource uiAudioSource;
 
 		private PlayerInput playerWhoPaused;
+		public PlayerInput PlayerWhoPaused { get { return playerWhoPaused; } }
 
 		public GameObject SettingsMenu => settingsMenu;
 		private void Start()
