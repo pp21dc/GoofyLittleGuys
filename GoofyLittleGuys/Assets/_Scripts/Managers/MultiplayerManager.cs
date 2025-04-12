@@ -40,6 +40,10 @@ namespace Managers
 
 		public void OnGameOver()
 		{
+			foreach (Transform t in transform)
+            {
+				DestroyImmediate(t.gameObject);
+            }
 			if (!ReferenceEquals(instantiatedBlackoutCam, null))
 			{
 				Destroy(instantiatedBlackoutCam);
@@ -113,7 +117,7 @@ namespace Managers
 				GameManager.Instance.Players[2].Controller.PlayerCam.rect = new Rect(0f, 0f, 0.5f, 0.5f);
 				GameManager.Instance.Players[1].Controller.PlayerCam.rect = new Rect(0.5f, 0.5f, 0.5f, 0.5f);
 				GameManager.Instance.Players[0].Controller.PlayerCam.rect = new Rect(0f, 0.5f, 0.5f, 0.5f);
-				instantiatedBlackoutCam = Instantiate(blackoutCam);
+				instantiatedBlackoutCam = Instantiate(blackoutCam, transform);
 				Camera cam = instantiatedBlackoutCam.GetComponent<Camera>();
 				cam.rect = new Rect(0.5f, 0, 0.5f, 0.5f);
 			}
