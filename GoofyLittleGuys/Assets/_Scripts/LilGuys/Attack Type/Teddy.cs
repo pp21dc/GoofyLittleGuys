@@ -13,7 +13,6 @@ public class Teddy : StrengthType
 
 	protected void SpawnConeAoe()
 	{
-		Debug.LogWarning("I Actually spawned a hitbox");
 		instantiatedAoe = Instantiate(aoeShape, attackPosition);
 		AoeHitbox hitbox = instantiatedAoe.GetComponent<AoeHitbox>();
 		hitbox.AoeDamageMultiplier = aoeDamageMultiplier;

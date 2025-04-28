@@ -196,7 +196,6 @@ namespace Managers
 		{
 			if (scene.name == "00_MainMenu" && players.Count > 0)
 			{
-				Debug.Log("Clearing players...");
 				for (int i = players.Count - 1; i >= 0; i--)
 				{
 					PlayerBody body = players[i];

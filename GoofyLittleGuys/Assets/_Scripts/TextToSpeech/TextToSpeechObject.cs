@@ -10,7 +10,6 @@ public class TextToSpeechObject : MonoBehaviour
 
     public void Read(/*AudioClip clip*/)
     {
-        Debug.Log("OnPointerEnter");
         //TextToSpeech.Instance.TTS(clip);
     }
 }

@@ -97,7 +97,6 @@ public class SettingsController : MonoBehaviour
 	public void OnBrightnessSliderChanged(float normalizedValue)
 	{
 		float mappedValue = MapBrightnessSlider(normalizedValue);
-		Debug.LogError(currentContext.ToString());
 		if (currentContext == SettingsContext.Global)
 		{
 			SettingsManager.Instance.SetBrightness(mappedValue);

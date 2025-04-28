@@ -40,7 +40,6 @@ public class TextToSpeech : SingletonBase<TextToSpeech>
     {
         ttsSource.Stop();
         ttsSource.PlayOneShot(clip);
-        Debug.Log("TTS Activate");
     }
 
     public void toggleTTS()

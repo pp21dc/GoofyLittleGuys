@@ -4348,16 +4348,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dontDestroyOnLoad: 1
-  enableAllLogs: 1
+  enableAllLogs: 0
   debugCategories:
   - category: 4
-    enabled: 1
+    enabled: 0
     logLevelFilter: 0
   - category: 1
     enabled: 0
     logLevelFilter: 0
   - category: 3
-    enabled: 1
+    enabled: 0
     logLevelFilter: 0
   - category: 7
     enabled: 0
@@ -4369,10 +4369,10 @@ MonoBehaviour:
     enabled: 0
     logLevelFilter: 0
   - category: 6
-    enabled: 1
+    enabled: 0
     logLevelFilter: 0
   - category: 8
-    enabled: 1
+    enabled: 0
     logLevelFilter: 0
   - category: 5
     enabled: 0
